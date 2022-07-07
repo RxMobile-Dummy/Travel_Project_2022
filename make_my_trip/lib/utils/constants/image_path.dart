@@ -12,5 +12,9 @@ class ImagePath{
   static const String ac = "assets/img/ac.jpg";
   static const String tv = "assets/img/tv.jpg";
   static const String wifi = "assets/img/wifi.jpg";
+  static String intro1 = 'assets/img_intro1.jpeg';
+  static String intro2 = 'assets/img_intro2.jpeg';
+  static String intro3 = 'assets/img_intro3.jpeg';
+  static String intro4 = 'assets/img_intro4.jpeg';
 
 }
