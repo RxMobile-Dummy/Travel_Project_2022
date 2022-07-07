@@ -10,7 +10,7 @@ import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_lis
 
 import '../../injection_container.dart';
 
-///your app router here ::: use your route manager
+///your app router here ::: use your route cubit
 
 class Router {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
