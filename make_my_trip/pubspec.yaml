@@ -18,6 +18,7 @@ dependencies:
   material_design_icons_flutter: ^5.0.6595
   flutter_svg: ^1.0.0
   carousel_slider: ^4.1.1
+  google_sign_in: ^5.0.2
   flutter_rating_bar: ^4.0.1
 
   #utils
@@ -27,7 +28,6 @@ dependencies:
 
   #api call
   dio: ^4.0.6
-  http:
 
   #firebase services
   firebase_core: ^1.3.0
@@ -81,7 +81,7 @@ flutter_icons:
 flutter:
   uses-material-design: true
 
-  #your all remote assets
+  #your all local assets
   assets:
     - assets/icons/
     - assets/img/
