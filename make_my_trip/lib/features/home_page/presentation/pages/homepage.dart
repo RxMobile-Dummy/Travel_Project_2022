@@ -58,7 +58,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  static List<Widget> _widgetOptions() => <Widget>[
+  static List<Widget> _widgetOptions() =>
+      <Widget>[
         //View 1
         HomeScreen(),
       ];
