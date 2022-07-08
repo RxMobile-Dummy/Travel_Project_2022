@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1074927524993",
+    "project_id": "travelproject22-6b9d4",
+    "storage_bucket": "travelproject22-6b9d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074927524993:android:ac15e43ec247f0f5054180",
+        "android_client_info": {
+          "package_name": "com.example.make_my_trip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1074927524993-cqjukij9m7uhrrs8r1739t72pa8r3mdj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.make_my_trip",
+            "certificate_hash": "ed9598ca5c3f56167e492935be97ff02ee1fbcd6"
+          }
+        },
+        {
+          "client_id": "1074927524993-71d79hiccls53sel9rhobhc4pqguncrg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzWZNLmDFe91FAnd90xBs9SjIkoeyHLZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1074927524993-71d79hiccls53sel9rhobhc4pqguncrg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
