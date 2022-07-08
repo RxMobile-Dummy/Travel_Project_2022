@@ -8,4 +8,15 @@ class StringConstants {
   static String messageEmptyAddress = 'Please fill empty address';
   static String messageEmptyEmailAddress = 'Please fill empty email';
   static String messageInvalidEmailAddress = 'Please fill valid email';
+
+  // HomePage Strings
+  static String appname = "MakeMyTrip";
+  static String populartours = "Popular Tours";
+  static String viewall = "View All";
+  static String hotels = "Hotels";
+  static String places = "Places";
+  static String states = "States";
+
+
+
 }
