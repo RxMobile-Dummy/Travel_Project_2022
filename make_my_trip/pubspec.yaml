@@ -18,6 +18,7 @@ dependencies:
   material_design_icons_flutter: ^5.0.6595
   flutter_svg: ^1.0.0
   carousel_slider: ^4.1.1
+  smooth_page_indicator: ^1.0.0+2
 
   #utils
   uuid: ^3.0.6
@@ -70,6 +71,7 @@ dev_dependencies:
   mockito: 5.2.0
   build_runner: 2.1.11
   bloc_test: ^9.0.3
+
 
   #for generating launcher icon for android and ios
 flutter_icons:
