@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/make_my_trip_colors.dart';
+
 class Intro extends StatelessWidget {
   Intro(
       {Key? key,
@@ -15,7 +17,7 @@ class Intro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 22),
+      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -34,14 +36,17 @@ class Intro extends StatelessWidget {
           Text(
             title.toUpperCase(),
             style: const TextStyle(
-                color: Colors.black, fontSize: 26, fontWeight: FontWeight.bold),
+                color: MakeMyTripColors.colorBlack,
+                fontSize: 26,
+                fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             height: 8,
           ),
           Text(
             subtitle,
-            style: const TextStyle(color: Colors.black, fontSize: 16),
+            style: const TextStyle(
+                color: MakeMyTripColors.colorBlack, fontSize: 16),
           ),
         ],
       ),
