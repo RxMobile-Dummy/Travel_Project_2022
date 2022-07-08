@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
+import 'features/hotel_listing/hotel_listing_injection_container.dart' as di;
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_list_page.dart';
 import './features/hotel_listing/hotel_list_injection_container.dart' as di;

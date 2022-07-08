@@ -8,4 +8,10 @@ class ImagePath {
   static const String demoroom = 'assets/img/room.jpeg';
   static const String placesimage = "assets/img/placesimage.jpeg";
   static const String statesimage = "assets/img/statesimage.jpeg";
+  static String icAppLogo = "assets/icons/ic_app_logo.png";
+  static String icGoogleLogo = "assets/icons/ic_google_logo.png";
+  static String icFacebookLogo = "assets/icons/ic_facebook_logo.png";
 }
+
+
+

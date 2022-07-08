@@ -23,4 +23,10 @@ class StringConstants {
   static String price = '₹ 100000';
   static String hotelListPageTitle = 'Hotel Search Page';
   static String recommendedText = 'Recommended For You';
+
+  // Login String
+  static String passwordTxt = 'Password';
+  static String signUpTxt = 'SignUp';
+  static String loginTxt = 'Login';
+  static String emailTxt = 'Email';
 }
