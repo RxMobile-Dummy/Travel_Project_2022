@@ -8,6 +8,7 @@ class StringConstants {
   static String messageEmptyAddress = 'Please fill empty address';
   static String messageEmptyEmailAddress = 'Please fill empty email';
   static String messageInvalidEmailAddress = 'Please fill valid email';
+
   // Intro Strings
   static String intro1Title = 'Plan Destination...';
   static String intro1Subtitle =
@@ -20,4 +21,15 @@ class StringConstants {
   static String intro4Title = 'Enjoy your trip...';
   static String intro4Subtitle = 'Our bags are packed, We\'re ready to go!';
   static String introSkip = "Skip";
+
+
+  // HomePage Strings
+  static String appname = "MakeMyTrip";
+  static String populartours = "Popular Tours";
+  static String viewall = "View All";
+  static String hotels = "Hotels";
+  static String places = "Places";
+  static String states = "States";
+
+
 }
