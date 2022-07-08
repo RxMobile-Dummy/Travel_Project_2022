@@ -8,4 +8,10 @@ class StringConstants {
   static String messageEmptyAddress = 'Please fill empty address';
   static String messageEmptyEmailAddress = 'Please fill empty email';
   static String messageInvalidEmailAddress = 'Please fill valid email';
+
+  // Login String
+  static String passwordTxt = 'Password';
+  static String signUpTxt = 'SignUp';
+  static String loginTxt = 'Login';
+  static String emailTxt = 'Email';
 }
