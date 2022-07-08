@@ -18,7 +18,7 @@ dependencies:
   material_design_icons_flutter: ^5.0.6595
   flutter_svg: ^1.0.0
   carousel_slider: ^4.1.1
-
+  google_sign_in: ^5.0.2
   #utils
   uuid: ^3.0.6
   grouped_list: ^4.1.0

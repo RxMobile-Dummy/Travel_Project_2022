@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/widgets/app_logo_widget.dart';
+import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
+import 'package:make_my_trip/features/login/presentation/pages/login_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -19,8 +22,11 @@ class _SplashPageState extends State<SplashPage> {
     Timer(const Duration(seconds: 2), () async {
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) {
-        return HomePage();
-      }), (route) => false);
+            return BlocProvider(
+              create: (context) => LoginCubit(),
+              child: LoginPage(),
+            );
+          }), (route) => false);
     });
 
     super.initState();

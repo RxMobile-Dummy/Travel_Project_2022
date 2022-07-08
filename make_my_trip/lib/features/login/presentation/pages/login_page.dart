@@ -148,7 +148,9 @@ class LoginPage extends StatelessWidget {
                           ],
                         )),
                     LoginElevatedButtonWidget(
-                      onTap: () {},
+                      onTap: () {
+                        BlocProvider.of<LoginCubit>(context).googlesignin();
+                      },
                       height: 36,
                       width: 150,
                       buttonColor: MakeMyTripColors.color30gray,

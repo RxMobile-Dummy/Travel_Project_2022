@@ -10,3 +10,8 @@ class ChangeState extends LoginState {
 
   ChangeState(this.obSecure);
 }
+class AuthSuccess extends LoginState {
+  final bool obSecure;
+
+  AuthSuccess(this.obSecure);
+}
