@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
+import 'package:make_my_trip/core/theme/text_styles.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
@@ -91,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Make My Trip",style: TextStyle(color: MakeMyTripColors.colorWhite,fontSize: 20,fontWeight: FontWeight.bold),),
+                    Text("Make My Trip",style: AppTextStyles.labelStyle2),
                     Icon(Icons.search,color: MakeMyTripColors.colorWhite,size: 25,)
 
                   ],
@@ -130,7 +131,7 @@ class HomeScreen extends StatelessWidget {
                               child: Image.asset('assets/img/hotelimage.jpeg',fit: BoxFit.fill),
                             ),
                           ),
-                          Text("Hotels",style: TextStyle(fontWeight: FontWeight.bold))
+                          Text("Hotels",style: AppTextStyles.infoContentStyle)
                         ],
                       ),
                       SizedBox(width: 10,),
@@ -144,7 +145,7 @@ class HomeScreen extends StatelessWidget {
                               child: Image.asset('assets/img/placesimage.jpeg',fit: BoxFit.fill,),
                             ),
                           ),
-                          Text("Places",style: TextStyle(fontWeight: FontWeight.bold),)
+                          Text("Places",style: AppTextStyles.infoContentStyle)
                         ],
                       ),
                       SizedBox(width: 10,),
@@ -158,7 +159,7 @@ class HomeScreen extends StatelessWidget {
                               child: Image.asset('assets/img/statesimage.jpeg',fit: BoxFit.fill),
                             ),
                           ),
-                          Text("States",style: TextStyle(fontWeight: FontWeight.bold))
+                          Text("States",style: AppTextStyles.infoContentStyle)
                         ],
                       )
                     ],
@@ -193,9 +194,9 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Popular Tours",style: TextStyle(color: MakeMyTripColors.accentColor,fontSize: 18,fontWeight: FontWeight.bold),),
-                Text("View all",style: TextStyle(color:MakeMyTripColors.accentColor,fontSize: 18,fontWeight: FontWeight.bold),)
+              children: const [
+                Text("Popular Tours",style: AppTextStyles.infoContentStyle2),
+                Text("View all",style:AppTextStyles.infoContentStyle2,)
               ],
             ),
           ),
@@ -235,7 +236,7 @@ Widget PopularTours(){
         Row(
           children: [
             SizedBox(width: 8,),
-            Text("Las Vegas",style: TextStyle(color: MakeMyTripColors.colorWhite,fontWeight: FontWeight.bold,fontSize: 17),),
+            Text("Las Vegas",style:AppTextStyles.infoContentStyle3,),
 
 
           ],
@@ -247,7 +248,7 @@ Widget PopularTours(){
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
              Ratings(),
-              Text("\$ 4500",style: TextStyle(color: MakeMyTripColors.colorWhite,fontWeight: FontWeight.bold,fontSize: 15)),
+              Text("\$ 4500",style: AppTextStyles.infoContentStyle3,),
             ],
           ),
         )
