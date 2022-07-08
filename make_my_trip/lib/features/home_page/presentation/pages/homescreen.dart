@@ -5,13 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
   final List<String> imgList = [
-    'assets/img/homepageimg.jpeg',
-    'assets/img/homepageimg2.jpeg',
-    'assets/img/homepageimg3.jpeg',
+    ImagePath.imagecenter,
+    ImagePath.imagecenter2,
+    ImagePath.imagecenter3,
   ];
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                   image: DecorationImage(
                     fit: BoxFit.fill,
                     image: AssetImage(
-                      'assets/img/darkimage.jpeg',
+                      ImagePath.darkbgimage,
                     ),
                   ),
                 ),
@@ -92,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Make My Trip",style: AppTextStyles.labelStyle2),
+                    Text(StringConstants.appname,style: AppTextStyles.labelStyle2),
                     Icon(Icons.search,color: MakeMyTripColors.colorWhite,size: 25,)
 
                   ],
@@ -128,10 +130,10 @@ class HomeScreen extends StatelessWidget {
                             width: 75,
                             child: ClipOval(
 
-                              child: Image.asset('assets/img/hotelimage.jpeg',fit: BoxFit.fill),
+                              child: Image.asset(ImagePath.hotelimage,fit: BoxFit.fill),
                             ),
                           ),
-                          Text("Hotels",style: AppTextStyles.infoContentStyle)
+                          Text(StringConstants.hotels,style: AppTextStyles.infoContentStyle)
                         ],
                       ),
                       SizedBox(width: 10,),
@@ -142,10 +144,10 @@ class HomeScreen extends StatelessWidget {
                             width: 75,
                             child: ClipOval(
 
-                              child: Image.asset('assets/img/placesimage.jpeg',fit: BoxFit.fill,),
+                              child: Image.asset(ImagePath.placesimage,fit: BoxFit.fill,),
                             ),
                           ),
-                          Text("Places",style: AppTextStyles.infoContentStyle)
+                          Text(StringConstants.places,style: AppTextStyles.infoContentStyle)
                         ],
                       ),
                       SizedBox(width: 10,),
@@ -156,10 +158,10 @@ class HomeScreen extends StatelessWidget {
                             width: 75,
                             child: ClipOval(
 
-                              child: Image.asset('assets/img/statesimage.jpeg',fit: BoxFit.fill),
+                              child: Image.asset(ImagePath.statesimage,fit: BoxFit.fill),
                             ),
                           ),
-                          Text("States",style: AppTextStyles.infoContentStyle)
+                          Text(StringConstants.states,style: AppTextStyles.infoContentStyle)
                         ],
                       )
                     ],
@@ -194,9 +196,9 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text("Popular Tours",style: AppTextStyles.infoContentStyle2),
-                Text("View all",style:AppTextStyles.infoContentStyle2,)
+              children:  [
+                Text(StringConstants.populartours,style: AppTextStyles.infoContentStyle2),
+                Text(StringConstants.viewall,style:AppTextStyles.infoContentStyle2,)
               ],
             ),
           ),
@@ -226,7 +228,7 @@ Widget PopularTours(){
       color: MakeMyTripColors.colorBlack,
       borderRadius: BorderRadius.circular(10),
       image:  DecorationImage(
-          image: AssetImage('assets/img/hotelimage.jpeg'),
+          image: AssetImage(ImagePath.demoroom),
           fit: BoxFit.cover
       )
     ),
