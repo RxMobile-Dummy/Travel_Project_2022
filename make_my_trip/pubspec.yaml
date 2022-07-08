@@ -83,6 +83,7 @@ flutter:
   #your all local assets
   assets:
     - assets/icons/
+    - assets/img/
 
   # font family of app
   fonts:

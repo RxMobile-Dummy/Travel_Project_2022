@@ -8,6 +8,7 @@ class StringConstants {
   static String messageEmptyAddress = 'Please fill empty address';
   static String messageEmptyEmailAddress = 'Please fill empty email';
   static String messageInvalidEmailAddress = 'Please fill valid email';
+  // Intro Strings
   static String intro1Title = 'Plan Destination...';
   static String intro1Subtitle =
       'Got bored from your tight schedule? It\'s time to take a break for yourself and plan yourself an unexplored destination';

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
-import 'package:make_my_trip/utils/constants/image_path.dart';
+
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import '../../../../utils/constants/image_path.dart';
 import '../widgets/indicator_widget.dart';
 import '../widgets/intro_widget.dart';
 
@@ -36,30 +37,9 @@ class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.only(right: 22, top: 22),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    StringConstants.introSkip,
-                    style: const TextStyle(
-                        color: Colors.blue,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const Icon(
-                    Icons.double_arrow_rounded,
-                    color: Colors.blue,
-                  ),
-                ],
-              ),
-              alignment: Alignment.centerRight,
-            ),
             Expanded(
               child: PageView(
                 scrollDirection: Axis.horizontal,
