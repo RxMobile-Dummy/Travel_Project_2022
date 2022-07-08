@@ -14,4 +14,13 @@ class StringConstants {
   static String signUpTxt = 'SignUp';
   static String loginTxt = 'Login';
   static String emailTxt = 'Email';
+  
+  // HomePage Strings
+  static String appname = "MakeMyTrip";
+  static String populartours = "Popular Tours";
+  static String viewall = "View All";
+  static String hotels = "Hotels";
+  static String places = "Places";
+  static String states = "States";
+
 }
