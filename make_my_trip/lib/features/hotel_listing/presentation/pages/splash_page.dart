@@ -7,7 +7,6 @@ import 'package:make_my_trip/features/hotel_listing/presentation/widgets/app_log
 
 import '../../../home_page/presentation/pages/homepage.dart';
 
-
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
 
@@ -23,11 +22,11 @@ class _SplashPageState extends State<SplashPage> {
     Timer(const Duration(seconds: 2), () async {
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) {
-            return BlocProvider(
-              create: (context) => TabBarCubit(),
-              child: HomePage(),
-            );
-          }), (route) => false);
+        return BlocProvider(
+          create: (context) => TabBarCubit(),
+          child: HomePage(),
+        );
+      }), (route) => false);
     });
 
     super.initState();

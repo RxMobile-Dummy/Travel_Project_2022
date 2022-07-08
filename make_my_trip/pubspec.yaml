@@ -18,6 +18,7 @@ dependencies:
   material_design_icons_flutter: ^5.0.6595
   flutter_svg: ^1.0.0
   carousel_slider: ^4.1.1
+  flutter_rating_bar: ^4.0.1
 
   #utils
   uuid: ^3.0.6

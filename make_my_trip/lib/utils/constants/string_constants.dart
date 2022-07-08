@@ -17,6 +17,10 @@ class StringConstants {
   static String places = "Places";
   static String states = "States";
 
-
-
+// HotelListPage Strings
+  static String hotelName = 'HOTEL NAME';
+  static String address = 'Address';
+  static String price = '₹ 100000';
+  static String hotelListPageTitle = 'Hotel Search Page';
+  static String recommendedText = 'Recommended For You';
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_listing_cubit.dart';
+
+import '../../features/hotel_listing/presentation/cubits/hotel_listing_cubit.dart';
 
 ///use this common bloc for listing state changes
 class CustomBlocListener<B extends Bloc<dynamic, S>, S> {
