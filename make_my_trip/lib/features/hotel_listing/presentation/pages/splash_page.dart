@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/widgets/app_logo_widget.dart';
+import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
+import 'package:make_my_trip/features/sign_up/presentation/pages/SignUpOneView.dart';
 import 'home_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -19,8 +22,8 @@ class _SplashPageState extends State<SplashPage> {
     Timer(const Duration(seconds: 2), () async {
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) {
-        return HomePage();
-      }), (route) => false);
+            return HomePage();
+          }), (route) => false);
     });
 
     super.initState();
