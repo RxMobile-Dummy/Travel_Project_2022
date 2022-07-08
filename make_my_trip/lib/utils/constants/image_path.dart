@@ -13,6 +13,4 @@ class ImagePath{
   static const String tv = "assets/img/tv.jpg";
   static const String wifi = "assets/img/wifi.jpg";
 
-
-
 }

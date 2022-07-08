@@ -9,6 +9,7 @@ class StringConstants {
   static String messageEmptyEmailAddress = 'Please fill empty email';
   static String messageInvalidEmailAddress = 'Please fill valid email';
 
+
   // room detail page
 
   static String continue_button = "Continue";
@@ -20,4 +21,15 @@ class StringConstants {
   static String bed = "BEDS";
   static String description = "DESCRIPTION";
   static String amenities = "AMENITIES";
+
+  // HomePage Strings
+  static String appname = "MakeMyTrip";
+  static String populartours = "Popular Tours";
+  static String viewall = "View All";
+  static String hotels = "Hotels";
+  static String places = "Places";
+  static String states = "States";
+
+
+
 }

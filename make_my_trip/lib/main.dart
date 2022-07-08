@@ -5,7 +5,6 @@ import './core/navigation/app_router.dart' as AppRoutes;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  di.initializeHotelListingFeature();
   runApp(const MyApp());
 }
 
