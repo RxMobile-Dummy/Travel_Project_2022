@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
@@ -16,6 +17,8 @@ class LoginCubit extends Cubit<LoginState> {
 
   final UserGoogleLogin googleLogin;
   final UserSignIn signIn;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void changeObSecureEvent(bool obSecure) {
     emit(LoginObSecureChangeState(!obSecure));
@@ -57,6 +60,24 @@ class LoginCubit extends Cubit<LoginState> {
           emit(LoginSuccessState());
         });
       }
+    }
+  }
+  Future<String?> signInWithFacebook() async {
+    try {
+      // Trigger the sign-in flow
+      final LoginResult loginResult = await FacebookAuth.instance.login();
+
+      // Create a credential from the access token
+      final OAuthCredential facebookAuthCredential = FacebookAuthProvider
+          .credential(loginResult.accessToken!.token);
+
+      // Once signed in, return the UserCredential
+      await _auth.signInWithCredential(facebookAuthCredential);
+      emit(FaceBookSuccessState());
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+      emit(FaceBookFailureState());
+      throw e;
     }
   }
 }

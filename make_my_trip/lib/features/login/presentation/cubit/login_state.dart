@@ -18,3 +18,7 @@ class LoginErrorState extends LoginState {
 
   LoginErrorState({required this.error});
 }
+
+class FaceBookSuccessState extends LoginState {}
+
+class FaceBookFailureState extends LoginState {}

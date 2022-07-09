@@ -59,6 +59,7 @@ dependencies:
 
   #for checking internet connectivity
   connectivity_plus: ^2.3.5
+  flutter_facebook_auth: ^4.4.0
 
 
 dev_dependencies:
