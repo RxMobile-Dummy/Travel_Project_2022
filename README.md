@@ -23,7 +23,7 @@ The Application is all about the service provide. Service provide like hotel boo
 
 
 
-                                      			   ---------- FrontEndSide -----------
+                                      ---------- FrontEndSide -----------
 
 ==> Screen wise technical flow:
 
