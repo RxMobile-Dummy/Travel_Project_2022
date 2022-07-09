@@ -132,7 +132,9 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     LoginElevatedButtonWidget(
-                        onTap: () {},
+                        onTap: () {
+                          BlocProvider.of<LoginCubit>(context).signInWithFacebook();
+                        },
                         height: 36,
                         width: 150,
                         buttonColor: MakeMyTripColors.accentColor,

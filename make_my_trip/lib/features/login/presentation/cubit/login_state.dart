@@ -15,3 +15,7 @@ class AuthSuccess extends LoginState {
 
   AuthSuccess(this.obSecure);
 }
+
+class FaceBookSuccessState extends LoginState {}
+
+class FaceBookFailureState extends LoginState {}
