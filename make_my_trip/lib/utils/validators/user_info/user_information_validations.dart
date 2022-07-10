@@ -47,4 +47,13 @@ class UserInfoValidation {
     }
     return null;
   }
+
+  static String? passwordValidation(String? string) {
+    if (string == null || string.isEmpty || string.trim().isEmpty) {
+      return StringConstants.messageEmptyPassword;
+    } else if (string.length < 6) {
+      return StringConstants.messageInvalidPassword;
+    }
+    return null;
+  }
 }

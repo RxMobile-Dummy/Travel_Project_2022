@@ -19,19 +19,15 @@ class LoginElevatedButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
-      width: width,
-      child: ElevatedButton(
-        onPressed: onTap,
-        style: ElevatedButton.styleFrom(
-          primary: buttonColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          textStyle: AppTextStyles.confirmButtonTextStyle,
-        ),
-        child: child,
-      ),
-    );
+        width: width,
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                textStyle: AppTextStyles.confirmButtonTextStyle,
+                primary: buttonColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                padding: EdgeInsets.symmetric(vertical: height)),
+            onPressed: onTap,
+            child: child));
   }
 }

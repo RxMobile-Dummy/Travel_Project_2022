@@ -5,13 +5,16 @@ abstract class LoginState {}
 
 class LoginInitial extends LoginState {}
 
-class ChangeState extends LoginState {
+class LoginObSecureChangeState extends LoginState {
   final bool obSecure;
 
-  ChangeState(this.obSecure);
+  LoginObSecureChangeState(this.obSecure);
 }
-class AuthSuccess extends LoginState {
-  final bool obSecure;
 
-  AuthSuccess(this.obSecure);
+class LoginSuccessState extends LoginState {}
+
+class LoginErrorState extends LoginState {
+  final String error;
+
+  LoginErrorState({required this.error});
 }

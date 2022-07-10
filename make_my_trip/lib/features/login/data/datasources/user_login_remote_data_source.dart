@@ -1,0 +1,96 @@
+import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import '../../../../core/failures/failures.dart';
+import '../../domain/model/user_model.dart';
+
+abstract class UserLoginRemoteDataSource {
+  Future<Either<Failures, UserModel>> userSignIn(userEmail, userPassword);
+  Future<Either<Failures, UserModel>> userGoogleLogIn();
+  Future<Either<Failures, UserModel>> userFacebookLogIn();
+}
+
+class UserLoginRemoteDataSourceImpl extends UserLoginRemoteDataSource {
+  final FirebaseAuth auth;
+  UserLoginRemoteDataSourceImpl({
+    required this.auth,
+  });
+
+  @override
+  Future<Either<Failures, UserModel>> userSignIn(
+      userEmail, userPassword) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: userEmail, password: userPassword);
+      User? user = userCredential.user;
+
+      if (user != null) {
+        return Right(UserModel.fromJson({
+          "userName": user.displayName,
+          "userEmail": user.email,
+          "userPhone": user.phoneNumber,
+          "userPic": user.photoURL,
+          "userId": user.uid
+        }));
+      } else {
+        return Left(ServerFailure());
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return Left(AuthFailure(failureMsg: "Invalid Email"));
+      } else if (e.code == 'wrong-password') {
+        return Left(AuthFailure(failureMsg: "Invalid Password"));
+      } else {
+        return Left(ServerFailure());
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failures, UserModel>> userGoogleLogIn() async {
+    try {
+      final GoogleSignIn _googleSignIn = GoogleSignIn(
+        scopes: ['email'],
+      );
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+
+      User? user = userCredential.user;
+
+      if (user != null) {
+        return Right(UserModel.fromJson({
+          "userName": user.displayName,
+          "userEmail": user.email,
+          "userPhone": user.phoneNumber,
+          "userPic": user.photoURL,
+          "userId": user.uid
+        }));
+      } else {
+        return Left(ServerFailure());
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        return Left(AuthFailure(failureMsg: "Email is Already Registered"));
+      } else {
+        return Left(ServerFailure());
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failures, UserModel>> userFacebookLogIn() async {
+    throw UnimplementedError();
+  }
+}

@@ -5,9 +5,11 @@ import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
 import 'features/hotel_listing/hotel_listing_injection_container.dart' as di;
 
 import './core/navigation/app_router.dart' as AppRoutes;
+import 'injection_container.dart' as di;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
