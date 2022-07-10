@@ -85,7 +85,7 @@ class LoginPage extends StatelessWidget {
                   LoginElevatedButtonWidget(
                     height: 12,
                     onTap: () {
-                      BlocProvider.of<LoginCubit>(context).emailSignIn(
+                      BlocProvider.of<LoginCubit>(context).signInWithEmail(
                           loginEmailController.text,
                           loginPasswordController.text);
                     },
@@ -137,11 +137,15 @@ class LoginPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: CustomIconButton(
-                            backColor: Color(0xff3b5998),
-                            icon: Icon(Icons.facebook_rounded),
-                            text: "Facebook",
-                            textColor: MakeMyTripColors.colorWhite,
-                            onTap: () {}),
+                          backColor: Color(0xff3b5998),
+                          icon: Icon(Icons.facebook_rounded),
+                          text: "Facebook",
+                          textColor: MakeMyTripColors.colorWhite,
+                          onTap: () {
+                            BlocProvider.of<LoginCubit>(context)
+                                .signInWithFacebook();
+                          },
+                        ),
                       ),
                       16.horizontalSpace,
                       Expanded(
@@ -154,7 +158,7 @@ class LoginPage extends StatelessWidget {
                             ),
                             onTap: () {
                               BlocProvider.of<LoginCubit>(context)
-                                  .googleSignIn();
+                                  .signInWithGoogle();
                             },
                             text: "Google"),
                       ),

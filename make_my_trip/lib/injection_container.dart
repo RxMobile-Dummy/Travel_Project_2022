@@ -11,12 +11,13 @@ import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart'
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  login();
+  loginFeature();
 }
 
-login() {
+loginFeature() {
   //bloc or cubit
-  sl.registerFactory(() => LoginCubit(signIn: sl(), googleLogin: sl()));
+  sl.registerFactory(
+      () => LoginCubit(signIn: sl(), googleLogin: sl(), facebookLogin: sl()));
 
   //usecase
   sl.registerLazySingleton(() => UserGoogleLogin(repository: sl()));

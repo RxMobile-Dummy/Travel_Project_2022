@@ -23,6 +23,6 @@ class UserLoginRepositoryImpl extends UserLoginRepository {
 
   @override
   Future<Either<Failures, UserModel>> userFacebookLogin() async {
-    return Left(ServerFailure());
+    return await remoteDataSource.userFacebookLogIn();
   }
 }
