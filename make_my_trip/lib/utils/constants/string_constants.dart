@@ -12,6 +12,13 @@ class StringConstants {
   static String messageInvalidPassword = 'Please at least 6 character length';
 
   // Login String
+  static String loginTitle =
+      'Meet new people from over millions of\nusers. Create posts, find friends and more.';
+  static String forgotPass = 'Forgot Password?';
+  static String orLoginWith = "or login with";
+  static String facebook = "Facebook";
+  static String google = "Google";
+  static String noAccount = "Or don't have account?";
   static String passwordTxt = 'Password';
   static String signUpTxt = 'SignUp';
   static String loginTxt = 'Login';

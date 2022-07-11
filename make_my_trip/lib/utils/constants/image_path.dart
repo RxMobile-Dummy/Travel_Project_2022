@@ -1,6 +1,4 @@
-
-class ImagePath{
-
+class ImagePath {
   static const String imagecenter = 'assets/img/homepageimg.jpeg';
   static const String imagecenter2 = 'assets/img/homepageimg2.jpeg';
   static const String imagecenter3 = 'assets/img/homepageimg3.jpeg';
@@ -13,7 +11,4 @@ class ImagePath{
   static String icAppLogo = "assets/icons/ic_app_logo.png";
   static String icGoogleLogo = "assets/icons/ic_google_logo.png";
   static String icFacebookLogo = "assets/icons/ic_facebook_logo.png";
-
-
 }
-
