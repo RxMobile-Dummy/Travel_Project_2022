@@ -7,7 +7,13 @@ class HotelController {
         const hoteldomain = new HotelDomain();
         hoteldomain.getAllHotel(req,res);
     }
+    // get hotel by search
+    static async getHotelBySearch(req:Request , res : Response){
+        const hoteldomain = new HotelDomain();
+        hoteldomain.getHotelBySearch(req,res);
+    }
 }
 
 router.get('/',HotelController.getHotel);
+router.get('/:hotelsearch',HotelController.getHotelBySearch);
 export{router};
