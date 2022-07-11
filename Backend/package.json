@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node public/app.js",
-    "dev" : "nodemon src/app.ts",
-    "build" : "tsc -p ."
+    "dev": "nodemon src/app.ts",
+    "build": "tsc -p ."
   },
   "keywords": [],
   "author": "",
@@ -14,7 +14,7 @@
   "dependencies": {
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "mongoose": "^6.4.3",
+    "mongoose": "^6.4.4",
     "nodemon": "^2.0.19",
     "typescript": "^4.7.4"
   },
