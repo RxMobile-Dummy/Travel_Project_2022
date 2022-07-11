@@ -3,62 +3,31 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
+import 'package:make_my_trip/features/home_page/data/models/ToursModel.dart';
+import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
-class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
+import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:shimmer/shimmer.dart';
 
-  final List<String> imgList = [
-    ImagePath.imagecenter,
-    ImagePath.imagecenter2,
-    ImagePath.imagecenter3,
-  ];
+import '../manager/cubit/homepage_cubit.dart';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final List<Widget> imageSliders = imgList
-        .map((item) => Container(
-      child: Container(
-        margin: EdgeInsets.all(5.0),
-        child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            child: Stack(
-              children: <Widget>[
-                Image.asset(item, fit: BoxFit.cover, width: 1000.0),
-                Positioned(
-                  bottom: 0.0,
-                  left: 0.0,
-                  right: 0.0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Color.fromARGB(200, 0, 0, 0),
-                          Color.fromARGB(0, 0, 0, 0)
-                        ],
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                      ),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 20.0),
-
-                  ),
-                ),
-              ],
-            )),
-      ),
-    ))
-        .toList();
-    return  SafeArea(
+    return SafeArea(
       child: Column(
         children: [
           AspectRatio(
-            aspectRatio: 15/10,
+            aspectRatio: 15 / 10,
             child: Stack(children: <Widget>[
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.transparent,
                   image: DecorationImage(
                     fit: BoxFit.fill,
@@ -67,13 +36,12 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 height: 350.0,
               ),
               Container(
                 height: 350.0,
                 decoration: BoxDecoration(
-                    color:MakeMyTripColors.colorBlack,
+                    color: MakeMyTripColors.colorBlack,
                     gradient: LinearGradient(
                         begin: FractionalOffset.topCenter,
                         end: FractionalOffset.bottomCenter,
@@ -81,191 +49,438 @@ class HomeScreen extends StatelessWidget {
                           MakeMyTripColors.colorBlack.withOpacity(0.0),
                           MakeMyTripColors.colorWhite,
                         ],
-                        stops: [
+                        stops: const [
                           0.0,
                           1.0
                         ])),
-                child:
-                Column(
-              children: [
-              SizedBox(height: 10,),
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0,left: 8.0,bottom: 5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   children: [
-                    Text(StringConstants.appname,style: AppTextStyles.labelStyle2),
-                    Icon(Icons.search,color: MakeMyTripColors.colorWhite,size: 25,)
-
-                  ],
-                ),
-
-              ),
-              //Divider(thickness: 1.8,),
-              SizedBox(height: 20,),
-              Stack(
-                children: [
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: MakeMyTripColors.colorWhite,
-                          borderRadius: BorderRadius.circular(10),
-
-                        ),
-                        height: 80,
-                        width: 350,
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          right: 8.0, left: 8.0, bottom: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(StringConstants.appname,
+                              style: AppTextStyles.labelStyle2),
+                          const Icon(
+                            Icons.search,
+                            color: MakeMyTripColors.colorWhite,
+                            size: 25,
+                          )
+                        ],
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(width: 10,),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 66,
-                            width: 75,
-                            child: ClipOval(
-
-                              child: Image.asset(ImagePath.hotelimage,fit: BoxFit.fill),
+                    //Divider(thickness: 1.8,),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Stack(
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: MakeMyTripColors.colorWhite,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              height: 80,
+                              width: 350,
                             ),
                           ),
-                          Text(StringConstants.hotels,style: AppTextStyles.infoContentStyle)
-                        ],
-                      ),
-                      SizedBox(width: 10,),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 66,
-                            width: 75,
-                            child: ClipOval(
-
-                              child: Image.asset(ImagePath.placesimage,fit: BoxFit.fill,),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            10.horizontalSpace,
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 66,
+                                  width: 75,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black,
+                                          blurRadius: 10.0,
+                                          spreadRadius: 2.0,
+                                        )
+                                      ],
+                                    ),
+                                    child: ClipOval(
+                                      child: Material(
+                                        color: MakeMyTripColors.color10gray,
+                                        // button color
+                                        child: InkWell(
+                                          // splashColor: Colors.red, // inkwell color
+                                          child: const SizedBox(
+                                            width: 46,
+                                            height: 46,
+                                            child: Icon(
+                                              Icons.business_sharp,
+                                              color:
+                                                  MakeMyTripColors.colorRedDark,
+                                              size: 35,
+                                            ),
+                                          ),
+                                          onTap: () {},
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                4.verticalSpace,
+                                Text(StringConstants.hotels,
+                                    style: AppTextStyles.infoContentStyle)
+                              ],
                             ),
-                          ),
-                          Text(StringConstants.places,style: AppTextStyles.infoContentStyle)
-                        ],
-                      ),
-                      SizedBox(width: 10,),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 66,
-                            width: 75,
-                            child: ClipOval(
-
-                              child: Image.asset(ImagePath.statesimage,fit: BoxFit.fill),
+                            10.horizontalSpace,
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 66,
+                                  width: 75,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black,
+                                          blurRadius: 10.0,
+                                          spreadRadius: 2.0,
+                                        )
+                                      ],
+                                    ),
+                                    child: ClipOval(
+                                      child: Material(
+                                        color: MakeMyTripColors.color10gray,
+                                        // button color
+                                        child: InkWell(
+                                          // splashColor: Colors.red, // inkwell color
+                                          child: const SizedBox(
+                                            width: 46,
+                                            height: 46,
+                                            child: Icon(
+                                              Icons.place,
+                                              color:
+                                                  MakeMyTripColors.accentColor,
+                                              size: 35,
+                                            ),
+                                          ),
+                                          onTap: () {},
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                4.verticalSpace,
+                                Text(StringConstants.places,
+                                    style: AppTextStyles.infoContentStyle)
+                              ],
                             ),
-                          ),
-                          Text(StringConstants.states,style: AppTextStyles.infoContentStyle)
-                        ],
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 27,),
-            ],
-            ),
+                            10.horizontalSpace,
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 66,
+                                  width: 75,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black,
+                                          blurRadius: 10.0,
+                                          spreadRadius: 2.0,
+                                        )
+                                      ],
+                                    ),
+                                    child: ClipOval(
+                                      child: Material(
+                                        color: MakeMyTripColors.color10gray,
+                                        // button color
+                                        child: InkWell(
+                                          // splashColor: Colors.red, // inkwell color
+                                          child: const SizedBox(
+                                            width: 46,
+                                            height: 46,
+                                            child: Icon(
+                                              Icons.maps_home_work,
+                                              color:
+                                                  MakeMyTripColors.colorGreen,
+                                              size: 35,
+                                            ),
+                                          ),
+                                          onTap: () {},
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                4.verticalSpace,
+                                Text(StringConstants.states,
+                                    style: AppTextStyles.infoContentStyle)
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    27.verticalSpace
+                  ],
+                ),
               )
             ]),
-
           ),
-          SizedBox(height: 15,),
+          15.verticalSpace,
           Container(
             height: 200,
             width: double.infinity,
-            child:CarouselSlider(
-              options: CarouselOptions(
-                autoPlay: true,
-                aspectRatio: 1.0,
-                autoPlayInterval: const Duration(seconds: 7),
-                enlargeCenterPage: true,
-              ),
-              items: imageSliders,
-            ),
-
-
+            child: StreamBuilder<List<ImageModel>>(
+                stream: BlocProvider.of<HomepageCubit>(context).getimagesapi(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Shimmer.fromColors(
+                      child: Container(
+                          margin: const EdgeInsets.all(5.0),
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5.0)),
+                            child: Stack(
+                              children: <Widget>[
+                                Positioned(
+                                  bottom: 0.0,
+                                  left: 0.0,
+                                  right: 0.0,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color.fromARGB(200, 0, 0, 0),
+                                          const Color.fromARGB(0, 0, 0, 0)
+                                        ],
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topCenter,
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 20.0),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                      baseColor: MakeMyTripColors.colorBlack,
+                      highlightColor: MakeMyTripColors.color50gray,
+                    );
+                  } else {
+                    final imagelist = snapshot.data;
+                    final List<Widget> imageSliders = imagelist!
+                        .map((item) => Container(
+                              child: Container(
+                                margin: const EdgeInsets.all(5.0),
+                                child: ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5.0)),
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Image.network(item.imageUrl.toString(),
+                                            fit: BoxFit.cover, width: 1000.0),
+                                        Positioned(
+                                          bottom: 0.0,
+                                          left: 0.0,
+                                          right: 0.0,
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Color.fromARGB(200, 0, 0, 0),
+                                                  Color.fromARGB(0, 0, 0, 0)
+                                                ],
+                                                begin: Alignment.bottomCenter,
+                                                end: Alignment.topCenter,
+                                              ),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10.0,
+                                                horizontal: 20.0),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                            ))
+                        .toList();
+                    return CarouselSlider(
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        aspectRatio: 1.0,
+                        autoPlayInterval: const Duration(seconds: 7),
+                        enlargeCenterPage: true,
+                      ),
+                      items: imageSliders,
+                    );
+                  }
+                }),
           ),
-          SizedBox(height: 27,),
+          27.verticalSpace,
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children:  [
-                Text(StringConstants.populartours,style: AppTextStyles.infoContentStyle2),
-                Text(StringConstants.viewall,style:AppTextStyles.infoContentStyle2,)
+              children: [
+                Text(StringConstants.populartours,
+                    style: AppTextStyles.infoContentStyle2),
+                Text(
+                  StringConstants.viewall,
+                  style: AppTextStyles.infoContentStyle2,
+                )
               ],
             ),
           ),
-          Container(
-            height: 220,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: PopularTours(),
-            );
-            },
-            ),
-          )
+          StreamBuilder<List<ToursModel>>(
+              stream: BlocProvider.of<HomepageCubit>(context).get_tours_api(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Text("Loading");
+                } else {
+                  var tourslist = snapshot.data;
+                  return Container(
+                    height: 220,
+                    child: ListView.builder(
+                      itemCount: snapshot.data?.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) {
+                        final toursdata = tourslist?[index];
+                        return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: PopularTours(
+                                toursdata!.details!.first.imageUrl.toString(),
+                                toursdata.tourName.toString(),
+                                toursdata.price.toString(),
+                                int.parse(toursdata.rating.toString())));
+                      },
+                    ),
+                  );
+                }
+              })
         ],
       ),
     );
-
   }
 }
-Widget PopularTours(){
+
+Widget PopularTours(
+    String image, String tourname, String price, int total_ratings) {
   return Container(
-    height: 100,
-    width: 250,
-    decoration: BoxDecoration(
-      color: MakeMyTripColors.colorBlack,
-      borderRadius: BorderRadius.circular(10),
-      image:  DecorationImage(
-          image: AssetImage(ImagePath.demoroom),
-          fit: BoxFit.cover
-      )
-    ),
-    child: Column(
-      children: [
-        Expanded(child: Container()),
-        Row(
-          children: [
-            SizedBox(width: 8,),
-            Text("Las Vegas",style:AppTextStyles.infoContentStyle3,),
-
-
-          ],
-        ),
-        SizedBox(height: 5,),
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0,left: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      height: 100,
+      width: 250,
+      decoration: BoxDecoration(
+          color: MakeMyTripColors.colorBlack,
+          borderRadius: BorderRadius.circular(10),
+          image:
+              DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
+      child: Column(
+        children: [
+          Expanded(child: Container()),
+          Row(
             children: [
-             Ratings(),
-              Text("\$ 4500",style: AppTextStyles.infoContentStyle3,),
+              8.horizontalSpace,
+              Text(
+                tourname,
+                style: AppTextStyles.infoContentStyle3,
+              ),
             ],
           ),
-        )
-        ,SizedBox(height: 6,)
-      ],
-    )
-
-  );
+          5.verticalSpace,
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Ratings(total_ratings),
+                Text(
+                  price,
+                  style: AppTextStyles.infoContentStyle3,
+                ),
+              ],
+            ),
+          ),
+          6.verticalSpace
+        ],
+      ));
 }
-Widget Ratings(){
-  return   Row(children: [
-    Icon(Icons.star,color: MakeMyTripColors.colorWhite,size: 20),
-    Icon(Icons.star,color: MakeMyTripColors.colorWhite,size: 20),
-    Icon(Icons.star,color: MakeMyTripColors.colorWhite,size: 20),
-    Icon(Icons.star,color: MakeMyTripColors.colorWhite,size: 20),
-    Icon(Icons.star,color: MakeMyTripColors.color90gray,size: 20)
-  ],);
+
+Widget Ratings(int Rating) {
+  if (Rating == 4) {
+    return Row(
+      children: const [
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20)
+      ],
+    );
+  }
+  if (Rating == 5) {
+    return Row(
+      children: const [
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20)
+      ],
+    );
+  }
+  if (Rating == 3) {
+    return Row(
+      children: const [
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20)
+      ],
+    );
+  }
+  if (Rating == 2) {
+    return Row(
+      children: const [
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20)
+      ],
+    );
+  }
+  if (Rating == 1) {
+    return Row(
+      children: const [
+        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20)
+      ],
+    );
+  } else {
+    return Row(
+      children: const [
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
+        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20)
+      ],
+    );
+  }
 }
