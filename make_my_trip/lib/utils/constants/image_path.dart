@@ -1,3 +1,4 @@
+
 class ImagePath{
 
   static const String imagecenter = 'assets/img/homepageimg.jpeg';
@@ -12,3 +13,4 @@ class ImagePath{
 
 
 }
+
