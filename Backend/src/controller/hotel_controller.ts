@@ -7,7 +7,16 @@ class HotelController {
         const hoteldomain = new HotelDomain();
         hoteldomain.getAllHotel(req,res);
     }
+
+    //hotel image based on request limit
+    static async getHotelImage(req:Request , res : Response){
+        const hoteldomain = new HotelDomain();
+        hoteldomain.getHotelImage(req,res);
+    }
 }
 
 router.get('/',HotelController.getHotel);
+
+//get hotel image route
+router.get('/image/:imagelimit',HotelController.getHotelImage);
 export{router};
