@@ -15,6 +15,10 @@ import '../../injection_container.dart';
 class Router {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
+      case RoutesName.splash:
+    return MaterialPageRoute(builder: (_) {
+      return const SplashPage();
+    });
       case RoutesName.hotelListPage:
         return MaterialPageRoute(builder: (_) {
           return HotelListPage();

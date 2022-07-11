@@ -172,10 +172,7 @@ class LoginPage extends StatelessWidget {
                           style: AppTextStyles.hintTextStyle,
                           children: [
                         TextSpan(
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              debugPrint("signup");
-                            },
+                          recognizer: TapGestureRecognizer()..onTap = () {},
                           text: StringConstants.signUpTxt,
                           style: AppTextStyles.infoContentStyle2,
                         )

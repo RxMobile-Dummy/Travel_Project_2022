@@ -62,6 +62,16 @@ class LoginCubit extends Cubit<LoginState> {
       }
     }
   }
+
+  signInWithFacebook() async {
+    final res = await facebookLogin.call(NoParams());
+    res.fold((failure) {
+      if (failure is AuthFailure) {
+        emit(LoginErrorState(error: failure.failureMsg!));
+      }
+    }, (success) {
+      emit(LoginSuccessState());
+    });
   Future<String?> signInWithFacebook() async {
     try {
       // Trigger the sign-in flow

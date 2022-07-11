@@ -14,11 +14,27 @@
       },
       "oauth_client": [
         {
-          "client_id": "1074927524993-cqjukij9m7uhrrs8r1739t72pa8r3mdj.apps.googleusercontent.com",
+          "client_id": "1074927524993-krj42g0qdmqlmgjvp88ljqubntkie2r5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.make_my_trip",
-            "certificate_hash": "ed9598ca5c3f56167e492935be97ff02ee1fbcd6"
+            "certificate_hash": "4211528306cec979db05a7a90283fd1b41ee8695"
+          }
+        },
+        {
+          "client_id": "1074927524993-otea4t76cu4oo6andvk1g3n1ta83cjdp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.make_my_trip",
+            "certificate_hash": "12c0c5dde64d7cb909a5524c5fb1c991ba5b15b3"
+          }
+        },
+        {
+          "client_id": "1074927524993-r0mmnqd8hb092ihc17jl0lin6brl83p7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.make_my_trip",
+            "certificate_hash": "5d2dc11958a8e9f3f70a321ad65977c8c9a12cc3"
           }
         },
         {
@@ -37,6 +53,13 @@
             {
               "client_id": "1074927524993-71d79hiccls53sel9rhobhc4pqguncrg.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1074927524993-heldm02vfrm1if3kq7toel4leodkg378.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.makeMyTrip"
+              }
             }
           ]
         }
