@@ -31,21 +31,22 @@ class LoginPage extends StatelessWidget {
         body: SafeArea(
           child: Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Image.asset(ImagePath.icAppLogo, height: 72, width: 72),
                   16.verticalSpace,
                   Text(
-                    "Meet new people from over millions of\nusers. Create posts, find friends and more.",
+                    StringConstants.loginTitle,
                     style: AppTextStyles.infoContentStyle,
                     textAlign: TextAlign.center,
                   ),
                   32.verticalSpace,
                   TextFormField(
                     controller: loginEmailController,
-                    decoration: const InputDecoration(hintText: "Email"),
+                    decoration:
+                        InputDecoration(hintText: StringConstants.emailTxt),
                   ),
                   16.verticalSpace,
                   BlocBuilder<LoginCubit, LoginState>(
@@ -76,8 +77,8 @@ class LoginPage extends StatelessWidget {
                     alignment: AlignmentDirectional.centerEnd,
                     child: GestureDetector(
                         onTap: () {},
-                        child: const Text(
-                          "Forgot Password?",
+                        child: Text(
+                          StringConstants.forgotPass,
                           style: AppTextStyles.hintTextStyle,
                         )),
                   ),
@@ -85,7 +86,7 @@ class LoginPage extends StatelessWidget {
                   LoginElevatedButtonWidget(
                     height: 12,
                     onTap: () {
-                      BlocProvider.of<LoginCubit>(context).emailSignIn(
+                      BlocProvider.of<LoginCubit>(context).signInWithEmail(
                           loginEmailController.text,
                           loginPasswordController.text);
                     },
@@ -102,16 +103,16 @@ class LoginPage extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 8),
                                   child: Text(
                                     "*${state.error}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: MakeMyTripColors.colorRed),
                                   ),
                                 )
-                              : SizedBox());
+                              : const SizedBox());
                     },
                   ),
                   16.verticalSpace,
-                  Row(children: const [
-                    Expanded(
+                  Row(children: [
+                    const Expanded(
                         child: Padding(
                       padding: EdgeInsets.only(left: 20.0, right: 8.0),
                       child: Divider(
@@ -120,10 +121,10 @@ class LoginPage extends StatelessWidget {
                       ),
                     )),
                     Text(
-                      "or login with",
+                      StringConstants.orLoginWith,
                       style: AppTextStyles.hintTextStyle,
                     ),
-                    Expanded(
+                    const Expanded(
                         child: Padding(
                       padding: EdgeInsets.only(left: 8.0, right: 20.0),
                       child: Divider(
@@ -137,11 +138,15 @@ class LoginPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: CustomIconButton(
-                            backColor: Color(0xff3b5998),
-                            icon: Icon(Icons.facebook_rounded),
-                            text: "Facebook",
-                            textColor: MakeMyTripColors.colorWhite,
-                            onTap: () {}),
+                          backColor: const Color(0xff3b5998),
+                          icon: const Icon(Icons.facebook_rounded),
+                          text: StringConstants.facebook,
+                          textColor: MakeMyTripColors.colorWhite,
+                          onTap: () {
+                            BlocProvider.of<LoginCubit>(context)
+                                .signInWithFacebook();
+                          },
+                        ),
                       ),
                       16.horizontalSpace,
                       Expanded(
@@ -154,22 +159,22 @@ class LoginPage extends StatelessWidget {
                             ),
                             onTap: () {
                               BlocProvider.of<LoginCubit>(context)
-                                  .googleSignIn();
+                                  .signInWithGoogle();
                             },
-                            text: "Google"),
+                            text: StringConstants.google),
                       ),
                     ],
                   ),
                   16.verticalSpace,
                   RichText(
                       text: TextSpan(
-                          text: "Or don't have account? ",
+                          text: StringConstants.noAccount,
                           style: AppTextStyles.hintTextStyle,
                           children: [
                         TextSpan(
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              print("signup");
+                              debugPrint("signup");
                             },
                           text: StringConstants.signUpTxt,
                           style: AppTextStyles.infoContentStyle2,
