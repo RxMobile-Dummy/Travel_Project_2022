@@ -5,9 +5,6 @@ class IntroCubit extends Cubit<IntroState> {
   IntroCubit() : super(IntroInitial());
 
   nextIndicator(double index) {
-    if (index < 5) {
-      print(index);
-      emit(IndicatorIndexState(index: index));
-    }
+    emit(IndicatorIndexState(index: index));
   }
 }
