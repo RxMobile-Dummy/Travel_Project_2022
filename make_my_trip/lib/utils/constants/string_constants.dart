@@ -9,6 +9,20 @@ class StringConstants {
   static String messageEmptyEmailAddress = 'Please fill empty email';
   static String messageInvalidEmailAddress = 'Please fill valid email';
 
+  // Intro Strings
+  static String intro1Title = 'Plan Destination...';
+  static String intro1Subtitle =
+      'Got bored from your tight schedule? It\'s time to take a break for yourself and plan yourself an unexplored destination';
+  static String intro2Title = 'Pick up your time...';
+  static String intro2Subtitle = 'Lift up your mood along with your bag pack!';
+  static String intro3Title = 'Start Your Journey...';
+  static String intro3Subtitle =
+      'Give it a dazzling Voyage to your wanderlust!';
+  static String intro4Title = 'Enjoy your trip...';
+  static String intro4Subtitle = 'Our bags are packed, We\'re ready to go!';
+  static String introSkip = "Skip";
+
+
   // HomePage Strings
   static String appname = "MakeMyTrip";
   static String populartours = "Popular Tours";
@@ -16,7 +30,6 @@ class StringConstants {
   static String hotels = "Hotels";
   static String places = "Places";
   static String states = "States";
-
 
 
 }
