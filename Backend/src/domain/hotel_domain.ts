@@ -2,6 +2,7 @@ import { hotelmodel } from "../model/hotel";
 import { citymodel } from "../model/city";
 import { statemodel } from "../model/state";
 import { StatusCode } from "../statuscode";
+import { imagemodel } from "../model/image";
 import express, { Express, Request, Response } from 'express'
 
 
@@ -73,7 +74,7 @@ class HotelDomain {
     }
 
 
-    //get hotel by city and room 
+    //get hotel by city and room
     async getHotelByCityRoom(req: Request, res: Response) {
         try {
             var cityparams: String = req.params.cityname
@@ -131,6 +132,24 @@ class HotelDomain {
 
 
 
+
+    //get hotel image based on ui send limit of needed image
+    async getHotelImage(req: Request, res: Response) {
+        try {
+            var imageData = await imagemodel.find({ room_id: null }).limit(parseInt(req.params.imagelimit));
+
+            if(imageData){
+                res.status(200).send(imageData);
+            }else{
+                res.status(404).send("can't find Image");
+            }
+
+            res.end();
+        } catch (e:any) {
+            res.status(500).send(e.message);
+            res.end();
+        }
+    }
 }
 
 export { HotelDomain };
