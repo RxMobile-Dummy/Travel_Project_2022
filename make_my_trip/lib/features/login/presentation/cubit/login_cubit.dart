@@ -58,7 +58,6 @@ class LoginCubit extends Cubit<LoginState> {
 
         res.fold((failure) {
           if (failure is AuthFailure) {
-            print(failure.failureMsg);
             emit(LoginErrorState(error: failure.failureMsg!));
           }
         }, (success) {
@@ -75,8 +74,6 @@ class LoginCubit extends Cubit<LoginState> {
         emit(LoginErrorState(error: failure.failureMsg!));
       }
     }, (success) {
-      print(success.userEmail);
-
       emit(LoginSuccessState());
     });
   }

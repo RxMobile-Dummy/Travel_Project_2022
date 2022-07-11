@@ -16,7 +16,7 @@ class Router {
     switch (settings.name) {
       case RoutesName.splash:
         return MaterialPageRoute(builder: (_) {
-          return SplashPage();
+          return const SplashPage();
         });
       case RoutesName.login:
         return MaterialPageRoute(builder: (_) {
