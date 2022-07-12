@@ -171,6 +171,11 @@ class LoginPage extends StatelessWidget {
                           text: StringConstants.noAccount,
                           style: AppTextStyles.hintTextStyle,
                           children: [
+                        const WidgetSpan(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 5.0),
+                          ),
+                        ),
                         TextSpan(
                           recognizer: TapGestureRecognizer()..onTap = () {},
                           text: StringConstants.signUpTxt,
