@@ -8,26 +8,26 @@ class RoomDomain {
 
     // commen function 
     async getRoomWithType(req: Request, res: Response , roomtype : String) {
-        var hotelid: Number = Number(req.params.id);
+        var hotelId: Number = Number(req.params.id);
 
         try {
-            var data: any = await hotelmodel.findOne({ _id: hotelid }, { _id: 1, hotel_name: 1, room: 1 });
-            var roomdata: any = await data?.room.find((o: any) => String(o.room_type) === roomtype);
-            var imagedata: object | null = await imagemodel.find({ $and: [{ room_id: roomdata?.room_id }, { hotel_id: hotelid }] });
+            var data: any = await hotelmodel.findOne({ _id: hotelId }, { _id: 1, hotel_name: 1, room: 1 });
+            var roomData: any = await data?.room.find((o: any) => String(o.room_type) === roomtype);
+            var imageData: object | null = await imagemodel.find({ $and: [{ room_id: roomData?.room_id }, { hotel_id: hotelId }] });
             if (data == null) {
                 res.status(StatusCode.Not_Found).send("can't find hotel on this id");
             }
             else {
-                if (roomdata == null)
+                if (roomData == null)
                 {
-                    roomdata = [];
-                    imagedata = [];
+                    roomData = [];
+                    imageData = [];
                 }
                 var responseJson: object = {
                     hotel_id: data._id,
                     hotel_name: data?.hotel_name,
-                    room_data: roomdata,
-                    room_image: imagedata
+                    room_data: roomData,
+                    room_image: imageData
                 }
 
                 res.status(StatusCode.Sucess).send(responseJson);
@@ -53,11 +53,11 @@ class RoomDomain {
 
     }
 
-     // Get Room with Super-Deluxe Type 
-     async getRoomWithSuperDeluxeType(req: Request, res: Response) {
+    // Get Room with Super-Deluxe Type 
+    async getRoomWithSuperDeluxeType(req: Request, res: Response) {
        await this.getRoomWithType(req, res , "Super-Deluxe")
 
-     }
+    }
 }
 
 //EXPORT
