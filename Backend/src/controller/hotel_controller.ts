@@ -5,12 +5,12 @@ var router = express.Router();
 class HotelController {
     static async getHotel(req:Request , res : Response){
         const hoteldomain = new HotelDomain();
-        hoteldomain.getAllHotel(req,res);
+        await hoteldomain.getAllHotel(req,res);
     }
     // get hotel by search
     static async getHotelBySearch(req:Request , res : Response){
         const hoteldomain = new HotelDomain();
-        hoteldomain.getHotelBySearch(req,res);
+       await hoteldomain.getHotelBySearch(req,res);
     }
 }
 

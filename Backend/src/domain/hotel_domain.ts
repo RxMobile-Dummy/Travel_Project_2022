@@ -1,6 +1,7 @@
 import { hotelmodel } from "../model/hotel";
 import { citymodel } from "../model/city";
 import { statemodel } from "../model/state";
+import { StatusCode } from "../statuscode";
 import express, { Express, Request, Response } from 'express'
 
 
@@ -12,10 +13,11 @@ class HotelDomain {
                 path: 'addresss',
                 populate: { path: 'city_id ', model: citymodel, populate: { model: statemodel, path: 'state_id' } }
             });
-            res.send(gethotelfulldetails);
+            res.status(StatusCode.Sucess).send(gethotelfulldetails);
             res.end();
-        } catch (e) {
-            res.send(e)
+        } catch (err:any) {
+            res.status(StatusCode.Server_Error).send(err.message);
+            res.end();
         }
     }
 
@@ -56,14 +58,14 @@ class HotelDomain {
 
             ]);
             if (hotebyserch.length == 0) {
-                res.status(404).send("No Data Found")
+                res.status(StatusCode.Not_Found).send("No Hotel Found")
                 res.end()
             } else {
-                res.status(200).send(hotebyserch);
+                res.status(StatusCode.Sucess).send(hotebyserch);
                 res.end();
             }
         } catch (err: any) {
-            res.status(500).send(err.message);
+            res.status(StatusCode.Server_Error).send(err.message);
             res.end();
 
         }
