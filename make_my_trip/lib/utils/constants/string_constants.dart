@@ -21,6 +21,8 @@ class StringConstants {
   static String introTitle4 = 'Enjoy your trip...';
   static String introSubtitle4 = 'Our bags are packed, We\'re ready to go!';
   static String introSkip = "Skip";
+  static String introNext = "Next";
+  static String introDone = "Done";
 
   // HomePage Strings
   static String appname = "MakeMyTrip";
