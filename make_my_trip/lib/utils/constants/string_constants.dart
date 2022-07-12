@@ -31,4 +31,9 @@ class StringConstants {
   static String hotels = "Hotels";
   static String places = "Places";
   static String states = "States";
+
+  // Hotel Detail Page String
+  static String backBtn = "Back";
+  static String selectRoom = "Select Room";
+  static String photos = "Photos";
 }
