@@ -9,11 +9,11 @@ class HotelDomain {
 
     async getAllHotel(req: Request, res: Response) {
         try {
-            var gethotelfulldetails = await hotelmodel.find().populate({
+            var getHotelFullDetails = await hotelmodel.find().populate({
                 path: 'addresss',
                 populate: { path: 'city_id ', model: citymodel, populate: { model: statemodel, path: 'state_id' } }
             });
-            res.status(StatusCode.Sucess).send(gethotelfulldetails);
+            res.status(StatusCode.Sucess).send(getHotelFullDetails);
             res.end();
         } catch (err:any) {
             res.status(StatusCode.Server_Error).send(err.message);
@@ -24,14 +24,14 @@ class HotelDomain {
     // get hotel by search [city wise or hotel name wise]
     async getHotelBySearch(req: Request, res: Response) {
         try {
-            var hotelsearchparams: String = req.params.hotelsearch;
-            var city: any = await citymodel.findOne({ city_name: { $regex: hotelsearchparams + '.*', $options: 'i' } })
-            var cityid: Number = city?._id;
-            var hotebyserch: any = await hotelmodel.aggregate([
+            var hotelSearchParams: String = req.params.hotelsearch;
+            var city: any = await citymodel.findOne({ city_name: { $regex: hotelSearchParams + '.*', $options: 'i' } })
+            var cityId: Number = city?._id;
+            var hoteBySerch: any = await hotelmodel.aggregate([
                 {
                     $match: {
-                        $or: [{ "address.city_id": cityid },
-                        { hotel_name: { $regex: hotelsearchparams + '.*', $options: 'i' } }]
+                        $or: [{ "address.city_id": cityId },
+                        { hotel_name: { $regex: hotelSearchParams + '.*', $options: 'i' } }]
                     }
                 },
                 {
@@ -57,13 +57,13 @@ class HotelDomain {
                 },
 
             ]);
-            if (hotebyserch.length == 0) {
+            if (hoteBySerch.length == 0) {
 
                 res.status(StatusCode.Not_Found).send("No Hotel Found")
 
                 res.end()
             } else {
-                res.status(StatusCode.Sucess).send(hotebyserch);
+                res.status(StatusCode.Sucess).send(hoteBySerch);
                 res.end();
             }
         } catch (err: any) {
@@ -78,15 +78,15 @@ class HotelDomain {
     //get hotel by city and room 
     async getHotelByCityRoom(req: Request, res: Response) {
         try {
-            var cityparams: String = req.params.cityname
-            var noofroom: Number = parseInt(req.params.roomcount);
-            var city: any = await citymodel.findOne({ city_name: cityparams })
-            var cityid: Number = city?._id;
-            var hotebycityroom: any = await hotelmodel.aggregate([
+            var cityParams: String = req.params.cityname
+            var noOfRoom: Number = parseInt(req.params.roomcount);
+            var city: any = await citymodel.findOne({ city_name: cityParams })
+            var cityId: Number = city?._id;
+            var hoteByCityRoom: any = await hotelmodel.aggregate([
                 {
                     $match: {
-                        $and: [{ "address.city_id": cityid },
-                        { "no_of_room": { $gte: noofroom } },
+                        $and: [{ "address.city_id": cityId },
+                        { "no_of_room": { $gte: noOfRoom } },
                         ]
                     }
                 },
@@ -114,11 +114,11 @@ class HotelDomain {
 
 
             ]);
-            if (hotebycityroom.length == 0) {
+            if (hoteByCityRoom.length == 0) {
                 res.status(StatusCode.Not_Found).send("No Hotel Found")
                 res.end()
             } else {
-                res.status(StatusCode.Sucess).send(hotebycityroom);
+                res.status(StatusCode.Sucess).send(hoteByCityRoom);
                 res.end();
             }
 
