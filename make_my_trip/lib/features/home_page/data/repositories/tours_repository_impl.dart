@@ -10,8 +10,8 @@ class ToursRepository_impl extends ToursRepository {
   ToursRepository_impl({required this.toursDataSource});
 
   @override
-  Stream<List<ToursModel>> get_tours() {
-    var reponse = toursDataSource.get_tours();
+  get_tours() async{
+    var reponse = await toursDataSource.get_tours();
     return reponse;
   }
 }

@@ -5,8 +5,8 @@ import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:http/http.dart' as http;
 
 class Imagesdatasource_impl extends Imagesdatasource {
-  Stream<List<ImageModel>> getlist() async* {
-    yield* Stream.periodic(Duration(seconds: 0), (_) async {
+  getlist() async{
+
       final response = await http
           .get(Uri.parse('http://192.168.101.164:4000/hotel/image/5'));
       var data = jsonDecode(response.body.toString());
@@ -17,7 +17,7 @@ class Imagesdatasource_impl extends Imagesdatasource {
         }
       }
       return postlist;
-    }).asyncMap((event) async => await event);
+
   }
 }
 

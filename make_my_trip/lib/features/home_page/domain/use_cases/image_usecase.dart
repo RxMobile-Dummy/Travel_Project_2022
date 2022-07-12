@@ -5,7 +5,7 @@ class images_usecase {
 
   images_usecase({required this.imagesrepository});
 
-  call(Map map) {
-    return imagesrepository.getimages();
+  call(Map map) async{
+    return await imagesrepository.getimages();
   }
 }

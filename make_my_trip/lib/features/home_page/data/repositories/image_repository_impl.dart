@@ -8,8 +8,8 @@ class Imagerepository_impl extends Imagesrepository {
   Imagerepository_impl({required this.imagesdatasource});
 
   @override
-  Stream<List<ImageModel>> getimages() {
-    var reponse = imagesdatasource.getlist();
+  getimages() async{
+    var reponse = await imagesdatasource.getlist();
 
     return reponse;
   }

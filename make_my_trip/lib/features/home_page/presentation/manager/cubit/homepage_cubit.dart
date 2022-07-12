@@ -12,21 +12,23 @@ class HomepageCubit extends Cubit<HomepageState> {
       : super(HomepageInitial()) {
     get_tours_api();
     getimagesapi();
+
   }
 
   final images_usecase imagesusecase;
   final Tours_usecase toursusecase;
 
-  Stream<List<ImageModel>> getimagesapi() {
-    var data = imagesusecase.imagesrepository.getimages();
+  getimagesapi() async{
+    var data = await imagesusecase.imagesrepository.getimages();
 
     emit(GetData(GetList: data));
-    return data;
+
+    return await data;
   }
 
-  Stream<List<ToursModel>> get_tours_api() {
-    var data = toursusecase.toursRepository.get_tours();
-    emit(GetToursList(GettoursList: data));
-    return data;
+  get_tours_api() async {
+    var data = await toursusecase.toursRepository.get_tours();
+    emit(GetToursList( GetList: data));
+    return await data;
   }
 }
