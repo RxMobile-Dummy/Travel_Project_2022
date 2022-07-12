@@ -17,6 +17,7 @@ class HotelDomain {
             res.end();
         } catch (err:any) {
             res.status(StatusCode.Server_Error).send(err.message);
+            res.end();
         }
     }
 
@@ -57,7 +58,9 @@ class HotelDomain {
 
             ]);
             if (hotebyserch.length == 0) {
-                res.status(StatusCode.Not_Found).send("No Data Found")
+
+                res.status(StatusCode.Not_Found).send("No Hotel Found")
+
                 res.end()
             } else {
                 res.status(StatusCode.Sucess).send(hotebyserch);
