@@ -25,7 +25,7 @@ class HotelController {
     //hotel image based on request limit
     static async getHotelImage(req:Request , res : Response){
         const hoteldomain = new HotelDomain();
-        hoteldomain.getHotelImage(req,res);
+        await hoteldomain.getHotelImage(req,res);
     }
 }
 
