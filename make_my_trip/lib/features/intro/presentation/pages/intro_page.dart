@@ -13,6 +13,7 @@ import '../widgets/intro_widget.dart';
 
 class IntroPage extends StatelessWidget {
   IntroPage({Key? key}) : super(key: key);
+
   int introIndex = 0;
 
   PageController introSliderController = PageController();
