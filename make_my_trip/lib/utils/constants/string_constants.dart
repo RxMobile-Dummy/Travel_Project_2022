@@ -31,4 +31,17 @@ class StringConstants {
   static String hotels = "Hotels";
   static String places = "Places";
   static String states = "States";
+
+  // RoomCategoriesPage Strings
+  static String roomCategory = 'Deluxe Room';
+  static String roomDescription = 'Description';
+  static String roomFeature1 = '70m\'2';
+  static String roomFeature2 = 'Flat-Screen TV';
+  static String roomFeature3 = 'Air Conditioning';
+  static String roomFeature4 = 'Free Wifi';
+  static String roomMoreDetails = 'More Details';
+  static String roomPrice = '₹ 100000';
+  static String roomSelectButtonTxt = 'SELECT';
+  static String hotelName ='Hotel Name';
+  static String roomCategoriesPageHeading = 'SELECT A ROOM';
 }
