@@ -72,7 +72,7 @@ class HotelDomain {
     }
 
 
-    //get hotel by city and room 
+    //get hotel by city and room
     async getHotelByCityRoom(req: Request, res: Response) {
         try {
             var cityparams: String = req.params.cityname
@@ -125,10 +125,8 @@ class HotelDomain {
             res.end();
 
         }
+
     }
-
-
-
 
 }
 
