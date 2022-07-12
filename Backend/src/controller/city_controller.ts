@@ -5,7 +5,7 @@ var router = express.Router();
 class CityController {
     static async getAllcity(req:Request , res:Response){
         const citydomain = new CityDomain();
-        citydomain.getAllCity(req,res)
+        await citydomain.getAllCity(req,res)
     }
 }
 
