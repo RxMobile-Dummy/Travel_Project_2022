@@ -17,6 +17,7 @@ class HotelDomain {
             res.end();
         } catch (err:any) {
             res.status(StatusCode.Server_Error).send(err.message);
+            res.end();
         }
     }
 
@@ -57,7 +58,7 @@ class HotelDomain {
 
             ]);
             if (hotebyserch.length == 0) {
-                res.status(StatusCode.Not_Found).send("No Data Found")
+                res.status(StatusCode.Not_Found).send("No Hotel Found")
                 res.end()
             } else {
                 res.status(StatusCode.Sucess).send(hotebyserch);
@@ -70,65 +71,6 @@ class HotelDomain {
         }
 
     }
-
-
-    //get hotel by city and room 
-    async getHotelByCityRoom(req: Request, res: Response) {
-        try {
-            var cityparams: String = req.params.cityname
-            var noofroom: Number = parseInt(req.params.roomcount);
-            var city: any = await citymodel.findOne({ city_name: cityparams })
-            var cityid: Number = city?._id;
-            var hotebycityroom: any = await hotelmodel.aggregate([
-                {
-                    $match: {
-                        $and: [{ "address.city_id": cityid },
-                        { "no_of_room": { $gte: noofroom } },
-                        ]
-                    }
-                },
-                {
-                    $lookup: {
-                        from: "images",
-                        localField: "_id",
-                        foreignField: "hotel_id",
-                        pipeline: [
-                            { $match: { room_id: null } }
-                        ],
-                        as: "Images",
-                    },
-                },
-                {
-                    "$project": {
-                        "_id": 1,
-                        "hotel_name": 1,
-                        "rating": 1,
-                        "address": 1,
-                        "price": 1,
-                        'Images': 1
-                    }
-                },
-
-
-            ]);
-            if (hotebycityroom.length == 0) {
-                res.status(StatusCode.Not_Found).send("No Hotel Found")
-                res.end()
-            } else {
-                res.status(StatusCode.Sucess).send(hotebycityroom);
-                res.end();
-            }
-
-        }
-        catch (err: any) {
-            res.status(StatusCode.Server_Error).send(err.message);
-            res.end();
-
-        }
-    }
-
-
-
 
 }
 
