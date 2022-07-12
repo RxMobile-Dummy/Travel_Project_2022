@@ -15,6 +15,12 @@ class AppTextStyles {
     fontSize: 25,
   );
 
+  static const labelStyle3 = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.w700,
+    fontSize: 20,
+  );
+
   static const unselectedLabelStyle = TextStyle(
     color: Colors.black87,
     fontWeight: FontWeight.w600,
@@ -31,6 +37,9 @@ class AppTextStyles {
     height: 1.5,
     fontSize: 16,
   );
+
+  static const labelDetails2 =
+      TextStyle(height: 1.5, fontSize: 14, fontWeight: FontWeight.w500);
 
   static const confirmButtonTextStyle = TextStyle(
     color: Colors.white,
@@ -56,6 +65,7 @@ class AppTextStyles {
 
   static const infoContentStyle2 = TextStyle(
       fontSize: 16, fontWeight: FontWeight.w700, color: Colors.lightBlue);
+
   static const infoContentStyle3 =
       TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white);
 }
