@@ -7,7 +7,7 @@ class TourController {
     //get tour
     static async getTour(req: Request, res: Response) {
         const tourdomain = new TourDomain();
-        tourdomain.getTour(req, res);
+        await tourdomain.getTour(req, res);
     }
 }
 

@@ -18,12 +18,12 @@ class TourDomain {
                     }
                 }
             ]).limit(parseInt(req.params.tourlimit));
-            if(tourData){
+            if(tourData.length!=0){
                 res.status(200).send(tourData);
-                res.end();
             }else{
                 res.status(404).send("can't find Tour Data");
             }
+            res.end();
         } catch (e:any) {
             res.status(500).send(e.message);
             res.end();
