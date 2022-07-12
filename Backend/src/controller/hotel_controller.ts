@@ -4,8 +4,22 @@ var router = express.Router();
 
 class HotelController {
     static async getHotel(req:Request , res : Response){
-        const hoteldomain = new HotelDomain();
-        hoteldomain.getAllHotel(req,res);
+        const hotelDomain = new HotelDomain(); 
+       await hotelDomain.getAllHotel(req,res);
+
+    }
+    // get hotel by search
+    static async getHotelBySearch(req:Request , res : Response){
+        const hotelDomain = new HotelDomain();
+       await hotelDomain.getHotelBySearch(req,res);
+
+    }
+
+    // get hot by city and room
+    static async getHotelBycityroom(req:Request , res : Response){
+        const hotelDomain = new HotelDomain();
+       await hotelDomain.getHotelByCityRoom(req,res);
+
     }
 
     //hotel image based on request limit
@@ -19,4 +33,8 @@ router.get('/',HotelController.getHotel);
 
 //get hotel image route
 router.get('/image/:imagelimit',HotelController.getHotelImage);
+
+router.get('/:hotelsearch',HotelController.getHotelBySearch);
+router.get('/:cityname/:roomcount',HotelController.getHotelBycityroom);
+
 export{router};
