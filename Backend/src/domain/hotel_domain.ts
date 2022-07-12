@@ -17,6 +17,7 @@ class HotelDomain {
             res.end();
         } catch (err:any) {
             res.status(StatusCode.Server_Error).send(err.message);
+            res.end();
         }
     }
 
@@ -72,7 +73,7 @@ class HotelDomain {
     }
 
 
-    //get hotel by city and room
+    //get hotel by city and room 
     async getHotelByCityRoom(req: Request, res: Response) {
         try {
             var cityparams: String = req.params.cityname
@@ -125,8 +126,10 @@ class HotelDomain {
             res.end();
 
         }
-
     }
+
+
+
 
 }
 

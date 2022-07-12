@@ -4,7 +4,7 @@ var router = express.Router();
 
 class HotelController {
     static async getHotel(req:Request , res : Response){
-        const hoteldomain = new HotelDomain();
+        const hoteldomain = new HotelDomain(); 
        await hoteldomain.getAllHotel(req,res);
 
     }
@@ -19,6 +19,7 @@ class HotelController {
     static async getHotelBycityroom(req:Request , res : Response){
         const hoteldomain = new HotelDomain();
        await hoteldomain.getHotelByCityRoom(req,res);
+
     }
 }
 
