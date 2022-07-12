@@ -7,19 +7,19 @@ class RoomController {
     // Get Room with Deluxe Type 
     static async getRoomWithDeluxeType(req: Request, res: Response) {
         const roomDomain = new RoomDomain();
-        roomDomain.getRoomWithDeluxeType(req, res);
+       await roomDomain.getRoomWithDeluxeType(req, res);
     }
 
     // Get Room with Semi-Deluxe Type 
     static async getRoomWithSemiDeluxeType(req: Request, res: Response) {
         const roomDomain = new RoomDomain();
-        roomDomain.getRoomWithSemiDeluxeType(req, res);
+        await  roomDomain.getRoomWithSemiDeluxeType(req, res);
     }
 
     // Get Room with Super-Deluxe Type 
     static async getRoomWithSuperDeluxeType(req: Request, res: Response) {
         const roomDomain = new RoomDomain();
-        roomDomain.getRoomWithSuperDeluxeType(req, res);
+        await roomDomain.getRoomWithSuperDeluxeType(req, res);
     }
 
 }

@@ -1,6 +1,7 @@
 import { hotelmodel } from '../model/hotel';
 import express, { Express, Request, Response } from 'express';
 import { imagemodel } from '../model/image'
+import {StatusCode} from '../statuscode'
 
 
 class RoomDomain {
@@ -14,7 +15,7 @@ class RoomDomain {
             var roomdata: any = await data?.room.find((o: any) => String(o.room_type) === roomtype);
             var imagedata: object | null = await imagemodel.find({ $and: [{ room_id: roomdata?.room_id }, { hotel_id: hotelid }] });
             if (data == null) {
-                res.status(404).send("can't find hotel on this id");
+                res.status(StatusCode.Not_Found).send("can't find hotel on this id");
             }
             else {
                 if (roomdata == null)
@@ -29,13 +30,13 @@ class RoomDomain {
                     room_image: imagedata
                 }
 
-                res.status(200).send(responseJson);
+                res.status(StatusCode.Sucess).send(responseJson);
             }
 
         }
 
         catch (err: any) {
-            res.status(500).send(err.message);
+            res.status(StatusCode.Server_Error).send(err.message);
         }
 
     }
@@ -43,18 +44,18 @@ class RoomDomain {
 
    // Get Room with Deluxe Type 
     async getRoomWithDeluxeType(req: Request, res: Response) {
-        this.getRoomWithType(req, res , "Deluxe");
+        await this.getRoomWithType(req, res , "Deluxe");
     }
 
     // Get Room with Semi-Deluxe Type 
     async getRoomWithSemiDeluxeType(req: Request, res: Response) {
-      this.getRoomWithType(req, res , "Semi-Deluxe");
+      await this.getRoomWithType(req, res , "Semi-Deluxe");
 
     }
 
      // Get Room with Super-Deluxe Type 
      async getRoomWithSuperDeluxeType(req: Request, res: Response) {
-        this.getRoomWithType(req, res , "Super-Deluxe")
+       await this.getRoomWithType(req, res , "Super-Deluxe")
 
      }
 }
