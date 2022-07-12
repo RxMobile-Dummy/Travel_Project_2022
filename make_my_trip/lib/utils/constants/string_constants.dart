@@ -41,6 +41,6 @@ class StringConstants {
   static String intro4Title = 'Enjoy your trip...';
   static String intro4Subtitle = 'Our bags are packed, We\'re ready to go!';
   static String introSkip = "Skip";
-
-
+  static String introNext = "Next";
+  static String introDone = "Done";
 }

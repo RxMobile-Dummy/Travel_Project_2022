@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
-import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_state.dart';
 
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../../../../core/navigation/route_info.dart';
 import '../../../../utils/constants/image_path.dart';
 import '../widgets/intro_widget.dart';
 
@@ -73,7 +73,7 @@ class IntroPage extends StatelessWidget {
                         }
                       },
                       child: Text(
-                        "Skip".toUpperCase(),
+                        StringConstants.introSkip.toUpperCase(),
                         style: TextStyle(
                             color: (introIndex == 3)
                                 ? MakeMyTripColors.accentColor.withOpacity(0)
@@ -108,10 +108,8 @@ class IntroPage extends StatelessWidget {
                   GestureDetector(
                       onTap: () {
                         if (introIndex == 3) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, RoutesName.home, (route) => false);
                         } else {
                           introSliderController.nextPage(
                               duration: const Duration(milliseconds: 300),
@@ -120,8 +118,8 @@ class IntroPage extends StatelessWidget {
                       },
                       child: Text(
                         (introIndex == 3)
-                            ? "Done".toUpperCase()
-                            : 'Next'.toUpperCase(),
+                            ? StringConstants.introDone.toUpperCase()
+                            : StringConstants.introNext.toUpperCase(),
                         style: const TextStyle(
                             fontSize: 18,
                             color: MakeMyTripColors.accentColor,
