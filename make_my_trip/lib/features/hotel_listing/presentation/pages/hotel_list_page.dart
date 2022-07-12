@@ -4,7 +4,6 @@ import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_listing/data/data_sources/local/hotel_list_datasource_impl.dart';
 import 'package:make_my_trip/features/hotel_listing/data/repositories/hotel_list_repository_impl.dart';
-import 'package:make_my_trip/features/hotel_listing/data/repositories/hotel_listing_repository_impl.dart';
 import 'package:make_my_trip/features/hotel_listing/domain/use_cases/hotel_list_usecase.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/widgets/hotel_list_view_widget.dart';
