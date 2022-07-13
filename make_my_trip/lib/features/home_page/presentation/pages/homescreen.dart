@@ -20,7 +20,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var imagelist = BlocProvider.of<HomepageCubit>(context).getimagesapi();
     return SafeArea(
         child: Column(children: [
       AspectRatio(
@@ -239,59 +238,59 @@ class HomeScreen extends StatelessWidget {
       Container(
         height: 200,
         width: double.infinity,
-        child: BlocBuilder<HomepageCubit, HomepageState>(
-          builder: (context, state) {
-            if (state is GetData) {
-              List<ImageModel> imagelist = state.GetList;
-              final List<Widget> imageSliders = imagelist
-                  .map((item) => Container(
-                        child: Container(
-                          margin: const EdgeInsets.all(5.0),
-                          child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5.0)),
-                              child: Stack(
-                                children: <Widget>[
-                                  Image.network(item.imageUrl.toString(),
-                                      fit: BoxFit.cover, width: 1000.0),
-                                  Positioned(
-                                    bottom: 0.0,
-                                    left: 0.0,
-                                    right: 0.0,
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Color.fromARGB(200, 0, 0, 0),
-                                            Color.fromARGB(0, 0, 0, 0)
-                                          ],
-                                          begin: Alignment.bottomCenter,
-                                          end: Alignment.topCenter,
-                                        ),
+        child: BlocBuilder<HomepageCubit, StateOnSuccess<GettingStartedData>>(
+            builder: (context, state) {
+          if (state.response.imageListValue != null) {
+            var imagelist = state.response.imageListValue?.toList();
+
+            final List<Widget> imageSliders = imagelist!
+                .map((item) => Container(
+                      child: Container(
+                        margin: const EdgeInsets.all(5.0),
+                        child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5.0)),
+                            child: Stack(
+                              children: <Widget>[
+                                Image.network(item.imageUrl.toString(),
+                                    fit: BoxFit.cover, width: 1000.0),
+                                Positioned(
+                                  bottom: 0.0,
+                                  left: 0.0,
+                                  right: 0.0,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color.fromARGB(200, 0, 0, 0),
+                                          Color.fromARGB(0, 0, 0, 0)
+                                        ],
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topCenter,
                                       ),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0, horizontal: 20.0),
                                     ),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 20.0),
                                   ),
-                                ],
-                              )),
-                        ),
-                      ))
-                  .toList();
-              return CarouselSlider(
-                options: CarouselOptions(
-                  autoPlay: true,
-                  aspectRatio: 1.0,
-                  autoPlayInterval: const Duration(seconds: 7),
-                  enlargeCenterPage: true,
-                ),
-                items: imageSliders,
-              );
-            } else {
-              return Text("Loading");
-            }
-          },
-        ),
+                                ),
+                              ],
+                            )),
+                      ),
+                    ))
+                .toList();
+            return CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: true,
+                aspectRatio: 1.0,
+                autoPlayInterval: const Duration(seconds: 7),
+                enlargeCenterPage: true,
+              ),
+              items: imageSliders,
+            );
+          } else {
+            return Text("Loading");
+          }
+        }),
       ),
       27.verticalSpace,
       Padding(
@@ -308,28 +307,30 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      FutureBuilder(
-        future: BlocProvider.of<HomepageCubit>(context).get_tours_api(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          List<ToursModel> hoteldetails = snapshot.data;
-          return Container(
-            height: 170,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: snapshot.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                var hoteldata = hoteldetails[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: PopularTours(
-                      hoteldata.details!.first.imageUrl.toString(),
-                      hoteldata.tourName.toString(),
-                      hoteldata.price.toString(),
-                      hoteldata.rating!.toInt()),
-                );
-              },
-            ),
-          );
+      BlocBuilder<HomepageCubit, StateOnSuccess<GettingStartedData>>(
+        builder: (BuildContext context, state) {
+          if (state.response.toursListValue == null) {
+            return Text("Loading...!");
+          } else {
+            return Container(
+              height: 170,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: state.response.toursListValue?.length,
+                itemBuilder: (BuildContext context, int index) {
+                  var hoteldata = state.response.toursListValue?[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: PopularTours(
+                        hoteldata!.details!.first.imageUrl.toString(),
+                        hoteldata.tourName.toString(),
+                        hoteldata.price.toString(),
+                        hoteldata.rating!.toInt()),
+                  );
+                },
+              ),
+            );
+          }
         },
       )
     ]));
