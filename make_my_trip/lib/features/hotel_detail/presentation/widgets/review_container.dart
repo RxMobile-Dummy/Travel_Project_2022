@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+
+import '../../../../core/theme/make_my_trip_colors.dart';
 
 class ReviewContainer extends StatelessWidget {
   const ReviewContainer({
@@ -16,7 +19,7 @@ class ReviewContainer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(.3),
+          color: MakeMyTripColors.color50gray.withOpacity(.3),
           borderRadius: BorderRadius.circular(12)),
       child: Row(
         children: [
@@ -24,24 +27,26 @@ class ReviewContainer extends StatelessWidget {
               ? const SizedBox()
               : const Icon(
                   Icons.star_rounded,
-                  color: Colors.blue,
+                  color: MakeMyTripColors.accentColor,
                 ),
-          const SizedBox(
-            width: 8,
-          ),
+          8.horizontalSpace,
           Text(
             leadingText,
             style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: (icon != null) ? Colors.black87 : Colors.grey[600]),
+                color: (icon != null)
+                    ? MakeMyTripColors.colorBlack
+                    : MakeMyTripColors.color70gray),
           ),
           const Spacer(),
           Text(
             tralingText,
-            style: const TextStyle(fontSize: 16, color: Colors.grey),
+            style: const TextStyle(
+                fontSize: 16, color: MakeMyTripColors.color50gray),
           ),
-          const Icon(Icons.arrow_forward_ios_rounded, color: Colors.grey),
+          const Icon(Icons.arrow_forward_ios_rounded,
+              color: MakeMyTripColors.color50gray),
         ],
       ),
     );

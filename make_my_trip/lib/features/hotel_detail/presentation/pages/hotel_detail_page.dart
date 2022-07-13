@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
-import 'package:make_my_trip/features/hotel_detail/presentation/cubit/hotel_detail_state.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
+import '../../../../core/theme/make_my_trip_colors.dart';
 import '../widgets/circle_icon_button.dart';
 import '../widgets/features_item_widget.dart';
 import '../widgets/loaction_widget.dart';
@@ -23,14 +24,13 @@ class HotelDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           SliverLayoutBuilder(
             builder: (context, constraints) {
               final scrolled = constraints.scrollOffset > 200;
               return SliverAppBar(
-                backgroundColor: Colors.white,
+                backgroundColor: MakeMyTripColors.colorWhite,
                 expandedHeight: 280.0,
                 elevation: 0,
                 excludeHeaderSemantics: true,
@@ -42,12 +42,16 @@ class HotelDetailPage extends StatelessWidget {
                     },
                     icon: Icon(
                       Icons.arrow_back_ios_new_rounded,
-                      color: scrolled ? Colors.black : Colors.white,
+                      color: scrolled
+                          ? MakeMyTripColors.colorBlack
+                          : MakeMyTripColors.colorWhite,
                     ),
                     label: Text(
                       StringConstants.backBtn,
                       style: TextStyle(
-                          color: scrolled ? Colors.black : Colors.white,
+                          color: scrolled
+                              ? MakeMyTripColors.colorBlack
+                              : MakeMyTripColors.colorWhite,
                           fontSize: 18),
                     )),
                 leadingWidth: 100,
@@ -67,10 +71,10 @@ class HotelDetailPage extends StatelessWidget {
                               ? Icons.heart_broken
                               : Icons.heart_broken_outlined,
                           color: (isLiked)
-                              ? Colors.red
+                              ? MakeMyTripColors.colorRed
                               : (scrolled && !isLiked)
-                                  ? Colors.black
-                                  : Colors.white,
+                                  ? MakeMyTripColors.colorBlack
+                                  : MakeMyTripColors.colorWhite,
                         ),
                       );
                     },
@@ -104,15 +108,14 @@ class HotelDetailPage extends StatelessWidget {
                             builder: (context, state) {
                               if (state is StateOnResponseSuccess) {
                                 imgIndex = state.response;
-                                print(imgIndex);
                               }
                               return DotsIndicator(
                                 dotsCount: 4,
                                 position: imgIndex.toDouble(),
                                 decorator: DotsDecorator(
                                   activeSize: const Size(9.0, 9.0),
-                                  activeColor: Colors.blue,
-                                  color: Colors.black,
+                                  activeColor: MakeMyTripColors.accentColor,
+                                  color: MakeMyTripColors.colorBlack,
                                   activeShape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5.0)),
                                 ),
@@ -124,16 +127,14 @@ class HotelDetailPage extends StatelessWidget {
                                 horizontal: 16, vertical: 8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
+                              color: MakeMyTripColors.colorWhite,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
                                   "34 ${StringConstants.photos}",
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
+                                  style: AppTextStyles.infoContentStyle,
                                 ),
                                 8.horizontalSpace,
                                 const Icon(Icons.image)
@@ -163,15 +164,13 @@ class HotelDetailPage extends StatelessWidget {
                   itemCount: 5,
                   itemBuilder: (context, _) => const Icon(
                     Icons.star,
-                    color: Colors.blue,
+                    color: MakeMyTripColors.accentColor,
                   ),
                   onRatingUpdate: (rating) {},
                 ),
                 12.verticalSpace,
-                const Text(
-                  "Four Seasons Resort Chiang Mai",
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                ),
+                const Text("Four Seasons Resort Chiang Mai",
+                    style: AppTextStyles.labelStyle),
                 Expanded(
                   child: Row(
                     children: [
@@ -217,7 +216,8 @@ class HotelDetailPage extends StatelessWidget {
                                     ? StringConstants.readLess
                                     : StringConstants.readMore,
                                 style: const TextStyle(
-                                    color: Colors.blue, fontSize: 16),
+                                    color: MakeMyTripColors.accentColor,
+                                    fontSize: 16),
                               ),
                             ),
                           ),
@@ -249,13 +249,15 @@ class HotelDetailPage extends StatelessWidget {
                 18.verticalSpace,
                 const Text(
                   "Location",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: AppTextStyles.unselectedLabelStyle,
                 ),
                 12.verticalSpace,
-                Text(
+                const Text(
                   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
                   maxLines: 2,
-                  style: TextStyle(color: Colors.grey[700]),
+                  style: TextStyle(
+                    color: MakeMyTripColors.color70gray,
+                  ),
                 ),
                 12.verticalSpace,
                 const LocationViewWidet(),
@@ -272,13 +274,12 @@ class HotelDetailPage extends StatelessWidget {
             onPressed: () {},
             child: Text(
               StringConstants.selectRoom,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
+              style: AppTextStyles.confirmButtonTextStyle,
             ),
             style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 12)),
+              primary: MakeMyTripColors.accentColor,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+            ),
           ),
         ),
       ),

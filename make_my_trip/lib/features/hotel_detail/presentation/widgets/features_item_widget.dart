@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:make_my_trip/core/theme/text_styles.dart';
+import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+
+import '../../../../core/theme/make_my_trip_colors.dart';
 
 class FeaturesItemWidget extends StatelessWidget {
   const FeaturesItemWidget({
@@ -16,15 +20,12 @@ class FeaturesItemWidget extends StatelessWidget {
         children: [
           const Icon(
             Icons.star_rounded,
-            color: Colors.grey,
+            color: MakeMyTripColors.color50gray,
           ),
-          const SizedBox(
-            width: 8,
-          ),
+          8.horizontalSpace,
           Text(
             text,
-            style: const TextStyle(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+            style: AppTextStyles.infoContentStyle,
           )
         ],
       ),
