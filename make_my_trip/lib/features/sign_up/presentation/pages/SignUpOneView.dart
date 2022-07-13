@@ -8,7 +8,6 @@ import 'package:make_my_trip/features/sign_up/presentation/widgets/termsAndPriva
 import 'package:make_my_trip/features/sign_up/presentation/widgets/text_field.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import '../../../hotel_listing/presentation/pages/home_page.dart';
-import '../../domain/entities/User_Enitity.dart';
 
 class SignUpOneView extends StatelessWidget {
   final TextEditingController fullname = TextEditingController();
@@ -24,12 +23,7 @@ class SignUpOneView extends StatelessWidget {
         child: Scaffold(
             body: SingleChildScrollView(
       child: Column(
-        //mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // SizedBox(
-          //   height: 30,
-          // ),
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 25),
             child: Text(
@@ -39,7 +33,6 @@ class SignUpOneView extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             ),
           ),
-
           TextFieldView(
               hintTextvar: StringConstants.fullname,
               textFieldViewController: fullname,
@@ -88,11 +81,8 @@ class SignUpOneView extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10.0),
             child: ContinueButton(onTap: () {
               if (pass.text.toString() == conPass.text.toString()) {
-                BlocProvider.of<SignUpCubit>(context).create_User(
-                    user: UserEntity(
-                  email: email.text,
-                  password: pass.text,
-                ));
+                BlocProvider.of<SignUpCubit>(context)
+                    .create_User(email: email.text, password: pass.text);
               } else {
                 Text("Password and confirm password must be same",
                     style: TextStyle(color: MakeMyTripColors.colorRed));

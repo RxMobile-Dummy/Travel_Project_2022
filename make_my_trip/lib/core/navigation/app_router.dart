@@ -5,9 +5,9 @@ import 'package:make_my_trip/features/hotel_listing/presentation/pages/splash_pa
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:make_my_trip/features/sign_up/presentation/pages/SignUpOneView.dart';
 
-import '../../features/sign_up/data/data_sources/User_form_datasources_impl.dart';
-import '../../features/sign_up/data/repositories/User_repository_impl.dart';
-import '../../features/sign_up/domain/use_cases/register_usecase.dart';
+import '../../features/sign_up/data/data_sources/register_user_repository_impl.dart';
+import '../../features/sign_up/data/repositories/register_user_repository_impl.dart';
+import '../../features/sign_up/domain/use_cases/register_user_usecase.dart';
 
 ///your app router here ::: use your route cubit
 
@@ -21,7 +21,7 @@ class Router {
       case RoutesName.signup:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => SignUpCubit(registerusecase: Registerusecase(register_repository: Userrepository_impl(userformdatasources: Userformdatasourcesimpl()))),
+            create: (context) => SignUpCubit(registerusecase: Register_User_Usecase(register_user_repository: Register_User_Repository_Impl(register_user_datasource: Register_User_Datasource_Impl()))),
             child: SignUpOneView(),
           );
         });

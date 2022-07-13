@@ -1,16 +1,12 @@
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:make_my_trip/features/sign_up/domain/use_cases/register_usecase.dart';
+import 'package:make_my_trip/features/sign_up/domain/use_cases/register_user_usecase.dart';
 import 'package:make_my_trip/utils/validators/user_info/user_information_validations.dart';
 import 'package:meta/meta.dart';
-
-import '../../domain/entities/User_Enitity.dart';
-
 part 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit({required this.registerusecase}) : super(SignUpInitial());
-  final Registerusecase registerusecase;
+  final Register_User_Usecase registerusecase;
 
   validate_Email(String email){
     var resemail = UserInfoValidation.emailAddressValidation(email);
@@ -41,17 +37,10 @@ class SignUpCubit extends Cubit<SignUpState> {
     }
   }
 
-  create_User({ required UserEntity user}){
-    print(user);
+  create_User({ required String email,required String password}){
+
     try{
-      registerusecase.call(Map(),user).listen((event) {
-        event.fold((l) =>
-            print("left"),
-                (r) => emit(RegisterSuccess(success_message: 'Registered User Successfully!')));
-      });
-
-
-
+      registerusecase.call(Map(),email,password).then((value) => value.fold((l) =>print("left"), (r) => emit(RegisterSuccess(success_message: 'Registered User Successfully!'))));
     }
     catch(e){
     }

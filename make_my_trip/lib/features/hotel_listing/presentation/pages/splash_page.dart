@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:make_my_trip/features/hotel_listing/presentation/widgets/app_logo_widget.dart';
-import 'package:make_my_trip/features/sign_up/data/data_sources/User_form_datasources_impl.dart';
-import 'package:make_my_trip/features/sign_up/data/repositories/User_repository_impl.dart';
-import 'package:make_my_trip/features/sign_up/domain/use_cases/register_usecase.dart';
+import 'package:make_my_trip/features/sign_up/data/data_sources/register_user_repository_impl.dart';
+import 'package:make_my_trip/features/sign_up/data/repositories/register_user_repository_impl.dart';
+import 'package:make_my_trip/features/sign_up/domain/use_cases/register_user_usecase.dart';
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:make_my_trip/features/sign_up/presentation/pages/SignUpOneView.dart';
 
@@ -34,7 +34,7 @@ class _SplashPageState extends State<SplashPage> {
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) {
             return BlocProvider(
-              create: (context) => SignUpCubit(registerusecase: Registerusecase(register_repository: Userrepository_impl(userformdatasources: Userformdatasourcesimpl()))),
+              create: (context) => SignUpCubit(registerusecase: Register_User_Usecase(register_user_repository: Register_User_Repository_Impl(register_user_datasource: Register_User_Datasource_Impl()))),
               child: SignUpOneView(),
             );
           }), (route) => false);
