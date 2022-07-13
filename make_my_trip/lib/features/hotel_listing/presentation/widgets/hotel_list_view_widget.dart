@@ -41,7 +41,8 @@ class HotelListViewWidget extends StatelessWidget {
                               width: double.infinity,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
+                                child:
+                                Image.network(
                                   hotel_data.images!.last.imageUrl.toString(),
                                   fit: BoxFit.fill,
                                 ),

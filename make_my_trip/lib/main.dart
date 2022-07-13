@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
+import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
+import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_list_page.dart';
 
 
 void main() {
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Make My Trip',
       theme: MakeMyTripLightTheme.lightTheme,
 
-      //home: const SplashPage(),
+      home:HotelListPage(),
     );
   }
 }
