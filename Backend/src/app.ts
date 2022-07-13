@@ -10,6 +10,7 @@ import * as admin from 'firebase-admin';
 import credential from "./travelproject22-6b9d4-firebase-adminsdk-2wiay-c9c1876710.json";
 
 import * as dotenv from 'dotenv';
+import { Roomrouter } from './controller/room_controller';
 dotenv.config();
 const port = process.env.PORT;
 app.use(express.json());
@@ -22,13 +23,12 @@ admin.initializeApp(
 //Token verification call
 app.use(verifyToken,checkRequest);
 
-app.use('/hotel',hotelroute)
-app.use('/tour',tourroute)
-
 app.use('/hotel',hotelroute);
+app.use('/room' ,Roomrouter);
+app.use('/tour',tourroute)
 app.use('/city',cityroute);
 
-app.post('/', (req: Request, res: Response) => {
+app.get('/', (req: Request, res: Response) => {
     res.send('MMT Backend development');
     res.end();
 });
