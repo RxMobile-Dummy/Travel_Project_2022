@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:make_my_trip/features/login/domain/usecases/user_facebook_login.dart';
 
 import '../../../../core/failures/failures.dart';
 import '../../domain/model/user_model.dart';
@@ -91,6 +93,40 @@ class UserLoginRemoteDataSourceImpl extends UserLoginRemoteDataSource {
 
   @override
   Future<Either<Failures, UserModel>> userFacebookLogIn() async {
-    throw UnimplementedError();
+    try {
+      final LoginResult loginResult = await FacebookAuth.instance.login();
+
+      if (loginResult.status == LoginStatus.success) {
+        final OAuthCredential facebookAuthCredential =
+            FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+        var userData = await FacebookAuth.instance.getUserData();
+        UserCredential userCredential =
+            await auth.signInWithCredential(facebookAuthCredential);
+        print("facebook token - ${userCredential.user!.getIdTokenResult()}");
+
+        User? user = userCredential.user;
+
+        user!.updatePhotoURL(userData["picture"]["data"]["url"]);
+
+        // ignore: unnecessary_null_comparison
+        if (user != null) {
+          return Right(UserModel.fromJson({
+            "userName": user.displayName,
+            "userEmail": user.email,
+            "userPhone": user.phoneNumber,
+            "userPic": user.photoURL,
+            "userId": user.uid
+          }));
+        } else {
+          return Left(ServerFailure());
+        }
+      } else {
+        return Left(ServerFailure());
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      return Left(ServerFailure());
+    }
   }
 }
