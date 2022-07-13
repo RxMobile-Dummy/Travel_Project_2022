@@ -6,13 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/home_page/data/models/ToursModel.dart';
-import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
-import 'package:shimmer/shimmer.dart';
-
 import '../manager/cubit/homepage_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -106,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black,
+                                      color: MakeMyTripColors.colorBlack,
                                       blurRadius: 10.0,
                                       spreadRadius: 2.0,
                                     )
@@ -367,7 +363,7 @@ Widget PopularTours(
               children: [
                 Ratings(total_ratings),
                 Text(
-                  price,
+                  "₹ ${price}",
                   style: AppTextStyles.infoContentStyle3,
                 ),
               ],
