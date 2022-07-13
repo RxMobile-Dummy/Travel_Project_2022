@@ -31,7 +31,6 @@ class BookingDomain {
             var rommIdFromReq: Number = (req.body.room_id);
             var getHotelRoom = await hotelmodel.findOne({ _id: req.body.hotel_id }).select({ room: { $elemMatch: { room_id: rommIdFromReq } } });
             const getHotelRoomPrice: any = getHotelRoom?.room[0].price;
-            console.log(getHotelRoomPrice)
             var totalPrize = (req.body.price.total_price);
             var noOfNight = (req.body.price.number_of_nights);
             var roomDiscount = (req.body.price.discount);
