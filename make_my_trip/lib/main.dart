@@ -4,10 +4,12 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
 
 import './core/navigation/app_router.dart' as AppRoutes;
+import './features/hotel_detail//injection_container.dart' as di;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
+  await di.init();
   runApp(const MyApp());
 }
 

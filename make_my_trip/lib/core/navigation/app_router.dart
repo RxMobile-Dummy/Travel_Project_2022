@@ -4,6 +4,7 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 
 import '../../features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import '../../features/home_page/presentation/pages/homepage.dart';
+import '../../features/hotel_detail/injection_container.dart';
 import '../../features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import '../../features/hotel_detail/presentation/pages/hotel_detail_page.dart';
 import '../../features/intro/presentation/cubit/intro_cubit.dart';
@@ -76,7 +77,7 @@ class Router {
       case RoutesName.hotelDetail:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => HotelDetailCubit(),
+            create: (context) => sl<HotelDetailCubit>()..dataGet(),
             child: HotelDetailPage(),
           );
         });
