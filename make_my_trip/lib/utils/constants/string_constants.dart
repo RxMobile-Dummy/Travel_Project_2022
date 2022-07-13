@@ -36,4 +36,8 @@ class StringConstants {
   static String backBtn = "Back";
   static String selectRoom = "Select Room";
   static String photos = "Photos";
+  static String readLess = "Read Less";
+  static String readMore = "Read More";
+  static String gallery = "Gallery";
+  static String seeAllReview = "See all reviews";
 }

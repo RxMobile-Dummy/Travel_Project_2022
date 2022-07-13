@@ -16,7 +16,7 @@ class ReviewContainer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(.2),
+          color: Colors.grey.withOpacity(.3),
           borderRadius: BorderRadius.circular(12)),
       child: Row(
         children: [
@@ -34,7 +34,7 @@ class ReviewContainer extends StatelessWidget {
             style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: (icon != null) ? Colors.black : Colors.grey),
+                color: (icon != null) ? Colors.black87 : Colors.grey[600]),
           ),
           const Spacer(),
           Text(

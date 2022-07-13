@@ -2,10 +2,11 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/cubit/hotel_detail_state.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 import '../widgets/circle_icon_button.dart';
 import '../widgets/features_item_widget.dart';
@@ -51,10 +52,10 @@ class HotelDetailPage extends StatelessWidget {
                     )),
                 leadingWidth: 100,
                 actions: [
-                  BlocBuilder<HotelDetailCubit, HotelDetailState>(
+                  BlocBuilder<HotelDetailCubit, BaseState>(
                     builder: (context, state) {
-                      (state is HotelDetailIsLikeState)
-                          ? isLiked = state.isLiked
+                      (state is StateSearchResult)
+                          ? isLiked = state.response
                           : false;
                       return GestureDetector(
                         onTap: () {
@@ -74,9 +75,7 @@ class HotelDetailPage extends StatelessWidget {
                       );
                     },
                   ),
-                  const SizedBox(
-                    width: 12,
-                  )
+                  12.horizontalSpace,
                 ],
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
@@ -101,10 +100,10 @@ class HotelDetailPage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          BlocBuilder<HotelDetailCubit, HotelDetailState>(
+                          BlocBuilder<HotelDetailCubit, BaseState>(
                             builder: (context, state) {
-                              if (state is HotelDetailIndicatorIndexState) {
-                                imgIndex = state.index;
+                              if (state is StateOnResponseSuccess) {
+                                imgIndex = state.response;
                                 print(imgIndex);
                               }
                               return DotsIndicator(
@@ -136,10 +135,8 @@ class HotelDetailPage extends StatelessWidget {
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500),
                                 ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Icon(Icons.image)
+                                8.horizontalSpace,
+                                const Icon(Icons.image)
                               ],
                             ),
                           )
@@ -170,39 +167,33 @@ class HotelDetailPage extends StatelessWidget {
                   ),
                   onRatingUpdate: (rating) {},
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
+                12.verticalSpace,
                 const Text(
                   "Four Seasons Resort Chiang Mai",
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
                 Expanded(
                   child: Row(
-                    children: const [
-                      Text("\$75 p/night"),
-                      Spacer(),
-                      CircleIconButton(
+                    children: [
+                      const Text("\$75 p/night"),
+                      const Spacer(),
+                      const CircleIconButton(
                         isRotete: true,
                         iconData: Icons.navigation_rounded,
                       ),
-                      SizedBox(
-                        width: 12,
-                      ),
-                      CircleIconButton(
+                      12.horizontalSpace,
+                      const CircleIconButton(
                         isRotete: false,
                         iconData: Icons.call,
                       )
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
-                BlocBuilder<HotelDetailCubit, HotelDetailState>(
+                12.verticalSpace,
+                BlocBuilder<HotelDetailCubit, BaseState>(
                   builder: (context, state) {
-                    (state is HotelDetailIsReadMoreState)
-                        ? isReadMore = state.isReadMore
+                    (state is StateOnSuccess)
+                        ? isReadMore = state.response
                         : false;
                     return Column(
                       children: [
@@ -210,6 +201,7 @@ class HotelDetailPage extends StatelessWidget {
                           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
                           maxLines: (isReadMore) ? 10 : 3,
                           overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.justify,
                         ),
                         Align(
                           alignment: Alignment.centerRight,
@@ -218,10 +210,15 @@ class HotelDetailPage extends StatelessWidget {
                               BlocProvider.of<HotelDetailCubit>(context)
                                   .onReadMoreTap(isReadMore);
                             },
-                            child: Text(
-                              (isReadMore) ? "read less" : "read More",
-                              style: const TextStyle(
-                                  color: Colors.blue, fontSize: 16),
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Text(
+                                (isReadMore)
+                                    ? StringConstants.readLess
+                                    : StringConstants.readMore,
+                                style: const TextStyle(
+                                    color: Colors.blue, fontSize: 16),
+                              ),
                             ),
                           ),
                         )
@@ -229,9 +226,7 @@ class HotelDetailPage extends StatelessWidget {
                     );
                   },
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
+                12.verticalSpace,
                 Wrap(
                   children: const [
                     FeaturesItemWidget(text: "Parking"),
@@ -240,36 +235,29 @@ class HotelDetailPage extends StatelessWidget {
                     FeaturesItemWidget(text: "Airport Transfer"),
                   ],
                 ),
-                const SizedBox(
-                  height: 18,
-                ),
-                const ReviewContainer(
+                18.verticalSpace,
+                ReviewContainer(
                   icon: Icons.star_rounded,
                   leadingText: "3.5",
-                  tralingText: "See all reviews",
+                  tralingText: StringConstants.seeAllReview,
                 ),
-                const SizedBox(
-                  height: 18,
+                18.verticalSpace,
+                ReviewContainer(
+                  leadingText: StringConstants.gallery,
+                  tralingText: StringConstants.seeAllReview,
                 ),
-                const ReviewContainer(
-                  leadingText: "Gallery",
-                  tralingText: "See all reviews",
-                ),
-                const SizedBox(
-                  height: 18,
-                ),
+                18.verticalSpace,
                 const Text(
                   "Location",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-                const Text(
+                12.verticalSpace,
+                Text(
                   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
                   maxLines: 2,
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(color: Colors.grey[700]),
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
+                12.verticalSpace,
                 const LocationViewWidet(),
               ],
             )),
@@ -278,15 +266,20 @@ class HotelDetailPage extends StatelessWidget {
       ),
       bottomNavigationBar: SafeArea(
         bottom: true,
-        child: ElevatedButton(
-          onPressed: () {},
-          child: const Text(
-            "Select Room",
-            style: TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            onPressed: () {},
+            child: Text(
+              StringConstants.selectRoom,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
+            ),
+            style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 12)),
           ),
-          style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 18)),
         ),
       ),
     );
