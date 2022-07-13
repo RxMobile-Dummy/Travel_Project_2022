@@ -8,6 +8,10 @@ class SignUpInitial extends SignUpState {}
 class SignUpSuccess extends SignUpState {}
 
 class SignUpError extends SignUpState {
-  late String error;
+  String error;
   SignUpError(this.error);
+}
+class RegisterSuccess extends SignUpState{
+  String success_message;
+  RegisterSuccess({required this.success_message});
 }
