@@ -7,17 +7,18 @@ import { router as tourroute} from  './controller/tour_controller';
 import { router as cityroute } from './controller/city_controller';
 
 import * as dotenv from 'dotenv';
+import { Roomrouter } from './controller/room_controller';
 dotenv.config();
 const port = process.env.PORT;
 app.use(express.json());
 
 
 
-app.use('/hotel',hotelroute)
-app.use('/tour',tourroute)
-
 app.use('/hotel',hotelroute);
+app.use('/room' ,Roomrouter);
+app.use('/tour',tourroute)
 app.use('/city',cityroute);
+
 
 app.get('/', (req: Request, res: Response) => {
     res.send('MMT Backend development');
