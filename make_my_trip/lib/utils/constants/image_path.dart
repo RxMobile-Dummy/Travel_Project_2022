@@ -1,3 +1,5 @@
+
+
 class ImagePath{
 
   static const String imagecenter = 'assets/img/homepageimg.jpeg';
@@ -17,4 +19,9 @@ class ImagePath{
   static String intro3 = 'assets/img_intro3.jpeg';
   static String intro4 = 'assets/img_intro4.jpeg';
 
+  static const String introImage1 = "assets/img/plan_destination.png";
+  static const String introImage2 = "assets/img/pick_up_your_time.png";
+  static const String introImage3 = "assets/img/start_your_journey.png";
+  static const String introImage4 = 'assets/img/enjoy_your_trip.png';
 }
+

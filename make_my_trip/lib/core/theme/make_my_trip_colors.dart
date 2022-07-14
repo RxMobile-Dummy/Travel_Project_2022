@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ///replace your desired colors with relevant color code and use them globally in app
 class MakeMyTripColors {
-  static const accentColor = Color(0xFF439FBC);
+  static const accentColor = Color(0xFF2196F3);
   static const colorWhite = Color(0xFFFFFFFF);
   static const colorBlue = Color(0xFF0591EC);
   static const bordergray = Color(0xffd9e2e4);

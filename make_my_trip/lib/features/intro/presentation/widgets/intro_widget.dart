@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
 
-class Intro extends StatelessWidget {
-  Intro(
+class IntroWidget extends StatelessWidget {
+  const IntroWidget(
       {Key? key,
       required this.imagepath,
       required this.title,
@@ -16,40 +17,38 @@ class Intro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 16,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Spacer(),
+        AspectRatio(
+          aspectRatio: 1.6,
+          child: Image.asset(
+            imagepath,
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset(
-              imagepath,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            title.toUpperCase(),
+        ),
+        const Spacer(),
+        Text(
+          title.toUpperCase(),
+          style: const TextStyle(
+              color: MakeMyTripColors.accentColor,
+              fontSize: 24,
+              fontWeight: FontWeight.bold),
+        ),
+        12.verticalSpace,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 22),
+          child: Text(
+            subtitle,
+            textAlign: TextAlign.center,
             style: const TextStyle(
                 color: MakeMyTripColors.colorBlack,
-                fontSize: 26,
+                fontSize: 16,
                 fontWeight: FontWeight.bold),
           ),
-          const SizedBox(
-            height: 8,
-          ),
-          Text(
-            subtitle,
-            style: const TextStyle(
-                color: MakeMyTripColors.colorBlack, fontSize: 16),
-          ),
-        ],
-      ),
+        ),
+        const Spacer(),
+      ],
     );
   }
 }
