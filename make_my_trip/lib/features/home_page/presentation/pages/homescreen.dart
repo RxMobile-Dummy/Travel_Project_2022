@@ -364,7 +364,7 @@ Widget PopularTours(
                 Ratings(total_ratings),
                 Text(
                   "₹ ${price}",
-                  style: AppTextStyles.infoContentStyle3,
+                  style: AppTextStyles.infoContentStyle2,
                 ),
               ],
             ),

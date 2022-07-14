@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
-import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homepage_cubit.dart';
-
-import '../../data/data_sources/images_datasource_impl.dart';
-import '../../data/repositories/image_repository_impl.dart';
-import '../../domain/use_cases/image_usecase.dart';
 import '../manager/cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
 
@@ -58,7 +53,6 @@ class HomePage extends StatelessWidget {
 
   static List<Widget> _widgetOptions() => <Widget>[
         //View 1
-
         HomeScreen(),
       ];
 }
