@@ -1,14 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/repositories/hotel_detail_repository.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/hotel_detail_usecase.dart';
 import '../../../../core/base/base_state.dart';
 
 class HotelDetailCubit extends Cubit<BaseState> {
-  HotelDetailUseCase hotelDetailUseCase;
-
-  HotelDetailCubit(this.hotelDetailUseCase) : super(StateInitial());
+  HotelDetailCubit(this.hotelDetailUseCase) : super(StateInitial()) {
+    getHotelDetailData(5);
+  }
 
   bool islike = false;
+  final HotelDetailUseCase hotelDetailUseCase;
 
   onLikeTap(bool isLiked) {
     emit(StateSearchResult<bool>(!isLiked));
@@ -22,9 +24,9 @@ class HotelDetailCubit extends Cubit<BaseState> {
     emit(StateOnResponseSuccess<int>(index));
   }
 
-  dataGet() async {
-    print('cubit');
-    var res = await hotelDetailUseCase.call(5);
-    res.fold((l) => {print('Fail')}, (r) => {print(r)});
+  getHotelDetailData(int data) async {
+    final res = await hotelDetailUseCase.call(Params(index: data));
+    res.fold((l) => emit(StateNoData()),
+        (r) => emit(StateOnKnownToSuccess<dynamic>(r)));
   }
 }
