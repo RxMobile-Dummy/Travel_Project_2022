@@ -11,8 +11,9 @@ class Hotel_List_Repository_Impl extends Hotel_List_Repository {
   Hotel_List_Repository_Impl({required this.hotel_list_dataSource});
 
   @override
-  Future<Either<Failures,List<HotelListModel>>> get_hotel_list(String s) async{
-    var reponse =await hotel_list_dataSource.get_hotel_list(s);
+  Future<Either<Failures, List<HotelListModel>>> get_hotel_list(
+      String s) async {
+    var reponse = await hotel_list_dataSource.get_hotel_list(s);
 
     return reponse;
   }
