@@ -15,8 +15,9 @@ app.use(express.json());
 import { router as hotelroute } from './controller/hotel_controller';
 import { router as tourroute } from './controller/tour_controller';
 import { router as cityroute } from './controller/city_controller';
-import { router as Roomrouter } from './controller/room_controller';
-import { router as UserRouter } from './controller/user_controller';
+import { router as roomroute } from './controller/room_controller';
+import { router as userroute } from './controller/user_controller';
+import { router as reviewroute } from './controller/review_controller';
 
 // FIREBASE INTITIALIZE
 admin.initializeApp(
@@ -36,10 +37,11 @@ app.get('/', (req: Request, res: Response) => {
 
 // USE
 app.use('/hotel', hotelroute);
-app.use('/room', Roomrouter);
+app.use('/room', roomroute);
 app.use('/tour', tourroute);
 app.use('/city', cityroute);
-app.use('/user', UserRouter)
+app.use('/user', userroute);
+app.use('/review', reviewroute);
 
 // LISTEN
 app.listen(port, () => {
