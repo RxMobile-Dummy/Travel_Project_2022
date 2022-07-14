@@ -12,14 +12,14 @@ class StringConstants {
   // room detail page
 
   static String continue_button = "Continue";
-  static String back = "BACK";
+  static String back = "Back";
   static String deluxroom = "DELUX ROOM";
   static String semi_deluxroom = "SEMI DELUX ROOM";
   static String super_deluxroom = "SUPER DELUX ROOM";
   static String room_size = "ROOM SIZE";
   static String bed = "BEDS";
-  static String description = "DESCRIPTION";
-  static String amenities = "AMENITIES";
+  static String description = "Description";
+  static String amenities = "Amenities";
   // Intro Strings
   static String introTitle1 = 'Plan Destination...';
   static String introSubtitle1 =
