@@ -9,7 +9,7 @@ class Register_User_Usecase {
   Register_User_Usecase({required this.register_user_repository});
 
   @override
-  Future<Either<Failures, String>> call(Map params,String email,String password){
+  Future<Either<Failures, dynamic>> call(Map params,String email,String password){
     return register_user_repository.register_user(params,email,password);
   }
 }

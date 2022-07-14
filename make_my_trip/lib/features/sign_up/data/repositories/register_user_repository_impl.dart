@@ -12,17 +12,11 @@ class Register_User_Repository_Impl extends Register_User_Repository{
 
 
   @override
-  Future<Either<Failures, String>> register_user(Map param,String email,String password) async{
+  Future<Either<Failures, dynamic>> register_user(Map param,String email,String password) async{
 
 
       var response = await register_user_datasource.register_user(email: email.toString(), password: password.toString());
-      if(response=="true"){
-        return Right("Successful");
-      }
-      else{
-        return Left(throw UnimplementedError("Not successful"));
-      }
-
+      return response;
 
   }
 

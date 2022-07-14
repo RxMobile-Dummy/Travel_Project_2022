@@ -31,6 +31,9 @@ class TextFieldView extends StatelessWidget {
           } else if (id == 3) {
             BlocProvider.of<SignUpCubit>(context).validate_Password(value);
           }
+          else if (id == 4) {
+            BlocProvider.of<SignUpCubit>(context).validate_Password(value);
+          }
         },
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
@@ -41,7 +44,6 @@ class TextFieldView extends StatelessWidget {
           fillColor: MakeMyTripColors.color10gray,
           filled: true,
           hintText: hintTextvar,
-          // hintStyle: TextStyle(color: MakeMyTripColors.color50gray,fontSize: 16),
           hintStyle: AppTextStyles.labelDescriptionStyle,
         ),
         //
