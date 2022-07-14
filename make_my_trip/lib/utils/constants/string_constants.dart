@@ -31,4 +31,16 @@ class StringConstants {
   static String hotels = "Hotels";
   static String places = "Places";
   static String states = "States";
+  static String back = "Back";
+  static String reviews = "REVIEWS";
+  static String fourPointNine = "4.9";
+  static String thirtyFourReviews = "34 Reviews";
+  static String reviewCardDate = "25 Sept 2018";
+  static String reviewCardName = "Andre Nickerson";
+  static String reviewCardDesc =
+      "A wonderful experience to stay! Much recommended! TheA sea view from the big french window, that is what everyone longs for. Price is also affordable considering the facilities.";
+  static String writeAReview = "Write a review";
+  static String publish = "Publish";
+  static String review = 'Review';
+  static String cleanliness = 'Cleanliness';
 }
