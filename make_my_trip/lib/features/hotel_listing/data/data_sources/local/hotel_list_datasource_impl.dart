@@ -7,12 +7,12 @@ import 'package:make_my_trip/features/hotel_listing/data/data_sources/local/hote
 import '../../../../../core/failures/failures.dart';
 import '../../models/hotel_list_model.dart';
 
-
 class Hotel_List_DataSource_Impl extends Hotel_List_DataSource {
-  Future<Either<Failures,List<HotelListModel>>> get_hotel_list(String s) async {
+  Future<Either<Failures, List<HotelListModel>>> get_hotel_list(
+      String s) async {
     try {
       final response =
-      await http.get(Uri.parse('http://192.168.101.164:4000/hotel/${s}'));
+          await http.get(Uri.parse('http://192.168.101.164:4000/hotel/${s}'));
       var data = jsonDecode(response.body.toString());
       List<HotelListModel> postlist = [];
       {
@@ -21,8 +21,7 @@ class Hotel_List_DataSource_Impl extends Hotel_List_DataSource {
         }
         return Right(postlist);
       }
-    }
-    catch(e){
+    } catch (e) {
       return Left(ServerFailure(failureMsg: e.toString()));
     }
   }

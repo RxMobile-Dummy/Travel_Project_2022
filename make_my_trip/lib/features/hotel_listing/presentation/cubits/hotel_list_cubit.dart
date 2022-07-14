@@ -9,11 +9,12 @@ import '../../../../core/failures/failures.dart';
 part 'hotel_list_state.dart';
 
 class HotelListCubit extends Cubit<HotelListState> {
-  HotelListCubit({required this.hotellist_usercase}) : super(HotelListInitial()) {}
-  final Hotellist_usercase hotellist_usercase;
+  HotelListCubit({required this.hotellist_usecase})
+      : super(HotelListInitial()) {}
+  final Hotellist_Usecase hotellist_usecase;
 
   Future<List<HotelListModel>?> get_hotel_list_api(String s) async {
-    var data = await hotellist_usercase.call(s).then((value) => value.fold((l) => print(l), (r) =>  emit(GetData(GetList: r))));
-
+    await hotellist_usecase.call(s).then((value) =>
+        value.fold((l) => print(l), (r) => emit(GetData(GetList: r))));
   }
 }

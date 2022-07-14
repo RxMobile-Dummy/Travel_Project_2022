@@ -16,7 +16,7 @@ class HotelListViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<HotelListCubit>(context).get_hotel_list_api("ahme");
+    BlocProvider.of<HotelListCubit>(context).get_hotel_list_api("del");
     return GestureDetector(
         onTap: () {},
         child: Card(
@@ -41,8 +41,7 @@ class HotelListViewWidget extends StatelessWidget {
                               width: double.infinity,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
-                                child:
-                                Image.network(
+                                child: Image.network(
                                   hotel_data.images!.last.imageUrl.toString(),
                                   fit: BoxFit.fill,
                                 ),
