@@ -158,7 +158,7 @@ class HotelDetailPage extends StatelessWidget {
                     RatingBar.builder(
                       ignoreGestures: true,
                       itemSize: 20,
-                      initialRating: 4,
+                      initialRating: hotelDetailModel?.rating?.toDouble() ?? 3,
                       minRating: 0,
                       direction: Axis.horizontal,
                       allowHalfRating: true,
@@ -254,12 +254,17 @@ class HotelDetailPage extends StatelessWidget {
                     Text(
                       hotelDetailModel?.address!.addressLine ?? "Hotel is Best",
                       maxLines: 2,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: MakeMyTripColors.color70gray,
                       ),
                     ),
                     12.verticalSpace,
-                    const LocationViewWidet(),
+                    LocationViewWidet(
+                      log:
+                          hotelDetailModel?.address?.location?.latitude ?? 10.0,
+                      lat: hotelDetailModel?.address?.location?.longitude ??
+                          10.0,
+                    ),
                   ],
                 )),
               )

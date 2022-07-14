@@ -6,7 +6,7 @@ import '../../../../core/base/base_state.dart';
 
 class HotelDetailCubit extends Cubit<BaseState> {
   HotelDetailCubit(this.hotelDetailUseCase) : super(StateInitial()) {
-    getHotelDetailData(5);
+    getHotelDetailData(6);
   }
 
   bool islike = false;
