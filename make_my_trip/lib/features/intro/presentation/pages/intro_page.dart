@@ -20,23 +20,23 @@ class IntroPage extends StatelessWidget {
   final List<Widget> _introPages = <Widget>[
     IntroWidget(
       imagepath: ImagePath.introImage1,
-      title: StringConstants.intro1Title,
-      subtitle: StringConstants.intro1Subtitle,
+      title: StringConstants.introTitle1,
+      subtitle: StringConstants.introSubtitle1,
     ),
     IntroWidget(
       imagepath: ImagePath.introImage2,
-      title: StringConstants.intro2Title,
-      subtitle: StringConstants.intro2Subtitle,
+      title: StringConstants.introTitle2,
+      subtitle: StringConstants.introSubtitle2,
     ),
     IntroWidget(
       imagepath: ImagePath.introImage3,
-      title: StringConstants.intro3Title,
-      subtitle: StringConstants.intro3Subtitle,
+      title: StringConstants.introTitle3,
+      subtitle: StringConstants.introSubtitle3,
     ),
     IntroWidget(
       imagepath: ImagePath.introImage4,
-      title: StringConstants.intro4Title,
-      subtitle: StringConstants.intro4Subtitle,
+      title: StringConstants.introTitle4,
+      subtitle: StringConstants.introSubtitle4,
     ),
   ];
 

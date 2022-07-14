@@ -1,7 +1,4 @@
-
-
-class ImagePath{
-
+class ImagePath {
   static const String imagecenter = 'assets/img/homepageimg.jpeg';
   static const String imagecenter2 = 'assets/img/homepageimg2.jpeg';
   static const String imagecenter3 = 'assets/img/homepageimg3.jpeg';
@@ -24,4 +21,3 @@ class ImagePath{
   static const String introImage3 = "assets/img/start_your_journey.png";
   static const String introImage4 = 'assets/img/enjoy_your_trip.png';
 }
-
