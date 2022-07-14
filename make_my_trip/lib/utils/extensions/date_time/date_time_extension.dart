@@ -79,6 +79,18 @@ extension DateTimeExtension on DateTime {
     return formatted;
   }
 
+  String getSearchDate() {
+    final formatter = DateFormat('dd MMM');
+    final formatted = formatter.format(this);
+    return formatted;
+  }
+
+  String getSearchSubDate() {
+    final formatter = DateFormat("yy, EEE");
+    final formatted = formatter.format(this);
+    return formatted;
+  }
+
   String getDefaultDateFormat() {
     final formatter = DateFormat('yyyy/MM/dd');
     final formatted = formatter.format(this);

@@ -31,4 +31,23 @@ class StringConstants {
   static String hotels = "Hotels";
   static String places = "Places";
   static String states = "States";
+
+  //Search Page Strings
+  static String searchAppbarTitle = "Hotels & Home stays";
+  static String searchHotelContainerLabel = "CITY/Hotel NAME";
+  static String searchCheckInContainerLabel = "CHECK-IN DATE";
+  static String searchCheckOutContainerLabel = "CHECK-OUT DATE";
+  static String searchEmptyLabel = "Select Date";
+  static String searchRoomContainerLabel = "rooms & Guests";
+  static String searchButtonLabel = 'SEARCH HOTELS';
+  static String searchCountryName = "India";
+  static String roomText = "Room";
+
+  static String calenderPageTitle = "Select Dates";
+  static String resetText = "Reset";
+
+  static String searchPageTitle = "Search Hotel";
+
+  static String selectRoomAppbar = "Select Rooms";
+  static String selectRoomLabel = 'Number of rooms';
 }
