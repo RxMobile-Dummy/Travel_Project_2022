@@ -62,10 +62,10 @@ class PublishReviewPage extends StatelessWidget {
                   ),
                   10.verticalSpace,
                   Padding(
-                    padding: const EdgeInsets.only(left: 40, right: 8),
+                    padding: const EdgeInsets.only(left: 39, right: 8),
                     child: TextFormField(
                       maxLength: 200,
-                      maxLines: 4,
+                      maxLines: 5,
                       keyboardType: TextInputType.multiline,
                       decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(

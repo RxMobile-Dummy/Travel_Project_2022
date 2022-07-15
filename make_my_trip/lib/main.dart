@@ -1,12 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
+import 'package:make_my_trip/features/review/review_injection_container.dart'
+    as di;
 
 import './core/navigation/app_router.dart' as AppRoutes;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
+  await di.init();
   runApp(const MyApp());
 }
 
@@ -20,6 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Make My Trip',
       theme: MakeMyTripLightTheme.lightTheme,
       onGenerateRoute: AppRoutes.Router.generateRoutes,
+      initialRoute: RoutesName.reviewPage,
       //home: const SplashPage(),
     );
   }

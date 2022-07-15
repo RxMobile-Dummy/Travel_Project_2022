@@ -9,87 +9,101 @@ class ReviewCardWidget extends StatelessWidget {
   final String description;
   final String date;
   final double ratingValue;
+  final String image;
 
   const ReviewCardWidget(
       {Key? key,
       required this.name,
       required this.description,
       required this.date,
-      required this.ratingValue})
+      required this.ratingValue,
+      required this.image})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
       child: Card(
         color: MakeMyTripColors.color10gray,
-        elevation: 0,
+        elevation: 4,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(color: Colors.grey)),
+            borderRadius: BorderRadius.circular(12),
+            side: const BorderSide(color: MakeMyTripColors.color50gray)),
         child: SizedBox(
           height: 180,
           width: double.infinity,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                        radius: 14,
-                        backgroundColor: MakeMyTripColors.color30gray,
-                        child: Icon(Icons.person)),
-                    14.horizontalSpace,
-                    Text(
-                      '${name}',
-                      style: AppTextStyles.infoContentStyle,
-                    ),
-                    70.horizontalSpace,
-                    RatingBar.builder(
-                      ignoreGestures: true,
-                      itemSize: 16,
-                      initialRating: ratingValue,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      //itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: MakeMyTripColors.accentColor,
-                      ),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 4.0, horizontal: 12.0),
-                  child: Text(
-                    '${description}',
-                    style: AppTextStyles.labelDescriptionStyle,
-                  ),
-                ),
-              ),
+              16.verticalSpace,
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 0.0, horizontal: 12.0),
+                  Expanded(
+                    flex: 4,
+                    child: CircleAvatar(
+                      radius: 24,
+                      backgroundColor: MakeMyTripColors.color50gray,
+                      child: CircleAvatar(
+                          radius: 22,
+                          backgroundColor: MakeMyTripColors.color30gray,
+                          child: Image.network(image)),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 9,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          name,
+                          style: AppTextStyles.infoContentStyle
+                              .copyWith(fontSize: 18),
+                        ),
+                        2.verticalSpace,
+                        RatingBar.builder(
+                          ignoreGestures: true,
+                          itemSize: 16,
+                          initialRating: ratingValue,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemBuilder: (context, _) => const Icon(
+                            Icons.star,
+                            color: MakeMyTripColors.accentColor,
+                          ),
+                          onRatingUpdate: (rating) {
+                            print(rating);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  Expanded(
+                    flex: 5,
                     child: Text(
-                      '${date}',
-                      style: AppTextStyles.labelDetails,
+                      date,
+                      style: AppTextStyles.labelDetails.copyWith(fontSize: 14),
                     ),
                   ),
                 ],
+              ),
+              12.verticalSpace,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    description,
+                    textAlign: TextAlign.justify,
+                    style: AppTextStyles.labelDescriptionStyle
+                        .copyWith(fontWeight: FontWeight.w400),
+                  ),
+                ),
               ),
             ],
           ),
