@@ -3,12 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
+
 import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
 import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
 import '../../features/room_detail_page/presentation/manager/cubit/imageslider_cubit.dart';
 import '../../features/room_detail_page/presentation/pages/roomdetail.dart';
+
+import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
+import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
+import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
+
 
 ///your app router here ::: use your route cubit
 
@@ -83,6 +89,7 @@ class Router {
         });
       case RoutesName.roomDetail:
         return MaterialPageRoute(builder: (_) {
+
           return BlocProvider(
             create: (context) => sl<ImagesliderCubit>(),
             child: RoomDetailsPage(),

@@ -59,8 +59,8 @@ dependencies:
   #for checking internet connectivity
   connectivity_plus: ^2.3.5
   dots_indicator: ^2.1.0
-
-
+  
+  
 
 dev_dependencies:
   flutter_test:
