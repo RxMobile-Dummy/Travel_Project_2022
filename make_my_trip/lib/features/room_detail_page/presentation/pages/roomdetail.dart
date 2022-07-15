@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
@@ -22,286 +23,263 @@ class RoomDetailsPage extends StatelessWidget {
     ImagePath.imagecenter3
 
   ];
-  var val = 0;
   RoomDetailsModel? roomDetailsModel;
-
+  int imgIndex = 0;
+  bool isReadMore = false;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ImagesliderCubit, BaseState>(
-      builder: (context, state) {
-        if (state is StateOnResponseSuccess) {
-          roomDetailsModel = state.response;
-        } else if (state is StateOnSuccess) {
-          val = state.response;
-        }
-        return Scaffold(
-            bottomNavigationBar: Container(
-              height: 60,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: MakeMyTripColors.colorBlack,
-                borderRadius: BorderRadius.circular(3),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      roomDetailsModel?.roomData?.price?.toString() ?? "",
-                      style: AppTextStyles.infoContentStyle3,
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          print(roomDetailsModel?.roomData?.price?.toString());
-                        },
-                        child: Text(StringConstants.continue_button,
-                            style: AppTextStyles.infoContentStyle3))
-                  ],
+        builder: (context, state) {
+          if (state is StateOnKnownToSuccess) {
+            roomDetailsModel = state.response;
+          } else if (state is StateOnResponseSuccess) {
+            imgIndex = state.response;
+          } else if (state is StateOnSuccess) {
+            isReadMore = state.response;
+          }
+          return Scaffold(
+            body: CustomScrollView(
+              slivers: [
+                SliverLayoutBuilder(
+                  builder: (context, constraints) {
+                    final scrolled = constraints.scrollOffset > 200;
+                    return SliverAppBar(
+                      backgroundColor: MakeMyTripColors.colorWhite,
+                      expandedHeight: 280.0,
+                      elevation: 0,
+                      excludeHeaderSemantics: true,
+                      floating: true,
+                      pinned: true,
+                      leading: TextButton.icon(
+                          onPressed: () {
+                            debugPrint("back");
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: scrolled
+                                ? MakeMyTripColors.colorBlack
+                                : MakeMyTripColors.colorBlue,
+                          ),
+                          label: const Text("Back",
+                            style: AppTextStyles.infoContentStyle4,
+                          )),
+                      leadingWidth: 100,
+                      title:  Text(roomDetailsModel?.roomData?.roomType ?? "Room Type",
+                          style: AppTextStyles.confirmButtonTextStyle),
+                      actions: [
+                        Icon(Icons.settings,color: scrolled
+                            ? MakeMyTripColors.colorBlack
+                            : MakeMyTripColors.colorBlue,),
+                        12.horizontalSpace,
+                      ],
+                      flexibleSpace: FlexibleSpaceBar(
+                        centerTitle: true,
+                        background: Stack(fit: StackFit.expand, children: [
+                          PageView.builder(
+                            itemCount: 4,
+                            onPageChanged: (index) {
+                              BlocProvider.of<ImagesliderCubit>(context)
+                                  .onSwipeIndicator(index);
+                            },
+                            itemBuilder: (BuildContext context, int index) {
+                              return Image.network(
+                                roomDetailsModel?.roomImage![index].imageUrl ??
+                                    "https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png",
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(
+                                bottom: 10, right: 10, left: 10),
+                            alignment: Alignment.bottomCenter,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                DotsIndicator(
+                                  dotsCount: 4,
+                                  position: imgIndex.toDouble(),
+                                  decorator: DotsDecorator(
+                                    activeSize: const Size(9.0, 9.0),
+                                    activeColor: MakeMyTripColors.accentColor,
+                                    color: MakeMyTripColors.colorBlack,
+                                    activeShape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            5.0)),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: MakeMyTripColors.colorWhite,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                        "${roomDetailsModel?.roomImage?.length} Photos",
+                                        style: AppTextStyles.infoContentStyle,
+                                      ),
+                                      8.horizontalSpace,
+                                      const Icon(Icons.image)
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ]),
+                      ),
+                    );
+                  },
                 ),
-              ),
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(children: [
-                    CarouselSlider(
-                      options: CarouselOptions(
-                          height: 280,
-                          viewportFraction: 1.0,
-                          enlargeCenterPage: false,
-                          // autoPlay: false,
-                          onPageChanged: (i, r) {
-                            BlocProvider.of<ImagesliderCubit>(context)
-                                .getindex(i);
-                          }),
-                      items: imgList
-                          .map((item) => Container(
-                                child: Center(
-                                    child: Image.asset(
-                                  item,
-                                  fit: BoxFit.cover,
-                                  height: 280,
-                                  width: double.infinity,
-                                )),
-                              ))
-                          .toList(),
-                    ),
-                    Container(
-                      height: 280,
-                      child: Column(
-                        children: [
-                          Expanded(
-                              child: Column(
+                SliverPadding(
+                  padding: const EdgeInsets.all(16),
+                  sliver: SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 35.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
+                              Expanded(
+                                child: Container(
+                                  height: 70,
+                                  width: 120,
+                                  decoration: BoxDecoration(
+                                    color: MakeMyTripColors.color10gray,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Column(
+                                      //crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        const Icon(
-                                          Icons.arrow_back_ios_outlined,
-                                          size: 18,
-                                          color: MakeMyTripColors.colorWhite,
-                                        ),
                                         Text(
-                                          StringConstants.back,
-                                          style:
-                                              AppTextStyles.infoContentStyle5,
+                                          StringConstants.room_size,
+                                          style: const TextStyle(
+                                              fontSize: 17,
+                                              color: MakeMyTripColors.color70gray),
+                                        ),
+                                        3.verticalSpace,
+                                        Text(
+                                          roomDetailsModel?.roomData?.roomSize ??
+                                              "",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
                                         )
                                       ],
                                     ),
-                                    Text(
-                                        roomDetailsModel
-                                                ?.roomData?.roomType ??
-                                            "",
-                                        style: AppTextStyles
-                                            .confirmButtonTextStyle),
-                                    const Icon(
-                                      Icons.settings,
-                                      size: 20,
-                                      color: MakeMyTripColors.colorWhite,
-                                    )
-                                  ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 70,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      color: MakeMyTripColors.color10gray,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            StringConstants.bed,
+                                            style: const TextStyle(
+                                                fontSize: 17,
+                                                color: MakeMyTripColors.color70gray),
+                                          ),
+                                          3.verticalSpace,
+                                          Text(
+                                              roomDetailsModel?.roomData?.bedSize ??
+                                                  "",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               )
                             ],
-                          )),
-                          Center(
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 2.0),
-                              child: AnimatedSmoothIndicator(
-                                activeIndex: val,
-                                count: imgList.length,
-                                effect: const ExpandingDotsEffect(
-                                    dotColor: MakeMyTripColors.colorWhite,
-                                    activeDotColor:
-                                        MakeMyTripColors.colorBlue,
-                                    dotWidth: 8,
-                                    dotHeight: 8),
-                              ),
-                            ),
                           ),
+                          10.verticalSpace,
+                          Text(
+                            StringConstants.description,
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
+                          8.verticalSpace,
+                          Text(
+                            roomDetailsModel?.roomData?.description ?? "",
+                            textAlign: TextAlign.justify,
+                            style: const TextStyle(fontSize: 15),
+                          ),
+                          20.verticalSpace,
+                          Text(
+                            StringConstants.amenities,
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          10.verticalSpace,
+
+                          Wrap(
+                            children: [
+                              FeaturesItemWidget(
+                                  text: roomDetailsModel?.roomData
+                                      ?.features![0] ?? ""),
+                              FeaturesItemWidget(
+                                  text: roomDetailsModel?.roomData
+                                      ?.features![1] ?? ""),
+                              FeaturesItemWidget(
+                                  text: roomDetailsModel?.roomData
+                                      ?.features![2] ?? ""),
+                              FeaturesItemWidget(
+                                  text: roomDetailsModel?.roomData
+                                      ?.features![3] ?? "" ),
+                            ],
+                          ),
+
                         ],
-                      ),
-                    ),
-                  ]),
-                  20.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      )),
+                )
+              ],
+            ),
+              bottomNavigationBar: Container(
+                color: MakeMyTripColors.accentColor,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0,right: 15.0,bottom: 20.0,top: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 70,
-                            width: 120,
-                            decoration: BoxDecoration(
-                              color: MakeMyTripColors.color10gray,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: Column(
-                                //crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    StringConstants.room_size,
-                                    style: const TextStyle(
-                                        fontSize: 17,
-                                        color: MakeMyTripColors.color70gray),
-                                  ),
-                                  3.verticalSpace,
-                                  Text(
-                                    roomDetailsModel?.roomData?.roomSize ??
-                                        "",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                      Text(
+                        "₹ ${roomDetailsModel?.roomData?.price?.toString()} p/night",
+                        style: AppTextStyles.labelNameTextStyle.copyWith(fontSize: 22,color: MakeMyTripColors.colorWhite),
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 70,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              color: MakeMyTripColors.color10gray,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    StringConstants.bed,
-                                    style: const TextStyle(
-                                        fontSize: 17,
-                                        color: MakeMyTripColors.color70gray),
-                                  ),
-                                 3.verticalSpace,
-                                  Text(
-                                      roomDetailsModel?.roomData?.bedSize ??
-                                          "",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18))
-                                ],
-                              ),
-                            ),
+                      ElevatedButton(
+                          onPressed: () {
+                            print(roomDetailsModel?.roomData?.price?.toString());
+                          },
+                          style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),primary: MakeMyTripColors.colorWhite
                           ),
-                        ),
-                      )
+                          child: const Text('Book Now',style: TextStyle(color: MakeMyTripColors.accentColor),))
                     ],
                   ),
-                  20.verticalSpace,
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12.0, bottom: 10),
-                    child: Text(
-                      StringConstants.description,
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.only(left: 12.0, bottom: 10, right: 12.0),
-                    child: Text(
-                      roomDetailsModel?.roomData?.description ?? "",
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                  20.verticalSpace,
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      StringConstants.amenities,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //   children: [
-                  //     Column(
-                  //       children: [
-                  //         amenities(ImagePath.demoroom,
-                  //             roomDetailsModel?.roomData?.features?[0] ?? ""),
-                  //         const SizedBox(
-                  //           height: 15,
-                  //         ),
-                  //         amenities(ImagePath.tv,
-                  //             roomDetailsModel?.roomData?.features?[1] ?? "")
-                  //       ],
-                  //     ),
-                  //     Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         amenities(ImagePath.wifi,
-                  //             roomDetailsModel?.roomData?.features?[3] ?? ""),
-                  //         const SizedBox(
-                  //           height: 15,
-                  //         ),
-                  //         amenities(ImagePath.ac,
-                  //             roomDetailsModel?.roomData?.features?[4] ?? ""),
-                  //       ],
-                  //     )
-                  //   ],
-                  // ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Wrap(
-                      children: [
-                        FeaturesItemWidget(
-                            text: roomDetailsModel?.roomData?.features?[0] ?? ""),
-                        FeaturesItemWidget(
-                            text: roomDetailsModel?.roomData?.features?[1] ?? ""),
-                        FeaturesItemWidget(
-                            text: roomDetailsModel?.roomData?.features?[2] ?? ""),
-                        FeaturesItemWidget(
-                            text: roomDetailsModel?.roomData?.features?[3] ?? ""),
-                      ],
-                    ),
-                  ),
-
-                  20.verticalSpace,
-                ],
+                ),
               ),
-            ));
-      },
-    );
+
+          );
+        });
   }
 }
 
