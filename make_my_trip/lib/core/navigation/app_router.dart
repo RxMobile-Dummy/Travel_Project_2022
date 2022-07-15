@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
+import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
+import 'package:make_my_trip/features/room_categories/presentation/pages/room_categories_page.dart';
+import 'package:make_my_trip/features/room_categories/room_categories_injection_container.dart';
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
 import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
@@ -83,7 +86,10 @@ class Router {
         });
       case RoutesName.roomCategory:
         return MaterialPageRoute(builder: (_) {
-          return HomePage();
+          return BlocProvider(
+            create: (context) => sl<RoomCategoryCubit>(),
+            child: RoomCategoriesPage(),
+          );
         });
       case RoutesName.roomDetail:
         return MaterialPageRoute(builder: (_) {
