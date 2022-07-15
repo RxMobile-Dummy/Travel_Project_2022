@@ -8,6 +8,7 @@ import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model
 import 'package:make_my_trip/features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
 import '../widgets/circle_icon_button.dart';
@@ -75,14 +76,13 @@ class HotelDetailPage extends StatelessWidget {
                               .onLikeTap(isLiked);
                         },
                         child: Icon(
-                          (isLiked)
-                              ? Icons.heart_broken
-                              : Icons.heart_broken_outlined,
+                          (isLiked) ? Icons.favorite : Icons.favorite_border,
                           color: (isLiked)
                               ? MakeMyTripColors.colorRed
                               : (scrolled && !isLiked)
                                   ? MakeMyTripColors.colorBlack
                                   : MakeMyTripColors.colorWhite,
+                          size: 28,
                         ),
                       ),
                       12.horizontalSpace,
@@ -134,7 +134,7 @@ class HotelDetailPage extends StatelessWidget {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      "34 ${StringConstants.photos}",
+                                      "${hotelDetailModel?.images?.length} ${StringConstants.photos}",
                                       style: AppTextStyles.infoContentStyle,
                                     ),
                                     8.horizontalSpace,
@@ -176,16 +176,20 @@ class HotelDetailPage extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                              "Rs ${hotelDetailModel?.price?.toString()} p/night"),
+                              "₹ ${hotelDetailModel?.price?.toString()} p/night"),
                           const Spacer(),
-                          const CircleIconButton(
-                            isRotete: true,
-                            iconData: Icons.navigation_rounded,
-                          ),
-                          12.horizontalSpace,
-                          const CircleIconButton(
+                          CircleIconButton(
                             isRotete: false,
                             iconData: Icons.call,
+                            iconBtn: () async {
+                              var url = Uri.parse(
+                                  "tel:${hotelDetailModel?.phoneNumber}");
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
                           )
                         ],
                       ),
@@ -243,7 +247,7 @@ class HotelDetailPage extends StatelessWidget {
                     18.verticalSpace,
                     ReviewContainer(
                       leadingText: StringConstants.gallery,
-                      tralingText: StringConstants.seeAllReview,
+                      tralingText: StringConstants.seeAllPhoto,
                     ),
                     18.verticalSpace,
                     Text(
@@ -264,6 +268,8 @@ class HotelDetailPage extends StatelessWidget {
                           hotelDetailModel?.address?.location?.latitude ?? 10.0,
                       lat: hotelDetailModel?.address?.location?.longitude ??
                           10.0,
+                      titleName: hotelDetailModel?.hotelName! ?? "Hotel",
+                      mapHeight: 200,
                     ),
                   ],
                 )),

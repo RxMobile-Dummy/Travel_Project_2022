@@ -39,6 +39,7 @@ class StringConstants {
   static String readLess = "Read Less";
   static String readMore = "Read More";
   static String gallery = "Gallery";
-  static String seeAllReview = "See all reviews";
+  static String seeAllReview = "See all review";
+  static String seeAllPhoto = "See all photo";
   static String location = "Location";
 }

@@ -23,9 +23,12 @@ class FeaturesItemWidget extends StatelessWidget {
             color: MakeMyTripColors.color50gray,
           ),
           8.horizontalSpace,
-          Text(
-            text,
-            style: AppTextStyles.infoContentStyle,
+          Expanded(
+            child: Text(
+              text,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.infoContentStyle,
+            ),
           )
         ],
       ),

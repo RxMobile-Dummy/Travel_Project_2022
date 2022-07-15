@@ -61,6 +61,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   flutter_rating_bar: ^4.0.1
   google_maps_flutter: ^2.1.8
+  url_launcher: ^6.1.5
 
 
 
