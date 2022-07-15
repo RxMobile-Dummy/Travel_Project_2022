@@ -16,13 +16,7 @@ import '../manager/cubit/imageslider_cubit.dart';
 
 class RoomDetailsPage extends StatelessWidget {
   RoomDetailsPage({Key? key}) : super(key: key);
-
-  final List<String> imgList = [
-    ImagePath.imagecenter,
-    ImagePath.imagecenter2,
-    ImagePath.imagecenter3
-
-  ];
+  
   RoomDetailsModel? roomDetailsModel;
   int imgIndex = 0;
   bool isReadMore = false;
@@ -50,28 +44,9 @@ class RoomDetailsPage extends StatelessWidget {
                       excludeHeaderSemantics: true,
                       floating: true,
                       pinned: true,
-                      leading: TextButton.icon(
-                          onPressed: () {
-                            debugPrint("back");
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: scrolled
-                                ? MakeMyTripColors.colorBlack
-                                : MakeMyTripColors.colorBlue,
-                          ),
-                          label: const Text("Back",
-                            style: AppTextStyles.infoContentStyle4,
-                          )),
-                      leadingWidth: 100,
-                      title:  Text(roomDetailsModel?.roomData?.roomType ?? "Room Type",
-                          style: AppTextStyles.confirmButtonTextStyle),
-                      actions: [
-                        Icon(Icons.settings,color: scrolled
-                            ? MakeMyTripColors.colorBlack
-                            : MakeMyTripColors.colorBlue,),
-                        12.horizontalSpace,
-                      ],
+                      automaticallyImplyLeading: true,
+
+
                       flexibleSpace: FlexibleSpaceBar(
                         centerTitle: true,
                         background: Stack(fit: StackFit.expand, children: [
@@ -140,7 +115,8 @@ class RoomDetailsPage extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   sliver: SliverList(
                       delegate: SliverChildListDelegate(
-                        [
+                        [Text(" ${roomDetailsModel?.roomData?.roomType } ${StringConstants.room}",
+                            style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -159,17 +135,13 @@ class RoomDetailsPage extends StatelessWidget {
                                       children: [
                                         Text(
                                           StringConstants.room_size,
-                                          style: const TextStyle(
-                                              fontSize: 17,
-                                              color: MakeMyTripColors.color70gray),
+                                          style: AppTextStyles.unselectedLabelStyle.copyWith(color: MakeMyTripColors.color50gray),
                                         ),
                                         3.verticalSpace,
                                         Text(
                                           roomDetailsModel?.roomData?.roomSize ??
                                               "",
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
+                                          style: AppTextStyles.unselectedLabelStyle
                                         )
                                       ],
                                     ),
@@ -192,17 +164,13 @@ class RoomDetailsPage extends StatelessWidget {
                                         children: [
                                           Text(
                                             StringConstants.bed,
-                                            style: const TextStyle(
-                                                fontSize: 17,
-                                                color: MakeMyTripColors.color70gray),
+                                            style: AppTextStyles.unselectedLabelStyle.copyWith(color: MakeMyTripColors.color50gray),
                                           ),
                                           3.verticalSpace,
                                           Text(
                                               roomDetailsModel?.roomData?.bedSize ??
                                                   "",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18))
+                                              style: AppTextStyles.unselectedLabelStyle)
                                         ],
                                       ),
                                     ),
@@ -214,20 +182,18 @@ class RoomDetailsPage extends StatelessWidget {
                           10.verticalSpace,
                           Text(
                             StringConstants.description,
-                            style: const TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
+                            style: AppTextStyles.labelStyle.copyWith(fontSize: 24)
                           ),
                           8.verticalSpace,
                           Text(
                             roomDetailsModel?.roomData?.description ?? "",
                             textAlign: TextAlign.justify,
-                            style: const TextStyle(fontSize: 15),
+                            style: AppTextStyles.labelDescriptionStyle,
                           ),
                           20.verticalSpace,
                           Text(
                             StringConstants.amenities,
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                            style: AppTextStyles.labelStyle.copyWith(fontSize: 24)
                           ),
                           10.verticalSpace,
 
@@ -266,7 +232,7 @@ class RoomDetailsPage extends StatelessWidget {
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            print(roomDetailsModel?.roomData?.price?.toString());
+
                           },
                           style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0),
@@ -283,40 +249,3 @@ class RoomDetailsPage extends StatelessWidget {
   }
 }
 
-Widget amenities(String image, String title) {
-  return Container(
-    height: 100,
-    width: 170,
-    decoration: BoxDecoration(
-        boxShadow: [
-          const BoxShadow(
-            color: MakeMyTripColors.color0gray,
-            blurRadius: 5.0,
-          ),
-        ],
-        borderRadius: BorderRadius.circular(10),
-        image: DecorationImage(
-          image: AssetImage(image),
-          fit: BoxFit.cover,
-        )),
-    child: Column(
-      children: [
-        const Expanded(child: const SizedBox()),
-        Container(
-            decoration: const BoxDecoration(
-              color: MakeMyTripColors.color10gray,
-              borderRadius: const BorderRadius.only(
-                  bottomLeft: const Radius.circular(10),
-                  bottomRight: Radius.circular(10)),
-            ),
-            height: 20,
-            width: double.infinity,
-            child: Center(
-                child: Text(
-              title,
-              style: const TextStyle(color: MakeMyTripColors.colorBlack),
-            )))
-      ],
-    ),
-  );
-}

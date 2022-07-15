@@ -42,4 +42,5 @@ class StringConstants {
   static String hotels = "Hotels";
   static String places = "Places";
   static String states = "States";
+  static String room = "Rooom";
 }

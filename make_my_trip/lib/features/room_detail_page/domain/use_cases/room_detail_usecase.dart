@@ -12,7 +12,6 @@ class RoomDetailUsecase implements  Usecase<RoomDetailsModel , Params>{
 
   @override
   Future<Either<Failures, RoomDetailsModel>> call(Params params) async{
-    print('usecase');
     return await roomDetailsRepository.getRoomDetail(params.hotelId, params.roomType);
   }
 }
