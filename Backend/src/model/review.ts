@@ -10,6 +10,7 @@ const ReviewSchema = new mongoose.Schema({
     comfort: { type: Number, min: 0, max: 5 },
     location: { type: Number, min: 0, max: 5 },
     facilities: { type: Number, min: 0, max: 5 },
+    rating: { type: Number, min: 0, max: 5 },
 
 })
 

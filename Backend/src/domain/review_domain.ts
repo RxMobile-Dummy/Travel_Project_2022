@@ -9,6 +9,7 @@ class ReviewDomain {
         var nextID: any = await reviewmodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
         var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
         var uid: String = reqData.uid;
+        var rating: Number = (Number(req.body.cleanliness) + Number(req.body.comfort) + Number(req.body.location) + Number(req.body.facilities)) / 4;
 
         var postData: object = {
             _id: nextID?._id == undefined ? 1 : Number(nextID?.id) + 1,
@@ -20,6 +21,7 @@ class ReviewDomain {
             comfort: req.body.comfort,
             location: req.body.location,
             facilities: req.body.facilities,
+            rating: rating
         }
 
         var data = new reviewmodel(postData);
@@ -36,7 +38,7 @@ class ReviewDomain {
 
     // Get Hotel Review
     async getHotelReview(req: Request, res: Response) {
-        var hotelReview = await reviewmodel.find({ hotel_id: req.params.id }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, '_id': 0 } });
+        var hotelReview = await reviewmodel.find({ hotel_id: req.params.id }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } });
         res.send(hotelReview);
         res.end();
     }
