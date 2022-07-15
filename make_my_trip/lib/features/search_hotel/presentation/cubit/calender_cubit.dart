@@ -6,7 +6,9 @@ import 'calender_state.dart';
 class CalenderCubit extends Cubit<CalenderState> {
   CleanCalendarController? cleanCalendarController;
 
-  String rooms = "1";
+  int rooms = 1;
+  int adults = 1;
+  int childrens = 0;
   DateTime? inTime = DateTime.now();
   DateTime? outTime = DateTime.now().add(const Duration(days: 1));
 
@@ -52,8 +54,18 @@ class CalenderCubit extends Cubit<CalenderState> {
     emit(DateSelectState());
   }
 
-  selectRoom(String rooms) {
+  selectRooms(int rooms) {
     this.rooms = rooms;
+    emit(NoOfRooms());
+  }
+
+  selectAdults(int adults) {
+    this.adults = adults;
+    emit(NoOfRooms());
+  }
+
+  selectChildrens(int childrens) {
+    this.childrens = childrens;
     emit(NoOfRooms());
   }
 }

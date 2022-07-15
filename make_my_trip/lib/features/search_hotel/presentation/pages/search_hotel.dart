@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/search_hotel/presentation/widgets/search_hotel_page.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/date_time/date_time_extension.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 
 import '../cubit/calender_cubit.dart';
 import '../cubit/calender_state.dart';
@@ -18,30 +20,26 @@ class SearchHotel extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<CalenderCubit>(context);
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: MakeMyTripColors.colorWhite,
         appBar: AppBar(
-          titleSpacing: 0,
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: GestureDetector(
-              onTap: () {},
-              child: const Icon(
-                Icons.arrow_back,
-                color: Colors.grey,
-              )),
+          automaticallyImplyLeading: true,
           title: Text(
             StringConstants.searchAppbarTitle,
-            style: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w500),
           ),
           actions: [
             GestureDetector(
               onTap: () {},
-              child: const Padding(
-                padding: EdgeInsets.only(right: 12),
-                child: Icon(
-                  Icons.favorite_border,
-                  color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.favorite_border,
+                      color: MakeMyTripColors.colorBlack,
+                    ),
+                    Text(StringConstants.whishlistText),
+                  ],
                 ),
               ),
             ),
@@ -52,7 +50,8 @@ class SearchHotel extends StatelessWidget {
             return SafeArea(
               child: SingleChildScrollView(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Column(children: [
                     SelectCityContainer(
                       label: StringConstants.searchHotelContainerLabel
@@ -88,7 +87,7 @@ class SearchHotel extends StatelessWidget {
                                   builder: (_) => BlocProvider.value(
                                         value: BlocProvider.of<CalenderCubit>(
                                             context),
-                                        child: SelectDates(),
+                                        child: const SelectDates(),
                                       )));
                             },
                           ),
@@ -110,7 +109,7 @@ class SearchHotel extends StatelessWidget {
                                   builder: (_) => BlocProvider.value(
                                         value: BlocProvider.of<CalenderCubit>(
                                             context),
-                                        child: SelectDates(),
+                                        child: const SelectDates(),
                                       )));
                             },
                           ),
@@ -122,35 +121,23 @@ class SearchHotel extends StatelessWidget {
                         label: StringConstants.searchRoomContainerLabel
                             .toUpperCase(),
                         // detail: "1 Room, 2 Adults",
-                        detail: "${cubit.rooms} ${StringConstants.roomText}",
+                        detail:
+                            "${cubit.rooms} ${StringConstants.roomText}, ${cubit.adults} ${StringConstants.adultText} ${(cubit.childrens != 0) ? ',' : ''} ${(cubit.childrens != 0) ? cubit.childrens : ''} ${(cubit.childrens != 0) ? StringConstants.childrenText : ''}",
                         iconData: Icons.person,
                         onTap: () {
                           showModalBottomSheet(
                               context: context,
                               builder: (_) => BlocProvider.value(
                                     value: cubit,
-                                    child: SelectRoom(),
+                                    child: const SelectRoom(),
                                   ));
                         }),
                     8.verticalSpace,
                     SizedBox(
-                      height: 45,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          StringConstants.searchButtonLabel,
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.lightBlue[700],
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(10), // <-- Radius
-                          ),
-                        ),
-                      ),
-                    )
+                        width: double.infinity,
+                        child: CommonPrimaryButton(
+                            onTap: () {},
+                            text: StringConstants.searchButtonLabel))
                   ]),
                 ),
               ),

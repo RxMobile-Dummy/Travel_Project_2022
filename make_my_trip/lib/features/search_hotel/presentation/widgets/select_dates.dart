@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/search_hotel/presentation/widgets/select_city_container.dart';
 import 'package:make_my_trip/utils/extensions/date_time/date_time_extension.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 import 'package:scrollable_clean_calendar/scrollable_clean_calendar.dart';
 import 'package:scrollable_clean_calendar/utils/enums.dart';
 
+import '../../../../core/theme/make_my_trip_colors.dart';
 import '../../../../utils/constants/string_constants.dart';
 import '../cubit/calender_cubit.dart';
 import '../cubit/calender_state.dart';
@@ -30,33 +33,16 @@ class SelectDates extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            titleSpacing: 0,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            leading: GestureDetector(
-                onTap: () {
-                  cubit.clearCalender();
-                  Navigator.of(context).pop();
-                },
-                child: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                )),
             title: Text(
               StringConstants.calenderPageTitle,
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
             ),
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 16),
                 child: Center(
                     child: TextButton(
-                  child: Text(
-                    StringConstants.resetText.toUpperCase(),
-                    style: const TextStyle(
-                        color: Colors.blue, fontWeight: FontWeight.bold),
-                  ),
+                  child: Text(StringConstants.resetText.toUpperCase(),
+                      style: AppTextStyles.infoContentStyle2),
                   onPressed: () {
                     cubit.clearCalender();
                   },
@@ -76,7 +62,8 @@ class SelectDates extends StatelessWidget {
                     flex: 8,
                     child: Container(
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey.shade400)),
+                          border: Border.all(
+                              color: MakeMyTripColors.colorLightGray)),
                       child: ScrollableCleanCalendar(
                         calendarController: cubit.cleanCalendarController!,
                         layout: Layout.BEAUTY,
@@ -122,30 +109,17 @@ class SelectDates extends StatelessWidget {
                       ),
                       8.verticalSpace,
                       SizedBox(
-                        height: 45,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (cubit.inTime != null && cubit.outTime != null) {
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: Text(
-                            StringConstants.introDone.toUpperCase(),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary:
-                                (cubit.inTime != null && cubit.outTime != null)
-                                    ? Colors.lightBlue
-                                    : Colors.grey,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(10), // <-- Radius
-                            ),
-                          ),
-                        ),
-                      ),
+                          width: double.infinity,
+                          child: CommonPrimaryButton(
+                              text: StringConstants.introDone,
+                              onTap: () {
+                                if (cubit.inTime != null &&
+                                    cubit.outTime != null) {
+                                  Navigator.pop(context);
+                                }
+                              },
+                              disable: (cubit.inTime == null ||
+                                  cubit.outTime == null))),
                     ]),
                   )
                 ],

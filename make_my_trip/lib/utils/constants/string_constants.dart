@@ -42,6 +42,11 @@ class StringConstants {
   static String searchButtonLabel = 'SEARCH HOTELS';
   static String searchCountryName = "India";
   static String roomText = "Room";
+  static String childrenText = "Children";
+  static String adultText = "Adult";
+  static String aboveAgeLabel = "Age 13 years & above";
+  static String belowAgeLabel = "Age 12 years & below";
+  static String whishlistText = "Whishlist";
 
   static String calenderPageTitle = "Select Dates";
   static String resetText = "Reset";
@@ -50,4 +55,6 @@ class StringConstants {
 
   static String selectRoomAppbar = "Select Rooms";
   static String selectRoomLabel = 'Number of rooms';
+  static String selectAdultsLabel = 'Adults';
+  static String selectChildrensLabel = 'Childrens';
 }

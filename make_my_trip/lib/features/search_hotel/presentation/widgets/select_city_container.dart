@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:make_my_trip/core/theme/text_styles.dart';
 
 class SelectCityContainer extends StatelessWidget {
   final String label, detail;
@@ -36,24 +37,15 @@ class SelectCityContainer extends StatelessWidget {
             RichText(
                 text: TextSpan(
                     text: "$label\n",
-                    style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500),
+                    style: AppTextStyles.smallGrayTitleStyle,
                     children: [
                   TextSpan(
                       text: "$detail ",
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                          fontSize: 16),
+                      style: AppTextStyles.generalLabelStyle,
                       children: [
                         TextSpan(
                             text: subDetail ?? "",
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal))
+                            style: AppTextStyles.smallBlackTitleStyle)
                       ])
                 ]))
           ],

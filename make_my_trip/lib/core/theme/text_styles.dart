@@ -20,6 +20,10 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     fontSize: 20,
   );
+  static const generalLabelStyle =
+      TextStyle(fontWeight: FontWeight.w700, color: Colors.black, fontSize: 16);
+  static const mediumLabelStyle =
+      TextStyle(fontWeight: FontWeight.w700, color: Colors.black, fontSize: 18);
 
   static const labelNameTextStyle = TextStyle(
     fontSize: 36,
@@ -56,6 +60,12 @@ class AppTextStyles {
 
   static const infoContentStyle2 = TextStyle(
       fontSize: 16, fontWeight: FontWeight.w700, color: Colors.lightBlue);
+
   static const infoContentStyle3 =
       TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white);
+
+  static const smallGrayTitleStyle =
+      TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.w500);
+  static const smallBlackTitleStyle =
+      TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500);
 }
