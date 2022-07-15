@@ -10,7 +10,6 @@ class HotelDetailUseCase implements Usecase<HotelDetailModel, Params> {
   HotelDetailUseCase(this.hotelDetailRepository);
   @override
   Future<Either<Failures, HotelDetailModel>> call(Params params) async {
-    print('usecase');
     return await hotelDetailRepository.getHotelDetails(params.index);
   }
 }

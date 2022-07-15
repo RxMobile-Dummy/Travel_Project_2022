@@ -11,7 +11,6 @@ class HotelDetailRepositoryImpl implements HotelDetailRepository {
   @override
   Future<Either<Failures, HotelDetailModel>> getHotelDetails(int index) async {
     try {
-      print('repo impl');
       return Right(
           await hotelDetailRemoteDataSource.getAllHotelDetailData(index));
     } catch (e) {
