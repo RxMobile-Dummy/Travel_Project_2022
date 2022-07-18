@@ -2,6 +2,29 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1074927524993-kmpi9guih60tcsd1muc0fi6rj72gau4d</string>
+				<string>fb1351414038686153</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>1351414038686153</string>
+	<key>FacebookClientToken</key>
+	<string>885008aef6508248678ca1f4d250b134</string>
+	<key>FacebookDisplayName</key>
+	<string>makeMyTrip</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -47,5 +70,6 @@
 	<string>The Travel Project needs location permission</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+
 </dict>
 </plist>
