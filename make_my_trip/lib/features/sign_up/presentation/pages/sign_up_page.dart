@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/hotel_listing/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:make_my_trip/features/sign_up/presentation/widgets/continue_button.dart';
 import 'package:make_my_trip/features/sign_up/presentation/widgets/termsAndPrivacy.dart';
 import 'package:make_my_trip/features/sign_up/presentation/widgets/text_field.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
-import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import '../../../hotel_listing/presentation/pages/home_page.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -34,7 +31,7 @@ class SignUpPage extends StatelessWidget {
           }
         }, builder: (context, state) {
           if (state is WaitingDialog) {
-            return AlertDialog(
+            return const AlertDialog(
               title: Text("We have send you mail, Please confirm"),
               content: Center(
                 child: CircularProgressIndicator(),
@@ -62,7 +59,7 @@ class SignUpPage extends StatelessWidget {
                   obscure: true,
                 ),
                 Align(
-                    alignment: Alignment(0.8, 0),
+                    alignment: const Alignment(0.8, 0),
                     child: (state is SignUpError)
                         ? Padding(
                             padding: const EdgeInsets.only(
@@ -80,11 +77,11 @@ class SignUpPage extends StatelessWidget {
                   child: ContinueButton(onTap: () {
                     BlocProvider.of<SignUpCubit>(context)
                         .waiting_dialog(showProgress);
-                    BlocProvider.of<SignUpCubit>(context).create_User(
-                        email: email.text,
-                        password: password.text,
-                        confirmpassword: conPassword.text,
-                        fullname: fullname.text);
+                    BlocProvider.of<SignUpCubit>(context).signUpWithEmail(
+                        signUpEmail: email.text,
+                        signUpPassword: password.text,
+                        signUpConfirmPassword: conPassword.text,
+                        signUpFullname: fullname.text);
                   }),
                 ),
                 Padding(
@@ -94,7 +91,7 @@ class SignUpPage extends StatelessWidget {
                     style: AppTextStyles.labelDescriptionStyle,
                   ),
                 ),
-                TermsAndPrivacyButton(),
+                const TermsAndPrivacyButton(),
               ],
             );
           }

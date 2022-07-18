@@ -13,62 +13,63 @@ class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit({required this.registerusecase}) : super(SignUpInitial());
   final Register_User_Usecase registerusecase;
 
-  validate_Email(String email) {
-    var resemail = UserInfoValidation.emailAddressValidation(email);
-    if (resemail != null) {
-      emit(SignUpError(resemail.toString()));
-    } else {
-      emit(SignUpError(""));
-    }
-  }
+  // validate_Email(String email) {
+  //   var resemail = UserInfoValidation.emailAddressValidation(email);
+  //   if (resemail != null) {
+  //     emit(SignUpError(resemail.toString()));
+  //   } else {
+  //     emit(SignUpError(""));
+  //   }
+  // }
 
-  validate_Name(String name) {
-    var resname = UserInfoValidation.nameValidation(name);
-    if (resname != null) {
-      emit(SignUpError(resname));
-    } else {
-      emit(SignUpError(""));
-    }
-  }
+  // validate_Name(String name) {
+  //   var resname = UserInfoValidation.nameValidation(name);
+  //   if (resname != null) {
+  //     emit(SignUpError(resname));
+  //   } else {
+  //     emit(SignUpError(""));
+  //   }
+  // }
 
-  validate_Password(String password) {
-    RegExp regex =
-        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-    if (!regex.hasMatch(password)) {
-      emit(SignUpError("Please Enter a valid password"));
-    } else {
-      emit(SignUpError(""));
-    }
-  }
+  // validate_Password(String password) {
+  //   RegExp regex =
+  //       RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+  //   if (!regex.hasMatch(password)) {
+  //     emit(SignUpError("Please Enter a valid password"));
+  //   } else {
+  //     emit(SignUpError(""));
+  //   }
+  // }
 
   waiting_dialog(progress_dialog) {
     progress_dialog = !progress_dialog;
     emit(WaitingDialog(waiting_dialog: progress_dialog));
   }
 
-  create_User(
-      {required String email,
-      required String password,
-      required String fullname,
-      required String confirmpassword}) async {
+  signUpWithEmail(
+      {required String signUpEmail,
+      required String signUpPassword,
+      required String signUpFullname,
+      required String signUpConfirmPassword}) async {
     RegExp regex =
         RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-    if (email.isEmpty) {
-      var resemail = UserInfoValidation.emailAddressValidation(email);
+    if (signUpEmail.isEmpty) {
+      var resemail = UserInfoValidation.emailAddressValidation(signUpEmail);
       emit(SignUpError(resemail!));
-    } else if (password.isEmpty || confirmpassword.isEmpty) {
+    } else if (signUpPassword.isEmpty || signUpConfirmPassword.isEmpty) {
       emit(SignUpError("Password and Confirm Password cant be empty!"));
-    } else if (password != confirmpassword) {
+    } else if (signUpPassword != signUpConfirmPassword) {
       emit(SignUpError("Password and Confirm Password must be same!"));
-    } else if (fullname.isEmpty) {
-      var resname = UserInfoValidation.nameValidation(fullname);
+    } else if (signUpFullname.isEmpty) {
+      var resname = UserInfoValidation.nameValidation(signUpFullname);
       emit(SignUpError(resname!));
-    } else if (!regex.hasMatch(password) || !regex.hasMatch(confirmpassword)) {
+    } else if (!regex.hasMatch(signUpPassword) ||
+        !regex.hasMatch(signUpConfirmPassword)) {
       emit(SignUpError("Please Enter valid password and confirm password"));
     } else {
       try {
-        await registerusecase.call(Map(), email, password).then((value) =>
-            value.fold(
+        await registerusecase.call(Map(), signUpEmail, signUpPassword).then(
+            (value) => value.fold(
                 (l) => print("left"),
                 (r) =>
                     Timer.periodic(const Duration(seconds: 5), (timer) async {
@@ -77,7 +78,7 @@ class SignUpCubit extends Cubit<SignUpState> {
                       final myUser = FirebaseAuth.instance.currentUser;
                       if (myUser!.emailVerified) {
                         final prefs = await SharedPreferences.getInstance();
-                        await prefs.setString('email',myUser.email.toString());
+                        await prefs.setString('email', myUser.email.toString());
                         emit(RegisterSuccess(
                             success_message: 'Registered User Successfully!'));
                         timer.cancel();

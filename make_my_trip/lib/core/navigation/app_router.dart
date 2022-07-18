@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
-import 'package:make_my_trip/features/sign_up/presentation/pages/SignUpOneView.dart';
+import 'package:make_my_trip/features/sign_up/presentation/pages/sign_up_page.dart';
 
 import '../../features/sign_up/data/data_sources/register_user_repository_impl.dart';
 import '../../features/sign_up/data/repositories/register_user_repository_impl.dart';

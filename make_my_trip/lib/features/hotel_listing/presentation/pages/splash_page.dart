@@ -9,7 +9,7 @@ import 'package:make_my_trip/features/sign_up/data/data_sources/register_user_re
 import 'package:make_my_trip/features/sign_up/data/repositories/register_user_repository_impl.dart';
 import 'package:make_my_trip/features/sign_up/domain/use_cases/register_user_usecase.dart';
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
-import 'package:make_my_trip/features/sign_up/presentation/pages/SignUpOneView.dart';
+import 'package:make_my_trip/features/sign_up/presentation/pages/sign_up_page.dart';
 
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/widgets/app_logo_widget.dart';
