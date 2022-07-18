@@ -25,7 +25,7 @@ class RoomController {
     // Get All Available Room
     static async getAllAvailableRoom(req: Request, res: Response) {
         const roomDomain = new RoomDomain();
-        roomDomain.getAllAvailableRoom(req, res);
+        await roomDomain.getAllAvailableRoom(req, res);
     }
 
 }
