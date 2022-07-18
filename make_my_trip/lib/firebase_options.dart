@@ -63,8 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1074927524993',
     projectId: 'travelproject22-6b9d4',
     storageBucket: 'travelproject22-6b9d4.appspot.com',
-    androidClientId: '1074927524993-krj42g0qdmqlmgjvp88ljqubntkie2r5.apps.googleusercontent.com',
-    iosClientId: '1074927524993-kmpi9guih60tcsd1muc0fi6rj72gau4d.apps.googleusercontent.com',
+    androidClientId:
+        '1074927524993-krj42g0qdmqlmgjvp88ljqubntkie2r5.apps.googleusercontent.com',
+    iosClientId:
+        '1074927524993-kmpi9guih60tcsd1muc0fi6rj72gau4d.apps.googleusercontent.com',
     iosBundleId: 'com.worldtour.makeMyTrip',
   );
 }

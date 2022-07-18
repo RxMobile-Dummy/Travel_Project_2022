@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
+import 'package:make_my_trip/features/login/presentation/pages/login_page.dart';
 
+import '../../../../injection_container.dart';
+import '../../../login/presentation/cubit/login_cubit.dart';
 import '../manager/cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
 
@@ -18,11 +21,7 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         if (state is OnItemTapState) {
           _selectedIndex = state.index;
-          return SingleChildScrollView(
-            child: Center(
-              child: _widgetOptions().elementAt(state.index),
-            ),
-          );
+          return _widgetOptions().elementAt(state.index);
         } else {
           return Text("Not available");
         }
@@ -55,9 +54,15 @@ class HomePage extends StatelessWidget {
     ));
   }
 
-  static List<Widget> _widgetOptions() =>
-      <Widget>[
+  static List<Widget> _widgetOptions() => <Widget>[
         //View 1
         HomeScreen(),
+        HomeScreen(),
+        HomeScreen(),
+        BlocProvider(
+          create: (context) => sl<LoginCubit>(),
+          child: LoginPage(),
+        )
+        //View 4
       ];
 }

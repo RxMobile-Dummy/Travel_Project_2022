@@ -7,6 +7,10 @@ import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
 import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
 
+import '../../features/login/presentation/cubit/login_cubit.dart';
+import '../../features/login/presentation/pages/login_page.dart';
+import '../../injection_container.dart';
+
 ///your app router here ::: use your route manager
 
 class Router {
