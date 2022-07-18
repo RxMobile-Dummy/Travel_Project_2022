@@ -5,9 +5,9 @@ import '../../../../core/failures/failures.dart';
 import '../../data/models/imageModel.dart';
 
 class images_usecase {
-  final Imagesrepository imagesrepository;
+  final ImagesRepository imagesrepository;
   images_usecase({required this.imagesrepository});
-  Future<Either<Failures,List<ImageModel>>> call(Map map) async{
-    return await imagesrepository.getimages();
+  Future<Either<Failures, List<ImageModel>>> call(Map map) async {
+    return await imagesrepository.getImages();
   }
 }

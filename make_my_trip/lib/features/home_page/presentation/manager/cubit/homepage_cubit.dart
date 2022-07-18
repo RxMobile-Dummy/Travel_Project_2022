@@ -12,57 +12,49 @@ part 'homepage_state.dart';
 class HomepageCubit extends Cubit<StateOnSuccess<GettingStartedData>> {
   HomepageCubit(this.imagesusecase, this.toursusecase)
       : super(StateOnSuccess<GettingStartedData>(GettingStartedData())) {
-
-  getimagesapi();
-  get_tours_api();
+    getimagesapi();
+    get_tours_api();
   }
 
   final images_usecase imagesusecase;
   final Tours_usecase toursusecase;
 
-  Future<Either<Failures,List<ImageModel>>?> getimagesapi() async{
-    var data = await imagesusecase.imagesrepository.getimages().then(
-            (value) => value.fold(
-                    (l) => print(l),
-                    (r) =>
-                        emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-        .response
-        .copyWith(imageListValue: r)))
-    ));
+  Future<Either<Failures, List<ImageModel>>?> getimagesapi() async {
+    var data = await imagesusecase.imagesrepository.getImages().then((value) =>
+        value.fold(
+            (l) => print(l),
+            (r) => emit(StateOnSuccess(
+                (state as StateOnSuccess<GettingStartedData>)
+                    .response
+                    .copyWith(imageListValue: r)))));
   }
 
-  Future<Either<Failures,List<ToursModel>>?> get_tours_api() async {
+  Future<Either<Failures, List<ToursModel>>?> get_tours_api() async {
     var data = await toursusecase.toursRepository.get_tours().then((value) =>
         value.fold(
-                (l) => print(l),
-                (r) =>
-                    emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
+            (l) => print(l),
+            (r) => emit(StateOnSuccess(
+                (state as StateOnSuccess<GettingStartedData>)
                     .response
                     .copyWith(toursListValue: r)))));
   }
 }
 
-
 class GettingStartedData {
   List<ToursModel>? toursListValue;
   List<ImageModel>? imageListValue;
 
-
-  GettingStartedData(
-      {this.toursListValue,this.imageListValue});
+  GettingStartedData({this.toursListValue, this.imageListValue});
 
   GettingStartedData copyWith({
     List<ToursModel>? toursListValue,
     List<ImageModel>? imageListValue,
   }) =>
       GettingStartedData(
-        toursListValue: toursListValue ?? this.toursListValue,
-        imageListValue: imageListValue ?? this.imageListValue
-
-      );
+          toursListValue: toursListValue ?? this.toursListValue,
+          imageListValue: imageListValue ?? this.imageListValue);
 
   bool checkAllCompleted() {
     return toursListValue != null && imageListValue != null;
   }
-
 }

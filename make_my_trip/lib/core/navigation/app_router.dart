@@ -20,17 +20,12 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
             providers: [
-
-                  BlocProvider.value(
-                      value: di.sl<HomepageCubit>(),
-                     ),
-                  BlocProvider.value(value: TabBarCubit())
-
-                ],
-                child: HomePage(),
-
-
-
+              BlocProvider.value(
+                value: di.sl<HomepageCubit>(),
+              ),
+              BlocProvider.value(value: TabBarCubit())
+            ],
+            child: HomePage(),
           );
         });
       default:

@@ -4,14 +4,14 @@ import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/features/home_page/domain/repositories/images_repository.dart';
 import '../../../../core/failures/failures.dart';
 
-class Imagerepository_impl extends Imagesrepository {
-  Imagesdatasource imagesdatasource;
+class ImageRepositoryImpl extends ImagesRepository {
+  ImagesDataSource imagesdatasource;
 
-  Imagerepository_impl({required this.imagesdatasource});
+  ImageRepositoryImpl({required this.imagesdatasource});
 
   @override
-  Future<Either<Failures,List<ImageModel>>> getimages() async{
-    var reponse = await imagesdatasource.getlist();
+  Future<Either<Failures, List<ImageModel>>> getImages() async {
+    var reponse = await imagesdatasource.getList();
     return reponse;
   }
 }
