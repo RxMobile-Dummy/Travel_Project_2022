@@ -1,6 +1,6 @@
-part of 'hotel_list_cubit.dart';
 
-@immutable
+import '../../data/models/hotel_list_model.dart';
+
 abstract class HotelListState {}
 
 class HotelListInitial extends HotelListState {}

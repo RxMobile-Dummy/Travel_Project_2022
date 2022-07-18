@@ -81,7 +81,7 @@ flutter_icons:
 flutter:
   uses-material-design: true
 
-  #your all local assets
+  #your all remote assets
   assets:
     - assets/icons/
     - assets/img/
