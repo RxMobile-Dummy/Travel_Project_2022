@@ -20,4 +20,6 @@ class ImagePath {
   static const String introImage2 = "assets/img/pick_up_your_time.png";
   static const String introImage3 = "assets/img/start_your_journey.png";
   static const String introImage4 = 'assets/img/enjoy_your_trip.png';
+
+  static const String serverFailImage = "assets/img/server_failure.png";
 }

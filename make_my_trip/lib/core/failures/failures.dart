@@ -3,8 +3,8 @@ abstract class Failures {}
 
 class ServerFailure extends Failures {
   String? failureMsg;
-
-  ServerFailure({this.failureMsg});
+  String? statusCode;
+  ServerFailure({this.failureMsg,this.statusCode});
 }
 
 class InternetFailure extends Failures {

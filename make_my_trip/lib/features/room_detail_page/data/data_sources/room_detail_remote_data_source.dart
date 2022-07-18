@@ -1,9 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/room_detail_page/data/model/room_detail_model.dart';
 
 abstract class RoomDetailRemoteDataSource {
-  Future<RoomDetailsModel> getRoomDetailData (int hotelId,String roomType );
+  Future<Either<Failures ,RoomDetailsModel>> getRoomDetailData (int hotelId,String roomType );
 }
 
 
@@ -12,25 +13,22 @@ class RoomDetailDataSourceImpl implements RoomDetailRemoteDataSource{
 
   RoomDetailDataSourceImpl(this.dio);
   @override
-  Future<RoomDetailsModel> getRoomDetailData (int hotelId, String roomType) async {
+  Future<Either<Failures ,RoomDetailsModel>> getRoomDetailData (int hotelId, String roomType) async {
     try{
       final baseurl = 'http://192.168.102.79:3000/room/${hotelId}/${roomType}';
       final response = await dio.get(baseurl);
-
       if (response.statusCode == 200) {
-
         final RoomDetailsModel roomDetailsModel =  RoomDetailsModel.fromJson(response.data);
-
-        return roomDetailsModel;
+        return Right(roomDetailsModel);
       } else if (response.statusCode == 505) {
-        throw ServerFailure();
+        return Left( ServerFailure());
       } else if (response.statusCode == 404) {
-        throw AuthFailure(); //Data Not Found Failure but in failure there is not method so AuthFailure
+        return Left( AuthFailure()); //Data Not Found Failure but in failure there is not method so AuthFailure
       } else {
-        throw InternetFailure();
+        return Left( InternetFailure());
       }
     }catch (e) {
-      throw ServerFailure();
+      return Left( ServerFailure(statusCode: "503" ));
     }
 
   }
