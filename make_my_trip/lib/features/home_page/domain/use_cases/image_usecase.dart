@@ -8,7 +8,7 @@ class ImagesUseCase {
   final ImagesRepository imagesrepository;
   ImagesUseCase({required this.imagesrepository});
   Future<Either<Failures, List<ImageModel>>> call() async {
-    print('ImageRepositoryImpl 3');
+    print('ImageUseCase 3');
     return await imagesrepository.getImages();
   }
 }

@@ -26,10 +26,11 @@ class HomepageCubit extends Cubit<StateOnSuccess<GettingStartedData>> {
     data.fold((failure) {
       debugPrint(failure.toString());
     }, (success) {
-      emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
+      emit(StateOnSuccess((state)
           .response
           .copyWith(imageListValue: success)));
     });
+    return data;
   }
 
   Future<Either<Failures, List<ToursModel>>?> getToursApi() async {
@@ -38,10 +39,11 @@ class HomepageCubit extends Cubit<StateOnSuccess<GettingStartedData>> {
     data.fold((failure) {
       debugPrint(failure.toString());
     }, (success) {
-      emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
+      emit(StateOnSuccess((state)
           .response
           .copyWith(toursListValue: success)));
     });
+    return data;
   }
 }
 
@@ -49,7 +51,9 @@ class GettingStartedData {
   List<ToursModel>? toursListValue;
   List<ImageModel>? imageListValue;
 
-  GettingStartedData({this.toursListValue, this.imageListValue});
+  GettingStartedData({
+    this.toursListValue, this.imageListValue
+  });
 
   GettingStartedData copyWith({
     List<ToursModel>? toursListValue,
@@ -57,7 +61,8 @@ class GettingStartedData {
   }) =>
       GettingStartedData(
           toursListValue: toursListValue ?? this.toursListValue,
-          imageListValue: imageListValue ?? this.imageListValue);
+          imageListValue: imageListValue ?? this.imageListValue
+      );
 
   bool checkAllCompleted() {
     return toursListValue != null && imageListValue != null;

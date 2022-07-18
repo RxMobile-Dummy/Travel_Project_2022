@@ -32,12 +32,12 @@ Future<void> initializehomepage() async {
 
   //use case
   sl.registerLazySingleton<ImagesUseCase>(() => ImagesUseCase(
-      imagesrepository: ImageRepositoryImpl(imagesdatasource: sl.call())));
+      imagesrepository: ImageRepositoryImpl(imagesdatasource: ImagesDataSourceImpl(sl.call()))));
   sl.registerLazySingleton<ToursUseCase>(() => ToursUseCase(
-      toursRepository: ToursRepositoryImpl(toursDataSource: sl.call())));
+      toursRepository: ToursRepositoryImpl(toursDataSource: ToursDataSourceImpl(sl.call()))));
 
   //cubit
-  sl.registerFactory<HomepageCubit>(() => HomepageCubit(sl.call(), sl.call()));
+  sl.registerFactory<HomepageCubit>(() => HomepageCubit(sl(), sl()));
 
   sl.registerLazySingleton(() => Dio());
 }

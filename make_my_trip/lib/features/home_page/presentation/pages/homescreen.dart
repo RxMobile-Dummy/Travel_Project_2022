@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +12,6 @@ import '../manager/cubit/homepage_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
