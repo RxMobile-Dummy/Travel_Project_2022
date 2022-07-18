@@ -16,8 +16,6 @@ import 'package:make_my_trip/features/hotel_listing/presentation/widgets/app_log
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
 
@@ -33,28 +31,24 @@ class _SplashPageState extends State<SplashPage> {
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
     Timer(const Duration(seconds: 2), () async {
-
-       final prefs = await SharedPreferences.getInstance();
-       if(prefs.getString('email')!=null){
-         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));
-       }
-       else{
+      final prefs = await SharedPreferences.getInstance();
+      if (prefs.getString('email') != null) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => HomePage()));
+      } else {
         Navigator.pushAndRemoveUntil(context,
             MaterialPageRoute(builder: (context) {
-              return BlocProvider(
-                create: (context) =>
-                    SignUpCubit(
-                        registerusecase: Register_User_Usecase(
-                            register_user_repository: Register_User_Repository_Impl(
-                                register_user_datasource:
-                                Register_User_Datasource_Impl()))),
-                child: SignUpOneView(),
-              );
-            }), (route) => false);
-       }
+          return BlocProvider(
+            create: (context) => SignUpCubit(
+                registerusecase: Register_User_Usecase(
+                    register_user_repository: Register_User_Repository_Impl(
+                        register_user_datasource:
+                            Register_User_Datasource_Impl()))),
+            child: SignUpPage(),
+          );
+        }), (route) => false);
+      }
     });
-
-
   }
 
   @override

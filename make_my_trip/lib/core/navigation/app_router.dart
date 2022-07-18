@@ -21,8 +21,12 @@ class Router {
       case RoutesName.signup:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => SignUpCubit(registerusecase: Register_User_Usecase(register_user_repository: Register_User_Repository_Impl(register_user_datasource: Register_User_Datasource_Impl()))),
-            child: SignUpOneView(),
+            create: (context) => SignUpCubit(
+                registerusecase: Register_User_Usecase(
+                    register_user_repository: Register_User_Repository_Impl(
+                        register_user_datasource:
+                            Register_User_Datasource_Impl()))),
+            child: SignUpPage(),
           );
         });
       default:
