@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
     user_email: { type: String, required: true, unique: true },
     user_phone_number: { type: String, minlength: 10, maxlength: 14 },
     user_image: { type: String }
+
 });
 
 const Usermodel = mongoose.model('users', UserSchema)

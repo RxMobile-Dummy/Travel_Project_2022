@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import mongoose from 'mongoose';
+
 import * as dotenv from 'dotenv';
 import { verifyToken, checkRequest } from "./authentication/verify_token";
 import * as admin from 'firebase-admin';
@@ -18,6 +19,7 @@ import { router as cityroute } from './controller/city_controller';
 import { router as roomroute } from './controller/room_controller';
 import { router as userroute } from './controller/user_controller';
 import { router as reviewroute } from './controller/review_controller';
+import { router as bookingroute } from './controller/booking_controller';
 
 // FIREBASE INTITIALIZE
 admin.initializeApp(
@@ -26,8 +28,12 @@ admin.initializeApp(
     }
 );
 
+
+
+
 // TOKEN VERIFICATION CALL
 app.use(verifyToken, checkRequest);
+
 
 // ROOT LEVEL
 app.get('/', (req: Request, res: Response) => {
@@ -42,6 +48,7 @@ app.use('/tour', tourroute);
 app.use('/city', cityroute);
 app.use('/user', userroute);
 app.use('/review', reviewroute);
+app.use('/booking',bookingroute);
 
 // LISTEN
 app.listen(port, () => {
