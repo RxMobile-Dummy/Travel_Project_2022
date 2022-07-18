@@ -1,17 +1,15 @@
 import * as admin from 'firebase-admin';
-import {StatusCode } from '../statuscode'
+import { StatusCode } from '../statuscode'
 
 //verifyToken method
 function verifyToken(req: any, res: any, next: any) {
     try {
         let resData: any;
-        let token:any = req.headers['token'];
-        
+        let token: any = req.headers['token'];
+
         //verify token
         admin.auth().verifyIdToken(token).then((decodedToken) => {
-            console.log(decodedToken.uid);
-            console.log(decodedToken.email);
-            
+
             resData = {
                 "uid": decodedToken.user_id,
                 "email": decodedToken.email,
@@ -41,45 +39,42 @@ function verifyToken(req: any, res: any, next: any) {
 
 //check request method
 function checkRequest(req: any, res: any, next: any) {
-    console.log('check Request');
 
-    console.log(req.method);
     let headerData = JSON.parse(JSON.stringify(req.headers["data"]));
     let method = req.method;
 
     //authorization logic
     switch (method) {
         case "GET": {
-            console.log('get');
             next();
             break;
         }
         case "POST": {
-            if(headerData.email==null || headerData.provider=="anonymous"){
+            if (headerData.email == null || headerData.provider == "anonymous") {
                 return res.status(StatusCode.Unauthorized).json({
                     message: 'Anonymous User Try to access POST request.. Unauthorized Access'
                 });
-            }else{
+            } else {
                 next();
             }
             break;
         }
         case "DELETE": {
-            if(headerData.email==null || headerData.provider=="anonymous"){
+            if (headerData.email == null || headerData.provider == "anonymous") {
                 return res.status(StatusCode.Unauthorized).json({
                     message: 'Anonymous User Try to access DELETE request.. Unauthorized Access'
                 });
-            }else{
+            } else {
                 next();
             }
             break;
         }
         case "PUT": {
-            if(headerData.email==null || headerData.provider=="anonymous"){
+            if (headerData.email == null || headerData.provider == "anonymous") {
                 return res.status(StatusCode.Unauthorized).json({
                     message: 'Anonymous User Try to access PUT request.. Unauthorized Access'
                 });
-            }else{
+            } else {
                 next();
             }
             break;
@@ -92,4 +87,4 @@ function checkRequest(req: any, res: any, next: any) {
     }
 }
 
-export {verifyToken,checkRequest}
+export { verifyToken, checkRequest }
