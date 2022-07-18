@@ -6,4 +6,5 @@ abstract class UserLoginRepository {
   Future<Either<Failures, UserModel>> userSignIn({userEmail, userPassword});
   Future<Either<Failures, UserModel>> userGoogleLogin();
   Future<Either<Failures, UserModel>> userFacebookLogin();
+  Future<Either<Failures, void>> userForgetPassword(String email);
 }

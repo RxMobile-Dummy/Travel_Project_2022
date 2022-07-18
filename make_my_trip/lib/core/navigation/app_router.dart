@@ -9,6 +9,7 @@ import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
 
 import '../../features/login/presentation/cubit/login_cubit.dart';
 import '../../features/login/presentation/pages/login_page.dart';
+import '../../features/login/presentation/widgets/resetPassword_widget.dart';
 import '../../injection_container.dart';
 
 ///your app router here ::: use your route manager
@@ -48,7 +49,10 @@ class Router {
         });
       case RoutesName.resetPassword:
         return MaterialPageRoute(builder: (_) {
-          return HomePage();
+          return BlocProvider(
+            create: (context) => sl<LoginCubit>(),
+            child: ResetPasswordPage(),
+          );
         });
       case RoutesName.home:
         return MaterialPageRoute(builder: (_) {

@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/login/domain/usecases/user_facebook_login.dart';
+import 'package:make_my_trip/features/login/domain/usecases/user_forget_password.dart';
 import 'package:make_my_trip/features/login/domain/usecases/user_google_login.dart';
 import 'package:make_my_trip/features/login/domain/usecases/user_sign_in.dart';
 import 'package:make_my_trip/utils/validators/user_info/user_information_validations.dart';
@@ -16,14 +17,14 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit(
       {required this.facebookLogin,
       required this.signIn,
-      required this.googleLogin})
+      required this.googleLogin,
+      required this.forgetPassword})
       : super(LoginInitial());
 
   final UserGoogleLogin googleLogin;
   final UserSignIn signIn;
   final UserFacebookLogin facebookLogin;
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final UserForgetPassword forgetPassword;
 
   void changeObSecureEvent(bool obSecure) {
     emit(LoginObSecureChangeState(!obSecure));
@@ -37,7 +38,6 @@ class LoginCubit extends Cubit<LoginState> {
       }
     }, (success) {
       print(success.userEmail);
-
       emit(LoginSuccessState());
     });
   }
@@ -69,6 +69,17 @@ class LoginCubit extends Cubit<LoginState> {
 
   signInWithFacebook() async {
     final res = await facebookLogin.call(NoParams());
+    res.fold((failure) {
+      if (failure is AuthFailure) {
+        emit(LoginErrorState(error: failure.failureMsg!));
+      }
+    }, (success) {
+      emit(LoginSuccessState());
+    });
+  }
+
+  userForgetPassword(String emailData) async {
+    final res = await forgetPassword.call(UserForgetParam(email: emailData));
     res.fold((failure) {
       if (failure is AuthFailure) {
         emit(LoginErrorState(error: failure.failureMsg!));
