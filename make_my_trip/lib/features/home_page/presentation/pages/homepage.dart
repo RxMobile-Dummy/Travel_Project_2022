@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../manager/cubit/tab_bar_cubit.dart';
+import '../manager/cubit/tab_bar_state.dart';
 import 'homescreen.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,29 +22,47 @@ class HomePage extends StatelessWidget {
             ),
           );
         } else {
-          return Text("Not available");
+          return const Text("Not available");
         }
       },
     ), bottomNavigationBar: BlocBuilder<TabBarCubit, TabBarState>(
       builder: (context, state) {
         if (state is OnItemTapState) {
           _selectedIndex = state.index;
-          return BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: "Home",
-                  backgroundColor: MakeMyTripColors.colorBlack),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.shop), label: "Your cart"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite), label: "Your Favorite"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: "Profile"),
-            ],
+          return SalomonBottomBar(
             currentIndex: _selectedIndex,
-            selectedItemColor: MakeMyTripColors.accentColor,
-            onTap: BlocProvider.of<TabBarCubit>(context).OnItemTap,
+            //selectedItemColor: MakeMyTripColors.accentColor,
+            selectedColorOpacity: 0.3,
+            onTap: BlocProvider.of<TabBarCubit>(context).onItemTap,
+            items: [
+              /// Home
+              SalomonBottomBarItem(
+                icon: const Icon(Icons.home),
+                title: const Text("Home"),
+                selectedColor: MakeMyTripColors.colorCwsPrimary,
+              ),
+
+              /// My Trip
+              SalomonBottomBarItem(
+                icon: const Icon(Icons.shop),
+                title: const Text("My Trip"),
+                selectedColor: MakeMyTripColors.colorCwsPrimary,
+              ),
+
+              /// WishList
+              SalomonBottomBarItem(
+                icon: const Icon(Icons.favorite),
+                title: const Text("WishList"),
+                selectedColor: MakeMyTripColors.colorCwsPrimary,
+              ),
+
+              /// Profile
+              SalomonBottomBarItem(
+                icon: const Icon(Icons.person),
+                title: const Text("Profile"),
+                selectedColor: MakeMyTripColors.colorCwsPrimary,
+              ),
+            ],
           );
         } else {
           return const Text("");
@@ -53,6 +73,6 @@ class HomePage extends StatelessWidget {
 
   static List<Widget> _widgetOptions() => <Widget>[
         //View 1
-        HomeScreen(),
+        const HomeScreen(),
       ];
 }

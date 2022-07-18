@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:make_my_trip/features/home_page/data/models/ToursModel.dart';
 import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/features/home_page/domain/use_cases/image_usecase.dart';
@@ -12,31 +13,35 @@ part 'homepage_state.dart';
 class HomepageCubit extends Cubit<StateOnSuccess<GettingStartedData>> {
   HomepageCubit(this.imagesusecase, this.toursusecase)
       : super(StateOnSuccess<GettingStartedData>(GettingStartedData())) {
-    getimagesapi();
-    get_tours_api();
+    getImagesApi();
+    getToursApi();
   }
 
-  final images_usecase imagesusecase;
-  final Tours_usecase toursusecase;
+  final ImagesUseCase imagesusecase;
+  final ToursUseCase toursusecase;
 
-  Future<Either<Failures, List<ImageModel>>?> getimagesapi() async {
-    var data = await imagesusecase.imagesrepository.getImages().then((value) =>
-        value.fold(
-            (l) => print(l),
-            (r) => emit(StateOnSuccess(
-                (state as StateOnSuccess<GettingStartedData>)
-                    .response
-                    .copyWith(imageListValue: r)))));
+  Future<Either<Failures, List<ImageModel>>?> getImagesApi() async {
+    print('getimagesapi 2');
+    var data = await imagesusecase.call();
+    data.fold((failure) {
+      debugPrint(failure.toString());
+    }, (success) {
+      emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
+          .response
+          .copyWith(imageListValue: success)));
+    });
   }
 
-  Future<Either<Failures, List<ToursModel>>?> get_tours_api() async {
-    var data = await toursusecase.toursRepository.get_tours().then((value) =>
-        value.fold(
-            (l) => print(l),
-            (r) => emit(StateOnSuccess(
-                (state as StateOnSuccess<GettingStartedData>)
-                    .response
-                    .copyWith(toursListValue: r)))));
+  Future<Either<Failures, List<ToursModel>>?> getToursApi() async {
+    print('get_tours_api 2');
+    var data = await toursusecase.call();
+    data.fold((failure) {
+      debugPrint(failure.toString());
+    }, (success) {
+      emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
+          .response
+          .copyWith(toursListValue: success)));
+    });
   }
 }
 

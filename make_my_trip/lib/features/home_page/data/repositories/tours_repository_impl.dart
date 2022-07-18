@@ -4,14 +4,15 @@ import 'package:make_my_trip/features/home_page/domain/repositories/tours_reposi
 import '../../../../core/failures/failures.dart';
 import '../models/ToursModel.dart';
 
-class ToursRepository_impl extends ToursRepository {
+class ToursRepositoryImpl extends ToursRepository {
   ToursDataSource toursDataSource;
 
-  ToursRepository_impl({required this.toursDataSource});
+  ToursRepositoryImpl({required this.toursDataSource});
 
   @override
-  Future<Either<Failures,List<ToursModel>>> get_tours() async{
-    var reponse = await toursDataSource.get_tours();
+  Future<Either<Failures, List<ToursModel>>> getTours() async {
+    print('ToursRepositoryImpl 4');
+    var reponse = await toursDataSource.getToursData();
     return reponse;
   }
 }

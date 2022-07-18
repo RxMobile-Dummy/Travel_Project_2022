@@ -1,15 +1,12 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-
-part 'tab_bar_state.dart';
+import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_state.dart';
 
 class TabBarCubit extends Cubit<TabBarState> {
-  TabBarCubit() : super(TabBarInitial()){
-    OnItemTap(0);
+  TabBarCubit() : super(TabBarInitial()) {
+    onItemTap(0);
   }
-  OnItemTap(index){
-
-   emit(OnItemTapState(index));
-   return index;
+  onItemTap(index) {
+    emit(OnItemTapState(index));
+    return index;
   }
 }

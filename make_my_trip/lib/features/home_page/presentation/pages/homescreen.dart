@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
@@ -336,108 +337,39 @@ class HomeScreen extends StatelessWidget {
 Widget PopularTours(
     String image, String tourname, String price, int total_ratings) {
   return Container(
-      height: 100,
-      width: 250,
+      padding: const EdgeInsets.only(right: 80, left: 8),
       decoration: BoxDecoration(
           color: MakeMyTripColors.colorBlack,
           borderRadius: BorderRadius.circular(10),
           image:
               DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: Container()),
-          Row(
-            children: [
-              8.horizontalSpace,
-              Text(
-                tourname,
-                style: AppTextStyles.infoContentStyle3,
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: Text(
+              tourname,
+              style: AppTextStyles.infoContentStyle3,
+            ),
           ),
           5.verticalSpace,
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0, left: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Ratings(total_ratings),
-                Text(
-                  "₹ ${price}",
-                  style: AppTextStyles.infoContentStyle2,
-                ),
-              ],
+          RatingBar.builder(
+            initialRating: 5,
+            minRating: 1,
+            itemSize: 18,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+            itemBuilder: (context, _) => const Icon(
+              Icons.star,
+              color: Colors.amber,
             ),
+            onRatingUpdate: (rating) {},
           ),
           6.verticalSpace
         ],
       ));
-}
-
-Widget Ratings(int Rating) {
-  if (Rating == 4) {
-    return Row(
-      children: const [
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20)
-      ],
-    );
-  }
-  if (Rating == 5) {
-    return Row(
-      children: const [
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20)
-      ],
-    );
-  }
-  if (Rating == 3) {
-    return Row(
-      children: const [
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20)
-      ],
-    );
-  }
-  if (Rating == 2) {
-    return Row(
-      children: const [
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20)
-      ],
-    );
-  }
-  if (Rating == 1) {
-    return Row(
-      children: const [
-        Icon(Icons.star, color: MakeMyTripColors.colorWhite, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20)
-      ],
-    );
-  } else {
-    return Row(
-      children: const [
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20),
-        Icon(Icons.star, color: MakeMyTripColors.color50gray, size: 20)
-      ],
-    );
-  }
 }

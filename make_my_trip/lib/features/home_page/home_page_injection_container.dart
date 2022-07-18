@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:make_my_trip/features/home_page/data/data_sources/images_datasource.dart';
 
@@ -16,24 +17,27 @@ final sl = GetIt.instance;
 
 Future<void> initializehomepage() async {
   //data source
-  sl.registerLazySingleton<ImagesDataSource>(() => ImagesDataSourceImpl());
-  sl.registerLazySingleton<ToursDataSource>(() => Tours_DataSource_impl());
+  sl.registerLazySingleton<ImagesDataSource>(() => ImagesDataSourceImpl(sl()));
+  sl.registerLazySingleton<ToursDataSource>(() => ToursDataSourceImpl(sl()));
 
   //repository
-  sl.registerLazySingleton<ImagesDataSourceImpl>(() => ImagesDataSourceImpl());
-  sl.registerLazySingleton<Tours_DataSource_impl>(
-      () => Tours_DataSource_impl());
+  sl.registerLazySingleton<ImagesDataSourceImpl>(
+      () => ImagesDataSourceImpl(sl()));
+  sl.registerLazySingleton<ToursDataSourceImpl>(
+      () => ToursDataSourceImpl(sl()));
   sl.registerLazySingleton<ImagesRepository>(
-      () => ImageRepositoryImpl(imagesdatasource: ImagesDataSourceImpl()));
+      () => ImageRepositoryImpl(imagesdatasource: ImagesDataSourceImpl(sl())));
   sl.registerLazySingleton<ToursRepository>(
-      () => ToursRepository_impl(toursDataSource: Tours_DataSource_impl()));
+      () => ToursRepositoryImpl(toursDataSource: ToursDataSourceImpl(sl())));
 
   //use case
-  sl.registerLazySingleton<images_usecase>(() => images_usecase(
+  sl.registerLazySingleton<ImagesUseCase>(() => ImagesUseCase(
       imagesrepository: ImageRepositoryImpl(imagesdatasource: sl.call())));
-  sl.registerLazySingleton<Tours_usecase>(() => Tours_usecase(
-      toursRepository: ToursRepository_impl(toursDataSource: sl.call())));
+  sl.registerLazySingleton<ToursUseCase>(() => ToursUseCase(
+      toursRepository: ToursRepositoryImpl(toursDataSource: sl.call())));
 
   //cubit
   sl.registerFactory<HomepageCubit>(() => HomepageCubit(sl.call(), sl.call()));
+
+  sl.registerLazySingleton(() => Dio());
 }

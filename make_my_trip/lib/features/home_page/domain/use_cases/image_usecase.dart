@@ -4,10 +4,11 @@ import 'package:make_my_trip/features/home_page/domain/repositories/images_repos
 import '../../../../core/failures/failures.dart';
 import '../../data/models/imageModel.dart';
 
-class images_usecase {
+class ImagesUseCase {
   final ImagesRepository imagesrepository;
-  images_usecase({required this.imagesrepository});
-  Future<Either<Failures, List<ImageModel>>> call(Map map) async {
+  ImagesUseCase({required this.imagesrepository});
+  Future<Either<Failures, List<ImageModel>>> call() async {
+    print('ImageRepositoryImpl 3');
     return await imagesrepository.getImages();
   }
 }
