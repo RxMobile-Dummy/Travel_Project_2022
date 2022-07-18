@@ -7,7 +7,6 @@ import '../model/user_model.dart';
 
 class UserFacebookLogin extends Usecase<UserModel, NoParams> {
   final UserLoginRepository repository;
-
   UserFacebookLogin({required this.repository});
 
   @override
