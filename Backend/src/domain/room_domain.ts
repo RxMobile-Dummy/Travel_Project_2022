@@ -123,7 +123,7 @@ class RoomDomain {
             }
 
             if (data == null) {
-                res.status(404).send("can't find hotel on this id");
+                res.status(StatusCode.Not_Found).send("can't find hotel on this id");
             }
             else {
                 if (roomData == null) {
@@ -135,13 +135,13 @@ class RoomDomain {
                     room_data: roomData,
                 }
 
-                res.status(200).send(responseJson);
+                res.status(StatusCode.Sucess).send(responseJson);
             }
 
         }
 
         catch (err: any) {
-            res.status(500).send(err.message);
+            res.status(StatusCode.Server_Error).send(err.message);
         }
 
     }
