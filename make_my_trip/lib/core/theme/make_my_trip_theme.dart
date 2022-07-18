@@ -27,5 +27,14 @@ class MakeMyTripLightTheme {
       labelStyle: AppTextStyles.labelStyle,
       unselectedLabelStyle: AppTextStyles.unselectedLabelStyle,
     ),
+    inputDecorationTheme: InputDecorationTheme(
+        hintStyle: AppTextStyles.hintTextStyle,
+        filled: true,
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide.none,
+        )),
   );
 }

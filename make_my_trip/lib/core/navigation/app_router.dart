@@ -7,7 +7,11 @@ import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
 import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
 
-///your app router here ::: use your route cubit
+import '../../features/login/presentation/cubit/login_cubit.dart';
+import '../../features/login/presentation/pages/login_page.dart';
+import '../../injection_container.dart';
+
+///your app router here ::: use your route manager
 
 class Router {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
@@ -25,7 +29,10 @@ class Router {
         });
       case RoutesName.login:
         return MaterialPageRoute(builder: (_) {
-          return HomePage();
+          return BlocProvider(
+            create: (context) => sl<LoginCubit>(),
+            child: LoginPage(),
+          );
         });
       case RoutesName.signup:
         return MaterialPageRoute(builder: (_) {
