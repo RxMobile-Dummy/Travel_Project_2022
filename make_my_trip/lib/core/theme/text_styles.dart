@@ -60,6 +60,7 @@ class AppTextStyles {
   static const infoContentStyle3 =
       TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white);
 
+
   static const infoContentStyle4 = TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w700,
@@ -70,4 +71,6 @@ class AppTextStyles {
       fontWeight: FontWeight.w700,
       color: Colors.white
   );
+
+
 }
