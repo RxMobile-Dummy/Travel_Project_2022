@@ -23,7 +23,7 @@ The Application is all about the service provide. Service provide like hotel boo
 
 
 
-                                          ---------- FrontEndSide -----------
+                                      ---------- FrontEndSide -----------
 
 ==> Screen wise technical flow:
 
@@ -72,40 +72,40 @@ The Application is all about the service provide. Service provide like hotel boo
 5. Home Page
         * Technical Logic
 
-	          1. Access for Visitor/Registered User
-                Features
-                state tour 
-                place tour
-                hotels booking
-                popular hotels
-                shows the list of hotels based on ratings.
-                Tab bar
-                Home
-                My Trips
-                Favourite Hotel
-                Profile
-                Others
-                This will be customised as per the UI/UX
+	       1. Access for Visitor/Registered User
+               	    * Features
+                	- state tour 
+                	- place tour
+                	- hotels booking
+                    * popular hotels
+                	- shows the list of hotels based on ratings.
+                    * Tab bar
+                	- Home
+                	- My Trips
+                	- Favourite Hotel
+                	- Profile
+                    * Others
+                	- This will be customised as per the UI/UX
 
 		
 6. Search hotel page
         * Technical Logic
 
-            Location field
-            Date field (check In – check Out) , Select using the calendar.
-            Select rooms field
+            - Location field
+            - Date field (check In – check Out) , Select using the calendar.
+            - Select rooms field
 
 
 7. Hotels list page
         * Technical Logic
 
             1. App bar
-              Edit search hotel details
-              search bar for address
-              filter for hotels
+              - Edit search hotel details
+              - search bar for address
+              - filter for hotels
               
             2. List of hotel list
-              show card of hotel detail
+              - show card of hotel detail
 
 
 
@@ -130,3 +130,72 @@ The Application is all about the service provide. Service provide like hotel boo
         * Technical Logic
 
             1. Static Page.
+
+
+
+
+                  			                  ---------- BackEndSide -----------
+
+
+
+
+==> Screen wise technical flow:
+
+1. Home page
+	- display 4 image(famous hotel) that get from api
+	- display popular tours that consist 
+		1) tour name
+		2) tour image
+		3) tour price
+		4) tour rating
+		5) tour id
+
+
+2. Hotel search page
+	- front end give city name , checkin check out data , no of room based on display hotel that consist
+		1) hotel name
+		2) hotel id
+		3) rating
+		4) address
+		5) price
+		6) hotel image
+
+
+
+3. Hotel  page
+	- front end give hotel id based on display hotel that consist
+		1) hotel name
+		2) hotel id
+		3) rating
+		4) address
+		5) price
+		6) hotel image
+		7) hotel desc
+		8) location
+
+4. select room  page
+	- front end give hotel id in that page 3 api calling for deferent type room based on display room details that consist
+		1) room id
+		2) room type
+		3) description
+		4) Features
+		5) price
+		6) images
+
+5.  room  page
+	- front end give room id based on display room details that consist
+		1) room id
+		2) room type
+		3) description
+		4) Features
+		5) price
+		6) images
+		
+		
+
+								---------- Figma Design -----------
+								
+								
+==> Figma Design Link:
+	https://www.figma.com/file/7x0tt8OUgCrmKL2IKd3uGK/Untitled?node-id=0%3A1
+

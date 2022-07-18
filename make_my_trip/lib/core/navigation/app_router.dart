@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
+import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
-
-import 'package:make_my_trip/features/hotel_listing/presentation/pages/splash_page.dart';
-import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
-import 'package:make_my_trip/features/login/presentation/pages/login_page.dart';
-
-import '../../injection_container.dart';
+import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
+import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
+import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
 
 ///your app router here ::: use your route manager
 
@@ -18,6 +16,13 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return const SplashPage();
         });
+      case RoutesName.onBoard:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider(
+            create: (context) => IntroCubit(),
+            child: IntroPage(),
+          );
+        });
       case RoutesName.login:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
@@ -25,7 +30,58 @@ class Router {
             child: LoginPage(),
           );
         });
+      case RoutesName.signup:
+        return MaterialPageRoute(builder: (_) {
+          return HomePage();
+        });
+      case RoutesName.otp:
+        return MaterialPageRoute(builder: (_) {
+          return HomePage();
+        });
+      case RoutesName.verifyEmail:
+        return MaterialPageRoute(builder: (_) {
+          return HomePage();
+        });
+      case RoutesName.resetPassword:
+        return MaterialPageRoute(builder: (_) {
+          return HomePage();
+        });
       case RoutesName.home:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider(
+            create: (context) => TabBarCubit(),
+            child: HomePage(),
+          );
+        });
+      case RoutesName.myTrips:
+        return MaterialPageRoute(builder: (_) {
+          return HomePage();
+        });
+      case RoutesName.wishList:
+        return MaterialPageRoute(builder: (_) {
+          return HomePage();
+        });
+      case RoutesName.profile:
+        return MaterialPageRoute(builder: (_) {
+          return HomePage();
+        });
+      case RoutesName.search:
+        return MaterialPageRoute(builder: (_) {
+          return HomePage();
+        });
+      case RoutesName.hotelList:
+        return MaterialPageRoute(builder: (_) {
+          return HomePage();
+        });
+      case RoutesName.hotelDetail:
+        return MaterialPageRoute(builder: (_) {
+          return HomePage();
+        });
+      case RoutesName.roomCategory:
+        return MaterialPageRoute(builder: (_) {
+          return HomePage();
+        });
+      case RoutesName.roomDetail:
         return MaterialPageRoute(builder: (_) {
           return HomePage();
         });

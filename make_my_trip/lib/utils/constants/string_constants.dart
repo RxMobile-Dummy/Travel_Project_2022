@@ -24,6 +24,21 @@ class StringConstants {
   static String loginTxt = 'Login';
   static String emailTxt = 'Email';
 
+  // Intro Strings
+  static String introTitle1 = 'Plan Destination...';
+  static String introSubtitle1 =
+      'Got bored from your tight schedule? It\'s time to take a break for yourself and plan yourself an unexplored destination';
+  static String introTitle2 = 'Pick up your time...';
+  static String introSubtitle2 = 'Lift up your mood along with your bag pack!';
+  static String introTitle3 = 'Start Your Journey...';
+  static String introSubtitle3 =
+      'Give it a dazzling Voyage to your wanderlust!';
+  static String introTitle4 = 'Enjoy your trip...';
+  static String introSubtitle4 = 'Our bags are packed, We\'re ready to go!';
+  static String introSkip = "Skip";
+  static String introNext = "Next";
+  static String introDone = "Done";
+
   // HomePage Strings
   static String appname = "MakeMyTrip";
   static String populartours = "Popular Tours";
