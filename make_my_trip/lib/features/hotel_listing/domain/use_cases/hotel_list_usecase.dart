@@ -5,8 +5,6 @@ import 'package:make_my_trip/features/hotel_listing/domain/repositories/hotel_li
 
 import '../../data/models/hotel_list_model.dart';
 
-
-
 class HotelListUsecase implements Usecase<List<HotelListModel>, Params> {
   final HotelListRepository hotelListRepository;
 
@@ -21,5 +19,4 @@ class HotelListUsecase implements Usecase<List<HotelListModel>, Params> {
 class Params {
   final String hotelName;
   Params(this.hotelName);
-
 }

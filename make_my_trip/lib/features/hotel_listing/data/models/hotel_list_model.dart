@@ -6,7 +6,8 @@ class HotelListModel {
     int? rating,
     Address? address,
     int? price,
-    List<Images>? images,}){
+    List<Images>? images,
+  }) {
     _id = id;
     _hotelId = hotelId;
     _hotelName = hotelName;
@@ -21,7 +22,8 @@ class HotelListModel {
     _hotelId = json['hotel_id'];
     _hotelName = json['hotel_name'];
     _rating = json['rating'];
-    _address = json['address'] != null ? Address.fromJson(json['address']) : null;
+    _address =
+        json['address'] != null ? Address.fromJson(json['address']) : null;
     _price = json['price'];
     if (json['Images'] != null) {
       _images = [];
@@ -37,21 +39,24 @@ class HotelListModel {
   Address? _address;
   int? _price;
   List<Images>? _images;
-  HotelListModel copyWith({  int? id,
+  HotelListModel copyWith({
+    int? id,
     int? hotelId,
     String? hotelName,
     int? rating,
     Address? address,
     int? price,
     List<Images>? images,
-  }) => HotelListModel(  id: id ?? _id,
-    hotelId: hotelId ?? _hotelId,
-    hotelName: hotelName ?? _hotelName,
-    rating: rating ?? _rating,
-    address: address ?? _address,
-    price: price ?? _price,
-    images: images ?? _images,
-  );
+  }) =>
+      HotelListModel(
+        id: id ?? _id,
+        hotelId: hotelId ?? _hotelId,
+        hotelName: hotelName ?? _hotelName,
+        rating: rating ?? _rating,
+        address: address ?? _address,
+        price: price ?? _price,
+        images: images ?? _images,
+      );
   int? get id => _id;
   int? get hotelId => _hotelId;
   String? get hotelName => _hotelName;
@@ -75,7 +80,6 @@ class HotelListModel {
     }
     return map;
   }
-
 }
 
 /// _id : 36
@@ -91,7 +95,8 @@ class Images {
     int? hotelId,
     dynamic roomId,
     dynamic tourId,
-    dynamic userId,}){
+    dynamic userId,
+  }) {
     _id = id;
     _imageUrl = imageUrl;
     _hotelId = hotelId;
@@ -114,19 +119,22 @@ class Images {
   dynamic _roomId;
   dynamic _tourId;
   dynamic _userId;
-  Images copyWith({  int? id,
+  Images copyWith({
+    int? id,
     String? imageUrl,
     int? hotelId,
     dynamic roomId,
     dynamic tourId,
     dynamic userId,
-  }) => Images(  id: id ?? _id,
-    imageUrl: imageUrl ?? _imageUrl,
-    hotelId: hotelId ?? _hotelId,
-    roomId: roomId ?? _roomId,
-    tourId: tourId ?? _tourId,
-    userId: userId ?? _userId,
-  );
+  }) =>
+      Images(
+        id: id ?? _id,
+        imageUrl: imageUrl ?? _imageUrl,
+        hotelId: hotelId ?? _hotelId,
+        roomId: roomId ?? _roomId,
+        tourId: tourId ?? _tourId,
+        userId: userId ?? _userId,
+      );
   int? get id => _id;
   String? get imageUrl => _imageUrl;
   int? get hotelId => _hotelId;
@@ -144,7 +152,6 @@ class Images {
     map['user_id'] = _userId;
     return map;
   }
-
 }
 
 /// address_line : "Behind Ganesh Meridian Complex Sola Road, Sarkhej - Gandhinagar Hwy, Ahmedabad, Gujarat 380060"
@@ -156,7 +163,8 @@ class Address {
     String? addressLine,
     int? cityId,
     int? pincode,
-    Location? location,}){
+    Location? location,
+  }) {
     _addressLine = addressLine;
     _cityId = cityId;
     _pincode = pincode;
@@ -167,21 +175,25 @@ class Address {
     _addressLine = json['address_line'];
     _cityId = json['city_id'];
     _pincode = json['pincode'];
-    _location = json['location'] != null ? Location.fromJson(json['location']) : null;
+    _location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
   }
   String? _addressLine;
   int? _cityId;
   int? _pincode;
   Location? _location;
-  Address copyWith({  String? addressLine,
+  Address copyWith({
+    String? addressLine,
     int? cityId,
     int? pincode,
     Location? location,
-  }) => Address(  addressLine: addressLine ?? _addressLine,
-    cityId: cityId ?? _cityId,
-    pincode: pincode ?? _pincode,
-    location: location ?? _location,
-  );
+  }) =>
+      Address(
+        addressLine: addressLine ?? _addressLine,
+        cityId: cityId ?? _cityId,
+        pincode: pincode ?? _pincode,
+        location: location ?? _location,
+      );
   String? get addressLine => _addressLine;
   int? get cityId => _cityId;
   int? get pincode => _pincode;
@@ -197,7 +209,6 @@ class Address {
     }
     return map;
   }
-
 }
 
 /// latitude : 23.07526
@@ -205,7 +216,8 @@ class Address {
 class Location {
   Location({
     double? latitude,
-    double? longitude,}){
+    double? longitude,
+  }) {
     _latitude = latitude;
     _longitude = longitude;
   }
@@ -216,11 +228,14 @@ class Location {
   }
   double? _latitude;
   double? _longitude;
-  Location copyWith({  double? latitude,
+  Location copyWith({
+    double? latitude,
     double? longitude,
-  }) => Location(  latitude: latitude ?? _latitude,
-    longitude: longitude ?? _longitude,
-  );
+  }) =>
+      Location(
+        latitude: latitude ?? _latitude,
+        longitude: longitude ?? _longitude,
+      );
   double? get latitude => _latitude;
   double? get longitude => _longitude;
 
@@ -230,5 +245,4 @@ class Location {
     map['longitude'] = _longitude;
     return map;
   }
-
 }

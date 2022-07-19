@@ -1,4 +1,3 @@
-
 import '../../data/models/hotel_list_model.dart';
 
 abstract class HotelListState {}

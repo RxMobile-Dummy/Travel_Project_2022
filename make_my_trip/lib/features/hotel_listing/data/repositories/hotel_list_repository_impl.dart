@@ -11,9 +11,8 @@ class HotelListRepositoryImpl implements HotelListRepository {
   HotelListRepositoryImpl({required this.hotelListDataSource});
 
   @override
-  Future<Either<Failures, List<HotelListModel>>> getHotelList(String hotelName) async {
-   return await hotelListDataSource.getHotelListData(hotelName);
+  Future<Either<Failures, List<HotelListModel>>> getHotelList(
+      String hotelName) async {
+    return await hotelListDataSource.getHotelListData(hotelName);
   }
-
-
 }

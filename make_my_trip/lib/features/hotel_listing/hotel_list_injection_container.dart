@@ -7,7 +7,6 @@ import 'package:make_my_trip/features/hotel_listing/domain/repositories/hotel_li
 import 'package:make_my_trip/features/hotel_listing/domain/use_cases/hotel_list_usecase.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 
-
 GetIt sl = GetIt.instance;
 
 // Future<void> init() async {
@@ -27,14 +26,13 @@ GetIt sl = GetIt.instance;
 //       () => HotelListDataSourceImpl());
 // }
 
-
-
 Future<void> init() async {
-  sl.registerFactory(() => HotelListCubit( hotelListUsecase: sl()));
+  sl.registerFactory(() => HotelListCubit(hotelListUsecase: sl()));
 
   sl.registerLazySingleton(() => HotelListUsecase(sl()));
 
-  sl.registerLazySingleton<HotelListRepository>(() => HotelListRepositoryImpl(hotelListDataSource: sl()));
+  sl.registerLazySingleton<HotelListRepository>(
+      () => HotelListRepositoryImpl(hotelListDataSource: sl()));
 
   sl.registerFactory<HotelListDataSource>(() => HotelListDataSourceImpl(sl()));
 
