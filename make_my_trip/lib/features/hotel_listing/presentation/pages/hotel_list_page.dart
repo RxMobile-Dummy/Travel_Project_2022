@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/hotel_listing/presentation/widgets/hotel_list_view_widget.dart';
+import 'package:make_my_trip/features/splash/presentation/widgets/hotel_list_view_widget.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import '../../hotel_list_injection_container.dart' as di;
 import '../cubits/hotel_list_cubit.dart';

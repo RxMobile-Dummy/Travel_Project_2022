@@ -63,8 +63,14 @@ class AppTextStyles {
     fontWeight: FontWeight.w700,
   );
 
+  static const hintTextStyle = TextStyle(
+      color: Color(0xFFBDBDBD), fontSize: 16, fontWeight: FontWeight.w500);
+
   static const infoContentStyle2 = TextStyle(
       fontSize: 16, fontWeight: FontWeight.w700, color: Colors.lightBlue);
+  static const infoContentStyle4 =
+      TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white);
+
 
   static const infoContentStyle3 =
       TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white);

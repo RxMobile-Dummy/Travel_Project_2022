@@ -16,7 +16,7 @@ Future<void> init() async {
 
 login() {
   //bloc or cubit
-  sl.registerFactory(() => LoginCubit(signIn: sl(), googleLogin: sl()));
+  sl.registerFactory(() => LoginCubit(googleLogin: sl() , facebookLogin : sl() ,signIn : sl()));
 
   //usecase
   sl.registerLazySingleton(() => UserGoogleLogin(repository: sl()));

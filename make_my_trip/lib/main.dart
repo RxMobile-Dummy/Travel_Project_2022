@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
 
 import './core/navigation/app_router.dart' as AppRoutes;
+import './features/hotel_listing/hotel_list_injection_container.dart'  as hl;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
+  hl.init();
   runApp(const MyApp());
 }
 
