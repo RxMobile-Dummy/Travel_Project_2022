@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import '../manager/cubit/tab_bar_cubit.dart';
+import 'package:make_my_trip/features/login/presentation/pages/login_page.dart';
 
+import '../../../../injection_container.dart';
+import '../../../login/presentation/cubit/login_cubit.dart';
+import '../manager/cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
 
 class HomePage extends StatelessWidget {
@@ -60,11 +63,9 @@ class HomePage extends StatelessWidget {
     ));
   }
 
-  static List<Widget> _widgetOptions() => <Widget>[
-    //View 1
-    HomeScreen(),
-    HomeScreen(),
-    HomeScreen(),
-    HomeScreen()
-  ];
+  static List<Widget> _widgetOptions() =>
+      <Widget>[
+        //View 1
+        HomeScreen(),
+      ];
 }

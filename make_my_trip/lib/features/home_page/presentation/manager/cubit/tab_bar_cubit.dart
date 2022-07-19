@@ -8,7 +8,6 @@ class TabBarCubit extends Cubit<TabBarState> {
     OnItemTap(0);
   }
   OnItemTap(index){
-
     emit(OnItemTapState(index));
     return index;
   }

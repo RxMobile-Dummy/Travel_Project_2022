@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_listing_cubit.dart';
 
 ///use this common bloc for listing state changes
 class CustomBlocListener<B extends Bloc<dynamic, S>, S> {
@@ -28,12 +27,6 @@ class CustomBlocListener<B extends Bloc<dynamic, S>, S> {
       child: child,
       listener: (context, state) async {
         ///To DO : replace this state with Authenticated, UnAuthenticated whatever you want.
-        if (state is HotelListingFailure) {
-          //To DO handle failure
-        } else {
-          // listen for the state
-          listener(context, state);
-        }
       },
     );
   }
