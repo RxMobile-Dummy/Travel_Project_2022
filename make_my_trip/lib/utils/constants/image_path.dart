@@ -12,4 +12,6 @@ class ImagePath {
   static const String introImage2 = "assets/img/pick_up_your_time.png";
   static const String introImage3 = "assets/img/start_your_journey.png";
   static const String introImage4 = 'assets/img/enjoy_your_trip.png';
+  static const String wishlistImage1 = 'assets/img/wishlist1.jpeg';
+  static const String wishlistImage2 = 'assets/img/wishlist2.jpeg';
 }
