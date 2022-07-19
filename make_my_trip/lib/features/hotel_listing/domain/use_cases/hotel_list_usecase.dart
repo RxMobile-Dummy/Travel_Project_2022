@@ -1,15 +1,33 @@
 import 'package:dartz/dartz.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
+import 'package:make_my_trip/core/usecase/usecase.dart';
 import 'package:make_my_trip/features/hotel_listing/domain/repositories/hotel_list_repository.dart';
 
 import '../../data/models/hotel_list_model.dart';
 
-class Hotellist_Usecase<Type, Params> {
-  final Hotel_List_Repository hotel_list_repository;
+// class HotellistUsecase<Type, Params> {
+//   final HotelListRepository hotelListRepository;
+//
+//   HotellistUsecase({required this.hotelListRepository});
+//
+//   Future<Either<Failures, List<HotelListModel>>> call(String s) {
+//     return hotelListRepository.getHotelList(s);
+//   }
+// }
 
-  Hotellist_Usecase({required this.hotel_list_repository});
+class HotelListUsecase implements Usecase<List<HotelListModel>, Params> {
+  final HotelListRepository hotelListRepository;
 
-  Future<Either<Failures, List<HotelListModel>>> call(String s) {
-    return hotel_list_repository.get_hotel_list(s);
+  HotelListUsecase(this.hotelListRepository);
+
+  @override
+  Future<Either<Failures, List<HotelListModel>>> call(Params params) async {
+    return await hotelListRepository.getHotelList(params.hotelName);
   }
+}
+
+class Params {
+  final String hotelName;
+  Params(this.hotelName);
+
 }
