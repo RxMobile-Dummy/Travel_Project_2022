@@ -12,7 +12,7 @@ class CustomListTile extends StatelessWidget {
     return ClipRRect(
       child: Container(
         height: 50,
-        color: MakeMyTripColors.color90gray,
+        color: MakeMyTripColors.colorWhite,
         child: Row(
           children: <Widget>[
             20.horizontalSpace,
@@ -28,12 +28,12 @@ class CustomListTile extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     title,
-                    style: AppTextStyles.infoContentStyle3,
+                    style: AppTextStyles.infoContentStyle,
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, color: Colors.blue),
+            const Icon(Icons.arrow_forward_ios, color: MakeMyTripColors.accentColor),
             8.horizontalSpace
           ],
         ),

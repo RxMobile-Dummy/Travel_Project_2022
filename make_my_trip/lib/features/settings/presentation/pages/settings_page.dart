@@ -33,7 +33,7 @@ class SettingsPage extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                    color: MakeMyTripColors.colorBlack,
+                    color: MakeMyTripColors.color10gray,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20))),
@@ -44,7 +44,7 @@ class SettingsPage extends StatelessWidget {
                     ClipRRect(
                       child: Container(
                         height: 50,
-                        color: MakeMyTripColors.color90gray,
+                        color: MakeMyTripColors.colorWhite,
                         child: Row(
                           children: <Widget>[
                             18.horizontalSpace,
@@ -64,7 +64,7 @@ class SettingsPage extends StatelessWidget {
                                 children: const <Widget>[
                                   Text(
                                     StringConstants.profile,
-                                    style: AppTextStyles.infoContentStyle3,
+                                    style: AppTextStyles.infoContentStyle,
                                   ),
                                 ],
                               ),
@@ -99,7 +99,7 @@ class SettingsPage extends StatelessWidget {
                     20.verticalSpace,
                     Container(
                       height: 50,
-                      color: MakeMyTripColors.color90gray,
+                      color: MakeMyTripColors.colorWhite,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                         child: Row(
@@ -109,18 +109,18 @@ class SettingsPage extends StatelessWidget {
                               children: [
                                 const Icon(
                                   Icons.logout,
-                                  color: MakeMyTripColors.color10gray,
+                                  color: MakeMyTripColors.colorBlack,
                                 ),
                                 10.horizontalSpace,
                                 const Text(
                                   StringConstants.logout,
-                                  style: AppTextStyles.infoContentStyle3,
+                                  style: AppTextStyles.infoContentStyle,
                                 )
                               ],
                             ),
                             const Text(
                               "Version info",
-                              style: AppTextStyles.infoContentStyle3,
+                              style: AppTextStyles.infoContentStyle,
                             )
                           ],
                         ),
@@ -149,7 +149,7 @@ Widget customHeading(String heading) {
     padding: const EdgeInsets.only(left: 16.0, bottom: 10, top: 20),
     child: Text(
       heading,
-      style: AppTextStyles.infoContentStyle4,
+      style: AppTextStyles.infoContentStyle,
     ),
   );
 }

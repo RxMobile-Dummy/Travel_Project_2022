@@ -22,15 +22,15 @@ class FromField extends StatelessWidget {
     return TextFormField(
       readOnly: true,
       decoration: InputDecoration(
-          fillColor: MakeMyTripColors.color90gray,
+          fillColor: MakeMyTripColors.colorWhite,
           suffixIcon: const Icon(
             Icons.arrow_forward_ios_rounded,
-            color: MakeMyTripColors.color90gray,
+            color: MakeMyTripColors.colorBlack,
           ),
           focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: MakeMyTripColors.color90gray)),
+              borderSide: BorderSide(color: MakeMyTripColors.color30gray)),
           labelText: labelName,
-          labelStyle: AppTextStyles.infoContentStyle3),
+          labelStyle: AppTextStyles.infoContentStyle),
       onTap: onTap,
       controller: myData,
     );
@@ -58,7 +58,7 @@ class SwitchField extends StatelessWidget {
         children: [
           Text(
             text,
-            style: const TextStyle(color: MakeMyTripColors.color70gray),
+            style: const TextStyle(color: MakeMyTripColors.colorBlack),
           ),
           Switch(
             onChanged: onChanged,
@@ -94,7 +94,7 @@ class EndingField extends StatelessWidget {
               children: [
                 Text(
                   txt,
-                  style: AppTextStyles.infoContentStyle3,
+                  style: AppTextStyles.infoContentStyle,
                 ),
                 const Icon(Icons.arrow_forward_ios_rounded,
                     color: MakeMyTripColors.color10gray)

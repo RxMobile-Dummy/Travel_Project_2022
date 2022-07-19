@@ -108,7 +108,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 .pop(controller.text == widget.data ? "" : controller.text);
           },
           style: ElevatedButton.styleFrom(
-            primary: MakeMyTripColors.color10gray,
+            primary: MakeMyTripColors.accentColor,
             //textStyle: Themes.lightTheme.textTheme.headline6),
           ),
           child: const Text(StringConstants.update),
