@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
+import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
+
 
 import 'package:make_my_trip/features/sign_up/domain/usecases/user_sign_up.dart';
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
@@ -21,6 +23,7 @@ import '../../features/splash/presentation/pages/splash_page.dart';
 
 import 'package:make_my_trip/features/home_page/home_page_injection_container.dart';
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homepage_cubit.dart';
+
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 
@@ -190,6 +193,10 @@ class Router {
             BlocProvider(create: (context) => sl<ReviewCubit>()),
             BlocProvider(create: (context) => sl<PublishReviewCubit>())
           ], child: PublishReviewPage());
+        });
+      case RoutesName.galleryPage:
+        return MaterialPageRoute(builder: (_) {
+          return GalleryPage();
         });
       default:
         return MaterialPageRoute(builder: (_) {

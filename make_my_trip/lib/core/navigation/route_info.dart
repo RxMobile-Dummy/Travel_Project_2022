@@ -28,8 +28,11 @@ class RoutesName {
   static const roomDetail = "/roomDetail";
 
 
+  static const galleryPage = '/galleryPage';
+
   static const reviewPage = "/reviewPage";
 
   static const publishReviewPage = "/publishReview";
+
 
 }
