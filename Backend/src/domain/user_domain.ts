@@ -1,6 +1,7 @@
 import { Usermodel } from '../model/users';
 import express, { Express, Request, Response } from 'express';
 import Joi, { any } from 'joi';
+import { StatusCode } from '../statuscode';
 
 
 class UserDomain {
@@ -22,10 +23,10 @@ class UserDomain {
         var data = new Usermodel(postData);
         try {
             await data.save();
-            res.send("data added");
+            res.status(StatusCode.Sucess).send("data added");
         }
         catch (err: any) {
-            res.send(err.message);
+            res.status(StatusCode.Server_Error).send(err.message);
         }
         res.end();
 
@@ -50,15 +51,15 @@ class UserDomain {
         var err: any = joiSchema.validate(data)
 
         if (err.error) {
-            res.send(err.error.details[0].message);
+            res.status(StatusCode.Server_Error).send(err.error.details[0].message);
         }
         else {
             try {
                 await Usermodel.findByIdAndUpdate(uid, data);
-                res.send("data updated");
+                res.status(StatusCode.Sucess).send("data updated");
             }
             catch (err: any) {
-                res.send(err.message)
+                res.status(StatusCode.Server_Error).send(err.message)
             }
         }
     }
