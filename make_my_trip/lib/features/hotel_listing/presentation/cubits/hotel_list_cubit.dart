@@ -3,18 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:make_my_trip/features/hotel_listing/domain/use_cases/hotel_list_usecase.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_state.dart';
 
-
-
-
 class HotelListCubit extends Cubit<HotelListState> {
-  HotelListCubit({required this.hotelListUsecase})
-      : super(HotelListInitial());
+  HotelListCubit({required this.hotelListUsecase}) : super(HotelListInitial());
   final HotelListUsecase hotelListUsecase;
-
 
   getHotelListApi(String hotelName) async {
     var hotelListData = await hotelListUsecase.call(Params(hotelName));
-    hotelListData.fold((l) => {debugPrint(l.toString())}, (r) => emit(GetData(GetList: r)));
-
+    hotelListData.fold(
+        (l) => {debugPrint(l.toString())}, (r) => emit(GetData(GetList: r)));
   }
 }
