@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
+import 'package:make_my_trip/features/home_page/home_page_injection_container.dart';
+import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homepage_cubit.dart';
+import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
+import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
@@ -52,8 +56,13 @@ class Router {
         });
       case RoutesName.home:
         return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
-            create: (context) => TabBarCubit(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider.value(
+                value: slHomePage<HomepageCubit>(),
+              ),
+              BlocProvider.value(value: TabBarCubit())
+            ],
             child: HomePage(),
           );
         });
