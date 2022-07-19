@@ -9,6 +9,12 @@ class AppTextStyles {
     fontSize: 30,
   );
 
+  static const labelStyle2 = TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.w700,
+    fontSize: 25,
+  );
+
   static const unselectedLabelStyle = TextStyle(
     color: Colors.black87,
     fontWeight: FontWeight.w600,
@@ -47,4 +53,12 @@ class AppTextStyles {
     fontSize: 16,
     fontWeight: FontWeight.w700,
   );
+
+  static const hintTextStyle = TextStyle(
+      color: Color(0xFFBDBDBD), fontSize: 16, fontWeight: FontWeight.w500);
+
+  static const infoContentStyle2 = TextStyle(
+      fontSize: 16, fontWeight: FontWeight.w700, color: Colors.lightBlue);
+  static const infoContentStyle3 =
+      TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white);
 }
