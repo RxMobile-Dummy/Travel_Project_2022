@@ -5,17 +5,14 @@ abstract class SignUpState {}
 
 class SignUpInitial extends SignUpState {}
 
-class SignUpSuccess extends SignUpState {}
+class SignUpErrorState extends SignUpState {
+  final String error;
+  SignUpErrorState({required this.error});
+}
 
-class SignUpError extends SignUpState {
-  String error;
-  SignUpError(this.error);
-}
-class RegisterSuccess extends SignUpState{
-  String success_message;
-  RegisterSuccess({required this.success_message});
-}
-class WaitingDialog extends SignUpState{
-  bool waiting_dialog;
-  WaitingDialog({required this.waiting_dialog});
+class SignUpSuccessState extends SignUpState {}
+
+class WaitingDialog extends SignUpState {
+  final bool waitingDialog;
+  WaitingDialog({required this.waitingDialog});
 }

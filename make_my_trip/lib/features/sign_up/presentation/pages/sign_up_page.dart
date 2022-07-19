@@ -25,7 +25,7 @@ class SignUpPage extends StatelessWidget {
       child: SingleChildScrollView(
         child:
             BlocConsumer<SignUpCubit, SignUpState>(listener: (context, state) {
-          if (state is RegisterSuccess) {
+          if (state is SignUpSuccessState) {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => HomePage()));
           }
@@ -60,7 +60,7 @@ class SignUpPage extends StatelessWidget {
                 ),
                 Align(
                     alignment: const Alignment(0.8, 0),
-                    child: (state is SignUpError)
+                    child: (state is SignUpErrorState)
                         ? Padding(
                             padding: const EdgeInsets.only(
                               top: 8,
@@ -76,7 +76,7 @@ class SignUpPage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10.0),
                   child: ContinueButton(onTap: () {
                     BlocProvider.of<SignUpCubit>(context)
-                        .waiting_dialog(showProgress);
+                        .showWaitingDialog(showProgress);
                     BlocProvider.of<SignUpCubit>(context).signUpWithEmail(
                         signUpEmail: email.text,
                         signUpPassword: password.text,

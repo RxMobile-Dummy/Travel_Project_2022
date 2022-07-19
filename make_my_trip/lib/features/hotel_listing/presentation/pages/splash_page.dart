@@ -1,13 +1,14 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/home_page.dart';
 
 import 'package:make_my_trip/features/hotel_listing/presentation/widgets/app_logo_widget.dart';
-import 'package:make_my_trip/features/sign_up/data/data_sources/register_user_repository_impl.dart';
-import 'package:make_my_trip/features/sign_up/data/repositories/register_user_repository_impl.dart';
-import 'package:make_my_trip/features/sign_up/domain/use_cases/register_user_usecase.dart';
+import 'package:make_my_trip/features/sign_up/data/data_sources/sign_up_remote_datasource_impl.dart';
+import 'package:make_my_trip/features/sign_up/data/repositories/sign_up_repository_impl.dart';
+import 'package:make_my_trip/features/sign_up/domain/usecases/user_verification.dart';
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:make_my_trip/features/sign_up/presentation/pages/sign_up_page.dart';
 
@@ -15,6 +16,8 @@ import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_b
 import 'package:make_my_trip/features/hotel_listing/presentation/widgets/app_logo_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../sign_up/domain/usecases/user_sign_up.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -40,10 +43,14 @@ class _SplashPageState extends State<SplashPage> {
             MaterialPageRoute(builder: (context) {
           return BlocProvider(
             create: (context) => SignUpCubit(
-                registerusecase: Register_User_Usecase(
-                    register_user_repository: Register_User_Repository_Impl(
-                        register_user_datasource:
-                            Register_User_Datasource_Impl()))),
+                userVerification: UserVerification(
+                    repository: SignUpRepositoryImpl(
+                        remoteDataSource: SignUpRemoteDataSourceImpl(
+                            auth: FirebaseAuth.instance))),
+                userSignUp: UserSignUp(
+                    repository: SignUpRepositoryImpl(
+                        remoteDataSource: SignUpRemoteDataSourceImpl(
+                            auth: FirebaseAuth.instance)))),
             child: SignUpPage(),
           );
         }), (route) => false);

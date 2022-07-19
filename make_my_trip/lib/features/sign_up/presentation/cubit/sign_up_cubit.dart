@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:make_my_trip/features/sign_up/domain/use_cases/register_user_usecase.dart';
+import 'package:make_my_trip/core/failures/failures.dart';
+import 'package:make_my_trip/features/sign_up/domain/usecases/user_sign_up.dart';
+import 'package:make_my_trip/features/sign_up/domain/usecases/user_verification.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/validators/user_info/user_information_validations.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,40 +13,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit({required this.registerusecase}) : super(SignUpInitial());
-  final Register_User_Usecase registerusecase;
+  SignUpCubit({required this.userVerification, required this.userSignUp})
+      : super(SignUpInitial());
+  final UserSignUp userSignUp;
+  final UserVerification userVerification;
 
-  // validate_Email(String email) {
-  //   var resemail = UserInfoValidation.emailAddressValidation(email);
-  //   if (resemail != null) {
-  //     emit(SignUpError(resemail.toString()));
-  //   } else {
-  //     emit(SignUpError(""));
-  //   }
-  // }
-
-  // validate_Name(String name) {
-  //   var resname = UserInfoValidation.nameValidation(name);
-  //   if (resname != null) {
-  //     emit(SignUpError(resname));
-  //   } else {
-  //     emit(SignUpError(""));
-  //   }
-  // }
-
-  // validate_Password(String password) {
-  //   RegExp regex =
-  //       RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-  //   if (!regex.hasMatch(password)) {
-  //     emit(SignUpError("Please Enter a valid password"));
-  //   } else {
-  //     emit(SignUpError(""));
-  //   }
-  // }
-
-  waiting_dialog(progress_dialog) {
-    progress_dialog = !progress_dialog;
-    emit(WaitingDialog(waiting_dialog: progress_dialog));
+  showWaitingDialog(progressDialog) {
+    progressDialog = !progressDialog;
+    emit(WaitingDialog(waitingDialog: progressDialog));
   }
 
   signUpWithEmail(
@@ -51,40 +28,51 @@ class SignUpCubit extends Cubit<SignUpState> {
       required String signUpPassword,
       required String signUpFullname,
       required String signUpConfirmPassword}) async {
-    RegExp regex =
-        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-    if (signUpEmail.isEmpty) {
-      var resemail = UserInfoValidation.emailAddressValidation(signUpEmail);
-      emit(SignUpError(resemail!));
-    } else if (signUpPassword.isEmpty || signUpConfirmPassword.isEmpty) {
-      emit(SignUpError("Password and Confirm Password cant be empty!"));
-    } else if (signUpPassword != signUpConfirmPassword) {
-      emit(SignUpError("Password and Confirm Password must be same!"));
-    } else if (signUpFullname.isEmpty) {
-      var resname = UserInfoValidation.nameValidation(signUpFullname);
-      emit(SignUpError(resname!));
-    } else if (!regex.hasMatch(signUpPassword) ||
-        !regex.hasMatch(signUpConfirmPassword)) {
-      emit(SignUpError("Please Enter valid password and confirm password"));
+    final nameValidation = UserInfoValidation.nameValidation(signUpFullname);
+    if (nameValidation != null) {
+      emit(SignUpErrorState(error: nameValidation));
     } else {
-      try {
-        await registerusecase.call(Map(), signUpEmail, signUpPassword).then(
-            (value) => value.fold(
-                (l) => print("left"),
-                (r) =>
-                    Timer.periodic(const Duration(seconds: 5), (timer) async {
-                      User? user = FirebaseAuth.instance.currentUser;
-                      await user!.reload();
-                      final myUser = FirebaseAuth.instance.currentUser;
-                      if (myUser!.emailVerified) {
-                        final prefs = await SharedPreferences.getInstance();
-                        await prefs.setString('email', myUser.email.toString());
-                        emit(RegisterSuccess(
-                            success_message: 'Registered User Successfully!'));
-                        timer.cancel();
-                      }
-                    })));
-      } catch (e) {}
+      final emailValidation =
+          UserInfoValidation.emailAddressValidation(signUpEmail);
+      if (emailValidation != null) {
+        emit(SignUpErrorState(error: emailValidation));
+      } else {
+        final passwordValidation =
+            UserInfoValidation.passwordValidation(signUpPassword);
+        if (passwordValidation != null) {
+          emit(SignUpErrorState(error: passwordValidation));
+        } else {
+          if (signUpConfirmPassword != signUpPassword) {
+            emit(SignUpErrorState(
+                error: StringConstants.messageInvalidConfirmPassword));
+          } else {
+            final response = await userSignUp.call(
+                signUpFullname, signUpEmail, signUpPassword);
+            response.fold((failure) {
+              emit(SignUpErrorState(error: getFailure(failure)));
+            }, (success) async {
+              final response = await userVerification.call();
+              response.fold((failure) {
+                emit(SignUpErrorState(error: getFailure(failure)));
+              }, (success) {
+                emit(SignUpSuccessState());
+              });
+            });
+          }
+        }
+      }
+    }
+  }
+
+  String getFailure(failure) {
+    if (failure is ServerFailure) {
+      return failure.failureMsg!;
+    } else {
+      if (failure is AuthFailure) {
+        return failure.failureMsg!;
+      } else {
+        return "Unexpected Error";
+      }
     }
   }
 }

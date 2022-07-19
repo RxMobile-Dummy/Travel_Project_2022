@@ -7,7 +7,7 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import '../cubit/sign_up_cubit.dart';
 
 class ContinueButton extends StatelessWidget {
-  ContinueButton({Key? key,required this.onTap}) : super(key: key);
+  ContinueButton({Key? key, required this.onTap}) : super(key: key);
 
   VoidCallback onTap;
   @override
@@ -16,17 +16,20 @@ class ContinueButton extends StatelessWidget {
       height: 70,
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 10),
-        child: ElevatedButton(onPressed: onTap, child: Text(StringConstants.continueConst,
-          style: AppTextStyles.confirmButtonTextStyle,),
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+        child: ElevatedButton(
+          onPressed: onTap,
+          child: Text(
+            StringConstants.continueConst,
+            style: AppTextStyles.confirmButtonTextStyle,
+          ),
           style: ElevatedButton.styleFrom(
             primary: MakeMyTripColors.accentColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10), // <-- Radius
             ),
-
-
-          ) ,),
+          ),
+        ),
       ),
     );
   }
