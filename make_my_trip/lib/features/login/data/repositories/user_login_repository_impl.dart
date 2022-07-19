@@ -25,4 +25,10 @@ class UserLoginRepositoryImpl extends UserLoginRepository {
   Future<Either<Failures, UserModel>> userFacebookLogin() async {
     return await remoteDataSource.userFacebookLogIn();
   }
+
+  @override
+  Future<Either<Failures, void>> userForgetPassword(String email) async {
+    // TODO: implement userForgetPassword
+    return await remoteDataSource.userForgetPasswordData(email);
+  }
 }

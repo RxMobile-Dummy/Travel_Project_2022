@@ -8,6 +8,8 @@ import 'package:make_my_trip/features/login/domain/usecases/user_google_login.da
 import 'package:make_my_trip/features/login/domain/usecases/user_sign_in.dart';
 import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
 
+import 'features/login/domain/usecases/user_forget_password.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
@@ -16,13 +18,17 @@ Future<void> init() async {
 
 loginFeature() {
   //bloc or cubit
-  sl.registerFactory(
-      () => LoginCubit(signIn: sl(), googleLogin: sl(), facebookLogin: sl()));
+  sl.registerFactory(() => LoginCubit(
+      signIn: sl(),
+      googleLogin: sl(),
+      facebookLogin: sl(),
+      forgetPassword: sl()));
 
   //usecase
   sl.registerLazySingleton(() => UserGoogleLogin(repository: sl()));
   sl.registerLazySingleton(() => UserFacebookLogin(repository: sl()));
   sl.registerLazySingleton(() => UserSignIn(repository: sl()));
+  sl.registerLazySingleton(() => UserForgetPassword(repository: sl()));
 
   //repository
   sl.registerLazySingleton<UserLoginRepository>(

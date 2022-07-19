@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
 import './features/room_categories/room_categories_injection_container.dart'
@@ -10,10 +11,18 @@ import 'firebase_options.dart';
 import './features/room_categories/room_categories_injection_container.dart'
     as di;
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
-  di.init();
+import 'features/hotel_detail/hotel_detail_injection_container.dart' as diHotelDeatail;
+import './features/home_page/home_page_injection_container.dart' as hp;
+
+
+void main() async {
+  await WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
+  await diHotelDeatail.init();
+  await hp.initializehomepage();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -27,8 +36,6 @@ class MyApp extends StatelessWidget {
       title: 'Make My Trip',
       theme: MakeMyTripLightTheme.lightTheme,
       onGenerateRoute: AppRoutes.Router.generateRoutes,
-      initialRoute: RoutesName.roomCategory,
-      //home: const SplashPage(),
     );
   }
 }
