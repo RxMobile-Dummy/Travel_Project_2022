@@ -53,10 +53,15 @@ import '../../features/login/presentation/widgets/resetPassword_widget.dart';
 import '../../injection_container.dart';
 
 
+///your app router here ::: use your route manager
+import '../../features/wishlist/presentation/pages/wishlist_page.dart';
+
+
 
 import '../../features/sign_up/data/data_sources/sign_up_remote_datasource_impl.dart';
 import '../../features/sign_up/data/repositories/sign_up_repository_impl.dart';
 import '../../features/sign_up/domain/usecases/user_verification.dart';
+
 
 ///your app router here ::: use your route cubit
 
@@ -129,7 +134,7 @@ class Router {
         });
       case RoutesName.wishList:
         return MaterialPageRoute(builder: (_) {
-          return HomePage();
+          return const WishListPage();
         });
       case RoutesName.profile:
         return MaterialPageRoute(builder: (_) {

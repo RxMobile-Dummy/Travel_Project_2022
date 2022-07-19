@@ -75,9 +75,8 @@ dependencies:
 
 
 
-
-
-
+  #shimmer effect
+  shimmer: ^2.0.0
 
 
 dev_dependencies:
