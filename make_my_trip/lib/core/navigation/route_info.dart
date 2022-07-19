@@ -23,4 +23,7 @@ class RoutesName {
   static const roomCategory = "/roomCategory";
 
   static const roomDetail = "/roomDetail";
+
+  static const galleryPage = '/galleryPage';
+
 }

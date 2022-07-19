@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
+import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
@@ -88,6 +89,10 @@ class Router {
       case RoutesName.roomDetail:
         return MaterialPageRoute(builder: (_) {
           return HomePage();
+        });
+      case RoutesName.galleryPage:
+        return MaterialPageRoute(builder: (_) {
+          return GalleryPage();
         });
       default:
         return MaterialPageRoute(builder: (_) {
