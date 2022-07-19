@@ -37,9 +37,14 @@ class HotelListDataSourceImpl implements HotelListDataSource {
   @override
   Future<Either<Failures, List<HotelListModel>>> getHotelListData(String hotelName) async{
     try {
-     final baseurl  = 'http://192.168.102.79:4000/hotel/${hotelName}' ;
+     final baseurl  = 'http://192.168.102.79:4000/hotel/${hotelName}';
+
+     print(baseurl);
      final response = await dio.get(baseurl);
+     print("This is response ${response}");
+     print(response.statusCode);
      if (response.statusCode == 200) {
+
        final List<HotelListModel> hotelList = [];
        final jsonList = response.data;
        for (var item in jsonList) {
@@ -56,6 +61,7 @@ class HotelListDataSourceImpl implements HotelListDataSource {
      }
 
     }catch (e) {
+      print("server");
       return Left(ServerFailure(failureMsg: e.toString()));
     }
   }
