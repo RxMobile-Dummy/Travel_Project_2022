@@ -16,7 +16,8 @@ class StringConstants {
       'Meet new people from over millions of\nusers. Create posts, find friends and more.';
   static String forgotPass = 'Forgot Password?';
   static String orLoginWith = "or login with";
-
+  static String facebook = "Facebook";
+  static String google = "Google";
   static String noAccount = "Or don't have account?";
 
   static String facebookTxt = "Facebook";
@@ -57,6 +58,9 @@ class StringConstants {
       'Give it a dazzling Voyage to your wanderlust!';
   static String introTitle4 = 'Enjoy your trip...';
   static String introSubtitle4 = 'Our bags are packed, We\'re ready to go!';
+  static String introSkip = "Skip";
+  static String introNext = "Next";
+  static String introDone = "Done";
 
   static String messageInvalidConfirmPassword =
       'Please enter both passwords same';
@@ -65,7 +69,7 @@ class StringConstants {
   // HomePage Strings
   static String appname = "MakeMyTrip";
   static String populartours = "Popular Tours";
-
+  static String viewall = "View All";
   static String hotels = "Hotels";
   static String places = "Places";
   static String states = "States";
@@ -132,4 +136,15 @@ class StringConstants {
   static String totalBookingDays = '365 Days';
   static String bookingLocation = 'Location';
   static String bookingtitle = 'Hotel or Tour Name';
+
+  // Setting Strings
+  static const setting = "Settings";
+  static const profile = "Profile";
+  static const ok = "OK";
+  static const done = "Done";
+  static const editProfile = "Edit Profile";
+  static const logout = "Logout";
+  static const fullName = "Full Name";
+  static const phone = "Phone";
+  static const update = "Update";
 }

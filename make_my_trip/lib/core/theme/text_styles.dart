@@ -54,6 +54,11 @@ class AppTextStyles {
     fontSize: 16,
     fontWeight: FontWeight.w700,
   );
+  static const infoContentStyle4 = TextStyle(
+    fontSize: 14,
+    color: Colors.white,
+    fontWeight: FontWeight.w400,
+  );
 
   static const hintTextStyle = TextStyle(
       color: Color(0xFFBDBDBD), fontSize: 16, fontWeight: FontWeight.w500);
