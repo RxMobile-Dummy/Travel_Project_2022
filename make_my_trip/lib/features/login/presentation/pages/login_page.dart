@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccessState) {
-          Navigator.pushNamed(context, RoutesName.home);
+          Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
         }
       },
       child: Scaffold(
@@ -177,7 +177,9 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          recognizer: TapGestureRecognizer()..onTap = () {},
+                          recognizer: TapGestureRecognizer()..onTap = () {
+                            Navigator.pushNamedAndRemoveUntil(context, RoutesName.signup, (route) => false);
+                          },
                           text: StringConstants.signUpTxt,
                           style: AppTextStyles.infoContentStyle2,
                         )

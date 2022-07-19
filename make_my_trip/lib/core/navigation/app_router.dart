@@ -1,6 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
+
+import 'package:make_my_trip/features/sign_up/domain/usecases/user_sign_up.dart';
+import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
+import 'package:make_my_trip/features/sign_up/presentation/pages/sign_up_page.dart';
+
 
 
 import '../../features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
@@ -17,6 +23,7 @@ import 'package:make_my_trip/features/home_page/home_page_injection_container.da
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homepage_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
+
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
@@ -27,7 +34,11 @@ import '../../features/login/presentation/cubit/login_cubit.dart';
 import '../../features/login/presentation/pages/login_page.dart';
 import '../../injection_container.dart';
 
-///your app router here ::: use your route manager
+import '../../features/sign_up/data/data_sources/sign_up_remote_datasource_impl.dart';
+import '../../features/sign_up/data/repositories/sign_up_repository_impl.dart';
+import '../../features/sign_up/domain/usecases/user_verification.dart';
+
+///your app router here ::: use your route cubit
 
 class Router {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
@@ -52,7 +63,18 @@ class Router {
         });
       case RoutesName.signup:
         return MaterialPageRoute(builder: (_) {
-          return HomePage();
+          return BlocProvider(
+            create: (context) => SignUpCubit(
+                userVerification: UserVerification(
+                    repository: SignUpRepositoryImpl(
+                        remoteDataSource: SignUpRemoteDataSourceImpl(
+                            auth: FirebaseAuth.instance))),
+                userSignUp: UserSignUp(
+                    repository: SignUpRepositoryImpl(
+                        remoteDataSource: SignUpRemoteDataSourceImpl(
+                            auth: FirebaseAuth.instance)))),
+            child: SignUpPage(),
+          );
         });
       case RoutesName.otp:
         return MaterialPageRoute(builder: (_) {
