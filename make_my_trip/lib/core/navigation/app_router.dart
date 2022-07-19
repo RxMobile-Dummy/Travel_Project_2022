@@ -85,7 +85,7 @@ class Router {
       case RoutesName.hotelDetail:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => sl<HotelDetailCubit>(),
+            create: (context) => hotelDetailSl<HotelDetailCubit>(),
             child: HotelDetailPage(),
           );
         });

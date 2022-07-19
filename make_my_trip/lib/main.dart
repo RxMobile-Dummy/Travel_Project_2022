@@ -1,18 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import 'package:make_my_trip/core/navigation/route_info.dart';
-
-import 'package:make_my_trip/config/firebase/firebase_config.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
 import './core/navigation/app_router.dart' as AppRoutes;
-import './features/hotel_detail/hotel_detail_injection_container.dart' as di;
 import 'firebase_options.dart';
 import 'injection_container.dart' as di;
+import 'features/hotel_detail/hotel_detail_injection_container.dart'
+    as diHotelDeatail;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await di.init();
+  await diHotelDeatail.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

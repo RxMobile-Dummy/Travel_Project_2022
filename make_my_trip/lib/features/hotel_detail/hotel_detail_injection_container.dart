@@ -6,22 +6,23 @@ import 'package:make_my_trip/features/hotel_detail/domain/repositories/hotel_det
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/hotel_detail_usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 
-var sl = GetIt.instance;
+var hotelDetailSl = GetIt.instance;
 
 Future<void> init() async {
   //cubit
-  sl.registerFactory(() => HotelDetailCubit(sl()));
+  hotelDetailSl.registerFactory(() => HotelDetailCubit(hotelDetailSl()));
 
   //DataSource
-  sl.registerLazySingleton<HotelDetailRemoteDataSource>(
-      () => HotelDetailRemoteDataSourceImpl(sl()));
+  hotelDetailSl.registerLazySingleton<HotelDetailRemoteDataSource>(
+      () => HotelDetailRemoteDataSourceImpl(hotelDetailSl()));
 
   //Repository
-  sl.registerLazySingleton<HotelDetailRepository>(
-      () => HotelDetailRepositoryImpl(sl()));
+  hotelDetailSl.registerLazySingleton<HotelDetailRepository>(
+      () => HotelDetailRepositoryImpl(hotelDetailSl()));
 
   //usecase
-  sl.registerLazySingleton(() => HotelDetailUseCase(sl()));
+  hotelDetailSl
+      .registerLazySingleton(() => HotelDetailUseCase(hotelDetailSl()));
 
-  sl.registerLazySingleton(() => Dio());
+  hotelDetailSl.registerLazySingleton(() => Dio());
 }
