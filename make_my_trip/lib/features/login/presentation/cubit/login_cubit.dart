@@ -79,13 +79,19 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   userForgetPassword(String emailData) async {
-    final res = await forgetPassword.call(UserForgetParam(email: emailData));
-    res.fold((failure) {
-      if (failure is AuthFailure) {
-        emit(LoginErrorState(error: failure.failureMsg!));
-      }
-    }, (success) {
-      emit(LoginSuccessState());
-    });
+    final emailValidation =
+        UserInfoValidation.emailAddressValidation(emailData);
+    if (emailValidation != null) {
+      emit(LoginErrorState(error: emailValidation));
+    } else {
+      final res = await forgetPassword.call(UserForgetParam(email: emailData));
+      res.fold((failure) {
+        if (failure is AuthFailure) {
+          emit(LoginErrorState(error: failure.failureMsg!));
+        }
+      }, (success) {
+        emit(LoginSuccessState());
+      });
+    }
   }
 }

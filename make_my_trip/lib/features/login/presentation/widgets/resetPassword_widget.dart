@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/features/login/presentation/widgets/textField_widget.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
@@ -17,64 +19,67 @@ class ResetPasswordPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: MakeMyTripColors.colorWhite,
       appBar: AppBar(
-        title: const Text(
-          'Forget Password',
+        title: Text(
+          StringConstants.resetPassword,
           style: TextStyle(color: MakeMyTripColors.colorBlack),
         ),
         backgroundColor: MakeMyTripColors.colorWhite,
         elevation: 0,
       ),
-      body: Container(
-        padding: const EdgeInsets.all(25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Reset Password',
-              style: TextStyle(
-                  color: MakeMyTripColors.colorBlack,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26),
-            ),
-            8.verticalSpace,
-            const Expanded(
-                flex: 0,
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(25),
+          child: Column(
+            children: [
+              Image.asset(ImagePath.forgetPassword),
+              8.verticalSpace,
+              Text(
+                StringConstants.passwordLbl,
+                style: AppTextStyles.infoContentStyle,
+                textAlign: TextAlign.center,
+              ),
+              80.verticalSpace,
+              Align(
+                alignment: Alignment.topLeft,
                 child: Text(
-                  'Enter the email associated with your account and we will send an email with instrucrions to reset your password.',
-                  style: TextStyle(
-                      color: MakeMyTripColors.color90gray, fontSize: 16),
-                )),
-            30.verticalSpace,
-            const Text('Email Address',
-                style: TextStyle(
-                    color: MakeMyTripColors.colorBlack, fontSize: 16)),
-            TextFieldView(
-                hintTextvar: "helloworld123@gmail.com",
-                textFieldViewController: _email),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              child: Container(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(MakeMyTripColors.accentColor),
+                  StringConstants.emailAddress,
+                  style: AppTextStyles.hintTextStyle.copyWith(
+                    color: MakeMyTripColors.color50gray,
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: Text(
-                      "Send Link",
-                      style: AppTextStyles.confirmButtonTextStyle,
-                    ),
-                  ),
-                  onPressed: () {
-                    context.read<LoginCubit>().userForgetPassword(_email.text);
-                  },
                 ),
               ),
-            )
-          ],
+              8.verticalSpace,
+              TextFieldView(
+                  hintTextvar: StringConstants.hintText,
+                  textFieldViewController: _email),
+              40.verticalSpace,
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                child: Container(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          MakeMyTripColors.accentColor),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: Text(
+                        StringConstants.sendLink,
+                        style: AppTextStyles.confirmButtonTextStyle,
+                      ),
+                    ),
+                    onPressed: () {
+                      context
+                          .read<LoginCubit>()
+                          .userForgetPassword(_email.text);
+                    },
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
