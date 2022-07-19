@@ -63,6 +63,9 @@ dependencies:
   dots_indicator: ^2.1.0
   smooth_page_indicator: ^1.0.0+2
 
+  #shimmer effect
+  shimmer: ^2.0.0
+
 
 
 

@@ -15,5 +15,6 @@ class ImagePath {
   static const String icAppLogo = "assets/icons/ic_app_logo.png";
   static const String icGoogleLogo = "assets/icons/ic_google_logo.png";
   static const String icFacebookLogo = "assets/icons/ic_facebook_logo.png";
+  static const String wishlistImage1 = 'assets/img/wishlist1.jpeg';
+  static const String wishlistImage2 = 'assets/img/wishlist2.jpeg';
 }
-

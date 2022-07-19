@@ -46,4 +46,13 @@ class StringConstants {
   static String hotels = "Hotels";
   static String places = "Places";
   static String states = "States";
+
+  // Wishlist Strings
+  static String wishlistTitle = 'Express Hotel Andheri';
+  static String wishlistLocationName = 'Andheri East';
+  static String wishlistRsSymbol = "₹";
+  static String wishlistRs = "8000";
+  static String wishlistSublineText = 'Breakfast available at extra charges';
+
+
 }
