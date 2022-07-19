@@ -26,6 +26,7 @@ class HotelDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size screen = MediaQuery.of(context).size;
     return BlocBuilder<HotelDetailCubit, BaseState>(
       builder: (context, state) {
         if (state is StateOnKnownToSuccess) {
@@ -42,33 +43,26 @@ class HotelDetailPage extends StatelessWidget {
             slivers: [
               SliverLayoutBuilder(
                 builder: (context, constraints) {
-                  final scrolled = constraints.scrollOffset > 200;
+                  final scrolled =
+                      constraints.scrollOffset > screen.width * .55;
                   return SliverAppBar(
                     backgroundColor: MakeMyTripColors.colorWhite,
-                    expandedHeight: 280.0,
+                    expandedHeight: screen.width * .7,
                     elevation: 0,
                     excludeHeaderSemantics: true,
                     floating: true,
                     pinned: true,
-                    leading: TextButton.icon(
-                        onPressed: () {
-                          debugPrint("back");
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                          color: scrolled
-                              ? MakeMyTripColors.colorBlack
-                              : MakeMyTripColors.colorWhite,
-                        ),
-                        label: Text(
-                          StringConstants.backBtn,
-                          style: TextStyle(
-                              color: scrolled
-                                  ? MakeMyTripColors.colorBlack
-                                  : MakeMyTripColors.colorWhite,
-                              fontSize: 18),
-                        )),
-                    leadingWidth: 100,
+                    leading: IconButton(
+                      onPressed: () {
+                        debugPrint("back");
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: scrolled
+                            ? MakeMyTripColors.colorBlack
+                            : MakeMyTripColors.colorWhite,
+                      ),
+                    ),
                     actions: [
                       GestureDetector(
                         onTap: () {
@@ -170,72 +164,75 @@ class HotelDetailPage extends StatelessWidget {
                       onRatingUpdate: (rating) {},
                     ),
                     12.verticalSpace,
-                    Text(hotelDetailModel?.hotelName ?? "gg",
+                    Text(hotelDetailModel?.hotelName ?? "Hotel name",
                         style: AppTextStyles.labelStyle),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Text(
-                              "₹ ${hotelDetailModel?.price?.toString()} p/night"),
-                          const Spacer(),
-                          CircleIconButton(
-                            isRotete: false,
-                            iconData: Icons.call,
-                            iconBtn: () async {
-                              var url = Uri.parse(
-                                  "tel:${hotelDetailModel?.phoneNumber}");
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(url);
-                              } else {
-                                throw 'Could not launch $url';
-                              }
-                            },
-                          )
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        Text("₹ ${hotelDetailModel?.price?.toString()} /night"),
+                        const Spacer(),
+                        CircleIconButton(
+                          isRotete: false,
+                          iconData: Icons.call,
+                          iconBtn: () async {
+                            var url = Uri.parse(
+                                "tel:${hotelDetailModel?.phoneNumber}");
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                        )
+                      ],
                     ),
                     12.verticalSpace,
                     Column(
                       children: [
                         Text(
-                          hotelDetailModel?.description ?? "Hotel is Best",
+                          hotelDetailModel?.description ?? "hotel description",
                           maxLines: (isReadMore) ? 10 : 3,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.justify,
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              BlocProvider.of<HotelDetailCubit>(context)
-                                  .onReadMoreTap(isReadMore);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Text(
-                                (isReadMore)
-                                    ? StringConstants.readLess
-                                    : StringConstants.readMore,
-                                style: const TextStyle(
-                                    color: MakeMyTripColors.accentColor,
-                                    fontSize: 16),
-                              ),
-                            ),
-                          ),
-                        )
+                        (hotelDetailModel?.description == null)
+                            ? SizedBox()
+                            : Align(
+                                alignment: Alignment.centerRight,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    BlocProvider.of<HotelDetailCubit>(context)
+                                        .onReadMoreTap(isReadMore);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Text(
+                                      (isReadMore)
+                                          ? StringConstants.readLess
+                                          : StringConstants.readMore,
+                                      style: const TextStyle(
+                                          color: MakeMyTripColors.accentColor,
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                              )
                       ],
                     ),
                     12.verticalSpace,
                     Wrap(
                       children: [
                         FeaturesItemWidget(
-                            text: hotelDetailModel?.features![0] ?? ""),
+                            text:
+                                hotelDetailModel?.features![0] ?? "feature 1"),
                         FeaturesItemWidget(
-                            text: hotelDetailModel?.features![1] ?? ""),
+                            text:
+                                hotelDetailModel?.features![1] ?? "feature 2"),
                         FeaturesItemWidget(
-                            text: hotelDetailModel?.features![2] ?? ""),
+                            text:
+                                hotelDetailModel?.features![2] ?? "feature 3"),
                         FeaturesItemWidget(
-                            text: hotelDetailModel?.features![3] ?? ""),
+                            text:
+                                hotelDetailModel?.features![3] ?? "feature 4"),
                       ],
                     ),
                     18.verticalSpace,
@@ -256,7 +253,8 @@ class HotelDetailPage extends StatelessWidget {
                     ),
                     12.verticalSpace,
                     Text(
-                      hotelDetailModel?.address!.addressLine ?? "Hotel is Best",
+                      hotelDetailModel?.address!.addressLine ??
+                          "Hotel location",
                       maxLines: 2,
                       style: const TextStyle(
                         color: MakeMyTripColors.color70gray,

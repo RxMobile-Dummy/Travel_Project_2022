@@ -10,11 +10,6 @@ class HotelDetailRepositoryImpl implements HotelDetailRepository {
 
   @override
   Future<Either<Failures, HotelDetailModel>> getHotelDetails(int index) async {
-    try {
-      return Right(
-          await hotelDetailRemoteDataSource.getAllHotelDetailData(index));
-    } catch (e) {
-      return Left(ServerFailure());
-    }
+    return await hotelDetailRemoteDataSource.getAllHotelDetailData(index);
   }
 }

@@ -17,9 +17,8 @@ class HotelDetailUseCase implements Usecase<HotelDetailModel, Params> {
 class Params extends Equatable {
   final int index;
 
-  Params({required this.index});
+  const Params({required this.index});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [index];
 }

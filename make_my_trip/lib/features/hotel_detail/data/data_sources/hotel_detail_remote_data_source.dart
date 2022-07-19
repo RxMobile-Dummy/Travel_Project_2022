@@ -1,10 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 
 abstract class HotelDetailRemoteDataSource {
-  Future<HotelDetailModel> getAllHotelDetailData(int index);
+  Future<Either<Failures, HotelDetailModel>> getAllHotelDetailData(int index);
 }
 
 class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
@@ -12,20 +12,27 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
   HotelDetailRemoteDataSourceImpl(this.dio);
 
   @override
-  Future<HotelDetailModel> getAllHotelDetailData(int index) async {
-    return _getAllCharacterUrl('http://192.168.101.124:4000/hotel/${index}');
+  Future<Either<Failures, HotelDetailModel>> getAllHotelDetailData(
+      int index) async {
+    return _getAllCharacterUrl(
+        "https://9f4c-180-211-112-179.in.ngrok.io/hotel/5");
   }
 
-  Future<HotelDetailModel> _getAllCharacterUrl(String url) async {
-    final response = await dio.get(url);
-    if (response.statusCode == 200) {
-      HotelDetailModel hotelDetailModel;
-      final apidata = response.data;
-      hotelDetailModel = HotelDetailModel.fromJson(apidata);
+  Future<Either<Failures, HotelDetailModel>> _getAllCharacterUrl(
+      String url) async {
+    try {
+      final response = await dio.get(url);
+      if (response.statusCode == 200) {
+        HotelDetailModel hotelDetailModel;
+        final apidata = response.data;
+        hotelDetailModel = HotelDetailModel.fromJson(apidata);
 
-      return hotelDetailModel;
-    } else {
-      throw ServerFailure();
+        return Right(hotelDetailModel);
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (err) {
+      return Left(ServerFailure());
     }
   }
 }

@@ -19,8 +19,9 @@ class FeaturesItemWidget extends StatelessWidget {
       child: Row(
         children: [
           const Icon(
-            Icons.star_rounded,
-            color: MakeMyTripColors.color50gray,
+            Icons.circle,
+            size: 12,
+            color: MakeMyTripColors.color30gray,
           ),
           8.horizontalSpace,
           Expanded(
