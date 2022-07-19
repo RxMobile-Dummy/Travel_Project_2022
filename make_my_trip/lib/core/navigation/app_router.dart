@@ -35,9 +35,17 @@ import '../../features/room_detail_page/presentation/pages/roomdetail.dart';
 
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
+
+import 'package:make_my_trip/features/review/presentation/cubit/publish_review_cubit.dart';
+import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
+import 'package:make_my_trip/features/review/presentation/pages/publish_review_page.dart';
+import 'package:make_my_trip/features/review/presentation/pages/review_page.dart';
+import 'package:make_my_trip/features/review/review_injection_container.dart';
+
 import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
 import 'package:make_my_trip/features/room_categories/presentation/pages/room_categories_page.dart';
 import 'package:make_my_trip/features/room_categories/room_categories_injection_container.dart';
+
 
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
@@ -168,6 +176,20 @@ class Router {
             create: (context) => sl<ImagesliderCubit>(),
             child: RoomDetailsPage(),
           );
+        });
+      case RoutesName.reviewPage:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider(
+            create: (context) => sl<ReviewCubit>(),
+            child: ReviewPage(),
+          );
+        });
+      case RoutesName.publishReviewPage:
+        return MaterialPageRoute(builder: (_) {
+          return MultiBlocProvider(providers: [
+            BlocProvider(create: (context) => sl<ReviewCubit>()),
+            BlocProvider(create: (context) => sl<PublishReviewCubit>())
+          ], child: PublishReviewPage());
         });
       default:
         return MaterialPageRoute(builder: (_) {
