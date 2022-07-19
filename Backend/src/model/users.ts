@@ -1,6 +1,15 @@
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
+    _id: {type: Number,required: true ,unique:true},
+    user_name: {type : String},
+    user_email :{type : String},
+    user_phone_number : {type : String ,minlength : 10 , maxlength : 10},
+   // user_image:
+
+const usermodel = mongoose.model('users',UserSchema)
+export {usermodel};
+
     _id: { type: String, required: true, unique: true },
     user_name: { type: String, required: true, minlength: 1, maxlength: 30 },
     user_email: { type: String, required: true, unique: true },
@@ -11,3 +20,4 @@ const UserSchema = new mongoose.Schema({
 
 const Usermodel = mongoose.model('users', UserSchema)
 export { Usermodel };
+

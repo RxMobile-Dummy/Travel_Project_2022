@@ -24,19 +24,34 @@ import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homep
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 
+
+import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
+import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
+import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
+import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
+import '../../features/room_detail_page/presentation/manager/cubit/imageslider_cubit.dart';
+import '../../features/room_detail_page/presentation/pages/roomdetail.dart';
+
+
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
 import 'package:make_my_trip/features/room_categories/presentation/pages/room_categories_page.dart';
 import 'package:make_my_trip/features/room_categories/room_categories_injection_container.dart';
+
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
 import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
 
+
 import '../../features/login/presentation/cubit/login_cubit.dart';
 import '../../features/login/presentation/pages/login_page.dart';
+
+
+
 import '../../features/login/presentation/widgets/resetPassword_widget.dart';
 import '../../injection_container.dart';
+
 
 
 import '../../features/sign_up/data/data_sources/sign_up_remote_datasource_impl.dart';
@@ -144,7 +159,10 @@ class Router {
         });
       case RoutesName.roomDetail:
         return MaterialPageRoute(builder: (_) {
-          return HomePage();
+          return BlocProvider(
+            create: (context) => sl<ImagesliderCubit>(),
+            child: RoomDetailsPage(),
+          );
         });
       default:
         return MaterialPageRoute(builder: (_) {

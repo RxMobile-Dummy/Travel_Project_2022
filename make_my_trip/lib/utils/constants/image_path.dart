@@ -8,6 +8,16 @@ class ImagePath {
   static const String demoroom = 'assets/img/room.jpeg';
   static const String placesimage = "assets/img/placesimage.jpeg";
   static const String statesimage = "assets/img/statesimage.jpeg";
+
+  static const String ac = "assets/img/ac.jpg";
+  static const String tv = "assets/img/tv.jpg";
+  static const String wifi = "assets/img/wifi.jpg";
+  static String intro1 = 'assets/img_intro1.jpeg';
+  static String intro2 = 'assets/img_intro2.jpeg';
+  static String intro3 = 'assets/img_intro3.jpeg';
+  static String intro4 = 'assets/img_intro4.jpeg';
+
+
   static const String introImage1 = "assets/img/plan_destination.png";
   static const String introImage2 = "assets/img/pick_up_your_time.png";
   static const String introImage3 = "assets/img/start_your_journey.png";
@@ -15,5 +25,10 @@ class ImagePath {
   static const String icAppLogo = "assets/icons/ic_app_logo.png";
   static const String icGoogleLogo = "assets/icons/ic_google_logo.png";
   static const String icFacebookLogo = "assets/icons/ic_facebook_logo.png";
+
+
+  static const String serverFailImage = "assets/img/server_failure.png";
+
   static const String forgetPassword = "assets/img/forgetpassword.png";
+
 }

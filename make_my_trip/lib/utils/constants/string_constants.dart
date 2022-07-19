@@ -24,6 +24,17 @@ class StringConstants {
   static String loginTxt = 'Login';
   static String emailTxt = 'Email';
 
+  // room detail page
+
+  static String continue_button = "Continue";
+  static String back = "Back";
+  static String deluxroom = "DELUX ROOM";
+  static String semi_deluxroom = "SEMI DELUX ROOM";
+  static String super_deluxroom = "SUPER DELUX ROOM";
+  static String room_size = "ROOM SIZE";
+  static String bed = "BEDS";
+  static String description = "Description";
+  static String amenities = "Amenities";
   // Intro Strings
   static String introTitle1 = 'Plan Destination...';
   static String introSubtitle1 =
@@ -58,6 +69,11 @@ class StringConstants {
   static String places = "Places";
   static String states = "States";
 
+  static String room = "Room";
+
+  //serverFail String
+  static String serverFail = "The server is currently unavailable";
+
 
   // RoomCategoriesPage Strings
 
@@ -85,6 +101,5 @@ class StringConstants {
   static String seeAllReview = "See all review";
   static String seeAllPhoto = "See all photo";
   static String location = "Location";
-
 
 }
