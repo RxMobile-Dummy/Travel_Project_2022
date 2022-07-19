@@ -58,6 +58,13 @@ class StringConstants {
   static String places = "Places";
   static String states = "States";
 
+  static String resetPassword = "Forget Password";
+  static String passwordLbl =
+      'Enter the email associated with your account and we will send an email with instrucrions to reset your password.';
+  static String emailAddress = 'Email Address';
+  static String hintText = "helloworld123@gmail.com";
+  static String sendLink = "Send Link";
+
 
   // Hotel Detail Page String
   static String backBtn = "Back";

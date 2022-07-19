@@ -76,10 +76,13 @@ class LoginPage extends StatelessWidget {
                   Align(
                     alignment: AlignmentDirectional.centerEnd,
                     child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/resetPassword');
+                        },
                         child: Text(
                           StringConstants.forgotPass,
-                          style: AppTextStyles.hintTextStyle,
+                          style: AppTextStyles.hintTextStyle
+                              .copyWith(color: MakeMyTripColors.color50gray),
                         )),
                   ),
                   16.verticalSpace,
@@ -91,7 +94,7 @@ class LoginPage extends StatelessWidget {
                           loginPasswordController.text);
                     },
                     width: double.infinity,
-                    buttonColor: MakeMyTripColors.colorCwsPrimary,
+                    buttonColor: MakeMyTripColors.accentColor,
                     child: Text(StringConstants.loginTxt),
                   ),
                   BlocBuilder<LoginCubit, LoginState>(
