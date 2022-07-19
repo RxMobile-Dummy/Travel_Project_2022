@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
-import 'package:make_my_trip/features/hotel_listing/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/sign_up/domain/usecases/user_sign_up.dart';
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:make_my_trip/features/sign_up/presentation/pages/sign_up_page.dart';
@@ -72,7 +70,7 @@ class Router {
           return HomePage();
         });
       case RoutesName.home:
-        return MaterialPageRoute(builder: (_) {
+        return MaterialPageRoute(builder: (context) {
           return BlocProvider(
             create: (context) => TabBarCubit(),
             child: HomePage(),

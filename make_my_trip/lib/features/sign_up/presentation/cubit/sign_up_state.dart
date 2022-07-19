@@ -13,6 +13,5 @@ class SignUpErrorState extends SignUpState {
 class SignUpSuccessState extends SignUpState {}
 
 class WaitingDialog extends SignUpState {
-  final bool waitingDialog;
-  WaitingDialog({required this.waitingDialog});
+
 }

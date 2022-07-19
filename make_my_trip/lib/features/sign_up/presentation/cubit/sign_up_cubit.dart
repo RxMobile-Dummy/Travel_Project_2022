@@ -1,15 +1,11 @@
-import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/sign_up/domain/usecases/user_sign_up.dart';
 import 'package:make_my_trip/features/sign_up/domain/usecases/user_verification.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/validators/user_info/user_information_validations.dart';
 import 'package:meta/meta.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 part 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
@@ -18,9 +14,8 @@ class SignUpCubit extends Cubit<SignUpState> {
   final UserSignUp userSignUp;
   final UserVerification userVerification;
 
-  showWaitingDialog(progressDialog) {
-    progressDialog = !progressDialog;
-    emit(WaitingDialog(waitingDialog: progressDialog));
+  showWaitingDialog() {
+    emit(WaitingDialog());
   }
 
   signUpWithEmail(
@@ -51,6 +46,7 @@ class SignUpCubit extends Cubit<SignUpState> {
             response.fold((failure) {
               emit(SignUpErrorState(error: getFailure(failure)));
             }, (success) async {
+              showWaitingDialog();
               final response = await userVerification.call();
               response.fold((failure) {
                 emit(SignUpErrorState(error: getFailure(failure)));

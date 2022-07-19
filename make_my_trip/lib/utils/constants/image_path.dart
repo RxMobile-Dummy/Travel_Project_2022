@@ -16,6 +16,3 @@ class ImagePath {
   static const String icGoogleLogo = "assets/icons/ic_google_logo.png";
   static const String icFacebookLogo = "assets/icons/ic_facebook_logo.png";
 }
-
-
->>>>>>>>> Temporary merge branch 2

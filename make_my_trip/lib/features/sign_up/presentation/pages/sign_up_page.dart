@@ -7,14 +7,15 @@ import 'package:make_my_trip/features/sign_up/presentation/widgets/continue_butt
 import 'package:make_my_trip/features/sign_up/presentation/widgets/termsAndPrivacy.dart';
 import 'package:make_my_trip/features/sign_up/presentation/widgets/text_field.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
-import '../../../hotel_listing/presentation/pages/home_page.dart';
+
+import '../../../../core/navigation/route_info.dart';
 
 class SignUpPage extends StatelessWidget {
   final TextEditingController fullname = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController conPassword = TextEditingController();
-  bool showProgress = false;
+
 
   SignUpPage({Key? key}) : super(key: key);
 
@@ -26,8 +27,8 @@ class SignUpPage extends StatelessWidget {
         child:
             BlocConsumer<SignUpCubit, SignUpState>(listener: (context, state) {
           if (state is SignUpSuccessState) {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.pushNamedAndRemoveUntil(
+                context, RoutesName.home, (route) => false);
           }
         }, builder: (context, state) {
           if (state is WaitingDialog) {
@@ -75,8 +76,7 @@ class SignUpPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: ContinueButton(onTap: () {
-                    BlocProvider.of<SignUpCubit>(context)
-                        .showWaitingDialog(showProgress);
+
                     BlocProvider.of<SignUpCubit>(context).signUpWithEmail(
                         signUpEmail: email.text,
                         signUpPassword: password.text,
