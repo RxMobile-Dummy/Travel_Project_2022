@@ -47,9 +47,10 @@ class ReviewCardWidget extends StatelessWidget {
                       radius: 24,
                       backgroundColor: MakeMyTripColors.color50gray,
                       child: CircleAvatar(
-                          radius: 22,
-                          backgroundColor: MakeMyTripColors.color30gray,
-                          child: Image.network(image)),
+                        radius: 22,
+                        backgroundImage: NetworkImage(image),
+                        backgroundColor: MakeMyTripColors.color30gray,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -76,9 +77,7 @@ class ReviewCardWidget extends StatelessWidget {
                             Icons.star,
                             color: MakeMyTripColors.accentColor,
                           ),
-                          onRatingUpdate: (rating) {
-                            print(rating);
-                          },
+                          onRatingUpdate: (rating) {},
                         ),
                       ],
                     ),

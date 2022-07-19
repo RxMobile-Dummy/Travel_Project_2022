@@ -5,16 +5,20 @@ import 'package:make_my_trip/features/review/data/data_sources/review_remote_dat
 import 'package:make_my_trip/features/review/data/repositories/review_repository_impl.dart';
 import 'package:make_my_trip/features/review/domain/repositories/review_repository.dart';
 import 'package:make_my_trip/features/review/domain/use_cases/get_hotel_review_usecase.dart';
+import 'package:make_my_trip/features/review/domain/use_cases/post_hotel_review_usecase.dart';
+import 'package:make_my_trip/features/review/presentation/cubit/publish_review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
 
 var sl = GetIt.instance;
 
 Future<void> init() async {
   //Cubit
-  sl.registerFactory(() => ReviewCubit(sl()));
+  sl.registerFactory(() => ReviewCubit(sl(), sl()));
+  sl.registerFactory(() => PublishReviewCubit(sl()));
 
   //UseCase
   sl.registerLazySingleton(() => GetHotelReviewUseCases(sl()));
+  sl.registerLazySingleton(() => PostHotelReviewUseCases(sl()));
 
   //Repository
   sl.registerLazySingleton<ReviewRepository>(() => ReviewRepositoryImpl(sl()));

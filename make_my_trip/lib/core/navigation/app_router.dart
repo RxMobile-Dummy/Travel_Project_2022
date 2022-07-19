@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
+import 'package:make_my_trip/features/review/presentation/cubit/publish_review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/pages/publish_review_page.dart';
 import 'package:make_my_trip/features/review/presentation/pages/review_page.dart';
@@ -95,7 +96,10 @@ class Router {
         });
       case RoutesName.publishReviewPage:
         return MaterialPageRoute(builder: (_) {
-          return PublishReviewPage();
+          return MultiBlocProvider(providers: [
+            BlocProvider(create: (context) => sl<ReviewCubit>()),
+            BlocProvider(create: (context) => sl<PublishReviewCubit>())
+          ], child: PublishReviewPage());
         });
       default:
         return MaterialPageRoute(builder: (_) {
