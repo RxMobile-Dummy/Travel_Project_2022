@@ -82,7 +82,7 @@ class HotelListPage extends StatelessWidget {
             Expanded(
                 child: BlocProvider(
               create: (context) => di.sl<HotelListCubit>(),
-              child: HotelListViewWidget(),
+              child: const HotelListViewWidget(),
             ))
           ],
         ),
