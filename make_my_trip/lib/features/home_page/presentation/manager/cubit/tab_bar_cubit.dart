@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:meta/meta.dart';
 
-part 'tab_bar_state.dart';
-
-class TabBarCubit extends Cubit<TabBarState> {
-  TabBarCubit() : super(TabBarInitial()) {
+class TabBarCubit extends Cubit<BaseState> {
+  TabBarCubit() : super(StateInitial()) {
     OnItemTap(0);
   }
+
   OnItemTap(index) {
-    emit(OnItemTapState(index));
+    emit(StateOnSuccess<int>(index));
     return index;
   }
 }

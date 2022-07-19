@@ -23,4 +23,5 @@ class MakeMyTripColors {
   static const colorCwsPrimary = Color(0xFF047D9E);
   static const colorCwsgray10 = Color(0xFFFAFAFA);
   static const colorContainerBorder = Color(0xFFD9E2E4);
+  static const colorGreen = Color(0xFF017230);
 }

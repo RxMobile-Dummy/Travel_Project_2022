@@ -1,7 +1,8 @@
 /// this class will contain static route names
 class RoutesName {
 
-  static const splash = '/roomDetail';
+
+  static const splash = '/';
 
   static const onBoard = '/intro';
 
@@ -25,6 +26,6 @@ class RoutesName {
   static const roomCategory = "/roomCategory";
 
 
-  static const roomDetail = "/";
+  static const roomDetail = "/roomDetail";
 
 }
