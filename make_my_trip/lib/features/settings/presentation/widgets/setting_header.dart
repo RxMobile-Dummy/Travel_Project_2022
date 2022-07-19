@@ -29,7 +29,7 @@ class Header extends StatelessWidget {
     return Container(
         padding: const EdgeInsets.all(18),
         width: double.infinity,
-        color: MakeMyTripColors.colorBlack,
+        color: MakeMyTripColors.color10gray,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -39,7 +39,7 @@ class Header extends StatelessWidget {
                   const CircleAvatar(
                     radius: 66,
                     child: CircleAvatar(
-                      backgroundColor: MakeMyTripColors.color90gray,
+                      backgroundColor: MakeMyTripColors.color30gray,
                       radius: 64,
                       child: Icon(
                         Icons.person,
@@ -67,7 +67,7 @@ class Header extends StatelessWidget {
                             },
                             child: const Icon(
                               Icons.edit,
-                              color: MakeMyTripColors.colorBlack,
+                              color: MakeMyTripColors.color90gray,
                               size: 22,
                             )),
                       ))

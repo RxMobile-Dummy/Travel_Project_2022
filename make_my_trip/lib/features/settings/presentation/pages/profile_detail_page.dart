@@ -13,19 +13,19 @@ class ProfileDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: MakeMyTripColors.colorBlack,
+        backgroundColor: MakeMyTripColors.color10gray,
         shadowColor: MakeMyTripColors.colorBlack,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_outlined,
-            color: MakeMyTripColors.colorWhite,
+            color: MakeMyTripColors.colorBlack,
             size: 20,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: const Text(
           StringConstants.profile,
-          style: AppTextStyles.infoContentStyle3,
+          style: AppTextStyles.infoContentStyle,
         ),
         actions: [
           const SizedBox(
@@ -34,14 +34,14 @@ class ProfileDetailPage extends StatelessWidget {
             child: Center(
                 child: Text(
               StringConstants.done,
-              style: AppTextStyles.infoContentStyle4,
+              style: AppTextStyles.infoContentStyle,
             )),
           ),
           20.horizontalSpace
         ],
       ),
       body: Container(
-          color: MakeMyTripColors.colorBlack,
+          color: MakeMyTripColors.color10gray,
           child: ListView(children: const [Header(), SettingBody()])),
     );
   }
