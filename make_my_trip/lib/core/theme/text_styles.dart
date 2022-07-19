@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppTextStyles {
   AppTextStyles._();
 
+
   static const labelStyle = TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.w700,
@@ -61,4 +62,18 @@ class AppTextStyles {
       fontSize: 16, fontWeight: FontWeight.w700, color: Colors.lightBlue);
   static const infoContentStyle3 =
       TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white);
+
+
+  static const infoContentStyle4 = TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      color: Colors.lightBlue
+  );
+  static const infoContentStyle5 = TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      color: Colors.white
+  );
+
+
 }

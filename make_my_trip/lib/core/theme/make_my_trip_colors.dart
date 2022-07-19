@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class MakeMyTripColors {
   static const accentColor = Color(0xFF2196F3);
   static const colorWhite = Color(0xFFFFFFFF);
+  static const colorBlue = Color(0xFF0591EC);
   static const bordergray = Color(0xffd9e2e4);
   static const color0gray = Color(0xFFF0F0F0);
   static const color10gray = Color(0xFFEFEFEF);
@@ -22,4 +23,5 @@ class MakeMyTripColors {
   static const colorCwsPrimary = Color(0xFF047D9E);
   static const colorCwsgray10 = Color(0xFFFAFAFA);
   static const colorContainerBorder = Color(0xFFD9E2E4);
+  static const colorGreen = Color(0xFF017230);
 }
