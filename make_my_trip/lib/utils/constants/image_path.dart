@@ -17,4 +17,3 @@ class ImagePath {
   static const String icFacebookLogo = "assets/icons/ic_facebook_logo.png";
   static const String forgetPassword = "assets/img/forgetpassword.png";
 }
-
