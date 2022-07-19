@@ -15,7 +15,7 @@ class RoomDetailDataSourceImpl implements RoomDetailRemoteDataSource{
   @override
   Future<Either<Failures ,RoomDetailsModel>> getRoomDetailData (int hotelId, String roomType) async {
     try{
-      final baseurl = 'http://192.168.102.79:3000/room/${hotelId}/${roomType}';
+      final baseurl = 'http://192.168.102.164:3000/room/${hotelId}/${roomType}';
       final response = await dio.get(baseurl);
       if (response.statusCode == 200) {
         final RoomDetailsModel roomDetailsModel =  RoomDetailsModel.fromJson(response.data);
