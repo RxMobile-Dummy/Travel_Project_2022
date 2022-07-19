@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import { reviewmodel } from '../model/review';
 import { Usermodel } from '../model/users';
+import { StatusCode } from '../statuscode';
 
 class ReviewDomain {
 
@@ -27,19 +28,29 @@ class ReviewDomain {
         var data = new reviewmodel(postData);
         try {
             await data.save();
-            res.send("data added ");
+            res.status(StatusCode.Sucess).send("data added ");
         }
         catch (err: any) {
-            res.send(err.message);
+            res.status(StatusCode.Server_Error).send(err.message);
         }
         res.end();
 
     }
 
-    // Get Hotel Review
+    // GET Hotel Review
     async getHotelReview(req: Request, res: Response) {
-        var hotelReview = await reviewmodel.find({ hotel_id: req.params.id }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } });
-        res.send(hotelReview);
+        try {
+            var hotelReview = await reviewmodel.find({ hotel_id: req.params.id }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } });
+            if (hotelReview.length == 0) {
+                res.status(StatusCode.Not_Found).send("no data found");
+            }
+            else {
+                res.status(StatusCode.Sucess).send(hotelReview);
+            }
+        }
+        catch (err: any) {
+            res.status(StatusCode.Server_Error).send(err.message);
+        }
         res.end();
     }
 

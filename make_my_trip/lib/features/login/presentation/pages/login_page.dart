@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccessState) {
-          Navigator.pushNamed(context, RoutesName.home);
+          Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
         }
       },
       child: Scaffold(
@@ -76,10 +76,13 @@ class LoginPage extends StatelessWidget {
                   Align(
                     alignment: AlignmentDirectional.centerEnd,
                     child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/resetPassword');
+                        },
                         child: Text(
                           StringConstants.forgotPass,
-                          style: AppTextStyles.hintTextStyle,
+                          style: AppTextStyles.hintTextStyle
+                              .copyWith(color: MakeMyTripColors.color50gray),
                         )),
                   ),
                   16.verticalSpace,
@@ -91,7 +94,7 @@ class LoginPage extends StatelessWidget {
                           loginPasswordController.text);
                     },
                     width: double.infinity,
-                    buttonColor: MakeMyTripColors.colorCwsPrimary,
+                    buttonColor: MakeMyTripColors.accentColor,
                     child: Text(StringConstants.loginTxt),
                   ),
                   BlocBuilder<LoginCubit, LoginState>(
@@ -177,7 +180,9 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          recognizer: TapGestureRecognizer()..onTap = () {},
+                          recognizer: TapGestureRecognizer()..onTap = () {
+                            Navigator.pushNamedAndRemoveUntil(context, RoutesName.signup, (route) => false);
+                          },
                           text: StringConstants.signUpTxt,
                           style: AppTextStyles.infoContentStyle2,
                         )

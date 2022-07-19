@@ -11,6 +11,7 @@ abstract class UserLoginRemoteDataSource {
   Future<Either<Failures, UserModel>> userSignIn(userEmail, userPassword);
   Future<Either<Failures, UserModel>> userGoogleLogIn();
   Future<Either<Failures, UserModel>> userFacebookLogIn();
+  Future<Either<Failures, void>> userForgetPasswordData(String emailAddress);
 }
 
 class UserLoginRemoteDataSourceImpl extends UserLoginRemoteDataSource {
@@ -124,6 +125,16 @@ class UserLoginRemoteDataSourceImpl extends UserLoginRemoteDataSource {
       }
     } on FirebaseAuthException catch (e) {
       print(e);
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, void>> userForgetPasswordData(emailAddress) async {
+    try {
+      final forget = await auth.sendPasswordResetEmail(email: emailAddress);
+      return Right(forget);
+    } on FirebaseAuthException catch (e) {
       return Left(ServerFailure());
     }
   }
