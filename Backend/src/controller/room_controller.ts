@@ -22,9 +22,16 @@ class RoomController {
         await roomDomain.getRoomWithSuperDeluxeType(req, res);
     }
 
+    // Get All Available Room
+    static async getAllAvailableRoom(req: Request, res: Response) {
+        const roomDomain = new RoomDomain();
+        await roomDomain.getAllAvailableRoom(req, res);
+    }
+
 }
 
 // GET
+router.get("/:id", RoomController.getAllAvailableRoom);
 router.get("/:id/deluxe", RoomController.getRoomWithDeluxeType);
 router.get("/:id/semi-deluxe", RoomController.getRoomWithSemiDeluxeType);
 router.get("/:id/super-deluxe", RoomController.getRoomWithSuperDeluxeType);
