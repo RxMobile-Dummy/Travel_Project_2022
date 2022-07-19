@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
+import 'package:make_my_trip/features/settings/presentation/pages/settings_page.dart';
 import '../../../splash/presentation/widgets/app_logo_widget.dart';
 
 class SplashPage extends StatefulWidget {
