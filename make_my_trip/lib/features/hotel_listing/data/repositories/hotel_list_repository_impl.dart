@@ -15,13 +15,5 @@ class HotelListRepositoryImpl implements HotelListRepository {
    return await hotelListDataSource.getHotelListData(hotelName);
   }
 
-  // @override
-  // Future<Either<Failures, List<HotelListModel>>> getHotelList(
-  //     String s) async {
-  //   var reponse = await hotelListDataSource.getHotelList(s);
-  //
-  //   return reponse;
-  // }
-
 
 }

@@ -5,15 +5,7 @@ import 'package:make_my_trip/features/hotel_listing/domain/repositories/hotel_li
 
 import '../../data/models/hotel_list_model.dart';
 
-// class HotellistUsecase<Type, Params> {
-//   final HotelListRepository hotelListRepository;
-//
-//   HotellistUsecase({required this.hotelListRepository});
-//
-//   Future<Either<Failures, List<HotelListModel>>> call(String s) {
-//     return hotelListRepository.getHotelList(s);
-//   }
-// }
+
 
 class HotelListUsecase implements Usecase<List<HotelListModel>, Params> {
   final HotelListRepository hotelListRepository;

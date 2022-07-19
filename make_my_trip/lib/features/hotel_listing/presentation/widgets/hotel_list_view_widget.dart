@@ -1,15 +1,11 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_state.dart';
-import 'package:make_my_trip/utils/constants/image_path.dart';
-import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class HotelListViewWidget extends StatelessWidget {
@@ -27,11 +23,11 @@ class HotelListViewWidget extends StatelessWidget {
             child: BlocBuilder<HotelListCubit, HotelListState>(
               builder: (context, state) {
                 if (state is GetData) {
-                  var hotel_list = state.GetList;
+                  var hotelList = state.GetList;
                   return ListView.separated(
-                    itemCount: hotel_list.length,
+                    itemCount: hotelList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      var hotel_data = hotel_list[index];
+                      var hotelData = hotelList[index];
                       return Column(
                         children: [
                           Padding(
@@ -43,7 +39,7 @@ class HotelListViewWidget extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: Image.network(
-                                  hotel_data.images!.last.imageUrl.toString(),
+                                  hotelData.images!.last.imageUrl.toString(),
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -64,7 +60,7 @@ class HotelListViewWidget extends StatelessWidget {
                                       Flexible(
                                         flex: 4,
                                         child: Text(
-                                          hotel_data.hotelName.toString(),
+                                          hotelData.hotelName.toString(),
                                           style: AppTextStyles.infoContentStyle,
                                         ),
                                       ),
@@ -75,7 +71,7 @@ class HotelListViewWidget extends StatelessWidget {
                                           scale: 1.5,
                                           child: RatingBar.builder(
                                               initialRating: double.parse(
-                                                  hotel_data.rating.toString()),
+                                                  hotelData.rating.toString()),
                                               minRating: 1,
                                               direction: Axis.horizontal,
                                               allowHalfRating: true,
@@ -111,7 +107,7 @@ class HotelListViewWidget extends StatelessWidget {
                                 Expanded(
                                   flex: 7,
                                   child: Text(
-                                    hotel_data.address!.addressLine.toString(),
+                                    hotelData.address!.addressLine.toString(),
                                     style: AppTextStyles.labelDetails,
                                   ),
                                 ),
@@ -123,7 +119,7 @@ class HotelListViewWidget extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "₹ ${hotel_data.price.toString()}",
+                                        "₹ ${hotelData.price.toString()}",
                                         style: AppTextStyles.labelStyle3,
                                       ),
                                       const Text("Per Night",
