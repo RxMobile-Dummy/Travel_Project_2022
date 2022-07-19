@@ -12,6 +12,9 @@ import '../../features/login/presentation/pages/login_page.dart';
 import '../../injection_container.dart';
 
 ///your app router here ::: use your route manager
+import '../../features/wishlist/presentation/pages/wishlist_page.dart';
+
+///your app router here ::: use your route cubit
 
 class Router {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
@@ -63,7 +66,7 @@ class Router {
         });
       case RoutesName.wishList:
         return MaterialPageRoute(builder: (_) {
-          return HomePage();
+          return const WishListPage();
         });
       case RoutesName.profile:
         return MaterialPageRoute(builder: (_) {

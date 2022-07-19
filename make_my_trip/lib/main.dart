@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/config/firebase/firebase_config.dart';
+import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
 import './core/navigation/app_router.dart' as AppRoutes;
 import 'firebase_options.dart';
