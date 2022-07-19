@@ -1,196 +1,182 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
 import 'package:make_my_trip/features/login/presentation/widgets/login_elevated_button_widget.dart';
-import 'package:make_my_trip/features/login/presentation/widgets/login_text_form_field_widget.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+
+import '../widgets/icon_button.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController loginEmail = TextEditingController();
-  final TextEditingController loginPassword = TextEditingController();
+
+  final TextEditingController loginEmailController = TextEditingController();
+  final TextEditingController loginPasswordController = TextEditingController();
+  bool passwordObSecure = true;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LoginCubit(),
+    return BlocListener<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state is LoginSuccessState) {
+          Navigator.pushNamed(context, RoutesName.home);
+        }
+      },
       child: Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 100, bottom: 32),
-                  child:
-                      Image.asset(ImagePath.icAppLogo, height: 80, width: 80),
-                ),
-                const Text(
-                  "Meet new people from over millions of",
-                  style: AppTextStyles.infoLabelStyle,
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 16.0),
-                  child: Text(
-                    "users. Create posts, find friends and more.",
-                    style: AppTextStyles.infoLabelStyle,
+          child: Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Image.asset(ImagePath.icAppLogo, height: 72, width: 72),
+                  16.verticalSpace,
+                  Text(
+                    "Meet new people from over millions of\nusers. Create posts, find friends and more.",
+                    style: AppTextStyles.infoContentStyle,
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(children: [
-                    LoginTextFormFieldWidget(
-                      hintText: StringConstants.emailTxt,
-                      obSecure: false,
-                      controller: loginEmail,
-                    ),
-                    BlocBuilder<LoginCubit, LoginState>(
-                      builder: (context, state) {
-                        if (state is ChangeState) {
-                          return LoginTextFormFieldWidget(
-                            hintText: StringConstants.passwordTxt,
-                            iconButton: IconButton(
-                              icon: state.obSecure == true
-                                  ? const Icon(Icons.visibility_off)
-                                  : const Icon(Icons.visibility),
-                              onPressed: () {
-                                BlocProvider.of<LoginCubit>(context)
-                                    .changeObSecureEvent(state.obSecure);
-                              },
-                            ),
-                            obSecure: state.obSecure,
-                            controller: loginPassword,
-                          );
-                        } else {
-                          return LoginTextFormFieldWidget(
-                            hintText: StringConstants.passwordTxt,
-                            iconButton: IconButton(
-                              icon: const Icon(Icons.visibility_off),
-                              onPressed: () {
-                                BlocProvider.of<LoginCubit>(context)
-                                    .changeObSecureEvent(true);
-                              },
-                            ),
-                            obSecure: true,
-                            controller: loginPassword,
-                          );
-                        }
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 22.0),
-                      child: Align(
-                        alignment: AlignmentDirectional.centerEnd,
-                        child: TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              "Forgot Password?",
-                              style: AppTextStyles.labelDescriptionStyle,
-                            )),
-                      ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12.0, horizontal: 28.0),
-                        child: LoginElevatedButtonWidget(
-                          height: 40,
-                          onTap: () {},
-                          width: double.infinity,
-                          buttonColor: MakeMyTripColors.accentColor,
-                          child: Text(StringConstants.loginTxt),
-                        )),
-                  ]),
-                ),
-                Row(children: const [
-                  Expanded(
-                      child: Padding(
-                    padding: EdgeInsets.only(left: 32.0, right: 8.0),
-                    child: Divider(
-                        thickness: 0.5, color: MakeMyTripColors.color70gray),
-                  )),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 24.0),
-                    child: Text(
-                      "Or Login with",
-                      style: AppTextStyles.labelDescriptionStyle,
-                    ),
+                  32.verticalSpace,
+                  TextFormField(
+                    controller: loginEmailController,
+                    decoration: const InputDecoration(hintText: "Email"),
                   ),
-                  Expanded(
-                      child: Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 32.0),
-                    child: Divider(
-                      thickness: 0.5,
-                      color: MakeMyTripColors.color70gray,
-                    ),
-                  )),
-                ]),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    LoginElevatedButtonWidget(
+                  16.verticalSpace,
+                  BlocBuilder<LoginCubit, LoginState>(
+                    builder: (context, state) {
+                      if (state is LoginObSecureChangeState) {
+                        passwordObSecure = state.obSecure;
+                      }
+                      return TextFormField(
+                        decoration: InputDecoration(
+                          hintText: StringConstants.passwordTxt,
+                          suffixIcon: GestureDetector(
+                            child: Icon((passwordObSecure)
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onTap: () {
+                              BlocProvider.of<LoginCubit>(context)
+                                  .changeObSecureEvent(passwordObSecure);
+                            },
+                          ),
+                        ),
+                        obscureText: passwordObSecure,
+                        controller: loginPasswordController,
+                      );
+                    },
+                  ),
+                  16.verticalSpace,
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: GestureDetector(
                         onTap: () {},
-                        height: 36,
-                        width: 150,
-                        buttonColor: MakeMyTripColors.accentColor,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const Text("Facebook"),
-                            Image.asset(
-                              ImagePath.icFacebookLogo,
-                              height: 20,
-                              width: 20,
-                            ),
-                          ],
+                        child: const Text(
+                          "Forgot Password?",
+                          style: AppTextStyles.hintTextStyle,
                         )),
-                    LoginElevatedButtonWidget(
-                      onTap: () {
-                        BlocProvider.of<LoginCubit>(context).googlesignin();
-                      },
-                      height: 36,
-                      width: 150,
-                      buttonColor: MakeMyTripColors.color30gray,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          const Text(
-                            "Google",
-                            style:
-                                TextStyle(color: MakeMyTripColors.colorBlack),
-                          ),
-                          Image.asset(
-                            ImagePath.icGoogleLogo,
-                            height: 20,
-                            width: 20,
-                          ),
-                        ],
+                  ),
+                  16.verticalSpace,
+                  LoginElevatedButtonWidget(
+                    height: 12,
+                    onTap: () {
+                      BlocProvider.of<LoginCubit>(context).emailSignIn(
+                          loginEmailController.text,
+                          loginPasswordController.text);
+                    },
+                    width: double.infinity,
+                    buttonColor: MakeMyTripColors.colorCwsPrimary,
+                    child: Text(StringConstants.loginTxt),
+                  ),
+                  BlocBuilder<LoginCubit, LoginState>(
+                    builder: (context, state) {
+                      return Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: (state is LoginErrorState)
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Text(
+                                    "*${state.error}",
+                                    style: TextStyle(
+                                        color: MakeMyTripColors.colorRed),
+                                  ),
+                                )
+                              : SizedBox());
+                    },
+                  ),
+                  16.verticalSpace,
+                  Row(children: const [
+                    Expanded(
+                        child: Padding(
+                      padding: EdgeInsets.only(left: 20.0, right: 8.0),
+                      child: Divider(
+                        thickness: 1,
+                        color: MakeMyTripColors.color30gray,
                       ),
+                    )),
+                    Text(
+                      "or login with",
+                      style: AppTextStyles.hintTextStyle,
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Or don't have account?",
-                        style: AppTextStyles.labelDescriptionStyle,
+                    Expanded(
+                        child: Padding(
+                      padding: EdgeInsets.only(left: 8.0, right: 20.0),
+                      child: Divider(
+                        thickness: 1,
+                        color: MakeMyTripColors.color30gray,
                       ),
-                      TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            StringConstants.signUpTxt,
-                            style: AppTextStyles.labelDescriptionStyle,
-                          )),
+                    )),
+                  ]),
+                  16.verticalSpace,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomIconButton(
+                            backColor: Color(0xff3b5998),
+                            icon: Icon(Icons.facebook_rounded),
+                            text: "Facebook",
+                            textColor: MakeMyTripColors.colorWhite,
+                            onTap: () {}),
+                      ),
+                      16.horizontalSpace,
+                      Expanded(
+                        child: CustomIconButton(
+                            backColor: MakeMyTripColors.colorWhite,
+                            textColor: MakeMyTripColors.colorBlack,
+                            icon: Image.asset(
+                              ImagePath.icGoogleLogo,
+                              width: 24,
+                            ),
+                            onTap: () {
+                              BlocProvider.of<LoginCubit>(context)
+                                  .googleSignIn();
+                            },
+                            text: "Google"),
+                      ),
                     ],
                   ),
-                ),
-              ],
+                  16.verticalSpace,
+                  RichText(
+                      text: TextSpan(
+                          text: "Or don't have account? ",
+                          style: AppTextStyles.hintTextStyle,
+                          children: [
+                        TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              print("signup");
+                            },
+                          text: StringConstants.signUpTxt,
+                          style: AppTextStyles.infoContentStyle2,
+                        )
+                      ])),
+                ],
+              ),
             ),
           ),
         ),
