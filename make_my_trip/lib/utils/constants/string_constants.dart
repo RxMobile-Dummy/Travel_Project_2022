@@ -58,6 +58,15 @@ class StringConstants {
   static String places = "Places";
   static String states = "States";
 
+
+  // RoomCategoriesPage Strings
+
+  static String roomMoreDetails = 'More Details';
+  static String roomSelectButtonTxt = 'SELECT';
+  static String roomCategoriesPageHeading = 'SELECT A ROOM';
+  static String readMore = 'Read More';
+  static String readLess = 'Read Less';
+
   static String resetPassword = "Forget Password";
   static String passwordLbl =
       'Enter the email associated with your account and we will send an email with instrucrions to reset your password.';
@@ -76,5 +85,6 @@ class StringConstants {
   static String seeAllReview = "See all review";
   static String seeAllPhoto = "See all photo";
   static String location = "Location";
+
 
 }

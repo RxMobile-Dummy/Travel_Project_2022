@@ -26,6 +26,9 @@ import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart
 
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
+import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
+import 'package:make_my_trip/features/room_categories/presentation/pages/room_categories_page.dart';
+import 'package:make_my_trip/features/room_categories/room_categories_injection_container.dart';
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
 import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
@@ -34,6 +37,7 @@ import '../../features/login/presentation/cubit/login_cubit.dart';
 import '../../features/login/presentation/pages/login_page.dart';
 import '../../features/login/presentation/widgets/resetPassword_widget.dart';
 import '../../injection_container.dart';
+
 
 import '../../features/sign_up/data/data_sources/sign_up_remote_datasource_impl.dart';
 import '../../features/sign_up/data/repositories/sign_up_repository_impl.dart';
@@ -133,7 +137,10 @@ class Router {
         });
       case RoutesName.roomCategory:
         return MaterialPageRoute(builder: (_) {
-          return HomePage();
+          return BlocProvider(
+            create: (context) => sl<RoomCategoryCubit>(),
+            child: RoomCategoriesPage(),
+          );
         });
       case RoutesName.roomDetail:
         return MaterialPageRoute(builder: (_) {
