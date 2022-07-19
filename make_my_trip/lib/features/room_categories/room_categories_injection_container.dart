@@ -16,13 +16,13 @@ Future<void> init() async {
   sl.registerLazySingleton(() => RoomCategoriesUsecase(sl()));
 
   //repo
-  sl.registerLazySingleton<RoomCategoriesRepository>(() => RoomCategoriesRepositoryImpl(sl()));
+  sl.registerLazySingleton<RoomCategoriesRepository>(
+      () => RoomCategoriesRepositoryImpl(sl()));
 
   //datsource
 
-  sl.registerLazySingleton<RoomCategoriesDataSource>(() => RoomCategoriesDataSourceImpl(sl()));
+  sl.registerLazySingleton<RoomCategoriesDataSource>(
+      () => RoomCategoriesDataSourceImpl(sl()));
 
   sl.registerLazySingleton(() => Dio());
-
-
 }

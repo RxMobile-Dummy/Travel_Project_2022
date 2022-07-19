@@ -9,18 +9,18 @@ import 'package:make_my_trip/features/room_categories/presentation/widgets/room_
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 
 class RoomCategoriesPage extends StatelessWidget {
-   RoomCategoriesPage({Key? key}) : super(key: key);
+  RoomCategoriesPage({Key? key}) : super(key: key);
 
   RoomCategoryModel? roomCategoryModel;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RoomCategoryCubit,BaseState>(
+    return BlocBuilder<RoomCategoryCubit, BaseState>(
       builder: (context, state) {
         if (state is StateOnKnownToSuccess) {
           roomCategoryModel = state.response;
         }
         return Scaffold(
-          backgroundColor: MakeMyTripColors.color30gray,
+            backgroundColor: MakeMyTripColors.color30gray,
             appBar: AppBar(
               backgroundColor: MakeMyTripColors.accentColor,
               leading: const Icon(Icons.arrow_back),
@@ -29,14 +29,15 @@ class RoomCategoriesPage extends StatelessWidget {
                   children: [
                     Text(
                       StringConstants.roomCategoriesPageHeading,
-                      style: AppTextStyles.infoContentStyle3.copyWith(
-                          fontSize: 15),
+                      style: AppTextStyles.infoContentStyle3
+                          .copyWith(fontSize: 15),
                     ),
                     Text(
-                       roomCategoryModel?.hotelName?? "Hotel Name",
+                      roomCategoryModel?.hotelName ?? "Hotel Name",
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
-                      style: AppTextStyles.infoContentStyle3.copyWith(fontSize: 18),
+                      style: AppTextStyles.infoContentStyle3
+                          .copyWith(fontSize: 18),
                     ),
                   ],
                 ),
@@ -51,7 +52,11 @@ class RoomCategoriesPage extends StatelessWidget {
             body: ListView.builder(
               itemCount: roomCategoryModel?.roomData!.length,
               itemBuilder: (context, index) {
-                return  RoomListWidget(roomData: roomCategoryModel!.roomData![index],);
+                if (roomCategoryModel?.roomData![index] != null) {
+                  return RoomListWidget(
+                      roomData: roomCategoryModel!.roomData![index]);
+                }
+                return CircularProgressIndicator();
               },
             ));
       },

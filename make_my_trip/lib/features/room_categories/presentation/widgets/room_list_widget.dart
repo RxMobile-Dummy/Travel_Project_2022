@@ -10,8 +10,8 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class RoomListWidget extends StatelessWidget {
-  RoomListWidget({Key? key, required this.roomData}) : super(key: key);
-  RoomData roomData;
+  RoomListWidget({Key? key, this.roomData}) : super(key: key);
+  RoomData? roomData;
   bool isReadMore = false;
 
   @override
@@ -22,9 +22,10 @@ class RoomListWidget extends StatelessWidget {
           isReadMore = state.response;
         }
         return Padding(
-          padding: const EdgeInsets.only(top: 12.0,left: 4.0,right: 4.0,bottom: 4.0),
+          padding: const EdgeInsets.only(
+              top: 12.0, left: 4.0, right: 4.0, bottom: 4.0),
           child: Card(
-            elevation: 50,  // Change this
+            elevation: 50, // Change this
             shadowColor: MakeMyTripColors.color10gray,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
@@ -35,9 +36,9 @@ class RoomListWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${roomData.roomType} Room",
-                    style:
-                        AppTextStyles.unselectedLabelStyle.copyWith(fontSize: 22,fontWeight: FontWeight.w800),
+                    "${roomData?.roomType} Room",
+                    style: AppTextStyles.unselectedLabelStyle
+                        .copyWith(fontSize: 22, fontWeight: FontWeight.w800),
                   ),
                   8.verticalSpace,
                   Row(
@@ -46,7 +47,7 @@ class RoomListWidget extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              roomData.description ?? "Description",
+                              roomData?.description ?? "Description",
                               maxLines: (isReadMore) ? 10 : 3,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.justify,
@@ -63,7 +64,9 @@ class RoomListWidget extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(2.0),
                                   child: Text(
-                                    (isReadMore) ? StringConstants.readLess : StringConstants.readMore,
+                                    (isReadMore)
+                                        ? StringConstants.readLess
+                                        : StringConstants.readMore,
                                     style: AppTextStyles.infoContentStyle2,
                                   ),
                                 ),
@@ -82,7 +85,7 @@ class RoomListWidget extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
-                            roomData.images![0].imageUrl ?? ImagePath.demoroom,
+                            roomData?.images![0].imageUrl ?? ImagePath.demoroom,
                             width: double.infinity / 2,
                             height: 150,
                             fit: BoxFit.cover,
@@ -95,7 +98,7 @@ class RoomListWidget extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
-                            roomData.images![1].imageUrl ?? ImagePath.demoroom,
+                            roomData?.images![1].imageUrl ?? ImagePath.demoroom,
                             width: double.infinity / 2,
                             height: 150,
                             fit: BoxFit.cover,
@@ -116,7 +119,7 @@ class RoomListWidget extends StatelessWidget {
                       Expanded(
                           flex: 5,
                           child: Text(
-                            roomData.features![0],
+                            roomData!.features![0],
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyles.infoContentStyle
                                 .copyWith(fontSize: 16),
@@ -128,7 +131,7 @@ class RoomListWidget extends StatelessWidget {
                       Expanded(
                           flex: 5,
                           child: Text(
-                            roomData.features![1],
+                            roomData!.features![1],
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyles.infoContentStyle
                                 .copyWith(fontSize: 16),
@@ -146,7 +149,7 @@ class RoomListWidget extends StatelessWidget {
                       Expanded(
                           flex: 5,
                           child: Text(
-                            roomData.features![2],
+                            roomData!.features![2],
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyles.infoContentStyle
                                 .copyWith(fontSize: 16),
@@ -158,7 +161,7 @@ class RoomListWidget extends StatelessWidget {
                       Expanded(
                           flex: 5,
                           child: Text(
-                            roomData.features![3],
+                            roomData!.features![3],
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyles.infoContentStyle
                                 .copyWith(fontSize: 16),
@@ -172,7 +175,8 @@ class RoomListWidget extends StatelessWidget {
                       GestureDetector(
                         child: Text(
                           StringConstants.roomMoreDetails,
-                          style: AppTextStyles.infoContentStyle2.copyWith(fontSize: 14),
+                          style: AppTextStyles.infoContentStyle2
+                              .copyWith(fontSize: 14),
                         ),
                       ),
                     ],
@@ -186,11 +190,11 @@ class RoomListWidget extends StatelessWidget {
                       color: Colors.grey[200],
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0,right: 2.0),
+                      padding: const EdgeInsets.only(left: 8.0, right: 2.0),
                       child: Row(
                         children: [
                           Text(
-                            "₹ ${roomData?.price?.toString()} ",
+                            "₹ ${roomData!.price?.toString()} ",
                             style: AppTextStyles.infoContentStyle
                                 .copyWith(fontSize: 14),
                           ),
@@ -201,8 +205,8 @@ class RoomListWidget extends StatelessWidget {
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12.0),
-                                      )),
+                                borderRadius: BorderRadius.circular(12.0),
+                              )),
                               child: Text(
                                 StringConstants.roomSelectButtonTxt,
                                 style: AppTextStyles.infoContentStyle
