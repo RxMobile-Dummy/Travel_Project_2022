@@ -2,9 +2,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
+
 import 'package:make_my_trip/features/sign_up/domain/usecases/user_sign_up.dart';
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:make_my_trip/features/sign_up/presentation/pages/sign_up_page.dart';
+
+
+
+import '../../features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
+import '../../features/home_page/presentation/pages/homepage.dart';
+
+import '../../features/hotel_detail/hotel_detail_injection_container.dart';
+import '../../features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
+import '../../features/hotel_detail/presentation/pages/hotel_detail_page.dart';
+import '../../features/intro/presentation/cubit/intro_cubit.dart';
+import '../../features/intro/presentation/pages/intro_page.dart';
+import '../../features/splash/presentation/pages/splash_page.dart';
+
+import 'package:make_my_trip/features/home_page/home_page_injection_container.dart';
+import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homepage_cubit.dart';
+import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
+import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
+
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
@@ -70,9 +89,14 @@ class Router {
           return HomePage();
         });
       case RoutesName.home:
-        return MaterialPageRoute(builder: (context) {
-          return BlocProvider(
-            create: (context) => TabBarCubit(),
+        return MaterialPageRoute(builder: (_) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider.value(
+                value: slHomePage<HomepageCubit>(),
+              ),
+              BlocProvider.value(value: TabBarCubit())
+            ],
             child: HomePage(),
           );
         });
@@ -98,7 +122,10 @@ class Router {
         });
       case RoutesName.hotelDetail:
         return MaterialPageRoute(builder: (_) {
-          return HomePage();
+          return BlocProvider(
+            create: (context) => hotelDetailSl<HotelDetailCubit>(),
+            child: HotelDetailPage(),
+          );
         });
       case RoutesName.roomCategory:
         return MaterialPageRoute(builder: (_) {

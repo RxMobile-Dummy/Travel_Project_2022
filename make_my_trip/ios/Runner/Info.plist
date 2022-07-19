@@ -66,5 +66,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>The Travel Project needs location permission</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+
 </dict>
 </plist>
