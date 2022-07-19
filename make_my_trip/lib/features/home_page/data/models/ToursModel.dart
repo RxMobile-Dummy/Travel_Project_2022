@@ -6,17 +6,18 @@
 
 class ToursModel {
   ToursModel({
-      int? id, 
-      String? tourName, 
-      int? rating, 
-      int? price, 
-      List<Details>? details,}){
+    int? id,
+    String? tourName,
+    int? rating,
+    int? price,
+    List<Details>? details,
+  }) {
     _id = id;
     _tourName = tourName;
     _rating = rating;
     _price = price;
     _details = details;
-}
+  }
 
   ToursModel.fromJson(dynamic json) {
     _id = json['_id'];
@@ -35,17 +36,20 @@ class ToursModel {
   int? _rating;
   int? _price;
   List<Details>? _details;
-ToursModel copyWith({  int? id,
-  String? tourName,
-  int? rating,
-  int? price,
-  List<Details>? details,
-}) => ToursModel(  id: id ?? _id,
-  tourName: tourName ?? _tourName,
-  rating: rating ?? _rating,
-  price: price ?? _price,
-  details: details ?? _details,
-);
+  ToursModel copyWith({
+    int? id,
+    String? tourName,
+    int? rating,
+    int? price,
+    List<Details>? details,
+  }) =>
+      ToursModel(
+        id: id ?? _id,
+        tourName: tourName ?? _tourName,
+        rating: rating ?? _rating,
+        price: price ?? _price,
+        details: details ?? _details,
+      );
   int? get id => _id;
   String? get tourName => _tourName;
   int? get rating => _rating;
@@ -63,7 +67,6 @@ ToursModel copyWith({  int? id,
     }
     return map;
   }
-
 }
 
 /// _id : 41
@@ -75,19 +78,20 @@ ToursModel copyWith({  int? id,
 
 class Details {
   Details({
-      int? id, 
-      String? imageUrl, 
-      dynamic hotelId, 
-      dynamic roomId, 
-      int? tourId, 
-      dynamic userId,}){
+    int? id,
+    String? imageUrl,
+    dynamic hotelId,
+    dynamic roomId,
+    int? tourId,
+    dynamic userId,
+  }) {
     _id = id;
     _imageUrl = imageUrl;
     _hotelId = hotelId;
     _roomId = roomId;
     _tourId = tourId;
     _userId = userId;
-}
+  }
 
   Details.fromJson(dynamic json) {
     _id = json['_id'];
@@ -103,19 +107,22 @@ class Details {
   dynamic _roomId;
   int? _tourId;
   dynamic _userId;
-Details copyWith({  int? id,
-  String? imageUrl,
-  dynamic hotelId,
-  dynamic roomId,
-  int? tourId,
-  dynamic userId,
-}) => Details(  id: id ?? _id,
-  imageUrl: imageUrl ?? _imageUrl,
-  hotelId: hotelId ?? _hotelId,
-  roomId: roomId ?? _roomId,
-  tourId: tourId ?? _tourId,
-  userId: userId ?? _userId,
-);
+  Details copyWith({
+    int? id,
+    String? imageUrl,
+    dynamic hotelId,
+    dynamic roomId,
+    int? tourId,
+    dynamic userId,
+  }) =>
+      Details(
+        id: id ?? _id,
+        imageUrl: imageUrl ?? _imageUrl,
+        hotelId: hotelId ?? _hotelId,
+        roomId: roomId ?? _roomId,
+        tourId: tourId ?? _tourId,
+        userId: userId ?? _userId,
+      );
   int? get id => _id;
   String? get imageUrl => _imageUrl;
   dynamic get hotelId => _hotelId;
@@ -133,5 +140,4 @@ Details copyWith({  int? id,
     map['user_id'] = _userId;
     return map;
   }
-
 }

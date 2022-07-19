@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:make_my_trip/features/login/presentation/pages/login_page.dart';
-
-import '../../../../injection_container.dart';
-import '../../../login/presentation/cubit/login_cubit.dart';
 import '../manager/cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
 
@@ -15,42 +12,39 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: BlocBuilder<TabBarCubit, TabBarState>(
+    return Scaffold(body: BlocBuilder<TabBarCubit, BaseState>(
       builder: (context, state) {
-        if (state is OnItemTapState) {
-          _selectedIndex = state.index;
+        if (state is StateOnSuccess) {
+          _selectedIndex = state.response;
           return SingleChildScrollView(
             child: Center(
-              child: _widgetOptions().elementAt(state.index),
+              child: _widgetOptions().elementAt(state.response),
             ),
           );
         } else {
-          return Text("Not available");
+          return const Text("Not available");
         }
       },
-    ), bottomNavigationBar: BlocBuilder<TabBarCubit, TabBarState>(
+    ), bottomNavigationBar: BlocBuilder<TabBarCubit, BaseState>(
       builder: (context, state) {
-        if (state is OnItemTapState) {
-          _selectedIndex = state.index;
+        if (state is StateOnSuccess) {
+          _selectedIndex = state.response;
           return SalomonBottomBar(
-            items:  <SalomonBottomBarItem>[
+            items: <SalomonBottomBarItem>[
               SalomonBottomBarItem(
-                  icon: Icon(Icons.home),
-
-                  title:Text("Home")),
+                  icon: const Icon(Icons.home), title: const Text("Home")),
               SalomonBottomBarItem(
-                  icon: Icon(Icons.shop),
-
-                  title:Text("Bookings"),),
+                icon: const Icon(Icons.shop),
+                title: const Text("Bookings"),
+              ),
               SalomonBottomBarItem(
-                icon: Icon(Icons.favorite),
-
-                title:Text("Favorite"),),
+                icon: const Icon(Icons.favorite),
+                title: const Text("Favorite"),
+              ),
               SalomonBottomBarItem(
-                icon: Icon(Icons.home),
-
-                title:Text("Profile"),)
-
+                icon: const Icon(Icons.person),
+                title: const Text("Profile"),
+              )
             ],
             currentIndex: _selectedIndex,
             selectedItemColor: MakeMyTripColors.accentColor,
@@ -63,9 +57,11 @@ class HomePage extends StatelessWidget {
     ));
   }
 
-  static List<Widget> _widgetOptions() =>
-      <Widget>[
+  static List<Widget> _widgetOptions() => <Widget>[
         //View 1
-        HomeScreen(),
+        const HomeScreen(),
+        const HomeScreen(),
+        const HomeScreen(),
+        const HomeScreen(),
       ];
 }

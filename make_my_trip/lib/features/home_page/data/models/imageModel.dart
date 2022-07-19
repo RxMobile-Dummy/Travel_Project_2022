@@ -7,19 +7,20 @@
 
 class ImageModel {
   ImageModel({
-      int? id, 
-      String? imageUrl, 
-      int? hotelId, 
-      dynamic roomId, 
-      dynamic tourId, 
-      dynamic userId,}){
+    int? id,
+    String? imageUrl,
+    int? hotelId,
+    dynamic roomId,
+    dynamic tourId,
+    dynamic userId,
+  }) {
     _id = id;
     _imageUrl = imageUrl;
     _hotelId = hotelId;
     _roomId = roomId;
     _tourId = tourId;
     _userId = userId;
-}
+  }
 
   ImageModel.fromJson(dynamic json) {
     _id = json['_id'];
@@ -35,19 +36,23 @@ class ImageModel {
   dynamic _roomId;
   dynamic _tourId;
   dynamic _userId;
-ImageModel copyWith({  int? id,
-  String? imageUrl,
-  int? hotelId,
-  dynamic roomId,
-  dynamic tourId,
-  dynamic userId, required imageListValue,
-}) => ImageModel(  id: id ?? _id,
-  imageUrl: imageUrl ?? _imageUrl,
-  hotelId: hotelId ?? _hotelId,
-  roomId: roomId ?? _roomId,
-  tourId: tourId ?? _tourId,
-  userId: userId ?? _userId,
-);
+  ImageModel copyWith({
+    int? id,
+    String? imageUrl,
+    int? hotelId,
+    dynamic roomId,
+    dynamic tourId,
+    dynamic userId,
+    required imageListValue,
+  }) =>
+      ImageModel(
+        id: id ?? _id,
+        imageUrl: imageUrl ?? _imageUrl,
+        hotelId: hotelId ?? _hotelId,
+        roomId: roomId ?? _roomId,
+        tourId: tourId ?? _tourId,
+        userId: userId ?? _userId,
+      );
   int? get id => _id;
   String? get imageUrl => _imageUrl;
   int? get hotelId => _hotelId;
@@ -65,5 +70,4 @@ ImageModel copyWith({  int? id,
     map['user_id'] = _userId;
     return map;
   }
-
 }

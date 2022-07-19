@@ -13,31 +13,37 @@ import 'package:make_my_trip/features/home_page/domain/use_cases/image_usecase.d
 import 'package:make_my_trip/features/home_page/domain/use_cases/tour_usecase.dart';
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homepage_cubit.dart';
 
-final sl = GetIt.instance;
+final slHomePage = GetIt.instance;
 
 Future<void> initializehomepage() async {
+  //cubit
+  slHomePage.registerFactory<HomepageCubit>(
+      () => HomepageCubit(slHomePage(), slHomePage()));
   //data source
-  sl.registerLazySingleton<ImagesDataSource>(() => ImagesDataSourceImpl(sl()));
-  sl.registerLazySingleton<ToursDataSource>(() => ToursDataSourceImpl(sl()));
+  slHomePage.registerLazySingleton<ImagesDataSource>(
+      () => ImagesDataSourceImpl(slHomePage()));
+  slHomePage.registerLazySingleton<ToursDataSource>(
+      () => ToursDataSourceImpl(slHomePage()));
 
   //repository
-  sl.registerLazySingleton<ImagesDataSourceImpl>(
-      () => ImagesDataSourceImpl(sl()));
-  sl.registerLazySingleton<ToursDataSourceImpl>(
-      () => ToursDataSourceImpl(sl()));
-  sl.registerLazySingleton<ImagesRepository>(
-      () => ImageRepositoryImpl(imagesdatasource: ImagesDataSourceImpl(sl())));
-  sl.registerLazySingleton<ToursRepository>(
-      () => ToursRepositoryImpl(toursDataSource: ToursDataSourceImpl(sl())));
+  slHomePage.registerLazySingleton<ImagesDataSourceImpl>(
+      () => ImagesDataSourceImpl(slHomePage()));
+  slHomePage.registerLazySingleton<ToursDataSourceImpl>(
+      () => ToursDataSourceImpl(slHomePage()));
+  slHomePage.registerLazySingleton<ImagesRepository>(() => ImageRepositoryImpl(
+      imagesDataSource: ImagesDataSourceImpl(slHomePage())));
+  slHomePage.registerLazySingleton<ToursRepository>(() =>
+      ToursRepositoryImpl(toursDataSource: ToursDataSourceImpl(slHomePage())));
 
   //use case
-  sl.registerLazySingleton<ImagesUseCase>(() => ImagesUseCase(
-      imagesrepository: ImageRepositoryImpl(imagesdatasource: ImagesDataSourceImpl(sl.call()))));
-  sl.registerLazySingleton<ToursUseCase>(() => ToursUseCase(
-      toursRepository: ToursRepositoryImpl(toursDataSource: ToursDataSourceImpl(sl.call()))));
+  slHomePage.registerLazySingleton<GetAllImagesOfHomePageUseCase>(() =>
+      GetAllImagesOfHomePageUseCase(
+          imagesrepository: ImageRepositoryImpl(
+              imagesDataSource: ImagesDataSourceImpl(slHomePage.call()))));
+  slHomePage.registerLazySingleton<GetAllToursOfHomepageUseCase>(() =>
+      GetAllToursOfHomepageUseCase(
+          toursRepository: ToursRepositoryImpl(
+              toursDataSource: ToursDataSourceImpl(slHomePage.call()))));
 
-  //cubit
-  sl.registerFactory<HomepageCubit>(() => HomepageCubit(sl(), sl()));
-
-  sl.registerLazySingleton(() => Dio());
+  slHomePage.registerLazySingleton(() => Dio());
 }

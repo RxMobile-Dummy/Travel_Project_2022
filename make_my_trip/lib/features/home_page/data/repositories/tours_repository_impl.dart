@@ -11,8 +11,6 @@ class ToursRepositoryImpl extends ToursRepository {
 
   @override
   Future<Either<Failures, List<ToursModel>>> getTours() async {
-    print('ToursRepositoryImpl 4');
-    var reponse = await toursDataSource.getToursData();
-    return reponse;
+    return await toursDataSource.getToursData();
   }
 }

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
+import 'package:make_my_trip/features/home_page/home_page_injection_container.dart';
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homepage_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
-import 'package:make_my_trip/features/hotel_listing/presentation/pages/splash_page.dart';
-import '../../features/home_page/home_page_injection_container.dart' as di;
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
@@ -60,7 +59,7 @@ class Router {
           return MultiBlocProvider(
             providers: [
               BlocProvider.value(
-                value: di.sl<HomepageCubit>(),
+                value: slHomePage<HomepageCubit>(),
               ),
               BlocProvider.value(value: TabBarCubit())
             ],

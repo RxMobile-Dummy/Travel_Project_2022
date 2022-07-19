@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
@@ -25,7 +26,7 @@ class HomeScreen extends StatelessWidget {
             decoration: const BoxDecoration(
               color: Colors.transparent,
               image: DecorationImage(
-                fit: BoxFit.fill,
+                fit: BoxFit.fitHeight,
                 image: AssetImage(
                   ImagePath.darkbgimage,
                 ),
@@ -234,22 +235,31 @@ class HomeScreen extends StatelessWidget {
       Container(
         height: 200,
         width: double.infinity,
-        child: BlocBuilder<HomepageCubit, StateOnSuccess<GettingStartedData>>(
-            builder: (context, state) {
-          if (state.response.imageListValue != null) {
-            var imagelist = state.response.imageListValue?.toList();
+        child: BlocBuilder<HomepageCubit, BaseState>(builder: (context, state) {
+          if (state is StateErrorGeneral) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            if ((state as StateOnSuccess<GettingStartedData>)
+                    .response
+                    .imageListValue !=
+                null) {
+              var imagelist = state.response.imageListValue?.toList();
 
-            final List<Widget> imageSliders = imagelist!
-                .map((item) => Container(
-                      child: Container(
+              final List<Widget> imageSliders = imagelist!
+                  .map((item) => Container(
                         margin: const EdgeInsets.all(5.0),
                         child: ClipRRect(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(5.0)),
                             child: Stack(
                               children: <Widget>[
-                                Image.network(item.imageUrl.toString(),
-                                    fit: BoxFit.cover, width: 1000.0),
+                                Image.network(
+                                  item.imageUrl.toString(),
+                                  fit: BoxFit.cover,
+                                  width: MediaQuery.of(context).size.width / 1,
+                                  height:
+                                      MediaQuery.of(context).size.height / 4,
+                                ),
                                 Positioned(
                                   bottom: 0.0,
                                   left: 0.0,
@@ -271,20 +281,20 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ],
                             )),
-                      ),
-                    ))
-                .toList();
-            return CarouselSlider(
-              options: CarouselOptions(
-                autoPlay: true,
-                aspectRatio: 1.0,
-                autoPlayInterval: const Duration(seconds: 7),
-                enlargeCenterPage: true,
-              ),
-              items: imageSliders,
-            );
-          } else {
-            return Text("Loading");
+                      ))
+                  .toList();
+              return CarouselSlider(
+                options: CarouselOptions(
+                  autoPlay: true,
+                  aspectRatio: 1.0,
+                  autoPlayInterval: const Duration(seconds: 7),
+                  enlargeCenterPage: true,
+                ),
+                items: imageSliders,
+              );
+            } else {
+              return Text("Loading");
+            }
           }
         }),
       ),
@@ -303,29 +313,36 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      BlocBuilder<HomepageCubit, StateOnSuccess<GettingStartedData>>(
+      BlocBuilder<HomepageCubit, BaseState>(
         builder: (BuildContext context, state) {
-          if (state.response.toursListValue == null) {
-            return Text("Loading...!");
+          if (state is StateErrorGeneral) {
+            return const CircularProgressIndicator();
           } else {
-            return Container(
-              height: 170,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: state.response.toursListValue?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var hoteldata = state.response.toursListValue?[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: PopularTours(
-                        hoteldata!.details!.first.imageUrl.toString(),
-                        hoteldata.tourName.toString(),
-                        hoteldata.price.toString(),
-                        hoteldata.rating!.toInt()),
-                  );
-                },
-              ),
-            );
+            if ((state as StateOnSuccess<GettingStartedData>)
+                    .response
+                    .toursListValue ==
+                null) {
+              return Text("Loading...!");
+            } else {
+              return Container(
+                height: 170,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.response.toursListValue?.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var hoteldata = state.response.toursListValue?[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: PopularTours(
+                          hoteldata!.details!.first.imageUrl.toString(),
+                          hoteldata.tourName.toString(),
+                          hoteldata.price.toString(),
+                          hoteldata.rating!.toInt()),
+                    );
+                  },
+                ),
+              );
+            }
           }
         },
       )

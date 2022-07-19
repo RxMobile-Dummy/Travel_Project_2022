@@ -4,13 +4,12 @@ import 'package:make_my_trip/features/home_page/domain/repositories/tours_reposi
 
 import '../../../../core/failures/failures.dart';
 
-class ToursUseCase {
+class GetAllToursOfHomepageUseCase {
   final ToursRepository toursRepository;
 
-  ToursUseCase({required this.toursRepository});
+  GetAllToursOfHomepageUseCase({required this.toursRepository});
 
   Future<Either<Failures, List<ToursModel>>> call() {
-    print('ToursUseCase 3');
     return toursRepository.getTours();
   }
 }

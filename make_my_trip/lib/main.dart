@@ -5,10 +5,12 @@ import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
 import './core/navigation/app_router.dart' as AppRoutes;
 import 'firebase_options.dart';
 import 'injection_container.dart' as di;
+import './features/home_page/home_page_injection_container.dart' as hp;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await di.init();
+  await hp.initializehomepage();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
