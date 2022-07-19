@@ -21,9 +21,20 @@ class HotelController {
        await hotelDomain.getHotelByCityRoom(req,res);
 
     }
+
+    //hotel image based on request limit
+    static async getHotelImage(req:Request , res : Response){
+        const hoteldomain = new HotelDomain();
+        await hoteldomain.getHotelImage(req,res);
+    }
 }
 
 router.get('/',HotelController.getHotel);
+
+//get hotel image route
+router.get('/image/:imagelimit',HotelController.getHotelImage);
+
 router.get('/:hotelsearch',HotelController.getHotelBySearch);
 router.get('/:cityname/:roomcount',HotelController.getHotelBycityroom);
+
 export{router};
