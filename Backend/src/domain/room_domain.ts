@@ -40,6 +40,22 @@ class RoomDomain {
 
     }
 
+    // commen function 
+    newJson(roomData: any, imageData: Object) {
+        var tempNewJson: Object = {
+            "room_id": roomData?.room_id,
+            "room_type": roomData?.room_type,
+            "room_size": roomData?.room_size,
+            "bed_size": roomData?.bed_size,
+            "max_capacity": roomData?.max_capacity,
+            "price": roomData?.price,
+            "features": roomData?.features,
+            "description": roomData?.description,
+            "images": imageData
+        }
+        return tempNewJson;
+    }
+
 
     // Get Room with Deluxe Type 
     async getRoomWithDeluxeType(req: Request, res: Response) {
@@ -71,17 +87,7 @@ class RoomDomain {
             var deluxeImagedata: object | null = await imagemodel.find({ $and: [{ room_id: deluxeRoomdata?.room_id }, { hotel_id: hotelid }] });
 
             if (deluxeRoomdata != null) {
-                var newDeluxeJson = {
-                    "room_id": deluxeRoomdata?.room_id,
-                    "room_type": deluxeRoomdata?.room_type,
-                    "room_size": deluxeRoomdata?.room_size,
-                    "bed_size": deluxeRoomdata?.bed_size,
-                    "max_capacity": deluxeRoomdata?.max_capacity,
-                    "price": deluxeRoomdata?.price,
-                    "features": deluxeRoomdata?.features,
-                    "description": deluxeRoomdata?.description,
-                    "images": deluxeImagedata
-                }
+                var newDeluxeJson = this.newJson(deluxeRoomdata, deluxeImagedata);
                 roomData.push(newDeluxeJson);
             }
 
@@ -89,17 +95,7 @@ class RoomDomain {
             var semiDeluxeImagedata: object | null = await imagemodel.find({ $and: [{ room_id: semiDeluxeRoomdata?.room_id }, { hotel_id: hotelid }] });
 
             if (semiDeluxeRoomdata != null) {
-                var newSemiDeluxeJson = {
-                    "room_id": semiDeluxeRoomdata?.room_id,
-                    "room_type": semiDeluxeRoomdata?.room_type,
-                    "room_size": semiDeluxeRoomdata?.room_size,
-                    "bed_size": semiDeluxeRoomdata?.bed_size,
-                    "max_capacity": semiDeluxeRoomdata?.max_capacity,
-                    "price": semiDeluxeRoomdata?.price,
-                    "features": semiDeluxeRoomdata?.features,
-                    "description": semiDeluxeRoomdata?.description,
-                    "images": semiDeluxeImagedata
-                }
+                var newSemiDeluxeJson = this.newJson(semiDeluxeRoomdata, semiDeluxeImagedata);
                 roomData.push(newSemiDeluxeJson);
             }
 
@@ -107,17 +103,7 @@ class RoomDomain {
             var superDeluxeImagedata: object | null = await imagemodel.find({ $and: [{ room_id: superDeluxeRoomdata?.room_id }, { hotel_id: hotelid }] });
 
             if (superDeluxeRoomdata != null) {
-                var newSuperDeluxeJson = {
-                    "room_id": superDeluxeRoomdata?.room_id,
-                    "room_type": superDeluxeRoomdata?.room_type,
-                    "room_size": superDeluxeRoomdata?.room_size,
-                    "bed_size": superDeluxeRoomdata?.bed_size,
-                    "max_capacity": superDeluxeRoomdata?.max_capacity,
-                    "price": superDeluxeRoomdata?.price,
-                    "features": superDeluxeRoomdata?.features,
-                    "description": superDeluxeRoomdata?.description,
-                    "images": superDeluxeImagedata
-                }
+                var newSuperDeluxeJson = this.newJson(superDeluxeRoomdata, superDeluxeImagedata);
                 roomData.push(newSuperDeluxeJson);
 
             }
