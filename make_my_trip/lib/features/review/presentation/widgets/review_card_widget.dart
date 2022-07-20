@@ -48,8 +48,7 @@ class ReviewCardWidget extends StatelessWidget {
                       backgroundColor: MakeMyTripColors.color50gray,
                       child: CircleAvatar(
                         radius: 22,
-                        backgroundImage: NetworkImage(
-                            "https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F1.jpg?alt=media&token=3148b5f2-af26-4094-8c7c-59dd4c5c9a5f"),
+                        backgroundImage: NetworkImage(image),
                         backgroundColor: MakeMyTripColors.color30gray,
                       ),
                     ),
