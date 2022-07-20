@@ -14,6 +14,6 @@ class SplashCubit extends Cubit<BaseState> {
   splashLoad() {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-    Future.delayed(Duration(seconds: 2)).then((value) => emit(StateNoData()));
+    Future.delayed(Duration(seconds: 3)).then((value) => emit(StateNoData()));
   }
 }

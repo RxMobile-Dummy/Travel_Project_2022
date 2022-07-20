@@ -16,25 +16,36 @@ class StringConstants {
       'Meet new people from over millions of\nusers. Create posts, find friends and more.';
   static String forgotPass = 'Forgot Password?';
   static String orLoginWith = "or login with";
-  static String facebook = "Facebook";
-  static String google = "Google";
+
   static String noAccount = "Or don't have account?";
+
+  static String facebookTxt = "Facebook";
+  static String googleTxt = "Google";
   static String passwordTxt = 'Password';
   static String signUpTxt = 'SignUp';
   static String loginTxt = 'Login';
   static String emailTxt = 'Email';
+  static String continueTxt = "Continue";
+  static String backTxt = "Back";
+  static String bedTxt = "BEDS";
+  static String descriptionTxt = "Description";
+  static String amenitiesTxt = "Amenities";
+  static String skipTxt = "Skip";
+  static String nextTxt = "Next";
+  static String doneTxt = "Done";
+  static String readMoreTxt = 'Read More';
+  static String readLessTxt = 'Read Less';
+  static String viewallTxt = "View All";
+  static String fullnameTxt = "Full Name";
+  static String conpassowrdTxt = "Confirm Password";
 
   // room detail page
 
-  static String continue_button = "Continue";
-  static String back = "Back";
-  static String deluxroom = "DELUX ROOM";
-  static String semi_deluxroom = "SEMI DELUX ROOM";
-  static String super_deluxroom = "SUPER DELUX ROOM";
+  static String deluxroomTxt = "DELUX ROOM";
+  static String semiDeluxroomTxt = "SEMI DELUX ROOM";
+  static String superDeluxroomTxt = "SUPER DELUX ROOM";
   static String room_size = "ROOM SIZE";
-  static String bed = "BEDS";
-  static String description = "Description";
-  static String amenities = "Amenities";
+
   // Intro Strings
   static String introTitle1 = 'Plan Destination...';
   static String introSubtitle1 =
@@ -46,25 +57,15 @@ class StringConstants {
       'Give it a dazzling Voyage to your wanderlust!';
   static String introTitle4 = 'Enjoy your trip...';
   static String introSubtitle4 = 'Our bags are packed, We\'re ready to go!';
-  static String introSkip = "Skip";
-  static String introNext = "Next";
-  static String introDone = "Done";
 
   static String messageInvalidConfirmPassword =
       'Please enter both passwords same';
 
-  static String SignUp = 'Sign Up';
-  static String fullname = "Full Name";
-  static String email = "Email";
-  static String password = "Password";
-  static String conpassowrd = "Confirm Password";
   static String tc = "By signing up, you agree to our";
-  static String continueConst = "Continue";
-
   // HomePage Strings
   static String appname = "MakeMyTrip";
   static String populartours = "Popular Tours";
-  static String viewall = "View All";
+
   static String hotels = "Hotels";
   static String places = "Places";
   static String states = "States";
@@ -82,7 +83,11 @@ class StringConstants {
   static String review = 'Review';
   static String cleanliness = 'Cleanliness';
 
-
+  static String hotelName = 'HOTEL NAME';
+  static String address = 'Address';
+  static String price = '₹ 100000';
+  static String hotelListPageTitle = 'Hotel Search Page';
+  static String recommendedText = 'Recommended For You';
   // Wishlist Strings
   static String wishlistTitle = 'Express Hotel Andheri';
   static String wishlistLocationName = 'Andheri East';
@@ -90,20 +95,17 @@ class StringConstants {
   static String wishlistRs = "8000";
   static String wishlistSublineText = 'Breakfast available at extra charges';
 
-
   static String room = "Room";
 
   //serverFail String
   static String serverFail = "The server is currently unavailable";
-
 
   // RoomCategoriesPage Strings
 
   static String roomMoreDetails = 'More Details';
   static String roomSelectButtonTxt = 'SELECT';
   static String roomCategoriesPageHeading = 'SELECT A ROOM';
-  static String readMore = 'Read More';
-  static String readLess = 'Read Less';
+  static String searchPageTitle = "Search Hotel";
 
   static String resetPassword = "Forget Password";
   static String passwordLbl =
@@ -112,18 +114,19 @@ class StringConstants {
   static String hintText = "helloworld123@gmail.com";
   static String sendLink = "Send Link";
 
-
   // Hotel Detail Page String
-  static String backBtn = "Back";
   static String selectRoom = "Select Room";
   static String photos = "Photos";
-  static String readLess = "Read Less";
-  static String readMore = "Read More";
+
   static String gallery = "Gallery";
   static String seeAllReview = "See all review";
   static String seeAllPhoto = "See all photo";
   static String location = "Location";
 
-
-
+  static String historyHeading = 'History';
+  static String bookingPrice = '₹ 100000';
+  static String bookingDate = '12 Jul, 22 - 19JUl, 22';
+  static String totalBookingDays = '365 Days';
+  static String bookingLocation = 'Location';
+  static String bookingtitle = 'Hotel or Tour Name';
 }

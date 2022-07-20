@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
@@ -65,8 +66,8 @@ class RoomListWidget extends StatelessWidget {
                                   padding: const EdgeInsets.all(2.0),
                                   child: Text(
                                     (isReadMore)
-                                        ? StringConstants.readLess
-                                        : StringConstants.readMore,
+                                        ? StringConstants.readLessTxt
+                                        : StringConstants.readMoreTxt,
                                     style: AppTextStyles.infoContentStyle2,
                                   ),
                                 ),
@@ -173,6 +174,10 @@ class RoomListWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, RoutesName.roomDetail, (route) => true);
+                        },
                         child: Text(
                           StringConstants.roomMoreDetails,
                           style: AppTextStyles.infoContentStyle2

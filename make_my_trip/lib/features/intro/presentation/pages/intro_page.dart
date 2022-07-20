@@ -74,7 +74,7 @@ class IntroPage extends StatelessWidget {
                         }
                       },
                       child: Text(
-                        StringConstants.introSkip.toUpperCase(),
+                        StringConstants.skipTxt.toUpperCase(),
                         style: TextStyle(
                             color: (introIndex == 3)
                                 ? MakeMyTripColors.accentColor.withOpacity(0)
@@ -110,7 +110,7 @@ class IntroPage extends StatelessWidget {
                       onTap: () {
                         if (introIndex == 3) {
                           Navigator.pushNamedAndRemoveUntil(
-                              context, RoutesName.home, (route) => false);
+                              context, RoutesName.home, (route) => true);
                         } else {
                           introSliderController.nextPage(
                               duration: const Duration(milliseconds: 300),
@@ -119,8 +119,8 @@ class IntroPage extends StatelessWidget {
                       },
                       child: Text(
                         (introIndex == 3)
-                            ? StringConstants.introDone.toUpperCase()
-                            : StringConstants.introNext.toUpperCase(),
+                            ? StringConstants.doneTxt.toUpperCase()
+                            : StringConstants.nextTxt.toUpperCase(),
                         style: const TextStyle(
                             fontSize: 18,
                             color: MakeMyTripColors.accentColor,

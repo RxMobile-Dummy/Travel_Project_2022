@@ -170,7 +170,7 @@ class RoomDetailsPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    StringConstants.bed,
+                                    StringConstants.bedTxt,
                                     style: AppTextStyles.unselectedLabelStyle
                                         .copyWith(
                                             color:
@@ -190,7 +190,7 @@ class RoomDetailsPage extends StatelessWidget {
                     ],
                   ),
                   10.verticalSpace,
-                  Text(StringConstants.description,
+                  Text(StringConstants.descriptionTxt,
                       style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
                   8.verticalSpace,
                   Text(
@@ -199,7 +199,7 @@ class RoomDetailsPage extends StatelessWidget {
                     style: AppTextStyles.labelDescriptionStyle,
                   ),
                   20.verticalSpace,
-                  Text(StringConstants.amenities,
+                  Text(StringConstants.amenitiesTxt,
                       style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
                   10.verticalSpace,
                   Wrap(

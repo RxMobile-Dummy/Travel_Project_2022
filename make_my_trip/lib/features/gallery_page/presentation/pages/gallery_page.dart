@@ -1,9 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-
 
 import 'view_full_image_page.dart';
 
@@ -60,40 +57,40 @@ class GalleryPage extends StatelessWidget {
 
     for (int i = imageList.length; i > 0; i -= 6) {
       if (i > 6) {
-        patternList.add(QuiltedGridTile(10, 12));
-        patternList.add(QuiltedGridTile(5, 8));
-        patternList.add(QuiltedGridTile(5, 8));
-        patternList.add(QuiltedGridTile(10, 20));
-        patternList.add(QuiltedGridTile(7, 10));
-        patternList.add(QuiltedGridTile(7, 10));
+        patternList.add(const QuiltedGridTile(10, 12));
+        patternList.add(const QuiltedGridTile(5, 8));
+        patternList.add(const QuiltedGridTile(5, 8));
+        patternList.add(const QuiltedGridTile(10, 20));
+        patternList.add(const QuiltedGridTile(7, 10));
+        patternList.add(const QuiltedGridTile(7, 10));
       } else {
         if (i == 1) {
-          patternList.add(QuiltedGridTile(12, 20));
+          patternList.add(const QuiltedGridTile(12, 20));
         } else if (i == 2) {
-          patternList.add(QuiltedGridTile(8, 10));
-          patternList.add(QuiltedGridTile(8, 10));
+          patternList.add(const QuiltedGridTile(8, 10));
+          patternList.add(const QuiltedGridTile(8, 10));
         } else if (i == 3) {
-          patternList.add(QuiltedGridTile(10, 12));
-          patternList.add(QuiltedGridTile(5, 8));
-          patternList.add(QuiltedGridTile(5, 8));
+          patternList.add(const QuiltedGridTile(10, 12));
+          patternList.add(const QuiltedGridTile(5, 8));
+          patternList.add(const QuiltedGridTile(5, 8));
         } else if (i == 4) {
-          patternList.add(QuiltedGridTile(10, 12));
-          patternList.add(QuiltedGridTile(5, 8));
-          patternList.add(QuiltedGridTile(5, 8));
-          patternList.add(QuiltedGridTile(12, 20));
+          patternList.add(const QuiltedGridTile(10, 12));
+          patternList.add(const QuiltedGridTile(5, 8));
+          patternList.add(const QuiltedGridTile(5, 8));
+          patternList.add(const QuiltedGridTile(12, 20));
         } else if (i == 5) {
-          patternList.add(QuiltedGridTile(10, 12));
-          patternList.add(QuiltedGridTile(5, 8));
-          patternList.add(QuiltedGridTile(5, 8));
-          patternList.add(QuiltedGridTile(8, 10));
-          patternList.add(QuiltedGridTile(8, 10));
+          patternList.add(const QuiltedGridTile(10, 12));
+          patternList.add(const QuiltedGridTile(5, 8));
+          patternList.add(const QuiltedGridTile(5, 8));
+          patternList.add(const QuiltedGridTile(8, 10));
+          patternList.add(const QuiltedGridTile(8, 10));
         } else if (i == 6) {
-          patternList.add(QuiltedGridTile(10, 12));
-          patternList.add(QuiltedGridTile(5, 8));
-          patternList.add(QuiltedGridTile(5, 8));
-          patternList.add(QuiltedGridTile(10, 20));
-          patternList.add(QuiltedGridTile(7, 10));
-          patternList.add(QuiltedGridTile(7, 10));
+          patternList.add(const QuiltedGridTile(10, 12));
+          patternList.add(const QuiltedGridTile(5, 8));
+          patternList.add(const QuiltedGridTile(5, 8));
+          patternList.add(const QuiltedGridTile(10, 20));
+          patternList.add(const QuiltedGridTile(7, 10));
+          patternList.add(const QuiltedGridTile(7, 10));
         }
       }
     }
@@ -127,9 +124,9 @@ class Tile extends StatelessWidget {
                     image: imageList[index],
                     imageErrorBuilder: (context, error, stackTrace) {
                       return Image.asset(
-                          'assets/img/placeholder.png',
-                          fit: BoxFit.fitWidth,);
-                    })
-            )));
+                        'assets/img/placeholder.png',
+                        fit: BoxFit.fitWidth,
+                      );
+                    }))));
   }
 }

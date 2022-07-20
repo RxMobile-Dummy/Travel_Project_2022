@@ -49,16 +49,15 @@ class RoomCategoriesPage extends StatelessWidget {
                 ),
               ],
             ),
-            body: ListView.builder(
-              itemCount: roomCategoryModel?.roomData!.length,
-              itemBuilder: (context, index) {
-                if (roomCategoryModel?.roomData![index] != null) {
-                  return RoomListWidget(
-                      roomData: roomCategoryModel!.roomData![index]);
-                }
-                return CircularProgressIndicator();
-              },
-            ));
+            body: (roomCategoryModel == null)
+                ? Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: roomCategoryModel?.roomData!.length,
+                    itemBuilder: (context, index) {
+                      return RoomListWidget(
+                          roomData: roomCategoryModel!.roomData![index]);
+                    },
+                  ));
       },
     );
   }

@@ -15,7 +15,7 @@ import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homep
 
 final slHomePage = GetIt.instance;
 
-Future<void> initializehomepage() async {
+Future<void> init() async {
   //cubit
   slHomePage.registerFactory<HomepageCubit>(
       () => HomepageCubit(slHomePage(), slHomePage()));

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
@@ -117,14 +118,19 @@ class HomeScreen extends StatelessWidget {
                                       // splashColor: Colors.red, // inkwell color
                                       child: const SizedBox(
                                         width: 46,
-                                        height: 46,
+                                        height: 100,
                                         child: Icon(
                                           Icons.business_sharp,
                                           color: MakeMyTripColors.colorRedDark,
                                           size: 35,
                                         ),
                                       ),
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            RoutesName.search,
+                                            (route) => true);
+                                      },
                                     ),
                                   ),
                                 ),
@@ -307,7 +313,7 @@ class HomeScreen extends StatelessWidget {
             Text(StringConstants.populartours,
                 style: AppTextStyles.infoContentStyle2),
             Text(
-              StringConstants.viewall,
+              StringConstants.viewallTxt,
               style: AppTextStyles.infoContentStyle2,
             )
           ],
@@ -334,7 +340,7 @@ class HomeScreen extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: PopularTours(
-                          hoteldata!.details!.first.imageUrl.toString(),
+                          hoteldata!.images!.first.imageUrl.toString(),
                           hoteldata.tourName.toString(),
                           hoteldata.price.toString(),
                           hoteldata.rating!.toInt()),

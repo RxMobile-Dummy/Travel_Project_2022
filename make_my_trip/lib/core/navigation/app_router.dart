@@ -1,15 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
+import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_container.dart';
+import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
+import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_list_page.dart';
+import 'package:make_my_trip/features/search/presentation/pages/search_page.dart';
 
-
-import 'package:make_my_trip/features/sign_up/domain/usecases/user_sign_up.dart';
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:make_my_trip/features/sign_up/presentation/pages/sign_up_page.dart';
-
-
+import 'package:make_my_trip/features/sign_up/signup_injection_container.dart';
 
 import '../../features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import '../../features/home_page/presentation/pages/homepage.dart';
@@ -27,17 +27,12 @@ import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homep
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 
-
 import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
 import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
 import '../../features/room_detail_page/presentation/manager/cubit/imageslider_cubit.dart';
 import '../../features/room_detail_page/presentation/pages/roomdetail.dart';
-
-
-import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
-import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 
 import 'package:make_my_trip/features/review/presentation/cubit/publish_review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
@@ -49,32 +44,13 @@ import 'package:make_my_trip/features/room_categories/presentation/cubit/room_ca
 import 'package:make_my_trip/features/room_categories/presentation/pages/room_categories_page.dart';
 import 'package:make_my_trip/features/room_categories/room_categories_injection_container.dart';
 
-
-import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
-import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
-import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
-
-
 import '../../features/login/presentation/cubit/login_cubit.dart';
 import '../../features/login/presentation/pages/login_page.dart';
 
-
-
 import '../../features/login/presentation/widgets/resetPassword_widget.dart';
-import '../../injection_container.dart';
+import '../../features/login/login_injection_container.dart';
 
-
-///your app router here ::: use your route manager
 import '../../features/wishlist/presentation/pages/wishlist_page.dart';
-
-
-
-import '../../features/sign_up/data/data_sources/sign_up_remote_datasource_impl.dart';
-import '../../features/sign_up/data/repositories/sign_up_repository_impl.dart';
-import '../../features/sign_up/domain/usecases/user_verification.dart';
-
-
-///your app router here ::: use your route cubit
 
 class Router {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
@@ -93,22 +69,14 @@ class Router {
       case RoutesName.login:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => sl<LoginCubit>(),
+            create: (context) => loginSl<LoginCubit>(),
             child: LoginPage(),
           );
         });
       case RoutesName.signup:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => SignUpCubit(
-                userVerification: UserVerification(
-                    repository: SignUpRepositoryImpl(
-                        remoteDataSource: SignUpRemoteDataSourceImpl(
-                            auth: FirebaseAuth.instance))),
-                userSignUp: UserSignUp(
-                    repository: SignUpRepositoryImpl(
-                        remoteDataSource: SignUpRemoteDataSourceImpl(
-                            auth: FirebaseAuth.instance)))),
+            create: (context) => signUpSl<SignUpCubit>(),
             child: SignUpPage(),
           );
         });
@@ -123,7 +91,7 @@ class Router {
       case RoutesName.resetPassword:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => sl<LoginCubit>(),
+            create: (context) => loginSl<LoginCubit>(),
             child: ResetPasswordPage(),
           );
         });
@@ -153,11 +121,14 @@ class Router {
         });
       case RoutesName.search:
         return MaterialPageRoute(builder: (_) {
-          return HomePage();
+          return SearchHotelPage();
         });
       case RoutesName.hotelList:
         return MaterialPageRoute(builder: (_) {
-          return HomePage();
+          return BlocProvider(
+            create: (context) => hotelListSl<HotelListCubit>(),
+            child: HotelListPage(),
+          );
         });
       case RoutesName.hotelDetail:
         return MaterialPageRoute(builder: (_) {
@@ -169,29 +140,29 @@ class Router {
       case RoutesName.roomCategory:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => sl<RoomCategoryCubit>(),
+            create: (context) => roomCategorySl<RoomCategoryCubit>(),
             child: RoomCategoriesPage(),
           );
         });
       case RoutesName.roomDetail:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => sl<ImagesliderCubit>(),
+            create: (context) => roomDetailSl<ImagesliderCubit>(),
             child: RoomDetailsPage(),
           );
         });
       case RoutesName.reviewPage:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => sl<ReviewCubit>(),
+            create: (context) => reviewSl<ReviewCubit>(),
             child: ReviewPage(),
           );
         });
       case RoutesName.publishReviewPage:
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(providers: [
-            BlocProvider(create: (context) => sl<ReviewCubit>()),
-            BlocProvider(create: (context) => sl<PublishReviewCubit>())
+            BlocProvider(create: (context) => reviewSl<ReviewCubit>()),
+            BlocProvider(create: (context) => reviewSl<PublishReviewCubit>())
           ], child: PublishReviewPage());
         });
       case RoutesName.galleryPage:

@@ -24,5 +24,5 @@ Future<void> init() async {
   hotelDetailSl
       .registerLazySingleton(() => HotelDetailUseCase(hotelDetailSl()));
 
-  hotelDetailSl.registerLazySingleton(() => Dio());
+  // hotelDetailSl.registerFactory(() => Dio());
 }

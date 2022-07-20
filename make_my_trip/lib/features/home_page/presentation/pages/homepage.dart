@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
+import 'package:make_my_trip/features/login/login_injection_container.dart';
+import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
+import 'package:make_my_trip/features/login/presentation/pages/login_page.dart';
+import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
+import 'package:make_my_trip/features/wishlist/presentation/pages/wishlist_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../manager/cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
@@ -16,10 +21,8 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         if (state is StateOnSuccess) {
           _selectedIndex = state.response;
-          return SingleChildScrollView(
-            child: Center(
-              child: _widgetOptions().elementAt(state.response),
-            ),
+          return Center(
+            child: _widgetOptions().elementAt(state.response),
           );
         } else {
           return const Text("Not available");
@@ -60,8 +63,11 @@ class HomePage extends StatelessWidget {
   static List<Widget> _widgetOptions() => <Widget>[
         //View 1
         const HomeScreen(),
-        const HomeScreen(),
-        const HomeScreen(),
-        const HomeScreen(),
+        const UserHistoryPage(),
+        const WishListPage(),
+        BlocProvider(
+          create: (context) => loginSl<LoginCubit>(),
+          child: LoginPage(),
+        ),
       ];
 }

@@ -24,7 +24,8 @@ class LoginPage extends StatelessWidget {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccessState) {
-          Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(
+              context, RoutesName.home, (route) => true);
         }
       },
       child: Scaffold(
@@ -143,7 +144,7 @@ class LoginPage extends StatelessWidget {
                         child: CustomIconButton(
                           backColor: const Color(0xff3b5998),
                           icon: const Icon(Icons.facebook_rounded),
-                          text: StringConstants.facebook,
+                          text: StringConstants.facebookTxt,
                           textColor: MakeMyTripColors.colorWhite,
                           onTap: () {
                             BlocProvider.of<LoginCubit>(context)
@@ -164,7 +165,7 @@ class LoginPage extends StatelessWidget {
                               BlocProvider.of<LoginCubit>(context)
                                   .signInWithGoogle();
                             },
-                            text: StringConstants.google),
+                            text: StringConstants.googleTxt),
                       ),
                     ],
                   ),
@@ -180,9 +181,11 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          recognizer: TapGestureRecognizer()..onTap = () {
-                            Navigator.pushNamedAndRemoveUntil(context, RoutesName.signup, (route) => false);
-                          },
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, RoutesName.signup, (route) => true);
+                            },
                           text: StringConstants.signUpTxt,
                           style: AppTextStyles.infoContentStyle2,
                         )

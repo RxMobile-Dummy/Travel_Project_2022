@@ -6,23 +6,23 @@ import 'package:make_my_trip/features/room_detail_page/domain/repositories/room_
 import 'package:make_my_trip/features/room_detail_page/domain/use_cases/room_detail_usecase.dart';
 import 'package:make_my_trip/features/room_detail_page/presentation/manager/cubit/imageslider_cubit.dart';
 
-var sl = GetIt.instance;
+var roomDetailSl = GetIt.instance;
 
 Future<void> init() async {
   //cubit
-  sl.registerFactory(() => ImagesliderCubit(sl()));
+  roomDetailSl.registerFactory(() => ImagesliderCubit(roomDetailSl()));
 
   //usecase
-  sl.registerLazySingleton(() => RoomDetailUsecase(sl()));
+  roomDetailSl.registerLazySingleton(() => RoomDetailUsecase(roomDetailSl()));
 
   //repo
-  sl.registerLazySingleton<RoomDetailsRepository>(() => RoomDetailRepositoryImpl(sl()));
+  roomDetailSl.registerLazySingleton<RoomDetailsRepository>(
+      () => RoomDetailRepositoryImpl(roomDetailSl()));
 
   //datsource
 
-  sl.registerLazySingleton<RoomDetailRemoteDataSource>(() => RoomDetailDataSourceImpl(sl()));
+  roomDetailSl.registerLazySingleton<RoomDetailRemoteDataSource>(
+      () => RoomDetailDataSourceImpl(roomDetailSl()));
 
-  sl.registerLazySingleton(() => Dio());
-
-
+  // roomDetailSl.registerFactory(() => Dio());
 }

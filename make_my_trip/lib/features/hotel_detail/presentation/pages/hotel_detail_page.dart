@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
@@ -116,24 +118,30 @@ class HotelDetailPage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(5.0)),
                                 ),
                               ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: MakeMyTripColors.colorWhite,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text(
-                                      "${hotelDetailModel?.images?.length} ${StringConstants.photos}",
-                                      style: AppTextStyles.infoContentStyle,
-                                    ),
-                                    8.horizontalSpace,
-                                    const Icon(Icons.image)
-                                  ],
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      RoutesName.galleryPage, (route) => true);
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: MakeMyTripColors.colorWhite,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                        "${hotelDetailModel?.images?.length} ${StringConstants.photos}",
+                                        style: AppTextStyles.infoContentStyle,
+                                      ),
+                                      8.horizontalSpace,
+                                      const Icon(Icons.image)
+                                    ],
+                                  ),
                                 ),
                               )
                             ],
@@ -207,8 +215,8 @@ class HotelDetailPage extends StatelessWidget {
                                     padding: const EdgeInsets.all(2.0),
                                     child: Text(
                                       (isReadMore)
-                                          ? StringConstants.readLess
-                                          : StringConstants.readMore,
+                                          ? StringConstants.readLessTxt
+                                          : StringConstants.readMoreTxt,
                                       style: const TextStyle(
                                           color: MakeMyTripColors.accentColor,
                                           fontSize: 16),
@@ -240,11 +248,19 @@ class HotelDetailPage extends StatelessWidget {
                       icon: Icons.star_rounded,
                       leadingText: hotelDetailModel?.rating?.toString() ?? "3",
                       tralingText: StringConstants.seeAllReview,
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, RoutesName.reviewPage, (route) => true);
+                      },
                     ),
                     18.verticalSpace,
                     ReviewContainer(
                       leadingText: StringConstants.gallery,
                       tralingText: StringConstants.seeAllPhoto,
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, RoutesName.galleryPage, (route) => true);
+                      },
                     ),
                     18.verticalSpace,
                     Text(
@@ -275,21 +291,15 @@ class HotelDetailPage extends StatelessWidget {
             ],
           ),
           bottomNavigationBar: SafeArea(
-            bottom: true,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  StringConstants.selectRoom,
-                  style: AppTextStyles.confirmButtonTextStyle,
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: MakeMyTripColors.accentColor,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-              ),
-            ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: CommonPrimaryButton(
+                    text: StringConstants.selectRoom,
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RoutesName.roomCategory, (route) => true);
+                    })),
           ),
         );
       },
