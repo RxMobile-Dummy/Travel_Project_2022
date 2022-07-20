@@ -187,18 +187,19 @@ class BookingDomain {
 
     async userBookingHistory(req: Request, res: Response) {
         try {
-            var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
-            var uid: String = reqData.uid;
+            // var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
+            var uid: String = "11";
             var bookingData = await bookingmodel.find({ "user_id": uid });
-            var hotelIdList:any=[];
-            if(bookingData!=null){
-                bookingData.forEach(e=>{
+            var hotelIdList: any = [];
+            var bookingHistoryData: any = [];
+            if (bookingData != null) {
+                bookingData.forEach(e => {
                     hotelIdList.push(e.hotel_id);
                 })
-                var hotelData=await hotelmodel.aggregate([
+                var hotelData = await hotelmodel.aggregate([
                     {
                         $match: {
-                            _id:{$in: hotelIdList}
+                            _id: { $in: hotelIdList }
                         }
                     },
                     {
@@ -216,21 +217,36 @@ class BookingDomain {
                         "$project": {
                             "hotel_id": "$_id",
                             "hotel_name": "$hotel_name",
-                            "address":"$address",
-                            "price": "$price",
+                            "address": "$address",
                             'images': "$images"
                         }
                     },
-    
-                ]);
-    
-                res.status(StatusCode.Sucess).send(hotelData);
 
-            }else{
+                ]);
+                
+                bookingData.forEach(e => {
+                    hotelData.forEach(d => {
+                        if (e.hotel_id == d._id) {
+                            bookingHistoryData.push({
+                                "hotel_id": d._id,
+                                "hotel_name": d.hotel_name,
+                                "address": d.address,
+                                'images': d.images,
+                                "price": e.price?.total_price,
+                                "checking_date": e.checkin_date,
+                                "checkout_date": e.checkout_date
+                            })
+                        }
+                    })
+                })
+                
+                res.status(StatusCode.Sucess).send(bookingHistoryData);
+
+            } else {
                 res.status(StatusCode.Not_Found).send("No Hotel Found")
                 res.end()
             }
-        } catch (e:any) {
+        } catch (e: any) {
             res.status(StatusCode.Server_Error).send(e.message);
             res.end();
         }
