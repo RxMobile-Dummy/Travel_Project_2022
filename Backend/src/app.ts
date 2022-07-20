@@ -19,7 +19,7 @@ import { router as Roomrouter } from './controller/room_controller';
 import { router as UserRouter } from './controller/user_controller';
 import { router as reviewroute } from './controller/review_controller';
 import { router as bookingroute } from './controller/booking_controller';
-
+import { router as bookmarkroute } from './controller/bookmark_controller';
 
 // FIREBASE INTITIALIZE
 admin.initializeApp(
@@ -45,6 +45,8 @@ app.use('/city', cityroute);
 app.use('/user', UserRouter)
 app.use('/review', reviewroute);
 app.use('/booking',bookingroute);
+app.use('/bookmark',bookmarkroute);
+
 
 // LISTEN
 app.listen(port, () => {
