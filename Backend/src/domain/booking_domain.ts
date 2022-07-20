@@ -96,7 +96,7 @@ class BookingDomain {
                     "hotel_id": 1,
                     "room_id": 1
                 })
-                
+
                 if (unAvailableBooking != null) {
                     //Available roomId 
                     unAvailableBooking.forEach(e => {
@@ -181,6 +181,57 @@ class BookingDomain {
             }
         } catch (error: any) {
             res.status(StatusCode.Server_Error).send(error.message);
+            res.end();
+        }
+    }
+
+    async userBookingHistory(req: Request, res: Response) {
+        try {
+            var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
+            var uid: String = reqData.uid;
+            var bookingData = await bookingmodel.find({ "user_id": uid });
+            var hotelIdList:any=[];
+            if(bookingData!=null){
+                bookingData.forEach(e=>{
+                    hotelIdList.push(e.hotel_id);
+                })
+                var hotelData=await hotelmodel.aggregate([
+                    {
+                        $match: {
+                            _id:{$in: hotelIdList}
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: "images",
+                            localField: "_id",
+                            foreignField: "hotel_id",
+                            pipeline: [
+                                { $match: { room_id: null } }
+                            ],
+                            as: "images",
+                        },
+                    },
+                    {
+                        "$project": {
+                            "hotel_id": "$_id",
+                            "hotel_name": "$hotel_name",
+                            "address":"$address",
+                            "price": "$price",
+                            'images': "$images"
+                        }
+                    },
+    
+                ]);
+    
+                res.status(StatusCode.Sucess).send(hotelData);
+
+            }else{
+                res.status(StatusCode.Not_Found).send("No Hotel Found")
+                res.end()
+            }
+        } catch (e:any) {
+            res.status(StatusCode.Server_Error).send(e.message);
             res.end();
         }
     }
