@@ -187,8 +187,8 @@ class BookingDomain {
 
     async userBookingHistory(req: Request, res: Response) {
         try {
-            // var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
-            var uid: String = "11";
+            var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
+            var uid: String = reqData.uid;
             var bookingData = await bookingmodel.find({ "user_id": uid });
             var hotelIdList: any = [];
             var bookingHistoryData: any = [];
