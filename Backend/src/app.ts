@@ -6,7 +6,7 @@ import * as admin from 'firebase-admin';
 import credential from "./travelproject22-6b9d4-firebase-adminsdk-2wiay-c9c1876710.json";
 
 const app: Express = express();
-const connection = mongoose.connect('mongodb://localhost:27017/mmtdata');
+const connection = mongoose.connect('mongodb+srv://akash:akash@cluster0.4gzjhma.mongodb.net/mmt');
 dotenv.config();
 const port = process.env.PORT;
 app.use(express.json());
@@ -45,6 +45,7 @@ app.use('/city', cityroute);
 app.use('/user', UserRouter)
 app.use('/review', reviewroute);
 app.use('/booking',bookingroute);
+
 // LISTEN
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at ${port}`);

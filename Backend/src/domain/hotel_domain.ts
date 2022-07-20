@@ -3,25 +3,14 @@ import { citymodel } from "../model/city";
 import { statemodel } from "../model/state";
 import { StatusCode } from "../statuscode";
 import { imagemodel } from "../model/image";
-import { imagemodel } from "../model/image";
-import { StatusCode } from "../statuscode";
-
-
 import express, { Express, Request, Response } from 'express'
-
 
 class HotelDomain {
 
     async getAllHotel(req: Request, res: Response) {
-        try {
-            var gethotelfulldetails = await hotelmodel.find().populate({
-                path: 'addresss',
-                populate: { path: 'city_id ', model: citymodel, populate: { model: statemodel, path: 'state_id' } }
-            });
-            res.status(StatusCode.Sucess).send(gethotelfulldetails);
       try {
             var getHotelFullDetails = await hotelmodel.find().populate({
-                path: 'addresss',
+                path: 'address',
                 populate: { path: 'city_id ', model: citymodel, populate: { model: statemodel, path: 'state_id' } }
             });
             res.status(StatusCode.Sucess).send(getHotelFullDetails);
@@ -32,18 +21,6 @@ class HotelDomain {
         }
     }
 
-
-    // get hotel by search [city wise or hotel name wise]
-    async getHotelBySearch(req: Request, res: Response) {
-        try {
-            var hotelsearchparams: String = req.params.hotelsearch;
-            var city: any = await citymodel.findOne({ city_name: { $regex: hotelsearchparams + '.*', $options: 'i' } })
-            var cityid: Number = city?._id;
-            var hotebyserch: any = await hotelmodel.aggregate([
-                {
-                    $match: {
-                        $or: [{ "address.city_id": cityid },
-                        { hotel_name: { $regex: hotelsearchparams + '.*', $options: 'i' } }]
 
     //get hotel image based on ui send limit of needed image
     async getHotelImage(req: Request, res: Response) {
@@ -102,12 +79,6 @@ class HotelDomain {
 
             ]);
 
-            if (hotebyserch.length == 0) {
-                res.status(StatusCode.Not_Found).send("No Data Found")
-                res.end()
-            } else {
-                res.status(StatusCode.Sucess).send(hotebyserch);
-
             if (hoteBySerch.length == 0) {
 
                 res.status(StatusCode.Not_Found).send("No Hotel Found")
@@ -126,19 +97,6 @@ class HotelDomain {
     }
 
 
-
-    //get hotel by city and room
-    async getHotelByCityRoom(req: Request, res: Response) {
-        try {
-            var cityparams: String = req.params.cityname
-            var noofroom: Number = parseInt(req.params.roomcount);
-            var city: any = await citymodel.findOne({ city_name: cityparams })
-            var cityid: Number = city?._id;
-            var hotebycityroom: any = await hotelmodel.aggregate([
-                {
-                    $match: {
-                        $and: [{ "address.city_id": cityid },
-                        { "no_of_room": { $gte: noofroom } },
     //get hotel by city and room 
     async getHotelByCityRoom(req: Request, res: Response) {
         try {
@@ -180,12 +138,6 @@ class HotelDomain {
 
             ]);
 
-            if (hotebycityroom.length == 0) {
-                res.status(StatusCode.Not_Found).send("No Hotel Found")
-                res.end()
-            } else {
-                res.status(StatusCode.Sucess).send(hotebycityroom);
-
             if (hoteByCityRoom.length == 0) {
                 res.status(StatusCode.Not_Found).send("No Hotel Found")
                 res.end()
@@ -203,24 +155,6 @@ class HotelDomain {
         }
     }
 
-
-    //get hotel image based on ui send limit of needed image
-    async getHotelImage(req: Request, res: Response) {
-        try {
-            var imageData = await imagemodel.find({ room_id: null }).limit(parseInt(req.params.imagelimit));
-
-            if(imageData){
-                res.status(200).send(imageData);
-            }else{
-                res.status(404).send("can't find Image");
-            }
-
-            res.end();
-        } catch (e:any) {
-            res.status(500).send(e.message);
-            res.end();
-        }
-    }
 }
 
 export { HotelDomain };

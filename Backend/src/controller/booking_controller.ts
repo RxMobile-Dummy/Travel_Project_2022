@@ -7,8 +7,15 @@ class BookingController {
         const bookIngDomain = new BookingDomain();
         await bookIngDomain.addBooking(req,res);
     }
+
+    static async roomBookAvailableCheck(req : Request , res : Response){
+        const bookIngDomain = new BookingDomain();
+        await bookIngDomain.roomBookAvailableCheck(req,res);
+    }
+    
 }
 
 router.post('/hotelbooking' , BookingController.addBooking);
+router.get('/check' , BookingController.roomBookAvailableCheck);
 export{router};
 
