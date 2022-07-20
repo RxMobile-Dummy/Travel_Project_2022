@@ -9,24 +9,25 @@ import 'package:make_my_trip/features/review/domain/use_cases/post_hotel_review_
 import 'package:make_my_trip/features/review/presentation/cubit/publish_review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
 
-var sl = GetIt.instance;
+var reviewSl = GetIt.instance;
 
 Future<void> init() async {
   //Cubit
-  sl.registerFactory(() => ReviewCubit(sl(), sl()));
-  sl.registerFactory(() => PublishReviewCubit(sl()));
+  reviewSl.registerFactory(() => ReviewCubit(reviewSl(), reviewSl()));
+  reviewSl.registerFactory(() => PublishReviewCubit(reviewSl()));
 
   //UseCase
-  sl.registerLazySingleton(() => GetHotelReviewUseCases(sl()));
-  sl.registerLazySingleton(() => PostHotelReviewUseCases(sl()));
+  reviewSl.registerLazySingleton(() => GetHotelReviewUseCases(reviewSl()));
+  reviewSl.registerLazySingleton(() => PostHotelReviewUseCases(reviewSl()));
 
   //Repository
-  sl.registerLazySingleton<ReviewRepository>(() => ReviewRepositoryImpl(sl()));
+  reviewSl.registerLazySingleton<ReviewRepository>(
+      () => ReviewRepositoryImpl(reviewSl()));
 
   //Remote data source
-  sl.registerLazySingleton<ReviewRemoteDataSource>(
-      () => ReviewRemoteDataSourceImpl(sl()));
+  reviewSl.registerLazySingleton<ReviewRemoteDataSource>(
+      () => ReviewRemoteDataSourceImpl(reviewSl()));
 
   //Dio
-  sl.registerLazySingleton(() => Dio());
+  // reviewSl.registerFactory(() => Dio());
 }

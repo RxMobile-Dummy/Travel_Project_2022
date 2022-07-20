@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
+import 'package:make_my_trip/utils/constants/base_constants.dart';
 
 abstract class RoomCategoriesDataSource {
   Future<RoomCategoryModel> getRoomDetailData(int hotelId);
@@ -14,7 +15,7 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
   @override
   Future<RoomCategoryModel> getRoomDetailData(int hotelId) async {
     try {
-      final baseurl = 'http://192.168.102.164:3000/room/${hotelId}';
+      final baseurl = '${BaseConstant.baseUrl}room/1';
       final response = await dio.get(baseurl);
       if (response.statusCode == 200) {
         final RoomCategoryModel roomCategoryModel =

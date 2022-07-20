@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:make_my_trip/features/home_page/data/data_sources/tours_datasource.dart';
 import '../../../../core/failures/failures.dart';
+import '../../../../utils/constants/base_constants.dart';
 import '../models/ToursModel.dart';
 
 class ToursDataSourceImpl implements ToursDataSource {
@@ -12,7 +13,7 @@ class ToursDataSourceImpl implements ToursDataSource {
   @override
   Future<Either<Failures, List<ToursModel>>> getToursData() async {
     try {
-      final response = await dio.get('http://192.168.102.79:4000/tour/10');
+      final response = await dio.get('${BaseConstant.baseUrl}tour/5');
       var result = response.data;
       if (response.statusCode == 200) {
         List<ToursModel> postList = [];
@@ -31,6 +32,7 @@ class ToursDataSourceImpl implements ToursDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
+      print(e);
       return Left(ServerFailure(statusCode: "503"));
     }
   }

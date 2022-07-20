@@ -3,17 +3,18 @@ import 'package:dio/dio.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/review/data/data_sources/review_remote_data_source.dart';
 import 'package:make_my_trip/features/review/data/model/review_model.dart';
+import 'package:make_my_trip/utils/constants/base_constants.dart';
 
 class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   final Dio dio;
-  final String baseUrl = "http://192.168.102.190:3000/review/hotel/";
+  final String baseUrl = "${BaseConstant.baseUrl}review/hotel/1";
 
   ReviewRemoteDataSourceImpl(this.dio);
 
   @override
   Future<Either<Failures, List<ReviewModel>>> getHotelReview(params) async {
     try {
-      final response = await dio.get(baseUrl + "$params");
+      final response = await dio.get(baseUrl);
       if (response.statusCode == 200) {
         final data = response.data;
         var reviewModel = <ReviewModel>[];
@@ -25,6 +26,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
+      print(err);
       return Left(ServerFailure());
     }
   }
@@ -32,7 +34,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   @override
   Future<Either<Failures, void>> postHotelReview(params) async {
     try {
-      await dio.post(baseUrl + "1", data: params.toJson());
+      await dio.post(baseUrl, data: params.toJson());
       return const Right(null);
     } catch (e) {
       return Left(ServerFailure());

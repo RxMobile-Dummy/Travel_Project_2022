@@ -7,7 +7,7 @@ class AppLogoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Image.asset(
-      "assets/icons/ic_app_logo.png",
+      "assets/video/logo.gif",
     ));
   }
 }

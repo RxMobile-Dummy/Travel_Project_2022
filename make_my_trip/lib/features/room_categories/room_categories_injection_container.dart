@@ -6,23 +6,24 @@ import 'package:make_my_trip/features/room_categories/domain/repositories/room_c
 import 'package:make_my_trip/features/room_categories/domain/use_cases/room_categories_usecase.dart';
 import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
 
-var sl = GetIt.instance;
+var roomCategorySl = GetIt.instance;
 
 Future<void> init() async {
   //cubit
-  sl.registerFactory(() => RoomCategoryCubit(sl()));
+  roomCategorySl.registerFactory(() => RoomCategoryCubit(roomCategorySl()));
 
   //usecase
-  sl.registerLazySingleton(() => RoomCategoriesUsecase(sl()));
+  roomCategorySl
+      .registerLazySingleton(() => RoomCategoriesUsecase(roomCategorySl()));
 
   //repo
-  sl.registerLazySingleton<RoomCategoriesRepository>(
-      () => RoomCategoriesRepositoryImpl(sl()));
+  roomCategorySl.registerLazySingleton<RoomCategoriesRepository>(
+      () => RoomCategoriesRepositoryImpl(roomCategorySl()));
 
   //datsource
 
-  sl.registerLazySingleton<RoomCategoriesDataSource>(
-      () => RoomCategoriesDataSourceImpl(sl()));
+  roomCategorySl.registerLazySingleton<RoomCategoriesDataSource>(
+      () => RoomCategoriesDataSourceImpl(roomCategorySl()));
 
-  sl.registerLazySingleton(() => Dio());
+  // roomCategorySl.registerFactory(() => Dio());
 }

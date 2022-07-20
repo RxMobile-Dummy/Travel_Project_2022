@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:make_my_trip/features/home_page/data/data_sources/images_datasource.dart';
 import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
+import 'package:make_my_trip/utils/constants/base_constants.dart';
 import '../../../../core/failures/failures.dart';
 
 class ImagesDataSourceImpl implements ImagesDataSource {
@@ -12,8 +13,7 @@ class ImagesDataSourceImpl implements ImagesDataSource {
   @override
   Future<Either<Failures, List<ImageModel>>> getList() async {
     try {
-      final response =
-          await dio.get('http://192.168.102.79:4000/hotel/image/5');
+      final response = await dio.get('${BaseConstant.baseUrl}hotel/image/5');
       var result = response.data;
       if (response.statusCode == 200) {
         List<ImageModel> postList = [];
@@ -32,6 +32,7 @@ class ImagesDataSourceImpl implements ImagesDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
+      print(e);
       return Left(ServerFailure(statusCode: "503"));
     }
   }

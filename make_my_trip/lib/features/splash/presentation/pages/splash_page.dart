@@ -16,7 +16,7 @@ class SplashPage extends StatelessWidget {
       listener: (context, state) {
         if (state is StateNoData) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.onBoard, (route) => false);
+              context, RoutesName.onBoard, (route) => true);
         }
       },
       child: const Scaffold(

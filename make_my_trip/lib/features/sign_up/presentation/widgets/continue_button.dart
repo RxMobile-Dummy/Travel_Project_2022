@@ -20,7 +20,7 @@ class ContinueButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: onTap,
           child: Text(
-            StringConstants.continueConst,
+            StringConstants.continueTxt,
             style: AppTextStyles.confirmButtonTextStyle,
           ),
           style: ElevatedButton.styleFrom(
