@@ -5,16 +5,16 @@ var router = express.Router();
 class BookmarkController {
     static async postBookmark(req:Request,res:Response) {
         const bookmarkdomain = new BookmarkDomain();
-        bookmarkdomain.postBookmark(req,res);
+        await bookmarkdomain.postBookmark(req,res);
     }
 
     static async deleteBookmark(req:Request, res : Response){
         const bookmarkdomain = new BookmarkDomain();
-        bookmarkdomain.deleteBookmark(req,res);
+        await bookmarkdomain.deleteBookmark(req,res);
     }
     static async userBookmark(req:Request, res : Response){
         const bookmarkdomain = new BookmarkDomain();
-        bookmarkdomain.userBookmark(req,res);
+        await bookmarkdomain.userBookmark(req,res);
     }
 }
 
