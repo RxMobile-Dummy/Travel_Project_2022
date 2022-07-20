@@ -12,28 +12,25 @@ class TextFieldView extends StatelessWidget {
   var textFieldViewController;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-      child: TextFormField(
-        decoration: InputDecoration(
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            fillColor: Colors.grey[280],
-            filled: true,
-            hintText: hintTextvar,
-            hintStyle: AppTextStyles.labelDescriptionStyle
-                .copyWith(color: MakeMyTripColors.color70gray)),
-        controller: textFieldViewController,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Your email';
-          }
-          return null;
-        },
-      ),
+    return TextFormField(
+      decoration: InputDecoration(
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          fillColor: Colors.grey[280],
+          filled: true,
+          hintText: hintTextvar,
+          hintStyle: AppTextStyles.labelDescriptionStyle
+              .copyWith(color: MakeMyTripColors.color70gray)),
+      controller: textFieldViewController,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Your email';
+        }
+        return null;
+      },
     );
   }
 }

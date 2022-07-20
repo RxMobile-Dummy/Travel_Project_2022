@@ -5,10 +5,10 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
-import 'package:make_my_trip/features/login/presentation/widgets/login_elevated_button_widget.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 
 import '../widgets/icon_button.dart';
 
@@ -21,6 +21,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size screen = MediaQuery.of(context).size;
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccessState) {
@@ -36,14 +37,19 @@ class LoginPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Image.asset(ImagePath.icAppLogo, height: 72, width: 72),
-                  16.verticalSpace,
-                  Text(
-                    StringConstants.loginTitle,
-                    style: AppTextStyles.infoContentStyle,
-                    textAlign: TextAlign.center,
+                  FractionallySizedBox(
+                    widthFactor: .8,
+                    child: Image.asset(
+                      ImagePath.appLogo,
+                    ),
                   ),
-                  32.verticalSpace,
+                  // 16.verticalSpace,
+                  // Text(
+                  //   StringConstants.loginTitle,
+                  //   style: AppTextStyles.infoContentStyle,
+                  //   textAlign: TextAlign.center,
+                  // ),
+                  20.verticalSpace,
                   TextFormField(
                     controller: loginEmailController,
                     decoration:
@@ -87,16 +93,27 @@ class LoginPage extends StatelessWidget {
                         )),
                   ),
                   16.verticalSpace,
-                  LoginElevatedButtonWidget(
-                    height: 12,
-                    onTap: () {
-                      BlocProvider.of<LoginCubit>(context).signInWithEmail(
-                          loginEmailController.text,
-                          loginPasswordController.text);
-                    },
-                    width: double.infinity,
-                    buttonColor: MakeMyTripColors.accentColor,
-                    child: Text(StringConstants.loginTxt),
+                  // LoginElevatedButtonWidget(
+                  //   height: 12,
+                  //   onTap: () {
+                  //     BlocProvider.of<LoginCubit>(context).signInWithEmail(
+                  //         loginEmailController.text,
+                  //         loginPasswordController.text);
+                  //   },
+                  //   width: double.infinity,
+                  //   buttonColor: MakeMyTripColors.accentColor,
+                  //   child: Text(StringConstants.loginTxt),
+                  // ),
+                  FractionallySizedBox(
+                    widthFactor: 1,
+                    child: CommonPrimaryButton(
+                      text: StringConstants.loginTxt,
+                      onTap: () {
+                        BlocProvider.of<LoginCubit>(context).signInWithEmail(
+                            loginEmailController.text,
+                            loginPasswordController.text);
+                      },
+                    ),
                   ),
                   BlocBuilder<LoginCubit, LoginState>(
                     builder: (context, state) {
@@ -187,7 +204,8 @@ class LoginPage extends StatelessWidget {
                                   context, RoutesName.signup, (route) => true);
                             },
                           text: StringConstants.signUpTxt,
-                          style: AppTextStyles.infoContentStyle2,
+                          style: AppTextStyles.infoContentStyle2
+                              .copyWith(color: MakeMyTripColors.accentColor),
                         )
                       ])),
                 ],

@@ -9,8 +9,12 @@ import 'package:make_my_trip/features/sign_up/presentation/widgets/termsAndPriva
 import 'package:make_my_trip/features/sign_up/presentation/widgets/text_field.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 
 import '../../../../core/navigation/route_info.dart';
+import '../../../../utils/constants/image_path.dart';
+import '../../../login/presentation/cubit/login_cubit.dart';
+import '../../../login/presentation/widgets/icon_button.dart';
 
 class SignUpPage extends StatelessWidget {
   final TextEditingController fullname = TextEditingController();
@@ -24,98 +28,162 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: SingleChildScrollView(
-        child:
-            BlocConsumer<SignUpCubit, SignUpState>(listener: (context, state) {
-          if (state is SignUpSuccessState) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, RoutesName.home, (route) => true);
-          }
-        }, builder: (context, state) {
-          if (state is WaitingDialog) {
-            return const AlertDialog(
-              title: Text("We have send you mail, Please confirm"),
-              content: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          } else {
-            return Column(
-              children: [
-                TextFieldView(
-                  hint: StringConstants.fullnameTxt,
-                  controller: fullname,
+      child: Center(
+        child: SingleChildScrollView(
+          child: BlocConsumer<SignUpCubit, SignUpState>(
+              listener: (context, state) {
+            if (state is SignUpSuccessState) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, RoutesName.home, (route) => true);
+            }
+          }, builder: (context, state) {
+            if (state is WaitingDialog) {
+              return const AlertDialog(
+                title: Text("We have send you mail, Please confirm"),
+                content: Center(
+                  child: CircularProgressIndicator(),
                 ),
-                TextFieldView(
-                  hint: StringConstants.emailTxt,
-                  controller: email,
-                ),
-                TextFieldView(
-                  hint: StringConstants.passwordTxt,
-                  controller: password,
-                  obscure: true,
-                ),
-                TextFieldView(
-                  hint: StringConstants.conpassowrdTxt,
-                  controller: conPassword,
-                  obscure: true,
-                ),
-                Align(
-                    alignment: const Alignment(0.8, 0),
-                    child: (state is SignUpErrorState)
-                        ? Padding(
-                            padding: const EdgeInsets.only(
-                              top: 8,
-                            ),
-                            child: Text(
-                              "*${state.error}",
-                              style: const TextStyle(
-                                  color: MakeMyTripColors.colorRed),
-                            ),
-                          )
-                        : const SizedBox()),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: ContinueButton(onTap: () {
-                    BlocProvider.of<SignUpCubit>(context).signUpWithEmail(
-                        signUpEmail: email.text,
-                        signUpPassword: password.text,
-                        signUpConfirmPassword: conPassword.text,
-                        signUpFullname: fullname.text);
-                  }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 4.0),
-                  child: Text(
-                    StringConstants.tc,
-                    style: AppTextStyles.labelDescriptionStyle,
-                  ),
-                ),
-                const TermsAndPrivacyButton(),
-                16.verticalSpace,
-                RichText(
-                    text: TextSpan(
-                        text: StringConstants.noAccount,
-                        style: AppTextStyles.hintTextStyle,
-                        children: [
-                      const WidgetSpan(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 5.0),
-                        ),
+              );
+            } else {
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    FractionallySizedBox(
+                      widthFactor: .8,
+                      child: Image.asset(
+                        ImagePath.appLogo,
                       ),
-                      TextSpan(
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.pop(context);
-                          },
-                        text: StringConstants.signUpTxt,
-                        style: AppTextStyles.infoContentStyle2,
-                      )
-                    ])),
-              ],
-            );
-          }
-        }),
+                    ),
+                    8.verticalSpace,
+                    TextFieldView(
+                      hint: StringConstants.fullnameTxt,
+                      controller: fullname,
+                    ),
+                    TextFieldView(
+                      hint: StringConstants.emailTxt,
+                      controller: email,
+                    ),
+                    TextFieldView(
+                      hint: StringConstants.passwordTxt,
+                      controller: password,
+                      obscure: true,
+                    ),
+                    TextFieldView(
+                      hint: StringConstants.conpassowrdTxt,
+                      controller: conPassword,
+                      obscure: true,
+                    ),
+                    Align(
+                        alignment: const Alignment(0.8, 0),
+                        child: (state is SignUpErrorState)
+                            ? Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 8,
+                                ),
+                                child: Text(
+                                  "*${state.error}",
+                                  style: const TextStyle(
+                                      color: MakeMyTripColors.colorRed),
+                                ),
+                              )
+                            : const SizedBox()),
+                    16.verticalSpace,
+                    FractionallySizedBox(
+                      widthFactor: 1,
+                      child: CommonPrimaryButton(
+                          text: StringConstants.signUpTxt,
+                          onTap: () {
+                            BlocProvider.of<SignUpCubit>(context)
+                                .signUpWithEmail(
+                                    signUpEmail: email.text,
+                                    signUpPassword: password.text,
+                                    signUpConfirmPassword: conPassword.text,
+                                    signUpFullname: fullname.text);
+                          }),
+                    ),
+                    16.verticalSpace,
+                    16.verticalSpace,
+                    Row(children: [
+                      const Expanded(
+                          child: Padding(
+                        padding: EdgeInsets.only(left: 20.0, right: 8.0),
+                        child: Divider(
+                          thickness: 1,
+                          color: MakeMyTripColors.color30gray,
+                        ),
+                      )),
+                      Text(
+                        StringConstants.orSignupWith,
+                        style: AppTextStyles.hintTextStyle,
+                      ),
+                      const Expanded(
+                          child: Padding(
+                        padding: EdgeInsets.only(left: 8.0, right: 20.0),
+                        child: Divider(
+                          thickness: 1,
+                          color: MakeMyTripColors.color30gray,
+                        ),
+                      )),
+                    ]),
+                    16.verticalSpace,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomIconButton(
+                            backColor: const Color(0xff3b5998),
+                            icon: const Icon(Icons.facebook_rounded),
+                            text: StringConstants.facebookTxt,
+                            textColor: MakeMyTripColors.colorWhite,
+                            onTap: () {
+                              BlocProvider.of<LoginCubit>(context)
+                                  .signInWithFacebook();
+                            },
+                          ),
+                        ),
+                        16.horizontalSpace,
+                        Expanded(
+                          child: CustomIconButton(
+                              backColor: MakeMyTripColors.colorWhite,
+                              textColor: MakeMyTripColors.colorBlack,
+                              icon: Image.asset(
+                                ImagePath.icGoogleLogo,
+                                width: 24,
+                              ),
+                              onTap: () {
+                                BlocProvider.of<LoginCubit>(context)
+                                    .signInWithGoogle();
+                              },
+                              text: StringConstants.googleTxt),
+                        ),
+                      ],
+                    ),
+                    16.verticalSpace,
+                    RichText(
+                        text: TextSpan(
+                            text: StringConstants.alreadyAccount,
+                            style: AppTextStyles.hintTextStyle,
+                            children: [
+                          const WidgetSpan(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5.0),
+                            ),
+                          ),
+                          TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pop(context);
+                              },
+                            text: StringConstants.loginTxt,
+                            style: AppTextStyles.infoContentStyle2,
+                          )
+                        ])),
+                  ],
+                ),
+              );
+            }
+          }),
+        ),
       ),
     ));
   }

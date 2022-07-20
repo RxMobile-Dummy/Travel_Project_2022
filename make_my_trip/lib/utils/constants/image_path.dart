@@ -17,7 +17,6 @@ class ImagePath {
   static String intro3 = 'assets/img_intro3.jpeg';
   static String intro4 = 'assets/img_intro4.jpeg';
 
-
   static const String introImage1 = "assets/img/plan_destination.png";
   static const String introImage2 = "assets/img/pick_up_your_time.png";
   static const String introImage3 = "assets/img/start_your_journey.png";
@@ -29,11 +28,10 @@ class ImagePath {
   static const String wishlistImage1 = 'assets/img/wishlist1.jpeg';
   static const String wishlistImage2 = 'assets/img/wishlist2.jpeg';
 
-
-
   static const String serverFailImage = "assets/img/server_failure.png";
 
   static const String forgetPassword = "assets/img/forgetpassword.png";
 
-
+  static const String appLogoGif = "assets/video/logo.gif";
+  static const String appLogo = "assets/img/flogo.jpeg";
 }

@@ -19,21 +19,14 @@ class TextFieldView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 25),
+      padding: const EdgeInsets.symmetric(
+        vertical: 6,
+      ),
       child: TextFormField(
         decoration: InputDecoration(
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: BorderSide.none,
-          ),
-          fillColor: MakeMyTripColors.color10gray,
-          filled: true,
           hintText: hint,
           hintStyle: AppTextStyles.labelDescriptionStyle,
         ),
-        //
         controller: controller,
         obscureText: obscure ?? false,
       ),

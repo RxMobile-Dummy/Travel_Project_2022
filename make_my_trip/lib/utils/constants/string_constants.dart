@@ -16,8 +16,10 @@ class StringConstants {
       'Meet new people from over millions of\nusers. Create posts, find friends and more.';
   static String forgotPass = 'Forgot Password?';
   static String orLoginWith = "or login with";
+  static String orSignupWith = "or signup with";
 
   static String noAccount = "Or don't have account?";
+  static String alreadyAccount = "Already hav an account?";
 
   static String facebookTxt = "Facebook";
   static String googleTxt = "Google";
@@ -109,7 +111,7 @@ class StringConstants {
 
   static String resetPassword = "Forget Password";
   static String passwordLbl =
-      'Enter the email associated with your account and we will send an email with instrucrions to reset your password.';
+      'Enter the email associated with your account and we will send an email with instructions to reset your password.';
   static String emailAddress = 'Email Address';
   static String hintText = "helloworld123@gmail.com";
   static String sendLink = "Send Link";
