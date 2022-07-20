@@ -28,6 +28,11 @@ class RoomController {
         await roomDomain.getAllAvailableRoom(req, res);
     }
 
+    //get particular room
+    static async getPerticularRoom(req: Request , res : Response){
+        const roomDomain = new RoomDomain();
+        await roomDomain.getPerticularRoom(req,res);
+    }
 }
 
 // GET
@@ -35,6 +40,7 @@ router.get("/:id", RoomController.getAllAvailableRoom);
 router.get("/:id/deluxe", RoomController.getRoomWithDeluxeType);
 router.get("/:id/semi-deluxe", RoomController.getRoomWithSemiDeluxeType);
 router.get("/:id/super-deluxe", RoomController.getRoomWithSuperDeluxeType);
+router.get("/getroom/:hotelid/:roomid" , RoomController.getPerticularRoom);
 
 //EXPORT
 export { router };
