@@ -75,8 +75,15 @@ class Router {
         });
       case RoutesName.signup:
         return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
-            create: (context) => signUpSl<SignUpCubit>(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => signUpSl<SignUpCubit>(),
+              ),
+              BlocProvider(
+                create: (context) => loginSl<LoginCubit>(),
+              ),
+            ],
             child: SignUpPage(),
           );
         });
