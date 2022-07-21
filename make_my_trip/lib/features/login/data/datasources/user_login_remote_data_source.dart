@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -16,9 +17,17 @@ abstract class UserLoginRemoteDataSource {
 
 class UserLoginRemoteDataSourceImpl extends UserLoginRemoteDataSource {
   final FirebaseAuth auth;
+  final Dio dio;
+
   UserLoginRemoteDataSourceImpl({
+    required this.dio,
     required this.auth,
   });
+
+  Future<Options> createDioOptions() async {
+    final userToken = await auth.currentUser!.getIdToken();
+    return Options(headers: {'token': userToken});
+  }
 
   @override
   Future<Either<Failures, UserModel>> userSignIn(
@@ -71,13 +80,20 @@ class UserLoginRemoteDataSourceImpl extends UserLoginRemoteDataSource {
       User? user = userCredential.user;
 
       if (user != null) {
-        return Right(UserModel.fromJson({
-          "userName": user.displayName,
-          "userEmail": user.email,
-          "userPhone": user.phoneNumber,
-          "userPic": user.photoURL,
-          "userId": user.uid
-        }));
+        final response = await dio.post(
+            'https://7ec6-180-211-112-179.in.ngrok.io/user',
+            options: await createDioOptions());
+        if (response.statusCode == 200 || response.statusCode == 409) {
+          return Right(UserModel.fromJson({
+            "userName": user.displayName,
+            "userEmail": user.email,
+            "userPhone": user.phoneNumber,
+            "userPic": user.photoURL,
+            "userId": user.uid
+          }));
+        } else {
+          return Left(ServerFailure());
+        }
       } else {
         return Left(ServerFailure());
       }
