@@ -5,6 +5,7 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
+import 'package:make_my_trip/features/login/presentation/widgets/social_buttons.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
@@ -155,37 +156,7 @@ class LoginPage extends StatelessWidget {
                     )),
                   ]),
                   16.verticalSpace,
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomIconButton(
-                          backColor: const Color(0xff3b5998),
-                          icon: const Icon(Icons.facebook_rounded),
-                          text: StringConstants.facebookTxt,
-                          textColor: MakeMyTripColors.colorWhite,
-                          onTap: () {
-                            BlocProvider.of<LoginCubit>(context)
-                                .signInWithFacebook();
-                          },
-                        ),
-                      ),
-                      16.horizontalSpace,
-                      Expanded(
-                        child: CustomIconButton(
-                            backColor: MakeMyTripColors.colorWhite,
-                            textColor: MakeMyTripColors.colorBlack,
-                            icon: Image.asset(
-                              ImagePath.icGoogleLogo,
-                              width: 24,
-                            ),
-                            onTap: () {
-                              BlocProvider.of<LoginCubit>(context)
-                                  .signInWithGoogle();
-                            },
-                            text: StringConstants.googleTxt),
-                      ),
-                    ],
-                  ),
+                  const SocialButton(),
                   16.verticalSpace,
                   RichText(
                       text: TextSpan(
