@@ -32,7 +32,7 @@ Future<void> init() async {
 
   //datasources
   loginSl.registerLazySingleton<UserLoginRemoteDataSource>(
-      () => UserLoginRemoteDataSourceImpl(auth: loginSl()));
+      () => UserLoginRemoteDataSourceImpl(auth: loginSl(), dio: loginSl()));
 
   //external
   loginSl.registerLazySingleton(() => FirebaseAuth.instance);

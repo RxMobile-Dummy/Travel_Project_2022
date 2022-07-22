@@ -26,10 +26,6 @@ Future<void> init() async {
       () => ToursDataSourceImpl(slHomePage()));
 
   //repository
-  slHomePage.registerLazySingleton<ImagesDataSourceImpl>(
-      () => ImagesDataSourceImpl(slHomePage()));
-  slHomePage.registerLazySingleton<ToursDataSourceImpl>(
-      () => ToursDataSourceImpl(slHomePage()));
   slHomePage.registerLazySingleton<ImagesRepository>(() => ImageRepositoryImpl(
       imagesDataSource: ImagesDataSourceImpl(slHomePage())));
   slHomePage.registerLazySingleton<ToursRepository>(() =>
