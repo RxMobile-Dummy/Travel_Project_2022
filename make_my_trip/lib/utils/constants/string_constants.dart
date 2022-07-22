@@ -88,6 +88,9 @@ class StringConstants {
   static String price = '₹ 100000';
   static String hotelListPageTitle = 'Hotel Search Page';
   static String recommendedText = 'Recommended For You';
+  static String titleQuestion = "What would you like to find?";
+  static String loading = "Loading";
+
   // Wishlist Strings
   static String wishlistTitle = 'Express Hotel Andheri';
   static String wishlistLocationName = 'Andheri East';
