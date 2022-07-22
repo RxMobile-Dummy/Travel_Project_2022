@@ -14,7 +14,7 @@ Future<void> init() async {
 
   //usecase
   roomCategorySl
-      .registerLazySingleton(() => RoomCategoriesUsecase(roomCategorySl()));
+      .registerLazySingleton(() => RoomCategoriesUseCase(roomCategorySl()));
 
   //repo
   roomCategorySl.registerLazySingleton<RoomCategoriesRepository>(

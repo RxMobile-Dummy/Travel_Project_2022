@@ -6,14 +6,11 @@ import 'package:make_my_trip/features/room_categories/domain/repositories/room_c
 
 class RoomCategoriesRepositoryImpl implements RoomCategoriesRepository {
   final RoomCategoriesDataSource roomCategoriesDataSource;
+
   RoomCategoriesRepositoryImpl(this.roomCategoriesDataSource);
 
   @override
   Future<Either<Failures, RoomCategoryModel>> getRoomDetail(int hotelId) async {
-    try {
-      return Right(await roomCategoriesDataSource.getRoomDetailData(hotelId));
-    } catch (e) {
-      return Left(ServerFailure());
-    }
+    return await roomCategoriesDataSource.getRoomDetailData(hotelId);
   }
 }

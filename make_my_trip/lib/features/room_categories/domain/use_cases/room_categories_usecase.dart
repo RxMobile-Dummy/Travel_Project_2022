@@ -4,10 +4,10 @@ import 'package:make_my_trip/core/usecase/usecase.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
 import 'package:make_my_trip/features/room_categories/domain/repositories/room_categories_repository.dart';
 
-class RoomCategoriesUsecase implements Usecase<RoomCategoryModel, Params> {
+class RoomCategoriesUseCase implements Usecase<RoomCategoryModel, Params> {
   final RoomCategoriesRepository roomCategoriesRepository;
 
-  RoomCategoriesUsecase(this.roomCategoriesRepository);
+  RoomCategoriesUseCase(this.roomCategoriesRepository);
 
   @override
   Future<Either<Failures, RoomCategoryModel>> call(Params params) async {
