@@ -138,10 +138,11 @@ class Router {
           );
         });
       case RoutesName.hotelDetail:
+        Map<String,dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) => hotelDetailSl<HotelDetailCubit>(),
-            child: HotelDetailPage(),
+            child: HotelDetailPage(arg: arg),
           );
         });
       case RoutesName.roomCategory:

@@ -6,17 +6,18 @@ import '../../../../core/base/base_state.dart';
 
 class HotelDetailCubit extends Cubit<BaseState> {
   HotelDetailCubit(this.hotelDetailUseCase) : super(StateInitial()) {
-    getHotelDetailData(5);
   }
 
   bool islike = false;
   final HotelDetailUseCase hotelDetailUseCase;
 
   onLikeTap(bool isLiked) {
+    print('like');
     emit(StateSearchResult<bool>(!isLiked));
   }
 
   onReadMoreTap(bool isReadMore) {
+
     emit(StateOnSuccess<bool>(!isReadMore));
   }
 
@@ -25,6 +26,7 @@ class HotelDetailCubit extends Cubit<BaseState> {
   }
 
   getHotelDetailData(int data) async {
+    emit(StateLoading());
     final res = await hotelDetailUseCase.call(Params(index: data));
     res.fold((l) => emit(StateNoData()),
         (r) => emit(StateOnKnownToSuccess<dynamic>(r)));

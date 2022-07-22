@@ -4,7 +4,9 @@ import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_li
 
 class HotelListCubit extends Cubit<HotelListState> {
   HotelListCubit({required this.hotelListUsecase})
-      : super(HotelListInitial()) {}
+      : super(HotelListInitial()) {
+     getHotelListApi('ahm');
+  }
   final HotelListUsecase hotelListUsecase;
 
   getHotelListApi(String hotelName) async {

@@ -7,6 +7,7 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
+import 'package:make_my_trip/features/hotel_detail/presentation/pages/hotel_detail_shimmer.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
@@ -19,8 +20,8 @@ import '../widgets/loaction_widget.dart';
 import '../widgets/review_container.dart';
 
 class HotelDetailPage extends StatelessWidget {
-  HotelDetailPage({Key? key}) : super(key: key);
-
+  HotelDetailPage({Key? key, required this.arg}) : super(key: key);
+  final Map<String,dynamic> arg;
   bool isLiked = false;
   bool isReadMore = false;
   int imgIndex = 0;
@@ -28,18 +29,26 @@ class HotelDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(arg['hotel_id']!=null){
+      print('argument ${arg['hotel_id']}');
+      context.read<HotelDetailCubit>().getHotelDetailData(arg['hotel_id']);
+    }
     Size screen = MediaQuery.of(context).size;
     return BlocBuilder<HotelDetailCubit, BaseState>(
       builder: (context, state) {
         if (state is StateOnKnownToSuccess) {
           hotelDetailModel = state.response;
+
         } else if (state is StateSearchResult) {
           isLiked = state.response;
         } else if (state is StateOnResponseSuccess) {
           imgIndex = state.response;
         } else if (state is StateOnSuccess) {
           isReadMore = state.response;
+        }else if(state is StateLoading){
+          return HotelDetailsShimmer();
         }
+
         return Scaffold(
           body: CustomScrollView(
             slivers: [
@@ -56,7 +65,7 @@ class HotelDetailPage extends StatelessWidget {
                     pinned: true,
                     leading: IconButton(
                       onPressed: () {
-                        debugPrint("back");
+                        Navigator.of(context).pop();
                       },
                       icon: Icon(
                         Icons.arrow_back_ios_new_rounded,
@@ -279,8 +288,8 @@ class HotelDetailPage extends StatelessWidget {
                     12.verticalSpace,
                     LocationViewWidet(
                       log:
-                          hotelDetailModel?.address?.location?.latitude ?? 10.0,
-                      lat: hotelDetailModel?.address?.location?.longitude ??
+                          hotelDetailModel?.address?.location?.longitude ?? 10.0,
+                      lat: hotelDetailModel?.address?.location?.latitude ??
                           10.0,
                       titleName: hotelDetailModel?.hotelName! ?? "Hotel",
                       mapHeight: 200,

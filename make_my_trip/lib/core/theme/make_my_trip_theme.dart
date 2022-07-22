@@ -12,6 +12,7 @@ class MakeMyTripLightTheme {
       color: MakeMyTripColors.colorWhite,
       elevation: 1,
       foregroundColor: Colors.black,
+      titleSpacing: 0,
       titleTextStyle: TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w500,

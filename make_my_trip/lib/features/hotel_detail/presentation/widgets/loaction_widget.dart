@@ -32,12 +32,12 @@ class _LocationViewWidetState extends State<LocationViewWidet> {
     super.initState();
 
     _kGooglePlex =
-        CameraPosition(target: LatLng(widget.lat, widget.log), zoom: 5.4746);
+        CameraPosition(target: LatLng(widget.log, widget.lat), zoom: 9);
 
     _list = [
       Marker(
           markerId: MarkerId('1'),
-          position: LatLng(widget.lat, widget.log),
+          position: LatLng(widget.log, widget.lat),
           infoWindow: InfoWindow(title: widget.titleName))
     ];
     _marker.addAll(_list);
