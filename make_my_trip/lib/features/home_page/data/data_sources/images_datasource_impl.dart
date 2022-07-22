@@ -17,7 +17,6 @@ class ImagesDataSourceImpl implements ImagesDataSource {
     return Options(headers: {'token': userToken});
   }
 
-
   @override
   Future<Either<Failures, List<ImageModel>>> getList() async {
     try {

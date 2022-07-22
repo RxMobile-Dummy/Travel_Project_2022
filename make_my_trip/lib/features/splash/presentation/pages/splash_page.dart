@@ -4,7 +4,9 @@ import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/splash/presentation/cubit/splash_cubit.dart';
 import 'package:make_my_trip/features/splash/presentation/widgets/app_logo_widget.dart';
+import 'package:make_my_trip/features/splash/splash_injection_container.dart';
 import '../widgets/app_logo_widget.dart';
+import './../../splash_injection_container.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -12,11 +14,11 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SplashCubit, BaseState>(
-      bloc: SplashCubit()..splashLoad(),
+      bloc: splashSl<SplashCubit>()..splashLoad(),
       listener: (context, state) {
         if (state is StateNoData) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.onBoard, (route) => true);
+              context, RoutesName.onBoard, (route) => false);
         }
       },
       child: const Scaffold(

@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
-import 'package:make_my_trip/core/usecase/usecase.dart';
 import 'package:make_my_trip/features/hotel_listing/domain/repositories/hotel_list_repository.dart';
 
+import '../../../../core/usecases/usecase.dart';
 import '../../data/models/hotel_list_model.dart';
 
 class HotelListUsecase implements Usecase<List<HotelListModel>, Params> {
