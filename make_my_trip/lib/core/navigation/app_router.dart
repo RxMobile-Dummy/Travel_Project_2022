@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
@@ -128,13 +129,14 @@ class Router {
         });
       case RoutesName.search:
         return MaterialPageRoute(builder: (_) {
-          return SearchHotelPage();
+          return SearchHotelPage(dio: Dio());
         });
       case RoutesName.hotelList:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) => hotelListSl<HotelListCubit>(),
-            child: HotelListPage(),
+            child: HotelListPage(arg: arg),
           );
         });
       case RoutesName.hotelDetail:
