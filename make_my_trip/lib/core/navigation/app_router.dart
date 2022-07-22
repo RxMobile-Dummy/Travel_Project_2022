@@ -8,6 +8,7 @@ import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_lis
 import 'package:make_my_trip/features/search/presentation/pages/search_page.dart';
 
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
+import 'package:make_my_trip/features/sign_up/presentation/pages/email_verification_page.dart';
 import 'package:make_my_trip/features/sign_up/presentation/pages/sign_up_page.dart';
 import 'package:make_my_trip/features/sign_up/signup_injection_container.dart';
 
@@ -93,7 +94,7 @@ class Router {
         });
       case RoutesName.verifyEmail:
         return MaterialPageRoute(builder: (_) {
-          return HomePage();
+          return EmailVerification();
         });
       case RoutesName.resetPassword:
         return MaterialPageRoute(builder: (_) {

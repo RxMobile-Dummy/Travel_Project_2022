@@ -26,10 +26,9 @@ class SignUpRemoteDataSourceImpl extends SignUpRemoteDataSource {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
+      auth.fetchSignInMethodsForEmail(email);
       User? user = userCredential.user;
       user?.updateDisplayName(fullName);
-
-      // await user!.sendEmailVerification();
       return const Right(true);
     } on FirebaseAuthException catch (err) {
       if (err.code == 'email-already-in-use') {

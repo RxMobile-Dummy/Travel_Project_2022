@@ -31,6 +31,7 @@ class ImagePath {
   static const String serverFailImage = "assets/img/server_failure.png";
 
   static const String forgetPassword = "assets/img/forgetpassword.png";
+  static const String emailVerification = "assets/img/email_verification.png";
 
   static const String appLogoGif = "assets/video/logo.gif";
   static const String appLogo = "assets/img/flogo.jpeg";
