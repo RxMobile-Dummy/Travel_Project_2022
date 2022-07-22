@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:make_my_trip/features/login/domain/usecases/user_facebook_login.dart';
 
 import '../../../../core/failures/failures.dart';
+import '../../../../utils/constants/base_constants.dart';
 import '../../domain/model/user_model.dart';
 
 abstract class UserLoginRemoteDataSource {
@@ -80,8 +81,7 @@ class UserLoginRemoteDataSourceImpl extends UserLoginRemoteDataSource {
       User? user = userCredential.user;
 
       if (user != null) {
-        final response = await dio.post(
-            'https://7ec6-180-211-112-179.in.ngrok.io/user',
+        final response = await dio.post('${BaseConstant.baseUrl}user/post',
             options: await createDioOptions());
         if (response.statusCode == 200 || response.statusCode == 409) {
           return Right(UserModel.fromJson({
@@ -118,7 +118,6 @@ class UserLoginRemoteDataSourceImpl extends UserLoginRemoteDataSource {
         var userData = await FacebookAuth.instance.getUserData();
         UserCredential userCredential =
             await auth.signInWithCredential(facebookAuthCredential);
-        print("facebook token - ${userCredential.user!.getIdTokenResult()}");
 
         User? user = userCredential.user;
 
@@ -126,13 +125,19 @@ class UserLoginRemoteDataSourceImpl extends UserLoginRemoteDataSource {
 
         // ignore: unnecessary_null_comparison
         if (user != null) {
-          return Right(UserModel.fromJson({
-            "userName": user.displayName,
-            "userEmail": user.email,
-            "userPhone": user.phoneNumber,
-            "userPic": user.photoURL,
-            "userId": user.uid
-          }));
+          final response = await dio.post('${BaseConstant.baseUrl}user/post',
+              options: await createDioOptions());
+          if (response.statusCode == 200 || response.statusCode == 409) {
+            return Right(UserModel.fromJson({
+              "userName": user.displayName,
+              "userEmail": user.email,
+              "userPhone": user.phoneNumber,
+              "userPic": user.photoURL,
+              "userId": user.uid
+            }));
+          } else {
+            return Left(ServerFailure());
+          }
         } else {
           return Left(ServerFailure());
         }
