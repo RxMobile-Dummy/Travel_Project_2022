@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
+import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model.dart';
+import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_list_shimmer_page.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import '../../../../core/navigation/route_info.dart';
 import '../../hotel_list_injection_container.dart' as di;
 import '../cubits/hotel_list_cubit.dart';
+import '../cubits/hotel_list_state.dart';
 import '../widgets/hotel_list_view_widget.dart';
 
 class HotelListPage extends StatelessWidget {
@@ -25,10 +29,7 @@ class HotelListPage extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       height: 40,
-                      decoration: BoxDecoration(
-                        color: MakeMyTripColors.color30gray,
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
+
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

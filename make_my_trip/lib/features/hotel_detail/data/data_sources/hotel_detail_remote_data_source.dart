@@ -28,7 +28,7 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
   Future<Either<Failures, HotelDetailModel>> _getAllCharacterUrl(
       String url) async {
     try {
-      final response = await dio.get(url);
+      final response = await dio.get(url,options: await createDioOptions());
 
       if (response.statusCode == 200) {
         HotelDetailModel hotelDetailModel;

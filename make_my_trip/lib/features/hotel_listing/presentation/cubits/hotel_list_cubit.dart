@@ -7,7 +7,6 @@ class HotelListCubit extends Cubit<HotelListState> {
   final HotelListUsecase hotelListUsecase;
 
   getHotelListApi(String hotelName) async {
-    print(hotelName);
     var hotelListData = await hotelListUsecase.call(Params(hotelName));
     hotelListData.fold((l) => {print(l)}, (r) => emit(GetData(GetList: r)));
   }
