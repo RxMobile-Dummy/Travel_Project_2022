@@ -12,6 +12,7 @@ abstract class HotelDetailRemoteDataSource {
 class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
   final Dio dio;
   HotelDetailRemoteDataSourceImpl(this.dio);
+
   void printWrapped(String text) {
     final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
     pattern.allMatches(text).forEach((match) => print(match.group(0)));
@@ -32,7 +33,6 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
   Future<Either<Failures, HotelDetailModel>> _getAllCharacterUrl(
       String url) async {
     try {
-      print(url);
       final response = await dio.get(url,options: await createDioOptions());
 
       if (response.statusCode == 200) {

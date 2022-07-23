@@ -141,8 +141,8 @@ class Router {
         Map<String,dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => hotelDetailSl<HotelDetailCubit>(),
-            child: HotelDetailPage(arg: arg),
+            create: (context) => hotelDetailSl<HotelDetailCubit>()..getHotelDetailData(arg['hotel_id']),
+            child: HotelDetailPage(),
           );
         });
       case RoutesName.roomCategory:

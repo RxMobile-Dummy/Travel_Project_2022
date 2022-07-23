@@ -20,8 +20,7 @@ import '../widgets/loaction_widget.dart';
 import '../widgets/review_container.dart';
 
 class HotelDetailPage extends StatelessWidget {
-  HotelDetailPage({Key? key, required this.arg}) : super(key: key);
-  final Map<String,dynamic> arg;
+  HotelDetailPage({Key? key}) : super(key: key);
   bool isLiked = false;
   bool isReadMore = false;
   int imgIndex = 0;
@@ -29,16 +28,11 @@ class HotelDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(arg['hotel_id']!=null){
-      print('argument ${arg['hotel_id']}');
-      context.read<HotelDetailCubit>().getHotelDetailData(arg['hotel_id']);
-    }
     Size screen = MediaQuery.of(context).size;
     return BlocBuilder<HotelDetailCubit, BaseState>(
       builder: (context, state) {
         if (state is StateOnKnownToSuccess) {
           hotelDetailModel = state.response;
-
         } else if (state is StateSearchResult) {
           isLiked = state.response;
         } else if (state is StateOnResponseSuccess) {
