@@ -24,8 +24,9 @@ Future<void> init() async {
       () => SignUpRepositoryImpl(remoteDataSource: signUpSl()));
 
   //datasources
-  signUpSl.registerLazySingleton<SignUpRemoteDataSource>(
-      () => SignUpRemoteDataSourceImpl(auth: signUpSl(), dio: signUpSl()));
+  signUpSl.registerLazySingleton<SignUpRemoteDataSource>(() =>
+      SignUpRemoteDataSourceImpl(
+          auth: signUpSl(), dio: signUpSl(), sharedPreferences: signUpSl()));
 
   //external
   // signUpSl.registerLazySingleton(() => FirebaseAuth.instance);

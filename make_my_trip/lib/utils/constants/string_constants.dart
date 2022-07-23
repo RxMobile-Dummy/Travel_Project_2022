@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 class StringConstants {
   static String messageEmptyName = 'Please fill empty FullName';
   static String messageInvalidName = 'Please fill valid FullName';
@@ -137,4 +139,7 @@ class StringConstants {
   static String totalBookingDays = '365 Days';
   static String bookingLocation = 'Location';
   static String bookingtitle = 'Hotel or Tour Name';
+
+  static String isAnonymousSharedPreference = "isAnonymous";
+  static String userIdSharedPreference = "userId";
 }

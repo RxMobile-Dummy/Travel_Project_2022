@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:make_my_trip/features/intro/domain/usecases/logIn_anonymously.dart';
+import 'package:make_my_trip/utils/constants/base_constants.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/failures/failures.dart';
 
 abstract class SignUpRemoteDataSource {
@@ -16,7 +20,9 @@ abstract class SignUpRemoteDataSource {
 class SignUpRemoteDataSourceImpl extends SignUpRemoteDataSource {
   final FirebaseAuth auth;
   final Dio dio;
-  SignUpRemoteDataSourceImpl({required this.dio, required this.auth});
+  final SharedPreferences sharedPreferences;
+  SignUpRemoteDataSourceImpl(
+      {required this.sharedPreferences, required this.dio, required this.auth});
 
   Future<Options> createDioOptions() async {
     final userToken = await auth.currentUser!.getIdToken();
@@ -37,14 +43,17 @@ class SignUpRemoteDataSourceImpl extends SignUpRemoteDataSource {
       user?.updateDisplayName(fullName);
 
       if (user != null) {
-        final response = await dio.post(
-            'https://7ec6-180-211-112-179.in.ngrok.io/user',
+        final response = await dio.post('${BaseConstant.baseUrl}user',
             options: await createDioOptions());
         if (response.statusCode == 409) {
           return Left(
               AuthFailure(failureMsg: "Enter Email is Already Registred"));
         } else {
           if (response.statusCode == 200) {
+            sharedPreferences.setString(
+                StringConstants.userIdSharedPreference, user.uid);
+            sharedPreferences.setBool(
+                StringConstants.isAnonymousSharedPreference, false);
             return Right(true);
           } else {
             return Left(ServerFailure());

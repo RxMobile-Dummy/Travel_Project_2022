@@ -11,7 +11,6 @@ final IntroSl = GetIt.instance;
 
 Future<void> init() async {
   IntroSl.registerFactory(() => IntroCubit(logInAnonymously: IntroSl()));
-
   //usecase
   IntroSl.registerLazySingleton(() => LogInAnonymously(repository: IntroSl()));
   //repository
