@@ -8,7 +8,8 @@ import '../cubits/hotel_list_cubit.dart';
 import '../widgets/hotel_list_view_widget.dart';
 
 class HotelListPage extends StatelessWidget {
-  const HotelListPage({Key? key}) : super(key: key);
+  const HotelListPage({Key? key, required this.arg}) : super(key: key);
+  final Map<String, dynamic> arg;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +82,8 @@ class HotelListPage extends StatelessWidget {
             ),
             Expanded(
                 child: BlocProvider(
-              create: (context) => di.hotelListSl<HotelListCubit>(),
+              create: (context) => di.hotelListSl<HotelListCubit>()
+                ..getHotelListApi(arg['city_name']),
               child: const HotelListViewWidget(),
             ))
           ],

@@ -19,7 +19,7 @@ class HotelListDataSourceImpl implements HotelListDataSource {
   Future<Either<Failures, List<HotelListModel>>> getHotelListData(
       String hotelName) async {
     try {
-      final baseurl = '${BaseConstant.baseUrl}hotel/ahm';
+      final baseurl = '${BaseConstant.baseUrl}hotel/${hotelName}';
       print(baseurl);
       final response = await dio.get(baseurl,options: await createDioOptions());
       if (response.statusCode == 200) {
