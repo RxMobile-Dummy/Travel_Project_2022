@@ -33,4 +33,5 @@ class ImagePath {
   static const String forgetPassword = "assets/img/forgetpassword.png";
 
   static const String appLogo = "assets/img/logo.jpeg";
+  static const String userProfileImage1 = 'assets/img/userPage_logo.png';
 }

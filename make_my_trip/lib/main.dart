@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
+import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart';
 
 import './core/navigation/app_router.dart' as appRoutes;
 import 'firebase_options.dart';
@@ -20,6 +21,9 @@ import './features/sign_up/signup_injection_container.dart' as signUpDi;
 import './features/hotel_listing/hotel_list_injection_container.dart'
     as hotelListDi;
 
+import './features/setting_page/setting_page_injection_container.dart'
+    as settingPagDi;
+
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
 
@@ -31,6 +35,7 @@ void main() async {
   await roomDetailDi.init();
   await signUpDi.init();
   await hotelListDi.init();
+  await settingPagDi.init();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

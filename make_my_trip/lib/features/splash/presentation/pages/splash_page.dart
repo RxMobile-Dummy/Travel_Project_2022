@@ -5,7 +5,6 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/splash/presentation/cubit/splash_cubit.dart';
 import 'package:make_my_trip/features/splash/presentation/widgets/app_logo_widget.dart';
 import '../../../../core/navigation/route_info.dart';
-import '../../../settings/presentation/pages/settings_page.dart';
 import '../widgets/app_logo_widget.dart';
 
 class SplashPage extends StatelessWidget {

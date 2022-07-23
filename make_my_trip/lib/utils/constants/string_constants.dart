@@ -139,12 +139,13 @@ class StringConstants {
 
   // Setting Strings
   static const setting = "Settings";
-  static const profile = "Profile";
-  static const ok = "OK";
-  static const done = "Done";
-  static const editProfile = "Edit Profile";
+  static const userName = "User Name";
+  static const userEmail = "helloworld123@gmail.com";
+  static const userEditProfile = "Edit Profile";
+  static const wishlist = "Wishlist";
+  static const myTrips = "My Trips";
+  static const privacyAndSecurity = "Privacy and Security";
+  static const help = "Help";
+  static const aboutUs = "About Us";
   static const logout = "Logout";
-  static const fullName = "Full Name";
-  static const phone = "Phone";
-  static const update = "Update";
 }

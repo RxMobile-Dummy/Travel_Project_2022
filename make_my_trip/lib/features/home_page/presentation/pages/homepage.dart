@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
-import 'package:make_my_trip/features/login/login_injection_container.dart';
-import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
-import 'package:make_my_trip/features/login/presentation/pages/login_page.dart';
+import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
+import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
 import 'package:make_my_trip/features/wishlist/presentation/pages/wishlist_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import '../../../setting_page/presentation/pages/settings_page.dart';
 import '../manager/cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
 
@@ -65,9 +65,13 @@ class HomePage extends StatelessWidget {
         const HomeScreen(),
         const UserHistoryPage(),
         const WishListPage(),
+        // BlocProvider(
+        //   create: (context) => loginSl<LoginCubit>(),
+        //   child: LoginPage(),
+        // ),
         BlocProvider(
-          create: (context) => loginSl<LoginCubit>(),
-          child: LoginPage(),
-        ),
+          create: (context) => slSettingPage<SettingPageCubit>(),
+          child: SettingsPage(),
+        )
       ];
 }

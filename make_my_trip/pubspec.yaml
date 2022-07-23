@@ -68,6 +68,7 @@ dependencies:
   google_maps_flutter: ^2.1.8
   url_launcher: ^6.1.5
   video_player: ^2.4.5
+  image_picker: ^0.8.5+3
 
   #shimmer effect
 
