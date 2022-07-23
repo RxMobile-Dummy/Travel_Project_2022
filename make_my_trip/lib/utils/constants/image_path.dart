@@ -34,6 +34,6 @@ class ImagePath {
   static const String emailVerification = "assets/img/email_verification.png";
 
   static const String appLogoGif = "assets/video/logo.gif";
-  static const String appLogo = "assets/img/flogo.jpeg";
+  static const String appLogo1 = "assets/img/flogo.jpeg";
   static const String appLogo = "assets/img/logo.jpeg";
 }

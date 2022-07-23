@@ -39,7 +39,6 @@ Widget topView(BuildContext context) {
             borderRadius: BorderRadius.circular(10),
             color: MakeMyTripColors.colorWhite,
           ),
-          height: 170,
           child: Column(children: [
             Padding(
               padding: const EdgeInsets.only(top: 20, left: 10.0, right: 10),
