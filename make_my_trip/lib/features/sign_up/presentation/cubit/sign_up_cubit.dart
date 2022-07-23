@@ -1,5 +1,5 @@
-
 import 'package:bloc/bloc.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/sign_up/domain/usecases/user_sign_up.dart';
 import 'package:make_my_trip/features/sign_up/domain/usecases/user_verification.dart';
@@ -44,12 +44,12 @@ class SignUpCubit extends Cubit<SignUpState> {
             final response = await userSignUp.call(
                 signUpFullname, signUpEmail, signUpPassword);
             response.fold((failure) {
-              emit(SignUpErrorState(error: getFailure(failure)));
+              emit(SignUpErrorState(error: _getFailure(failure)));
             }, (success) async {
               showWaitingDialog();
               final response = await userVerification.call();
               response.fold((failure) {
-                emit(SignUpErrorState(error: getFailure(failure)));
+                emit(SignUpErrorState(error: _getFailure(failure)));
               }, (success) {
                 emit(SignUpSuccessState());
               });
@@ -60,7 +60,15 @@ class SignUpCubit extends Cubit<SignUpState> {
     }
   }
 
-  String getFailure(failure) {
+  passEyeChange(val) {
+    emit(SignUpPassEyeState(val: !val));
+  }
+
+  conPassEyeChange(val) {
+    emit(SignUpConPassEyeState(val: !val));
+  }
+
+  String _getFailure(failure) {
     if (failure is ServerFailure) {
       return failure.failureMsg!;
     } else {

@@ -112,6 +112,9 @@ class StringConstants {
   static String resetPassword = "Forget Password";
   static String passwordLbl =
       'Enter the email associated with your account and we will send an email with instructions to reset your password.';
+  static String emailVerificationTxt =
+      'Please verify your email which is sent to nikkhorwal@gmail.com';
+
   static String emailAddress = 'Email Address';
   static String hintText = "helloworld123@gmail.com";
   static String sendLink = "Send Link";

@@ -5,34 +5,35 @@ import 'package:flutter/material.dart';
 
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
 
-import './core/navigation/app_router.dart' as appRoutes;
+import './core/navigation/app_router.dart' as app_routes;
 import 'firebase_options.dart';
 
-import './features/home_page/home_page_injection_container.dart' as homePageDi;
+import './features/home_page/home_page_injection_container.dart'
+    as home_page_di;
 import './features/hotel_detail/hotel_detail_injection_container.dart'
-    as hotelDetailDi;
-import './features/login/login_injection_container.dart' as loginDi;
-import './features/review/review_injection_container.dart' as reviewDi;
+    as hotel_detail_di;
+import './features/login/login_injection_container.dart' as login_di;
+import './features/review/review_injection_container.dart' as review_di;
 import './features/room_categories/room_categories_injection_container.dart'
-    as roomCategoryDi;
+    as room_category_di;
 import './features/room_detail_page/room_detail_injection_container.dart'
-    as roomDetailDi;
-import './features/sign_up/signup_injection_container.dart' as signUpDi;
+    as room_detail_di;
+import './features/sign_up/signup_injection_container.dart' as sign_up_di;
 
 import './features/hotel_listing/hotel_list_injection_container.dart'
-    as hotelListDi;
+    as hotel_list_di;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
 
-  await homePageDi.init();
-  await hotelDetailDi.init();
-  await loginDi.init();
-  await reviewDi.init();
-  await roomCategoryDi.init();
-  await roomDetailDi.init();
-  await signUpDi.init();
-  await hotelListDi.init();
+  await home_page_di.init();
+  await hotel_detail_di.init();
+  await login_di.init();
+  await review_di.init();
+  await room_category_di.init();
+  await room_detail_di.init();
+  await sign_up_di.init();
+  await hotel_list_di.init();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -59,7 +60,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Make My Trip',
       theme: MakeMyTripLightTheme.lightTheme,
-      onGenerateRoute: appRoutes.Router.generateRoutes,
+      onGenerateRoute: app_routes.Router.generateRoutes,
     );
   }
 }

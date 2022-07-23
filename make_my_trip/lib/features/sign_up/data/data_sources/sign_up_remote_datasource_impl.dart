@@ -32,6 +32,7 @@ class SignUpRemoteDataSourceImpl extends SignUpRemoteDataSource {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
+      auth.fetchSignInMethodsForEmail(email);
       User? user = userCredential.user;
       user?.updateDisplayName(fullName);
 

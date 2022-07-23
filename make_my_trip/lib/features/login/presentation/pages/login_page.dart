@@ -11,8 +11,6 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 
-import '../widgets/icon_button.dart';
-
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
@@ -12,11 +13,15 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
   final Dio dio;
   HotelDetailRemoteDataSourceImpl(this.dio);
 
+  Future<Options> createDioOptions() async {
+    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    return Options(headers: {'token': userToken});
+  }
   @override
   Future<Either<Failures, HotelDetailModel>> getAllHotelDetailData(
       int index) async {
     return _getAllCharacterUrl(
-        "${BaseConstant.baseUrl}hotel/gethotel/getsinglehotel/${index}");
+        "${BaseConstant.baseUrl}hotel/gethotel/getperticularhotel/${index}");
   }
 
   Future<Either<Failures, HotelDetailModel>> _getAllCharacterUrl(
