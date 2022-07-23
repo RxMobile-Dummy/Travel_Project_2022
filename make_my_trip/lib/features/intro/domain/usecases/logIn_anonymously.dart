@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
-import 'package:make_my_trip/features/splash/domain/repositories/splash_repository.dart';
+import 'package:make_my_trip/features/intro/domain/repositories/intro_repository.dart';
 
 class LogInAnonymously extends Usecase<bool, NoParams> {
-  final SplashRepository repository;
+  final IntroRepository repository;
 
   LogInAnonymously({required this.repository});
 

@@ -5,6 +5,7 @@ import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_pa
 import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_container.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_list_page.dart';
+import 'package:make_my_trip/features/intro/intro_injection_container.dart';
 import 'package:make_my_trip/features/search/presentation/pages/search_page.dart';
 
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
@@ -63,7 +64,7 @@ class Router {
       case RoutesName.onBoard:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => IntroCubit(),
+            create: (context) => IntroSl<IntroCubit>(),
             child: IntroPage(),
           );
         });

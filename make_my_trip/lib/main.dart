@@ -23,12 +23,12 @@ import './features/sign_up/signup_injection_container.dart' as sign_up_di;
 import './features/hotel_listing/hotel_list_injection_container.dart'
     as hotel_list_di;
 
-import './features//splash/splash_injection_container.dart' as splash_di;
+import 'features/intro/intro_injection_container.dart' as intro_di;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
 
-  await splash_di.init();
+  await intro_di.init();
   await home_page_di.init();
   await hotel_detail_di.init();
   await login_di.init();

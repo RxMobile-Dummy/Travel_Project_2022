@@ -1,27 +1,32 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/failures/failures.dart';
 
-abstract class SplashRemoteDataSource {
+abstract class IntroRemoteDataSource {
   Future<Either<Failures, bool>> logInAnonymously();
 }
 
-class SplashRemoteDataSourceImpl extends SplashRemoteDataSource {
+class IntroRemoteDataSourceImpl extends IntroRemoteDataSource {
   final FirebaseAuth auth;
+  final SharedPreferences sharedPreferences;
 
-  SplashRemoteDataSourceImpl({required this.auth});
+  IntroRemoteDataSourceImpl(
+      {required this.auth, required this.sharedPreferences});
 
   @override
   Future<Either<Failures, bool>> logInAnonymously() async {
+    final userId = sharedPreferences.getString("userId");
+
     try {
-      if (auth.currentUser == null) {
+      if (userId == null || userId == "") {
         UserCredential userCredential = await auth.signInAnonymously();
         User? user = userCredential.user;
-        return const Right(true);
-      } else {
-        return const Right(true);
+
+        sharedPreferences.setString("userId", user!.uid);
       }
+      return const Right(true);
     } catch (err) {
       return Left(ServerFailure());
     }
