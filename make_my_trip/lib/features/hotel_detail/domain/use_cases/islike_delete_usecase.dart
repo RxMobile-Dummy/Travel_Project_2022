@@ -3,21 +3,20 @@ import 'package:equatable/equatable.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/repositories/hotel_detail_repository.dart';
-import '../../data/model/hotel_detail_model.dart';
 
-class HotelDetailUseCase implements Usecase<HotelDetailModel, HotelDetailParams> {
+class IsLikeDeleteUseCase implements Usecase<void, IsLikeDeleteParams> {
   final HotelDetailRepository hotelDetailRepository;
-  HotelDetailUseCase(this.hotelDetailRepository);
+  IsLikeDeleteUseCase(this.hotelDetailRepository);
   @override
-  Future<Either<Failures, HotelDetailModel>> call(HotelDetailParams params) async {
-    return await hotelDetailRepository.getHotelDetails(params.index);
+  Future<Either<Failures, void>> call(IsLikeDeleteParams params) async {
+    return await hotelDetailRepository.deleteIsLike(params.index);
   }
 }
 
-class HotelDetailParams extends Equatable {
+class IsLikeDeleteParams extends Equatable {
   final int index;
 
-  const HotelDetailParams({required this.index});
+  const IsLikeDeleteParams({required this.index});
 
   @override
   List<Object?> get props => [index];

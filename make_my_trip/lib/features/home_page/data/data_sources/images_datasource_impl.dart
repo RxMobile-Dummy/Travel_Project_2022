@@ -41,7 +41,7 @@ class ImagesDataSourceImpl implements ImagesDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
-      print(e);
+
       return Left(ServerFailure(statusCode: "503"));
     }
   }

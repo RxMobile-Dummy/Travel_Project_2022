@@ -33,16 +33,15 @@ class HotelDetailPage extends StatelessWidget {
       builder: (context, state) {
         if (state is StateOnKnownToSuccess) {
           hotelDetailModel = state.response;
+          isLiked=hotelDetailModel!.isbookmark!;
         } else if (state is StateSearchResult) {
-
           isLiked = state.response;
         } else if (state is StateOnResponseSuccess) {
           imgIndex = state.response;
-
         } else if (state is StateOnSuccess) {
           isReadMore = state.response;
         }else if(state is StateLoading){
-          return HotelDetailsShimmer();
+          return const HotelDetailsShimmer();
         }
 
         return Scaffold(
@@ -74,7 +73,8 @@ class HotelDetailPage extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           BlocProvider.of<HotelDetailCubit>(context)
-                              .onLikeTap(isLiked);
+                              .onLikeTap(isLiked,hotelDetailModel!.id);
+
                         },
                         child: Icon(
                           (isLiked) ? Icons.favorite : Icons.favorite_border,
@@ -125,8 +125,8 @@ class HotelDetailPage extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamedAndRemoveUntil(context,
-                                      RoutesName.galleryPage, (route) => true);
+                                  Navigator.pushNamed(context,
+                                      RoutesName.galleryPage, arguments:{"image_list":hotelDetailModel!.images});
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -135,17 +135,22 @@ class HotelDetailPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20),
                                     color: MakeMyTripColors.colorWhite,
                                   ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                        "${hotelDetailModel?.images?.length} ${StringConstants.photos}",
-                                        style: AppTextStyles.infoContentStyle,
-                                      ),
-                                      8.horizontalSpace,
-                                      const Icon(Icons.image)
-                                    ],
+                                  child: GestureDetector(
+                                    onTap: (){
+
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          "${hotelDetailModel?.images?.length} ${StringConstants.photos}",
+                                          style: AppTextStyles.infoContentStyle,
+                                        ),
+                                        8.horizontalSpace,
+                                        const Icon(Icons.image)
+                                      ],
+                                    ),
                                   ),
                                 ),
                               )
@@ -208,7 +213,7 @@ class HotelDetailPage extends StatelessWidget {
                           textAlign: TextAlign.justify,
                         ),
                         (hotelDetailModel?.description == null)
-                            ? SizedBox()
+                            ? const SizedBox()
                             : Align(
                                 alignment: Alignment.centerRight,
                                 child: GestureDetector(
@@ -267,8 +272,8 @@ class HotelDetailPage extends StatelessWidget {
                       leadingText: StringConstants.gallery,
                       tralingText: StringConstants.seeAllPhoto,
                       onTap: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, RoutesName.galleryPage, (route) => true);
+                        Navigator.pushNamed(
+                            context, RoutesName.galleryPage,arguments:{"image_list":hotelDetailModel!.images});
                       },
                     ),
                     18.verticalSpace,

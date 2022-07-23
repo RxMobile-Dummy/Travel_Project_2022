@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
+import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
 import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_container.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
@@ -138,10 +139,11 @@ class Router {
           );
         });
       case RoutesName.hotelDetail:
-        Map<String,dynamic> arg = settings.arguments as Map<String, dynamic>;
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => hotelDetailSl<HotelDetailCubit>()..getHotelDetailData(arg['hotel_id']),
+            create: (context) => hotelDetailSl<HotelDetailCubit>()
+              ..getHotelDetailData(arg['hotel_id']),
             child: HotelDetailPage(),
           );
         });
@@ -160,29 +162,35 @@ class Router {
           );
         });
       case RoutesName.reviewPage:
-        Map<String,dynamic> arg = settings.arguments as Map<String, dynamic>;
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
-            child: ReviewPage(arg:arg),
+            create: (context) =>
+                reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
+            child: ReviewPage(arg: arg),
           );
         });
       case RoutesName.publishReviewPage:
-        Map<String,dynamic> arg = settings.arguments as Map<String, dynamic>;
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (context) {
-          return
-            MultiBlocProvider(
-  providers: [
-    BlocProvider(create: (context) => reviewSl<PublishReviewCubit>() ),
-    BlocProvider(create: (context) => reviewSl<ReviewCubit>() )
-  ],
-  child: PublishReviewPage(arg:arg),
-);
-           
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => reviewSl<PublishReviewCubit>()),
+              BlocProvider(create: (context) => reviewSl<ReviewCubit>())
+            ],
+            child: PublishReviewPage(arg: arg),
+          );
         });
       case RoutesName.galleryPage:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
-          return GalleryPage();
+          return BlocProvider(
+            create: (context) =>
+                GalleryCubit()..convertImageData(arg['image_list']),
+            child: GalleryPage(
+              arg: arg,
+            ),
+          );
         });
       default:
         return MaterialPageRoute(builder: (_) {

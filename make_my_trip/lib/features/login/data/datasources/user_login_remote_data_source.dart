@@ -149,7 +149,7 @@ class UserLoginRemoteDataSourceImpl extends UserLoginRemoteDataSource {
         return Left(ServerFailure());
       }
     } on FirebaseAuthException catch (e) {
-      print(e);
+
       return Left(ServerFailure());
     }
   }

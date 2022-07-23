@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
@@ -26,12 +27,12 @@ class ViewImage extends StatelessWidget {
           elevation: 0,
         ),
         backgroundColor: MakeMyTripColors.colorBlack,
-        body: BlocBuilder<GalleryCubit, GalleryState>(
+        body: BlocBuilder<GalleryCubit, BaseState>(
           builder: (context, state) {
             return Center(
               child: Hero(
-                  tag: (state is GalleryChangedPage)
-                      ? state.index.toString()
+                  tag: (state is StateOnSuccess)
+                      ? state.response.toString()
                       : index.toString(),
                   child: PageView.builder(
                       controller: controller,
