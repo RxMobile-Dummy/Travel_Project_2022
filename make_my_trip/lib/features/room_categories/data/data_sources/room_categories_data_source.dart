@@ -24,19 +24,16 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
   Future<Either<Failures, RoomCategoryModel>> getRoomDetailData(
       int hotelId) async {
     try {
-      final response = await dio.get(baseurl,queryParameters: {
-        "hotel_id" : "2",
-        "cin" : "2020-05-01",
-        "cout": "2020-05-10"
+      final response = await dio.get(baseurl, queryParameters: {
+        "hotel_id": '1',
+        "cin": '2022-01-05',
+        "cout": '2022-01-10'
       });
-      print(response.data);
       if (response.statusCode == 200) {
-        print("1");
-        final RoomCategoryModel roomCategoryModel = RoomCategoryModel.fromJson(response.data);
-        print("2 ${roomCategoryModel}");
+        final RoomCategoryModel roomCategoryModel =
+            RoomCategoryModel.fromJson(response.data);
         return Right(roomCategoryModel);
       } else if (response.statusCode == 500) {
-        print("3");
         return Left(ServerFailure());
       } else if (response.statusCode == 404) {
         return Left(
@@ -45,7 +42,6 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
-      print("4");
       return Left(ServerFailure());
     }
   }
