@@ -35,4 +35,5 @@ class ImagePath {
 
   static const String appLogoGif = "assets/video/logo.gif";
   static const String appLogo = "assets/img/flogo.jpeg";
+  static const String appLogo = "assets/img/logo.jpeg";
 }
