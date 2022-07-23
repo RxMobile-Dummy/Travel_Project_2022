@@ -6,7 +6,9 @@ import 'package:make_my_trip/features/login/login_injection_container.dart';
 import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
 import 'package:make_my_trip/features/login/presentation/pages/login_page.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
+import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/presentation/pages/wishlist_page.dart';
+import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../manager/cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
@@ -64,7 +66,10 @@ class HomePage extends StatelessWidget {
         //View 1
         const HomeScreen(),
         const UserHistoryPage(),
-        const WishListPage(),
+        BlocProvider(
+          create: (context) => wishListSl<WishListCubit>(),
+          child: WishListPage(),
+        ),
         BlocProvider(
           create: (context) => loginSl<LoginCubit>(),
           child: LoginPage(),

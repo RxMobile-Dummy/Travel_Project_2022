@@ -25,6 +25,7 @@ import './features/hotel_listing/hotel_list_injection_container.dart'
     as hotel_list_di;
 
 import 'features/intro/intro_injection_container.dart' as intro_di;
+import './features/wishlist/wishlist_injection_container.dart' as wishlist_di;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +39,7 @@ void main() async {
   await room_detail_di.init();
   await sign_up_di.init();
   await hotel_list_di.init();
+  await wishlist_di.init();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

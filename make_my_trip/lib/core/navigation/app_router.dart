@@ -123,7 +123,7 @@ class Router {
         });
       case RoutesName.wishList:
         return MaterialPageRoute(builder: (_) {
-          return const WishListPage();
+          return WishListPage();
         });
       case RoutesName.profile:
         return MaterialPageRoute(builder: (_) {

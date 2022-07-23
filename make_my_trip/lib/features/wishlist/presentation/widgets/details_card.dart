@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
+import 'package:make_my_trip/features/wishlist/data/model/wishlist_model.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Hotal_Details extends StatelessWidget {
-  const Hotal_Details({Key? key}) : super(key: key);
+  Hotal_Details({Key? key, required this.wishlistModel}) : super(key: key);
+
+  WishlistModel? wishlistModel;
 
   @override
   Widget build(BuildContext context) {
     final _controller = PageController();
     final size = MediaQuery.of(context).size;
-
-    List<String> images = [
-          ImagePath.wishlistImage2,
-          ImagePath.wishlistImage1,
-          ImagePath.wishlistImage2,
-          ImagePath.wishlistImage1
-    ];
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -41,11 +37,12 @@ class Hotal_Details extends StatelessWidget {
                     PageView(children: [
                       PageView.builder(
                           controller: _controller,
-                          itemCount: images.length,
+                          itemCount: wishlistModel?.wishListImage?.length,
                           pageSnapping: true,
-                          itemBuilder: (context, pagePosition) {
-                            return Image.asset(
-                              images[pagePosition],
+                          itemBuilder: (context, index) {
+                            return Image.network(
+                              wishlistModel?.wishListImage![index].toString() ??
+                                  "",
                               width: size.width * 10,
                               height: 150,
                               fit: BoxFit.fill,
@@ -56,7 +53,7 @@ class Hotal_Details extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 12),
                       child: SmoothPageIndicator(
                         controller: _controller,
-                        count: images.length,
+                        count: wishlistModel?.wishListImage?.length ?? 10,
                         axisDirection: Axis.horizontal,
                         effect: const SlideEffect(
                           activeDotColor: Colors.white,
@@ -78,7 +75,7 @@ class Hotal_Details extends StatelessWidget {
                     children: [
                       6.verticalSpace,
                       Text(
-                        StringConstants.wishlistTitle,
+                        wishlistModel?.hotelName ?? "",
                         style: const TextStyle(
                             color: MakeMyTripColors.colorBlack,
                             fontWeight: FontWeight.w600,
@@ -94,7 +91,8 @@ class Hotal_Details extends StatelessWidget {
                           ),
                           2.horizontalSpace,
                           Text(
-                            StringConstants.wishlistLocationName,
+                            wishlistModel?.address?.addressLine.toString() ??
+                                "",
                             style: const TextStyle(
                                 color: MakeMyTripColors.colorBlack,
                                 fontWeight: FontWeight.w400,
@@ -108,7 +106,8 @@ class Hotal_Details extends StatelessWidget {
                           2.horizontalSpace,
                           GestureDetector(
                               onTap: () {},
-                              child: Text(StringConstants.wishlistRs,
+                              child: Text(
+                                  wishlistModel?.price.toString() ?? "1200",
                                   style: const TextStyle(
                                       color: MakeMyTripColors.colorBlack,
                                       fontWeight: FontWeight.bold,
