@@ -12,4 +12,14 @@ class HotelDetailRepositoryImpl implements HotelDetailRepository {
   Future<Either<Failures, HotelDetailModel>> getHotelDetails(int index) async {
     return await hotelDetailRemoteDataSource.getAllHotelDetailData(index);
   }
+
+  @override
+  Future<Either<Failures, void>> deleteIsLike(int hotelId) async {
+    return await hotelDetailRemoteDataSource.deleteIsLikeData(hotelId);
+  }
+
+  @override
+  Future<Either<Failures, void>> postIsLike(int hotelId) async {
+    return await hotelDetailRemoteDataSource.postIsLikeData(hotelId);
+  }
 }

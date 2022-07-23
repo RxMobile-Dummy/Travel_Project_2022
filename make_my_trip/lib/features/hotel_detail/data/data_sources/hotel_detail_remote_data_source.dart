@@ -7,18 +7,20 @@ import 'package:make_my_trip/utils/constants/base_constants.dart';
 
 abstract class HotelDetailRemoteDataSource {
   Future<Either<Failures, HotelDetailModel>> getAllHotelDetailData(int index);
+  Future<Either<Failures, void>> postIsLikeData(int hotelId);
+  Future<Either<Failures, void>> deleteIsLikeData(int hotelId);
 }
 
 class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
   final Dio dio;
   HotelDetailRemoteDataSourceImpl(this.dio);
 
+
+
   Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    print(userToken);
     return Options(headers: {'token': userToken});
   }
-
   @override
   Future<Either<Failures, HotelDetailModel>> getAllHotelDetailData(
       int index) async {
@@ -28,22 +30,46 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
 
   Future<Either<Failures, HotelDetailModel>> _getAllCharacterUrl(
       String url) async {
-    print(url);
     try {
-      final response = await dio.get(url, options: await createDioOptions());
-
+      final response = await dio.get(url,options: await createDioOptions());
       if (response.statusCode == 200) {
         HotelDetailModel hotelDetailModel;
         final apidata = response.data;
         hotelDetailModel = HotelDetailModel.fromJson(apidata);
-        print(hotelDetailModel.features);
         return Right(hotelDetailModel);
       } else {
         return Left(ServerFailure());
       }
     } catch (err) {
-      print(err);
       return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, void>> deleteIsLikeData(int hotelId) async {
+    try {
+      final response = await dio.delete("${BaseConstant.baseUrl}bookmark/delete/${hotelId}",options: await createDioOptions());
+    if (response.statusCode == 200) {
+      return Right(null);
+    } else {
+    return Left(ServerFailure());
+    }
+    } catch (err) {
+    return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, void>> postIsLikeData(int hotelId) async {
+    try {
+      final response = await dio.post("${BaseConstant.baseUrl}bookmark/post/${hotelId}",options: await createDioOptions());
+    if (response.statusCode == 200) {
+    return Right(null);
+    } else {
+    return Left(ServerFailure());
+    }
+    } catch (err) {
+    return Left(ServerFailure());
     }
   }
 }

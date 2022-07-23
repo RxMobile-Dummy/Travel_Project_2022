@@ -1,15 +1,22 @@
-import 'package:bloc/bloc.dart';
-import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
-import 'package:meta/meta.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
+
+import '../../../hotel_detail/data/model/hotel_detail_model.dart';
 
 
-part 'gallery_state.dart';
-
-class GalleryCubit extends Cubit<GalleryState> {
-  GalleryCubit() : super(GalleryInitial());
+class GalleryCubit extends Cubit<BaseState> {
+  GalleryCubit() : super(StateInitial());
 
   void setPage(int index){
-    emit(GalleryChangedPage(index));
+    emit(StateOnSuccess<int>(index));
   }
 
+  convertImageData(List<Images> imageList){
+    List<String> image=[];
+    imageList.forEach((element) {
+      image.add(element.imageUrl.toString());
+    });
+    emit(StateOnSuccess<List<String>>(image));
+  }
 }

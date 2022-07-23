@@ -23,7 +23,6 @@ import '../widgets/review_container.dart';
 
 class HotelDetailPage extends StatelessWidget {
   HotelDetailPage({Key? key}) : super(key: key);
-
   bool isLiked = false;
   bool isReadMore = false;
   int imgIndex = 0;
@@ -34,18 +33,19 @@ class HotelDetailPage extends StatelessWidget {
     Size screen = MediaQuery.of(context).size;
     return BlocBuilder<HotelDetailCubit, BaseState>(
       builder: (context, state) {
-        print(state.toString());
         if (state is StateOnKnownToSuccess) {
           hotelDetailModel = state.response;
+          isLiked=hotelDetailModel!.isbookmark!;
         } else if (state is StateSearchResult) {
           isLiked = state.response;
         } else if (state is StateOnResponseSuccess) {
           imgIndex = state.response;
         } else if (state is StateOnSuccess) {
           isReadMore = state.response;
-        } else if (state is StateLoading) {
-          return HotelDetailsShimmer();
+        }else if(state is StateLoading){
+          return const HotelDetailsShimmer();
         }
+
         return Scaffold(
           body: CustomScrollView(
             slivers: [
@@ -75,7 +75,8 @@ class HotelDetailPage extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           BlocProvider.of<HotelDetailCubit>(context)
-                              .onLikeTap(isLiked);
+                              .onLikeTap(isLiked,hotelDetailModel!.id);
+
                         },
                         child: Icon(
                           (isLiked) ? Icons.favorite : Icons.favorite_border,
@@ -126,8 +127,8 @@ class HotelDetailPage extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamedAndRemoveUntil(context,
-                                      RoutesName.galleryPage, (route) => true);
+                                  Navigator.pushNamed(context,
+                                      RoutesName.galleryPage, arguments:{"image_list":hotelDetailModel!.images});
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -209,7 +210,7 @@ class HotelDetailPage extends StatelessWidget {
                           textAlign: TextAlign.justify,
                         ),
                         (hotelDetailModel?.description == null)
-                            ? SizedBox()
+                            ? const SizedBox()
                             : Align(
                                 alignment: Alignment.centerRight,
                                 child: GestureDetector(
@@ -270,8 +271,8 @@ class HotelDetailPage extends StatelessWidget {
                       leadingText: StringConstants.gallery,
                       tralingText: StringConstants.seeAllPhoto,
                       onTap: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, RoutesName.galleryPage, (route) => true);
+                        Navigator.pushNamed(
+                            context, RoutesName.galleryPage,arguments:{"image_list":hotelDetailModel!.images});
                       },
                     ),
                     18.verticalSpace,

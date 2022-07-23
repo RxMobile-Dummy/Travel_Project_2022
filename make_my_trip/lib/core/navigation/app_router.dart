@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
+import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
 import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_container.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
@@ -186,8 +187,15 @@ class Router {
           );
         });
       case RoutesName.galleryPage:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
-          return GalleryPage();
+          return BlocProvider(
+            create: (context) =>
+                GalleryCubit()..convertImageData(arg['image_list']),
+            child: GalleryPage(
+              arg: arg,
+            ),
+          );
         });
       default:
         return MaterialPageRoute(builder: (_) {
