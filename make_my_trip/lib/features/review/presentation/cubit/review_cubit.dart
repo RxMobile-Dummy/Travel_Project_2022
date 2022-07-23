@@ -9,18 +9,29 @@ class ReviewCubit extends Cubit<BaseState> {
   final PostHotelReviewUseCases postHotelReviewUseCases;
 
   ReviewCubit(this.getHotelReviewUseCases, this.postHotelReviewUseCases)
-      : super(StateInitial()) {
-
-  }
+      : super(StateInitial());
 
   getHotelReviewData(int params) async {
+    emit(StateLoading());
     final res = await getHotelReviewUseCases.call(params);
     res.fold((l) => emit(StateNoData()),
-        (r) => emit(StateOnKnownToSuccess<dynamic>(r)));
+        (r) => emit(StateOnSuccess<List<ReviewModel?>>(r)));
   }
 
-  postHotelReviewData(ReviewModel reviewModel) async {
-    final req = await postHotelReviewUseCases.call(reviewModel);
-    req.fold((l) => emit(StateNoData()), (r) => emit(StateOnKnownToSuccess(r)));
+  postHotelReviewData(ReviewModel reviewModel, int hote_id) async {
+    if(reviewModel.comment == "" || reviewModel.comment == null  ){
+      emit(ValidationError("Please Enter Comment"));
+    }else {
+    final req = await postHotelReviewUseCases
+        .call(PostReviewParams(hotel_id: hote_id, reviewModel: reviewModel));
+    req.fold((l) {
+      emit(StateNoData());
+
+
+    }, (r) {
+      emit(StateOnKnownToSuccess<List<ReviewModel>>(r));
+
+    });
+  }
   }
 }

@@ -40,13 +40,22 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   }
 
   @override
-  Future<Either<Failures, void>> postHotelReview(params) async {
+  Future<Either<Failures, List<ReviewModel>>> postHotelReview(ReviewModel reviewModel,int hotel_id) async {
     try {
-      print(params);
-      await dio.post('${BaseConstant.baseUrl}review/hotel/${params}',
-          data: params.toJson(),options: await createDioOptions()
+      final response=await dio.post('${BaseConstant.baseUrl}review/hotel/${int.parse(hotel_id.toString())}',
+          data: reviewModel.toJson(),options: await createDioOptions()
       );
-      return const Right(null);
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        var reviewModel = <ReviewModel>[];
+        for (var item in data) {
+          reviewModel.add(ReviewModel.fromJson(item));
+        }
+        return Right(reviewModel);
+      } else {
+        return Left(ServerFailure());
+      }
     } catch (e) {
       return Left(ServerFailure());
     }
