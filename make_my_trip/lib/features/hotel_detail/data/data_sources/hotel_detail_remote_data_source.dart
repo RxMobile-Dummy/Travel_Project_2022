@@ -17,6 +17,7 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     return Options(headers: {'token': userToken});
   }
+
   @override
   Future<Either<Failures, HotelDetailModel>> getAllHotelDetailData(
       int index) async {
