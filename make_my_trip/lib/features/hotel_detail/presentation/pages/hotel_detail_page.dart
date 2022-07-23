@@ -34,9 +34,11 @@ class HotelDetailPage extends StatelessWidget {
         if (state is StateOnKnownToSuccess) {
           hotelDetailModel = state.response;
         } else if (state is StateSearchResult) {
+
           isLiked = state.response;
         } else if (state is StateOnResponseSuccess) {
           imgIndex = state.response;
+
         } else if (state is StateOnSuccess) {
           isReadMore = state.response;
         }else if(state is StateLoading){

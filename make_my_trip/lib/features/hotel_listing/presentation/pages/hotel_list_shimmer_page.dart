@@ -10,16 +10,11 @@ class HotelListShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Container(
+        body:
+        Container(
           width: double.infinity,
           child: Column(
             children: <Widget>[
-              SafeArea(
-                child:  Padding(
-                  padding: const EdgeInsets.only(top: 20,left: 6),
-                  child: ListContainer(hight: 40,width: size.width * 0.9,),
-                ),
-              ),
               Expanded(
                 child: Shimmer.fromColors(
                   baseColor: Colors.grey[300]!,
