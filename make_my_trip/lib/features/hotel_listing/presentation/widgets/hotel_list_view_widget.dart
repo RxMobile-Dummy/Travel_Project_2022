@@ -13,7 +13,6 @@ class HotelListViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<HotelListCubit>(context).getHotelListApi("del");
     return GestureDetector(
         onTap: () {
           Navigator.pushNamedAndRemoveUntil(

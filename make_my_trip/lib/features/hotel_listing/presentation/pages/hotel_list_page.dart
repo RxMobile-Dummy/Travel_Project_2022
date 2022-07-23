@@ -9,15 +9,10 @@ import '../widgets/hotel_list_view_widget.dart';
 
 class HotelListPage extends StatelessWidget {
   const HotelListPage({Key? key, required this.arg}) : super(key: key);
-
   final Map<String, dynamic> arg;
 
   @override
   Widget build(BuildContext context) {
-    if (arg['city_name'] != null) {
-      print('argument ${arg['city_name']}');
-      context.read<HotelListCubit>().getHotelListApi(arg['city_name']);
-    }
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -87,7 +82,8 @@ class HotelListPage extends StatelessWidget {
             ),
             Expanded(
                 child: BlocProvider(
-              create: (context) => di.hotelListSl<HotelListCubit>(),
+              create: (context) => di.hotelListSl<HotelListCubit>()
+                ..getHotelListApi(arg['city_name']),
               child: const HotelListViewWidget(),
             ))
           ],

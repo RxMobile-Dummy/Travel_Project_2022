@@ -16,13 +16,12 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
   Future<Either<Failures, HotelDetailModel>> getAllHotelDetailData(
       int index) async {
     return _getAllCharacterUrl(
-        "${BaseConstant.baseUrl}hotel/gethotel/getperticularhotel/${index}");
+        "${BaseConstant.baseUrl}hotel/gethotel/getsinglehotel/${index}");
   }
 
   Future<Either<Failures, HotelDetailModel>> _getAllCharacterUrl(
       String url) async {
     try {
-      print(url);
       final response = await dio.get(url);
 
       if (response.statusCode == 200) {
