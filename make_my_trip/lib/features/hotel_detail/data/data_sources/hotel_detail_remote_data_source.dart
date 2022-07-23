@@ -22,7 +22,7 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
   Future<Either<Failures, HotelDetailModel>> getAllHotelDetailData(
       int index) async {
     return _getAllCharacterUrl(
-        "${BaseConstant.baseUrl}hotel/gethotel/getperticularhotel/${index}");
+        "${BaseConstant.baseUrl}hotel/gethotel/getsinglehotel/${index}");
   }
 
   Future<Either<Failures, HotelDetailModel>> _getAllCharacterUrl(

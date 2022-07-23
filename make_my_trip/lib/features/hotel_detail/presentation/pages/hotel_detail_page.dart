@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -277,14 +279,18 @@ class HotelDetailPage extends StatelessWidget {
                       ),
                     ),
                     12.verticalSpace,
-                    LocationViewWidet(
-                      log:
-                          hotelDetailModel?.address?.location?.latitude ?? 10.0,
-                      lat: hotelDetailModel?.address?.location?.longitude ??
-                          10.0,
-                      titleName: hotelDetailModel?.hotelName! ?? "Hotel",
-                      mapHeight: 200,
-                    ),
+                    (hotelDetailModel != null)
+                        ? LocationViewWidet(
+                            log: hotelDetailModel
+                                    ?.address?.location?.longitude ??
+                                10,
+                            lat:
+                                hotelDetailModel?.address?.location?.latitude ??
+                                    10,
+                            titleName: hotelDetailModel?.hotelName! ?? "Hotel",
+                            mapHeight: 200,
+                          )
+                        : SizedBox(),
                   ],
                 )),
               )

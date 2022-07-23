@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
+import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/repositories/hotel_detail_repository.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/hotel_detail_usecase.dart';
 import '../../../../core/base/base_state.dart';
@@ -27,6 +28,6 @@ class HotelDetailCubit extends Cubit<BaseState> {
   getHotelDetailData(int data) async {
     final res = await hotelDetailUseCase.call(Params(index: data));
     res.fold((l) => emit(StateNoData()),
-        (r) => emit(StateOnKnownToSuccess<dynamic>(r)));
+        (r) => emit(StateOnKnownToSuccess<HotelDetailModel>(r)));
   }
 }
