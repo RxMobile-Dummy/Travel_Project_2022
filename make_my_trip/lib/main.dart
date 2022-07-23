@@ -61,7 +61,6 @@ class MyApp extends StatelessWidget {
       title: 'Make My Trip',
       theme: MakeMyTripLightTheme.lightTheme,
       onGenerateRoute: appRoutes.Router.generateRoutes,
-      initialRoute: RoutesName.search,
     );
   }
 }

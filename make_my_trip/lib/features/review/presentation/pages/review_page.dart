@@ -16,8 +16,7 @@ class ReviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return  Scaffold(
       appBar: AppBar(
         title: Text(
           StringConstants.reviews,
@@ -106,6 +105,6 @@ class ReviewPage extends StatelessWidget {
           },
           backgroundColor: MakeMyTripColors.accentColor,
           child: const Icon(Icons.add)),
-    ));
+    );
   }
 }
