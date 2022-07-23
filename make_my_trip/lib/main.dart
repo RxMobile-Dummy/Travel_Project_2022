@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
+import 'package:make_my_trip/features/user/user_injection_container.dart';
+import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 
 import './core/navigation/app_router.dart' as app_routes;
 import 'firebase_options.dart';
@@ -25,11 +28,13 @@ import './features/hotel_listing/hotel_list_injection_container.dart'
     as hotel_list_di;
 
 import 'features/intro/intro_injection_container.dart' as intro_di;
+import 'features/user/user_injection_container.dart' as user_di;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
 
   await intro_di.init();
+  await user_di.init();
   await home_page_di.init();
   await hotel_detail_di.init();
   await login_di.init();
@@ -60,11 +65,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Make My Trip',
-      theme: MakeMyTripLightTheme.lightTheme,
-      onGenerateRoute: app_routes.Router.generateRoutes,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => userSl<UserCubit>(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Make My Trip',
+        theme: MakeMyTripLightTheme.lightTheme,
+        onGenerateRoute: app_routes.Router.generateRoutes,
+      ),
     );
   }
 }
