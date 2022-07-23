@@ -160,9 +160,10 @@ class Router {
           );
         });
       case RoutesName.reviewPage:
+        Map<String,dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => reviewSl<ReviewCubit>(),
+            create: (context) => reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
             child: ReviewPage(),
           );
         });

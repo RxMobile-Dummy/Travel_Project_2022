@@ -10,7 +10,7 @@ class ReviewCubit extends Cubit<BaseState> {
 
   ReviewCubit(this.getHotelReviewUseCases, this.postHotelReviewUseCases)
       : super(StateInitial()) {
-    getHotelReviewData(1);
+
   }
 
   getHotelReviewData(int params) async {

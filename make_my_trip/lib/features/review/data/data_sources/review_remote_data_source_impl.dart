@@ -8,7 +8,7 @@ import 'package:make_my_trip/utils/constants/base_constants.dart';
 
 class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   final Dio dio;
-  final String baseUrl = "${BaseConstant.baseUrl}review/hotel/1";
+
 
   ReviewRemoteDataSourceImpl(this.dio);
 
@@ -20,7 +20,8 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   @override
   Future<Either<Failures, List<ReviewModel>>> getHotelReview(params) async {
     try {
-      final response = await dio.get(baseUrl,options: await createDioOptions()
+
+      final response = await dio.get('${BaseConstant.baseUrl}review/hotel/${params}',options: await createDioOptions()
       );
       if (response.statusCode == 200) {
         final data = response.data;
@@ -41,7 +42,9 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   @override
   Future<Either<Failures, void>> postHotelReview(params) async {
     try {
-      await dio.post(baseUrl, data: params.toJson(),options: await createDioOptions()
+      print(params);
+      await dio.post('${BaseConstant.baseUrl}review/hotel/${params}',
+          data: params.toJson(),options: await createDioOptions()
       );
       return const Right(null);
     } catch (e) {

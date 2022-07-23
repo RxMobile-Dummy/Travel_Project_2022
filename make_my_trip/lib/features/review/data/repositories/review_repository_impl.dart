@@ -12,7 +12,8 @@ class ReviewRepositoryImpl implements ReviewRepository {
   @override
   Future<Either<Failures, List<ReviewModel?>>> getHotelReview(
       int params) async {
-    return await reviewRemoteDataSource.getHotelReview(params);
+    return await reviewRemoteDataSource.
+    getHotelReview(params);
   }
 
   @override

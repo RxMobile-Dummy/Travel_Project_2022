@@ -8,6 +8,7 @@ import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/pages/hotel_detail_shimmer.dart';
+import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
@@ -252,8 +253,12 @@ class HotelDetailPage extends StatelessWidget {
                       leadingText: hotelDetailModel?.rating?.toString() ?? "3",
                       tralingText: StringConstants.seeAllReview,
                       onTap: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, RoutesName.reviewPage, (route) => true);
+                        if(hotelDetailModel!.id != null){
+                          Navigator.pushNamed(
+                              context, RoutesName.reviewPage,arguments: {"hotel_id" : hotelDetailModel!.id});
+                        }
+                        // context.read<ReviewCubit>().getHotelReviewData(hotelDetailModel?.id);
+
                       },
                     ),
                     18.verticalSpace,
