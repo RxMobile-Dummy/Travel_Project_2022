@@ -6,16 +6,20 @@ import 'package:make_my_trip/features/review/domain/repositories/review_reposito
 
 import '../../../../core/usecases/usecase.dart';
 
-class PostHotelReviewUseCases implements UseCase<List<ReviewModel>, PostReviewParams> {
+class PostHotelReviewUseCases
+    implements Usecase<List<ReviewModel>, PostReviewParams> {
   final ReviewRepository reviewRepository;
 
   PostHotelReviewUseCases(this.reviewRepository);
 
   @override
-  Future<Either<Failures, List<ReviewModel>>> call(PostReviewParams postReviewParams) async {
-    return await reviewRepository.postHotelReview(postReviewParams.reviewModel,postReviewParams.hotel_id);
+  Future<Either<Failures, List<ReviewModel>>> call(
+      PostReviewParams postReviewParams) async {
+    return await reviewRepository.postHotelReview(
+        postReviewParams.reviewModel, postReviewParams.hotel_id);
   }
 }
+
 class PostReviewParams extends Equatable {
   final ReviewModel reviewModel;
   final int hotel_id;

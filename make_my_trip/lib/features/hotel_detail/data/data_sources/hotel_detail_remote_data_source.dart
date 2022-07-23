@@ -15,6 +15,7 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
 
   Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    print(userToken);
     return Options(headers: {'token': userToken});
   }
 
@@ -27,8 +28,9 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
 
   Future<Either<Failures, HotelDetailModel>> _getAllCharacterUrl(
       String url) async {
+    print(url);
     try {
-      final response = await dio.get(url,options: await createDioOptions());
+      final response = await dio.get(url, options: await createDioOptions());
 
       if (response.statusCode == 200) {
         HotelDetailModel hotelDetailModel;
@@ -40,6 +42,7 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
+      print(err);
       return Left(ServerFailure());
     }
   }

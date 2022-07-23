@@ -137,15 +137,17 @@ class Router {
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => hotelListSl<HotelListCubit>(),
+            create: (context) => hotelListSl<HotelListCubit>()
+              ..getHotelListApi(arg['city_name']),
             child: HotelListPage(arg: arg),
           );
         });
       case RoutesName.hotelDetail:
-        Map<String,dynamic> arg = settings.arguments as Map<String, dynamic>;
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => hotelDetailSl<HotelDetailCubit>()..getHotelDetailData(arg['hotel_id']),
+            create: (context) => hotelDetailSl<HotelDetailCubit>()
+              ..getHotelDetailData(arg['hotel_id']),
             child: HotelDetailPage(),
           );
         });
@@ -164,25 +166,24 @@ class Router {
           );
         });
       case RoutesName.reviewPage:
-        Map<String,dynamic> arg = settings.arguments as Map<String, dynamic>;
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
-            child: ReviewPage(arg:arg),
+            create: (context) =>
+                reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
+            child: ReviewPage(arg: arg),
           );
         });
       case RoutesName.publishReviewPage:
-        Map<String,dynamic> arg = settings.arguments as Map<String, dynamic>;
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (context) {
-          return
-            MultiBlocProvider(
-  providers: [
-    BlocProvider(create: (context) => reviewSl<PublishReviewCubit>() ),
-    BlocProvider(create: (context) => reviewSl<ReviewCubit>() )
-  ],
-  child: PublishReviewPage(arg:arg),
-);
-           
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => reviewSl<PublishReviewCubit>()),
+              BlocProvider(create: (context) => reviewSl<ReviewCubit>())
+            ],
+            child: PublishReviewPage(arg: arg),
+          );
         });
       case RoutesName.galleryPage:
         return MaterialPageRoute(builder: (_) {

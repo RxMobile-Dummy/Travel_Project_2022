@@ -34,6 +34,7 @@ class HotelDetailPage extends StatelessWidget {
     Size screen = MediaQuery.of(context).size;
     return BlocBuilder<HotelDetailCubit, BaseState>(
       builder: (context, state) {
+        print(state.toString());
         if (state is StateOnKnownToSuccess) {
           hotelDetailModel = state.response;
         } else if (state is StateSearchResult) {
@@ -42,6 +43,8 @@ class HotelDetailPage extends StatelessWidget {
           imgIndex = state.response;
         } else if (state is StateOnSuccess) {
           isReadMore = state.response;
+        } else if (state is StateLoading) {
+          return HotelDetailsShimmer();
         }
         return Scaffold(
           body: CustomScrollView(
@@ -252,12 +255,14 @@ class HotelDetailPage extends StatelessWidget {
                       leadingText: hotelDetailModel?.rating?.toString() ?? "3",
                       tralingText: StringConstants.seeAllReview,
                       onTap: () {
-                        if(hotelDetailModel!.id != null){
-                          Navigator.pushNamed(
-                              context, RoutesName.reviewPage,arguments: {"hotel_id" : hotelDetailModel!.id,'rating':hotelDetailModel!.rating});
+                        if (hotelDetailModel!.id != null) {
+                          Navigator.pushNamed(context, RoutesName.reviewPage,
+                              arguments: {
+                                "hotel_id": hotelDetailModel!.id,
+                                'rating': hotelDetailModel!.rating
+                              });
                         }
                         // context.read<ReviewCubit>().getHotelReviewData(hotelDetailModel?.id);
-
                       },
                     ),
                     18.verticalSpace,

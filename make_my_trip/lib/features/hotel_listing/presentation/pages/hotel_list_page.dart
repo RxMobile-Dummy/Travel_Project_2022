@@ -29,7 +29,6 @@ class HotelListPage extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       height: 40,
-
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -57,36 +56,24 @@ class HotelListPage extends StatelessWidget {
                     color: MakeMyTripColors.accentColor,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: const Icon(Icons.edit_note_rounded),
-                  ),
-                ),
               ],
             ),
-            Container(
-              height: 40,
-              width: double.infinity,
-              color: MakeMyTripColors.color0gray,
-              child: Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Text(
-                    StringConstants.recommendedText,
-                    style: AppTextStyles.unselectedLabelStyle,
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-                child: BlocProvider(
-              create: (context) => di.hotelListSl<HotelListCubit>()
-                ..getHotelListApi(arg['city_name']),
-              child: const HotelListViewWidget(),
-            ))
+            BlocBuilder<HotelListCubit, HotelListState>(
+              builder: (context, state) {
+                if (state is GetData) {
+                  List<HotelListModel> hotelListModel = state.GetList;
+                  return Expanded(
+                      child: ListView.builder(
+                          itemCount: hotelListModel.length,
+                          itemBuilder: (context, index) {
+                            return HotelListViewWidget(
+                                hotelListModel: hotelListModel[index]);
+                          }));
+                } else {
+                  return Expanded(child: HotelListShimmer());
+                }
+              },
+            )
           ],
         ),
       ),
