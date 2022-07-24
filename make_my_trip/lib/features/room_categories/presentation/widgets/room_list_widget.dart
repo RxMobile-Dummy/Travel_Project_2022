@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
+import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
+import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
@@ -250,7 +253,21 @@ class RoomListWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Price price = new Price(
+                              numberOfNights: 2,
+                              totalPrice: 3700,
+                            );
+                            RoomDataPostModel roomBookPostmodel = new RoomDataPostModel(
+                               checkinDate: '2022-02-20',
+                              checkoutDate: '2022-02-20',
+                              roomId: [202,201,203],
+                              hotelId: 2,
+                              price: price
+                            );
+
+                            context.read<RoomCategoryCubit>().roomBookPost(roomBookPostmodel.hotelId ?? 4, roomBookPostmodel);
+                          },
                           style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0),
