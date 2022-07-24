@@ -26,8 +26,8 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
     try {
       final response = await dio.get(baseurl, queryParameters: {
         "hotel_id": '1',
-        "cin": '2022-01-05',
-        "cout": '2022-01-10'
+        "cin": '2020-01-05',
+        "cout": '2020-01-10'
       });
       if (response.statusCode == 200) {
         final RoomCategoryModel roomCategoryModel =

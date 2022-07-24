@@ -242,7 +242,7 @@ class RoomListWidget extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        "₹ ${roomData.price?.toString()} ",
+                        "₹ ${(roomData.price!*totalSelectedRoom).toString()} ",
                         style: AppTextStyles.infoContentStyle
                             .copyWith(fontSize: 14),
                       ),

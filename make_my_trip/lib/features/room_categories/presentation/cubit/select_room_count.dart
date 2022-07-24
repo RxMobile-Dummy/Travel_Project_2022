@@ -1,48 +1,73 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 
-class SelectRoomCountCubit extends Cubit<SelectRoomCountState> {
+class SelectRoomCountCubit extends Cubit<BaseState> {
   SelectRoomCountCubit()
-      : super(const SelectRoomCountState(
+      : super(StateOnSuccess<SelectRoomCountState>(SelectRoomCountState(
             superDeluxReadMore: false,
             deluxReadMore: false,
+            deluxValue: 1,
             semiDeluxReadMore: false,
-            superDeluxValue: 0,
-            deluxValue: 0,
-            semiDeluxValue: 0));
+            semiDeluxValue: 1,
+            superDeluxValue: 1)));
 
   onReadMoreTap(bool isReadMore, String roomType) {
-    if (roomType == 'Delux') {
+    print('print cubit');
+    if (roomType == 'Deluxe') {
       print("4");
-      emit(state.copyWith(deluxReadMore: !isReadMore));
-    } else if (roomType == 'SemiDelux') {
-      emit(state.copyWith(semiDeluxReadMore: !isReadMore));
-    } else if (roomType == "SuperDelux") {
-      emit(state.copyWith(superDeluxReadMore: !isReadMore));
+      emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
+          .response
+          .copyWith(deluxReadMore: !isReadMore)));
+    } else if (roomType == 'Semi-Deluxe') {
+      emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
+          .response
+          .copyWith(semiDeluxReadMore: !isReadMore)));
+    } else if (roomType == "Super-Deluxe") {
+      print('dfiods');
+
+      emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
+          .response
+          .copyWith(superDeluxReadMore: !isReadMore)));
     }
   }
 
-  void addRoomEvent(String roomType, int addRoomValue) {
-    if (roomType == 'Delux') {
-      print("5");
-      emit(state.copyWith(deluxValue: addRoomValue + 1));
-    } else if (roomType == 'SemiDelux') {
-      emit(state.copyWith(semiDeluxValue: addRoomValue + 1));
-    } else if (roomType == "SuperDelux") {
-      emit(state.copyWith(superDeluxValue: addRoomValue + 1));
+  void addRoomEvent(String roomType, int addRoomValue,int maxRoomCount) {
+    if(addRoomValue<maxRoomCount) {
+      if (roomType == 'Deluxe') {
+        print("5");
+
+        emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
+            .response
+            .copyWith(deluxValue: addRoomValue + 1)));
+      } else if (roomType == 'Semi-Deluxe') {
+        emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
+            .response
+            .copyWith(semiDeluxValue: addRoomValue + 1)));
+      } else if (roomType == "Super-Deluxe") {
+        emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
+            .response
+            .copyWith(superDeluxValue: addRoomValue + 1)));
+      }
     }
   }
 
   void removeRoomEvent(String roomType, int removeRoomValue) {
-    if (removeRoomValue > 0) {
-
-      if (roomType == 'Delux') {
+    print('cubit');
+    if (removeRoomValue > 1) {
+      if (roomType == 'Deluxe') {
         print("6");
-        emit(state.copyWith(deluxValue: removeRoomValue - 1));
-      } else if (roomType == 'SemiDelux') {
-        emit(state.copyWith(semiDeluxValue: removeRoomValue - 1));
-      } else if (roomType == "SuperDelux") {
-        emit(state.copyWith(superDeluxValue: removeRoomValue - 1));
+        emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
+            .response
+            .copyWith(deluxValue: removeRoomValue - 1)));
+      } else if (roomType == 'Semi-Deluxe') {
+        emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
+            .response
+            .copyWith(semiDeluxValue: removeRoomValue - 1)));
+      } else if (roomType == "Super-Deluxe") {
+        emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
+            .response
+            .copyWith(superDeluxValue: removeRoomValue - 1)));
       }
     }
   }
@@ -56,6 +81,7 @@ class SelectRoomCountState extends Equatable {
   final bool deluxReadMore;
   final bool semiDeluxReadMore;
 
+
   const SelectRoomCountState({
     required this.superDeluxReadMore,
     required this.deluxReadMore,
@@ -63,22 +89,24 @@ class SelectRoomCountState extends Equatable {
     required this.superDeluxValue,
     required this.deluxValue,
     required this.semiDeluxValue,
+
   });
 
   SelectRoomCountState copyWith(
-          {int? superDeluxValue = 0,
-          int? deluxValue = 0,
-          int? semiDeluxValue = 0,
+          {int? superDeluxValue = 1,
+          int? deluxValue = 1,
+          int? semiDeluxValue = 1,
           bool? superDeluxReadMore = false,
           bool? semiDeluxReadMore = false,
-          bool? deluxReadMore = false}) =>
+          bool? deluxReadMore = false,
+           }) =>
       SelectRoomCountState(
           superDeluxReadMore: superDeluxReadMore ?? this.superDeluxReadMore,
           semiDeluxReadMore: semiDeluxReadMore ?? this.semiDeluxReadMore,
           deluxReadMore: deluxReadMore ?? this.deluxReadMore,
           superDeluxValue: superDeluxValue ?? this.superDeluxValue,
           deluxValue: deluxValue ?? this.deluxValue,
-          semiDeluxValue: semiDeluxValue ?? this.semiDeluxValue);
+          semiDeluxValue: semiDeluxValue ?? this.semiDeluxValue,);
 
   @override
   List<Object?> get props => [
