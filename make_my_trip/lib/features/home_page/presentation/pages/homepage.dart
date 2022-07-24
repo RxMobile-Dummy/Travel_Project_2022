@@ -5,7 +5,9 @@ import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/login/login_injection_container.dart';
 import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
 import 'package:make_my_trip/features/login/presentation/pages/login_page.dart';
+import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
+import 'package:make_my_trip/features/user_history/user_history_injection_container.dart';
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/presentation/pages/wishlist_page.dart';
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
@@ -53,7 +55,9 @@ class HomePage extends StatelessWidget {
             ],
             currentIndex: _selectedIndex,
             selectedItemColor: MakeMyTripColors.accentColor,
-            onTap: BlocProvider.of<TabBarCubit>(context).OnItemTap,
+            onTap: BlocProvider
+                .of<TabBarCubit>(context)
+                .OnItemTap,
           );
         } else {
           return const Text("");
@@ -62,10 +66,14 @@ class HomePage extends StatelessWidget {
     ));
   }
 
-  static List<Widget> _widgetOptions() => <Widget>[
+  static List<Widget> _widgetOptions() =>
+      <Widget>[
         //View 1
         const HomeScreen(),
-        const UserHistoryPage(),
+        BlocProvider(
+          create: (context) => historyListSl<UserHistoryCubit>(),
+          child: UserHistoryPage(),
+        ),
         BlocProvider(
           create: (context) => wishListSl<WishListCubit>(),
           child: WishListPage(),
