@@ -39,10 +39,10 @@ class UserHistoryPage extends StatelessWidget {
                       return ListView.builder(
                           itemCount: userHistoryModel.length,
                           itemBuilder: (context, index) {
-                            return const HistoryListViewWidget();
+                            return  HistoryListViewWidget(userHistoryModel: userHistoryModel[index]);
                           });
                     }else {
-                      return CircularProgressIndicator();
+                      return Center(child: Text("No data found"));
                     }
 
                   },

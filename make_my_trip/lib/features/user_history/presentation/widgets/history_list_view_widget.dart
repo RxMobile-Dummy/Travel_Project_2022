@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
+import 'package:make_my_trip/features/user_history/data/model/user_history_model.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class HistoryListViewWidget extends StatelessWidget {
-  const HistoryListViewWidget({Key? key}) : super(key: key);
+  HistoryListViewWidget({Key? key, required this.userHistoryModel})
+      : super(key: key);
+
+  UserHistoryModel userHistoryModel;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,9 @@ class HistoryListViewWidget extends StatelessWidget {
                   height: 100,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
-                    child: Image.asset(ImagePath.hotelimage, fit: BoxFit.fill),
+                    child: Image.network(
+                        userHistoryModel.images![0].imageUrl.toString(),
+                        fit: BoxFit.fill),
                   ),
                 ),
               ),
@@ -42,7 +48,7 @@ class HistoryListViewWidget extends StatelessWidget {
                 children: [
                   12.verticalSpace,
                   Text(
-                    StringConstants.bookingtitle,
+                    userHistoryModel.hotelName.toString(),
                     style: AppTextStyles.infoContentStyle,
                   ),
                   8.verticalSpace,
@@ -54,7 +60,8 @@ class HistoryListViewWidget extends StatelessWidget {
                       ),
                       Expanded(
                           flex: 3,
-                          child: Text(StringConstants.bookingLocation)),
+                          child: Text(userHistoryModel.address!.addressLine
+                              .toString())),
                       const Spacer(),
                       Expanded(
                         flex: 2,
@@ -68,7 +75,7 @@ class HistoryListViewWidget extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Center(
                               child: Text(
-                                StringConstants.bookingPrice,
+                                'RS ${userHistoryModel.price.toString()}',
                                 style: AppTextStyles.infoLabelStyle
                                     .copyWith(fontSize: 12),
                               ),
@@ -102,12 +109,13 @@ class HistoryListViewWidget extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Text(
-                            StringConstants.bookingDate,
+                            '${userHistoryModel.checkingDate!.substring(0, userHistoryModel.checkingDate!.indexOf('T'))} - ${userHistoryModel.checkoutDate!.substring(0, userHistoryModel.checkoutDate!.indexOf('T'))}',
                             style: AppTextStyles.infoLabelStyle
                                 .copyWith(fontSize: 12),
                           ),
                         ),
                       ),
+                      40.verticalSpace,
                     ],
                   ),
                 ],
