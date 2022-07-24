@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,19 +5,19 @@ import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/room_detail_page/data/model/room_detail_model.dart';
+import 'package:make_my_trip/features/room_detail_page/presentation/pages/room_detail_shimmer.dart';
 import 'package:make_my_trip/features/room_detail_page/presentation/widget/feture_item_widget.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../manager/cubit/imageslider_cubit.dart';
 
 class RoomDetailsPage extends StatelessWidget {
-  RoomDetailsPage({Key? key}) : super(key: key);
-
-  RoomDetailsModel? roomDetailsModel;
+  RoomDetailsPage({Key? key,required this.arg}) : super(key: key);
+  final Map<String, dynamic> arg;
+  RoomDetailModel? roomDetailsModel;
   int imgIndex = 0;
   bool isReadMore = false;
 
@@ -31,7 +30,10 @@ class RoomDetailsPage extends StatelessWidget {
         imgIndex = state.response;
       } else if (state is StateOnSuccess) {
         isReadMore = state.response;
-      } else if (state is StateErrorGeneral) {
+      }else if (state is StateLoading){
+        return RoomDetailsShimmer();
+      }
+      else if (state is StateErrorGeneral) {
         return Scaffold(
             body: CommonErrorWidget(
           imagePath: ImagePath.serverFailImage,
@@ -64,7 +66,7 @@ class RoomDetailsPage extends StatelessWidget {
                         },
                         itemBuilder: (BuildContext context, int index) {
                           return Image.network(
-                            roomDetailsModel?.roomImage![index].imageUrl ??
+                            roomDetailsModel?.images![index].imageUrl ??
                                 "https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png",
                             fit: BoxFit.cover,
                           );
@@ -100,7 +102,7 @@ class RoomDetailsPage extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    "${roomDetailsModel?.roomImage?.length} Photos",
+                                    "${roomDetailsModel?.images?.length} Photos",
                                     style: AppTextStyles.infoContentStyle,
                                   ),
                                   8.horizontalSpace,
@@ -122,7 +124,7 @@ class RoomDetailsPage extends StatelessWidget {
                   delegate: SliverChildListDelegate(
                 [
                   Text(
-                      " ${roomDetailsModel?.roomData?.roomType ?? "Room type"} ${StringConstants.room}",
+                      " ${roomDetailsModel?.roomType ?? "Room type"} ${StringConstants.room}",
                       style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -147,7 +149,7 @@ class RoomDetailsPage extends StatelessWidget {
                                 ),
                                 3.verticalSpace,
                                 Text(
-                                    roomDetailsModel?.roomData?.roomSize ??
+                                    roomDetailsModel?.roomSize ??
                                         "Room Size",
                                     style: AppTextStyles.unselectedLabelStyle)
                               ],
@@ -178,7 +180,7 @@ class RoomDetailsPage extends StatelessWidget {
                                   ),
                                   3.verticalSpace,
                                   Text(
-                                      roomDetailsModel?.roomData?.bedSize ??
+                                      roomDetailsModel?.bedSize ??
                                           "Bed Size",
                                       style: AppTextStyles.unselectedLabelStyle)
                                 ],
@@ -194,7 +196,7 @@ class RoomDetailsPage extends StatelessWidget {
                       style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
                   8.verticalSpace,
                   Text(
-                    roomDetailsModel?.roomData?.description ?? "Description",
+                    roomDetailsModel?.description ?? "Description",
                     textAlign: TextAlign.justify,
                     style: AppTextStyles.labelDescriptionStyle,
                   ),
@@ -205,16 +207,16 @@ class RoomDetailsPage extends StatelessWidget {
                   Wrap(
                     children: [
                       FeaturesItemWidget(
-                          text: roomDetailsModel?.roomData?.features![0] ??
+                          text: roomDetailsModel?.features![0] ??
                               "feature1"),
                       FeaturesItemWidget(
-                          text: roomDetailsModel?.roomData?.features![1] ??
+                          text: roomDetailsModel?.features![1] ??
                               "feature2"),
                       FeaturesItemWidget(
-                          text: roomDetailsModel?.roomData?.features![2] ??
+                          text: roomDetailsModel?.features![2] ??
                               "feature3"),
                       FeaturesItemWidget(
-                          text: roomDetailsModel?.roomData?.features![3] ??
+                          text: roomDetailsModel?.features![3] ??
                               "feature3"),
                     ],
                   ),
@@ -232,7 +234,7 @@ class RoomDetailsPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "₹ ${roomDetailsModel?.roomData?.price?.toString()} p/night",
+                  "₹ ${roomDetailsModel?.price?.toString()} p/night",
                   style: AppTextStyles.labelNameTextStyle.copyWith(
                       fontSize: 22, color: MakeMyTripColors.colorWhite),
                 ),

@@ -5,8 +5,8 @@ import 'package:make_my_trip/features/room_detail_page/data/model/room_detail_mo
 import 'package:make_my_trip/utils/constants/base_constants.dart';
 
 abstract class RoomDetailRemoteDataSource {
-  Future<Either<Failures, RoomDetailsModel>> getRoomDetailData(
-      int hotelId, String roomType);
+  Future<Either<Failures, RoomDetailModel>> getRoomDetailData(
+      int hotelId, int room_id);
 }
 
 class RoomDetailDataSourceImpl implements RoomDetailRemoteDataSource {
@@ -14,14 +14,14 @@ class RoomDetailDataSourceImpl implements RoomDetailRemoteDataSource {
 
   RoomDetailDataSourceImpl(this.dio);
   @override
-  Future<Either<Failures, RoomDetailsModel>> getRoomDetailData(
-      int hotelId, String roomType) async {
+  Future<Either<Failures, RoomDetailModel>> getRoomDetailData(
+      int hotelId, int room_id) async {
     try {
-      final baseurl = '${BaseConstant.baseUrl}room/${hotelId}/${roomType}';
+      final baseurl = '${BaseConstant.baseUrl}room/getroom/${hotelId}/${room_id}';
       final response = await dio.get(baseurl);
       if (response.statusCode == 200) {
-        final RoomDetailsModel roomDetailsModel =
-            RoomDetailsModel.fromJson(response.data);
+        final RoomDetailModel roomDetailsModel =
+        RoomDetailModel.fromJson(response.data);
         return Right(roomDetailsModel);
       } else if (response.statusCode == 505) {
         return Left(ServerFailure());

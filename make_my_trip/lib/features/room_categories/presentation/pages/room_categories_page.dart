@@ -47,8 +47,8 @@ class RoomCategoriesPage extends StatelessWidget {
                 if (state is StateOnSuccess<SelectRoomCountState>) {
                   return ListView(
                     children: [
-                      roomCategoryModel.deluxe!.isNotEmpty
-                          ? RoomListWidget(
+                      roomCategoryModel.deluxe!.length>0
+                          ? RoomListWidget(hotelId:int.parse(roomCategoryModel.hotelId!),
                         roomData: roomCategoryModel.deluxe![0],
                         roomRemoveOnTap: () {
                           print("1");
@@ -73,9 +73,9 @@ class RoomCategoriesPage extends StatelessWidget {
 
                         },
                       )
-                          : Center(),
-                      roomCategoryModel.semiDeluxe!.isNotEmpty
-                          ? RoomListWidget(
+                          : SizedBox(),
+                      roomCategoryModel.semiDeluxe!.length>0
+                          ? RoomListWidget(hotelId:int.parse(roomCategoryModel.hotelId!),
                         roomData: roomCategoryModel.semiDeluxe![0],
                         roomRemoveOnTap: () {
                           print(state.response);
@@ -96,9 +96,9 @@ class RoomCategoriesPage extends StatelessWidget {
                               roomCategoryModel.semiDeluxe![0].roomType!);
                         },
                       )
-                          : Center(),
-                      roomCategoryModel.superDeluxe!.isNotEmpty
-                          ? RoomListWidget(
+                          : SizedBox(),
+                      roomCategoryModel.superDeluxe!.length>0
+                          ? RoomListWidget(hotelId:int.parse(roomCategoryModel.hotelId!),
                         roomData: roomCategoryModel.superDeluxe![0],
                         roomRemoveOnTap: () {
                           context.read<SelectRoomCountCubit>().removeRoomEvent(
@@ -118,7 +118,7 @@ class RoomCategoriesPage extends StatelessWidget {
                               roomCategoryModel.superDeluxe![0].roomType!);
                         },
                       )
-                          : Center(),
+                          : SizedBox(),
                     ],
                   );
                 }
@@ -127,8 +127,10 @@ class RoomCategoriesPage extends StatelessWidget {
                 }
               }
             ));
+      }else if(state is StateLoading){
+        return RoomCategoriesShimmerPage();
       } else {
-        return const RoomCategoriesShimmerPage();
+        return Center(child: Text('NO data found'),);
       }
     });
   }

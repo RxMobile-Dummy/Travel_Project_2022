@@ -4,9 +4,7 @@ import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/room_detail_page/domain/use_cases/room_detail_usecase.dart';
 
 class ImagesliderCubit extends Cubit<BaseState> {
-  ImagesliderCubit(this.roomDetailUsecase) : super((StateInitial())) {
-    getRoomData(1, "Deluxe");
-  }
+  ImagesliderCubit(this.roomDetailUsecase) : super((StateInitial()));
 
   final RoomDetailUsecase roomDetailUsecase;
 
@@ -23,8 +21,9 @@ class ImagesliderCubit extends Cubit<BaseState> {
     emit(StateOnSuccess<bool>(!isReadMore));
   }
 
-  getRoomData(int hotelId, String roomType) async {
-    var result = await roomDetailUsecase.call(Params(hotelId, roomType));
+  getRoomData(int hotelId, int room_id) async {
+    emit(StateLoading());
+    var result = await roomDetailUsecase.call(Params(hotelId, room_id));
     result.fold((l) {
       if (l is ServerFailure) {
         emit(StateErrorGeneral(l.statusCode.toString()));

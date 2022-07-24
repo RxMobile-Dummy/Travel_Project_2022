@@ -33,7 +33,7 @@ import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
 import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
 import '../../features/room_detail_page/presentation/manager/cubit/imageslider_cubit.dart';
-import '../../features/room_detail_page/presentation/pages/roomdetail.dart';
+import '../../features/room_detail_page/presentation/pages/room_detail_page.dart';
 
 import 'package:make_my_trip/features/review/presentation/cubit/publish_review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
@@ -153,10 +153,12 @@ class Router {
           );
         });
       case RoutesName.roomDetail:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
+
           return BlocProvider(
-            create: (context) => roomDetailSl<ImagesliderCubit>(),
-            child: RoomDetailsPage(),
+            create: (context) => roomDetailSl<ImagesliderCubit>()..getRoomData(arg['hotel_id'],arg['room_id']),
+            child: RoomDetailsPage(arg:arg),
           );
         });
       case RoutesName.reviewPage:

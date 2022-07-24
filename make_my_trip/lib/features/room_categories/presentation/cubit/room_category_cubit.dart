@@ -15,6 +15,7 @@ class RoomCategoryCubit extends Cubit<BaseState> {
   final RoomBookPostUsecase roomBookPostUsecase;
 
   getData(int hotelId) async {
+    emit(StateLoading());
     var res = await roomCategoriesUseCase.call(Params(hotelId));
     res.fold((l) => {print(l)}, (r) =>
         emit(StateOnKnownToSuccess<RoomCategoryModel>(r)));

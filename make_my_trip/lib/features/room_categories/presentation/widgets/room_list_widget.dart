@@ -13,6 +13,7 @@ import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 class RoomListWidget extends StatelessWidget {
   const RoomListWidget(
       {Key? key,
+        required this.hotelId,
       required this.roomData,
       required this.roomRemoveOnTap,
       required this.roomAddOnTap,
@@ -26,7 +27,7 @@ class RoomListWidget extends StatelessWidget {
   final VoidCallback isRoomOnTap;
   final int totalSelectedRoom;
   final bool isReadMore;
-
+  final int hotelId;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -179,8 +180,8 @@ class RoomListWidget extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, RoutesName.roomDetail, (route) => true);
+                      Navigator.pushNamed(
+                          context, RoutesName.roomDetail,arguments: {'hotel_id':hotelId,'room_id':roomData.roomId} );
                     },
                     child: Text(
                       StringConstants.roomMoreDetails,
