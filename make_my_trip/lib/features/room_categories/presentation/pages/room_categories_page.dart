@@ -5,60 +5,133 @@ import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
 import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
+import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
+import 'package:make_my_trip/features/room_categories/presentation/pages/room_categories_shimmer_page.dart';
 import 'package:make_my_trip/features/room_categories/presentation/widgets/room_list_widget.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 
 class RoomCategoriesPage extends StatelessWidget {
-  RoomCategoriesPage({Key? key}) : super(key: key);
-
-  RoomCategoryModel? roomCategoryModel;
+   RoomCategoriesPage({Key? key,required this.arg}) : super(key: key);
+  final Map<String, dynamic> arg;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RoomCategoryCubit, BaseState>(
-      builder: (context, state) {
-        if (state is StateOnKnownToSuccess) {
-          roomCategoryModel = state.response;
-        }
+    return BlocBuilder<RoomCategoryCubit, BaseState>(builder: (context, state) {
+      if (state is StateOnKnownToSuccess<RoomCategoryModel>) {
+        print(state.response);
+        RoomCategoryModel roomCategoryModel = state.response;
         return Scaffold(
             backgroundColor: MakeMyTripColors.color30gray,
             appBar: AppBar(
-              backgroundColor: MakeMyTripColors.accentColor,
-              leading: const Icon(Icons.arrow_back),
-              title: Center(
-                child: Column(
-                  children: [
-                    Text(
-                      StringConstants.roomCategoriesPageHeading,
-                      style: AppTextStyles.infoContentStyle3
-                          .copyWith(fontSize: 15),
-                    ),
-                    Text(
-                      roomCategoryModel?.hotelName ?? "Hotel Name",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.infoContentStyle3
-                          .copyWith(fontSize: 18),
-                    ),
-                  ],
-                ),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    StringConstants.roomCategoriesPageHeading,
+                    style: AppTextStyles.infoContentStyle,
+                  ),
+                  Text(
+                    roomCategoryModel.hotelName!,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style:
+                    AppTextStyles.infoContentStyle2.copyWith(fontSize: 18),
+                  ),
+                ],
               ),
-              actions: const [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Icon(Icons.settings),
-                ),
-              ],
             ),
-            body: (roomCategoryModel == null)
-                ? Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemCount: roomCategoryModel?.roomData!.length,
-                    itemBuilder: (context, index) {
-                      return RoomListWidget(
-                          roomData: roomCategoryModel!.roomData![index]);
-                    },
-                  ));
-      },
-    );
+            body: BlocBuilder<SelectRoomCountCubit, BaseState>(
+                builder: (context, state) {
+                  print(roomCategoryModel.deluxe!.length);
+                  print(roomCategoryModel.semiDeluxe!.length);
+                  print(roomCategoryModel.superDeluxe!.length);
+                  if (state is StateOnSuccess<SelectRoomCountState>) {
+                    return ListView(
+                      children: [
+                        roomCategoryModel.deluxe!.length>0
+                            ? RoomListWidget(hotelId:int.parse(roomCategoryModel.hotelId!),
+                          roomData: roomCategoryModel.deluxe![0],
+                          roomRemoveOnTap: () {
+                            print("1");
+                            context.read<SelectRoomCountCubit>().removeRoomEvent(
+                                roomCategoryModel.deluxe![0].roomType!,
+                                state.response.deluxValue);
+                          },
+                          roomAddOnTap: () {
+                            print("2");
+                            context.read<SelectRoomCountCubit>().addRoomEvent(
+                                roomCategoryModel.deluxe![0].roomType!,
+                                state.response.deluxValue,roomCategoryModel.deluxe!.length);
+
+                          },
+                          totalSelectedRoom: state.response.deluxValue,
+                          isReadMore: state.response.deluxReadMore,
+                          isRoomOnTap: () {
+                            print("3");
+                            context.read<SelectRoomCountCubit>().onReadMoreTap(
+                                state.response.deluxReadMore,
+                                roomCategoryModel.deluxe![0].roomType!);
+
+                          },
+                        )
+                            : SizedBox(),
+                        roomCategoryModel.semiDeluxe!.length>0
+                            ? RoomListWidget(hotelId:int.parse(roomCategoryModel.hotelId!),
+                          roomData: roomCategoryModel.semiDeluxe![0],
+                          roomRemoveOnTap: () {
+                            print(state.response);
+                            context.read<SelectRoomCountCubit>().removeRoomEvent(
+                                roomCategoryModel.semiDeluxe![0].roomType!,
+                                state.response.semiDeluxValue);
+                          },
+                          roomAddOnTap: () {
+                            context.read<SelectRoomCountCubit>().addRoomEvent(
+                                roomCategoryModel.semiDeluxe![0].roomType!,
+                                state.response.semiDeluxValue,roomCategoryModel.semiDeluxe!.length);
+                          },
+                          totalSelectedRoom: state.response.semiDeluxValue,
+                          isReadMore: state.response.semiDeluxReadMore,
+                          isRoomOnTap: () {
+                            context.read<SelectRoomCountCubit>().onReadMoreTap(
+                                state.response.semiDeluxReadMore,
+                                roomCategoryModel.semiDeluxe![0].roomType!);
+                          },
+                        )
+                            : SizedBox(),
+                        roomCategoryModel.superDeluxe!.length>0
+                            ? RoomListWidget(hotelId:int.parse(roomCategoryModel.hotelId!),
+                          roomData: roomCategoryModel.superDeluxe![0],
+                          roomRemoveOnTap: () {
+                            context.read<SelectRoomCountCubit>().removeRoomEvent(
+                                roomCategoryModel.superDeluxe![0].roomType!,
+                                state.response.superDeluxValue);
+                          },
+                          roomAddOnTap: () {
+                            context.read<SelectRoomCountCubit>().addRoomEvent(
+                                roomCategoryModel.superDeluxe![0].roomType!,
+                                state.response.superDeluxValue,roomCategoryModel.deluxe!.length);
+                          },
+                          totalSelectedRoom: state.response.superDeluxValue,
+                          isReadMore: state.response.superDeluxReadMore,
+                          isRoomOnTap: () {
+                            context.read<SelectRoomCountCubit>().onReadMoreTap(
+                                state.response.superDeluxReadMore,
+                                roomCategoryModel.superDeluxe![0].roomType!);
+                          },
+                        )
+                            : SizedBox(),
+                      ],
+                    );
+                  }
+                  else{
+                    return CircularProgressIndicator();
+                  }
+                }
+            ));
+      }else if(state is StateLoading){
+        return RoomCategoriesShimmerPage();
+      } else {
+        return Center(child: Text('NO data found'),);
+      }
+    });
   }
 }

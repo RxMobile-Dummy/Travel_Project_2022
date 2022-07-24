@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:make_my_trip/core/navigation/route_info.dart';
 
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
 import 'package:make_my_trip/features/user/user_injection_container.dart';

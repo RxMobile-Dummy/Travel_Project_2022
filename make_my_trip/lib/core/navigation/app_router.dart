@@ -8,6 +8,8 @@ import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_contain
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_list_page.dart';
 import 'package:make_my_trip/features/intro/intro_injection_container.dart';
+import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
+import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
 import 'package:make_my_trip/features/search/presentation/pages/search_page.dart';
 
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
@@ -30,13 +32,11 @@ import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homep
 
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
-
-import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
 import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
 import '../../features/room_detail_page/presentation/manager/cubit/imageslider_cubit.dart';
-import '../../features/room_detail_page/presentation/pages/roomdetail.dart';
+import '../../features/room_detail_page/presentation/pages/room_detail.dart';
 
 import 'package:make_my_trip/features/review/presentation/cubit/publish_review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
@@ -153,17 +153,26 @@ class Router {
           );
         });
       case RoutesName.roomCategory:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
-            create: (context) => roomCategorySl<RoomCategoryCubit>(),
-            child: RoomCategoriesPage(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => roomCategorySl<RoomCategoryCubit>()..getData(arg['hotel_id'],arg['cin'],arg['cout']),
+              ),
+              BlocProvider(
+                create: (context) => roomCategorySl<SelectRoomCountCubit>(),
+              ),
+            ],
+            child: RoomCategoriesPage(arg: arg,),
           );
         });
       case RoutesName.roomDetail:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => roomDetailSl<ImagesliderCubit>(),
-            child: RoomDetailsPage(),
+            create: (context) => roomDetailSl<ImagesliderCubit>()..getRoomData(arg['hotel_id'],arg['room_id']),
+            child: RoomDetailsPage(arg: arg,),
           );
         });
       case RoutesName.reviewPage:

@@ -17,12 +17,12 @@ Future<void> init() async {
 
   //repo
   roomDetailSl.registerLazySingleton<RoomDetailsRepository>(
-      () => RoomDetailRepositoryImpl(roomDetailSl()));
+          () => RoomDetailRepositoryImpl(roomDetailSl()));
 
   //datsource
 
   roomDetailSl.registerLazySingleton<RoomDetailRemoteDataSource>(
-      () => RoomDetailDataSourceImpl(roomDetailSl()));
+          () => RoomDetailDataSourceImpl(roomDetailSl()));
 
   // roomDetailSl.registerFactory(() => Dio());
 }
