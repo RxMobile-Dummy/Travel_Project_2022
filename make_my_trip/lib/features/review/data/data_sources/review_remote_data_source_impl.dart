@@ -9,7 +9,6 @@ import 'package:make_my_trip/utils/constants/base_constants.dart';
 class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   final Dio dio;
 
-
   ReviewRemoteDataSourceImpl(this.dio);
 
   Future<Options> createDioOptions() async {
@@ -20,9 +19,9 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   @override
   Future<Either<Failures, List<ReviewModel>>> getHotelReview(params) async {
     try {
-
-      final response = await dio.get('${BaseConstant.baseUrl}review/hotel/${params}',options: await createDioOptions()
-      );
+      final response = await dio.get(
+          '${BaseConstant.baseUrl}review/hotel/${params}',
+          options: await createDioOptions());
       if (response.statusCode == 200) {
         final data = response.data;
         var reviewModel = <ReviewModel>[];
@@ -34,18 +33,19 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
-      print(err);
       return Left(ServerFailure());
     }
   }
 
   @override
-  Future<Either<Failures, List<ReviewModel>>> postHotelReview(ReviewModel reviewModel,int hotel_id) async {
+  Future<Either<Failures, List<ReviewModel>>> postHotelReview(
+      ReviewModel reviewModel, int hotel_id) async {
     try {
-      final response=await dio.post('${BaseConstant.baseUrl}review/hotel/${int.parse(hotel_id.toString())}',
-          data: reviewModel.toJson(),options: await createDioOptions()
-      );
-
+      final response = await dio.post(
+          '${BaseConstant.baseUrl}review/hotel/${int.parse(hotel_id.toString())}',
+          data: reviewModel.toJson(),
+          options: await createDioOptions());
+      print(response.statusCode);
       if (response.statusCode == 200) {
         final data = response.data;
         var reviewModel = <ReviewModel>[];

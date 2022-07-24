@@ -9,7 +9,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class Hotal_Details extends StatelessWidget {
   Hotal_Details({Key? key, required this.wishlistModel}) : super(key: key);
 
-  WishlistModel? wishlistModel;
+  WishlistModel wishlistModel;
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +37,13 @@ class Hotal_Details extends StatelessWidget {
                     PageView(children: [
                       PageView.builder(
                           controller: _controller,
-                          itemCount: wishlistModel?.wishListImage?.length,
+                          itemCount: wishlistModel.wishListImage?.length,
                           pageSnapping: true,
                           itemBuilder: (context, index) {
                             return Image.network(
-                              wishlistModel?.wishListImage![index].toString() ??
-                                  "",
+                              wishlistModel.wishListImage![index].imageUrl
+                                  .toString(),
                               width: size.width * 10,
-                              height: 150,
                               fit: BoxFit.fill,
                             );
                           })
@@ -53,7 +52,7 @@ class Hotal_Details extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 12),
                       child: SmoothPageIndicator(
                         controller: _controller,
-                        count: wishlistModel?.wishListImage?.length ?? 10,
+                        count: wishlistModel.wishListImage?.length ?? 10,
                         axisDirection: Axis.horizontal,
                         effect: const SlideEffect(
                           activeDotColor: Colors.white,
@@ -74,12 +73,15 @@ class Hotal_Details extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       6.verticalSpace,
-                      Text(
-                        wishlistModel?.hotelName ?? "",
-                        style: const TextStyle(
-                            color: MakeMyTripColors.colorBlack,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16),
+                      Flexible(
+                        child: Text(
+                          wishlistModel.hotelName ?? "",
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: MakeMyTripColors.colorBlack,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 22),
+                        ),
                       ),
                       10.verticalSpace,
                       Row(
@@ -90,13 +92,16 @@ class Hotal_Details extends StatelessWidget {
                             size: 15,
                           ),
                           2.horizontalSpace,
-                          Text(
-                            wishlistModel?.address?.addressLine.toString() ??
-                                "",
-                            style: const TextStyle(
-                                color: MakeMyTripColors.colorBlack,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14),
+                          Flexible(
+                            child: Text(
+                              wishlistModel.address?.addressLine.toString() ??
+                                  "",
+                              maxLines: 2,
+                              style: const TextStyle(
+                                  color: MakeMyTripColors.colorBlack,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 10),
+                            ),
                           ),
                           const Spacer(),
                           Text(
@@ -106,8 +111,7 @@ class Hotal_Details extends StatelessWidget {
                           2.horizontalSpace,
                           GestureDetector(
                               onTap: () {},
-                              child: Text(
-                                  wishlistModel?.price.toString() ?? "1200",
+                              child: Text(wishlistModel.price.toString(),
                                   style: const TextStyle(
                                       color: MakeMyTripColors.colorBlack,
                                       fontWeight: FontWeight.bold,

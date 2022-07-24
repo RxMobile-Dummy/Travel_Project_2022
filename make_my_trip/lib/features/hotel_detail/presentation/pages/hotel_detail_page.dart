@@ -35,14 +35,14 @@ class HotelDetailPage extends StatelessWidget {
       builder: (context, state) {
         if (state is StateOnKnownToSuccess) {
           hotelDetailModel = state.response;
-          isLiked=hotelDetailModel!.isbookmark!;
+          isLiked = hotelDetailModel!.isbookmark!;
         } else if (state is StateSearchResult) {
           isLiked = state.response;
         } else if (state is StateOnResponseSuccess) {
           imgIndex = state.response;
         } else if (state is StateOnSuccess) {
           isReadMore = state.response;
-        }else if(state is StateLoading){
+        } else if (state is StateLoading) {
           return const HotelDetailsShimmer();
         }
 
@@ -75,8 +75,7 @@ class HotelDetailPage extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           BlocProvider.of<HotelDetailCubit>(context)
-                              .onLikeTap(isLiked,hotelDetailModel!.id);
-
+                              .onLikeTap(isLiked, hotelDetailModel!.id);
                         },
                         child: Icon(
                           (isLiked) ? Icons.favorite : Icons.favorite_border,
@@ -127,8 +126,11 @@ class HotelDetailPage extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(context,
-                                      RoutesName.galleryPage, arguments:{"image_list":hotelDetailModel!.images});
+                                  Navigator.pushNamed(
+                                      context, RoutesName.galleryPage,
+                                      arguments: {
+                                        "image_list": hotelDetailModel!.images
+                                      });
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -271,8 +273,10 @@ class HotelDetailPage extends StatelessWidget {
                       leadingText: StringConstants.gallery,
                       tralingText: StringConstants.seeAllPhoto,
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, RoutesName.galleryPage,arguments:{"image_list":hotelDetailModel!.images});
+                        Navigator.pushNamed(context, RoutesName.galleryPage,
+                            arguments: {
+                              "image_list": hotelDetailModel!.images
+                            });
                       },
                     ),
                     18.verticalSpace,

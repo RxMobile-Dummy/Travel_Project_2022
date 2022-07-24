@@ -101,8 +101,8 @@ class StringConstants {
   static String wishlistRsSymbol = "₹";
   static String wishlistRs = "8000";
   static String wishlistSublineText = 'Breakfast available at extra charges';
-
   static String room = "Room";
+  static String wishlist = "My Wishlist";
 
   //serverFail String
   static String serverFail = "The server is currently unavailable";

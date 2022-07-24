@@ -40,7 +40,7 @@ class HotelListPage extends StatelessWidget {
                           ),
                           // const Spacer(),
                           Text(
-                            StringConstants.hotelListPageTitle,
+                            arg['city_name'],
                             textAlign: TextAlign.center,
                             style: AppTextStyles.unselectedLabelStyle,
                           ),

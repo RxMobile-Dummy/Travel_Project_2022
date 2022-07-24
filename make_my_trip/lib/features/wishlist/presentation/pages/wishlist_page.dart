@@ -8,6 +8,7 @@ import 'package:make_my_trip/features/wishlist/data/model/wishlist_model.dart';
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/presentation/widgets/details_card.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 
 import '../widgets/shimmer_effect_page.dart';
 
@@ -16,91 +17,90 @@ class WishListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('page');
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverLayoutBuilder(builder: (context, constraints) {
-            final scroll = constraints.scrollOffset > 145;
-            return SliverAppBar(
-              snap: false,
-              pinned: true,
-              floating: false,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Center(
-                  child: Text('My Wishlist',
-                      style: TextStyle(
-                        color: scroll
-                            ? MakeMyTripColors.colorBlack
-                            : MakeMyTripColors.colorWhite,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                      ) //TextStyle
+      body: BlocBuilder<WishListCubit, BaseState>(
+        builder: (context, state) {
+          if (state is StateOnSuccess) {
+            List<WishlistModel> wishlistModel = state.response;
+            return CustomScrollView(
+              slivers: <Widget>[
+                SliverLayoutBuilder(builder: (context, constraints) {
+                  final scroll = constraints.scrollOffset > 145;
+                  return SliverAppBar(
+                    snap: false,
+                    pinned: true,
+                    floating: false,
+                    flexibleSpace: FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: Text(StringConstants.wishlist,
+                          style: TextStyle(
+                            color: scroll
+                                ? MakeMyTripColors.colorBlack
+                                : MakeMyTripColors.colorWhite,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ) //TextStyle
+                          ), //Text
+                      background: Container(
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: ExactAssetImage(ImagePath.wishlistImage2),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.3)),
+                          ),
+                        ),
                       ),
-                ), //Text
-                background: Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: ExactAssetImage(ImagePath.wishlistImage2),
-                      fit: BoxFit.cover,
                     ),
-                  ),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-                    child: Container(
-                      decoration:
-                          BoxDecoration(color: Colors.black.withOpacity(0.3)),
+                    expandedHeight: 230,
+                    backgroundColor: MakeMyTripColors.colorWhite,
+                    leading: IconButton(
+                      color: scroll
+                          ? MakeMyTripColors.color70gray
+                          : MakeMyTripColors.colorWhite,
+                      icon: const Icon(Icons.arrow_back_ios),
+                      tooltip: 'back',
+                      onPressed: () {},
                     ),
-                  ),
-                ),
-              ),
-
-              expandedHeight: 230,
-              backgroundColor: MakeMyTripColors.colorWhite,
-              leading: IconButton(
-                color: scroll
-                    ? MakeMyTripColors.color70gray
-                    : MakeMyTripColors.colorWhite,
-                icon: const Icon(Icons.arrow_back_ios),
-                tooltip: 'back',
-                onPressed: () {},
-              ),
-              //IconButton
-              actions: <Widget>[
-                IconButton(
-                  color: scroll
-                      ? MakeMyTripColors.color70gray
-                      : MakeMyTripColors.colorWhite,
-                  icon: const Icon(
-                    Icons.share,
-                  ),
-                  tooltip: 'Share Icon',
-                  onPressed: () {},
-                ), //IconButton
+                    //IconButton
+                    actions: <Widget>[
+                      IconButton(
+                        color: scroll
+                            ? MakeMyTripColors.color70gray
+                            : MakeMyTripColors.colorWhite,
+                        icon: const Icon(
+                          Icons.share,
+                        ),
+                        tooltip: 'Share Icon',
+                        onPressed: () {},
+                      ), //IconButton
+                    ], //<Widget>[]
+                  );
+                }), //SliverAppBar
+                SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return Hotal_Details(
+                      wishlistModel: wishlistModel[index],
+                    );
+                  },
+                  childCount: wishlistModel.length,
+                )),
               ], //<Widget>[]
             );
-          }), //SliverAppBar
-          BlocBuilder<WishListCubit, BaseState>(
-            builder: (context, state) {
-              print(state);
-              if (state is StateOnSuccess) {
-                List<WishlistModel> wishListModel = state.response;
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return Hotal_Details(
-                        wishlistModel: wishListModel[index],
-                      );
-                    },
-                    childCount: wishListModel.length,
-                  ), //SliverChildBuildDelegate
-                );
-              } else {
-                return Expanded(child: WishlistShimmer());
-              }
-            },
-          ), //SliverList
-        ], //<Widget>[]
+          } else if (state is StateLoading) {
+            return WishlistShimmer();
+          } else {
+            return Center(
+              child: Text('Data Not Found'),
+            );
+          }
+        },
       ),
     );
   }

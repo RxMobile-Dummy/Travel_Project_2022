@@ -19,19 +19,16 @@ class ReviewCubit extends Cubit<BaseState> {
   }
 
   postHotelReviewData(ReviewModel reviewModel, int hote_id) async {
-    if(reviewModel.comment == "" || reviewModel.comment == null  ){
+    if (reviewModel.comment == "" || reviewModel.comment == null) {
       emit(ValidationError("Please Enter Comment"));
-    }else {
-    final req = await postHotelReviewUseCases
-        .call(PostReviewParams(hotel_id: hote_id, reviewModel: reviewModel));
-    req.fold((l) {
-      emit(StateNoData());
-
-
-    }, (r) {
-      emit(StateOnKnownToSuccess<List<ReviewModel>>(r));
-
-    });
-  }
+    } else {
+      final req = await postHotelReviewUseCases
+          .call(PostReviewParams(hotel_id: hote_id, reviewModel: reviewModel));
+      req.fold((l) {
+        emit(StateNoData());
+      }, (r) {
+        emit(StateOnKnownToSuccess<List<ReviewModel>>(r));
+      });
+    }
   }
 }
