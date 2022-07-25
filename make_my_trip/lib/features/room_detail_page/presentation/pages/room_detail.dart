@@ -6,6 +6,8 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/widgets/features_item_widget.dart';
+import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
+import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
 import 'package:make_my_trip/features/room_detail_page/data/model/room_detail_model.dart';
 import 'package:make_my_trip/features/room_detail_page/presentation/pages/room_detail_shimmer.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
@@ -16,7 +18,7 @@ import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 import '../manager/cubit/imageslider_cubit.dart';
 
 class RoomDetailsPage extends StatelessWidget {
-  RoomDetailsPage({Key? key,required this.arg}) : super(key: key);
+  RoomDetailsPage({Key? key, required this.arg}) : super(key: key);
   final Map<String, dynamic> arg;
   RoomDetailModel? roomDetailsModel;
   int imgIndex = 0;
@@ -24,6 +26,14 @@ class RoomDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<RoomType>? roomType;
+    int? noOfRoom;
+    if (arg['room_list_model'] != null) {
+      roomType = arg['room_list_model'];
+      noOfRoom = arg['no_of_room']==0 ? 1 : arg['no_of_room'];
+      print('no of room');
+    }
+    var roomMaxLength = roomType!.length;
     return BlocBuilder<ImagesliderCubit, BaseState>(builder: (context, state) {
       if (state is StateOnKnownToSuccess) {
         roomDetailsModel = state.response;
@@ -31,16 +41,15 @@ class RoomDetailsPage extends StatelessWidget {
         imgIndex = state.response;
       } else if (state is StateOnSuccess) {
         isReadMore = state.response;
-      }else if (state is StateLoading){
+      } else if (state is StateLoading) {
         return const RoomDetailsShimmer();
-      }
-      else if (state is StateErrorGeneral) {
+      } else if (state is StateErrorGeneral) {
         return Scaffold(
             body: CommonErrorWidget(
-              imagePath: ImagePath.serverFailImage,
-              title: StringConstants.serverFail,
-              statusCode: state.errorMessage,
-            ));
+          imagePath: ImagePath.serverFailImage,
+          title: StringConstants.serverFail,
+          statusCode: state.errorMessage,
+        ));
       }
       return Scaffold(
         body: CustomScrollView(
@@ -56,6 +65,17 @@ class RoomDetailsPage extends StatelessWidget {
                   floating: true,
                   pinned: true,
                   automaticallyImplyLeading: true,
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(noOfRoom);
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: scrolled
+                          ? MakeMyTripColors.colorBlack
+                          : MakeMyTripColors.colorWhite,
+                    ),
+                  ),
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     background: Stack(fit: StackFit.expand, children: [
@@ -67,18 +87,16 @@ class RoomDetailsPage extends StatelessWidget {
                         },
                         itemBuilder: (BuildContext context, int index) {
                           return FadeInImage.assetNetwork(
-
                               fit: BoxFit.cover,
                               alignment: Alignment.center,
                               placeholder: 'assets/img/placeholder.png',
-                              image: roomDetailsModel!.images![index].imageUrl ?? 'assets/img/placeholder.png',
-                              imageErrorBuilder:
-                                  (context, error, stackTrace) {
-                                return Image.asset(
-                                    'assets/img/placeholder.png',
+                              image:
+                                  roomDetailsModel!.images![index].imageUrl ??
+                                      'assets/img/placeholder.png',
+                              imageErrorBuilder: (context, error, stackTrace) {
+                                return Image.asset('assets/img/placeholder.png',
                                     fit: BoxFit.fitWidth);
-                              }) ;
-
+                              });
                         },
                       ),
                       Container(
@@ -106,7 +124,6 @@ class RoomDetailsPage extends StatelessWidget {
                                     arguments: {
                                       "image_list": roomDetailsModel!.images
                                     });
-
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -117,7 +134,7 @@ class RoomDetailsPage extends StatelessWidget {
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
                                       "${roomDetailsModel?.images?.length} Photos",
@@ -141,107 +158,99 @@ class RoomDetailsPage extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               sliver: SliverList(
                   delegate: SliverChildListDelegate(
-                    [
-                      Text(
-                          " ${roomDetailsModel?.roomType ?? "Room type"} ${StringConstants.room}",
-                          style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 70,
-                              width: 120,
-                              decoration: BoxDecoration(
-                                color: MakeMyTripColors.color10gray,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      StringConstants.room_size,
-                                      style: AppTextStyles.unselectedLabelStyle
-                                          .copyWith(
+                [
+                  Text(
+                      " ${roomDetailsModel?.roomType ?? "Room type"} ${StringConstants.room}",
+                      style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 70,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            color: MakeMyTripColors.color10gray,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  StringConstants.room_size,
+                                  style: AppTextStyles.unselectedLabelStyle
+                                      .copyWith(
                                           fontSize: 18,
                                           color: MakeMyTripColors.color50gray),
-                                    ),
-                                    3.verticalSpace,
-                                    Text(
-                                        roomDetailsModel?.roomSize ??
-                                            "Room Size",
-                                        style: AppTextStyles.unselectedLabelStyle)
-                                  ],
                                 ),
+                                3.verticalSpace,
+                                Text(roomDetailsModel?.roomSize ?? "Room Size",
+                                    style: AppTextStyles.unselectedLabelStyle)
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 70,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              color: MakeMyTripColors.color10gray,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    StringConstants.bedTxt,
+                                    style: AppTextStyles.unselectedLabelStyle
+                                        .copyWith(
+                                            fontSize: 18,
+                                            color:
+                                                MakeMyTripColors.color50gray),
+                                  ),
+                                  3.verticalSpace,
+                                  Text(roomDetailsModel?.bedSize ?? "Bed Size",
+                                      style: AppTextStyles.unselectedLabelStyle)
+                                ],
                               ),
                             ),
                           ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                height: 70,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  color: MakeMyTripColors.color10gray,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        StringConstants.bedTxt,
-                                        style: AppTextStyles.unselectedLabelStyle
-                                            .copyWith(
-                                          fontSize: 18,
-                                            color:
-                                            MakeMyTripColors.color50gray),
-                                      ),
-                                      3.verticalSpace,
-                                      Text(
-                                          roomDetailsModel?.bedSize ??
-                                              "Bed Size",
-                                          style: AppTextStyles.unselectedLabelStyle)
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      10.verticalSpace,
-                      Text(StringConstants.descriptionTxt,
-                          style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
-                      8.verticalSpace,
-                      Text(
-                        roomDetailsModel?.description ?? "room description",
-                        textAlign: TextAlign.justify,
-                      ),
-                      20.verticalSpace,
-                      Text(StringConstants.amenitiesTxt,
-                          style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
-                      10.verticalSpace,
-                      Wrap(
-                        children: [
-                          FeaturesItemWidget(
-                              text: roomDetailsModel?.features![0] ??
-                                  "feature1"),
-                          FeaturesItemWidget(
-                              text: roomDetailsModel?.features![1] ??
-                                  "feature2"),
-                          FeaturesItemWidget(
-                              text: roomDetailsModel?.features![2] ??
-                                  "feature3"),
-                          FeaturesItemWidget(
-                              text: roomDetailsModel?.features![3] ??
-                                  "feature3"),
-                        ],
-                      ),
+                        ),
+                      )
                     ],
-                  )),
+                  ),
+                  10.verticalSpace,
+                  Text(StringConstants.descriptionTxt,
+                      style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
+                  8.verticalSpace,
+                  Text(
+                    roomDetailsModel?.description ?? "room description",
+                    textAlign: TextAlign.justify,
+                  ),
+                  20.verticalSpace,
+                  Text(StringConstants.amenitiesTxt,
+                      style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
+                  10.verticalSpace,
+                  Wrap(
+                    children: [
+                      FeaturesItemWidget(
+                          text: roomDetailsModel?.features![0] ?? "feature1"),
+                      FeaturesItemWidget(
+                          text: roomDetailsModel?.features![1] ?? "feature2"),
+                      FeaturesItemWidget(
+                          text: roomDetailsModel?.features![2] ?? "feature3"),
+                      FeaturesItemWidget(
+                          text: roomDetailsModel?.features![3] ?? "feature3"),
+                    ],
+                  ),
+                ],
+              )),
             )
           ],
         ),
@@ -250,26 +259,126 @@ class RoomDetailsPage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(
                 left: 15.0, right: 15.0, bottom: 20.0, top: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "₹ ${roomDetailsModel?.price?.toString()} p/night",
-                  style: AppTextStyles.labelNameTextStyle.copyWith(
-                      fontSize: 22, color: MakeMyTripColors.colorWhite),
-                ),
-                ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        primary: MakeMyTripColors.colorWhite),
-                    child: const Text(
-                      'Book Now',
-                      style: TextStyle(color: MakeMyTripColors.accentColor),
-                    ))
-              ],
+            child: BlocBuilder<SelectRoomCountCubit, BaseState>(
+              builder: (context, state) {
+                // if(state is StateOnSuccess<SelectRoomCountState>){noOfRoom=0;}
+                print(state is StateOnSuccess<SelectRoomCountState> ? state.response.deluxValue :"nothing");
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        print('remove');
+                        if (state is StateOnSuccess<SelectRoomCountState>) {
+                          context.read<SelectRoomCountCubit>().removeRoomEvent(
+                              roomDetailsModel!.roomType!,
+                              roomDetailsModel!.roomType == "Deluxe"
+                                  ? (state.response.deluxValue==0 ? int.parse(noOfRoom.toString()) : state.response.deluxValue)
+                                  : (roomDetailsModel!.roomType == "Semi-Deluxe"
+                                      ? (state.response.semiDeluxValue==0 ? int.parse(noOfRoom.toString()) : state.response.semiDeluxValue)
+                                      : (roomDetailsModel!.roomType ==
+                                              "Super-Deluxe"
+                                          ? (state.response.superDeluxValue==0 ? int.parse(noOfRoom.toString()) : state.response.superDeluxValue)
+                                          : int.parse(noOfRoom.toString()))));
+                        }
+                      },
+                      // roomRemoveOnTap,
+                      child: Stack(
+                          alignment: AlignmentDirectional.center,
+                          children: const [
+                            Icon(
+                              Icons.square_rounded,
+                              size: 25,
+                              color: MakeMyTripColors.colorWhite,
+                            ),
+                            Icon(
+                              Icons.remove,
+                              size: 20,
+                              color: MakeMyTripColors.accentColor,
+                            ),
+                          ]),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Text(
+                        state is StateOnSuccess<SelectRoomCountState>
+                            ? (roomDetailsModel!.roomType == "Deluxe"
+                                ? (state.response.deluxValue==0 ? noOfRoom.toString() : state.response.deluxValue.toString())
+                                : (roomDetailsModel!.roomType == "Semi-Deluxe"
+                                    ? (state.response.semiDeluxValue==0 ? noOfRoom.toString() : state.response.semiDeluxValue.toString())
+                                    : (roomDetailsModel!
+                                                .roomType ==
+                                            "Super-Deluxe"
+                                        ? (state.response.superDeluxValue==0 ? noOfRoom.toString() : state.response.superDeluxValue
+                                            .toString())
+                                        : noOfRoom.toString())))
+                            : noOfRoom.toString(),
+                        style: AppTextStyles.infoContentStyle
+                            .copyWith(color: MakeMyTripColors.colorWhite),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        print('add');
+                        if (state is StateOnSuccess<SelectRoomCountState>) {
+                          print(roomDetailsModel!.roomType);
+                          context.read<SelectRoomCountCubit>().addRoomEvent(
+                              roomDetailsModel!.roomType!,
+                              roomDetailsModel!.roomType == "Deluxe"
+                                  ? (state.response.deluxValue==0 ? int.parse(noOfRoom.toString()) : state.response.deluxValue)
+                                  : (roomDetailsModel!.roomType == "Semi-Deluxe"
+                                  ? (state.response.semiDeluxValue==0 ? int.parse(noOfRoom.toString()) : state.response.semiDeluxValue)
+                                  : (roomDetailsModel!.roomType ==
+                                  "Super-Deluxe"
+                                  ? (state.response.superDeluxValue==0 ? int.parse(noOfRoom.toString()) : state.response.superDeluxValue)
+                                  : int.parse(noOfRoom.toString()))),
+                              roomMaxLength);
+                        }
+                      },
+                      // roomAddOnTap,
+                      child: Stack(
+                          alignment: AlignmentDirectional.center,
+                          children: const [
+                            Icon(
+                              Icons.square_rounded,
+                              size: 25,
+                              color: MakeMyTripColors.colorWhite,
+                            ),
+                            Icon(
+                              Icons.add,
+                              size: 20,
+                              color: MakeMyTripColors.accentColor,
+                            ),
+                          ]),
+                    ),
+                    const Spacer(),
+                    Text(
+                      "₹ ${((int.parse(roomDetailsModel!.price.toString()) * (state is StateOnSuccess<SelectRoomCountState> ? (roomDetailsModel!.roomType == "Deluxe"
+                          ? (state.response.deluxValue==0 ? int.parse(noOfRoom.toString()) : int.parse(state.response.deluxValue.toString()))
+                          : (roomDetailsModel!.roomType == "Semi-Deluxe"
+                          ? (state.response.semiDeluxValue==0 ? int.parse(noOfRoom.toString()) : int.parse(state.response.semiDeluxValue.toString()))
+                          : (roomDetailsModel!.roomType ==
+                          "Super-Deluxe"
+                          ? (state.response.superDeluxValue==0 ? int.parse(noOfRoom.toString()) : int.parse(state.response.superDeluxValue.toString()))
+                          : int.parse(noOfRoom.toString())))) : int.parse(noOfRoom.toString()))).toString())}",
+                      style: AppTextStyles.labelNameTextStyle.copyWith(
+                          fontSize: 22, color: MakeMyTripColors.colorWhite),
+                    ),
+                    const Spacer(),
+                    ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            primary: MakeMyTripColors.colorWhite),
+                        child: const Text(
+                          'Book Now',
+                          style: TextStyle(color: MakeMyTripColors.accentColor),
+                        ))
+                  ],
+                );
+              },
             ),
           ),
         ),

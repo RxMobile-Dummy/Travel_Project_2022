@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/room_detail_page/domain/use_cases/room_detail_usecase.dart';
 
 class ImagesliderCubit extends Cubit<BaseState> {
-  ImagesliderCubit(this.roomDetailUsecase) : super((StateInitial()));
-
+  ImagesliderCubit(this.roomDetailUsecase) : super(StateInitial());
   final RoomDetailUsecase roomDetailUsecase;
 
   getindex(int i) {
@@ -31,3 +31,22 @@ class ImagesliderCubit extends Cubit<BaseState> {
     }, (r) => emit(StateOnKnownToSuccess<dynamic>(r)));
   }
 }
+
+  // void addRoomEvent(int addRoomValue,int maxRoomCount) {
+  //   if(addRoomValue<maxRoomCount) {
+  //       emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
+  //           .response
+  //           .copyWith(Value: addRoomValue + 1)));
+  //   }
+  // }
+  //
+  // void removeRoomEvent(int removeRoomValue) {
+  //   print('cubit');
+  //   if (removeRoomValue > 0) {
+  //       emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
+  //           .response
+  //           .copyWith(Value: removeRoomValue - 1)));
+  //   }
+  // }
+
+// }

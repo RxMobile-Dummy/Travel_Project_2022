@@ -60,6 +60,7 @@ class RoomCategoriesPage extends StatelessWidget {
                         ? RoomListWidget(
                             hotelId: int.parse(roomCategoryModel!.hotelId!),
                             roomData: roomCategoryModel!.deluxe![0],
+                            roomList:roomCategoryModel!.deluxe!,
                             roomRemoveOnTap: () {
                               context
                                   .read<SelectRoomCountCubit>()
@@ -74,19 +75,14 @@ class RoomCategoriesPage extends StatelessWidget {
                                   roomCategoryModel!.deluxe!.length);
                             },
                             totalSelectedRoom: state.response.deluxValue,
-                            isRoomOnTap: () {
-                              print("3");
-                              context
-                                  .read<SelectRoomCountCubit>()
-                                  .onReadMoreTap(state.response.deluxReadMore,
-                                      roomCategoryModel!.deluxe![0].roomType!);
-                            },
+
                           )
                         : SizedBox(),
                     roomCategoryModel!.semiDeluxe!.length > 0
                         ? RoomListWidget(
                             hotelId: int.parse(roomCategoryModel!.hotelId!),
                             roomData: roomCategoryModel!.semiDeluxe![0],
+                      roomList:roomCategoryModel!.semiDeluxe!,
                             roomRemoveOnTap: () {
                               print(state.response);
                               context
@@ -103,20 +99,14 @@ class RoomCategoriesPage extends StatelessWidget {
                                   roomCategoryModel!.semiDeluxe!.length);
                             },
                             totalSelectedRoom: state.response.semiDeluxValue,
-                            isRoomOnTap: () {
-                              context
-                                  .read<SelectRoomCountCubit>()
-                                  .onReadMoreTap(
-                                      state.response.semiDeluxReadMore,
-                                      roomCategoryModel!
-                                          .semiDeluxe![0].roomType!);
-                            },
+
                           )
                         : SizedBox(),
                     roomCategoryModel!.superDeluxe!.length > 0
                         ? RoomListWidget(
                             hotelId: int.parse(roomCategoryModel!.hotelId!),
                             roomData: roomCategoryModel!.superDeluxe![0],
+                      roomList:roomCategoryModel!.superDeluxe!,
                             roomRemoveOnTap: () {
                               context
                                   .read<SelectRoomCountCubit>()
@@ -132,14 +122,7 @@ class RoomCategoriesPage extends StatelessWidget {
                                   roomCategoryModel!.superDeluxe!.length);
                             },
                             totalSelectedRoom: state.response.superDeluxValue,
-                            isRoomOnTap: () {
-                              context
-                                  .read<SelectRoomCountCubit>()
-                                  .onReadMoreTap(
-                                      state.response.superDeluxReadMore,
-                                      roomCategoryModel!
-                                          .superDeluxe![0].roomType!);
-                            },
+
                           )
                         : SizedBox(),
                   ],

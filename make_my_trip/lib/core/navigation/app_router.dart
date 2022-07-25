@@ -159,21 +159,34 @@ class Router {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => roomCategorySl<RoomCategoryCubit>()..getData(arg['hotel_id'],arg['cin'],arg['cout']),
+                create: (context) => roomCategorySl<RoomCategoryCubit>()
+                  ..getData(arg['hotel_id'], arg['cin'], arg['cout']),
               ),
               BlocProvider(
                 create: (context) => roomCategorySl<SelectRoomCountCubit>(),
               ),
             ],
-            child: RoomCategoriesPage(arg: arg,),
+            child: RoomCategoriesPage(
+              arg: arg,
+            ),
           );
         });
       case RoutesName.roomDetail:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
-            create: (context) => roomDetailSl<ImagesliderCubit>()..getRoomData(arg['hotel_id'],arg['room_id']),
-            child: RoomDetailsPage(arg: arg,),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => roomDetailSl<ImagesliderCubit>()
+                  ..getRoomData(arg['hotel_id'], arg['room_id']),
+              ),
+              BlocProvider.value(
+                value: roomCategorySl<SelectRoomCountCubit>(),
+              )
+            ],
+            child: RoomDetailsPage(
+              arg: arg,
+            ),
           );
         });
       case RoutesName.reviewPage:
