@@ -12,13 +12,17 @@ import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_lis
 import 'package:make_my_trip/features/intro/intro_injection_container.dart';
 import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
 import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
+import 'package:make_my_trip/features/search/presentation/cubit/search_cubit.dart';
 import 'package:make_my_trip/features/search/presentation/pages/search_page.dart';
+import 'package:make_my_trip/features/search/search_injection_container.dart';
 
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:make_my_trip/features/sign_up/presentation/pages/email_verification_page.dart';
 import 'package:make_my_trip/features/sign_up/presentation/pages/sign_up_page.dart';
 import 'package:make_my_trip/features/sign_up/signup_injection_container.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
+import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
+import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
 
 import '../../features/calendar/presentation/pages/calendar_page.dart';
 import '../../features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
@@ -36,6 +40,8 @@ import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homep
 
 import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
+
+import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
 import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
@@ -117,7 +123,7 @@ class Router {
               BlocProvider.value(
                 value: slHomePage<HomepageCubit>(),
               ),
-              BlocProvider.value(value: TabBarCubit())
+              BlocProvider.value(value: slHomePage<TabBarCubit>())
             ],
             child: HomePage(),
           );
@@ -128,7 +134,10 @@ class Router {
         });
       case RoutesName.wishList:
         return MaterialPageRoute(builder: (_) {
-          return WishListPage();
+          return BlocProvider(
+            create: (context) => wishListSl<WishListCubit>(),
+            child: WishListPage(),
+          );
         });
       case RoutesName.profile:
         return MaterialPageRoute(builder: (_) {
@@ -136,7 +145,10 @@ class Router {
         });
       case RoutesName.search:
         return MaterialPageRoute(builder: (_) {
-          return SearchHotelPage(dio: Dio());
+          return BlocProvider(
+            create: (context) => searchSl<SearchCubit>(),
+            child: SearchHotelPage(dio: Dio()),
+          );
         });
       case RoutesName.hotelList:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;

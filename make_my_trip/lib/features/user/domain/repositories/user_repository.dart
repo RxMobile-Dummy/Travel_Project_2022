@@ -4,4 +4,5 @@ import 'package:make_my_trip/features/login/domain/model/user_model.dart';
 
 abstract class UserRepository {
   Future<Either<Failures, bool>> isAnonumousUser();
+  Future<Either<Failures, UserModel>> getUser();
 }

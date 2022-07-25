@@ -29,6 +29,8 @@ import './features/hotel_listing/hotel_list_injection_container.dart'
 import 'features/intro/intro_injection_container.dart' as intro_di;
 import './features/wishlist/wishlist_injection_container.dart' as wishlist_di;
 import 'features/user/user_injection_container.dart' as user_di;
+import 'features/splash/splash_injection_container.dart' as splash_di;
+import 'features/search/search_injection_container.dart' as search_di;
 
 import 'features/user_history/user_history_injection_container.dart' as history_di;
 
@@ -37,6 +39,8 @@ void main() async {
 
   await intro_di.init();
   await user_di.init();
+  await search_di.init();
+  await splash_di.init();
   await home_page_di.init();
   await hotel_detail_di.init();
   await login_di.init();

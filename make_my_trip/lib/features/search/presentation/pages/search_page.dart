@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
 
@@ -53,12 +55,7 @@ class _SearchHotelPageState extends State<SearchHotelPage> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {
-              Navigator.of(context)
-                  .pushNamed(RoutesName.hotelList, arguments: {
-                'city_name': 'ahm'
-              });
-            },
+            onTap: () {},
             child: const Padding(
               padding: EdgeInsets.only(right: 20),
               child: Icon(
