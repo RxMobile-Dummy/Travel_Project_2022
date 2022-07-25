@@ -150,12 +150,12 @@ class StringConstants {
   static const logout = "Logout";
 
   // Setting Strings
-  static const setting = "Settings";
+  //static const setting = "Settings";
   static const profile = "Profile";
   static const ok = "OK";
   static const done = "Done";
   static const editProfile = "Edit Profile";
-  static const logout = "Logout";
+  //static const logout = "Logout";
   static const fullName = "Full Name";
   static const phone = "Phone";
   static const update = "Update";

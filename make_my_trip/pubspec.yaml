@@ -35,6 +35,7 @@ dependencies:
   firebase_auth: ^2.0.0
   google_sign_in: ^5.0.2
   flutter_facebook_auth: ^4.4.0
+  firebase_storage:
 
   #state management :::use cubit pattern
   flutter_bloc: ^8.0.1

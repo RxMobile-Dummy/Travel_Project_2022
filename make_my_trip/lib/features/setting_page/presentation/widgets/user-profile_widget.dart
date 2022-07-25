@@ -10,18 +10,17 @@ import 'package:make_my_trip/features/setting_page/setting_page_injection_contai
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 
 Widget userProfileWidget(BuildContext context) {
-  context.read<SettingPageCubit>().getUserData();
-  print("cubit call");
   return BlocBuilder<SettingPageCubit, BaseState>(
     builder: (context, state) {
-      if (state is StateOnKnownToSuccess) {
-        UserDetailsModel userModel = state.response;
+      //context.read<SettingPageCubit>().getUserData();
+      if (state is StateOnKnownToSuccess<SettingPageData>) {
+        UserDetailsModel? userModel = state.response.userValue;
         return Column(
           children: [
             BlocBuilder<SettingPageCubit, BaseState>(
               builder: (context, state) {
                 return CircleAvatar(
-                  backgroundImage: NetworkImage(userModel.userImage.toString()),
+                  backgroundImage: NetworkImage(userModel?.userImage ?? ""),
                   radius: 50,
                 );
               },
@@ -29,14 +28,14 @@ Widget userProfileWidget(BuildContext context) {
             Padding(
               padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
               child: Text(
-                userModel.userName.toString(),
+                userModel?.userName.toString() ?? "",
                 style: AppTextStyles.unselectedLabelStyle,
               ),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
               child: Text(
-                userModel.userEmail.toString(),
+                userModel?.userEmail.toString() ?? "",
                 style: TextStyle(
                     color: MakeMyTripColors.colorBlack,
                     fontWeight: FontWeight.w500),

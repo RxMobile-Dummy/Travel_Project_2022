@@ -31,13 +31,14 @@ Widget settingListWidget() {
       child: ListView.builder(
           itemCount: settingList.length,
           itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.only(bottom: 30, right: 2),
+                padding: const EdgeInsets.only(bottom: 22, right: 2),
                 child: Row(
                   children: [
                     Icon(settingList[index].icon),
                     10.horizontalSpace,
                     Text(settingList[index].text,
-                        style: AppTextStyles.infoLabelStyle),
+                        style: AppTextStyles.infoLabelStyle
+                            .copyWith(fontSize: 16)),
                     const Spacer(),
                     const Icon(
                       Icons.arrow_forward_ios,

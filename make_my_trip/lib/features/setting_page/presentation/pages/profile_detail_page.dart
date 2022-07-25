@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
-
 import '../../../../utils/constants/string_constants.dart';
 import '../widgets/settingProfile_body.dart';
 import '../widgets/settingProfile_header.dart';
@@ -32,9 +31,9 @@ class ProfileDetailPage extends StatelessWidget {
         ),
         body: Container(
             color: MakeMyTripColors.colorWhite,
-            child: ListView(children: const [
-              SettingProfileHeader(),
-              SettingProfileBody()
+            child: ListView(children: [
+              SettingProfileHeader(context),
+              SettingProfileBody(context)
             ])),
       ),
     );
