@@ -2,6 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/room_detail_page/data/model/room_detail_model.dart';
@@ -98,24 +99,34 @@ class RoomDetailsPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(5.0)),
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: MakeMyTripColors.colorWhite,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    "${roomDetailsModel?.images?.length} Photos",
-                                    style: AppTextStyles.infoContentStyle,
-                                  ),
-                                  8.horizontalSpace,
-                                  const Icon(Icons.image)
-                                ],
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, RoutesName.galleryPage,
+                                    arguments: {
+                                      "image_list": roomDetailsModel!.images
+                                    });
+
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: MakeMyTripColors.colorWhite,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      "${roomDetailsModel?.images?.length} Photos",
+                                      style: AppTextStyles.infoContentStyle,
+                                    ),
+                                    8.horizontalSpace,
+                                    const Icon(Icons.image)
+                                  ],
+                                ),
                               ),
                             )
                           ],

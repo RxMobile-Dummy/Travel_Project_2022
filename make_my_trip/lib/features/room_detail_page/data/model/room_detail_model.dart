@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import '../../../hotel_detail/data/model/hotel_detail_model.dart';
 /// hotel_id : 1
 /// hotel_name : "Hotel Khyber Palace"
 /// room_id : 102
@@ -82,41 +84,41 @@ class RoomDetailModel {
 /// room_id : 102
 /// tour_id : null
 /// user_id : null
-Images imagesFromJson(String str) => Images.fromJson(json.decode(str));
-String imagesToJson(Images data) => json.encode(data.toJson());
-class Images {
-  Images({
-    this.id,
-    this.imageUrl,
-    this.hotelId,
-    this.roomId,
-    this.tourId,
-    this.userId,});
-
-  Images.fromJson(dynamic json) {
-    id = json['_id'];
-    imageUrl = json['image_url'];
-    hotelId = json['hotel_id'];
-    roomId = json['room_id'];
-    tourId = json['tour_id'];
-    userId = json['user_id'];
-  }
-  int? id;
-  String? imageUrl;
-  int? hotelId;
-  int? roomId;
-  dynamic tourId;
-  dynamic userId;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['_id'] = id;
-    map['image_url'] = imageUrl;
-    map['hotel_id'] = hotelId;
-    map['room_id'] = roomId;
-    map['tour_id'] = tourId;
-    map['user_id'] = userId;
-    return map;
-  }
-
-}
+// Images imagesFromJson(String str) => Images.fromJson(json.decode(str));
+// String imagesToJson(Images data) => json.encode(data.toJson());
+// class Images {
+//   Images({
+//     this.id,
+//     this.imageUrl,
+//     this.hotelId,
+//     this.roomId,
+//     this.tourId,
+//     this.userId,});
+//
+//   Images.fromJson(dynamic json) {
+//     id = json['_id'];
+//     imageUrl = json['image_url'];
+//     hotelId = json['hotel_id'];
+//     roomId = json['room_id'];
+//     tourId = json['tour_id'];
+//     userId = json['user_id'];
+//   }
+//   int? id;
+//   String? imageUrl;
+//   int? hotelId;
+//   int? roomId;
+//   dynamic tourId;
+//   dynamic userId;
+//
+//   Map<String, dynamic> toJson() {
+//     final map = <String, dynamic>{};
+//     map['_id'] = id;
+//     map['image_url'] = imageUrl;
+//     map['hotel_id'] = hotelId;
+//     map['room_id'] = roomId;
+//     map['tour_id'] = tourId;
+//     map['user_id'] = userId;
+//     return map;
+//   }
+//
+// }
