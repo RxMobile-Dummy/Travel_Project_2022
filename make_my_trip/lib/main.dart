@@ -32,6 +32,7 @@ import './features/wishlist/wishlist_injection_container.dart' as wishlist_di;
 import 'features/user/user_injection_container.dart' as user_di;
 import 'features/splash/splash_injection_container.dart' as splash_di;
 import 'features/search/search_injection_container.dart' as search_di;
+import './features/search/search_hotel_injection_container.dart' as search_di;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +50,7 @@ void main() async {
   await sign_up_di.init();
   await hotel_list_di.init();
   await wishlist_di.init();
+  await search_di.init();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
