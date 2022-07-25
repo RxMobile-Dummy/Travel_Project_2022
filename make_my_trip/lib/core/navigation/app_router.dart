@@ -11,6 +11,7 @@ import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.d
 import 'package:make_my_trip/features/sign_up/presentation/pages/sign_up_page.dart';
 import 'package:make_my_trip/features/sign_up/signup_injection_container.dart';
 
+import '../../features/booking/presentation/pages/booking_page.dart';
 import '../../features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import '../../features/home_page/presentation/pages/homepage.dart';
 
@@ -168,6 +169,10 @@ class Router {
       case RoutesName.galleryPage:
         return MaterialPageRoute(builder: (_) {
           return GalleryPage();
+        });
+      case RoutesName.bookingPage:
+        return MaterialPageRoute(builder: (_) {
+          return BookingPage();
         });
       default:
         return MaterialPageRoute(builder: (_) {
