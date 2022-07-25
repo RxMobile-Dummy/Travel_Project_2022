@@ -90,12 +90,19 @@ class RoomListWidget extends StatelessWidget {
                     flex: 1,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        roomData.image![0].imageUrl ?? ImagePath.demoroom,
-                        width: double.infinity / 2,
-                        height: 150,
-                        fit: BoxFit.cover,
-                      ),
+                      child:FadeInImage.assetNetwork(
+                          width: double.infinity / 2,
+                          height: 150,
+                          fit: BoxFit.cover,
+                          alignment: Alignment.center,
+                          placeholder: 'assets/img/placeholder.png',
+                          image: roomData.image!.isNotEmpty ? (roomData.image![0].imageUrl ?? ImagePath.demoroom) : ImagePath.demoroom,
+                          imageErrorBuilder:
+                              (context, error, stackTrace) {
+                            return Image.asset(
+                                'assets/img/placeholder.png',
+                                fit: BoxFit.fitWidth);
+                          })
                     ),
                   ),
                   8.horizontalSpace,
@@ -103,12 +110,19 @@ class RoomListWidget extends StatelessWidget {
                     flex: 1,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        roomData.image![1].imageUrl ?? ImagePath.demoroom,
-                        width: double.infinity / 2,
-                        height: 150,
-                        fit: BoxFit.cover,
-                      ),
+                      child: FadeInImage.assetNetwork(
+                          width: double.infinity / 2,
+                          height: 150,
+                          fit: BoxFit.cover,
+                          alignment: Alignment.center,
+                          placeholder: 'assets/img/placeholder.png',
+                          image: roomData.image!.isNotEmpty ? (roomData.image![1].imageUrl ?? ImagePath.demoroom) : ImagePath.demoroom,
+                          imageErrorBuilder:
+                              (context, error, stackTrace) {
+                            return Image.asset(
+                                'assets/img/placeholder.png',
+                                fit: BoxFit.fitWidth);
+                          })
                     ),
                   ),
                   8.horizontalSpace,
@@ -125,7 +139,7 @@ class RoomListWidget extends StatelessWidget {
                   Expanded(
                       flex: 5,
                       child: Text(
-                        roomData.features![0],
+                        roomData.features!.isNotEmpty ? roomData.features![0] : "",
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.infoContentStyle
                             .copyWith(fontSize: 16),

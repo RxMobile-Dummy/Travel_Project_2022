@@ -65,11 +65,19 @@ class RoomDetailsPage extends StatelessWidget {
                               .onSwipeIndicator(index);
                         },
                         itemBuilder: (BuildContext context, int index) {
-                          return Image.network(
-                            roomDetailsModel!.images![index].imageUrl ??
-                                "https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png",
-                            fit: BoxFit.cover,
-                          );
+                          return FadeInImage.assetNetwork(
+
+                              fit: BoxFit.cover,
+                              alignment: Alignment.center,
+                              placeholder: 'assets/img/placeholder.png',
+                              image: roomDetailsModel!.images![index].imageUrl ?? 'assets/img/placeholder.png',
+                              imageErrorBuilder:
+                                  (context, error, stackTrace) {
+                                return Image.asset(
+                                    'assets/img/placeholder.png',
+                                    fit: BoxFit.fitWidth);
+                              }) ;
+
                         },
                       ),
                       Container(
