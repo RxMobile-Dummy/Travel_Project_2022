@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
+import 'package:make_my_trip/features/calendar/presentation/cubit/calendar_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
 import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_container.dart';
@@ -18,6 +19,7 @@ import 'package:make_my_trip/features/sign_up/presentation/pages/sign_up_page.da
 import 'package:make_my_trip/features/sign_up/signup_injection_container.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
 
+import '../../features/calendar/presentation/pages/calendar_page.dart';
 import '../../features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import '../../features/home_page/presentation/pages/homepage.dart';
 
@@ -151,6 +153,13 @@ class Router {
             create: (context) => hotelDetailSl<HotelDetailCubit>()
               ..getHotelDetailData(arg['hotel_id']),
             child: HotelDetailPage(),
+          );
+        });
+      case RoutesName.calendar:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider(
+            create: (context) => CalenderCubit(),
+            child: const CalendarPage(),
           );
         });
       case RoutesName.roomCategory:

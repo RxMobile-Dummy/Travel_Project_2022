@@ -73,30 +73,35 @@ class UserLoginRemoteDataSourceImpl extends UserLoginRemoteDataSource {
         scopes: ['email'],
       );
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
 
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
+      if (googleUser != null) {
+        final GoogleSignInAuthentication? googleAuth =
+            await googleUser.authentication;
 
-      UserCredential userCredential =
-          await auth.signInWithCredential(credential);
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken,
+          idToken: googleAuth?.idToken,
+        );
 
-      User? user = userCredential.user;
+        UserCredential userCredential =
+            await auth.signInWithCredential(credential);
 
-      if (user != null) {
-        final response = await dio.post('${BaseConstant.baseUrl}user/post',
-            options: await createDioOptions());
-        if (response.statusCode == 200 || response.statusCode == 409) {
-          return Right(UserModel.fromJson({
-            "userName": user.displayName,
-            "userEmail": user.email,
-            "userPhone": user.phoneNumber,
-            "userPic": user.photoURL,
-            "userId": user.uid
-          }));
+        User? user = userCredential.user;
+
+        if (user != null) {
+          final response = await dio.post('${BaseConstant.baseUrl}user/post',
+              options: await createDioOptions());
+          if (response.statusCode == 200 || response.statusCode == 409) {
+            return Right(UserModel.fromJson({
+              "userName": user.displayName,
+              "userEmail": user.email,
+              "userPhone": user.phoneNumber,
+              "userPic": user.photoURL,
+              "userId": user.uid
+            }));
+          } else {
+            return Left(ServerFailure());
+          }
         } else {
           return Left(ServerFailure());
         }
@@ -151,7 +156,6 @@ class UserLoginRemoteDataSourceImpl extends UserLoginRemoteDataSource {
         return Left(ServerFailure());
       }
     } on FirebaseAuthException catch (e) {
-
       return Left(ServerFailure());
     }
   }

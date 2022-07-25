@@ -318,8 +318,8 @@ class HotelDetailPage extends StatelessWidget {
                 child: CommonPrimaryButton(
                     text: StringConstants.selectRoom,
                     onTap: () {
-                      Navigator.pushNamed(
-                          context, RoutesName.roomCategory,arguments: {'hotel_id':hotelDetailModel!.id,'cin':'2020-05-01','cout':'2020-05-10'});
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RoutesName.calendar, (route) => true);
                     })),
           ),
         );
