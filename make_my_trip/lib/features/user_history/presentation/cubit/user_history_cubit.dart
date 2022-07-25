@@ -5,21 +5,16 @@ import 'package:make_my_trip/features/user_history/data/model/user_history_model
 import 'package:make_my_trip/features/user_history/domain/use_cases/user_history_usecase.dart';
 
 class UserHistoryCubit extends Cubit<BaseState> {
-  UserHistoryCubit(this.userHistoryUsecase) : super(StateInitial()){
-    print('object');
-    getUserHistoryData();
-  }
+  UserHistoryCubit(this.userHistoryUsecase) : super(StateInitial());
   final UserHistoryUsecase userHistoryUsecase;
 
   getUserHistoryData() async {
-    print("cubitcall");
     emit(StateLoading());
     final res = await userHistoryUsecase.call(NoParams());
     res.fold((l) {
-      print(l.toString());
-      emit(StateNoData());},
-        (r) {
-      print(r.toString());
-      emit(StateOnSuccess<List<UserHistoryModel>>(r));});
+      emit(StateNoData());
+    }, (r) {
+      emit(StateOnSuccess<List<UserHistoryModel>>(r));
+    });
   }
 }
