@@ -16,18 +16,31 @@ class ReviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(
-        title: Text(
-          StringConstants.reviews,
-          style: AppTextStyles.unselectedLabelStyle,
+    return BlocListener<ReviewCubit, BaseState>(
+      listener: (context, state) {
+        if (state is Unauthenticated) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, RoutesName.login, (route) => true);
+        } else if (state is Authenticated) {
+          Navigator.pushReplacementNamed(context, RoutesName.publishReviewPage,
+              arguments: {
+                'context': context,
+                'hotel_id': arg['hotel_id'],
+                'rating': arg['rating']
+              });
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            StringConstants.reviews,
+            style: AppTextStyles.unselectedLabelStyle,
+          ),
         ),
-      ),
-      body: BlocBuilder<ReviewCubit, BaseState>(
-        builder: (context, state) {
-          print('this is my ${state}');
-          if (state is StateOnSuccess) {
-
+        body: BlocBuilder<ReviewCubit, BaseState>(
+          builder: (context, state) {
+            print('this is my ${state}');
+            if (state is StateOnSuccess) {
               List<ReviewModel> reviewModel = state.response;
               return Column(
                 children: [
@@ -84,27 +97,35 @@ class ReviewPage extends StatelessWidget {
                   ),
                 ],
               );
+            } else if (state is StateLoading) {
+              return ReviewPageShimmer();
+            } else {
+              return Center(
+                child: Text('Data Not Found'),
+              );
             }
-          else if(state is StateLoading){
-            return ReviewPageShimmer();
-          }
-          else{
-              return Center(child: Text('Data Not Found'),);
-            }
-
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, RoutesName.publishReviewPage,
-                arguments: {
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              var searchState = context.read<ReviewCubit>().state;
+              if (searchState is Unauthenticated) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RoutesName.login, (route) => true);
+              } else if (searchState is Authenticated) {
+                Navigator.pushReplacementNamed(
+                    context, RoutesName.publishReviewPage, arguments: {
                   'context': context,
                   'hotel_id': arg['hotel_id'],
                   'rating': arg['rating']
                 });
-          },
-          backgroundColor: MakeMyTripColors.accentColor,
-          child: const Icon(Icons.add)),
+              } else {
+                BlocProvider.of<ReviewCubit>(context).goToPostReview();
+              }
+            },
+            backgroundColor: MakeMyTripColors.accentColor,
+            child: const Icon(Icons.add)),
+      ),
     );
   }
 }

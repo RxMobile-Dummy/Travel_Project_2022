@@ -16,4 +16,9 @@ class UserRepositoryImpl extends UserRepository {
   Future<Either<Failures, bool>> isAnonumousUser() async {
     return await remoteDataSource.isAnonumousUser();
   }
+
+  @override
+  Future<Either<Failures, UserModel>> getUser() async {
+    return await remoteDataSource.getUser();
+  }
 }

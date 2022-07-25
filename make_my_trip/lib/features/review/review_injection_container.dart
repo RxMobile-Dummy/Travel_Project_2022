@@ -13,7 +13,8 @@ var reviewSl = GetIt.instance;
 
 Future<void> init() async {
   //Cubit
-  reviewSl.registerFactory(() => ReviewCubit(reviewSl(), reviewSl()));
+  reviewSl
+      .registerFactory(() => ReviewCubit(reviewSl(), reviewSl(), reviewSl()));
   reviewSl.registerFactory(() => PublishReviewCubit(reviewSl()));
 
   //UseCase
