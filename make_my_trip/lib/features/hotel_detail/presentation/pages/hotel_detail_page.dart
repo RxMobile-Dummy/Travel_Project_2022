@@ -319,7 +319,7 @@ class HotelDetailPage extends StatelessWidget {
                     text: StringConstants.selectRoom,
                     onTap: () {
                       Navigator.pushNamedAndRemoveUntil(
-                          context, RoutesName.roomCategory, (route) => true);
+                          context, RoutesName.calendar, (route) => true);
                     })),
           ),
         );
