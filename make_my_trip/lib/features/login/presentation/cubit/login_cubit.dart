@@ -31,10 +31,13 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   signInWithGoogle() async {
+    emit(AuthLoading());
     final res = await googleLogin.call(NoParams());
     res.fold((failure) {
       if (failure is AuthFailure) {
         emit(LoginErrorState(error: failure.failureMsg!));
+      } else {
+        emit(LoginErrorState(error: ""));
       }
     }, (success) {
       print(success.userEmail);
@@ -43,6 +46,7 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   signInWithEmail(String loginEmail, String loginPassword) async {
+    emit(AuthLoading());
     final emailValidation =
         UserInfoValidation.emailAddressValidation(loginEmail);
     if (emailValidation != null) {

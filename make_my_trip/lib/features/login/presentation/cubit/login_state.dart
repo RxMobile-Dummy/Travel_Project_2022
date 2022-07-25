@@ -5,6 +5,8 @@ abstract class LoginState {}
 
 class LoginInitial extends LoginState {}
 
+class AuthLoading extends LoginState {}
+
 class LoginObSecureChangeState extends LoginState {
   final bool obSecure;
 
