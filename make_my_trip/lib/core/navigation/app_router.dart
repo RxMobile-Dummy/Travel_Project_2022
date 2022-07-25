@@ -156,10 +156,11 @@ class Router {
           );
         });
       case RoutesName.calendar:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) => CalenderCubit(),
-            child: const CalendarPage(),
+            child:  CalendarPage(arg:arg),
           );
         });
       case RoutesName.roomCategory:
