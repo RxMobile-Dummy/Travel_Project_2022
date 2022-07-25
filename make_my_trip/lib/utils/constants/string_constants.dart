@@ -1,4 +1,3 @@
-import 'package:shared_preferences/shared_preferences.dart';
 
 class StringConstants {
   static String messageEmptyName = 'Please fill empty FullName';
@@ -110,7 +109,7 @@ class StringConstants {
   // RoomCategoriesPage Strings
 
   static String roomMoreDetails = 'More Details';
-  static String roomSelectButtonTxt = 'SELECT';
+  static String roomSelectButtonTxt = 'BOOK';
   static String roomCategoriesPageHeading = 'SELECT A ROOM';
   static String searchPageTitle = "Search Hotel";
 

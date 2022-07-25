@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
+import 'package:make_my_trip/features/hotel_detail/presentation/widgets/features_item_widget.dart';
 import 'package:make_my_trip/features/room_detail_page/data/model/room_detail_model.dart';
 import 'package:make_my_trip/features/room_detail_page/presentation/pages/room_detail_shimmer.dart';
-import 'package:make_my_trip/features/room_detail_page/presentation/widget/feture_item_widget.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
@@ -153,6 +153,7 @@ class RoomDetailsPage extends StatelessWidget {
                                       StringConstants.room_size,
                                       style: AppTextStyles.unselectedLabelStyle
                                           .copyWith(
+                                          fontSize: 18,
                                           color: MakeMyTripColors.color50gray),
                                     ),
                                     3.verticalSpace,
@@ -183,6 +184,7 @@ class RoomDetailsPage extends StatelessWidget {
                                         StringConstants.bedTxt,
                                         style: AppTextStyles.unselectedLabelStyle
                                             .copyWith(
+                                          fontSize: 18,
                                             color:
                                             MakeMyTripColors.color50gray),
                                       ),
@@ -204,9 +206,8 @@ class RoomDetailsPage extends StatelessWidget {
                           style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
                       8.verticalSpace,
                       Text(
-                        roomDetailsModel?.description ?? "Description",
+                        roomDetailsModel?.description ?? "room description",
                         textAlign: TextAlign.justify,
-                        style: AppTextStyles.labelDescriptionStyle,
                       ),
                       20.verticalSpace,
                       Text(StringConstants.amenitiesTxt,

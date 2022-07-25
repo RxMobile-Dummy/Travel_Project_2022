@@ -55,6 +55,7 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
   Future<Either<Failures, String>> bookingPostData(int hotelId,
       RoomDataPostModel roomDataPostModel) async {
     try {
+
       print("Data source impl");
       final response = await dio.post(
           '${baseurl}booking/hotelbooking', data: roomDataPostModel.toJson(),options: await createDioOptions());

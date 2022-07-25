@@ -7,10 +7,10 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
       : super(StateOnSuccess<SelectRoomCountState>(SelectRoomCountState(
       superDeluxReadMore: false,
       deluxReadMore: false,
-      deluxValue: 1,
+      deluxValue: 0,
       semiDeluxReadMore: false,
-      semiDeluxValue: 1,
-      superDeluxValue: 1)));
+      semiDeluxValue: 0,
+      superDeluxValue: 0)));
 
   onReadMoreTap(bool isReadMore, String roomType) {
     print('print cubit');
@@ -24,8 +24,6 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
           .response
           .copyWith(semiDeluxReadMore: !isReadMore)));
     } else if (roomType == "Super-Deluxe") {
-      print('dfiods');
-
       emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
           .response
           .copyWith(superDeluxReadMore: !isReadMore)));
@@ -54,7 +52,7 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
 
   void removeRoomEvent(String roomType, int removeRoomValue) {
     print('cubit');
-    if (removeRoomValue > 1) {
+    if (removeRoomValue > 0) {
       if (roomType == 'Deluxe') {
         print("6");
         emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
@@ -93,9 +91,9 @@ class SelectRoomCountState extends Equatable {
   });
 
   SelectRoomCountState copyWith(
-      {int? superDeluxValue = 1,
-        int? deluxValue = 1,
-        int? semiDeluxValue = 1,
+      {int? superDeluxValue = 0,
+        int? deluxValue = 0,
+        int? semiDeluxValue = 0,
         bool? superDeluxReadMore = false,
         bool? semiDeluxReadMore = false,
         bool? deluxReadMore = false,

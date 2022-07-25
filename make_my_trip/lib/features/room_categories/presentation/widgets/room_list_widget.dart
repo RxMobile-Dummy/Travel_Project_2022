@@ -11,25 +11,25 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class RoomListWidget extends StatelessWidget {
-  const RoomListWidget(
-      {Key? key,
-        required this.hotelId,
-        required this.roomData,
-        required this.roomRemoveOnTap,
-        required this.roomAddOnTap,
-        required this.totalSelectedRoom,
-        required this.isReadMore,
-        required this.isRoomOnTap})
+  const RoomListWidget({Key? key,
+    required this.hotelId,
+    required this.roomData,
+    required this.roomRemoveOnTap,
+    required this.roomAddOnTap,
+    required this.totalSelectedRoom,
+    required this.isRoomOnTap})
       : super(key: key);
   final RoomType roomData;
   final VoidCallback roomRemoveOnTap;
   final VoidCallback roomAddOnTap;
   final VoidCallback isRoomOnTap;
   final int totalSelectedRoom;
-  final bool isReadMore;
   final int hotelId;
+
   @override
   Widget build(BuildContext context) {
+    var snackBar = SnackBar(
+        content: Text('No Room Selected, Pls First Select Room'));
     return Padding(
       padding:
       const EdgeInsets.only(top: 12.0, left: 4.0, right: 4.0, bottom: 4.0),
@@ -44,10 +44,29 @@ class RoomListWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "${roomData.roomType} Room",
-                style: AppTextStyles.unselectedLabelStyle
-                    .copyWith(fontSize: 22, fontWeight: FontWeight.w800),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "${roomData.roomType} Room",
+                    style: AppTextStyles.unselectedLabelStyle
+                        .copyWith(fontSize: 22, fontWeight: FontWeight.w800),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, RoutesName.roomDetail, arguments: {
+                        'hotel_id': hotelId,
+                        'room_id': roomData.roomId
+                      });
+                    },
+                    child: Text(
+                      StringConstants.roomMoreDetails,
+                      style: AppTextStyles.infoContentStyle2
+                          .copyWith(fontSize: 14),
+                    ),
+                  ),
+                ],
               ),
               8.verticalSpace,
               Row(
@@ -57,27 +76,12 @@ class RoomListWidget extends StatelessWidget {
                       children: [
                         Text(
                           roomData.description ?? "Description",
-                          maxLines: (isReadMore) ? 10 : 3,
+                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.justify,
                           style: AppTextStyles.labelDescriptionStyle
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            onTap: isRoomOnTap,
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Text(
-                                (isReadMore)
-                                    ? StringConstants.readLessTxt
-                                    : StringConstants.readMoreTxt,
-                                style: AppTextStyles.infoContentStyle2,
-                              ),
-                            ),
-                          ),
-                        )
                       ],
                     ),
                   ),
@@ -89,40 +93,46 @@ class RoomListWidget extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child:FadeInImage.assetNetwork(
-                          width: double.infinity / 2,
-                          height: 150,
-                          fit: BoxFit.cover,
-                          alignment: Alignment.center,
-                          placeholder: 'assets/img/placeholder.png',
-                          image: roomData.image!.isNotEmpty ? (roomData.image![0].imageUrl ?? ImagePath.demoroom) : ImagePath.demoroom,
-                          imageErrorBuilder:
-                              (context, error, stackTrace) {
-                            return Image.asset(
-                                'assets/img/placeholder.png',
-                                fit: BoxFit.fitWidth);
-                          })
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: FadeInImage.assetNetwork(
+                            width: double.infinity / 2,
+                            height: 150,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.center,
+                            placeholder: 'assets/img/placeholder.png',
+                            image: roomData.image!.isNotEmpty
+                                ? (roomData.image![0].imageUrl ??
+                                ImagePath.demoroom)
+                                : ImagePath.demoroom,
+                            imageErrorBuilder:
+                                (context, error, stackTrace) {
+                              return Image.asset(
+                                  'assets/img/placeholder.png',
+                                  fit: BoxFit.fitWidth);
+                            })
                     ),
                   ),
                   8.horizontalSpace,
                   Expanded(
                     flex: 1,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: FadeInImage.assetNetwork(
-                          width: double.infinity / 2,
-                          height: 150,
-                          fit: BoxFit.cover,
-                          alignment: Alignment.center,
-                          placeholder: 'assets/img/placeholder.png',
-                          image: roomData.image!.isNotEmpty ? (roomData.image![1].imageUrl ?? ImagePath.demoroom) : ImagePath.demoroom,
-                          imageErrorBuilder:
-                              (context, error, stackTrace) {
-                            return Image.asset(
-                                'assets/img/placeholder.png',
-                                fit: BoxFit.fitWidth);
-                          })
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: FadeInImage.assetNetwork(
+                            width: double.infinity / 2,
+                            height: 150,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.center,
+                            placeholder: 'assets/img/placeholder.png',
+                            image: roomData.image!.isNotEmpty
+                                ? (roomData.image![1].imageUrl ??
+                                ImagePath.demoroom)
+                                : ImagePath.demoroom,
+                            imageErrorBuilder:
+                                (context, error, stackTrace) {
+                              return Image.asset(
+                                  'assets/img/placeholder.png',
+                                  fit: BoxFit.fitWidth);
+                            })
                     ),
                   ),
                   8.horizontalSpace,
@@ -139,7 +149,9 @@ class RoomListWidget extends StatelessWidget {
                   Expanded(
                       flex: 5,
                       child: Text(
-                        roomData.features!.isNotEmpty ? roomData.features![0] : "",
+                        roomData.features!.isNotEmpty
+                            ? roomData.features![0]
+                            : "",
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.infoContentStyle
                             .copyWith(fontSize: 16),
@@ -189,25 +201,8 @@ class RoomListWidget extends StatelessWidget {
                 ],
               ),
               5.verticalSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(
-                          context, RoutesName.roomDetail,arguments: {'hotel_id':hotelId,'room_id':roomData.roomId} );
-                    },
-                    child: Text(
-                      StringConstants.roomMoreDetails,
-                      style: AppTextStyles.infoContentStyle2
-                          .copyWith(fontSize: 14),
-                    ),
-                  ),
-                ],
-              ),
-              5.verticalSpace,
               Container(
-                height: 40,
+                height: 50,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
@@ -224,12 +219,12 @@ class RoomListWidget extends StatelessWidget {
                             children: const [
                               Icon(
                                 Icons.square_rounded,
-                                size: 20,
+                                size: 25,
                                 color: Colors.grey,
                               ),
                               Icon(
                                 Icons.remove,
-                                size: 15,
+                                size: 20,
                                 color: Colors.white,
                               ),
                             ]),
@@ -248,44 +243,54 @@ class RoomListWidget extends StatelessWidget {
                             children: const [
                               Icon(
                                 Icons.square_rounded,
-                                size: 20,
+                                size: 25,
                                 color: Colors.grey,
                               ),
                               Icon(
                                 Icons.add,
-                                size: 15,
+                                size: 20,
                                 color: Colors.white,
                               ),
                             ]),
                       ),
                       const Spacer(),
                       Text(
-                        "₹ ${(roomData.price!*totalSelectedRoom).toString()} ",
+                        "₹ ${(roomData.price! * (totalSelectedRoom > 1
+                            ? totalSelectedRoom
+                            : 1)).toString()} ",
                         style: AppTextStyles.infoContentStyle
-                            .copyWith(fontSize: 14),
+                            .copyWith(fontSize: 16),
                       ),
                       const Spacer(),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            Price price = new Price(
+                            Price price = Price(
                               numberOfNights: 2,
                               totalPrice: 3700,
                             );
                             RoomDataPostModel roomBookPostmodel = new RoomDataPostModel(
                                 checkinDate: '2022-02-20',
                                 checkoutDate: '2022-02-20',
-                                roomId: [202,201,203],
+                                roomId: [202, 201, 203],
                                 hotelId: 2,
                                 price: price
                             );
-
-                            context.read<RoomCategoryCubit>().roomBookPost(roomBookPostmodel.hotelId ?? 4, roomBookPostmodel);
+                            totalSelectedRoom > 0 ? (context.read<
+                                RoomCategoryCubit>().roomBookPost(
+                                roomBookPostmodel.hotelId ?? 4,
+                                roomBookPostmodel)) : (
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    snackBar));
                           },
                           style: ElevatedButton.styleFrom(
+
+                              primary: totalSelectedRoom > 0 ? MakeMyTripColors
+                                  .colorBlue : MakeMyTripColors.color30gray,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0),
+
                               )),
                           child: Text(
                             StringConstants.roomSelectButtonTxt,
