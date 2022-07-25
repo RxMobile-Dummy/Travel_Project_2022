@@ -10,12 +10,12 @@ WishlistModel wishlistModelFromJson(String str) => WishlistModel.fromJson(json.d
 String wishlistModelToJson(WishlistModel data) => json.encode(data.toJson());
 class WishlistModel {
   WishlistModel({
-    this.id,
-    this.hotelId,
-    this.hotelName,
-    this.address,
-    this.price,
-    this.wishListImage,});
+      this.id, 
+      this.hotelId, 
+      this.hotelName, 
+      this.address, 
+      this.price, 
+      this.wishListImage,});
 
   WishlistModel.fromJson(dynamic json) {
     id = json['_id'];
@@ -65,12 +65,12 @@ WishListImage wishListImageFromJson(String str) => WishListImage.fromJson(json.d
 String wishListImageToJson(WishListImage data) => json.encode(data.toJson());
 class WishListImage {
   WishListImage({
-    this.id,
-    this.imageUrl,
-    this.hotelId,
-    this.roomId,
-    this.tourId,
-    this.userId,});
+      this.id, 
+      this.imageUrl, 
+      this.hotelId, 
+      this.roomId, 
+      this.tourId, 
+      this.userId,});
 
   WishListImage.fromJson(dynamic json) {
     id = json['_id'];
@@ -109,10 +109,10 @@ Address addressFromJson(String str) => Address.fromJson(json.decode(str));
 String addressToJson(Address data) => json.encode(data.toJson());
 class Address {
   Address({
-    this.location,
-    this.addressLine,
-    this.cityId,
-    this.pincode,});
+      this.location, 
+      this.addressLine, 
+      this.cityId, 
+      this.pincode,});
 
   Address.fromJson(dynamic json) {
     location = json['location'] != null ? Location.fromJson(json['location']) : null;
@@ -145,8 +145,8 @@ Location locationFromJson(String str) => Location.fromJson(json.decode(str));
 String locationToJson(Location data) => json.encode(data.toJson());
 class Location {
   Location({
-    this.latitude,
-    this.longitude,});
+      this.latitude, 
+      this.longitude,});
 
   Location.fromJson(dynamic json) {
     latitude = json['latitude'];

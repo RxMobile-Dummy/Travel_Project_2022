@@ -11,6 +11,8 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 
+import '../../../../utils/widgets/progress_loader.dart';
+
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
@@ -23,9 +25,13 @@ class LoginPage extends StatelessWidget {
     Size screen = MediaQuery.of(context).size;
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
-        if (state is LoginSuccessState) {
+        if (state is AuthLoading) {
+          ProgressDialog.showLoadingDialog(context, message: "Loggin In...");
+        } else if (state is LoginSuccessState) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.home, (route) => true);
+        } else {
+          ProgressDialog.hideLoadingDialog(context);
         }
       },
       child: Scaffold(

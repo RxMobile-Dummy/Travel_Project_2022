@@ -21,6 +21,8 @@ class RoutesName {
 
   static const hotelDetail = "/hotelDetail";
 
+  static const calendar = "/calendar";
+
   static const roomCategory = "/roomCategory";
 
   static const roomDetail = "/roomDetail";

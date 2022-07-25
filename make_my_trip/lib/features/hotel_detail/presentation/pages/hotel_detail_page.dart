@@ -319,7 +319,7 @@ class HotelDetailPage extends StatelessWidget {
                     text: StringConstants.selectRoom,
                     onTap: () {
                       Navigator.pushNamed(
-                          context, RoutesName.roomCategory,arguments: {'hotel_id':hotelDetailModel!.id,'cin':'2020-05-01','cout':'2020-05-10'});
+                          context, RoutesName.calendar, arguments: {'hotel_id':hotelDetailModel!.id});
                     })),
           ),
         );
