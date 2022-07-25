@@ -5,9 +5,7 @@ import 'package:make_my_trip/features/wishlist/data/model/wishlist_model.dart';
 import 'package:make_my_trip/features/wishlist/domain/use_cases/wishlist_usecase.dart';
 
 class WishListCubit extends Cubit<BaseState> {
-  WishListCubit(this.wishListUsecase) : super(StateInitial()) {
-    getWishListCubitData();
-  }
+  WishListCubit(this.wishListUsecase) : super(StateInitial());
 
   final WishListUsecase wishListUsecase;
 

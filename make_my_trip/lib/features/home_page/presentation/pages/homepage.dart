@@ -55,9 +55,7 @@ class HomePage extends StatelessWidget {
             ],
             currentIndex: _selectedIndex,
             selectedItemColor: MakeMyTripColors.accentColor,
-            onTap: BlocProvider
-                .of<TabBarCubit>(context)
-                .OnItemTap,
+            onTap: BlocProvider.of<TabBarCubit>(context).OnItemTap,
           );
         } else {
           return const Text("");
@@ -66,16 +64,17 @@ class HomePage extends StatelessWidget {
     ));
   }
 
-  static List<Widget> _widgetOptions() =>
-      <Widget>[
+  static List<Widget> _widgetOptions() => <Widget>[
         //View 1
         const HomeScreen(),
         BlocProvider(
-          create: (context) => historyListSl<UserHistoryCubit>(),
+          create: (context) =>
+              historyListSl<UserHistoryCubit>()..getUserHistoryData(),
           child: UserHistoryPage(),
         ),
         BlocProvider(
-          create: (context) => wishListSl<WishListCubit>(),
+          create: (context) =>
+              wishListSl<WishListCubit>()..getWishListCubitData(),
           child: WishListPage(),
         ),
         BlocProvider(
