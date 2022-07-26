@@ -11,7 +11,7 @@ import 'package:make_my_trip/features/wishlist/presentation/pages/wishlist_page.
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../../../../core/navigation/route_info.dart';
-import '../manager/cubit/tab_bar_cubit.dart';
+import '../cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
 
 class HomePage extends StatelessWidget {
@@ -58,10 +58,7 @@ class HomePage extends StatelessWidget {
               onTap: (index) {
                 var searchState = context.read<TabBarCubit>().state;
                 print(searchState);
-                if (searchState is Authenticated) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, RoutesName.home, (route) => true);
-                } else if (searchState is Unauthenticated && index != 0) {
+                if (searchState is Unauthenticated && index != 0) {
                   Navigator.pushNamedAndRemoveUntil(
                       context, RoutesName.login, (route) => true);
                 } else {
