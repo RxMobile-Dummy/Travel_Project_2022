@@ -12,7 +12,7 @@ class WishListCubit extends Cubit<BaseState> {
   getWishListCubitData() async {
     emit(StateLoading());
     final res = await wishListUsecase.call(NoParams());
-    res.fold((l) => emit(StateNoData()),
+    res.fold((l) => emit(StateErrorGeneral("errorMessage")),
         (r) => emit(StateOnSuccess<List<WishlistModel>>(r)));
   }
 }

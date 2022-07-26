@@ -29,6 +29,8 @@ class ImagePath {
   static const String wishlistImage2 = 'assets/img/wishlist2.jpeg';
 
   static const String serverFailImage = "assets/img/server_failure.png";
+  static const String noDataFoundImage = "assets/img/no_data_found_image.png";
+  static const String noBookingPage = "assets/img/no_booking_image.png";
 
   static const String forgetPassword = "assets/img/forgetpassword.png";
   static const String emailVerification = "assets/img/email_verification.png";

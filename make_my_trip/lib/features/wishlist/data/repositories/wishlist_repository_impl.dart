@@ -9,8 +9,7 @@ class WishListRepositoryImpl implements WishListRepository {
   WishListRepositoryImpl(this.wishListRemoteDataSource);
 
   @override
-  Future<Either<Failures, List<WishlistModel>>> getWishList() {
-    // TODO: implement getWishList
-    return wishListRemoteDataSource.getWishListData();
+  Future<Either<Failures, List<WishlistModel>>> getWishList() async{
+    return await wishListRemoteDataSource.getWishListData();
   }
 }

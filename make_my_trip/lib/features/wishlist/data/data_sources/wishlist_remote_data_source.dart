@@ -12,6 +12,7 @@ abstract class WishListRemoteDataSource {
 
 class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
   final Dio dio;
+
   WishListRemoteDataSourceImpl(this.dio);
 
   Future<Options> createDioOptions() async {
@@ -29,10 +30,10 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
       String url) async {
     try {
       final response = await dio.get(url, options: await createDioOptions());
+
       if (response.statusCode == 200) {
         List<WishlistModel> wishListModel = [];
         final apidata = response.data;
-
         for (var item in apidata) {
           wishListModel.add(WishlistModel.fromJson(item));
         }

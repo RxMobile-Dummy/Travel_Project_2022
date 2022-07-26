@@ -68,6 +68,7 @@ class StringConstants {
   // HomePage Strings
   static String appname = "MakeMyTrip";
   static String populartours = "Popular Tours";
+  static String popularhotels = "Popular Hotels";
 
   static String hotels = "Hotels";
   static String places = "Places";
@@ -106,6 +107,12 @@ class StringConstants {
   //serverFail String
   static String serverFail = "The server is currently unavailable";
 
+  //No data Found
+  static String noDataFound = "No Data Found";
+
+  //no booking string
+  static String noBooking = "No bookings, yet";
+
   // RoomCategoriesPage Strings
 
   static String roomMoreDetails = 'More Details';
@@ -132,7 +139,7 @@ class StringConstants {
   static String seeAllPhoto = "See all photo";
   static String location = "Location";
 
-  static String historyHeading = 'History';
+  static String bookingHeading = 'Booking';
   static String bookingPrice = '₹ 100000';
   static String bookingDate = '12 Jul, 22 - 19JUl, 22';
   static String totalBookingDays = '365 Days';
@@ -141,4 +148,6 @@ class StringConstants {
 
   static String isAnonymousSharedPreference = "isAnonymous";
   static String userIdSharedPreference = "userId";
+
+
 }
