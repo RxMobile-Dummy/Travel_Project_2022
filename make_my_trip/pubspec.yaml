@@ -15,7 +15,7 @@ dependencies:
   #ui
   cupertino_icons: ^1.0.2
   material_design_icons_flutter: ^5.0.6595
-  flutter_svg: ^1.0.0
+#  flutter_svg: ^1.0.0
   carousel_slider: ^4.1.1
   flutter_staggered_grid_view: ^0.6.2
   smooth_page_indicator: ^1.0.0+2
@@ -23,9 +23,9 @@ dependencies:
   shimmer: ^2.0.0
 
   #utils
-  uuid: ^3.0.6
-  grouped_list: ^4.1.0
-  string_validator: ^0.3.0
+#  uuid: ^3.0.6
+#  grouped_list: ^4.1.0
+#  string_validator: ^0.3.0
 
   #api call
   dio: ^4.0.6
@@ -43,7 +43,7 @@ dependencies:
   equatable: ^2.0.3
 
   #for routing use auto_route or go_route or any named routing
-  auto_route: ^3.2.1
+#  auto_route: ^3.2.1
 
   #error handling
   dartz: ^0.10.1
@@ -67,8 +67,9 @@ dependencies:
   dots_indicator: ^2.1.0
   google_maps_flutter: ^2.1.8
   url_launcher: ^6.1.5
-  video_player: ^2.4.5
+#  video_player: ^2.4.5
   scrollable_clean_calendar: ^1.4.0
+  animations: ^2.0.3
 
   #shimmer effect
 
