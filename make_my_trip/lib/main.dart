@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/navigation/route_info.dart';
 
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
 import 'package:make_my_trip/features/user/user_injection_container.dart';
@@ -31,8 +32,10 @@ import './features/wishlist/wishlist_injection_container.dart' as wishlist_di;
 import 'features/user/user_injection_container.dart' as user_di;
 import 'features/splash/splash_injection_container.dart' as splash_di;
 import 'features/search/search_injection_container.dart' as search_di;
+import './features/search/search_hotel_injection_container.dart' as search_di;
 
-import 'features/user_history/user_history_injection_container.dart' as history_di;
+import 'features/user_history/user_history_injection_container.dart'
+    as history_di;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +54,7 @@ void main() async {
   await hotel_list_di.init();
   await wishlist_di.init();
   await history_di.init();
+  await search_di.init();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

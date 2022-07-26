@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
@@ -10,6 +9,8 @@ import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_contain
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_list_page.dart';
 import 'package:make_my_trip/features/intro/intro_injection_container.dart';
+import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_cubit.dart';
+import 'package:make_my_trip/features/search/search_hotel_injection_container.dart';
 import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
 import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
 import 'package:make_my_trip/features/search/presentation/cubit/search_cubit.dart';
@@ -34,6 +35,7 @@ import '../../features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import '../../features/hotel_detail/presentation/pages/hotel_detail_page.dart';
 import '../../features/intro/presentation/cubit/intro_cubit.dart';
 import '../../features/intro/presentation/pages/intro_page.dart';
+import '../../features/search/presentation/pages/search_hotel_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 
 import 'package:make_my_trip/features/home_page/home_page_injection_container.dart';
@@ -144,8 +146,8 @@ class Router {
       case RoutesName.search:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => searchSl<SearchCubit>(),
-            child: SearchHotelPage(dio: Dio()),
+            create: (context) => searchHotelSl<SearchHotelCubit>(),
+            child: SearchHotelPage(),
           );
         });
       case RoutesName.hotelList:
