@@ -9,6 +9,7 @@ import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit
 import 'package:make_my_trip/features/wishlist/presentation/widgets/details_card.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 
 import '../widgets/shimmer_effect_page.dart';
 
@@ -20,8 +21,12 @@ class WishListPage extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<WishListCubit, BaseState>(
         builder: (context, state) {
+          print(state);
           if (state is StateOnSuccess) {
             List<WishlistModel> wishlistModel = state.response;
+            if(wishlistModel.isEmpty){
+              return CommonErrorWidget(imagePath: ImagePath.noDataFoundImage, title: StringConstants.noDataFound, statusCode: "");
+            }
             return CustomScrollView(
               slivers: <Widget>[
                 SliverLayoutBuilder(builder: (context, constraints) {
@@ -95,10 +100,11 @@ class WishListPage extends StatelessWidget {
             );
           } else if (state is StateLoading) {
             return WishlistShimmer();
-          } else {
-            return Center(
-              child: Text('Data Not Found'),
-            );
+          }else if(state is StateErrorGeneral){
+            return CommonErrorWidget(imagePath: ImagePath.serverFailImage, title: StringConstants.serverFail, statusCode: "500");
+          }
+          else {
+            return CommonErrorWidget(imagePath: ImagePath.noDataFoundImage, title: StringConstants.noDataFound, statusCode: "");
           }
         },
       ),

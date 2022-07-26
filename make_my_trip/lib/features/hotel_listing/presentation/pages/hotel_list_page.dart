@@ -4,9 +4,6 @@ import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_list_shimmer_page.dart';
-import 'package:make_my_trip/utils/constants/string_constants.dart';
-import '../../../../core/navigation/route_info.dart';
-import '../../hotel_list_injection_container.dart' as di;
 import '../cubits/hotel_list_cubit.dart';
 import '../cubits/hotel_list_state.dart';
 import '../widgets/hotel_list_view_widget.dart';
@@ -39,10 +36,13 @@ class HotelListPage extends StatelessWidget {
                             icon: const Icon(Icons.arrow_back),
                           ),
                           // const Spacer(),
-                          Text(
-                            arg['city_name'],
-                            textAlign: TextAlign.center,
-                            style: AppTextStyles.unselectedLabelStyle,
+                          Flexible(
+                            child: Text(
+                              arg['city_name'],
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              style: AppTextStyles.unselectedLabelStyle,
+                            ),
                           ),
                         ],
                       ),

@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/utils/constants/string_constants.dart';
 
-Widget titleWidget() {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(StringConstants.populartours,
-            style: AppTextStyles.unselectedLabelStyle),
-        Text(StringConstants.viewallTxt,
-            style: AppTextStyles.unselectedLabelStyle),
-      ],
-    ),
-  );
+class TitleWidget extends StatelessWidget {
+   const TitleWidget({Key? key, required this.title, required this.viewAll}) : super(key: key);
+  final String title;
+  final String viewAll;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title,
+              style: AppTextStyles.unselectedLabelStyle),
+          Text(viewAll,
+              style: AppTextStyles.unselectedLabelStyle),
+        ],
+      ),
+    );
+  }
 }
+
+
+

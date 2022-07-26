@@ -115,7 +115,7 @@ class Router {
           return MultiBlocProvider(
             providers: [
               BlocProvider.value(
-                value: slHomePage<HomepageCubit>(),
+                value: slHomePage<HomepageCubit>()..getImagesApi()..getToursApi(),
               ),
               BlocProvider.value(value: TabBarCubit())
             ],

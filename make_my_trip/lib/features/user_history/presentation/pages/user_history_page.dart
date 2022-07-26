@@ -6,7 +6,9 @@ import 'package:make_my_trip/features/user_history/data/model/user_history_model
 import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/shimmer_history_page.dart';
 import 'package:make_my_trip/features/user_history/presentation/widgets/history_list_view_widget.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 
 class UserHistoryPage extends StatelessWidget {
   const UserHistoryPage({Key? key}) : super(key: key);
@@ -25,7 +27,7 @@ class UserHistoryPage extends StatelessWidget {
               children: [
                 const Icon(Icons.arrow_back_ios),
                 Text(
-                  StringConstants.historyHeading,
+                  StringConstants.bookingHeading,
                   style: AppTextStyles.unselectedLabelStyle,
                 ),
                 const Icon(Icons.notifications_outlined),
@@ -37,12 +39,23 @@ class UserHistoryPage extends StatelessWidget {
               builder: (context, state) {
                 if (state is StateOnSuccess) {
                   List<UserHistoryModel> userHistoryModel = state.response;
+                  if (userHistoryModel.isEmpty) {
+                    return CommonErrorWidget(
+                        imagePath: ImagePath.noBookingPage,
+                        title: StringConstants.noBooking,
+                        statusCode: "");
+                  }
                   return ListView.builder(
                       itemCount: userHistoryModel.length,
                       itemBuilder: (context, index) {
                         return HistoryListViewWidget(
                             userHistoryModel: userHistoryModel[index]);
                       });
+                } else if (state is StateErrorGeneral) {
+                  return CommonErrorWidget(
+                      imagePath: ImagePath.serverFailImage,
+                      title: StringConstants.serverFail,
+                      statusCode: "505");
                 } else if (state is StateLoading) {
                   return const HistoryPageShimmer();
                 } else {
