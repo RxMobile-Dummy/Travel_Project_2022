@@ -13,9 +13,6 @@ import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_cub
 import 'package:make_my_trip/features/search/search_hotel_injection_container.dart';
 import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
 import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
-import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_cubit.dart';
-import 'package:make_my_trip/features/search/search_hotel_injection_container.dart';
-
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:make_my_trip/features/sign_up/presentation/pages/email_verification_page.dart';
 import 'package:make_my_trip/features/sign_up/presentation/pages/sign_up_page.dart';
@@ -23,14 +20,10 @@ import 'package:make_my_trip/features/sign_up/signup_injection_container.dart';
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
-import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
-import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
-
 import '../../features/calendar/presentation/pages/calendar_page.dart';
 import '../../features/home_page/presentation/cubit/homepage_cubit.dart';
 import '../../features/home_page/presentation/cubit/tab_bar_cubit.dart';
 import '../../features/home_page/presentation/pages/homepage.dart';
-
 import '../../features/hotel_detail/hotel_detail_injection_container.dart';
 import '../../features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import '../../features/hotel_detail/presentation/pages/hotel_detail_page.dart';
@@ -38,33 +31,25 @@ import '../../features/intro/presentation/cubit/intro_cubit.dart';
 import '../../features/intro/presentation/pages/intro_page.dart';
 import '../../features/search/presentation/pages/search_hotel_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
-
 import 'package:make_my_trip/features/home_page/home_page_injection_container.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
-
-import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
 import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
 import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
 import '../../features/room_detail_page/presentation/manager/cubit/imageslider_cubit.dart';
 import '../../features/room_detail_page/presentation/pages/room_detail.dart';
-
 import 'package:make_my_trip/features/review/presentation/cubit/publish_review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/pages/publish_review_page.dart';
 import 'package:make_my_trip/features/review/presentation/pages/review_page.dart';
 import 'package:make_my_trip/features/review/review_injection_container.dart';
-
 import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
 import 'package:make_my_trip/features/room_categories/presentation/pages/room_categories_page.dart';
 import 'package:make_my_trip/features/room_categories/room_categories_injection_container.dart';
-
 import '../../features/login/presentation/cubit/login_cubit.dart';
 import '../../features/login/presentation/pages/login_page.dart';
-
 import '../../features/login/presentation/widgets/resetPassword_widget.dart';
 import '../../features/login/login_injection_container.dart';
-
 import '../../features/wishlist/presentation/pages/wishlist_page.dart';
 
 class Router {
@@ -82,10 +67,11 @@ class Router {
           );
         });
       case RoutesName.login:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) => loginSl<LoginCubit>(),
-            child: LoginPage(),
+            child: LoginPage(arg: arg),
           );
         });
       case RoutesName.signup:

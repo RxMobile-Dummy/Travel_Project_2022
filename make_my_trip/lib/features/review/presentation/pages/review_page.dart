@@ -20,14 +20,7 @@ class ReviewPage extends StatelessWidget {
       listener: (context, state) {
         if (state is Unauthenticated) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.login, (route) => true);
-        } else if (state is Authenticated) {
-          Navigator.pushReplacementNamed(context, RoutesName.publishReviewPage,
-              arguments: {
-                'context': context,
-                'hotel_id': arg['hotel_id'],
-                'rating': arg['rating']
-              });
+              context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.publishReviewPage});
         }
       },
       child: Scaffold(
@@ -111,7 +104,7 @@ class ReviewPage extends StatelessWidget {
               var searchState = context.read<ReviewCubit>().state;
               if (searchState is Unauthenticated) {
                 Navigator.pushNamedAndRemoveUntil(
-                    context, RoutesName.login, (route) => true);
+                    context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.publishReviewPage});
               } else if (searchState is Authenticated) {
                 Navigator.pushReplacementNamed(
                     context, RoutesName.publishReviewPage, arguments: {

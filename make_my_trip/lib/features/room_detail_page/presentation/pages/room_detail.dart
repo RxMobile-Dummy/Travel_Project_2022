@@ -37,7 +37,18 @@ class RoomDetailsPage extends StatelessWidget {
     var roomMaxLength = roomType!.length;
     var snackBar =
         SnackBar(content: Text('No Room Selected, Pls First Select Room'));
-    return BlocBuilder<ImagesliderCubit, BaseState>(builder: (context, state) {
+    return BlocConsumer<ImagesliderCubit, BaseState>(
+  listener: (context, state) {
+    if (state is Unauthenticated) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.bookingPage});
+    } else if (state is Authenticated) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, RoutesName.bookingPage, (route) => true);
+    }
+  },
+  builder: (context, state) {
+
       if (state is StateOnKnownToSuccess) {
         roomDetailsModel = state.response;
       } else if (state is StateOnResponseSuccess) {
@@ -358,40 +369,48 @@ class RoomDetailsPage extends StatelessWidget {
                     const Spacer(),
                     ElevatedButton(
                         onPressed: () {
+                          // state is StateOnSuccess<SelectRoomCountState>
+                          //     ? ((roomDetailsModel!.roomType == "Deluxe"
+                          //                 ? state.response.deluxValue
+                          //                 : (roomDetailsModel!.roomType ==
+                          //                         "Semi-Deluxe"
+                          //                     ? state.response.semiDeluxValue
+                          //                     : (roomDetailsModel!.roomType ==
+                          //                             "Super-Deluxe"
+                          //                         ? state
+                          //                             .response.superDeluxValue
+                          //                         : 0))) >
+                          //             0
+                          //         ? Navigator.pushNamed(
+                          //             context, RoutesName.bookingPage)
+                          //         : ScaffoldMessenger.of(context)
+                          //             .showSnackBar(snackBar))
+                          //     : null;
 
-                          Price price = Price(
-                            numberOfNights: 2,
-                            totalPrice: 3700,
-                          );
-                          RoomDataPostModel roomBookPostmodel =
-                              RoomDataPostModel(
-                                  checkinDate: '2022-02-20',
-                                  checkoutDate: '2022-02-20',
-                                  roomId: [202, 201, 203],
-                                  hotelId: 2,
-                                  price: price);
-                          state is StateOnSuccess<SelectRoomCountState>
-                              ? ((roomDetailsModel!.roomType == "Deluxe"
-                                          ? state.response.deluxValue
-                                          : (roomDetailsModel!.roomType ==
-                                                  "Semi-Deluxe"
-                                              ? state.response.semiDeluxValue
-                                              : (roomDetailsModel!.roomType ==
-                                                      "Super-Deluxe"
-                                                  ? state
-                                                      .response.superDeluxValue
-                                                  : 0))) >
-                                      0
-                                  ?
-                          Navigator.popAndPushNamed(context, RoutesName.bookingPage)
-                          // (context
-                          //             .read<RoomCategoryCubit>()
-                          //             .roomBookPost(
-                          //                 roomBookPostmodel.hotelId ?? 4,
-                          //                 roomBookPostmodel))
-                                  : ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar))
-                              : null;
+                          if(state is StateOnSuccess<SelectRoomCountState>){
+                            if((roomDetailsModel!.roomType == "Deluxe"
+                                ? state.response.deluxValue
+                                : (roomDetailsModel!.roomType ==
+                                "Semi-Deluxe"
+                                ? state.response.semiDeluxValue
+                                : (roomDetailsModel!.roomType ==
+                                "Super-Deluxe"
+                                ? state
+                                .response.superDeluxValue
+                                : 0)))>0){
+                              var searchState = context.read<ImagesliderCubit>().state;
+                              if (searchState is Unauthenticated) {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.bookingPage});
+                              } else{
+                                BlocProvider.of<ImagesliderCubit>(context).goToBooking();
+                              }
+
+                            }else{
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -429,6 +448,8 @@ class RoomDetailsPage extends StatelessWidget {
           ),
         ),
       );
-    });
+
+  },
+);
   }
 }
