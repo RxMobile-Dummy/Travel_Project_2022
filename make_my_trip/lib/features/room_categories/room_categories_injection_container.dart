@@ -11,7 +11,7 @@ var roomCategorySl = GetIt.instance;
 
 Future<void> init() async {
   //cubit
-  roomCategorySl.registerFactory(() => RoomCategoryCubit(roomCategorySl(),roomCategorySl()));
+  roomCategorySl.registerFactory(() => RoomCategoryCubit(roomCategorySl(),roomCategorySl(),roomCategorySl()));
   roomCategorySl.registerFactory(() => SelectRoomCountCubit());
   //usecase
   roomCategorySl

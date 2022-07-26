@@ -19,10 +19,10 @@ class SearchHotelPage extends StatelessWidget {
         listener: (context, state) {
       if (state is Unauthenticated) {
         Navigator.pushNamedAndRemoveUntil(
-            context, RoutesName.login, (route) => true);
+            context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.wishList});
       } else if (state is Authenticated) {
         Navigator.pushNamedAndRemoveUntil(
-            context, RoutesName.home, (route) => true);
+            context, RoutesName.wishList, (route) => true);
       }
     },
     child: Scaffold(
@@ -36,10 +36,10 @@ class SearchHotelPage extends StatelessWidget {
               var searchState = context.read<SearchHotelCubit>().state;
               if (searchState is Unauthenticated) {
                 Navigator.pushNamedAndRemoveUntil(
-                    context, RoutesName.login, (route) => true);
+                    context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.wishList});
               } else if (searchState is Authenticated) {
                 Navigator.pushNamedAndRemoveUntil(
-                    context, RoutesName.home, (route) => true);
+                    context, RoutesName.wishList, (route) => true);
               } else {
                 BlocProvider.of<SearchHotelCubit>(context).goToWishlist();
               }

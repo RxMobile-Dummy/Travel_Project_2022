@@ -14,11 +14,13 @@ import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 import '../../../../utils/widgets/progress_loader.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key, required this.arg}) : super(key: key);
 
   final TextEditingController loginEmailController = TextEditingController();
   final TextEditingController loginPasswordController = TextEditingController();
   bool passwordObSecure = true;
+  final Map<String, dynamic> arg;
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +30,9 @@ class LoginPage extends StatelessWidget {
         if (state is AuthLoading) {
           ProgressDialog.showLoadingDialog(context, message: "Loggin In...");
         } else if (state is LoginSuccessState) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.home, (route) => true);
+          ProgressDialog.hideLoadingDialog(context);
+          Navigator.pushReplacementNamed(
+              context, arg["route_name"]);
         } else {
           ProgressDialog.hideLoadingDialog(context);
         }

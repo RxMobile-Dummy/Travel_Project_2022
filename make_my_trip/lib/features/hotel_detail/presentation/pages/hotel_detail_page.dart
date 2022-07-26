@@ -35,7 +35,7 @@ class HotelDetailPage extends StatelessWidget {
       listener: (context, state) {
         if (state is Unauthenticated) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.login, (route) => true);
+              context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.hotelDetail});
         }
       },
       builder: (context, state) {
@@ -84,7 +84,7 @@ class HotelDetailPage extends StatelessWidget {
                               context.read<HotelDetailCubit>().state;
                           if (searchState is Unauthenticated) {
                             Navigator.pushNamedAndRemoveUntil(
-                                context, RoutesName.login, (route) => true);
+                                context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.hotelDetail});
                           } else {
                             BlocProvider.of<HotelDetailCubit>(context)
                                 .onLikeTap(isLiked, hotelDetailModel!.id);

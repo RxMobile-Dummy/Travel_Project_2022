@@ -10,7 +10,7 @@ var roomDetailSl = GetIt.instance;
 
 Future<void> init() async {
   //cubit
-  roomDetailSl.registerFactory(() => ImagesliderCubit(roomDetailSl()));
+  roomDetailSl.registerFactory(() => ImagesliderCubit(roomDetailSl(),roomDetailSl()));
 
   //usecase
   roomDetailSl.registerLazySingleton(() => RoomDetailUsecase(roomDetailSl()));

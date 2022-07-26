@@ -2,6 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 
+import '../../../../core/usecases/usecase.dart';
+import '../../../user/domain/usecases/is_anonymous_user.dart';
+
 class SelectRoomCountCubit extends Cubit<BaseState> {
   SelectRoomCountCubit()
       : super(StateOnSuccess<SelectRoomCountState>(SelectRoomCountState(
@@ -11,12 +14,7 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
 
 
   void addRoomEvent(String roomType, int addRoomValue,int maxRoomCount) {
-    print('add cubit');
-    print(roomType);
-    print('max');
-    print(maxRoomCount);
-    print('add');
-    print(addRoomValue);
+
     if(addRoomValue<maxRoomCount) {
       if (roomType == 'Deluxe') {
 
@@ -37,11 +35,12 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
     }
   }
 
+
+
   void removeRoomEvent(String roomType, int removeRoomValue) {
 
     if (removeRoomValue > 0) {
       if (roomType == 'Deluxe') {
-
         emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
             .response
             .copyWith(deluxValue: removeRoomValue - 1)));
