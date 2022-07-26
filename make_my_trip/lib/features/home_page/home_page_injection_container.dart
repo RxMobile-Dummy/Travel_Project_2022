@@ -11,8 +11,8 @@ import 'package:make_my_trip/features/home_page/domain/repositories/images_repos
 import 'package:make_my_trip/features/home_page/domain/repositories/tours_repository.dart';
 import 'package:make_my_trip/features/home_page/domain/use_cases/image_usecase.dart';
 import 'package:make_my_trip/features/home_page/domain/use_cases/tour_usecase.dart';
-import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homepage_cubit.dart';
-import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
+import 'package:make_my_trip/features/home_page/presentation/cubit/homepage_cubit.dart';
+import 'package:make_my_trip/features/home_page/presentation/cubit/tab_bar_cubit.dart';
 
 final slHomePage = GetIt.instance;
 

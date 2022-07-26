@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import '../../../../core/base/base_state.dart';
-import '../manager/cubit/homepage_cubit.dart';
+import '../cubit/homepage_cubit.dart';
 
 Widget slidableImageList() {
   return SizedBox(
