@@ -15,14 +15,35 @@ class SearchHotelPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocListener<SearchHotelCubit, BaseState>(
+        listener: (context, state) {
+      if (state is Unauthenticated) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, RoutesName.login, (route) => true);
+      } else if (state is Authenticated) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, RoutesName.home, (route) => true);
+      }
+    },
+    child: Scaffold(
       appBar: AppBar(
         title: Text(
           StringConstants.searchPageTitle,
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              var searchState = context.read<SearchHotelCubit>().state;
+              if (searchState is Unauthenticated) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RoutesName.login, (route) => true);
+              } else if (searchState is Authenticated) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RoutesName.home, (route) => true);
+              } else {
+                BlocProvider.of<SearchHotelCubit>(context).goToWishlist();
+              }
+            },
             child: const Padding(
               padding: EdgeInsets.only(right: 20),
               child: Icon(
@@ -95,7 +116,7 @@ class SearchHotelPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ),),
     );
   }
 }
