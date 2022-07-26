@@ -25,9 +25,12 @@ class SearchHotelDataSourcesImpl implements SearchHotelDataSources {
       var response = await dio.get(request);
       if (response.statusCode == 200) {
         final searchList = <SearchHotelModel>[];
-        final jsonList = response.data;
+        final jsonList = response.data['predictions'];
         for (var item in jsonList) {
-          searchList.add(SearchHotelModel.fromJson(item));
+          searchList.add(SearchHotelModel(
+              description: item["description"],
+              placeId: item["place_id"],
+              reference: item["reference"]));
         }
         return Right(searchList);
       } else {

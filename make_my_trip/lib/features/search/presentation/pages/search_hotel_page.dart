@@ -56,8 +56,10 @@ class SearchHotelPage extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 8, left: 8),
                 child: BlocBuilder<SearchHotelCubit, BaseState>(
                     builder: (context, state) {
+                  print(state);
                   if (state is StateOnKnownToSuccess) {
-                    searchModel = state.response;
+                    searchModel = state.response as List<SearchHotelModel>;
+                    print(searchModel?[0].description);
                     return ListView.builder(
                       itemCount: searchModel?.length,
                       itemBuilder: (context, index) {
@@ -73,17 +75,14 @@ class SearchHotelPage extends StatelessWidget {
                                 Navigator.of(context).pushNamed(
                                     RoutesName.hotelList,
                                     arguments: {
-                                      'city_name': searchModel?[index]
-                                          .predictions?[0]
-                                          .description
+                                      'city_name':
+                                          searchModel?[index].description
                                     });
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(searchModel?[index]
-                                        .predictions?[0]
-                                        .description ??
-                                    ""),
+                                child:
+                                    Text(searchModel?[index].description ?? ""),
                               ),
                             ));
                       },
