@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
+import 'package:make_my_trip/features/booking/booking_injection_container.dart';
+import 'package:make_my_trip/features/booking/presentation/cubit/book_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/pages/booking_page.dart';
 import 'package:make_my_trip/features/calendar/presentation/cubit/calendar_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
@@ -193,6 +195,8 @@ class Router {
               ),
               BlocProvider.value(
                 value: BlocProvider.of<SelectRoomCountCubit>(arg["context"]),
+              ),BlocProvider.value(
+                value: roomDetailSl<RoomCategoryCubit>(),
               )
             ],
             child: RoomDetailsPage(
@@ -232,8 +236,12 @@ class Router {
           );
         });
       case RoutesName.bookingPage:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
-          return const BookingPage();
+          return BlocProvider(
+            create: (context) => bookingSl<BookingCubit>(),
+            child: BookingPage(arg: arg),
+          );
         });
       default:
         return MaterialPageRoute(builder: (_) {

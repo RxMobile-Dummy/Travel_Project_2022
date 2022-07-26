@@ -23,4 +23,30 @@ class RoomCategoryCubit extends Cubit<BaseState> {
     var res = await roomBookPostUsecase.call(RoomBookParams(hotelId,roomDataPostModel));
     res.fold((l) => {print(l)}, (r) => {print(r)});
   }
+
+  postModelCreate(int hotelId,String cin,String cout,int noOfRoom,List<RoomType> roomType){
+    List<int> roomId = [];
+    for(var i=0;i<noOfRoom;i++){
+      if(roomType[i].roomId!=null) {
+        roomId.add(roomType[i].roomId!);
+      }
+    }
+     Price p=Price(
+       numberOfNights:1,
+       roomPrice:2,
+       gst:2,
+       discount:5,
+       totalPrice:500,
+     );
+      RoomDataPostModel roomDataPostModel=RoomDataPostModel(
+        hotelId:hotelId,
+        checkinDate:cin,
+        checkoutDate:cout,
+        noOfRoom:noOfRoom,
+        price:p,
+        roomId: roomId
+      );
+      print(roomDataPostModel.roomId);
+      emit(StateOnKnownToSuccess<RoomDataPostModel>(roomDataPostModel));
+  }
 }

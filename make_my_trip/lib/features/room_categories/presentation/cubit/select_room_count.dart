@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
+import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 
 class SelectRoomCountCubit extends Cubit<BaseState> {
   SelectRoomCountCubit()
@@ -11,16 +13,8 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
 
 
   void addRoomEvent(String roomType, int addRoomValue,int maxRoomCount) {
-    print('add cubit');
-    print(roomType);
-    print('max');
-    print(maxRoomCount);
-    print('add');
-    print(addRoomValue);
     if(addRoomValue<maxRoomCount) {
       if (roomType == 'Deluxe') {
-
-
         emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
             .response
             .copyWith(deluxValue: addRoomValue + 1)));
@@ -56,6 +50,31 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
       }
     }
   }
+  postModelCreate(int hotelId,String cin,String cout,int noOfRoom,List<RoomType> roomType){
+    List<int> roomId = [];
+    for(var i=0;i<noOfRoom;i++){
+      if(roomType[i].roomId!=null) {
+        roomId.add(roomType[i].roomId!);
+      }
+    }
+    Price p=Price(
+      numberOfNights:1,
+      roomPrice:2,
+      gst:2,
+      discount:5,
+      totalPrice:500,
+    );
+    RoomDataPostModel roomDataPostModel=RoomDataPostModel(
+        hotelId:hotelId,
+        checkinDate:cin,
+        checkoutDate:cout,
+        noOfRoom:noOfRoom,
+        price:p,
+        roomId: roomId
+    );
+    print(roomDataPostModel.roomId);
+    emit(StateOnKnownToSuccess<RoomDataPostModel>(roomDataPostModel));
+  }
 }
 
 class SelectRoomCountState extends Equatable {
@@ -67,7 +86,6 @@ class SelectRoomCountState extends Equatable {
     required this.superDeluxValue,
     required this.deluxValue,
     required this.semiDeluxValue,
-
   });
 
   SelectRoomCountState copyWith(

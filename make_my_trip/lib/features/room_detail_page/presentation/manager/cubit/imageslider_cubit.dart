@@ -30,6 +30,7 @@ class ImagesliderCubit extends Cubit<BaseState> {
       }
     }, (r) => emit(StateOnKnownToSuccess<dynamic>(r)));
   }
+
 }
 
   // void addRoomEvent(int addRoomValue,int maxRoomCount) {

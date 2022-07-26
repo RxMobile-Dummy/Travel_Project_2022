@@ -75,7 +75,8 @@ class RoomCategoriesPage extends StatelessWidget {
                                   roomCategoryModel!.deluxe!.length);
                             },
                             totalSelectedRoom: state.response.deluxValue,
-
+                        cin:arg['cin'],
+                        cout:arg['cout']
                           )
                         : SizedBox(),
                     roomCategoryModel!.semiDeluxe!.length > 0
@@ -98,7 +99,8 @@ class RoomCategoriesPage extends StatelessWidget {
                                   roomCategoryModel!.semiDeluxe!.length);
                             },
                             totalSelectedRoom: state.response.semiDeluxValue,
-
+                        cin:arg['cin'],
+                        cout:arg['cout']
                           )
                         : SizedBox(),
                     roomCategoryModel!.superDeluxe!.length > 0
@@ -121,7 +123,8 @@ class RoomCategoriesPage extends StatelessWidget {
                                   roomCategoryModel!.superDeluxe!.length);
                             },
                             totalSelectedRoom: state.response.superDeluxValue,
-
+                            cin:arg['cin'],
+                      cout:arg['cout']
                           )
                         : SizedBox(),
                   ],
