@@ -7,6 +7,8 @@ import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/widgets/features_item_widget.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
+import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
+import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
 import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
 import 'package:make_my_trip/features/room_detail_page/data/model/room_detail_model.dart';
 import 'package:make_my_trip/features/room_detail_page/presentation/pages/room_detail_shimmer.dart';
@@ -30,10 +32,11 @@ class RoomDetailsPage extends StatelessWidget {
     int? noOfRoom;
     if (arg['room_list_model'] != null) {
       roomType = arg['room_list_model'];
-      noOfRoom = arg['no_of_room']==0 ? 1 : arg['no_of_room'];
-      print('no of room');
+      noOfRoom = arg['no_of_room'] == 0 ? 1 : arg['no_of_room'];
     }
     var roomMaxLength = roomType!.length;
+    var snackBar =
+        SnackBar(content: Text('No Room Selected, Pls First Select Room'));
     return BlocBuilder<ImagesliderCubit, BaseState>(builder: (context, state) {
       if (state is StateOnKnownToSuccess) {
         roomDetailsModel = state.response;
@@ -67,7 +70,7 @@ class RoomDetailsPage extends StatelessWidget {
                   automaticallyImplyLeading: true,
                   leading: IconButton(
                     onPressed: () {
-                      Navigator.of(context).pop(noOfRoom);
+                      Navigator.of(context).pop();
                     },
                     icon: Icon(
                       Icons.arrow_back_ios_new_rounded,
@@ -261,8 +264,6 @@ class RoomDetailsPage extends StatelessWidget {
                 left: 15.0, right: 15.0, bottom: 20.0, top: 10.0),
             child: BlocBuilder<SelectRoomCountCubit, BaseState>(
               builder: (context, state) {
-                // if(state is StateOnSuccess<SelectRoomCountState>){noOfRoom=0;}
-                print(state is StateOnSuccess<SelectRoomCountState> ? state.response.deluxValue :"nothing");
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -273,12 +274,12 @@ class RoomDetailsPage extends StatelessWidget {
                           context.read<SelectRoomCountCubit>().removeRoomEvent(
                               roomDetailsModel!.roomType!,
                               roomDetailsModel!.roomType == "Deluxe"
-                                  ? (state.response.deluxValue==0 ? int.parse(noOfRoom.toString()) : state.response.deluxValue)
+                                  ? state.response.deluxValue
                                   : (roomDetailsModel!.roomType == "Semi-Deluxe"
-                                      ? (state.response.semiDeluxValue==0 ? int.parse(noOfRoom.toString()) : state.response.semiDeluxValue)
+                                      ? state.response.semiDeluxValue
                                       : (roomDetailsModel!.roomType ==
                                               "Super-Deluxe"
-                                          ? (state.response.superDeluxValue==0 ? int.parse(noOfRoom.toString()) : state.response.superDeluxValue)
+                                          ? state.response.superDeluxValue
                                           : int.parse(noOfRoom.toString()))));
                         }
                       },
@@ -303,35 +304,32 @@ class RoomDetailsPage extends StatelessWidget {
                       child: Text(
                         state is StateOnSuccess<SelectRoomCountState>
                             ? (roomDetailsModel!.roomType == "Deluxe"
-                                ? (state.response.deluxValue==0 ? noOfRoom.toString() : state.response.deluxValue.toString())
+                                ? state.response.deluxValue.toString()
                                 : (roomDetailsModel!.roomType == "Semi-Deluxe"
-                                    ? (state.response.semiDeluxValue==0 ? noOfRoom.toString() : state.response.semiDeluxValue.toString())
-                                    : (roomDetailsModel!
-                                                .roomType ==
+                                    ? state.response.semiDeluxValue.toString()
+                                    : (roomDetailsModel!.roomType ==
                                             "Super-Deluxe"
-                                        ? (state.response.superDeluxValue==0 ? noOfRoom.toString() : state.response.superDeluxValue
-                                            .toString())
-                                        : noOfRoom.toString())))
-                            : noOfRoom.toString(),
+                                        ? state.response.superDeluxValue
+                                            .toString()
+                                        : "0")))
+                            : "0",
                         style: AppTextStyles.infoContentStyle
                             .copyWith(color: MakeMyTripColors.colorWhite),
                       ),
                     ),
                     GestureDetector(
                       onTap: () {
-                        print('add');
                         if (state is StateOnSuccess<SelectRoomCountState>) {
-                          print(roomDetailsModel!.roomType);
                           context.read<SelectRoomCountCubit>().addRoomEvent(
                               roomDetailsModel!.roomType!,
                               roomDetailsModel!.roomType == "Deluxe"
-                                  ? (state.response.deluxValue==0 ? int.parse(noOfRoom.toString()) : state.response.deluxValue)
+                                  ? state.response.deluxValue
                                   : (roomDetailsModel!.roomType == "Semi-Deluxe"
-                                  ? (state.response.semiDeluxValue==0 ? int.parse(noOfRoom.toString()) : state.response.semiDeluxValue)
-                                  : (roomDetailsModel!.roomType ==
-                                  "Super-Deluxe"
-                                  ? (state.response.superDeluxValue==0 ? int.parse(noOfRoom.toString()) : state.response.superDeluxValue)
-                                  : int.parse(noOfRoom.toString()))),
+                                      ? state.response.semiDeluxValue
+                                      : (roomDetailsModel!.roomType ==
+                                              "Super-Deluxe"
+                                          ? state.response.superDeluxValue
+                                          : int.parse(noOfRoom.toString()))),
                               roomMaxLength);
                         }
                       },
@@ -353,28 +351,73 @@ class RoomDetailsPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      "₹ ${((int.parse(roomDetailsModel!.price.toString()) * (state is StateOnSuccess<SelectRoomCountState> ? (roomDetailsModel!.roomType == "Deluxe"
-                          ? (state.response.deluxValue==0 ? int.parse(noOfRoom.toString()) : int.parse(state.response.deluxValue.toString()))
-                          : (roomDetailsModel!.roomType == "Semi-Deluxe"
-                          ? (state.response.semiDeluxValue==0 ? int.parse(noOfRoom.toString()) : int.parse(state.response.semiDeluxValue.toString()))
-                          : (roomDetailsModel!.roomType ==
-                          "Super-Deluxe"
-                          ? (state.response.superDeluxValue==0 ? int.parse(noOfRoom.toString()) : int.parse(state.response.superDeluxValue.toString()))
-                          : int.parse(noOfRoom.toString())))) : int.parse(noOfRoom.toString()))).toString())}",
+                      "₹ ${((int.parse(roomDetailsModel!.price.toString()) * (state is StateOnSuccess<SelectRoomCountState> ? (roomDetailsModel!.roomType == "Deluxe" ? (state.response.deluxValue == 0 ? 1 : state.response.deluxValue) : (roomDetailsModel!.roomType == "Semi-Deluxe" ? (state.response.semiDeluxValue == 0 ? 1 : state.response.semiDeluxValue) : (roomDetailsModel!.roomType == "Super-Deluxe" ? (state.response.superDeluxValue == 0 ? 1 : state.response.superDeluxValue) : 1))) : 1)).toString())}",
                       style: AppTextStyles.labelNameTextStyle.copyWith(
                           fontSize: 22, color: MakeMyTripColors.colorWhite),
                     ),
                     const Spacer(),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Price price = Price(
+                            numberOfNights: 2,
+                            totalPrice: 3700,
+                          );
+                          RoomDataPostModel roomBookPostmodel =
+                              RoomDataPostModel(
+                                  checkinDate: '2022-02-20',
+                                  checkoutDate: '2022-02-20',
+                                  roomId: [202, 201, 203],
+                                  hotelId: 2,
+                                  price: price);
+                          state is StateOnSuccess<SelectRoomCountState>
+                              ? ((roomDetailsModel!.roomType == "Deluxe"
+                                          ? state.response.deluxValue
+                                          : (roomDetailsModel!.roomType ==
+                                                  "Semi-Deluxe"
+                                              ? state.response.semiDeluxValue
+                                              : (roomDetailsModel!.roomType ==
+                                                      "Super-Deluxe"
+                                                  ? state
+                                                      .response.superDeluxValue
+                                                  : 0))) >
+                                      0
+                                  ? (context
+                                      .read<RoomCategoryCubit>()
+                                      .roomBookPost(
+                                          roomBookPostmodel.hotelId ?? 4,
+                                          roomBookPostmodel))
+                                  : ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar))
+                              : null;
+                        },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
                             ),
                             primary: MakeMyTripColors.colorWhite),
-                        child: const Text(
+                        child: Text(
                           'Book Now',
-                          style: TextStyle(color: MakeMyTripColors.accentColor),
+                          style: TextStyle(
+                              color:
+                                  (state is StateOnSuccess<SelectRoomCountState>
+                                          ? ((roomDetailsModel!.roomType ==
+                                                      "Deluxe"
+                                                  ? state.response.deluxValue
+                                                  : (roomDetailsModel!
+                                                              .roomType ==
+                                                          "Semi-Deluxe"
+                                                      ? state.response
+                                                          .semiDeluxValue
+                                                      : (roomDetailsModel!
+                                                                  .roomType ==
+                                                              "Super-Deluxe"
+                                                          ? state.response
+                                                              .superDeluxValue
+                                                          : 0))) >
+                                              0)
+                                          : false)
+                                      ? MakeMyTripColors.accentColor
+                                      : MakeMyTripColors.color30gray),
                         ))
                   ],
                 );

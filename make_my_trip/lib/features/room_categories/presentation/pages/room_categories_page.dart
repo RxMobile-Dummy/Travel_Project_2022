@@ -19,7 +19,6 @@ class RoomCategoriesPage extends StatelessWidget {
     RoomCategoryModel? roomCategoryModel;
     return BlocBuilder<RoomCategoryCubit, BaseState>(builder: (context, state) {
       if (state is StateOnKnownToSuccess<RoomCategoryModel>) {
-        print(state.response);
         roomCategoryModel = state.response;
         if (roomCategoryModel!.superDeluxe!.isEmpty &&
             roomCategoryModel!.semiDeluxe!.isEmpty &&
@@ -53,6 +52,7 @@ class RoomCategoriesPage extends StatelessWidget {
           body: BlocBuilder<SelectRoomCountCubit, BaseState>(
               builder: (context, state) {
             if (state is StateOnSuccess<SelectRoomCountState>) {
+
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -84,7 +84,6 @@ class RoomCategoriesPage extends StatelessWidget {
                             roomData: roomCategoryModel!.semiDeluxe![0],
                       roomList:roomCategoryModel!.semiDeluxe!,
                             roomRemoveOnTap: () {
-                              print(state.response);
                               context
                                   .read<SelectRoomCountCubit>()
                                   .removeRoomEvent(

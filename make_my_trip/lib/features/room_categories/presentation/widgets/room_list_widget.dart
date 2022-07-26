@@ -32,11 +32,7 @@ class RoomListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var noRoom;
-    if(noRoom!=null){
-      totalSelectedRoom=int.parse(noRoom);
-      print('no of room ${noRoom}');
-    }
+
     var snackBar = SnackBar(
         content: Text('No Room Selected, Pls First Select Room'));
     return BlocBuilder<RoomCategoryCubit, BaseState>(
@@ -65,17 +61,15 @@ class RoomListWidget extends StatelessWidget {
                           .copyWith(fontSize: 22, fontWeight: FontWeight.w800),
                     ),
                     GestureDetector(
-                      onTap: () async {
-                        noRoom = await Navigator.pushNamed(
+                      onTap: ()  {
+                         Navigator.pushNamed(
                             context, RoutesName.roomDetail, arguments: {
                           'hotel_id': hotelId,
                           'room_id': roomData.roomId,
                           'no_of_room': totalSelectedRoom,
-                          'room_list_model': roomList
+                          'room_list_model': roomList,
+                          "context":context,
                         });
-                        print('room');
-                        print(noRoom);
-                        totalSelectedRoom = noRoom;
                       },
                       child: Text(
                         StringConstants.roomMoreDetails,

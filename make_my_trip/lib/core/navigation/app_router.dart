@@ -160,7 +160,7 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) => CalenderCubit(),
-            child:  CalendarPage(arg:arg),
+            child: CalendarPage(arg: arg),
           );
         });
       case RoutesName.roomCategory:
@@ -191,7 +191,7 @@ class Router {
                   ..getRoomData(arg['hotel_id'], arg['room_id']),
               ),
               BlocProvider.value(
-                value: roomCategorySl<SelectRoomCountCubit>(),
+                value: BlocProvider.of<SelectRoomCountCubit>(arg["context"]),
               )
             ],
             child: RoomDetailsPage(
