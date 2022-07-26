@@ -10,9 +10,6 @@ import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_lis
 import 'package:make_my_trip/features/intro/intro_injection_container.dart';
 import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_cubit.dart';
 import 'package:make_my_trip/features/search/search_hotel_injection_container.dart';
-import 'package:make_my_trip/features/search/presentation/cubit/search_cubit.dart';
-import 'package:make_my_trip/features/search/presentation/pages/search_page.dart';
-import 'package:make_my_trip/features/search/search_injection_container.dart';
 
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:make_my_trip/features/sign_up/presentation/pages/email_verification_page.dart';
