@@ -31,7 +31,13 @@ class HotelDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
-    return BlocBuilder<HotelDetailCubit, BaseState>(
+    return BlocConsumer<HotelDetailCubit, BaseState>(
+      listener: (context, state) {
+        if (state is Unauthenticated) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, RoutesName.login, (route) => true);
+        }
+      },
       builder: (context, state) {
         if (state is StateOnKnownToSuccess) {
           hotelDetailModel = state.response;
@@ -74,8 +80,15 @@ class HotelDetailPage extends StatelessWidget {
                     actions: [
                       GestureDetector(
                         onTap: () {
-                          BlocProvider.of<HotelDetailCubit>(context)
-                              .onLikeTap(isLiked, hotelDetailModel!.id);
+                          var searchState =
+                              context.read<HotelDetailCubit>().state;
+                          if (searchState is Unauthenticated) {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, RoutesName.login, (route) => true);
+                          } else {
+                            BlocProvider.of<HotelDetailCubit>(context)
+                                .onLikeTap(isLiked, hotelDetailModel!.id);
+                          }
                         },
                         child: Icon(
                           (isLiked) ? Icons.favorite : Icons.favorite_border,
@@ -196,7 +209,7 @@ class HotelDetailPage extends StatelessWidget {
                             if (await canLaunchUrl(url)) {
                               await launchUrl(url);
                             } else {
-                              throw 'Could not launch $url';
+                              throw 'Could not launch ';
                             }
                           },
                         )

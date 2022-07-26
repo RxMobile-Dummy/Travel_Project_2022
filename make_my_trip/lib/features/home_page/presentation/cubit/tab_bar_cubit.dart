@@ -3,7 +3,7 @@ import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../core/usecases/usecase.dart';
-import '../../../../user/domain/usecases/is_anonymous_user.dart';
+import '../../../user/domain/usecases/is_anonymous_user.dart';
 
 class TabBarCubit extends Cubit<BaseState> {
   TabBarCubit({required this.isAnonymousUser}) : super(StateInitial()) {

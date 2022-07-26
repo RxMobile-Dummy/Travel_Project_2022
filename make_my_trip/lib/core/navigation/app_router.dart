@@ -25,7 +25,8 @@ import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
 
 import '../../features/calendar/presentation/pages/calendar_page.dart';
-import '../../features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
+import '../../features/home_page/presentation/cubit/homepage_cubit.dart';
+import '../../features/home_page/presentation/cubit/tab_bar_cubit.dart';
 import '../../features/home_page/presentation/pages/homepage.dart';
 
 import '../../features/hotel_detail/hotel_detail_injection_container.dart';
@@ -36,9 +37,6 @@ import '../../features/intro/presentation/pages/intro_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 
 import 'package:make_my_trip/features/home_page/home_page_injection_container.dart';
-import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homepage_cubit.dart';
-
-import 'package:make_my_trip/features/home_page/presentation/manager/cubit/tab_bar_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
 
 import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
