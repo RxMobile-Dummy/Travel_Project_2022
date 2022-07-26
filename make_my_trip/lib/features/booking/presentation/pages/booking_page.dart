@@ -3,91 +3,99 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
-
-import '../../../hotel_detail/presentation/widgets/features_item_widget.dart';
+import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 
 class BookingPage extends StatelessWidget {
   const BookingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          bottomNavigationBar: Container(
-            height: 50,
-            color: MakeMyTripColors.colorBlack,
-            child: Center(
-              child:
-              SizedBox(
-                height: 40,
-                width: 100,
-                child: ElevatedButton(
-                  onPressed: () {  },
-                  child: Text("DONE",style: AppTextStyles.infoContentStyle3,),
-
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: const Icon(Icons.arrow_back),
+        title: Text(
+          "Confirmation",
+          style: AppTextStyles.labelStyle.copyWith(fontSize: 24),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            16.verticalSpace,
+            const Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Text(
+                "Booking Details",
+                style: AppTextStyles.unselectedLabelStyle,
               ),
             ),
-          ),
-          appBar: AppBar(
-            leading: Icon(Icons.arrow_back_ios),
-            title: const Center(child: Text("Confirmation")),
-            actions: [17.horizontalSpace],
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                15.verticalSpace,
-                Container(
-                    height: 50,
-                    color: MakeMyTripColors.color10gray,
-                    child: Row(
-                      children: [
-                        15.horizontalSpace,
-                        Icon(
-                          Icons.check_circle,
-                          color: MakeMyTripColors.colorGreen,
-                        ),
-                        7.horizontalSpace,
-                        Text(
-                          "Completed Booking",
-                          style: AppTextStyles.infoContentStyle,
-                        )
-                      ],
-                    )),
-                30.verticalSpace,
-                Container(
-                  color: MakeMyTripColors.color10gray,
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: MakeMyTripColors.color0gray,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 12.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ListTile(
-                        title: Text(
-                          "HOTEL NAME",
-                          style: AppTextStyles.infoContentStyle,
-                        ),
-                        subtitle: RatingBarIndicator(
-                          unratedColor: MakeMyTripColors.color0gray,
-                          rating: 4,
-                          itemSize: 18,
+                      Text(
+                        "HOTEL NAME",
+                        style: AppTextStyles.infoContentStyle
+                            .copyWith(fontSize: 18),
+                      ),
+                      RatingBar.builder(
+                          initialRating: 3,
+                          minRating: 1,
                           direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemSize: 15,
                           itemCount: 5,
                           itemPadding:
-                              const EdgeInsets.symmetric(horizontal: 2.0),
+                              const EdgeInsets.symmetric(horizontal: 0.3),
                           itemBuilder: (context, _) => const Icon(
-                            Icons.star,
-                            color: MakeMyTripColors.customLightBlue,
+                                Icons.star,
+                                color: MakeMyTripColors.accentColor,
+                                size: 10,
+                              ),
+                          onRatingUpdate: (rating) {}),
+                      4.verticalSpace,
+                      const Text(
+                        "Sanand Cir, Sarkhej, Ahmedabad, Gujarat, India 382210",
+                        style: AppTextStyles.labelDetails,
+                      ),
+                      4.verticalSpace,
+                      const Divider(
+                        color: MakeMyTripColors.color70gray,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            "Room Type",
+                            style: AppTextStyles.infoContentStyle,
                           ),
-                        ),
+                          Text(
+                            "Delux",
+                            style: AppTextStyles.labelDetails,
+                          )
+                        ],
                       ),
-                      Divider(
-                        color: MakeMyTripColors.colorBlack,
+                      const Divider(
+                        color: MakeMyTripColors.color70gray,
                       ),
+                      12.verticalSpace,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: const [
                               Text(
                                 "Check in",
                                 style: AppTextStyles.infoLabelStyle,
@@ -96,15 +104,10 @@ class BookingPage extends StatelessWidget {
                                   style: AppTextStyles.unselectedLabelStyle)
                             ],
                           ),
-                          Container(
-                            height: 35,
-                            width: 1,
-                            color: MakeMyTripColors.colorBlack,
-                          ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: const [
                               Text(
                                 "Check out",
                                 style: AppTextStyles.infoLabelStyle,
@@ -114,131 +117,141 @@ class BookingPage extends StatelessWidget {
                                 style: AppTextStyles.unselectedLabelStyle,
                               )
                             ],
-                          )
+                          ),
                         ],
                       ),
-                      Divider(color: MakeMyTripColors.colorBlack),
                     ],
                   ),
                 ),
-                14.verticalSpace,
-                Container(
-                  color: MakeMyTripColors.color10gray,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            ),
+            16.verticalSpace,
+            const Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Text(
+                "Payment Summary",
+                style: AppTextStyles.unselectedLabelStyle,
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: MakeMyTripColors.color0gray,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Room Rate"),
-                          Text("Rate")
+                        children: const [
+                          Text(
+                            "Room Rate",
+                            style: AppTextStyles.infoContentStyle,
+                          ),
+                          Text(
+                            "5000",
+                            style: AppTextStyles.labelDetails,
+                          )
                         ],
                       ),
                       4.verticalSpace,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("DISCOUNT"),
-                          Text("Rate")
+                        children: const [
+                          Text(
+                            "Total Room",
+                            style: AppTextStyles.infoContentStyle,
+                          ),
+                          Text(
+                            "2",
+                            style: AppTextStyles.labelDetails,
+                          )
                         ],
                       ),
                       4.verticalSpace,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("GST"),
-                          Text("Rate")
+                        children: const [
+                          Text(
+                            "Sub Total",
+                            style: AppTextStyles.infoContentStyle,
+                          ),
+                          Text(
+                            "10000",
+                            style: AppTextStyles.labelDetails,
+                          )
                         ],
                       ),
-                      Text("_ _ _ _ _ _ _"),
-                      7.verticalSpace,
+                      4.verticalSpace,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("GRAND TOTAL"),
-                          Text("RATE")
+                        children: const [
+                          Text(
+                            "GST (18%)",
+                            style: AppTextStyles.infoContentStyle,
+                          ),
+                          Text(
+                            "1800",
+                            style: AppTextStyles.labelDetails,
+                          )
                         ],
-                      )
+                      ),
+                      4.verticalSpace,
+                      const Divider(
+                        color: MakeMyTripColors.color70gray,
+                      ),
+                      4.verticalSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            "Offer",
+                            style: AppTextStyles.infoContentStyle,
+                          ),
+                          Text(
+                            "-1800",
+                            style: AppTextStyles.labelDetails,
+                          )
+                        ],
+                      ),
+                      4.verticalSpace,
+                      const Divider(
+                        color: MakeMyTripColors.color70gray,
+                      ),
+                      4.verticalSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            "Grant Total",
+                            style: AppTextStyles.infoContentStyle,
+                          ),
+                          Text(
+                            "10000",
+                            style: AppTextStyles.labelDetails,
+                          )
+                        ],
+                      ),
                     ],
-                    ),
                   ),
                 ),
-                14.verticalSpace,
-                Container(
-                  color: MakeMyTripColors.color10gray,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        2.verticalSpace,
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("ROOM TYPE"),
-                              4.verticalSpace,
-                              Text("BED SIZE"),
-                              4.verticalSpace,
-                              Text("TOTAL GUESTS")
-
-                            ],
-                          ),
-                        ),
-                        5.verticalSpace,
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Description",
-                            textAlign: TextAlign.justify,
-                            style: AppTextStyles.labelDescriptionStyle,
-                          ),
-                        ),
-                        10.verticalSpace,
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: MakeMyTripColors.customLightBlue
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Wrap(
-                                children: [
-                                  FeaturesItemWidget(text: "feature1"),
-                                  FeaturesItemWidget(text: "feature2"),
-                                  FeaturesItemWidget(text: "feature3"),
-                                  FeaturesItemWidget(text: "feature3"),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        2.verticalSpace,
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Free BreakFast"),
-                              4.verticalSpace,
-                              Text("Pay Upon Arival"),
-
-
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
+              ),
             ),
-          )),
+          ],
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: CommonPrimaryButton(
+          onTap: () {},
+          text: 'Book Now',
+        ),
+      ),
     );
   }
 }
