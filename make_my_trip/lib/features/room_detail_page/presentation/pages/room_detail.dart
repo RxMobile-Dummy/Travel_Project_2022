@@ -358,6 +358,7 @@ class RoomDetailsPage extends StatelessWidget {
                     const Spacer(),
                     ElevatedButton(
                         onPressed: () {
+
                           Price price = Price(
                             numberOfNights: 2,
                             totalPrice: 3700,
@@ -381,11 +382,13 @@ class RoomDetailsPage extends StatelessWidget {
                                                       .response.superDeluxValue
                                                   : 0))) >
                                       0
-                                  ? (context
-                                      .read<RoomCategoryCubit>()
-                                      .roomBookPost(
-                                          roomBookPostmodel.hotelId ?? 4,
-                                          roomBookPostmodel))
+                                  ?
+                          Navigator.popAndPushNamed(context, RoutesName.bookingPage)
+                          // (context
+                          //             .read<RoomCategoryCubit>()
+                          //             .roomBookPost(
+                          //                 roomBookPostmodel.hotelId ?? 4,
+                          //                 roomBookPostmodel))
                                   : ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar))
                               : null;
