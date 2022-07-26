@@ -4,6 +4,9 @@ import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 
+import '../../../../core/usecases/usecase.dart';
+import '../../../user/domain/usecases/is_anonymous_user.dart';
+
 class SelectRoomCountCubit extends Cubit<BaseState> {
   SelectRoomCountCubit()
       : super(StateOnSuccess<SelectRoomCountState>(SelectRoomCountState(
@@ -86,6 +89,7 @@ class SelectRoomCountState extends Equatable {
     required this.superDeluxValue,
     required this.deluxValue,
     required this.semiDeluxValue,
+
   });
 
   SelectRoomCountState copyWith(

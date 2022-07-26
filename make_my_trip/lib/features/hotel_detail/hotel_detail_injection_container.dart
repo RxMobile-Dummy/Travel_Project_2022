@@ -12,7 +12,8 @@ var hotelDetailSl = GetIt.instance;
 
 Future<void> init() async {
   //cubit
-  hotelDetailSl.registerFactory(() => HotelDetailCubit(hotelDetailSl(),hotelDetailSl(),hotelDetailSl()));
+  hotelDetailSl.registerFactory(() => HotelDetailCubit(
+      hotelDetailSl(), hotelDetailSl(), hotelDetailSl(), hotelDetailSl()));
 
   //DataSource
   hotelDetailSl.registerLazySingleton<HotelDetailRemoteDataSource>(
@@ -27,7 +28,6 @@ Future<void> init() async {
       .registerLazySingleton(() => HotelDetailUseCase(hotelDetailSl()));
   hotelDetailSl
       .registerLazySingleton(() => IsLikeDeleteUseCase(hotelDetailSl()));
-  hotelDetailSl
-      .registerLazySingleton(() => IsLikePostUseCase(hotelDetailSl()));
+  hotelDetailSl.registerLazySingleton(() => IsLikePostUseCase(hotelDetailSl()));
   // hotelDetailSl.registerFactory(() => Dio());
 }

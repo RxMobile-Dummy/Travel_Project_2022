@@ -13,8 +13,7 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class RoomListWidget extends StatelessWidget {
-  RoomListWidget({
-    Key? key,
+   RoomListWidget({Key? key,
     required this.hotelId,
     required this.roomData,
     required this.roomRemoveOnTap,
@@ -37,9 +36,19 @@ class RoomListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var snackBar =
         SnackBar(content: Text('No Room Selected, Pls First Select Room'));
-    return BlocBuilder<RoomCategoryCubit, BaseState>(
-      builder: (context, state) {
-        return Padding(
+    return BlocConsumer<RoomCategoryCubit, BaseState>(
+  listener: (context, state) {
+    print(state);
+    if (state is Unauthenticated) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.bookingPage});
+    }else if (state is Authenticated) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, RoutesName.bookingPage, (route) => true);
+    }
+  },
+  builder: (context, state) {
+    return Padding(
           padding: const EdgeInsets.only(
               top: 12.0, left: 4.0, right: 4.0, bottom: 4.0),
           child: Card(
@@ -69,8 +78,6 @@ class RoomListWidget extends StatelessWidget {
                                 'room_id': roomData.roomId,
                                 'no_of_room': totalSelectedRoom,
                                 'room_list_model': roomList,
-                                'cin': cin,
-                                'cout': cout,
                                 "context": context,
                               });
                         },
@@ -237,45 +244,37 @@ class RoomListWidget extends StatelessWidget {
                                 .copyWith(fontSize: 16),
                           ),
                           const Spacer(),
-                          BlocBuilder<RoomCategoryCubit, BaseState>(
-                            builder: (context, state) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if (totalSelectedRoom > 0) {
-                                      context
-                                          .read<RoomCategoryCubit>()
-                                          .postModelCreate(hotelId, cin, cout,
-                                              totalSelectedRoom, roomList);
-                                      if (state is StateOnKnownToSuccess<
-                                          RoomDataPostModel>) {
-                                        Navigator.pushNamed(
-                                            context, RoutesName.bookingPage,
-                                            arguments: {state.response});
-                                      }
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      primary: totalSelectedRoom > 0
-                                          ? MakeMyTripColors.colorBlue
-                                          : MakeMyTripColors.color30gray,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      )),
-                                  child: Text(
-                                    StringConstants.roomSelectButtonTxt,
-                                    style: AppTextStyles.infoContentStyle
-                                        .copyWith(fontSize: 14),
-                                  ),
-                                ),
-                              );
-                            },
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4.0, horizontal: 4),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (totalSelectedRoom > 0) {
+                                  var searchState = context.read<RoomCategoryCubit>().state;
+                                  if (searchState is Unauthenticated) {
+                                    Navigator.pushNamedAndRemoveUntil(
+                                        context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.bookingPage});
+                                  } else {
+                                    BlocProvider.of<RoomCategoryCubit>(context).goToBooking();
+                                  }
+                                } else {
+                                  (ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar));
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: totalSelectedRoom > 0
+                                      ? MakeMyTripColors.colorBlue
+                                      : MakeMyTripColors.color30gray,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  )),
+                              child: Text(
+                                StringConstants.roomSelectButtonTxt,
+                                style: AppTextStyles.infoContentStyle
+                                    .copyWith(fontSize: 14),
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -287,6 +286,7 @@ class RoomListWidget extends StatelessWidget {
           ),
         );
       },
-    );
+
+);
   }
 }

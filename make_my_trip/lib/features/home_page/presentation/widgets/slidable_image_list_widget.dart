@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/home_page/presentation/widgets/imege_slidder_shimmer.dart';
 import '../../../../core/base/base_state.dart';
-import '../manager/cubit/homepage_cubit.dart';
+import '../cubit/homepage_cubit.dart';
 
 Widget slidableImageList() {
   return SizedBox(

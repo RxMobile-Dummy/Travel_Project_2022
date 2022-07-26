@@ -4,14 +4,16 @@ import 'package:make_my_trip/features/room_categories/data/model/room_data_booki
 import 'package:make_my_trip/features/room_categories/domain/use_cases/room_book_post_usecase.dart';
 import 'package:make_my_trip/features/room_categories/domain/use_cases/room_categories_usecase.dart';
 
+import '../../../../core/usecases/usecase.dart';
+import '../../../user/domain/usecases/is_anonymous_user.dart';
 import '../../data/model/room_categories_model.dart';
 
 class RoomCategoryCubit extends Cubit<BaseState> {
-  RoomCategoryCubit(this.roomCategoriesUseCase, this.roomBookPostUsecase) : super(StateInitial());
+  RoomCategoryCubit(this.roomCategoriesUseCase, this.roomBookPostUsecase, this.isAnonymousUser) : super(StateInitial());
 
   final RoomCategoriesUseCase roomCategoriesUseCase;
   final RoomBookPostUsecase roomBookPostUsecase;
-
+  final IsAnonymousUser isAnonymousUser;
   getData(int hotelId,String cIn,String cOut) async {
     emit(StateLoading());
     var res = await roomCategoriesUseCase.call(Params(hotelId,cIn,cOut));
@@ -48,5 +50,18 @@ class RoomCategoryCubit extends Cubit<BaseState> {
       );
       print(roomDataPostModel.roomId);
       emit(StateOnKnownToSuccess<RoomDataPostModel>(roomDataPostModel));
+  }
+  goToBooking() async {
+    final res = await isAnonymousUser.call(NoParams());
+    res.fold((failure) {
+      print(failure);
+    }, (success) {
+      print(success);
+      if (success) {
+        emit(Unauthenticated());
+      } else {
+        emit(Authenticated());
+      }
+    });
   }
 }

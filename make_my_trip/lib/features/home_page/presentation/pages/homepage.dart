@@ -12,7 +12,8 @@ import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit
 import 'package:make_my_trip/features/wishlist/presentation/pages/wishlist_page.dart';
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import '../manager/cubit/tab_bar_cubit.dart';
+import '../../../../core/navigation/route_info.dart';
+import '../cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,47 +22,54 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: BlocBuilder<TabBarCubit, BaseState>(
+    return BlocConsumer<TabBarCubit, BaseState>(
+      listener: (context, state) {
+        print(state);
+        if (state is Unauthenticated) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.home});
+        }
+      },
       builder: (context, state) {
         if (state is StateOnSuccess) {
           _selectedIndex = state.response;
-          return Center(
-            child: _widgetOptions().elementAt(state.response),
-          );
-        } else {
-          return const Text("Not available");
         }
+        return Scaffold(
+            body: Center(
+              child: _widgetOptions().elementAt(_selectedIndex),
+            ),
+            bottomNavigationBar: SalomonBottomBar(
+              items: <SalomonBottomBarItem>[
+                SalomonBottomBarItem(
+                    icon: const Icon(Icons.home), title: const Text("Home")),
+                SalomonBottomBarItem(
+                  icon: const Icon(Icons.shop),
+                  title: const Text("Bookings"),
+                ),
+                SalomonBottomBarItem(
+                  icon: const Icon(Icons.favorite),
+                  title: const Text("Favorite"),
+                ),
+                SalomonBottomBarItem(
+                  icon: const Icon(Icons.person),
+                  title: const Text("Profile"),
+                )
+              ],
+              currentIndex: _selectedIndex,
+              selectedItemColor: MakeMyTripColors.accentColor,
+              onTap: (index) {
+                var searchState = context.read<TabBarCubit>().state;
+                print(searchState);
+                if (searchState is Unauthenticated && index != 0) {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.home});
+                } else {
+                  BlocProvider.of<TabBarCubit>(context).checkAnonymous(index);
+                }
+              },
+            ));
       },
-    ), bottomNavigationBar: BlocBuilder<TabBarCubit, BaseState>(
-      builder: (context, state) {
-        if (state is StateOnSuccess) {
-          _selectedIndex = state.response;
-          return SalomonBottomBar(
-            items: <SalomonBottomBarItem>[
-              SalomonBottomBarItem(
-                  icon: const Icon(Icons.home), title: const Text("Home")),
-              SalomonBottomBarItem(
-                icon: const Icon(Icons.shop),
-                title: const Text("Bookings"),
-              ),
-              SalomonBottomBarItem(
-                icon: const Icon(Icons.favorite),
-                title: const Text("Favorite"),
-              ),
-              SalomonBottomBarItem(
-                icon: const Icon(Icons.person),
-                title: const Text("Profile"),
-              )
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: MakeMyTripColors.accentColor,
-            onTap: BlocProvider.of<TabBarCubit>(context).OnItemTap,
-          );
-        } else {
-          return const Text("");
-        }
-      },
-    ));
+    );
   }
 
   static List<Widget> _widgetOptions() => <Widget>[
@@ -77,9 +85,10 @@ class HomePage extends StatelessWidget {
               wishListSl<WishListCubit>()..getWishListCubitData(),
           child: WishListPage(),
         ),
-        BlocProvider(
-          create: (context) => loginSl<LoginCubit>(),
-          child: LoginPage(),
-        ),
+    BlocProvider(
+      create: (context) =>
+      wishListSl<WishListCubit>()..getWishListCubitData(),
+      child: WishListPage(),
+    ),
       ];
 }

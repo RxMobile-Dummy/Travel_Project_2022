@@ -4,13 +4,28 @@ import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/room_detail_page/domain/use_cases/room_detail_usecase.dart';
 
-class ImagesliderCubit extends Cubit<BaseState> {
-  ImagesliderCubit(this.roomDetailUsecase) : super(StateInitial());
-  final RoomDetailUsecase roomDetailUsecase;
+import '../../../../../core/usecases/usecase.dart';
+import '../../../../user/domain/usecases/is_anonymous_user.dart';
 
+class ImagesliderCubit extends Cubit<BaseState> {
+  ImagesliderCubit(this.roomDetailUsecase, this.isAnonymousUser) : super(StateInitial());
+  final RoomDetailUsecase roomDetailUsecase;
+  final IsAnonymousUser isAnonymousUser;
   getindex(int i) {
     emit(StateOnSuccess<int>(i));
     return i;
+  }
+  goToBooking() async {
+    final res = await isAnonymousUser.call(NoParams());
+    res.fold((failure) {
+      print(failure);
+    }, (success) {
+      if (success) {
+        emit(Unauthenticated());
+      } else {
+        emit(Authenticated());
+      }
+    });
   }
 
   onSwipeIndicator(int index) {
@@ -32,22 +47,3 @@ class ImagesliderCubit extends Cubit<BaseState> {
   }
 
 }
-
-  // void addRoomEvent(int addRoomValue,int maxRoomCount) {
-  //   if(addRoomValue<maxRoomCount) {
-  //       emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
-  //           .response
-  //           .copyWith(Value: addRoomValue + 1)));
-  //   }
-  // }
-  //
-  // void removeRoomEvent(int removeRoomValue) {
-  //   print('cubit');
-  //   if (removeRoomValue > 0) {
-  //       emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
-  //           .response
-  //           .copyWith(Value: removeRoomValue - 1)));
-  //   }
-  // }
-
-// }
