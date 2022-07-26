@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
-import 'package:make_my_trip/features/home_page/presentation/manager/cubit/homepage_cubit.dart';
+import 'package:make_my_trip/features/home_page/presentation/cubit/homepage_cubit.dart';
 import 'package:make_my_trip/features/home_page/presentation/widgets/imege_slidder_shimmer.dart';
 import 'package:make_my_trip/features/home_page/presentation/widgets/slidable_image_list_widget.dart';
 import 'package:make_my_trip/features/home_page/presentation/widgets/title_widget.dart';
