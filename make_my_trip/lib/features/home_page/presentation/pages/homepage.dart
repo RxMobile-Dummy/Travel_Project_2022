@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/internet/internet_cubit.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/login/login_injection_container.dart';
 import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
@@ -13,6 +14,8 @@ import 'package:make_my_trip/features/wishlist/presentation/pages/wishlist_page.
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../../../../core/navigation/route_info.dart';
+import '../../../../utils/widgets/loading_widget.dart';
+import '../../../../utils/widgets/progress_loader.dart';
 import '../cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
 
@@ -24,10 +27,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<TabBarCubit, BaseState>(
       listener: (context, state) {
-        print(state);
         if (state is Unauthenticated) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.home});
+              context, RoutesName.login, (route) => true,
+              arguments: {"route_name": RoutesName.home});
         }
       },
       builder: (context, state) {
@@ -59,10 +62,10 @@ class HomePage extends StatelessWidget {
               selectedItemColor: MakeMyTripColors.accentColor,
               onTap: (index) {
                 var searchState = context.read<TabBarCubit>().state;
-                print(searchState);
                 if (searchState is Unauthenticated && index != 0) {
                   Navigator.pushNamedAndRemoveUntil(
-                      context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.home});
+                      context, RoutesName.login, (route) => true,
+                      arguments: {"route_name": RoutesName.home});
                 } else {
                   BlocProvider.of<TabBarCubit>(context).checkAnonymous(index);
                 }
@@ -85,10 +88,10 @@ class HomePage extends StatelessWidget {
               wishListSl<WishListCubit>()..getWishListCubitData(),
           child: WishListPage(),
         ),
-    BlocProvider(
-      create: (context) =>
-      wishListSl<WishListCubit>()..getWishListCubitData(),
-      child: WishListPage(),
-    ),
+        BlocProvider(
+          create: (context) =>
+              wishListSl<WishListCubit>()..getWishListCubitData(),
+          child: WishListPage(),
+        ),
       ];
 }

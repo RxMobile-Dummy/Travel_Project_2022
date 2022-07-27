@@ -25,7 +25,7 @@ class SignUpRemoteDataSourceImpl extends SignUpRemoteDataSource {
       {required this.sharedPreferences, required this.dio, required this.auth});
 
   Future<Options> createDioOptions() async {
-    final userToken = await auth.currentUser!.getIdToken();
+    final userToken = await auth.currentUser!.getIdToken(true);
     return Options(headers: {'token': userToken});
   }
 
@@ -40,10 +40,10 @@ class SignUpRemoteDataSourceImpl extends SignUpRemoteDataSource {
 
       auth.fetchSignInMethodsForEmail(email);
       User? user = userCredential.user;
-      user?.updateDisplayName(fullName);
+      await auth.currentUser!.updateDisplayName(fullName);
 
       if (user != null) {
-        final response = await dio.post('${BaseConstant.baseUrl}user',
+        final response = await dio.post('${BaseConstant.baseUrl}user/post',
             options: await createDioOptions());
         if (response.statusCode == 409) {
           return Left(

@@ -1,4 +1,3 @@
-
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +35,8 @@ class HotelDetailPage extends StatelessWidget {
       listener: (context, state) {
         if (state is Unauthenticated) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.hotelDetail});
+              context, RoutesName.login, (route) => true,
+              arguments: {"route_name": RoutesName.hotelDetail});
         }
       },
       builder: (context, state) {
@@ -51,8 +51,11 @@ class HotelDetailPage extends StatelessWidget {
           isReadMore = state.response;
         } else if (state is StateLoading) {
           return const HotelDetailsShimmer();
-        }else if(state is StateErrorGeneral){
-          return CommonErrorWidget(imagePath: ImagePath.serverFailImage, title: StringConstants.serverFail, statusCode: "");
+        } else if (state is StateErrorGeneral) {
+          return CommonErrorWidget(
+              imagePath: ImagePath.serverFailImage,
+              title: StringConstants.serverFail,
+              statusCode: "");
         }
 
         return Scaffold(
@@ -87,7 +90,10 @@ class HotelDetailPage extends StatelessWidget {
                               context.read<HotelDetailCubit>().state;
                           if (searchState is Unauthenticated) {
                             Navigator.pushNamedAndRemoveUntil(
-                                context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.hotelDetail});
+                                context, RoutesName.login, (route) => true,
+                                arguments: {
+                                  "route_name": RoutesName.hotelDetail
+                                });
                           } else {
                             BlocProvider.of<HotelDetailCubit>(context)
                                 .onLikeTap(isLiked, hotelDetailModel!.id);
@@ -312,12 +318,12 @@ class HotelDetailPage extends StatelessWidget {
                     12.verticalSpace,
                     (hotelDetailModel != null)
                         ? LocationViewWidet(
-                            log: hotelDetailModel
-                                    ?.address?.location?.longitude ??
-                                10,
-                            lat:
+                            log:
                                 hotelDetailModel?.address?.location?.latitude ??
                                     10,
+                            lat: hotelDetailModel
+                                    ?.address?.location?.longitude ??
+                                10,
                             titleName: hotelDetailModel?.hotelName! ?? "Hotel",
                             mapHeight: 200,
                           )
@@ -334,8 +340,8 @@ class HotelDetailPage extends StatelessWidget {
                 child: CommonPrimaryButton(
                     text: StringConstants.selectRoom,
                     onTap: () {
-                      Navigator.pushNamed(
-                          context, RoutesName.calendar, arguments: {'hotel_id':hotelDetailModel!.id});
+                      Navigator.pushNamed(context, RoutesName.calendar,
+                          arguments: {'hotel_id': hotelDetailModel!.id});
                     })),
           ),
         );

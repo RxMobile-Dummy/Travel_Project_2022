@@ -12,6 +12,7 @@ class IntroCubit extends Cubit<IntroState> {
   }
 
   anonymouslyLogIn() async {
+    emit(AuthLoading());
     final response = await logInAnonymously.call(NoParams());
     response.fold((failure) {
       emit(IndicatorErrorState(error: _getFailure(failure)));

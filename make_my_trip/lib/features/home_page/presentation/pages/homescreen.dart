@@ -39,8 +39,8 @@ class HomeScreen extends StatelessWidget {
                       viewAll: StringConstants.viewallTxt),
                   state is StateOnSuccess<GettingStartedData>
                       ? (state.response.imageLoading != true
-                          ?  slidableImageList() : ImageSliderShimmer()
-                          )
+                          ? slidableImageList()
+                          : ImageSliderShimmer())
                       : Center(),
                   17.verticalSpace,
                   TitleWidget(
