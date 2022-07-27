@@ -25,7 +25,7 @@ import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart
 import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
-import 'package:make_my_trip/utils/widgets/animation.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../features/calendar/presentation/pages/calendar_page.dart';
 import '../../features/home_page/presentation/cubit/homepage_cubit.dart';
@@ -133,7 +133,7 @@ class Router {
         });
       case RoutesName.myTrips:
         return MaterialPageRoute(builder: (_) {
-          return UserHistoryPage();
+          return const UserHistoryPage();
         });
       case RoutesName.wishList:
         return MaterialPageRoute(builder: (_) {
@@ -147,42 +147,56 @@ class Router {
           return HomePage();
         });
       case RoutesName.search:
-        return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
+        return PageTransition(
+          type: PageTransitionType.scale,
+          duration: const Duration(milliseconds: 500),
+          alignment: Alignment.center,
+          child: BlocProvider(
             create: (context) => searchHotelSl<SearchHotelCubit>(),
             child: SearchHotelPage(),
-          );
-        });
+          ),
+        );
       case RoutesName.hotelList:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
+        return PageTransition(
+          type: PageTransitionType.rightToLeft,
+          duration: const Duration(milliseconds: 500),
+          child: BlocProvider(
             create: (context) => hotelListSl<HotelListCubit>()
               ..getHotelListApi(arg['city_name']),
             child: HotelListPage(arg: arg),
-          );
-        });
+          ),
+        );
       case RoutesName.hotelDetail:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
+        return PageTransition(
+          type: PageTransitionType.bottomToTop,
+          duration: const Duration(milliseconds: 500),
+          child: BlocProvider(
             create: (context) => hotelDetailSl<HotelDetailCubit>()
               ..getHotelDetailData(arg['hotel_id']),
             child: HotelDetailPage(),
-          );
-        });
+          ),
+        );
+
       case RoutesName.calendar:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
+        return PageTransition(
+          type: PageTransitionType.fade,
+          duration: const Duration(milliseconds: 1500),
+          alignment: Alignment.bottomCenter,
+          child: BlocProvider(
             create: (context) => CalenderCubit(),
             child: CalendarPage(arg: arg),
-          );
-        });
+          ),
+        );
+
       case RoutesName.roomCategory:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (_) {
-          return MultiBlocProvider(
+        return PageTransition(
+          type: PageTransitionType.bottomToTop,
+          duration: const Duration(milliseconds: 500),
+          child: MultiBlocProvider(
             providers: [
               BlocProvider(
                 create: (context) => roomCategorySl<RoomCategoryCubit>()
@@ -195,12 +209,15 @@ class Router {
             child: RoomCategoriesPage(
               arg: arg,
             ),
-          );
-        });
+          ),
+        );
+
       case RoutesName.roomDetail:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (_) {
-          return MultiBlocProvider(
+        return PageTransition(
+          type: PageTransitionType.rightToLeft,
+          duration: const Duration(milliseconds: 500),
+          child: MultiBlocProvider(
             providers: [
               BlocProvider(
                 create: (context) => roomDetailSl<ImagesliderCubit>()
@@ -213,8 +230,9 @@ class Router {
             child: RoomDetailsPage(
               arg: arg,
             ),
-          );
-        });
+          ),
+        );
+
       case RoutesName.reviewPage:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {

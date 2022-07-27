@@ -96,7 +96,7 @@ class WishListPage extends StatelessWidget {
           } else if (state is StateLoading) {
             return WishlistShimmer();
           } else {
-            return Center(
+            return const Center(
               child: Text('Data Not Found'),
             );
           }

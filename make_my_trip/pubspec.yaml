@@ -69,7 +69,7 @@ dependencies:
   url_launcher: ^6.1.5
 #  video_player: ^2.4.5
   scrollable_clean_calendar: ^1.4.0
-  animations: ^2.0.3
+  page_transition: ^2.0.9
 
   #shimmer effect
 
