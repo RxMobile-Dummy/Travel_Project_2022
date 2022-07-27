@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +9,10 @@ import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/pages/hotel_detail_shimmer.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -50,6 +51,8 @@ class HotelDetailPage extends StatelessWidget {
           isReadMore = state.response;
         } else if (state is StateLoading) {
           return const HotelDetailsShimmer();
+        }else if(state is StateErrorGeneral){
+          return CommonErrorWidget(imagePath: ImagePath.serverFailImage, title: StringConstants.serverFail, statusCode: "");
         }
 
         return Scaffold(

@@ -124,7 +124,7 @@ class Router {
       case RoutesName.wishList:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => wishListSl<WishListCubit>(),
+            create: (context) => wishListSl<WishListCubit>()..getWishListCubitData(),
             child: WishListPage(),
           );
         });

@@ -25,7 +25,7 @@ class WishListPage extends StatelessWidget {
           if (state is StateOnSuccess) {
             List<WishlistModel> wishlistModel = state.response;
             if(wishlistModel.isEmpty){
-              return CommonErrorWidget(imagePath: ImagePath.noDataFoundImage, title: StringConstants.noDataFound, statusCode: "");
+              return CommonErrorWidget(imagePath: ImagePath.noDataFoundImage, title: StringConstants.noHotelInWishlist, statusCode: "");
             }
             return CustomScrollView(
               slivers: <Widget>[
@@ -104,7 +104,7 @@ class WishListPage extends StatelessWidget {
             return CommonErrorWidget(imagePath: ImagePath.serverFailImage, title: StringConstants.serverFail, statusCode: "500");
           }
           else {
-            return CommonErrorWidget(imagePath: ImagePath.noDataFoundImage, title: StringConstants.noDataFound, statusCode: "");
+            return CommonErrorWidget(imagePath: ImagePath.noDataFoundImage, title: StringConstants.noHotelInWishlist, statusCode: "");
           }
         },
       ),

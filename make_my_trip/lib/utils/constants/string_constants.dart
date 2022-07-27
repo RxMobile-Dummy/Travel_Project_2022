@@ -113,6 +113,12 @@ class StringConstants {
   //no booking string
   static String noBooking = "No bookings, yet";
 
+  //no Hotel in wishlist
+  static String noHotelInWishlist = "No Hotel In Your WishList";
+
+  //no Hotel found
+  static String noHotelFound = "No Hotel Found";
+
   // RoomCategoriesPage Strings
 
   static String roomMoreDetails = 'More Details';
