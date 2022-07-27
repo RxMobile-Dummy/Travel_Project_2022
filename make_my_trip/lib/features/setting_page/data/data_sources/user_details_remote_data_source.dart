@@ -7,4 +7,6 @@ import '../../../login/domain/model/user_model.dart';
 abstract class UserDetailsRemoteDataSource {
   Future<Either<Failures, UserDetailsModel>> getUserData();
   Future<Either<Failures, void>> updateUserData(Map<String, String> postdata);
+  Future<Either<Failures, String>> updateImagefromGallery();
+  Future<Either<Failures, String>> updateImagefromCamera();
 }

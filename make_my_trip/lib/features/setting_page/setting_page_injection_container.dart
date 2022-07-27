@@ -1,8 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:make_my_trip/features/setting_page/data/data_sources/user_details_remote_data_source_impl.dart';
-import 'package:make_my_trip/features/setting_page/data/data_sources/user_local_data_source.dart';
-import 'package:make_my_trip/features/setting_page/data/data_sources/user_local_data_source_impl.dart';
 import 'package:make_my_trip/features/setting_page/data/repositories/setting_page_repository_impl.dart';
 import 'package:make_my_trip/features/setting_page/domain/repositories/setting_page_repository.dart';
 import 'package:make_my_trip/features/setting_page/domain/use_cases/get_user_data_usecase.dart';
@@ -22,12 +19,9 @@ Future<void> init() async {
   slSettingPage.registerLazySingleton<UserDetailsRemoteDataSource>(
       () => UserDetailsRemoteDataSourceimpl(slSettingPage()));
 
-  slSettingPage.registerLazySingleton<UserDetailsLocalDataSource>(
-      () => UserDetailsLocalDataSourceimpl());
-
   //Repository
   slSettingPage.registerLazySingleton<Settingpagerepository>(
-      () => Settingpagerepositoryimpl(slSettingPage(), slSettingPage()));
+      () => Settingpagerepositoryimpl(slSettingPage()));
 
   //Usecase
   slSettingPage

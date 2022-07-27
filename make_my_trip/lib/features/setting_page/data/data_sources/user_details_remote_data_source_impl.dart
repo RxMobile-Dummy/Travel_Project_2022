@@ -1,35 +1,48 @@
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
-import 'package:make_my_trip/features/login/domain/model/user_model.dart';
 import 'package:make_my_trip/features/setting_page/data/data_sources/user_details_remote_data_source.dart';
 import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 
 class UserDetailsRemoteDataSourceimpl implements UserDetailsRemoteDataSource {
   UserDetailsRemoteDataSourceimpl(this.dio);
+
   final Dio dio;
+  void printWrapped(String text) {
+    final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
+    pattern.allMatches(text).forEach((match) => print(match.group(0)));
+  }
+  Future<Options> createDioOptions() async {
+    final auth = FirebaseAuth.instance;
+    final token = await auth.currentUser!.getIdToken();
+   //  printWrapped(token);
+    return Options(headers: {StringConstants.token:token});
+  }
+
   @override
   Future<Either<Failures, UserDetailsModel>> getUserData() async {
     try {
-      final response = await dio.get(BaseConstant.baseUrl,
-          options: Options(headers: {
-            "token":
-                'eyJhbGciOiJSUzI1NiIsImtpZCI6ImJmMWMyNzQzYTJhZmY3YmZmZDBmODRhODY0ZTljMjc4ZjMxYmM2NTQiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiQWthc2ggR3VwdGEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FGZFp1Y3JZQnVDWUdVb1lXZnM0UGxNMDNWenZ4MDlHZzNWVTBlanhGenFjZ2c9czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdHJhdmVscHJvamVjdDIyLTZiOWQ0IiwiYXVkIjoidHJhdmVscHJvamVjdDIyLTZiOWQ0IiwiYXV0aF90aW1lIjoxNjU4NzU0MDI1LCJ1c2VyX2lkIjoiQ1JTdm15ZkdjTGY0ck1tWUJLUjdjZ2dnUDc0MiIsInN1YiI6IkNSU3ZteWZHY0xmNHJNbVlCS1I3Y2dnZ1A3NDIiLCJpYXQiOjE2NTg3NTQwMjUsImV4cCI6MTY1ODc1NzYyNSwiZW1haWwiOiJndXB0YWthc2g3MzgzQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7Imdvb2dsZS5jb20iOlsiMTA3NzIzMjc3NTUyMDU2OTQ4MTY4Il0sImVtYWlsIjpbImd1cHRha2FzaDczODNAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.NBk4Jq9IrY-UhPmReq1gy0RlNDF-ejpJOYsRjviKLuNT-9fewGQZXv9py1SM4vecMwCqnKTdSFTz0-l1yXWOWxKedVXKIvhhxnCwatE1fkKJ-oyUsSaWC_kWmxGyCUjjDFR8IWYljgh4pa-JdQwSk7uQpYJ3T0yc59TNf1A1-fVi_Gaz6UDPqc5T2PU6Ep72YMa_wsv1-VS6hZdOj3QH9YwK_5hFN00TYbtBR3wVx1SAvWDODm9R_VRRy7jQsqokuRErO2ioU5ZieDHsfwCnQQ4C3wxmP4KVh79dLrDkmu2T14xP7lPMRAtXmuKQl5c_I7UgE5GiJKUJI3b_2Sbo3Q'
-          }));
+      final response = await dio.get(
+          BaseConstant.baseUrl + StringConstants.user,
+          options: await createDioOptions());
 
       if (response.statusCode == 200) {
         UserDetailsModel userModel;
-        print(response.data);
         final apidata = response.data[0];
         userModel = UserDetailsModel.fromJson(apidata);
-        print("return right");
+
         return Right(userModel);
       } else {
         return Left(ServerFailure());
       }
     } catch (err) {
-      print("err");
       return Left(ServerFailure());
     }
   }
@@ -37,41 +50,103 @@ class UserDetailsRemoteDataSourceimpl implements UserDetailsRemoteDataSource {
   @override
   Future<Either<Failures, void>> updateUserData(
       Map<String, String> postData) async {
+    String userName = postData.entries.first.value.trim().toString();
+    String userNumber = postData.entries.last.value.trim().toString();
     try {
-      print(postData);
-      final response = await dio.put(BaseConstant.baseUrl,
-          data: postData,
-          options: Options(headers: {
-            "token":
-                'eyJhbGciOiJSUzI1NiIsImtpZCI6ImJmMWMyNzQzYTJhZmY3YmZmZDBmODRhODY0ZTljMjc4ZjMxYmM2NTQiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiQWthc2ggR3VwdGEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FGZFp1Y3JZQnVDWUdVb1lXZnM0UGxNMDNWenZ4MDlHZzNWVTBlanhGenFjZ2c9czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdHJhdmVscHJvamVjdDIyLTZiOWQ0IiwiYXVkIjoidHJhdmVscHJvamVjdDIyLTZiOWQ0IiwiYXV0aF90aW1lIjoxNjU4NzU0MDI1LCJ1c2VyX2lkIjoiQ1JTdm15ZkdjTGY0ck1tWUJLUjdjZ2dnUDc0MiIsInN1YiI6IkNSU3ZteWZHY0xmNHJNbVlCS1I3Y2dnZ1A3NDIiLCJpYXQiOjE2NTg3NTQwMjUsImV4cCI6MTY1ODc1NzYyNSwiZW1haWwiOiJndXB0YWthc2g3MzgzQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7Imdvb2dsZS5jb20iOlsiMTA3NzIzMjc3NTUyMDU2OTQ4MTY4Il0sImVtYWlsIjpbImd1cHRha2FzaDczODNAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.NBk4Jq9IrY-UhPmReq1gy0RlNDF-ejpJOYsRjviKLuNT-9fewGQZXv9py1SM4vecMwCqnKTdSFTz0-l1yXWOWxKedVXKIvhhxnCwatE1fkKJ-oyUsSaWC_kWmxGyCUjjDFR8IWYljgh4pa-JdQwSk7uQpYJ3T0yc59TNf1A1-fVi_Gaz6UDPqc5T2PU6Ep72YMa_wsv1-VS6hZdOj3QH9YwK_5hFN00TYbtBR3wVx1SAvWDODm9R_VRRy7jQsqokuRErO2ioU5ZieDHsfwCnQQ4C3wxmP4KVh79dLrDkmu2T14xP7lPMRAtXmuKQl5c_I7UgE5GiJKUJI3b_2Sbo3Q'
-          }));
-      UserDetailsModel userModel;
-      userModel = UserDetailsModel.fromJson({});
-      if (response.statusCode == 200) {
-        print("return right");
-        return Right(null);
+      if (userName == null || userName == StringConstants.emptyString) {
+        return Left(ErrorWithMessageFailure(StringConstants.validUserName));
+      } else if (userNumber == null ||
+          userNumber == StringConstants.emptyString ||
+          userNumber.length > 13 ||
+          userNumber.length < 10) {
+        return Left(ErrorWithMessageFailure(StringConstants.validPhoneNumber));
       } else {
-        return Left(ServerFailure());
+        final response = await dio.put(
+            BaseConstant.baseUrl + StringConstants.user,
+            data: postData,
+            options: await createDioOptions());
+        if (response.statusCode == 200) {
+          return Right(null);
+        } else {
+          return Left(ServerFailure());
+        }
+      }
+    } catch (err) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, String>> updateImagefromGallery() async {
+    try {
+      XFile? pickedFile = await ImagePicker().pickImage(
+          source: ImageSource.gallery, maxWidth: 1800, maxHeight: 1800);
+      if (pickedFile == null) {
+        return Right(StringConstants.emptyString);
+      }
+      if (pickedFile != null) {
+        final path = StringConstants.firebaseFolderName + pickedFile.name;
+        final filename = File(pickedFile.path);
+        final ref = FirebaseStorage.instance.ref().child(path);
+
+        await ref.putFile(filename);
+
+        var mapdata = {StringConstants.imageJson: await ref.getDownloadURL()};
+
+        await FirebaseFirestore.instance
+            .collection(StringConstants.firebaseCollectionName)
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .set(mapdata)
+            .onError((error, stackTrace) => null);
+        print(await  createDioOptions());
+        await dio.put(BaseConstant.baseUrl + StringConstants.user,
+            data: mapdata,
+            options: await createDioOptions());
+
+        return Right(mapdata.entries.first.value.toString());
+      } else {
+        return Left(ErrorWithMessageFailure(StringConstants.failedToLoadImg));
+      }
+    } catch (err) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, String>> updateImagefromCamera() async {
+    try {
+      XFile? pickedFile = await ImagePicker().pickImage(
+        source: ImageSource.camera,
+        maxWidth: 1800,
+        maxHeight: 1800,
+      );
+      if (pickedFile == null) {
+        return Right(StringConstants.emptyString);
+      }
+      if (pickedFile != null) {
+        final path = StringConstants.firebaseFolderName + pickedFile.name;
+        final filename = File(pickedFile.path);
+        final ref = FirebaseStorage.instance.ref().child(path);
+
+        await ref.putFile(filename);
+
+        var mapdata = {StringConstants.imageJson: await ref.getDownloadURL()};
+
+        await FirebaseFirestore.instance
+            .collection(StringConstants.firebaseCollectionName)
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .set(mapdata)
+            .onError((error, stackTrace) => print(error));
+
+        await dio.put(BaseConstant.baseUrl + StringConstants.user,
+            data: mapdata,
+            options: await createDioOptions());
+        return Right(mapdata.entries.first.value.toString());
+      } else {
+        return Left(ErrorWithMessageFailure(StringConstants.failedToLoadImg));
       }
     } catch (err) {
       return Left(ServerFailure());
     }
   }
 }
-  // Future<Either<Failures, UserModel>> getUserData(String params) async {
-  //   try {
-  //     final response = await dio.get(BaseConstant.baseUrl + params);
-
-  //     if (response.statusCode == 200) {
-  //       UserModel userModel;
-  //       final apidata = response.data;
-  //       userModel = UserModel.fromJson(apidata);
-  //       return Right(userModel);
-  //     } else {
-  //       return Left(ServerFailure());
-  //     }
-  //   } catch (err) {
-  //     return Left(ServerFailure());
-  //   }
-  // }
-

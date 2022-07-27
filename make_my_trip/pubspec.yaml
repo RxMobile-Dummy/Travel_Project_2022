@@ -21,6 +21,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   shared_preferences: ^2.0.15
   shimmer: ^2.0.0
+  fluttertoast: ^8.0.9
 
   #utils
   uuid: ^3.0.6
@@ -31,11 +32,11 @@ dependencies:
   dio: ^4.0.6
 
   #firebase services
-  firebase_core: ^1.3.0
+  #firebase_core: ^1.3.0
   firebase_auth: ^2.0.0
   google_sign_in: ^5.0.2
   flutter_facebook_auth: ^4.4.0
-  firebase_storage:
+  firebase_storage: ^10.3.3
 
   #state management :::use cubit pattern
   flutter_bloc: ^8.0.1
@@ -70,6 +71,8 @@ dependencies:
   url_launcher: ^6.1.5
   video_player: ^2.4.5
   image_picker: ^0.8.5+3
+  cloud_firestore: ^3.4.1
+  firebase_core: ^1.20.0
 
   #shimmer effect
 

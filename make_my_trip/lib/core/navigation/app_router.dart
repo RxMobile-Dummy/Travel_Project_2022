@@ -19,6 +19,9 @@ import '../../features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import '../../features/hotel_detail/presentation/pages/hotel_detail_page.dart';
 import '../../features/intro/presentation/cubit/intro_cubit.dart';
 import '../../features/intro/presentation/pages/intro_page.dart';
+import '../../features/setting_page/presentation/cubit/setting_page_cubit.dart';
+import '../../features/setting_page/presentation/pages/settings_page.dart';
+import '../../features/setting_page/setting_page_injection_container.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 
 import 'package:make_my_trip/features/home_page/home_page_injection_container.dart';
@@ -102,7 +105,10 @@ class Router {
               BlocProvider.value(
                 value: slHomePage<HomepageCubit>(),
               ),
-              BlocProvider.value(value: TabBarCubit())
+              BlocProvider.value(
+                value: TabBarCubit(),
+              ),
+              BlocProvider.value(value: slSettingPage<SettingPageCubit>())
             ],
             child: HomePage(),
           );
@@ -169,6 +175,14 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return GalleryPage();
         });
+      case RoutesName.settingPage:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider.value(
+            value: slSettingPage<SettingPageCubit>(),
+            child: SettingsPage(),
+          );
+        });
+
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

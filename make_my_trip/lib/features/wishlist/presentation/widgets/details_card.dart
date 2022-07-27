@@ -14,10 +14,10 @@ class Hotal_Details extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     List<String> images = [
-          ImagePath.wishlistImage2,
-          ImagePath.wishlistImage1,
-          ImagePath.wishlistImage2,
-          ImagePath.wishlistImage1
+      ImagePath.wishlistImage2,
+      ImagePath.wishlistImage1,
+      ImagePath.wishlistImage2,
+      ImagePath.wishlistImage1
     ];
 
     return Padding(

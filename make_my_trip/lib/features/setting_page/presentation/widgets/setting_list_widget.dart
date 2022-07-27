@@ -25,10 +25,13 @@ List<MySetting> settingList = [
 ];
 
 Widget settingListWidget() {
-  return Expanded(
+  return SizedBox(
+    height: 300,
     child: Padding(
-      padding: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.all(10.0),
       child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
           itemCount: settingList.length,
           itemBuilder: (context, index) => Padding(
                 padding: const EdgeInsets.only(bottom: 22, right: 2),

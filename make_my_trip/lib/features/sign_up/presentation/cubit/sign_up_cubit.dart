@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/sign_up/domain/usecases/user_sign_up.dart';

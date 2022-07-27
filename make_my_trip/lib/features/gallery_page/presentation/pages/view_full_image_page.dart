@@ -4,7 +4,6 @@ import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
 
-
 class ViewImage extends StatelessWidget {
   const ViewImage({
     Key? key,
@@ -16,7 +15,7 @@ class ViewImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   //Map map =  ModalRoute.of(context)!.settings.arguments;
+    //Map map =  ModalRoute.of(context)!.settings.arguments;
     PageController controller = PageController(initialPage: index);
     return BlocProvider<GalleryCubit>(
       create: (context) => GalleryCubit(),
@@ -58,7 +57,6 @@ class ViewImage extends StatelessWidget {
                                         fit: BoxFit.fitWidth);
                                   })),
                         );
-
                       })),
             );
           },

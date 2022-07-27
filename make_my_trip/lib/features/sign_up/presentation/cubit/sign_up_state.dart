@@ -12,6 +12,4 @@ class SignUpErrorState extends SignUpState {
 
 class SignUpSuccessState extends SignUpState {}
 
-class WaitingDialog extends SignUpState {
-
-}
+class WaitingDialog extends SignUpState {}

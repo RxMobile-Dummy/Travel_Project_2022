@@ -1,15 +1,14 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
-import 'package:make_my_trip/features/login/domain/model/user_model.dart';
-import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
+import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
+import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import '../../../../utils/constants/string_constants.dart';
 
-Widget SettingProfileHeader(BuildContext context) {
+Widget settingProfileHeader(BuildContext context) {
   BottomSheet bottomSheet = BottomSheet(
       onClosing: () {},
       builder: (context2) {
@@ -20,17 +19,17 @@ Widget SettingProfileHeader(BuildContext context) {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.camera_alt),
-                title: const Text("Camera"),
+                title: const Text(StringConstants.camera),
                 onTap: () {
-                  BlocProvider.of<SettingPageCubit>(context).getFromCamera();
+                  context.read<SettingPageCubit>().getFromCamera();
                   Navigator.pop(context);
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.photo),
-                title: const Text("Gallery"),
+                title: Text(StringConstants.gallery),
                 onTap: () {
-                  BlocProvider.of<SettingPageCubit>(context).getFromGallery();
+                  context.read<SettingPageCubit>().getFromGallery();
                   Navigator.pop(context);
                 },
               ),
@@ -38,53 +37,44 @@ Widget SettingProfileHeader(BuildContext context) {
           ),
         );
       });
-  //context.read<SettingPageCubit>().getUserData();
-  return Container(
-      padding: const EdgeInsets.all(18),
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Stack(
-              children: [
-                GestureDetector(
-                  child: BlocBuilder<SettingPageCubit, BaseState>(
-                    builder: (context, state) {
-                      // return Container(
-                      //  width: 100,
-                      //  height: 100,
-                      //  decoration: BoxDecoration(
-                      //    shape: BoxShape.circle,
-                      //    image: DecorationImage(
-                      //      image: ,
-                      //      fit: BoxFit.cover,
-                      //    ),
-                      //  ),
-                      // );
-                      //
-                      return BlocBuilder<SettingPageCubit, BaseState>(
+  return BlocBuilder<SettingPageCubit, BaseState>(builder: (context, state) {
+    if (state is StateOnKnownToSuccess<SettingPageData>) {
+      return Container(
+          padding: const EdgeInsets.all(18),
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Stack(
+                  children: [
+                    GestureDetector(
+                      child: BlocBuilder<SettingPageCubit, BaseState>(
                         builder: (context, state) {
                           if (state is StateOnKnownToSuccess<SettingPageData>) {
-                            if (state.response.imageValue != null) {
-                              String pikedImage =
-                                  state.response.imageValue.toString();
-                              return ClipRRect(
-                                  borderRadius: BorderRadius.circular(150),
-                                  child: Image.file(
-                                    File(pikedImage),
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  ));
-                            } else {
-                              UserDetailsModel? userDetailsModel =
-                                  state.response.userValue;
+                            var userImage = state.response.userValue?.userImage;
+                            if (state.response.imageValue != null &&
+                                state.response.imageValue !=
+                                    StringConstants.emptyString) {
                               return CircleAvatar(
                                 backgroundImage: NetworkImage(
-                                  userDetailsModel?.userImage.toString() ?? "",
-                                ),
+                                    state.response.imageValue.toString()),
                                 radius: 50,
+                                backgroundColor:
+                                    MakeMyTripColors.colorLightGray,
+                              );
+                            } else if (userImage == null) {
+                              return const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage(ImagePath.userProfileImage1),
+                                radius: 50,
+                              );
+                            } else {
+                              return CircleAvatar(
+                                backgroundImage: NetworkImage(userImage),
+                                radius: 50,
+                                backgroundColor:
+                                    MakeMyTripColors.colorLightGray,
                               );
                             }
                           } else {
@@ -95,69 +85,54 @@ Widget SettingProfileHeader(BuildContext context) {
                             );
                           }
                         },
-                      );
-                    },
-                  ),
-                  onTap: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return bottomSheet;
-                        });
-                  },
+                      ),
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return bottomSheet;
+                            });
+                      },
+                    ),
+                    Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: MakeMyTripColors.accentColor,
+                              border: Border.all(
+                                  width: 3,
+                                  color: MakeMyTripColors.colorWhite)),
+                          child: GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return bottomSheet;
+                                    });
+                              },
+                              child: const Icon(
+                                Icons.camera_alt_outlined,
+                                color: MakeMyTripColors.colorWhite,
+                                size: 18,
+                              )),
+                        ))
+                  ],
                 ),
-                Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: MakeMyTripColors.colorWhite),
-                      child: GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (context) {
-                                  return bottomSheet;
-                                });
-                          },
-                          child: const Icon(
-                            Icons.camera_alt_outlined,
-                            color: MakeMyTripColors.accentColor,
-                            size: 28,
-                          )),
-                    ))
-              ],
-            ),
-          )
-        ],
-      ));
+              ),
+              10.verticalSpace,
+              Center(
+                  child: Text(
+                state.response.userValue?.userEmail.toString() ??
+                    StringConstants.emptyString,
+                style: AppTextStyles.infoContentStyle.copyWith(fontWeight: FontWeight.w500),
+              ))
+            ],
+          ));
+    } else {
+      return 80.verticalSpace;
+    }
+  });
 }
-
-
-                      // return BlocBuilder<SettingPageCubit, BaseState>(
-                      //   builder: (context, state) {
-                      //     if (state is StateOnKnownToSuccess) {
-                      //       UserDetailsModel userDetailsModel = state.response;
-                      //       return CircleAvatar(
-                      //         backgroundImage: NetworkImage(
-                      //           userDetailsModel.userImage.toString(),
-                      //         ),
-                      //         radius: 50,
-                      //       );
-                      //     } else if (state is StateOnSuccess) {
-                      //       String pikedImage = state.response.toString();
-                      //       return ClipRRect(
-                      //           borderRadius: BorderRadius.circular(150),
-                      //           child: Image.file(
-                      //             File(pikedImage),
-                      //             width: 100,
-                      //             height: 100,
-                      //             fit: BoxFit.cover,
-                      //           ));
-                      //     } else {
-                      //       return Text('htt');
-                      //     }
-                      //   },
-                      // );

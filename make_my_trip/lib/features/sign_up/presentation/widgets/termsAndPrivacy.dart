@@ -9,7 +9,10 @@ class TermsAndPrivacyButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: GestureDetector(
-        child: const Text("Terms & Privacy",style: TextStyle(color: MakeMyTripColors.accentColor),),
+        child: const Text(
+          "Terms & Privacy",
+          style: TextStyle(color: MakeMyTripColors.accentColor),
+        ),
         onTap: () {},
       ),
     );

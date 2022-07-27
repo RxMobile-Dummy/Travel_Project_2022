@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
-import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart';
 
 import './core/navigation/app_router.dart' as appRoutes;
 import 'firebase_options.dart';

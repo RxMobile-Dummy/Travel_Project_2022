@@ -33,7 +33,8 @@ class CustomListTile extends StatelessWidget {
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, color: MakeMyTripColors.accentColor),
+            const Icon(Icons.arrow_forward_ios,
+                color: MakeMyTripColors.accentColor),
             8.horizontalSpace
           ],
         ),
