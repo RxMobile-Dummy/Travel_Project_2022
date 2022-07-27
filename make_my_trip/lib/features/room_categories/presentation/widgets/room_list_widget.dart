@@ -38,14 +38,7 @@ class RoomListWidget extends StatelessWidget {
         SnackBar(content: Text('No Room Selected, Pls First Select Room'));
     return BlocConsumer<RoomCategoryCubit, BaseState>(
   listener: (context, state) {
-    print(state);
-    if (state is Unauthenticated) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.bookingPage});
-    }else if (state is Authenticated) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, RoutesName.bookingPage, (route) => true);
-    }
+
   },
   builder: (context, state) {
     return Padding(
@@ -72,6 +65,7 @@ class RoomListWidget extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
+
                           Navigator.pushNamed(context, RoutesName.roomDetail,
                               arguments: {
                                 'hotel_id': hotelId,
@@ -79,6 +73,8 @@ class RoomListWidget extends StatelessWidget {
                                 'no_of_room': totalSelectedRoom,
                                 'room_list_model': roomList,
                                 "context": context,
+                                'cin':cin,
+                                'cout':cout
                               });
                         },
                         child: Text(
@@ -244,18 +240,17 @@ class RoomListWidget extends StatelessWidget {
                                 .copyWith(fontSize: 16),
                           ),
                           const Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4.0, horizontal: 4),
-                            child: ElevatedButton(
+                           ElevatedButton(
                               onPressed: () {
                                 if (totalSelectedRoom > 0) {
                                   var searchState = context.read<RoomCategoryCubit>().state;
                                   if (searchState is Unauthenticated) {
-                                    Navigator.pushNamedAndRemoveUntil(
-                                        context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.bookingPage});
-                                  } else {
-                                    BlocProvider.of<RoomCategoryCubit>(context).goToBooking();
+                                    Navigator.popAndPushNamed(context, RoutesName.login,arguments: {"route_name":RoutesName.roomCategory});
+                                  } if (state is StateOnKnownToSuccess<RoomDataPostModel>) {
+                                    Navigator.pushNamed(
+                                        context, RoutesName.bookingPage,arguments: {"model":state.response});
+                                  }else {
+                                    BlocProvider.of<RoomCategoryCubit>(context).goToBooking(hotelId,cin, cout, totalSelectedRoom,roomList);
                                   }
                                 } else {
                                   (ScaffoldMessenger.of(context)
@@ -275,7 +270,7 @@ class RoomListWidget extends StatelessWidget {
                                     .copyWith(fontSize: 14),
                               ),
                             ),
-                          ),
+
                         ],
                       ),
                     ),

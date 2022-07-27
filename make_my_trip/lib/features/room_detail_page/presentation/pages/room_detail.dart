@@ -8,7 +8,6 @@ import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/widgets/features_item_widget.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
-import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
 import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
 import 'package:make_my_trip/features/room_detail_page/data/model/room_detail_model.dart';
 import 'package:make_my_trip/features/room_detail_page/presentation/pages/room_detail_shimmer.dart';
@@ -38,17 +37,16 @@ class RoomDetailsPage extends StatelessWidget {
     var snackBar =
         SnackBar(content: Text('No Room Selected, Pls First Select Room'));
     return BlocConsumer<ImagesliderCubit, BaseState>(
-  listener: (context, state) {
-    if (state is Unauthenticated) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.bookingPage});
-    } else if (state is Authenticated) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, RoutesName.bookingPage, (route) => true);
-    }
-  },
-  builder: (context, state) {
+        listener: (context, state) {
+      if (state is Unauthenticated) {
+        Navigator.pushNamed(context, RoutesName.login,
+            arguments: {"route_name": RoutesName.roomDetail});
+      } else if (state is StateSearchResult<RoomDataPostModel>) {
 
+        Navigator.pushNamed(
+            context, RoutesName.bookingPage,arguments: {"model":state.response });
+      }
+    }, builder: (context, state) {
       if (state is StateOnKnownToSuccess) {
         roomDetailsModel = state.response;
       } else if (state is StateOnResponseSuccess) {
@@ -60,10 +58,10 @@ class RoomDetailsPage extends StatelessWidget {
       } else if (state is StateErrorGeneral) {
         return Scaffold(
             body: CommonErrorWidget(
-              imagePath: ImagePath.serverFailImage,
-              title: StringConstants.serverFail,
-              statusCode: state.errorMessage,
-            ));
+          imagePath: ImagePath.serverFailImage,
+          title: StringConstants.serverFail,
+          statusCode: state.errorMessage,
+        ));
       }
       return Scaffold(
         body: CustomScrollView(
@@ -336,11 +334,11 @@ class RoomDetailsPage extends StatelessWidget {
                               roomDetailsModel!.roomType == "Deluxe"
                                   ? state.response.deluxValue
                                   : (roomDetailsModel!.roomType == "Semi-Deluxe"
-                                  ? state.response.semiDeluxValue
-                                  : (roomDetailsModel!.roomType ==
-                                  "Super-Deluxe"
-                                  ? state.response.superDeluxValue
-                                  : int.parse(noOfRoom.toString()))),
+                                      ? state.response.semiDeluxValue
+                                      : (roomDetailsModel!.roomType ==
+                                              "Super-Deluxe"
+                                          ? state.response.superDeluxValue
+                                          : int.parse(noOfRoom.toString()))),
                               roomMaxLength);
                         }
                       },
@@ -362,46 +360,60 @@ class RoomDetailsPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      "₹ ${((int.parse(roomDetailsModel!.price.toString()) *
-                          (state is StateOnSuccess<SelectRoomCountState>
-                              ? (roomDetailsModel!.roomType == "Deluxe" ? (state
-                              .response.deluxValue == 0 ? 1 : state.response
-                              .deluxValue) : (roomDetailsModel!.roomType ==
-                              "Semi-Deluxe"
-                              ? (state.response.semiDeluxValue == 0 ? 1 : state
-                              .response.semiDeluxValue)
-                              : (roomDetailsModel!.roomType == "Super-Deluxe"
-                              ? (state.response.superDeluxValue == 0 ? 1 : state
-                              .response.superDeluxValue)
-                              : 1)))
-                              : 1)).toString())}",
+                      "₹ ${((int.parse(roomDetailsModel!.price.toString()) * (state is StateOnSuccess<SelectRoomCountState> ? (roomDetailsModel!.roomType == "Deluxe" ? (state.response.deluxValue == 0 ? 1 : state.response.deluxValue) : (roomDetailsModel!.roomType == "Semi-Deluxe" ? (state.response.semiDeluxValue == 0 ? 1 : state.response.semiDeluxValue) : (roomDetailsModel!.roomType == "Super-Deluxe" ? (state.response.superDeluxValue == 0 ? 1 : state.response.superDeluxValue) : 1))) : 1)).toString())}",
                       style: AppTextStyles.labelNameTextStyle.copyWith(
                           fontSize: 22, color: MakeMyTripColors.colorWhite),
                     ),
                     const Spacer(),
                     ElevatedButton(
                         onPressed: () {
-
-                          if(state is StateOnSuccess<SelectRoomCountState>){
-                            if((roomDetailsModel!.roomType == "Deluxe"
-                                ? state.response.deluxValue
-                                : (roomDetailsModel!.roomType ==
-                                "Semi-Deluxe"
-                                ? state.response.semiDeluxValue
-                                : (roomDetailsModel!.roomType ==
-                                "Super-Deluxe"
-                                ? state
-                                .response.superDeluxValue
-                                : 0)))>0){
-                              var searchState = context.read<ImagesliderCubit>().state;
+                          if (state is StateOnSuccess<SelectRoomCountState>) {
+                            noOfRoom = (state
+                                    is StateOnSuccess<SelectRoomCountState>
+                                ? (roomDetailsModel!.roomType == "Deluxe"
+                                    ? (state.response.deluxValue == 0
+                                        ? 1
+                                        : state.response.deluxValue)
+                                    : (roomDetailsModel!.roomType ==
+                                            "Semi-Deluxe"
+                                        ? (state.response.semiDeluxValue == 0
+                                            ? 1
+                                            : state.response.semiDeluxValue)
+                                        : (roomDetailsModel!.roomType ==
+                                                "Super-Deluxe"
+                                            ? (state.response.superDeluxValue ==
+                                                    0
+                                                ? 1
+                                                : state
+                                                    .response.superDeluxValue)
+                                            : 1)))
+                                : 1);
+                            if ((roomDetailsModel!.roomType == "Deluxe"
+                                    ? state.response.deluxValue
+                                    : (roomDetailsModel!.roomType ==
+                                            "Semi-Deluxe"
+                                        ? state.response.semiDeluxValue
+                                        : (roomDetailsModel!.roomType ==
+                                                "Super-Deluxe"
+                                            ? state.response.superDeluxValue
+                                            : 0))) >
+                                0) {
+                              var searchState =
+                                  context.read<ImagesliderCubit>().state;
                               if (searchState is Unauthenticated) {
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.bookingPage});
-                              } else{
-                                BlocProvider.of<ImagesliderCubit>(context).goToBooking();
+                                Navigator.pushNamed(
+                                    context, RoutesName.login,
+                                    arguments: {
+                                      "route_name": RoutesName.roomDetail
+                                    });
+                              }if (state is StateOnKnownToSuccess<RoomDataPostModel>) {
+                                Navigator.pushNamed(
+                                    context, RoutesName.bookingPage,arguments: {"model":state.response});
+                              } else {
+                                BlocProvider.of<ImagesliderCubit>(context)
+                                    .goToBooking(arg['hotel_id'], arg['cin'], arg['cout'], noOfRoom!,arg['room_list_model']);
                               }
-
-                            }else{
+                            } else {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
                             }
@@ -416,25 +428,25 @@ class RoomDetailsPage extends StatelessWidget {
                           'Book Now',
                           style: TextStyle(
                               color:
-                              (state is StateOnSuccess<SelectRoomCountState>
-                                  ? ((roomDetailsModel!.roomType ==
-                                  "Deluxe"
-                                  ? state.response.deluxValue
-                                  : (roomDetailsModel!
-                                  .roomType ==
-                                  "Semi-Deluxe"
-                                  ? state.response
-                                  .semiDeluxValue
-                                  : (roomDetailsModel!
-                                  .roomType ==
-                                  "Super-Deluxe"
-                                  ? state.response
-                                  .superDeluxValue
-                                  : 0))) >
-                                  0)
-                                  : false)
-                                  ? MakeMyTripColors.accentColor
-                                  : MakeMyTripColors.color30gray),
+                                  (state is StateOnSuccess<SelectRoomCountState>
+                                          ? ((roomDetailsModel!.roomType ==
+                                                      "Deluxe"
+                                                  ? state.response.deluxValue
+                                                  : (roomDetailsModel!
+                                                              .roomType ==
+                                                          "Semi-Deluxe"
+                                                      ? state.response
+                                                          .semiDeluxValue
+                                                      : (roomDetailsModel!
+                                                                  .roomType ==
+                                                              "Super-Deluxe"
+                                                          ? state.response
+                                                              .superDeluxValue
+                                                          : 0))) >
+                                              0)
+                                          : false)
+                                      ? MakeMyTripColors.accentColor
+                                      : MakeMyTripColors.color30gray),
                         ))
                   ],
                 );

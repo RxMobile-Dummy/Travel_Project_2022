@@ -24,15 +24,18 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size screen = MediaQuery.of(context).size;
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is AuthLoading) {
           ProgressDialog.showLoadingDialog(context, message: "Loggin In...");
         } else if (state is LoginSuccessState) {
           ProgressDialog.hideLoadingDialog(context);
-          Navigator.pushReplacementNamed(
-              context, arg["route_name"]);
+          if(arg["route_name"]== RoutesName.roomCategory || arg["route_name"]== RoutesName.roomDetail){
+          Navigator.pop(
+              context);}else{
+            Navigator.pushReplacementNamed(
+                context, arg["route_name"]);
+          }
         } else {
           ProgressDialog.hideLoadingDialog(context);
         }

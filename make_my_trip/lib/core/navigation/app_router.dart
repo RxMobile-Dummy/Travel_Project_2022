@@ -238,7 +238,7 @@ class Router {
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => bookingSl<BookingCubit>(),
+            create: (context) => bookingSl<BookingCubit>()..getHotelDetailData(arg['model']),
             child: BookingPage(arg: arg),
           );
         });
