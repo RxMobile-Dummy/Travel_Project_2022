@@ -18,158 +18,155 @@ class PublishReviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ReviewCubit, BaseState>(
+    print('post review');
+    return BlocConsumer<ReviewCubit, BaseState>(
       listener: (context, state) {
         print(state.toString());
         if (state is StateOnKnownToSuccess) {
-          Navigator.of(context).pushReplacementNamed(RoutesName.reviewPage,
-              arguments: {
-                "hotel_id": arg["hotel_id"],
-                'rating': arg['rating']
-              });
+          Navigator.of(context).pop();
         } else if (state is ValidationError) {
           var snackBar = SnackBar(content: Text(state.errorMessage));
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Center(
-            child: Text(
-              StringConstants.writeAReview,
-              style: AppTextStyles.unselectedLabelStyle,
-            ),
-          ),
-          leading: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: const Icon(Icons.close,
-                  color: MakeMyTripColors.accentColor, size: 25)),
-          actions: [
-            BlocBuilder<PublishReviewCubit, ReviewValueState>(
-              builder: (context, state) {
-                return GestureDetector(
-                    onTap: () {
-                      ReviewModel reviewModel = ReviewModel(
-                        comment: state.commentReview,
-                        cleanliness: state.cleanlinessReview,
-                        comfort: state.comfortReview,
-                        location: state.locationReview,
-                        facilities: state.facilitiesReview,
-                      );
-                      context
-                          .read<ReviewCubit>()
-                          .postHotelReviewData(reviewModel, arg['hotel_id']);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: Center(
-                        child: Text(
-                          StringConstants.publish,
-                          style: AppTextStyles.infoContentStyle2,
-                        ),
-                      ),
-                    ));
-              },
-            )
-          ],
-        ),
-        body: BlocBuilder<PublishReviewCubit, ReviewValueState>(
-          builder: (context, state) {
-            return SingleChildScrollView(
-                child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  20.verticalSpace,
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.add_circle,
-                        color: MakeMyTripColors.color50gray,
-                      ),
-                      10.horizontalSpace,
-                      Text(StringConstants.review,
-                          style: AppTextStyles.unselectedLabelStyle)
-                    ],
-                  ),
-                  16.verticalSpace,
-                  Padding(
-                    padding: const EdgeInsets.only(left: 38, right: 8),
-                    child: TextFormField(
-                      maxLength: 200,
-                      maxLines: 5,
-                      controller: reviewController,
-                      onChanged: (val) {
-                        val = reviewController.text;
-                        context
-                            .read<PublishReviewCubit>()
-                            .onChangeCommentReviewValueEvent(val);
-                      },
-                      keyboardType: TextInputType.multiline,
-                      decoration: const InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: MakeMyTripColors.color90gray)),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: MakeMyTripColors.color70gray)),
-                          hintStyle: AppTextStyles.infoContentStyle),
-                    ),
-                  ),
-                  24.verticalSpace,
-                  PublishReviewSliderWidget(
-                    fieldName: 'Cleanliness',
-                    value: state.cleanlinessReview,
-                    context: context,
-                    callback: (double val) {
-                      context
-                          .read<PublishReviewCubit>()
-                          .onChangeCleanlinessReviewValueEvent(val);
-                    },
-                  ),
-                  16.verticalSpace,
-                  PublishReviewSliderWidget(
-                    fieldName: 'Comfort',
-                    value: state.comfortReview,
-                    context: context,
-                    callback: (double val) {
-                      context
-                          .read<PublishReviewCubit>()
-                          .onChangeComfortReviewValueEvent(val);
-                    },
-                  ),
-                  16.verticalSpace,
-                  PublishReviewSliderWidget(
-                    fieldName: 'Location',
-                    value: state.locationReview,
-                    context: context,
-                    callback: (double val) {
-                      context
-                          .read<PublishReviewCubit>()
-                          .onChangeLocationReviewValueEvent(val);
-                    },
-                  ),
-                  16.verticalSpace,
-                  PublishReviewSliderWidget(
-                    fieldName: 'Facilities',
-                    value: state.facilitiesReview,
-                    context: context,
-                    callback: (double val) {
-                      context
-                          .read<PublishReviewCubit>()
-                          .onChangeFacilitiesReviewValueEvent(val);
-                    },
-                  ),
-                ],
+      builder: (context, state) {
+        print('state');
+        print(state);
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: Center(
+              child: Text(
+                StringConstants.writeAReview,
+                style: AppTextStyles.unselectedLabelStyle,
               ),
-            ));
-          },
-        ),
-      ),
+            ),
+            leading: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Icon(Icons.close,
+                    color: MakeMyTripColors.accentColor, size: 25)),
+            actions: [
+                  (state is StateOnSuccess)?
+                   GestureDetector(
+                      onTap: () {
+                        ReviewModel reviewModel = ReviewModel(
+                          comment: state.response.commentReview,
+                          cleanliness:  state.response.cleanlinessReview,
+                          comfort:  state.response.comfortReview,
+                          location:  state.response.locationReview,
+                          facilities:  state.response.facilitiesReview,
+                        );
+                        context
+                            .read<ReviewCubit>()
+                            .postHotelReviewData(reviewModel, arg['hotel_id']);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 12),
+                        child: Center(
+                          child: Text(
+                            StringConstants.publish,
+                            style: AppTextStyles.infoContentStyle2,
+                          ),
+                        ),
+                      )):SizedBox()
+
+            ],
+          ),
+          body:
+               SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:  Column(
+                      children: [
+                        20.verticalSpace,
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.add_circle,
+                              color: MakeMyTripColors.color50gray,
+                            ),
+                            10.horizontalSpace,
+                            Text(StringConstants.review,
+                                style: AppTextStyles.unselectedLabelStyle)
+                          ],
+                        ),
+                        16.verticalSpace,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 38, right: 8),
+                          child: TextFormField(
+                            maxLength: 200,
+                            maxLines: 5,
+                            controller: reviewController,
+                            onChanged: (val) {
+                              val = reviewController.text;
+                              context
+                                  .read<ReviewCubit>()
+                                  .onChangeCommentReviewValueEvent(val);
+                            },
+                            keyboardType: TextInputType.multiline,
+                            decoration: const InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: MakeMyTripColors.color90gray)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: MakeMyTripColors.color70gray)),
+                                hintStyle: AppTextStyles.infoContentStyle),
+                          ),
+                        ),
+                        24.verticalSpace,
+                        PublishReviewSliderWidget(
+                          fieldName: 'Cleanliness',
+                          value:  (state is StateOnSuccess)? state.response.cleanlinessReview :0,
+                          context: context,
+                          callback: (double val) {
+                            context
+                                .read<ReviewCubit>()
+                                .onChangeCleanlinessReviewValueEvent(val);
+                          },
+                        ),
+                        16.verticalSpace,
+                        PublishReviewSliderWidget(
+                          fieldName: 'Comfort',
+                          value:  (state is StateOnSuccess)? state.response.comfortReview :0.0,
+                          context: context,
+                          callback: (double val) {
+                            context
+                                .read<ReviewCubit>()
+                                .onChangeComfortReviewValueEvent(val);
+                          },
+                        ),
+                        16.verticalSpace,
+                        PublishReviewSliderWidget(
+                          fieldName: 'Location',
+                          value:  (state is StateOnSuccess)?state.response.locationReview :0.0,
+                          context: context,
+                          callback: (double val) {
+                            context
+                                .read<ReviewCubit>()
+                                .onChangeLocationReviewValueEvent(val);
+                          },
+                        ),
+                        16.verticalSpace,
+                        PublishReviewSliderWidget(
+                          fieldName: 'Facilities',
+                          value:  (state is StateOnSuccess)?state.response.facilitiesReview:0.0,
+                          context: context,
+                          callback: (double val) {
+                            context
+                                .read<ReviewCubit>()
+                                .onChangeFacilitiesReviewValueEvent(val);
+                          },
+                        ),
+                      ],
+                    )
+                  ))
+
+        );
+      },
     );
   }
 }

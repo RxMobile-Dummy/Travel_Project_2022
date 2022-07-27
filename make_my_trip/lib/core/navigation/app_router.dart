@@ -55,7 +55,9 @@ import '../../features/login/login_injection_container.dart';
 import '../../features/wishlist/presentation/pages/wishlist_page.dart';
 
 class Router {
-  static Route<dynamic> generateRoutes(RouteSettings settings) {
+  var Cubit1 = reviewSl<ReviewCubit>();
+
+  Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case RoutesName.splash:
         return MaterialPageRoute(builder: (_) {
@@ -110,7 +112,9 @@ class Router {
           return MultiBlocProvider(
             providers: [
               BlocProvider.value(
-                value: slHomePage<HomepageCubit>()..getImagesApi()..getToursApi(),
+                value: slHomePage<HomepageCubit>()
+                  ..getImagesApi()
+                  ..getToursApi(),
               ),
               BlocProvider.value(value: slHomePage<TabBarCubit>())
             ],
@@ -124,7 +128,8 @@ class Router {
       case RoutesName.wishList:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => wishListSl<WishListCubit>()..getWishListCubitData(),
+            create: (context) =>
+                wishListSl<WishListCubit>()..getWishListCubitData(),
             child: WishListPage(),
           );
         });
@@ -194,7 +199,8 @@ class Router {
               ),
               BlocProvider.value(
                 value: BlocProvider.of<SelectRoomCountCubit>(arg["context"]),
-              ),BlocProvider.value(
+              ),
+              BlocProvider.value(
                 value: roomDetailSl<RoomCategoryCubit>(),
               )
             ],
@@ -206,20 +212,16 @@ class Router {
       case RoutesName.reviewPage:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
-            create: (context) =>
-                reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
+          return BlocProvider.value(
+            value: Cubit1..getHotelReviewData(arg['hotel_id']),
             child: ReviewPage(arg: arg),
           );
         });
       case RoutesName.publishReviewPage:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (context) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(create: (context) => reviewSl<PublishReviewCubit>()),
-              BlocProvider(create: (context) => reviewSl<ReviewCubit>())
-            ],
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider.value(
+            value: Cubit1,
             child: PublishReviewPage(arg: arg),
           );
         });

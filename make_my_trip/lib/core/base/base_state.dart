@@ -167,3 +167,48 @@ class FailErrorMessageState extends BaseState implements Equatable {
   @override
   bool? get stringify => null;
 }
+
+
+class ReviewValueState extends BaseState implements Equatable {
+  final bool authenticated;
+  final double cleanlinessReview;
+  final double comfortReview;
+  final double locationReview;
+  final double facilitiesReview;
+  final String commentReview;
+
+   ReviewValueState({
+     required this.authenticated,
+    required this.cleanlinessReview,
+    required this.comfortReview,
+    required this.locationReview,
+    required this.facilitiesReview,
+    required this.commentReview,
+  });
+
+  ReviewValueState copyWith(
+
+      {bool? authenticated,
+        double? cleanlinessReview,
+        double? comfortReview,
+        double? locationReview,
+        double? facilitiesReview,
+        String? commentReview}) =>
+      ReviewValueState(
+        authenticated: authenticated ?? this.authenticated,
+          cleanlinessReview: cleanlinessReview ?? this.cleanlinessReview,
+          comfortReview: comfortReview ?? this.comfortReview,
+          locationReview: locationReview ?? this.locationReview,
+          facilitiesReview: facilitiesReview ?? this.facilitiesReview,
+          commentReview: commentReview ?? this.commentReview);
+
+  @override
+  List<Object?> get props => [
+    authenticated,
+    cleanlinessReview,
+    comfortReview,
+    locationReview,
+    facilitiesReview,
+    commentReview
+  ];
+}

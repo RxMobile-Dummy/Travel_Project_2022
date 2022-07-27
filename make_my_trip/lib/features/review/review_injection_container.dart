@@ -15,7 +15,7 @@ Future<void> init() async {
   //Cubit
   reviewSl
       .registerFactory(() => ReviewCubit(reviewSl(), reviewSl(), reviewSl()));
-  reviewSl.registerFactory(() => PublishReviewCubit(reviewSl()));
+ // reviewSl.registerFactory(() => PublishReviewCubit(reviewSl()));
 
   //UseCase
   reviewSl.registerLazySingleton(() => GetHotelReviewUseCases(reviewSl()));

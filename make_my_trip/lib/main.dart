@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Make My Trip',
         theme: MakeMyTripLightTheme.lightTheme,
-        onGenerateRoute: app_routes.Router.generateRoutes,
+        onGenerateRoute: app_routes.Router().generateRoutes,
       ),
     );
   }

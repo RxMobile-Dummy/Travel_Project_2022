@@ -13,14 +13,50 @@ class ReviewCubit extends Cubit<BaseState> {
 
   ReviewCubit(this.getHotelReviewUseCases, this.postHotelReviewUseCases,
       this.isAnonymousUser)
-      : super(StateInitial());
+      : super(StateOnSuccess<ReviewValueState>(ReviewValueState(
+      authenticated: false,
+      cleanlinessReview: 0.0,
+      comfortReview: 0.0,
+      locationReview: 0.0,
+      facilitiesReview: 0.0,
+      commentReview: "")));
 
   final IsAnonymousUser isAnonymousUser;
 
+  onChangeCleanlinessReviewValueEvent(double? cleanlinessRating) {
+    emit(StateOnSuccess((state as StateOnSuccess<ReviewValueState>)
+        .response
+        .copyWith(cleanlinessReview: cleanlinessRating)));
+  }
+
+  onChangeComfortReviewValueEvent(double comfortRating) {
+    emit(StateOnSuccess((state as StateOnSuccess<ReviewValueState>)
+        .response
+        .copyWith(comfortReview: comfortRating)));
+  }
+
+  onChangeLocationReviewValueEvent(double locationRating) {
+    emit(StateOnSuccess((state as StateOnSuccess<ReviewValueState>)
+        .response
+        .copyWith(locationReview: locationRating)));
+  }
+
+  onChangeFacilitiesReviewValueEvent(double facilitiesRating) {
+    emit(StateOnSuccess((state as StateOnSuccess<ReviewValueState>)
+        .response
+        .copyWith(facilitiesReview: facilitiesRating)));
+  }
+
+  onChangeCommentReviewValueEvent(String comment) {
+    emit(StateOnSuccess((state as StateOnSuccess<ReviewValueState>)
+        .response
+        .copyWith(commentReview: comment)));
+  }
+
   getHotelReviewData(int params) async {
-    emit(StateLoading());
+    // emit(StateLoading());
     final res = await getHotelReviewUseCases.call(params);
-    res.fold((l) => emit(StateNoData()),
+    res.fold((l) => {print('print fail')},
         (r) => emit(StateOnSuccess<List<ReviewModel?>>(r)));
   }
 
@@ -30,9 +66,13 @@ class ReviewCubit extends Cubit<BaseState> {
       print(failure);
     }, (success) {
       if (success) {
-        emit(Unauthenticated());
+        emit(StateOnSuccess((state as StateOnSuccess<ReviewValueState>)
+            .response
+            .copyWith(authenticated: false)));
       } else {
-        emit(Authenticated());
+        emit(StateOnSuccess((state as StateOnSuccess<ReviewValueState>)
+            .response
+            .copyWith(authenticated: true)));
       }
     });
   }
@@ -44,7 +84,7 @@ class ReviewCubit extends Cubit<BaseState> {
       final req = await postHotelReviewUseCases
           .call(PostReviewParams(hotel_id: hote_id, reviewModel: reviewModel));
       req.fold((l) {
-        emit(StateNoData());
+        // emit(StateNoData());
       }, (r) {
         emit(StateOnKnownToSuccess<List<ReviewModel>>(r));
       });

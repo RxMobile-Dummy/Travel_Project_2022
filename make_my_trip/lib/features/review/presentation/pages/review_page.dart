@@ -21,6 +21,13 @@ class ReviewPage extends StatelessWidget {
         if (state is Unauthenticated) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.publishReviewPage});
+        }else if (state is Authenticated) {
+          Navigator.pushNamed(
+              context, RoutesName.publishReviewPage, arguments: {
+            'context': context,
+            'hotel_id': arg['hotel_id'],
+            'rating': arg['rating']
+          });
         }
       },
       child: Scaffold(
@@ -102,16 +109,23 @@ class ReviewPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               var searchState = context.read<ReviewCubit>().state;
-              if (searchState is Unauthenticated) {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.publishReviewPage});
-              } else if (searchState is Authenticated) {
-                Navigator.pushReplacementNamed(
-                    context, RoutesName.publishReviewPage, arguments: {
-                  'context': context,
-                  'hotel_id': arg['hotel_id'],
-                  'rating': arg['rating']
-                });
+              print(searchState);
+              if (searchState is StateOnSuccess<ReviewValueState>) {
+    if(searchState.response.authenticated==false) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, RoutesName.login, (route) => true,
+          arguments: {"route_name": RoutesName.publishReviewPage});
+    }
+              } else if (searchState is StateOnSuccess<ReviewValueState>) {
+                print('navi');
+                if(searchState.response.authenticated==true) {
+                  Navigator.pushNamed(
+                      context, RoutesName.publishReviewPage, arguments: {
+                    'context': context,
+                    'hotel_id': arg['hotel_id'],
+                    'rating': arg['rating']
+                  });
+                }
               } else {
                 BlocProvider.of<ReviewCubit>(context).goToPostReview();
               }
