@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
-import 'package:make_my_trip/features/login/login_injection_container.dart';
-import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
-import 'package:make_my_trip/features/login/presentation/pages/login_page.dart';
 import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
 import 'package:make_my_trip/features/user_history/user_history_injection_container.dart';
@@ -27,7 +24,8 @@ class HomePage extends StatelessWidget {
         print(state);
         if (state is Unauthenticated) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.home});
+              context, RoutesName.login, (route) => true,
+              arguments: {"route_name": RoutesName.home});
         }
       },
       builder: (context, state) {
@@ -62,7 +60,8 @@ class HomePage extends StatelessWidget {
                 print(searchState);
                 if (searchState is Unauthenticated && index != 0) {
                   Navigator.pushNamedAndRemoveUntil(
-                      context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.home});
+                      context, RoutesName.login, (route) => true,
+                      arguments: {"route_name": RoutesName.home});
                 } else {
                   BlocProvider.of<TabBarCubit>(context).checkAnonymous(index);
                 }
@@ -85,10 +84,10 @@ class HomePage extends StatelessWidget {
               wishListSl<WishListCubit>()..getWishListCubitData(),
           child: WishListPage(),
         ),
-    BlocProvider(
-      create: (context) =>
-      wishListSl<WishListCubit>()..getWishListCubitData(),
-      child: WishListPage(),
-    ),
+        BlocProvider(
+          create: (context) =>
+              wishListSl<WishListCubit>()..getWishListCubitData(),
+          child: WishListPage(),
+        ),
       ];
 }

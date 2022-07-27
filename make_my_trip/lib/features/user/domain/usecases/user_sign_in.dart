@@ -1,19 +1,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:make_my_trip/features/login/domain/repositories/login_repository.dart';
-
-import '../../../../core/failures/failures.dart';
-import '../../../../core/usecases/usecase.dart';
-import '../model/user_model.dart';
+import 'package:make_my_trip/core/failures/failures.dart';
+import 'package:make_my_trip/core/usecases/usecase.dart';
+import 'package:make_my_trip/features/user/data/model/user_model.dart';
+import 'package:make_my_trip/features/user/domain/repositories/user_repository.dart';
 
 class UserSignIn extends Usecase<UserModel, UserSignInParams> {
-  final UserLoginRepository repository;
+  final UserRepository userRepository;
 
-  UserSignIn({required this.repository});
+  UserSignIn({required this.userRepository});
 
   @override
   Future<Either<Failures, UserModel>> call(UserSignInParams params) async {
-    return await repository.userSignIn(
+    return await userRepository.userSignIn(
         userEmail: params.userEmail, userPassword: params.userPassword);
   }
 }

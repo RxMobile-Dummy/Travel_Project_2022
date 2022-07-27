@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
@@ -7,7 +8,6 @@ import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
 import '../../../../core/theme/text_styles.dart';
-import '../cubit/login_cubit.dart';
 
 class ResetPasswordPage extends StatelessWidget {
   ResetPasswordPage({Key? key}) : super(key: key);
@@ -59,7 +59,7 @@ class ResetPasswordPage extends StatelessWidget {
                   text: StringConstants.sendLink,
                   onTap: () {
                     context
-                        .read<LoginCubit>()
+                        .read<UserCubit>()
                         .userForgetPassword(emailController.text);
                   }),
             )

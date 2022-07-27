@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
 import '../../../../core/theme/text_styles.dart';
 import '../../../../utils/constants/image_path.dart';
 import '../../../../utils/constants/string_constants.dart';
-import '../../../../utils/widgets/common_primary_button.dart';
-import '../../../login/presentation/cubit/login_cubit.dart';
 
 class EmailVerification extends StatelessWidget {
   const EmailVerification({Key? key}) : super(key: key);

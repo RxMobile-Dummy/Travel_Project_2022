@@ -1,11 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
-import 'package:make_my_trip/features/login/presentation/widgets/social_buttons.dart';
+import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
+import 'package:make_my_trip/features/user/presentation/widgets/social_buttons.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
@@ -21,18 +22,16 @@ class LoginPage extends StatelessWidget {
   bool passwordObSecure = true;
   final Map<String, dynamic> arg;
 
-
   @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
-    return BlocListener<LoginCubit, LoginState>(
+    return BlocListener<UserCubit, BaseState>(
       listener: (context, state) {
-        if (state is AuthLoading) {
+        if (state is StateLoading) {
           ProgressDialog.showLoadingDialog(context, message: "Loggin In...");
-        } else if (state is LoginSuccessState) {
+        } else if (state is StateOnSuccess) {
           ProgressDialog.hideLoadingDialog(context);
-          Navigator.pushReplacementNamed(
-              context, arg["route_name"]);
+          Navigator.pushReplacementNamed(context, arg["route_name"]);
         } else {
           ProgressDialog.hideLoadingDialog(context);
         }
@@ -51,12 +50,6 @@ class LoginPage extends StatelessWidget {
                       ImagePath.appLogo,
                     ),
                   ),
-                  // 16.verticalSpace,
-                  // Text(
-                  //   StringConstants.loginTitle,
-                  //   style: AppTextStyles.infoContentStyle,
-                  //   textAlign: TextAlign.center,
-                  // ),
                   20.verticalSpace,
                   TextFormField(
                     controller: loginEmailController,
@@ -64,10 +57,10 @@ class LoginPage extends StatelessWidget {
                         InputDecoration(hintText: StringConstants.emailTxt),
                   ),
                   16.verticalSpace,
-                  BlocBuilder<LoginCubit, LoginState>(
+                  BlocBuilder<UserCubit, BaseState>(
                     builder: (context, state) {
-                      if (state is LoginObSecureChangeState) {
-                        passwordObSecure = state.obSecure;
+                      if (state is StateOnKnownToSuccess) {
+                        passwordObSecure = state.response;
                       }
                       return TextFormField(
                         decoration: InputDecoration(
@@ -77,7 +70,7 @@ class LoginPage extends StatelessWidget {
                                 ? Icons.visibility_off
                                 : Icons.visibility),
                             onTap: () {
-                              BlocProvider.of<LoginCubit>(context)
+                              BlocProvider.of<UserCubit>(context)
                                   .changeObSecureEvent(passwordObSecure);
                             },
                           ),
@@ -101,37 +94,26 @@ class LoginPage extends StatelessWidget {
                         )),
                   ),
                   16.verticalSpace,
-                  // LoginElevatedButtonWidget(
-                  //   height: 12,
-                  //   onTap: () {
-                  //     BlocProvider.of<LoginCubit>(context).signInWithEmail(
-                  //         loginEmailController.text,
-                  //         loginPasswordController.text);
-                  //   },
-                  //   width: double.infinity,
-                  //   buttonColor: MakeMyTripColors.accentColor,
-                  //   child: Text(StringConstants.loginTxt),
-                  // ),
                   FractionallySizedBox(
                     widthFactor: 1,
                     child: CommonPrimaryButton(
                       text: StringConstants.loginTxt,
                       onTap: () {
-                        BlocProvider.of<LoginCubit>(context).signInWithEmail(
+                        BlocProvider.of<UserCubit>(context).signInWithEmail(
                             loginEmailController.text,
                             loginPasswordController.text);
                       },
                     ),
                   ),
-                  BlocBuilder<LoginCubit, LoginState>(
+                  BlocBuilder<UserCubit, BaseState>(
                     builder: (context, state) {
                       return Align(
                           alignment: AlignmentDirectional.centerEnd,
-                          child: (state is LoginErrorState)
+                          child: (state is StateErrorGeneral)
                               ? Padding(
                                   padding: const EdgeInsets.only(top: 8),
                                   child: Text(
-                                    "*${state.error}",
+                                    "*${state.errorMessage}",
                                     style: const TextStyle(
                                         color: MakeMyTripColors.colorRed),
                                   ),

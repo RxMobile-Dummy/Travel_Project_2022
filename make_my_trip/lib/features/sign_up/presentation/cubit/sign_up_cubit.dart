@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
-import 'package:make_my_trip/features/sign_up/domain/usecases/user_sign_up.dart';
-import 'package:make_my_trip/features/sign_up/domain/usecases/user_verification.dart';
+import 'package:make_my_trip/features/user/domain/usecases/user_sign_up.dart';
+import 'package:make_my_trip/features/user/domain/usecases/user_verification.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/validators/user_info/user_information_validations.dart';
 import 'package:meta/meta.dart';

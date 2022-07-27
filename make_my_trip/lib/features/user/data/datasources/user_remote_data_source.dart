@@ -1,50 +1,27 @@
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:make_my_trip/features/login/domain/model/user_model.dart';
-
-import '../../../../core/failures/failures.dart';
+import 'package:make_my_trip/core/failures/failures.dart';
+import 'package:make_my_trip/features/user/data/model/user_model.dart';
 
 abstract class UserRemoteDataSource {
+  //user anonymous data_source methods
   Future<Either<Failures, bool>> isAnonumousUser();
+
   Future<Either<Failures, UserModel>> getUser();
-}
 
-class UserRemoteDataSourceImpl extends UserRemoteDataSource {
-  final FirebaseAuth auth;
+  //login data_source methods
+  Future<Either<Failures, UserModel>> userSignIn(userEmail, userPassword);
 
-  UserRemoteDataSourceImpl({required this.auth});
+  Future<Either<Failures, UserModel>> userGoogleLogIn();
 
-  @override
-  Future<Either<Failures, bool>> isAnonumousUser() async {
-    try {
-      User? user = auth.currentUser;
-      if (user?.email != null) {
-        return Right(false);
-      } else {
-        return Right(true);
-      }
-    } catch (err) {
-      print(err);
-      return Left(ServerFailure());
-    }
-  }
+  Future<Either<Failures, UserModel>> userFacebookLogIn();
 
-  @override
-  Future<Either<Failures, UserModel>> getUser() async {
-    try {
-      User? user = auth.currentUser;
-      if (user != null) {
-        return Right(UserModel(
-            userName: user.displayName,
-            userEmail: user.email,
-            userPhone: user.phoneNumber,
-            userPic: user.photoURL,
-            userId: user.uid));
-      } else {
-        return Right(UserModel.fromJson({}));
-      }
-    } catch (err) {
-      return Left(ServerFailure(failureMsg: "Something went wrong"));
-    }
-  }
+  Future<Either<Failures, void>> userForgetPasswordData(String emailAddress);
+
+//sign_up data_source methods
+  Future<Either<Failures, bool>> userSignUp(
+      {required String fullName,
+      required String email,
+      required String password});
+
+  Future<Either<Failures, bool>> userVerification();
 }

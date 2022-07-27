@@ -1,20 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/login/presentation/widgets/social_buttons.dart';
 import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:make_my_trip/features/sign_up/presentation/widgets/text_field.dart';
+import 'package:make_my_trip/features/user/presentation/widgets/social_buttons.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 
 import '../../../../core/navigation/route_info.dart';
 import '../../../../utils/constants/image_path.dart';
-import '../../../login/presentation/cubit/login_cubit.dart';
-import '../../../login/presentation/widgets/icon_button.dart';
 
 class SignUpPage extends StatelessWidget {
   final TextEditingController fullname = TextEditingController();

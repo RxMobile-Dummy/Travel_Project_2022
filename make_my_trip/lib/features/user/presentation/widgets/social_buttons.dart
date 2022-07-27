@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
 import '../../../../utils/constants/image_path.dart';
 import '../../../../utils/constants/string_constants.dart';
-import '../cubit/login_cubit.dart';
+
 import 'icon_button.dart';
 
 class SocialButton extends StatelessWidget {
@@ -22,7 +23,7 @@ class SocialButton extends StatelessWidget {
             text: StringConstants.facebookTxt,
             textColor: MakeMyTripColors.colorWhite,
             onTap: () {
-              BlocProvider.of<LoginCubit>(context).signInWithFacebook();
+              BlocProvider.of<UserCubit>(context).signInWithFacebook();
             },
           ),
         ),
@@ -36,7 +37,7 @@ class SocialButton extends StatelessWidget {
                 width: 24,
               ),
               onTap: () {
-                BlocProvider.of<LoginCubit>(context).signInWithGoogle();
+                BlocProvider.of<UserCubit>(context).signInWithGoogle();
               },
               text: StringConstants.googleTxt),
         ),

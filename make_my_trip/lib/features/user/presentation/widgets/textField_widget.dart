@@ -10,6 +10,7 @@ class TextFieldView extends StatelessWidget {
       : super(key: key);
   final String hintTextvar;
   var textFieldViewController;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(

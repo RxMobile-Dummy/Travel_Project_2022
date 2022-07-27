@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
-import 'package:make_my_trip/features/login/domain/model/user_model.dart';
 import 'package:make_my_trip/features/user/domain/usecases/get_user.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';

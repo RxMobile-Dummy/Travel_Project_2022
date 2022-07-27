@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
-import 'package:make_my_trip/features/home_page/data/models/ToursModel.dart';
-import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/features/home_page/domain/use_cases/image_usecase.dart';
 import 'package:make_my_trip/features/home_page/domain/use_cases/tour_usecase.dart';
 import '../../../../../core/failures/failures.dart';
@@ -26,7 +24,7 @@ class HomepageCubit extends Cubit<BaseState> {
     }, (success) {
       emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
           .response
-          .copyWith(imageListValue: success,imageLoading: false)));
+          .copyWith(imageListValue: success, imageLoading: false)));
     });
   }
 
@@ -43,28 +41,7 @@ class HomepageCubit extends Cubit<BaseState> {
     }, (success) {
       emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
           .response
-          .copyWith(toursListValue: success,tourLoading: false)));
+          .copyWith(toursListValue: success, tourLoading: false)));
     });
   }
-}
-
-class GettingStartedData {
-  bool? tourLoading;
-  bool? imageLoading;
-  List<ToursModel>? toursListValue;
-  List<ImageModel>? imageListValue;
-
-  GettingStartedData({this.imageLoading,this.tourLoading,this.toursListValue, this.imageListValue});
-
-  GettingStartedData copyWith({
-    bool? tourLoading,
-    bool? imageLoading,
-    List<ToursModel>? toursListValue,
-    List<ImageModel>? imageListValue,
-  }) =>
-      GettingStartedData(
-        tourLoading: tourLoading ?? this.tourLoading,
-          imageLoading: imageLoading ?? this.imageLoading,
-          toursListValue: toursListValue ?? this.toursListValue,
-          imageListValue: imageListValue ?? this.imageListValue);
 }
