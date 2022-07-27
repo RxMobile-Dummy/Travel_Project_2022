@@ -45,4 +45,5 @@ class ImagesliderCubit extends Cubit<BaseState> {
       }
     }, (r) => emit(StateOnKnownToSuccess<dynamic>(r)));
   }
+
 }

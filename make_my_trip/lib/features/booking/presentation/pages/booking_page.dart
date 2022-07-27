@@ -7,8 +7,8 @@ import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import '../../../hotel_detail/presentation/widgets/features_item_widget.dart';
 
 class BookingPage extends StatelessWidget {
-  const BookingPage({Key? key}) : super(key: key);
-
+   BookingPage({Key? key,required this.arg}) : super(key: key);
+   Map<String, dynamic> arg;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,7 +22,8 @@ class BookingPage extends StatelessWidget {
                 height: 40,
                 width: 100,
                 child: ElevatedButton(
-                  onPressed: () {  },
+                  onPressed: () {
+                  },
                   child: Text("DONE",style: AppTextStyles.infoContentStyle3,),
 
                 ),

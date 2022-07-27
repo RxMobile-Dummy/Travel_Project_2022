@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
-import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/features/home_page/presentation/widgets/imege_slidder_shimmer.dart';
 import '../../../../core/base/base_state.dart';
 import '../cubit/homepage_cubit.dart';
 
@@ -11,9 +11,6 @@ Widget slidableImageList() {
     height: 200,
     width: double.infinity,
     child: BlocBuilder<HomepageCubit, BaseState>(builder: (context, state) {
-      if (state is StateErrorGeneral) {
-        return const Center(child: CircularProgressIndicator());
-      } else {
         if ((state as StateOnSuccess<GettingStartedData>)
                 .response
                 .imageListValue !=
@@ -65,10 +62,10 @@ Widget slidableImageList() {
               items: imageSliders,
             ),
           );
-        } else {
-          return Text(StringConstants.loading);
+        }else {
+          return ImageSliderShimmer();
         }
       }
-    }),
+    ),
   );
 }

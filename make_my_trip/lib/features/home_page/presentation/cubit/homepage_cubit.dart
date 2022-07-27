@@ -9,15 +9,15 @@ import '../../../../../core/failures/failures.dart';
 
 class HomepageCubit extends Cubit<BaseState> {
   HomepageCubit(this.imagesusecase, this.toursusecase)
-      : super(StateOnSuccess<GettingStartedData>(GettingStartedData())) {
-    getImagesApi();
-    getToursApi();
-  }
-
+      : super(StateOnSuccess<GettingStartedData>(GettingStartedData()));
   final GetAllImagesOfHomePageUseCase imagesusecase;
   final GetAllToursOfHomepageUseCase toursusecase;
 
   getImagesApi() async {
+    emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
+        .response
+        .copyWith(imageLoading: true)));
+
     var data = await imagesusecase.call();
     data.fold((failure) {
       if (failure is ServerFailure) {
@@ -26,11 +26,14 @@ class HomepageCubit extends Cubit<BaseState> {
     }, (success) {
       emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
           .response
-          .copyWith(imageListValue: success)));
+          .copyWith(imageListValue: success,imageLoading: false)));
     });
   }
 
   getToursApi() async {
+    emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
+        .response
+        .copyWith(tourLoading: true)));
     var data = await toursusecase.call();
     data.fold((failure) {
       if (failure is ServerFailure) {
@@ -40,22 +43,28 @@ class HomepageCubit extends Cubit<BaseState> {
     }, (success) {
       emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
           .response
-          .copyWith(toursListValue: success)));
+          .copyWith(toursListValue: success,tourLoading: false)));
     });
   }
 }
 
 class GettingStartedData {
+  bool? tourLoading;
+  bool? imageLoading;
   List<ToursModel>? toursListValue;
   List<ImageModel>? imageListValue;
 
-  GettingStartedData({this.toursListValue, this.imageListValue});
+  GettingStartedData({this.imageLoading,this.tourLoading,this.toursListValue, this.imageListValue});
 
   GettingStartedData copyWith({
+    bool? tourLoading,
+    bool? imageLoading,
     List<ToursModel>? toursListValue,
     List<ImageModel>? imageListValue,
   }) =>
       GettingStartedData(
+        tourLoading: tourLoading ?? this.tourLoading,
+          imageLoading: imageLoading ?? this.imageLoading,
           toursListValue: toursListValue ?? this.toursListValue,
           imageListValue: imageListValue ?? this.imageListValue);
 }

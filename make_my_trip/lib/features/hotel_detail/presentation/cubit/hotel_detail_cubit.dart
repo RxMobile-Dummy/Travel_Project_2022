@@ -1,8 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
-import 'package:make_my_trip/features/home_page/data/models/ToursModel.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
-import 'package:make_my_trip/features/hotel_detail/domain/repositories/hotel_detail_repository.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/hotel_detail_usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/islike_delete_usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/islike_post_usecase.dart';
@@ -50,7 +48,7 @@ class HotelDetailCubit extends Cubit<BaseState> {
   getHotelDetailData(int data) async {
     emit(StateLoading());
     final res = await hotelDetailUseCase.call(HotelDetailParams(index: data));
-    res.fold((l) => emit(StateNoData()),
+    res.fold((l) => emit(StateErrorGeneral("errorMessage")),
         (r) => emit(StateOnKnownToSuccess<HotelDetailModel>(r)));
   }
 }

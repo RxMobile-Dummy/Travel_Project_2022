@@ -13,20 +13,22 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class RoomListWidget extends StatelessWidget {
-  RoomListWidget({
-    Key? key,
+   RoomListWidget({Key? key,
     required this.hotelId,
     required this.roomData,
     required this.roomRemoveOnTap,
     required this.roomAddOnTap,
     required this.totalSelectedRoom,
     required this.roomList,
+    required this.cin,
+    required this.cout,
   }) : super(key: key);
   final List<RoomType> roomList;
   final RoomType roomData;
   final VoidCallback roomRemoveOnTap;
   final VoidCallback roomAddOnTap;
-
+  final String cin;
+  final String cout;
   int totalSelectedRoom;
   final int hotelId;
 

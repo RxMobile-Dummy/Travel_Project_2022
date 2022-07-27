@@ -18,35 +18,37 @@ class CommonErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const Spacer(),
-        AspectRatio(
-          aspectRatio: 1.6,
-          child: Image.asset(
-            imagePath,
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Spacer(),
+          AspectRatio(
+            aspectRatio: 1.6,
+            child: Image.asset(
+              imagePath,
+            ),
           ),
-        ),
-        30.verticalSpace,
-        Text(
-          statusCode,
-          style: const TextStyle(
-              color: MakeMyTripColors.accentColor,
-              fontSize: 50,
-              fontWeight: FontWeight.bold),
-        ),
-        25.verticalSpace,
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
+          30.verticalSpace,
+          Text(
+            statusCode,
+            style: const TextStyle(
                 color: MakeMyTripColors.accentColor,
-              fontSize: 24,
-              fontWeight: FontWeight.bold),
-        ),
-        const Spacer(),
-      ],
+                fontSize: 50,
+                fontWeight: FontWeight.bold),
+          ),
+          25.verticalSpace,
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                  color: MakeMyTripColors.accentColor,
+                fontSize: 24,
+                fontWeight: FontWeight.bold),
+          ),
+          const Spacer(),
+        ],
+      ),
     );
   }
 }

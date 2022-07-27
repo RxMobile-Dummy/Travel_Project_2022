@@ -9,8 +9,8 @@ class WishListUsecase implements Usecase<List<WishlistModel>, NoParams> {
   WishListUsecase(this.wishListRepository);
 
   @override
-  Future<Either<Failures, List<WishlistModel>>> call(NoParams params) {
-    // TODO: implement call
-    return wishListRepository.getWishList();
+  Future<Either<Failures, List<WishlistModel>>> call(NoParams params) async {
+
+    return await wishListRepository.getWishList();
   }
 }

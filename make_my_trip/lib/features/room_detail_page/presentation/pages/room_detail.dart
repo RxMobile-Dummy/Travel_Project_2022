@@ -60,10 +60,10 @@ class RoomDetailsPage extends StatelessWidget {
       } else if (state is StateErrorGeneral) {
         return Scaffold(
             body: CommonErrorWidget(
-          imagePath: ImagePath.serverFailImage,
-          title: StringConstants.serverFail,
-          statusCode: state.errorMessage,
-        ));
+              imagePath: ImagePath.serverFailImage,
+              title: StringConstants.serverFail,
+              statusCode: state.errorMessage,
+            ));
       }
       return Scaffold(
         body: CustomScrollView(
@@ -336,11 +336,11 @@ class RoomDetailsPage extends StatelessWidget {
                               roomDetailsModel!.roomType == "Deluxe"
                                   ? state.response.deluxValue
                                   : (roomDetailsModel!.roomType == "Semi-Deluxe"
-                                      ? state.response.semiDeluxValue
-                                      : (roomDetailsModel!.roomType ==
-                                              "Super-Deluxe"
-                                          ? state.response.superDeluxValue
-                                          : int.parse(noOfRoom.toString()))),
+                                  ? state.response.semiDeluxValue
+                                  : (roomDetailsModel!.roomType ==
+                                  "Super-Deluxe"
+                                  ? state.response.superDeluxValue
+                                  : int.parse(noOfRoom.toString()))),
                               roomMaxLength);
                         }
                       },
@@ -362,30 +362,25 @@ class RoomDetailsPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      "₹ ${((int.parse(roomDetailsModel!.price.toString()) * (state is StateOnSuccess<SelectRoomCountState> ? (roomDetailsModel!.roomType == "Deluxe" ? (state.response.deluxValue == 0 ? 1 : state.response.deluxValue) : (roomDetailsModel!.roomType == "Semi-Deluxe" ? (state.response.semiDeluxValue == 0 ? 1 : state.response.semiDeluxValue) : (roomDetailsModel!.roomType == "Super-Deluxe" ? (state.response.superDeluxValue == 0 ? 1 : state.response.superDeluxValue) : 1))) : 1)).toString())}",
+                      "₹ ${((int.parse(roomDetailsModel!.price.toString()) *
+                          (state is StateOnSuccess<SelectRoomCountState>
+                              ? (roomDetailsModel!.roomType == "Deluxe" ? (state
+                              .response.deluxValue == 0 ? 1 : state.response
+                              .deluxValue) : (roomDetailsModel!.roomType ==
+                              "Semi-Deluxe"
+                              ? (state.response.semiDeluxValue == 0 ? 1 : state
+                              .response.semiDeluxValue)
+                              : (roomDetailsModel!.roomType == "Super-Deluxe"
+                              ? (state.response.superDeluxValue == 0 ? 1 : state
+                              .response.superDeluxValue)
+                              : 1)))
+                              : 1)).toString())}",
                       style: AppTextStyles.labelNameTextStyle.copyWith(
                           fontSize: 22, color: MakeMyTripColors.colorWhite),
                     ),
                     const Spacer(),
                     ElevatedButton(
                         onPressed: () {
-                          // state is StateOnSuccess<SelectRoomCountState>
-                          //     ? ((roomDetailsModel!.roomType == "Deluxe"
-                          //                 ? state.response.deluxValue
-                          //                 : (roomDetailsModel!.roomType ==
-                          //                         "Semi-Deluxe"
-                          //                     ? state.response.semiDeluxValue
-                          //                     : (roomDetailsModel!.roomType ==
-                          //                             "Super-Deluxe"
-                          //                         ? state
-                          //                             .response.superDeluxValue
-                          //                         : 0))) >
-                          //             0
-                          //         ? Navigator.pushNamed(
-                          //             context, RoutesName.bookingPage)
-                          //         : ScaffoldMessenger.of(context)
-                          //             .showSnackBar(snackBar))
-                          //     : null;
 
                           if(state is StateOnSuccess<SelectRoomCountState>){
                             if((roomDetailsModel!.roomType == "Deluxe"
@@ -421,25 +416,25 @@ class RoomDetailsPage extends StatelessWidget {
                           'Book Now',
                           style: TextStyle(
                               color:
-                                  (state is StateOnSuccess<SelectRoomCountState>
-                                          ? ((roomDetailsModel!.roomType ==
-                                                      "Deluxe"
-                                                  ? state.response.deluxValue
-                                                  : (roomDetailsModel!
-                                                              .roomType ==
-                                                          "Semi-Deluxe"
-                                                      ? state.response
-                                                          .semiDeluxValue
-                                                      : (roomDetailsModel!
-                                                                  .roomType ==
-                                                              "Super-Deluxe"
-                                                          ? state.response
-                                                              .superDeluxValue
-                                                          : 0))) >
-                                              0)
-                                          : false)
-                                      ? MakeMyTripColors.accentColor
-                                      : MakeMyTripColors.color30gray),
+                              (state is StateOnSuccess<SelectRoomCountState>
+                                  ? ((roomDetailsModel!.roomType ==
+                                  "Deluxe"
+                                  ? state.response.deluxValue
+                                  : (roomDetailsModel!
+                                  .roomType ==
+                                  "Semi-Deluxe"
+                                  ? state.response
+                                  .semiDeluxValue
+                                  : (roomDetailsModel!
+                                  .roomType ==
+                                  "Super-Deluxe"
+                                  ? state.response
+                                  .superDeluxValue
+                                  : 0))) >
+                                  0)
+                                  : false)
+                                  ? MakeMyTripColors.accentColor
+                                  : MakeMyTripColors.color30gray),
                         ))
                   ],
                 );
@@ -448,8 +443,6 @@ class RoomDetailsPage extends StatelessWidget {
           ),
         ),
       );
-
-  },
-);
+    });
   }
 }
