@@ -72,7 +72,6 @@ class SearchHotelPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     )),
                 onChanged: (String query) {
-                  print("1");
                   context.read<SearchHotelCubit>().getSearchInputData(query);
                 },
               ),
@@ -82,7 +81,8 @@ class SearchHotelPage extends StatelessWidget {
                 if (state is StateOnKnownToSuccess) {
                   searchModel = state.response as List<SearchHotelModel>;
                   return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 16),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
@@ -90,10 +90,20 @@ class SearchHotelPage extends StatelessWidget {
                     child: ListView.separated(
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          return Text(searchModel?[index].description ?? "");
+                          return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                    RoutesName.hotelList,
+                                    arguments: {
+                                      'city_name':
+                                          searchModel?[index].description
+                                    });
+                              },
+                              child:
+                                  Text(searchModel?[index].description ?? ""));
                         },
                         separatorBuilder: (context, index) {
-                          return Divider(
+                          return const Divider(
                               height: 24,
                               thickness: 1,
                               color: MakeMyTripColors.color30gray);
