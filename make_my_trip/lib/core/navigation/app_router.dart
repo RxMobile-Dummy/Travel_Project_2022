@@ -55,7 +55,8 @@ import '../../features/login/login_injection_container.dart';
 import '../../features/wishlist/presentation/pages/wishlist_page.dart';
 
 class Router {
-  static Route<dynamic> generateRoutes(RouteSettings settings) {
+
+  Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case RoutesName.splash:
         return MaterialPageRoute(builder: (_) {
@@ -110,7 +111,9 @@ class Router {
           return MultiBlocProvider(
             providers: [
               BlocProvider.value(
-                value: slHomePage<HomepageCubit>()..getImagesApi()..getToursApi(),
+                value: slHomePage<HomepageCubit>()
+                  ..getImagesApi()
+                  ..getToursApi(),
               ),
               BlocProvider.value(value: slHomePage<TabBarCubit>())
             ],
@@ -124,7 +127,8 @@ class Router {
       case RoutesName.wishList:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => wishListSl<WishListCubit>(),
+            create: (context) =>
+                wishListSl<WishListCubit>()..getWishListCubitData(),
             child: WishListPage(),
           );
         });
@@ -194,7 +198,8 @@ class Router {
               ),
               BlocProvider.value(
                 value: BlocProvider.of<SelectRoomCountCubit>(arg["context"]),
-              ),BlocProvider.value(
+              ),
+              BlocProvider.value(
                 value: roomDetailSl<RoomCategoryCubit>(),
               )
             ],
@@ -208,7 +213,7 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) =>
-                reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
+            reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
             child: ReviewPage(arg: arg),
           );
         });

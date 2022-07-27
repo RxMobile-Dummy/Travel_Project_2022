@@ -19,8 +19,16 @@ class ReviewPage extends StatelessWidget {
     return BlocListener<ReviewCubit, BaseState>(
       listener: (context, state) {
         if (state is Unauthenticated) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.publishReviewPage});
+          Navigator.pushNamed(
+              context, RoutesName.login,arguments: {"route_name":RoutesName.publishReviewPage});
+        }
+        if(state is Authenticated){
+          Navigator.pushReplacementNamed(
+              context, RoutesName.publishReviewPage, arguments: {
+            'context': context,
+            'hotel_id': arg['hotel_id'],
+            'rating': arg['rating']
+          });
         }
       },
       child: Scaffold(
@@ -103,8 +111,8 @@ class ReviewPage extends StatelessWidget {
             onPressed: () {
               var searchState = context.read<ReviewCubit>().state;
               if (searchState is Unauthenticated) {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.publishReviewPage});
+                Navigator.pushNamed(
+                    context, RoutesName.login,arguments: {"route_name":RoutesName.publishReviewPage});
               } else if (searchState is Authenticated) {
                 Navigator.pushReplacementNamed(
                     context, RoutesName.publishReviewPage, arguments: {

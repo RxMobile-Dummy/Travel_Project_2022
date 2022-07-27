@@ -167,3 +167,4 @@ class FailErrorMessageState extends BaseState implements Equatable {
   @override
   bool? get stringify => null;
 }
+

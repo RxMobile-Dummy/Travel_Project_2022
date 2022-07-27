@@ -8,7 +8,9 @@ import 'package:make_my_trip/features/room_categories/presentation/cubit/room_ca
 import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
 import 'package:make_my_trip/features/room_categories/presentation/pages/room_categories_shimmer_page.dart';
 import 'package:make_my_trip/features/room_categories/presentation/widgets/room_list_widget.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 
 import '../../../../core/navigation/route_info.dart';
 import '../../data/model/room_data_booking_post_model.dart';
@@ -45,6 +47,8 @@ class RoomCategoriesPage extends StatelessWidget {
         }
       } else if (state is StateLoading) {
         return RoomCategoriesShimmerPage();
+      }else if (state is StateErrorGeneral){
+        return CommonErrorWidget(imagePath: ImagePath.serverFailImage, title: StringConstants.serverFail, statusCode: "");
       }
       return Scaffold(
           backgroundColor: MakeMyTripColors.color30gray,

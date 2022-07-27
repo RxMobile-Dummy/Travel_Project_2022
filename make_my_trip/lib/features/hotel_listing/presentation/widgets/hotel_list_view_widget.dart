@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model.dart';
-import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
-import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_state.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class HotelListViewWidget extends StatelessWidget {
