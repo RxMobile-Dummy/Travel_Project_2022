@@ -11,6 +11,7 @@ import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 
+import '../../../../core/theme/text_styles.dart';
 import '../widgets/shimmer_effect_page.dart';
 
 class WishListPage extends StatelessWidget {
@@ -19,6 +20,13 @@ class WishListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        title: Text(
+          StringConstants.wishlist,
+          style: AppTextStyles.unselectedLabelStyle,
+        ),
+      ),
       body: BlocBuilder<WishListCubit, BaseState>(
         builder: (context, state) {
           if (state is StateOnSuccess) {

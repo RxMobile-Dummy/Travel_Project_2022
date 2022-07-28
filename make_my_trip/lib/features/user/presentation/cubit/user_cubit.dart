@@ -145,12 +145,12 @@ class UserCubit extends Cubit<BaseState> {
               emit(StateErrorGeneral(_getFailure(failure)));
             }, (success) async {
               showWaitingDialog();
-              final response = await userVerification.call();
-              response.fold((failure) {
-                emit(StateErrorGeneral(_getFailure(failure)));
-              }, (success) {
-                emit(StateOnSuccess("success"));
-              });
+              // final response = await userVerification.call();
+              // response.fold((failure) {
+              //   emit(StateErrorGeneral(_getFailure(failure)));
+              // }, (success) {
+              //   emit(StateOnSuccess("success"));
+              // });
             });
           }
         }

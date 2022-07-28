@@ -16,56 +16,42 @@ class UserHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: Column(
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Icon(Icons.arrow_back_ios),
-                Text(
-                  StringConstants.bookingHeading,
-                  style: AppTextStyles.unselectedLabelStyle,
-                ),
-                const Icon(Icons.notifications_outlined),
-              ],
-            ),
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          title: Text(
+            StringConstants.bookingHeading,
+            style: AppTextStyles.unselectedLabelStyle,
           ),
-          Expanded(
-            child: BlocBuilder<UserHistoryCubit, BaseState>(
-              builder: (context, state) {
-                if (state is StateOnSuccess) {
-                  List<UserHistoryModel> userHistoryModel = state.response;
-                  if (userHistoryModel.isEmpty) {
-                    return CommonErrorWidget(
-                        imagePath: ImagePath.noBookingPage,
-                        title: StringConstants.noBooking,
-                        statusCode: "");
-                  }
-                  return ListView.builder(
-                      itemCount: userHistoryModel.length,
-                      itemBuilder: (context, index) {
-                        return HistoryListViewWidget(
-                            userHistoryModel: userHistoryModel[index]);
-                      });
-                } else if (state is StateErrorGeneral) {
+        ),
+        body: SafeArea(
+          child: BlocBuilder<UserHistoryCubit, BaseState>(
+            builder: (context, state) {
+              if (state is StateOnSuccess) {
+                List<UserHistoryModel> userHistoryModel = state.response;
+                if (userHistoryModel.isEmpty) {
                   return CommonErrorWidget(
-                      imagePath: ImagePath.serverFailImage,
-                      title: StringConstants.serverFail,
-                      statusCode: "505");
-                } else if (state is StateLoading) {
-                  return const HistoryPageShimmer();
-                } else {
-                  return const Center(child: Text("No data found"));
+                      imagePath: ImagePath.noBookingPage,
+                      title: StringConstants.noBooking,
+                      statusCode: "");
                 }
-              },
-            ),
-          )
-        ],
-      ),
-    ));
+                return ListView.builder(
+                    itemCount: userHistoryModel.length,
+                    itemBuilder: (context, index) {
+                      return HistoryListViewWidget(
+                          userHistoryModel: userHistoryModel[index]);
+                    });
+              } else if (state is StateErrorGeneral) {
+                return CommonErrorWidget(
+                    imagePath: ImagePath.serverFailImage,
+                    title: StringConstants.serverFail,
+                    statusCode: "505");
+              } else if (state is StateLoading) {
+                return const HistoryPageShimmer();
+              } else {
+                return const Center(child: Text("No data found"));
+              }
+            },
+          ),
+        ));
   }
 }

@@ -13,21 +13,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   final FirebaseAuth auth;
   final Dio dio;
-  final SharedPreferences sharedPreferences;
 
-  UserRemoteDataSourceImpl(
-      {required this.auth, required this.dio, required this.sharedPreferences});
+  UserRemoteDataSourceImpl({required this.auth, required this.dio});
 
   // user anonymous data_source methods impl
   @override
   Future<Either<Failures, bool>> isAnonumousUser() async {
     try {
       User? user = auth.currentUser;
-      if (user?.email != null) {
-        return const Right(false);
-      } else {
-        return const Right(true);
-      }
+      print(user!.email);
+      return Right(user.isAnonymous);
     } catch (err) {
       return Left(ServerFailure());
     }
@@ -52,15 +47,8 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
     }
   }
 
-  // login data_source methods impl
-  void printWrapped(String text) {
-    final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
-    pattern.allMatches(text).forEach((match) => print(match.group(0)));
-  }
-
   Future<Options> createDioOptions() async {
-    final userToken = await auth.currentUser!.getIdToken();
-    printWrapped(userToken);
+    final userToken = await auth.currentUser!.getIdToken(true);
     return Options(headers: {'token': userToken});
   }
 
@@ -73,13 +61,18 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
       User? user = userCredential.user;
 
       if (user != null) {
-        return Right(UserModel.fromJson({
-          "userName": user.displayName,
-          "userEmail": user.email,
-          "userPhone": user.phoneNumber,
-          "userPic": user.photoURL,
-          "userId": user.uid
-        }));
+        if (user.emailVerified) {
+          return Right(UserModel.fromJson({
+            "userName": user.displayName,
+            "userEmail": user.email,
+            "userPhone": user.phoneNumber,
+            "userPic": user.photoURL,
+            "userId": user.uid
+          }));
+        } else {
+          auth.signOut();
+          return Left(AuthFailure(failureMsg: "Email not varified"));
+        }
       } else {
         return Left(ServerFailure());
       }
@@ -208,22 +201,17 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
-      auth.fetchSignInMethodsForEmail(email);
       User? user = userCredential.user;
-      user?.updateDisplayName(fullName);
-
+      await auth.currentUser!.updateDisplayName(fullName);
+      user!.sendEmailVerification();
       if (user != null) {
-        final response = await dio.post('${BaseConstant.baseUrl}user',
+        final response = await dio.post('${BaseConstant.baseUrl}user/post',
             options: await createDioOptions());
         if (response.statusCode == 409) {
           return Left(
               AuthFailure(failureMsg: "Enter Email is Already Registred"));
         } else {
           if (response.statusCode == 200) {
-            sharedPreferences.setString(
-                StringConstants.userIdSharedPreference, user.uid);
-            sharedPreferences.setBool(
-                StringConstants.isAnonymousSharedPreference, false);
             return const Right(true);
           } else {
             return Left(ServerFailure());
@@ -246,12 +234,12 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   Future<Either<Failures, bool>> userVerification() async {
     try {
       final User? currentUser = auth.currentUser;
-      currentUser!.sendEmailVerification();
+
       bool result = false;
 
       while (result != true) {
         Future.delayed(const Duration(seconds: 5));
-        await currentUser.reload();
+        await currentUser!.reload();
         final User? verifiedUser = FirebaseAuth.instance.currentUser;
         if (verifiedUser!.emailVerified) {
           result = true;

@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 
 class TitleWidget extends StatelessWidget {
-   const TitleWidget({Key? key, required this.title, required this.viewAll}) : super(key: key);
+  const TitleWidget({Key? key, required this.title, required this.viewAll})
+      : super(key: key);
   final String title;
   final String viewAll;
   @override
@@ -12,15 +14,16 @@ class TitleWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title,
-              style: AppTextStyles.unselectedLabelStyle),
-          Text(viewAll,
-              style: AppTextStyles.unselectedLabelStyle),
+          Text(title, style: AppTextStyles.unselectedLabelStyle),
+          GestureDetector(
+              onTap: () {
+                FirebaseAuth.instance.signOut().then((value) {
+                  FirebaseAuth.instance.signInAnonymously();
+                });
+              },
+              child: Text(viewAll, style: AppTextStyles.unselectedLabelStyle)),
         ],
       ),
     );
   }
 }
-
-
-

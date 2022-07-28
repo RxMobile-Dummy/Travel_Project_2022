@@ -23,8 +23,8 @@ class SignUpPage extends StatelessWidget {
   bool pass = true;
   bool conPass = true;
   String error = "";
-
-  SignUpPage({Key? key}) : super(key: key);
+  final Map<String, dynamic> arg;
+  SignUpPage({Key? key, required this.arg}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,24 @@ class SignUpPage extends StatelessWidget {
               Navigator.pushNamedAndRemoveUntil(
                   context, RoutesName.home, (route) => true);
             } else if (state is StateShowSearching) {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, RoutesName.verifyEmail, (route) => true);
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    var alert = AlertDialog(
+                      title: Text("ddfds"),
+                      actions: [
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                              Navigator.pushReplacementNamed(
+                                  context, RoutesName.login,
+                                  arguments: {"route_name": arg["route_name"]});
+                            },
+                            child: Text("ok"))
+                      ],
+                    );
+                    return alert;
+                  });
             }
           }, builder: (context, state) {
             if (state is StateOnKnownToSuccess) {

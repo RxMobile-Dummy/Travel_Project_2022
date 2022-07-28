@@ -38,7 +38,8 @@ class LoginPage extends StatelessWidget {
       },
       child: Scaffold(
         body: SafeArea(
-          child: Container(
+            child: Stack(children: [
+          Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SingleChildScrollView(
@@ -160,8 +161,9 @@ class LoginPage extends StatelessWidget {
                         TextSpan(
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, RoutesName.signup, (route) => true);
+                              Navigator.pushReplacementNamed(
+                                  context, RoutesName.signup,
+                                  arguments: {"route_name": arg["route_name"]});
                             },
                           text: StringConstants.signUpTxt,
                           style: AppTextStyles.infoContentStyle2
@@ -172,7 +174,19 @@ class LoginPage extends StatelessWidget {
               ),
             ),
           ),
-        ),
+          Positioned(
+            top: 20,
+            right: 20,
+            child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Text(StringConstants.skipTxt,
+                    style: AppTextStyles.hintTextStyle.copyWith(
+                      color: MakeMyTripColors.color50gray,
+                    ))),
+          )
+        ])),
       ),
     );
   }

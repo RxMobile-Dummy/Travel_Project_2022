@@ -18,74 +18,38 @@ class HotelListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        title: Text(
+          arg['city_name'],
+          maxLines: 1,
+          style: AppTextStyles.unselectedLabelStyle,
+        ),
+      ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 40,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            icon: const Icon(Icons.arrow_back),
-                          ),
-                          // const Spacer(),
-                          Flexible(
-                            child: Text(
-                              arg['city_name'],
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              style: AppTextStyles.unselectedLabelStyle,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: const Icon(
-                    Icons.search,
-                    color: MakeMyTripColors.accentColor,
-                  ),
-                ),
-              ],
-            ),
-            BlocBuilder<HotelListCubit, BaseState>(
-              builder: (context, state) {
-                if (state is StateOnSuccess) {
-                  List<HotelListModel> hotelListModel = state.response;
+        child: BlocBuilder<HotelListCubit, BaseState>(
+          builder: (context, state) {
+            if (state is StateOnSuccess) {
+              List<HotelListModel> hotelListModel = state.response;
 
-                  if (hotelListModel.isEmpty) {
-                    return Expanded(
-                        child: CommonErrorWidget(
-                            imagePath: ImagePath.noDataFoundImage,
-                            title: StringConstants.noHotelFound,
-                            statusCode: ""));
-                  }
-                  return Expanded(
-                      child: ListView.builder(
-                          itemCount: hotelListModel.length,
-                          itemBuilder: (context, index) {
-                            return HotelListViewWidget(
-                                hotelListModel: hotelListModel[index]);
-                          }));
-                } else {
-                  return Expanded(child: HotelListShimmer());
-                }
-              },
-            )
-          ],
+              if (hotelListModel.isEmpty) {
+                return Expanded(
+                    child: CommonErrorWidget(
+                        imagePath: ImagePath.noDataFoundImage,
+                        title: StringConstants.noHotelFound,
+                        statusCode: ""));
+              }
+              return Expanded(
+                  child: ListView.builder(
+                      itemCount: hotelListModel.length,
+                      itemBuilder: (context, index) {
+                        return HotelListViewWidget(
+                            hotelListModel: hotelListModel[index]);
+                      }));
+            } else {
+              return HotelListShimmer();
+            }
+          },
         ),
       ),
     );

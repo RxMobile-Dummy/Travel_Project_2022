@@ -50,9 +50,11 @@ Future<void> init() async {
       () => UserRepositoryImpl(remoteDataSource: userSl()));
 
   //datasources
-  userSl.registerLazySingleton<UserRemoteDataSource>(() =>
-      UserRemoteDataSourceImpl(
-          auth: userSl(), dio: userSl(), sharedPreferences: userSl()));
+  userSl.registerLazySingleton<UserRemoteDataSource>(
+      () => UserRemoteDataSourceImpl(
+            auth: userSl(),
+            dio: userSl(),
+          ));
 
   //external
   userSl.registerLazySingleton(() => FirebaseAuth.instance);
