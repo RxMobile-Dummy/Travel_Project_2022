@@ -119,6 +119,9 @@ class StringConstants {
   //no Hotel found
   static String noHotelFound = "No Hotel Found";
 
+  //no review
+  static String noHotelReview = "No Reviews Yet ! Be the first Reviewr Of hotel";
+
   // RoomCategoriesPage Strings
 
   static String roomMoreDetails = 'More Details';

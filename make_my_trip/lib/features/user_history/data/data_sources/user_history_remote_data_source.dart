@@ -24,7 +24,7 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
   Future<Either<Failures, List<UserHistoryModel>>> getUserHistoryData() async {
     try {
       final response = await dio.get(
-          '${BaseConstant.baseUrl}booking/user/history',
+          '${BaseConstant.baseUrl}booking/user/bookings',
           options: await createDioOptions());
       if (response.statusCode == 200) {
         List<UserHistoryModel> userHistoryModel = [];

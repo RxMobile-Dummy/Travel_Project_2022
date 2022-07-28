@@ -36,10 +36,7 @@ class RoomListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var snackBar =
         SnackBar(content: Text('No Room Selected, Pls First Select Room'));
-    return BlocConsumer<RoomCategoryCubit, BaseState>(
-  listener: (context, state) {
-
-  },
+    return BlocBuilder<RoomCategoryCubit, BaseState>(
   builder: (context, state) {
     return Padding(
           padding: const EdgeInsets.only(

@@ -20,7 +20,7 @@ class ReviewPage extends StatelessWidget {
       listener: (context, state) {
         if (state is Unauthenticated) {
           Navigator.pushNamed(
-              context, RoutesName.login,arguments: {"route_name":RoutesName.publishReviewPage});
+              context, RoutesName.login,arguments: {"route_name":RoutesName.reviewPage});
         }
         if(state is Authenticated){
           Navigator.pushReplacementNamed(
@@ -112,7 +112,7 @@ class ReviewPage extends StatelessWidget {
               var searchState = context.read<ReviewCubit>().state;
               if (searchState is Unauthenticated) {
                 Navigator.pushNamed(
-                    context, RoutesName.login,arguments: {"route_name":RoutesName.publishReviewPage});
+                    context, RoutesName.login,arguments: {"route_name":RoutesName.reviewPage});
               } else if (searchState is Authenticated) {
                 Navigator.pushReplacementNamed(
                     context, RoutesName.publishReviewPage, arguments: {

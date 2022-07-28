@@ -46,6 +46,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
           data: reviewModel.toJson(),
           options: await createDioOptions());
       print(response.statusCode);
+      print('res'+response.data);
       if (response.statusCode == 200) {
         final data = response.data;
         var reviewModel = <ReviewModel>[];

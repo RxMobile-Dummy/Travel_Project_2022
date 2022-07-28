@@ -21,7 +21,6 @@ class LoginPage extends StatelessWidget {
   bool passwordObSecure = true;
   final Map<String, dynamic> arg;
 
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginCubit, LoginState>(
@@ -30,11 +29,12 @@ class LoginPage extends StatelessWidget {
           ProgressDialog.showLoadingDialog(context, message: "Loggin In...");
         } else if (state is LoginSuccessState) {
           ProgressDialog.hideLoadingDialog(context);
-          if(arg["route_name"]== RoutesName.roomCategory || arg["route_name"]== RoutesName.roomDetail || arg["route_name"]==RoutesName.publishReviewPage){
-          Navigator.pop(
-              context);}else{
-            Navigator.pushReplacementNamed(
-                context, arg["route_name"]);
+          if (arg["route_name"] == RoutesName.roomCategory ||
+              arg["route_name"] == RoutesName.roomDetail ||
+              arg["route_name"] == RoutesName.reviewPage) {
+            Navigator.pop(context);
+          } else {
+            Navigator.pushReplacementNamed(context, arg["route_name"]);
           }
         } else {
           ProgressDialog.hideLoadingDialog(context);

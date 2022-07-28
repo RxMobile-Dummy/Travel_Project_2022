@@ -42,7 +42,6 @@ class RoomDetailsPage extends StatelessWidget {
         Navigator.pushNamed(context, RoutesName.login,
             arguments: {"route_name": RoutesName.roomDetail});
       } else if (state is StateSearchResult<RoomDataPostModel>) {
-
         Navigator.pushNamed(
             context, RoutesName.bookingPage,arguments: {"model":state.response });
       }
