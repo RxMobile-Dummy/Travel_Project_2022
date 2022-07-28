@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
@@ -7,6 +6,7 @@ import 'package:make_my_trip/features/user/domain/usecases/user_facebook_login.d
 import 'package:make_my_trip/features/user/domain/usecases/user_forget_password.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_google_login.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_sign_in.dart';
+import 'package:make_my_trip/features/user/domain/usecases/user_sign_out.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_sign_up.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_verification.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
@@ -19,7 +19,8 @@ class UserCubit extends Cubit<BaseState> {
       required this.facebookLogin,
       required this.forgetPassword,
       required this.userSignUp,
-      required this.userVerification})
+      required this.userVerification,
+      required this.userSignOut})
       : super(StateInitial());
   final UserGoogleLogin googleLogin;
   final UserSignIn signIn;
@@ -27,6 +28,7 @@ class UserCubit extends Cubit<BaseState> {
   final UserForgetPassword forgetPassword;
   final UserSignUp userSignUp;
   final UserVerification userVerification;
+  final UserSignOut userSignOut;
 
   // login and sign_up password obSecure change event
   void changeObSecureEvent(bool obSecure) {
@@ -169,5 +171,15 @@ class UserCubit extends Cubit<BaseState> {
         return "Unexpected Error";
       }
     }
+  }
+
+  // user sign_out event
+  userSignOutEvent() async {
+    final res = await userSignOut.call(NoParams());
+    res.fold((failure) {
+      emit(StateErrorGeneral("Logout Error"));
+    }, (success) {
+      emit(StateOnSuccess("Logout success"));
+    });
   }
 }

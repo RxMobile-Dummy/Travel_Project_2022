@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
+import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart'
+    as setting_page_di;
 import 'package:make_my_trip/features/user/user_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import './core/navigation/app_router.dart' as app_routes;
@@ -28,7 +30,6 @@ import 'features/user_history/user_history_injection_container.dart'
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
-
   await intro_di.init();
   await user_di.init();
   await splash_di.init();
@@ -41,6 +42,7 @@ void main() async {
   await wishlist_di.init();
   await history_di.init();
   await search_di.init();
+  await setting_page_di.init();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

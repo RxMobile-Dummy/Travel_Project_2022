@@ -1,4 +1,3 @@
-
 class StringConstants {
   static String messageEmptyName = 'Please fill empty FullName';
   static String messageInvalidName = 'Please fill valid FullName';
@@ -12,6 +11,7 @@ class StringConstants {
   static String messageEmptyPassword = 'Please fill empty Password';
   static String messageInvalidPassword =
       'Please enter length of minimum 6 character';
+
   // Login String
   static String loginTitle =
       'Meet new people from over millions of\nusers. Create posts, find friends and more.';
@@ -65,6 +65,7 @@ class StringConstants {
       'Please enter both passwords same';
 
   static String tc = "By signing up, you agree to our";
+
   // HomePage Strings
   static String appname = "MakeMyTrip";
   static String populartours = "Popular Tours";
@@ -155,5 +156,53 @@ class StringConstants {
   static String isAnonymousSharedPreference = "isAnonymous";
   static String userIdSharedPreference = "userId";
 
+// Setting Strings
+  //static const setting = "Settings";
+  static const profile = "Profile";
+  static const ok = "OK";
+  static const done = "Done";
+  static const editProfile = "Edit Profile";
 
+  // Setting Strings
+
+  static const setting = "Settings";
+
+  static const userName = "User Name";
+
+  static const userEmail = "helloworld123@gmail.com";
+
+  static const userEditProfile = "Edit Profile";
+
+  static const myTrips = "My Trips";
+
+  static const privacyAndSecurity = "Privacy and Security";
+
+  static const help = "Help";
+
+  static const aboutUs = "About Us";
+
+  static const logout = "Logout";
+
+  //static const logout = "Logout";
+  static const fullName = "Full Name";
+  static const phone = "Phone";
+  static const update = "Update";
+  static const emptyString = "";
+  static const nullString = "null";
+  static const enterName = "Enter User Name";
+  static const enterPhone = "Enter Phone Number";
+  static const userNameJson = "user_name";
+  static const userPhoneJson = "user_phone_number";
+  static const camera = "Camera";
+  static const profileUpdate = "Profile Updated Successfully";
+  static const errorGallery = "Error GetFromGallery";
+  static const errorCamera = "Error GetFromCamera";
+  static const token = "token";
+  static const user = "user";
+  static const validUserName = "please enter valid user name";
+  static const validPhoneNumber = "please enter valid phone number";
+  static const imageJson = "user_image";
+  static const firebaseFolderName = "userImage/";
+  static const firebaseCollectionName = "Images";
+  static const failedToLoadImg = "failed to add image";
 }

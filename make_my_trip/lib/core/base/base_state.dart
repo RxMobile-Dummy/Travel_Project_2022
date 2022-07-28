@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:make_my_trip/features/home_page/data/models/ToursModel.dart';
 import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
+import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 
 abstract class BaseState extends Equatable {}
 
@@ -228,4 +229,19 @@ class GettingStartedData extends BaseState implements Equatable {
   @override
   List<Object?> get props =>
       [tourLoading, imageLoading, toursListValue, imageListValue];
+}
+
+class SettingPageData {
+  UserDetailsModel? userValue;
+  String? imageValue;
+  String? error;
+
+  SettingPageData({this.userValue, this.imageValue, this.error});
+
+  SettingPageData copyWith(
+          {UserDetailsModel? userValue, String? imageValue, String? error}) =>
+      SettingPageData(
+          error: error ?? this.error,
+          userValue: userValue ?? this.userValue,
+          imageValue: imageValue ?? this.imageValue);
 }

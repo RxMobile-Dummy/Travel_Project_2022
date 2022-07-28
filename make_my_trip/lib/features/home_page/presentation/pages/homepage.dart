@@ -4,6 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
+import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
+import 'package:make_my_trip/features/setting_page/presentation/pages/settings_page.dart';
+import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
+import 'package:make_my_trip/features/user/user_injection_container.dart';
 import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
 import 'package:make_my_trip/features/user_history/user_history_injection_container.dart';
@@ -23,7 +27,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<TabBarCubit, BaseState>(
       listener: (context, state) {
-        print(state);
         if (state is Unauthenticated) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.login, (route) => true,
@@ -116,10 +119,17 @@ class HomePage extends StatelessWidget {
               wishListSl<WishListCubit>()..getWishListCubitData(),
           child: WishListPage(),
         ),
-        BlocProvider(
-          create: (context) =>
-              wishListSl<WishListCubit>()..getWishListCubitData(),
-          child: WishListPage(),
-        ),
+        MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => wishListSl<SettingPageCubit>(),
+            ),
+            BlocProvider(
+              create: (context) => userSl<UserCubit>(),
+            ),
+          ],
+          child: SettingsPage(),
+        )
+
       ];
 }

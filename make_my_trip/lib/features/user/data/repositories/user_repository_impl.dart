@@ -4,7 +4,7 @@ import '../../../../core/failures/failures.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../datasources/user_remote_data_source.dart';
 
-class UserRepositoryImpl extends UserRepository {
+class UserRepositoryImpl implements UserRepository {
   final UserRemoteDataSource remoteDataSource;
 
   UserRepositoryImpl({required this.remoteDataSource});
@@ -30,6 +30,11 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<Either<Failures, UserModel>> userGoogleLogin() async {
     return await remoteDataSource.userGoogleLogIn();
+  }
+
+  @override
+  Future<Either<Failures, void>> userSignOut() async{
+    return await remoteDataSource.userSignOut();
   }
 
   // sign_up repository methods impl
