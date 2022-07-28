@@ -22,6 +22,7 @@ class ImagesDataSourceImpl implements ImagesDataSource {
     try {
       final response = await dio.get('${BaseConstant.baseUrl}hotel/image/5',
           options: await createDioOptions());
+      print(BaseConstant.baseUrl);
       var result = response.data;
       if (response.statusCode == 200) {
         List<ImageModel> postList = [];
@@ -40,7 +41,7 @@ class ImagesDataSourceImpl implements ImagesDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
-
+      print(e);
       return Left(ServerFailure(statusCode: "503"));
     }
   }

@@ -48,9 +48,13 @@ class ProgressDialog {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: <Widget>[
-                                          const CupertinoActivityIndicator(
-                                            animating: true,
-                                            radius: 20,
+                                          const SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: CupertinoActivityIndicator(
+                                              animating: true,
+                                              radius: 5,
+                                            ),
                                           ),
                                           const SizedBox(
                                             height: 10,

@@ -14,18 +14,16 @@ class InternetCubit extends Cubit<BaseState> {
   }
 
   void monitorInternetConnection() async {
+    emitInternetDisconnected();
     connectivityStreamSubscription =
         connectivity!.onConnectivityChanged.listen((connectivityResult) async {
       try {
-        final result = await InternetAddress.lookup("example.com");
-        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          if (connectivityResult == ConnectivityResult.wifi) {
-            emitInternetConnected(ConnectionType.WiFi);
-          } else if (connectivityResult == ConnectivityResult.mobile) {
-            emitInternetConnected(ConnectionType.Mobile);
-          } else if (connectivityResult == ConnectivityResult.none) {
-            emitInternetDisconnected();
-          }
+        if (connectivityResult == ConnectivityResult.wifi) {
+          emitInternetConnected(ConnectionType.WiFi);
+        } else if (connectivityResult == ConnectivityResult.mobile) {
+          emitInternetConnected(ConnectionType.Mobile);
+        } else if (connectivityResult == ConnectivityResult.none) {
+          emitInternetDisconnected();
         }
       } on SocketException catch (_) {
         emitInternetDisconnected();

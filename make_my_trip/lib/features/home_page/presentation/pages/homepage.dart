@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/internet/internet_cubit.dart';
+import 'package:make_my_trip/core/internet/internet_injection_container.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/login/login_injection_container.dart';
 import 'package:make_my_trip/features/login/presentation/cubit/login_cubit.dart';
@@ -77,6 +78,7 @@ class HomePage extends StatelessWidget {
 
   static List<Widget> _widgetOptions() => <Widget>[
         //View 1
+
         const HomeScreen(),
         BlocProvider(
           create: (context) =>
