@@ -34,8 +34,7 @@ class HotelDetailPage extends StatelessWidget {
     return BlocConsumer<HotelDetailCubit, BaseState>(
       listener: (context, state) {
         if (state is Unauthenticated) {
-          Navigator.pushReplacementNamed(
-              context, RoutesName.login,
+          Navigator.pushReplacementNamed(context, RoutesName.login,
               arguments: {"route_name": RoutesName.hotelDetail});
         }
       },
@@ -89,8 +88,7 @@ class HotelDetailPage extends StatelessWidget {
                           var searchState =
                               context.read<HotelDetailCubit>().state;
                           if (searchState is Unauthenticated) {
-                            Navigator.popAndPushNamed(
-                                context, RoutesName.login,
+                            Navigator.popAndPushNamed(context, RoutesName.login,
                                 arguments: {
                                   "route_name": RoutesName.hotelDetail
                                 });
@@ -325,12 +323,12 @@ class HotelDetailPage extends StatelessWidget {
                     12.verticalSpace,
                     (hotelDetailModel != null)
                         ? LocationViewWidet(
-                            log: hotelDetailModel
-                                    ?.address?.location?.longitude ??
-                                10,
-                            lat:
+                            log:
                                 hotelDetailModel?.address?.location?.latitude ??
                                     10,
+                            lat: hotelDetailModel
+                                    ?.address?.location?.longitude ??
+                                10,
                             titleName: hotelDetailModel?.hotelName! ?? "Hotel",
                             mapHeight: 200,
                           )

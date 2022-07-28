@@ -3,6 +3,8 @@ import 'package:make_my_trip/features/home_page/data/models/ToursModel.dart';
 import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 
+import '../internet/internet_enum.dart';
+
 abstract class BaseState extends Equatable {}
 
 class Uninitialized extends BaseState {
@@ -141,6 +143,27 @@ class StateDialogErrorGeneral extends BaseState {
 
   @override
   List<Object?> get props => [errorMessage];
+}
+
+class InternetLoading extends BaseState {
+  @override
+  List<Object> get props => [];
+}
+
+class InternetConnected extends BaseState {
+  final ConnectionType? connectionType;
+
+  InternetConnected({required this.connectionType});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [connectionType];
+}
+
+class InternetDisconnected extends BaseState {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
 }
 
 class StatePaginationSuccess extends BaseState implements Equatable {
