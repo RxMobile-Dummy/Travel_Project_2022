@@ -20,7 +20,7 @@ class ReviewCubit extends Cubit<BaseState> {
   getHotelReviewData(int params) async {
     emit(StateLoading());
     final res = await getHotelReviewUseCases.call(params);
-    res.fold((l) => emit(StateNoData()),
+    res.fold((l) => emit(StateErrorGeneral("errorMessage")),
         (r) => emit(StateOnSuccess<List<ReviewModel?>>(r)));
   }
 
@@ -29,6 +29,7 @@ class ReviewCubit extends Cubit<BaseState> {
     res.fold((failure) {
       print(failure);
     }, (success) {
+      print(success);
       if (success) {
         emit(Unauthenticated());
       } else {
@@ -37,8 +38,19 @@ class ReviewCubit extends Cubit<BaseState> {
     });
   }
 
-  postHotelReviewData(ReviewModel reviewModel, int hote_id) async {
-    if (reviewModel.comment == "" || reviewModel.comment == null) {
+  postHotelReviewData(commentReview, cleanlinessReview, locationReview,
+      comfortReview, facilitiesReview, hote_id) async {
+    ReviewModel reviewModel = ReviewModel(
+      comment: commentReview,
+      cleanliness: cleanlinessReview,
+      comfort: comfortReview,
+      location: locationReview,
+      facilities: facilitiesReview,
+    );
+    if (reviewModel.comment!.isEmpty ||
+        reviewModel.comment == null ||
+        reviewModel.comment!.length == 0 ||
+        reviewModel.comment!.toString().trim().length == 0) {
       emit(ValidationError("Please Enter Comment"));
     } else {
       final req = await postHotelReviewUseCases

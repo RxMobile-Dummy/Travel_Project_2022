@@ -1,4 +1,3 @@
-
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,8 +34,9 @@ class HotelDetailPage extends StatelessWidget {
     return BlocConsumer<HotelDetailCubit, BaseState>(
       listener: (context, state) {
         if (state is Unauthenticated) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.hotelDetail});
+          Navigator.pushReplacementNamed(
+              context, RoutesName.login,
+              arguments: {"route_name": RoutesName.hotelDetail});
         }
       },
       builder: (context, state) {
@@ -51,8 +51,11 @@ class HotelDetailPage extends StatelessWidget {
           isReadMore = state.response;
         } else if (state is StateLoading) {
           return const HotelDetailsShimmer();
-        }else if(state is StateErrorGeneral){
-          return CommonErrorWidget(imagePath: ImagePath.serverFailImage, title: StringConstants.serverFail, statusCode: "");
+        } else if (state is StateErrorGeneral) {
+          return CommonErrorWidget(
+              imagePath: ImagePath.serverFailImage,
+              title: StringConstants.serverFail,
+              statusCode: "");
         }
 
         return Scaffold(
@@ -86,8 +89,11 @@ class HotelDetailPage extends StatelessWidget {
                           var searchState =
                               context.read<HotelDetailCubit>().state;
                           if (searchState is Unauthenticated) {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.hotelDetail});
+                            Navigator.popAndPushNamed(
+                                context, RoutesName.login,
+                                arguments: {
+                                  "route_name": RoutesName.hotelDetail
+                                });
                           } else {
                             BlocProvider.of<HotelDetailCubit>(context)
                                 .onLikeTap(isLiked, hotelDetailModel!.id);
@@ -115,11 +121,18 @@ class HotelDetailPage extends StatelessWidget {
                                 .onSwipeIndicator(index);
                           },
                           itemBuilder: (BuildContext context, int index) {
-                            return Image.network(
-                              hotelDetailModel?.images![index].imageUrl ??
-                                  "https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png",
-                              fit: BoxFit.cover,
-                            );
+                            return FadeInImage.assetNetwork(
+                                placeholder: 'assets/img/placeholder.png',
+                                image: hotelDetailModel
+                                        ?.images![index].imageUrl ??
+                                    "https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png",
+                                fit: BoxFit.cover,
+                                imageErrorBuilder:
+                                    (context, error, stackTrace) {
+                                  return Image.asset(
+                                      'assets/img/placeholder.png',
+                                      fit: BoxFit.fitWidth);
+                                });
                           },
                         ),
                         Container(
@@ -334,8 +347,8 @@ class HotelDetailPage extends StatelessWidget {
                 child: CommonPrimaryButton(
                     text: StringConstants.selectRoom,
                     onTap: () {
-                      Navigator.pushNamed(
-                          context, RoutesName.calendar, arguments: {'hotel_id':hotelDetailModel!.id});
+                      Navigator.pushNamed(context, RoutesName.calendar,
+                          arguments: {'hotel_id': hotelDetailModel!.id});
                     })),
           ),
         );

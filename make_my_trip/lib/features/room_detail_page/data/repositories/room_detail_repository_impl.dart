@@ -10,12 +10,6 @@ class RoomDetailRepositoryImpl implements RoomDetailsRepository{
   RoomDetailRepositoryImpl(this.roomDetailRemoteDataSource);
   @override
   Future<Either<Failures, RoomDetailModel>> getRoomDetail(int hotelId, int room_id)async {
-    // try {
-    //   return Right(await roomDetailRemoteDataSource.getRoomDetailData(hotelId, roomType) );
-    // }catch (e) {
-    //   return Left(ServerFailure());
-    // }
-
     return await roomDetailRemoteDataSource.getRoomDetailData(hotelId, room_id);
   }
 }

@@ -120,6 +120,12 @@ class StringConstants {
   //no Hotel found
   static String noHotelFound = "No Hotel Found";
 
+  //no review
+  static String noHotelReview = "No Reviews Yet!! Be the first Review Of hotel";
+
+  //Opps!! Sorry your review is not post yet!!
+  static String noReviewComment = "Opps!! Sorry your review is not post yet!!";
+
   // RoomCategoriesPage Strings
 
   static String roomMoreDetails = 'More Details';
@@ -155,6 +161,8 @@ class StringConstants {
 
   static String isAnonymousSharedPreference = "isAnonymous";
   static String userIdSharedPreference = "userId";
+  static String confirmBooking="Booking Success";
+  static String noRoomAvail="There is No Room Availble in Your Checking Date";
 
 // Setting Strings
   //static const setting = "Settings";

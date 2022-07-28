@@ -6,7 +6,7 @@ class PublishReviewCubit extends Cubit<ReviewValueState> {
   final PostHotelReviewUseCases postHotelReviewUseCases;
 
   PublishReviewCubit(this.postHotelReviewUseCases)
-      : super(const ReviewValueState(
+      : super( ReviewValueState(
             cleanlinessReview: 0.0,
             comfortReview: 0.0,
             locationReview: 0.0,

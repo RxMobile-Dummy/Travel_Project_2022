@@ -38,6 +38,8 @@ class ImagePath {
   static const String appLogoGif = "assets/video/logo.gif";
   static const String appLogo1 = "assets/img/flogo.jpeg";
   static const String appLogo = "assets/img/logo.jpeg";
+  static const String confirmSuccess ="assets/img/confirmsuccess.png";
+  static const String noRoomFound ="assets/img/no_room_found.png";
 
   static const String userProfileImage1 = 'assets/img/userPage_logo.png';
 }

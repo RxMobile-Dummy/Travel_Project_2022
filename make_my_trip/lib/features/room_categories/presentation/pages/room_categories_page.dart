@@ -10,8 +10,12 @@ import 'package:make_my_trip/features/room_categories/presentation/pages/room_ca
 import 'package:make_my_trip/features/room_categories/presentation/widgets/room_list_widget.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 
+import '../../../../core/navigation/route_info.dart';
+import '../../data/model/room_data_booking_post_model.dart';
+typedef void IntCallback(int val);
 class RoomCategoriesPage extends StatelessWidget {
   RoomCategoriesPage({Key? key, required this.arg}) : super(key: key);
   final Map<String, dynamic> arg;
@@ -19,15 +23,66 @@ class RoomCategoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RoomCategoryModel? roomCategoryModel;
-    return BlocBuilder<RoomCategoryCubit, BaseState>(builder: (context, state) {
-      if (state is StateOnKnownToSuccess<RoomCategoryModel>) {
+    return BlocConsumer<RoomCategoryCubit, BaseState>(
+  listener: (context, state) {
+    if (state is Unauthenticated) {
+      Navigator.pushNamed(context, RoutesName.login,arguments: {"route_name":RoutesName.roomCategory});
+    }
+    else if (state is StateOnKnownToSuccess<RoomDataPostModel>) {
+      Navigator.pushNamed(
+          context, RoutesName.bookingPage,arguments: {"model":state.response });
+    }
+  },
+  builder: (context, state) {
+    if (state is StateOnKnownToSuccess<RoomCategoryModel>) {
         roomCategoryModel = state.response;
+        
         if (roomCategoryModel!.superDeluxe!.isEmpty &&
             roomCategoryModel!.semiDeluxe!.isEmpty &&
-            roomCategoryModel!.deluxe!.isEmpty) {
-          return Center(
-            child: Text('No Room Availble In Your CheckIn Date'),
+            roomCategoryModel!.deluxe!.isEmpty ) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    StringConstants.roomCategoriesPageHeading,
+                    style: AppTextStyles.infoContentStyle,
+                  ),
+                  Text(
+                    roomCategoryModel!.hotelName ?? "Hotel Name",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.infoContentStyle2.copyWith(fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Spacer(),
+                AspectRatio(
+                  aspectRatio: 1.6,
+                  child: Image.asset(
+                    ImagePath.noRoomFound,
+                  ),
+                ),
+
+                25.verticalSpace,
+                Text(
+                  StringConstants.noRoomAvail,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      color: MakeMyTripColors.accentColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                ),
+                const Spacer(),
+              ],
+            ),
           );
+
         }
       } else if (state is StateLoading) {
         return RoomCategoriesShimmerPage();
@@ -35,7 +90,6 @@ class RoomCategoriesPage extends StatelessWidget {
         return CommonErrorWidget(imagePath: ImagePath.serverFailImage, title: StringConstants.serverFail, statusCode: "");
       }
       return Scaffold(
-          backgroundColor: MakeMyTripColors.color30gray,
           appBar: AppBar(
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,6 +192,8 @@ class RoomCategoriesPage extends StatelessWidget {
               return CircularProgressIndicator();
             }
           }));
-    });
+
+  },
+);
   }
 }

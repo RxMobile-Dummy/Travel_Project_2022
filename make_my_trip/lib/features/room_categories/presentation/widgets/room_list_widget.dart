@@ -36,21 +36,11 @@ class RoomListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var snackBar =
         SnackBar(content: Text('No Room Selected, Pls First Select Room'));
-    return BlocConsumer<RoomCategoryCubit, BaseState>(
-  listener: (context, state) {
-    print(state);
-    if (state is Unauthenticated) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.bookingPage});
-    }else if (state is Authenticated) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, RoutesName.bookingPage, (route) => true);
-    }
-  },
+    return BlocBuilder<RoomCategoryCubit, BaseState>(
   builder: (context, state) {
     return Padding(
           padding: const EdgeInsets.only(
-              top: 12.0, left: 4.0, right: 4.0, bottom: 4.0),
+              top: 4.0, left: 4.0, right: 4.0, bottom: 2.0),
           child: Card(
             elevation: 50, // Change this
             shadowColor: MakeMyTripColors.color10gray,
@@ -58,7 +48,7 @@ class RoomListWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(15.0),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(14.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -79,6 +69,8 @@ class RoomListWidget extends StatelessWidget {
                                 'no_of_room': totalSelectedRoom,
                                 'room_list_model': roomList,
                                 "context": context,
+                                'cin':cin,
+                                'cout':cout
                               });
                         },
                         child: Text(
@@ -244,18 +236,17 @@ class RoomListWidget extends StatelessWidget {
                                 .copyWith(fontSize: 16),
                           ),
                           const Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4.0, horizontal: 4),
-                            child: ElevatedButton(
+                           ElevatedButton(
                               onPressed: () {
                                 if (totalSelectedRoom > 0) {
                                   var searchState = context.read<RoomCategoryCubit>().state;
                                   if (searchState is Unauthenticated) {
-                                    Navigator.pushNamedAndRemoveUntil(
-                                        context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.bookingPage});
-                                  } else {
-                                    BlocProvider.of<RoomCategoryCubit>(context).goToBooking();
+                                    Navigator.popAndPushNamed(context, RoutesName.login,arguments: {"route_name":RoutesName.roomCategory});
+                                  } if (state is StateOnKnownToSuccess<RoomDataPostModel>) {
+                                    Navigator.pushNamed(
+                                        context, RoutesName.bookingPage,arguments: {"model":state.response});
+                                  }else {
+                                    BlocProvider.of<RoomCategoryCubit>(context).goToBooking(hotelId,cin, cout, totalSelectedRoom,roomList);
                                   }
                                 } else {
                                   (ScaffoldMessenger.of(context)
@@ -275,7 +266,7 @@ class RoomListWidget extends StatelessWidget {
                                     .copyWith(fontSize: 14),
                               ),
                             ),
-                          ),
+
                         ],
                       ),
                     ),

@@ -15,6 +15,7 @@ class RoomDataPostModel {
     this.roomId,
     this.checkinDate,
     this.checkoutDate,
+    this.roomType,
     this.price,});
 
   RoomDataPostModel.fromJson(dynamic json) {
@@ -23,10 +24,12 @@ class RoomDataPostModel {
     roomId = json['room_id'] != null ? json['room_id'].cast<int>() : [];
     checkinDate = json['checkin_date'];
     checkoutDate = json['checkout_date'];
+    roomType=json['room_type'];
     price = json['price'] != null ? Price.fromJson(json['price']) : null;
   }
   int? hotelId;
   int? noOfRoom;
+  String? roomType;
   List<int>? roomId;
   String? checkinDate;
   String? checkoutDate;
@@ -37,6 +40,7 @@ class RoomDataPostModel {
     map['hotel_id'] = hotelId;
     map['no_of_room'] = noOfRoom;
     map['room_id'] = roomId;
+    map['room_type']=roomType;
     map['checkin_date'] = checkinDate;
     map['checkout_date'] = checkoutDate;
     if (price != null) {
@@ -57,6 +61,7 @@ Price priceFromJson(String str) => Price.fromJson(json.decode(str));
 String priceToJson(Price data) => json.encode(data.toJson());
 class Price {
   Price({
+    this.basePrice,
     this.numberOfNights,
     this.roomPrice,
     this.gst,
@@ -70,11 +75,12 @@ class Price {
     discount = json['discount'];
     totalPrice = json['total_price'];
   }
+  double? basePrice;
   int? numberOfNights;
-  int? roomPrice;
-  int? gst;
-  int? discount;
-  int? totalPrice;
+  double? roomPrice;
+  double? gst;
+  double? discount;
+  double? totalPrice;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

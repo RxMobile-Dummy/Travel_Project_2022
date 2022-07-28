@@ -64,7 +64,8 @@ import '../../features/user_history/user_history_injection_container.dart';
 import '../../features/wishlist/presentation/pages/wishlist_page.dart';
 
 class Router {
-  static Route<dynamic> generateRoutes(RouteSettings settings) {
+
+  Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case RoutesName.splash:
         return MaterialPageRoute(builder: (_) {
@@ -236,7 +237,7 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) =>
-                reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
+            reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
             child: ReviewPage(arg: arg),
           );
         });
@@ -266,7 +267,7 @@ class Router {
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => bookingSl<BookingCubit>(),
+            create: (context) => bookingSl<BookingCubit>()..getHotelDetailData(arg['model']),
             child: BookingPage(arg: arg),
           );
         });

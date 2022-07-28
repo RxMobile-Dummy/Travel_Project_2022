@@ -7,17 +7,18 @@ import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class HotelListViewWidget extends StatelessWidget {
-   HotelListViewWidget({Key? key,required this.hotelListModel}) : super(key: key);
+  HotelListViewWidget({Key? key, required this.hotelListModel})
+      : super(key: key);
   HotelListModel hotelListModel;
-
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: GestureDetector(
-        onTap: (){
-          Navigator.pushNamed(context, RoutesName.hotelDetail,arguments: {"hotel_id" : hotelListModel.id});
+        onTap: () {
+          Navigator.pushNamed(context, RoutesName.hotelDetail,
+              arguments: {"hotel_id": hotelListModel.id});
         },
         child: Card(
             shape: RoundedRectangleBorder(
@@ -26,22 +27,30 @@ class HotelListViewWidget extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 6.0),
                   child: SizedBox(
                     height: 200,
                     width: double.infinity,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(hotelListModel.images![0].imageUrl.toString()
-                        ,
+                      child: FadeInImage.assetNetwork(
+                        placeholder: 'assets/img/placeholder.png',
+                        image:hotelListModel.images![0].imageUrl.toString(),
                         fit: BoxFit.fill,
+                          imageErrorBuilder:
+                              (context, error, stackTrace) {
+                            return Image.asset(
+                                'assets/img/placeholder.png',
+                                fit: BoxFit.fitWidth);
+                          }
                       ),
                     ),
                   ),
                 ),
                 Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 2.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 2.0),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -57,24 +66,25 @@ class HotelListViewWidget extends StatelessWidget {
                             child: Transform.scale(
                               scale: 1.5,
                               child: RatingBar.builder(
-                                  initialRating: double.parse(hotelListModel.rating.toString()),
+                                  initialRating: double.parse(
+                                      hotelListModel.rating.toString()),
                                   minRating: 1,
                                   direction: Axis.horizontal,
                                   allowHalfRating: true,
                                   itemSize: 10,
                                   itemCount: 5,
                                   itemBuilder: (context, _) => const Icon(
-                                    Icons.star,
-                                    color: MakeMyTripColors.accentColor,
-                                    size: 10,
-                                  ),
+                                        Icons.star,
+                                        color: MakeMyTripColors.accentColor,
+                                        size: 10,
+                                      ),
                                   onRatingUpdate: (rating) {}),
                             ),
                           ),
-
                         ])),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 2.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 2.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -82,8 +92,7 @@ class HotelListViewWidget extends StatelessWidget {
                         child: Text(
                             hotelListModel.address!.addressLine.toString(),
                             style: AppTextStyles.labelDetails,
-                            overflow: TextOverflow.ellipsis
-                        ),
+                            overflow: TextOverflow.ellipsis),
                       ),
                       10.horizontalSpace,
                       Text(

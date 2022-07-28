@@ -8,7 +8,9 @@ import 'package:make_my_trip/features/review/data/model/review_model.dart';
 import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/pages/review_shimmer_page.dart';
 import 'package:make_my_trip/features/review/presentation/widgets/review_card_widget.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class ReviewPage extends StatelessWidget {
   ReviewPage({Key? key, required this.arg}) : super(key: key);
@@ -16,11 +18,22 @@ class ReviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<ReviewModel>? reviewModel;
     return BlocListener<ReviewCubit, BaseState>(
       listener: (context, state) {
-        if (state is Unauthenticated) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.publishReviewPage});
+
+        if (state is Authenticated) {
+          Navigator.pushReplacementNamed(context, RoutesName.publishReviewPage,
+              arguments: {
+                'context': context,
+                'hotel_id': arg['hotel_id'],
+                'rating': arg['rating']
+              });
+        }else{
+          if (state is Unauthenticated) {
+            Navigator.pushReplacementNamed(context, RoutesName.login,
+                arguments: {"route_name": RoutesName.reviewPage,'hotel_id': arg['hotel_id'],'rating': arg['rating']});
+          }
         }
       },
       child: Scaffold(
@@ -34,7 +47,39 @@ class ReviewPage extends StatelessWidget {
           builder: (context, state) {
             print('this is my ${state}');
             if (state is StateOnSuccess) {
-              List<ReviewModel> reviewModel = state.response;
+              print('model');
+              reviewModel = state.response;
+            } else if (state is StateLoading) {
+              return ReviewPageShimmer();
+            }
+            if (reviewModel!.length == 0) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    AspectRatio(
+                      aspectRatio: 1.6,
+                      child: Image.asset(
+                        ImagePath.noDataFoundImage,
+                      ),
+                    ),
+
+                    25.verticalSpace,
+                    Text(
+                      StringConstants.noHotelReview,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          color: MakeMyTripColors.accentColor,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const Spacer(),
+                  ],
+                ),
+              );
+            } else {
               return Column(
                 children: [
                   Row(
@@ -66,7 +111,7 @@ class ReviewPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "${reviewModel.length} " + StringConstants.reviews,
+                        "${reviewModel!.length} " + StringConstants.reviews,
                         style: const TextStyle(
                             color: MakeMyTripColors.color50gray),
                       )
@@ -74,27 +119,22 @@ class ReviewPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: ListView.builder(
-                        itemCount: reviewModel.length,
+                        itemCount: reviewModel!.length,
                         itemBuilder: (context, index) {
                           return ReviewCardWidget(
-                            date:
-                                reviewModel[index].date?.substring(0, 10) ?? "",
-                            name: reviewModel[index].userId?.userName ?? "Name",
+                            date: reviewModel![index].date?.substring(0, 10) ??
+                                "",
+                            name:
+                                reviewModel![index].userId?.userName ?? "Name",
                             description:
-                                reviewModel[index].comment ?? "Comments",
-                            ratingValue: reviewModel[index].rating ?? 0.0,
-                            image: reviewModel[index].userId?.userImage ??
+                                reviewModel![index].comment ?? "Comments",
+                            ratingValue: reviewModel![index].rating ?? 0.0,
+                            image: reviewModel![index].userId?.userImage ??
                                 "https://www.kindpng.com/picc/m/252-2524695_dummy-profile-image-jpg-hd-png-download.png",
                           );
                         }),
                   ),
                 ],
-              );
-            } else if (state is StateLoading) {
-              return ReviewPageShimmer();
-            } else {
-              return Center(
-                child: Text('Data Not Found'),
               );
             }
           },
@@ -102,17 +142,18 @@ class ReviewPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               var searchState = context.read<ReviewCubit>().state;
-              if (searchState is Unauthenticated) {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, RoutesName.login, (route) => true,arguments: {"route_name":RoutesName.publishReviewPage});
-              } else if (searchState is Authenticated) {
+              print(searchState);
+              if (searchState is Authenticated) {
                 Navigator.pushReplacementNamed(
                     context, RoutesName.publishReviewPage, arguments: {
                   'context': context,
                   'hotel_id': arg['hotel_id'],
                   'rating': arg['rating']
                 });
-              } else {
+              } else if (searchState is Unauthenticated) {
+                Navigator.pushReplacementNamed(context, RoutesName.login,
+                    arguments: {"route_name": RoutesName.reviewPage});
+              } else  {
                 BlocProvider.of<ReviewCubit>(context).goToPostReview();
               }
             },

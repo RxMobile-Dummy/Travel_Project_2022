@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/wishlist/data/model/wishlist_model.dart';
-import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class Hotal_Details extends StatelessWidget {
-  Hotal_Details({Key? key, required this.wishlistModel}) : super(key: key);
+class HotalDetails extends StatelessWidget {
+  HotalDetails({Key? key, required this.wishlistModel}) : super(key: key);
 
   WishlistModel wishlistModel;
 
@@ -20,8 +19,9 @@ class Hotal_Details extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: GestureDetector(
-        onTap: (){
-          Navigator.pushNamed(context, RoutesName.hotelDetail,arguments: {"hotel_id" : wishlistModel.hotelId});
+        onTap: ()  {
+          Navigator.pushNamed(context, RoutesName.hotelDetail,
+              arguments: {"hotel_id": wishlistModel.hotelId,});
         },
         child: Card(
           elevation: 5,
@@ -45,12 +45,19 @@ class Hotal_Details extends StatelessWidget {
                             itemCount: wishlistModel.wishListImage?.length,
                             pageSnapping: true,
                             itemBuilder: (context, index) {
-                              return Image.network(
-                                wishlistModel.wishListImage![index].imageUrl
-                                    .toString(),
-                                width: size.width * 10,
-                                fit: BoxFit.fill,
-                              );
+                              return FadeInImage.assetNetwork(
+                                  placeholder: 'assets/img/placeholder.png',
+                                  image: wishlistModel
+                                      .wishListImage![index].imageUrl
+                                      .toString(),
+                                  width: size.width * 10,
+                                  fit: BoxFit.fill,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    return Image.asset(
+                                        'assets/img/placeholder.png',
+                                        fit: BoxFit.fitWidth);
+                                  });
                             })
                       ]),
                       Padding(
