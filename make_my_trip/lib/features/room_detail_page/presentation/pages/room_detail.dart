@@ -91,7 +91,7 @@ class RoomDetailsPage extends StatelessWidget {
                     centerTitle: true,
                     background: Stack(fit: StackFit.expand, children: [
                       PageView.builder(
-                        itemCount: roomDetailsModel!.images!.length,
+                        itemCount: roomDetailsModel!.images!.length-1,
                         onPageChanged: (index) {
                           BlocProvider.of<ImagesliderCubit>(context)
                               .onSwipeIndicator(index);

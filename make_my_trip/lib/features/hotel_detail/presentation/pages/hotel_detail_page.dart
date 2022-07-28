@@ -34,8 +34,8 @@ class HotelDetailPage extends StatelessWidget {
     return BlocConsumer<HotelDetailCubit, BaseState>(
       listener: (context, state) {
         if (state is Unauthenticated) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.login, (route) => true,
+          Navigator.pushReplacementNamed(
+              context, RoutesName.login,
               arguments: {"route_name": RoutesName.hotelDetail});
         }
       },
@@ -89,8 +89,8 @@ class HotelDetailPage extends StatelessWidget {
                           var searchState =
                               context.read<HotelDetailCubit>().state;
                           if (searchState is Unauthenticated) {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, RoutesName.login, (route) => true,
+                            Navigator.popAndPushNamed(
+                                context, RoutesName.login,
                                 arguments: {
                                   "route_name": RoutesName.hotelDetail
                                 });

@@ -41,6 +41,23 @@ class RoomCategoriesPage extends StatelessWidget {
             roomCategoryModel!.semiDeluxe!.isEmpty &&
             roomCategoryModel!.deluxe!.isEmpty ) {
           return Scaffold(
+            appBar: AppBar(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    StringConstants.roomCategoriesPageHeading,
+                    style: AppTextStyles.infoContentStyle,
+                  ),
+                  Text(
+                    roomCategoryModel!.hotelName ?? "Hotel Name",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.infoContentStyle2.copyWith(fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -73,7 +90,6 @@ class RoomCategoriesPage extends StatelessWidget {
         return CommonErrorWidget(imagePath: ImagePath.serverFailImage, title: StringConstants.serverFail, statusCode: "");
       }
       return Scaffold(
-          backgroundColor: MakeMyTripColors.color30gray,
           appBar: AppBar(
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

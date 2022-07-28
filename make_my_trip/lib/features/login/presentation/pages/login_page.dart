@@ -30,11 +30,16 @@ class LoginPage extends StatelessWidget {
         } else if (state is LoginSuccessState) {
           ProgressDialog.hideLoadingDialog(context);
           if (arg["route_name"] == RoutesName.roomCategory ||
-              arg["route_name"] == RoutesName.roomDetail ){
+              arg["route_name"] == RoutesName.roomDetail ||
+              arg["route_name"] == RoutesName.hotelDetail) {
             Navigator.pop(context);
-          } else if(arg["route_name"] == RoutesName.reviewPage){
-            Navigator.pushReplacementNamed(context, arg["route_name"],arguments: {'hotel_id':arg['hotel_id'],'rating': arg['rating']});
-          }else {
+          } else if (arg["route_name"] == RoutesName.reviewPage) {
+            Navigator.pushReplacementNamed(context, arg["route_name"],
+                arguments: {
+                  'hotel_id': arg['hotel_id'],
+                  'rating': arg['rating']
+                });
+          } else {
             Navigator.pushReplacementNamed(context, arg["route_name"]);
           }
         } else {

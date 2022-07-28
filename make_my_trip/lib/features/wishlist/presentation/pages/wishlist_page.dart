@@ -90,7 +90,7 @@ class WishListPage extends StatelessWidget {
                 SliverList(
                     delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
-                    return Hotal_Details(
+                    return HotalDetails(
                       wishlistModel: wishlistModel[index],
                     );
                   },

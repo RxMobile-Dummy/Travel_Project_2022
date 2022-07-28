@@ -33,11 +33,9 @@ class RoomCategoryCubit extends Cubit<BaseState> {
   postModelCreate(int hotelId, String cin, String cout, int noOfRoom,
       List<RoomType> roomType) {
     List<int> roomId = [];
-
     var dateCin = DateTime.parse(cin);
     var dateCout = DateTime.parse(cout);
     var noOfNights = dateCout.difference(dateCin).inDays;
-
     for (var i = 0; i < noOfRoom; i++) {
       if (roomType[i].roomId != null) {
         roomId.add(roomType[i].roomId!);

@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/wishlist/data/model/wishlist_model.dart';
-import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class Hotal_Details extends StatelessWidget {
-  Hotal_Details({Key? key, required this.wishlistModel}) : super(key: key);
+class HotalDetails extends StatelessWidget {
+  HotalDetails({Key? key, required this.wishlistModel}) : super(key: key);
 
   WishlistModel wishlistModel;
 
@@ -20,9 +19,9 @@ class Hotal_Details extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: GestureDetector(
-        onTap: () {
+        onTap: ()  {
           Navigator.pushNamed(context, RoutesName.hotelDetail,
-              arguments: {"hotel_id": wishlistModel.hotelId});
+              arguments: {"hotel_id": wishlistModel.hotelId,});
         },
         child: Card(
           elevation: 5,
