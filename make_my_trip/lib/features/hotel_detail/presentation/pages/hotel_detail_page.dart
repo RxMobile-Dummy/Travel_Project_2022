@@ -331,12 +331,12 @@ class HotelDetailPage extends StatelessWidget {
                     12.verticalSpace,
                     (hotelDetailModel != null)
                         ? LocationViewWidet(
-                            log: hotelDetailModel
-                                    ?.address?.location?.longitude ??
-                                10,
-                            lat:
+                            log:
                                 hotelDetailModel?.address?.location?.latitude ??
                                     10,
+                            lat: hotelDetailModel
+                                    ?.address?.location?.longitude ??
+                                10,
                             titleName: hotelDetailModel?.hotelName! ?? "Hotel",
                             mapHeight: 200,
                           )
