@@ -18,7 +18,6 @@ import 'package:make_my_trip/features/room_detail_page/room_detail_injection_con
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
 import 'package:make_my_trip/features/setting_page/presentation/pages/settings_page.dart';
 import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart';
-import 'package:make_my_trip/features/user/presentation/pages/email_verification_page.dart';
 import 'package:make_my_trip/features/user/presentation/pages/sign_up_page.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/features/user/presentation/pages/login_page.dart';
