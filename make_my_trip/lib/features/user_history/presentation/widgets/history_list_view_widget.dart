@@ -34,9 +34,16 @@ class HistoryListViewWidget extends StatelessWidget {
                   height: 100,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
-                    child: Image.network(
-                        userHistoryModel.images![rnd.nextInt(userHistoryModel.images!.length)].imageUrl.toString(),
-                        fit: BoxFit.fill),
+                    child: FadeInImage.assetNetwork(
+                        placeholder: 'assets/img/placeholder.png',
+                        image:userHistoryModel.images![rnd.nextInt(userHistoryModel.images!.length)].imageUrl.toString(),
+                        fit: BoxFit.fill,
+                        imageErrorBuilder:
+                            (context, error, stackTrace) {
+                          return Image.asset(
+                              'assets/img/placeholder.png',
+                              fit: BoxFit.fitWidth);
+                        }),
                   ),
                 ),
               ),
