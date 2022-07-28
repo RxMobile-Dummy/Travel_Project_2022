@@ -131,15 +131,22 @@ class IntroPage extends StatelessWidget {
                                 height: 20.0,
                                 width: 20.0,
                               )
-                            : Text(
-                                (introIndex == 3)
-                                    ? StringConstants.doneTxt.toUpperCase()
-                                    : StringConstants.nextTxt.toUpperCase(),
-                                style: const TextStyle(
-                                    fontSize: 18,
-                                    color: MakeMyTripColors.accentColor,
-                                    fontWeight: FontWeight.w500),
-                              )),
+                            : state is IntroSucessState
+                                ? const SizedBox(
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 2),
+                                    height: 20.0,
+                                    width: 20.0,
+                                  )
+                                : Text(
+                                    (introIndex == 3)
+                                        ? StringConstants.doneTxt.toUpperCase()
+                                        : StringConstants.nextTxt.toUpperCase(),
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        color: MakeMyTripColors.accentColor,
+                                        fontWeight: FontWeight.w500),
+                                  )),
                   ],
                 );
               },
