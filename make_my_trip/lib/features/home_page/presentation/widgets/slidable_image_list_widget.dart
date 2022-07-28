@@ -29,11 +29,18 @@ Widget slidableImageList() {
                               const BorderRadius.all(Radius.circular(5.0)),
                           child: Stack(
                             children: <Widget>[
-                              Image.network(
-                                item.imageUrl.toString(),
+                              FadeInImage.assetNetwork(
+                                placeholder: 'assets/img/placeholder.png',
+                                image:item.imageUrl.toString(),
                                 fit: BoxFit.cover,
                                 width: double.infinity,
                                 height: double.infinity,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    return Image.asset(
+                                        'assets/img/placeholder.png',
+                                        fit: BoxFit.fitWidth);
+                                  }
                               ),
                               Positioned(
                                 bottom: 0.0,

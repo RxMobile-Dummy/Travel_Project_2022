@@ -20,8 +20,9 @@ class Hotal_Details extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: GestureDetector(
-        onTap: (){
-          Navigator.pushNamed(context, RoutesName.hotelDetail,arguments: {"hotel_id" : wishlistModel.hotelId});
+        onTap: () {
+          Navigator.pushNamed(context, RoutesName.hotelDetail,
+              arguments: {"hotel_id": wishlistModel.hotelId});
         },
         child: Card(
           elevation: 5,
@@ -45,12 +46,19 @@ class Hotal_Details extends StatelessWidget {
                             itemCount: wishlistModel.wishListImage?.length,
                             pageSnapping: true,
                             itemBuilder: (context, index) {
-                              return Image.network(
-                                wishlistModel.wishListImage![index].imageUrl
-                                    .toString(),
-                                width: size.width * 10,
-                                fit: BoxFit.fill,
-                              );
+                              return FadeInImage.assetNetwork(
+                                  placeholder: 'assets/img/placeholder.png',
+                                  image: wishlistModel
+                                      .wishListImage![index].imageUrl
+                                      .toString(),
+                                  width: size.width * 10,
+                                  fit: BoxFit.fill,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    return Image.asset(
+                                        'assets/img/placeholder.png',
+                                        fit: BoxFit.fitWidth);
+                                  });
                             })
                       ]),
                       Padding(
