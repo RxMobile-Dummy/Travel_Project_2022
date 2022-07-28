@@ -53,7 +53,7 @@ class EmailVerification extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             40.verticalSpace,
-            CircularProgressIndicator(),
+            const CircularProgressIndicator(),
           ],
         ),
       ),

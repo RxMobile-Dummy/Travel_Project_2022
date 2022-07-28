@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/home_page/presentation/pages/homescreen.dart';
-import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 
 class TextFieldView extends StatelessWidget {
   const TextFieldView({

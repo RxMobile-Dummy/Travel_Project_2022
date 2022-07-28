@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 
-import '../cubit/sign_up_cubit.dart';
-
 class ContinueButton extends StatelessWidget {
-  ContinueButton({Key? key, required this.onTap}) : super(key: key);
+  const ContinueButton({Key? key, required this.onTap}) : super(key: key);
 
-  VoidCallback onTap;
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(

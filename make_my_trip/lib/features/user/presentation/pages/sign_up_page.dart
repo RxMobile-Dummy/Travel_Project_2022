@@ -1,10 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/sign_up/presentation/cubit/sign_up_cubit.dart';
-import 'package:make_my_trip/features/sign_up/presentation/widgets/text_field.dart';
+import 'package:make_my_trip/features/user/presentation/widgets/text_field.dart';
+import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/features/user/presentation/widgets/social_buttons.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
@@ -14,7 +15,7 @@ import '../../../../core/navigation/route_info.dart';
 import '../../../../utils/constants/image_path.dart';
 
 class SignUpPage extends StatelessWidget {
-  final TextEditingController fullname = TextEditingController();
+  final TextEditingController fullName = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController conPassword = TextEditingController();
@@ -31,22 +32,21 @@ class SignUpPage extends StatelessWidget {
         body: SafeArea(
       child: Center(
         child: SingleChildScrollView(
-          child: BlocConsumer<SignUpCubit, SignUpState>(
-              listener: (context, state) {
-            if (state is SignUpSuccessState) {
+          child: BlocConsumer<UserCubit, BaseState>(listener: (context, state) {
+            if (state is StateOnSuccess) {
               Navigator.pushNamedAndRemoveUntil(
                   context, RoutesName.home, (route) => true);
-            } else if (state is WaitingDialog) {
+            } else if (state is StateShowSearching) {
               Navigator.pushNamedAndRemoveUntil(
                   context, RoutesName.verifyEmail, (route) => true);
             }
           }, builder: (context, state) {
-            if (state is SignUpPassEyeState) {
-              pass = state.val;
-            } else if (state is SignUpConPassEyeState) {
-              conPass = state.val;
-            } else if (state is SignUpErrorState) {
-              error = state.error;
+            if (state is StateOnKnownToSuccess) {
+              pass = state.response;
+            } else if (state is StateOnResponseSuccess) {
+              conPass = state.response;
+            } else if (state is StateErrorGeneral) {
+              error = state.errorMessage;
             }
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -61,7 +61,7 @@ class SignUpPage extends StatelessWidget {
                   8.verticalSpace,
                   TextFieldView(
                     hint: StringConstants.fullnameTxt,
-                    controller: fullname,
+                    controller: fullName,
                   ),
                   TextFieldView(
                     hint: StringConstants.emailTxt,
@@ -76,8 +76,8 @@ class SignUpPage extends StatelessWidget {
                             ? Icons.visibility_off
                             : Icons.visibility),
                         onTap: () {
-                          BlocProvider.of<SignUpCubit>(context)
-                              .passEyeChange(pass);
+                          BlocProvider.of<UserCubit>(context)
+                              .changeObSecureEvent(pass);
                         },
                       ),
                     ),
@@ -93,7 +93,7 @@ class SignUpPage extends StatelessWidget {
                             ? Icons.visibility_off
                             : Icons.visibility),
                         onTap: () {
-                          BlocProvider.of<SignUpCubit>(context)
+                          BlocProvider.of<UserCubit>(context)
                               .conPassEyeChange(conPass);
                         },
                       ),
@@ -108,9 +108,9 @@ class SignUpPage extends StatelessWidget {
                         top: 8,
                       ),
                       child: (error.isEmpty)
-                          ? SizedBox()
+                          ? const SizedBox()
                           : Text(
-                              "*${error}",
+                              "*$error",
                               style: const TextStyle(
                                   color: MakeMyTripColors.colorRed),
                             ),
@@ -122,11 +122,11 @@ class SignUpPage extends StatelessWidget {
                     child: CommonPrimaryButton(
                         text: StringConstants.signUpTxt,
                         onTap: () {
-                          BlocProvider.of<SignUpCubit>(context).signUpWithEmail(
+                          BlocProvider.of<UserCubit>(context).signUpWithEmail(
                               signUpEmail: email.text,
                               signUpPassword: password.text,
                               signUpConfirmPassword: conPassword.text,
-                              signUpFullname: fullname.text);
+                              signUpFullName: fullName.text);
                         }),
                   ),
                   16.verticalSpace,

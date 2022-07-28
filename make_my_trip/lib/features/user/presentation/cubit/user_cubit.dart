@@ -7,26 +7,33 @@ import 'package:make_my_trip/features/user/domain/usecases/user_facebook_login.d
 import 'package:make_my_trip/features/user/domain/usecases/user_forget_password.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_google_login.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_sign_in.dart';
+import 'package:make_my_trip/features/user/domain/usecases/user_sign_up.dart';
+import 'package:make_my_trip/features/user/domain/usecases/user_verification.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/validators/user_info/user_information_validations.dart';
-
-part 'user_state.dart';
 
 class UserCubit extends Cubit<BaseState> {
   UserCubit(
       {required this.googleLogin,
       required this.signIn,
       required this.facebookLogin,
-      required this.forgetPassword})
+      required this.forgetPassword,
+      required this.userSignUp,
+      required this.userVerification})
       : super(StateInitial());
   final UserGoogleLogin googleLogin;
   final UserSignIn signIn;
   final UserFacebookLogin facebookLogin;
   final UserForgetPassword forgetPassword;
+  final UserSignUp userSignUp;
+  final UserVerification userVerification;
 
+  // login and sign_up password obSecure change event
   void changeObSecureEvent(bool obSecure) {
     emit(StateOnKnownToSuccess(!obSecure));
   }
 
+  // google login event
   signInWithGoogle() async {
     emit(StateLoading());
     final res = await googleLogin.call(NoParams());
@@ -37,11 +44,11 @@ class UserCubit extends Cubit<BaseState> {
         emit(StateErrorGeneral(""));
       }
     }, (success) {
-      print(success.userEmail);
       emit(StateOnSuccess("success"));
     });
   }
 
+  // login with email & password event
   signInWithEmail(String loginEmail, String loginPassword) async {
     emit(StateLoading());
     final emailValidation =
@@ -68,6 +75,7 @@ class UserCubit extends Cubit<BaseState> {
     }
   }
 
+  // facebook login event
   signInWithFacebook() async {
     final res = await facebookLogin.call(NoParams());
     res.fold((failure) {
@@ -79,6 +87,7 @@ class UserCubit extends Cubit<BaseState> {
     });
   }
 
+  // forgot password event
   userForgetPassword(String emailData) async {
     final emailValidation =
         UserInfoValidation.emailAddressValidation(emailData);
@@ -93,6 +102,72 @@ class UserCubit extends Cubit<BaseState> {
       }, (success) {
         emit(StateOnSuccess("success"));
       });
+    }
+  }
+
+  // conform password change obSecure event
+  conPassEyeChange(bool val) {
+    emit(StateOnResponseSuccess(!val));
+  }
+
+  //
+  showWaitingDialog() {
+    emit(StateShowSearching());
+  }
+
+  // sign_up with email & password event
+  signUpWithEmail(
+      {required String signUpEmail,
+      required String signUpPassword,
+      required String signUpFullName,
+      required String signUpConfirmPassword}) async {
+    final nameValidation = UserInfoValidation.nameValidation(signUpFullName);
+    if (nameValidation != null) {
+      emit(StateErrorGeneral(nameValidation));
+    } else {
+      final emailValidation =
+          UserInfoValidation.emailAddressValidation(signUpEmail);
+      if (emailValidation != null) {
+        emit(StateErrorGeneral(emailValidation));
+      } else {
+        final passwordValidation =
+            UserInfoValidation.passwordValidation(signUpPassword);
+        if (passwordValidation != null) {
+          emit(StateErrorGeneral(passwordValidation));
+        } else {
+          if (signUpConfirmPassword != signUpPassword) {
+            emit(StateErrorGeneral(
+                StringConstants.messageInvalidConfirmPassword));
+          } else {
+            final response = await userSignUp.call(
+                signUpFullName, signUpEmail, signUpPassword);
+            response.fold((failure) {
+              emit(StateErrorGeneral(_getFailure(failure)));
+            }, (success) async {
+              showWaitingDialog();
+              final response = await userVerification.call();
+              response.fold((failure) {
+                emit(StateErrorGeneral(_getFailure(failure)));
+              }, (success) {
+                emit(StateOnSuccess("success"));
+              });
+            });
+          }
+        }
+      }
+    }
+  }
+
+  // failures
+  String _getFailure(failure) {
+    if (failure is ServerFailure) {
+      return failure.failureMsg!;
+    } else {
+      if (failure is AuthFailure) {
+        return failure.failureMsg!;
+      } else {
+        return "Unexpected Error";
+      }
     }
   }
 }

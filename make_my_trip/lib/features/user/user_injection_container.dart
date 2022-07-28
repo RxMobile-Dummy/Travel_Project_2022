@@ -22,6 +22,8 @@ Future<void> init() async {
         forgetPassword: userSl(),
         googleLogin: userSl(),
         facebookLogin: userSl(),
+        userVerification: userSl(),
+        userSignUp: userSl(),
       ));
 
   //usecase

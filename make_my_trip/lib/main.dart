@@ -16,7 +16,6 @@ import './features/room_categories/room_categories_injection_container.dart'
     as room_category_di;
 import './features/room_detail_page/room_detail_injection_container.dart'
     as room_detail_di;
-import './features/sign_up/signup_injection_container.dart' as sign_up_di;
 import './features/hotel_listing/hotel_list_injection_container.dart'
     as hotel_list_di;
 import 'features/intro/intro_injection_container.dart' as intro_di;
@@ -38,7 +37,6 @@ void main() async {
   await review_di.init();
   await room_category_di.init();
   await room_detail_di.init();
-  // await sign_up_di.init();
   await hotel_list_di.init();
   await wishlist_di.init();
   await history_di.init();
