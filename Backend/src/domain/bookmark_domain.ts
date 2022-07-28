@@ -54,10 +54,11 @@ class BookmarkDomain {
                         let image = await imagemodel.find({ $and: [{ room_id: e.room_id }, { hotel_id: e.hotel_id._id }] })
                         wishList.push({
                             "_id": e._id,
+                            "hotel_id": e.hotel_id._id,
                             "hotel_name": e.hotel_id.hotel_name,
                             "address": e.hotel_id.address,
                             "price": e.hotel_id.price,
-                            "image": image
+                            "wishListImage": image
                         });
                         return wishList;
                     })
@@ -66,7 +67,7 @@ class BookmarkDomain {
                     res.status(StatusCode.Sucess).send(f[f.length - 1]);
                 })
             } else {
-                res.status(StatusCode.Sucess).send("No hotel in your wishlist")
+                res.status(StatusCode.Sucess).send([])
             }
         } catch (error: any) {
             res.status(StatusCode.Server_Error).send(error.message);

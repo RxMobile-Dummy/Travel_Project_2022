@@ -3,11 +3,11 @@ import express, { Express, Request, Response } from 'express';
 var router = express.Router();
 
 class CityController {
-    static async getAllcity(req:Request , res:Response){
+    static async getAllcity(req: Request, res: Response) {
         const cityDomain = new CityDomain();
-        await cityDomain.getAllCity(req,res)
+        await cityDomain.getAllCity(req, res)
     }
 }
 
-router.get('/',CityController.getAllcity);
-export{router}
+router.get('/', CityController.getAllcity);
+export { router }

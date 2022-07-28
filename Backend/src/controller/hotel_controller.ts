@@ -15,12 +15,6 @@ class HotelController {
 
     }
 
-    // get hot by city and room
-    static async getHotelBycityroom(req: Request, res: Response) {
-        const hoteldomain = new HotelDomain();
-        await hoteldomain.getHotelByCityRoom(req, res);
-    }
-
     //hotel image based on request limit
     static async getHotelImage(req: Request, res: Response) {
         const hoteldomain = new HotelDomain();
@@ -38,7 +32,6 @@ router.get('/', HotelController.getHotel);
 //get hotel image route
 router.get('/image/:imagelimit', HotelController.getHotelImage);
 router.get('/:hotelsearch', HotelController.getHotelBySearch);
-router.get('/:cityname/:roomcount', HotelController.getHotelBycityroom);
-router.get('/gethotel/getsinglehotel/:hotel_id',HotelController.getHotelPerticular);
+router.get('/gethotel/getsinglehotel/:hotel_id', HotelController.getHotelPerticular);
 
 export { router };

@@ -15,13 +15,22 @@ class UserController {
         await userDomain.updateUser(req, res);
     }
 
+    //Get User 
+    static async getUser(req: Request, res: Response) {
+        const userDomain: UserDomain = new UserDomain();
+        await userDomain.getUser(req, res);
+    }
+
 }
 
 // POST
-router.post("/", UserController.postUser);
+router.post("/post", UserController.postUser);
 
 //PUT
 router.put('/', UserController.updateUser);
+
+//get
+router.get('/', UserController.getUser);
 
 //EXPORT
 export { router };
