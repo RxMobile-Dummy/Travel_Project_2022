@@ -15,13 +15,7 @@ class TitleWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title, style: AppTextStyles.unselectedLabelStyle),
-          GestureDetector(
-              onTap: () {
-                FirebaseAuth.instance.signOut().then((value) {
-                  FirebaseAuth.instance.signInAnonymously();
-                });
-              },
-              child: Text(viewAll, style: AppTextStyles.unselectedLabelStyle)),
+          Text(viewAll, style: AppTextStyles.unselectedLabelStyle),
         ],
       ),
     );
