@@ -34,4 +34,6 @@ class RoutesName {
   static const publishReviewPage = "/publishReview";
 
   static const bookingPage = "/bookingPage";
+
+  static const settingPage = "/settingPage";
 }

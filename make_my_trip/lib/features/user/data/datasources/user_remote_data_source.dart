@@ -17,6 +17,8 @@ abstract class UserRemoteDataSource {
 
   Future<Either<Failures, void>> userForgetPasswordData(String emailAddress);
 
+  Future<Either<Failures, void>> userSignOut();
+
 //sign_up data_source methods
   Future<Either<Failures, bool>> userSignUp(
       {required String fullName,

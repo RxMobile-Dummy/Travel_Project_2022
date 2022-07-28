@@ -17,6 +17,8 @@ abstract class UserRepository {
 
   Future<Either<Failures, void>> userForgetPassword(String email);
 
+  Future<Either<Failures, void>> userSignOut();
+
   //sign_up repository methods
   Future<Either<Failures, bool>> userSignUp(
       String fullName, String email, String password);

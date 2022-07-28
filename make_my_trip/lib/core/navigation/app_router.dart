@@ -15,12 +15,16 @@ import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_cub
 import 'package:make_my_trip/features/search/search_hotel_injection_container.dart';
 import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
 import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
+import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
+import 'package:make_my_trip/features/setting_page/presentation/pages/settings_page.dart';
+import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/pages/email_verification_page.dart';
 import 'package:make_my_trip/features/user/presentation/pages/sign_up_page.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/features/user/presentation/pages/login_page.dart';
 import 'package:make_my_trip/features/user/presentation/widgets/resetPassword_widget.dart';
 import 'package:make_my_trip/features/user/user_injection_container.dart';
+import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
@@ -57,6 +61,7 @@ import 'package:make_my_trip/features/room_categories/presentation/cubit/room_ca
 import 'package:make_my_trip/features/room_categories/presentation/pages/room_categories_page.dart';
 import 'package:make_my_trip/features/room_categories/room_categories_injection_container.dart';
 
+import '../../features/user_history/user_history_injection_container.dart';
 import '../../features/wishlist/presentation/pages/wishlist_page.dart';
 
 class Router {
@@ -126,7 +131,10 @@ class Router {
         });
       case RoutesName.myTrips:
         return MaterialPageRoute(builder: (_) {
-          return const UserHistoryPage();
+          return BlocProvider(
+            create: (context) => historyListSl<UserHistoryCubit>(),
+            child: UserHistoryPage(),
+          );
         });
       case RoutesName.wishList:
         return MaterialPageRoute(builder: (_) {
@@ -267,6 +275,13 @@ class Router {
           return BlocProvider(
             create: (context) => bookingSl<BookingCubit>(),
             child: BookingPage(arg: arg),
+          );
+        });
+      case RoutesName.settingPage:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider.value(
+            value: slSettingPage<SettingPageCubit>(),
+            child: const SettingsPage(),
           );
         });
       default:
