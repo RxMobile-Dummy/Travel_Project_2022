@@ -18,11 +18,8 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   Future<Either<Failures, bool>> isAnonumousUser() async {
     try {
       User? user = auth.currentUser;
-      if (user?.email != null) {
-        return Right(false);
-      } else {
-        return Right(true);
-      }
+
+      return Right(user!.isAnonymous);
     } catch (err) {
       print(err);
       return Left(ServerFailure());
@@ -44,6 +41,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
         return Right(UserModel.fromJson({}));
       }
     } catch (err) {
+      print(err);
       return Left(ServerFailure(failureMsg: "Something went wrong"));
     }
   }

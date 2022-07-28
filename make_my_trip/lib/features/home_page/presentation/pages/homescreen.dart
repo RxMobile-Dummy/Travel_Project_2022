@@ -20,68 +20,50 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<InternetCubit, BaseState>(
-      listener: (context, state) {
-        if (state is InternetLoading) {
-          ProgressDialog.showLoadingDialog(context,
-              message: "Internet Disconnected");
+    return BlocBuilder<HomepageCubit, BaseState>(
+      // buildWhen: (context, state) {
+      //   print(state is InternetConnected);
+      //   return state is InternetConnected;
+      // },
+      builder: (context, state) {
+        if (state is StateErrorGeneral) {
+          return CommonErrorWidget(
+              imagePath: ImagePath.serverFailImage,
+              title: StringConstants.serverFail,
+              statusCode: "");
         }
-        if (state is InternetDisconnected) {
-          ProgressDialog.showLoadingDialog(context,
-              message: "Internet Disconnected");
-        }
-        if (state is InternetConnected) {
-          context.read<HomepageCubit>()
-            ..getImagesApi()
-            ..getToursApi();
-          ProgressDialog.hideLoadingDialog(context);
-        }
-      },
-      child: BlocBuilder<HomepageCubit, BaseState>(
-        // buildWhen: (context, state) {
-        //   print(state is InternetConnected);
-        //   return state is InternetConnected;
-        // },
-        builder: (context, state) {
-          if (state is StateErrorGeneral) {
-            return CommonErrorWidget(
-                imagePath: ImagePath.serverFailImage,
-                title: StringConstants.serverFail,
-                statusCode: "500");
-          }
-          return Scaffold(
-            body: SafeArea(
-                child: SingleChildScrollView(
-              child: Container(
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    topView(context),
-                    15.verticalSpace,
-                    TitleWidget(
-                        title: StringConstants.popularhotels,
-                        viewAll: StringConstants.viewallTxt),
-                    state is StateOnSuccess<GettingStartedData>
-                        ? (state.response.imageLoading != true
-                            ? slidableImageList()
-                            : ImageSliderShimmer())
-                        : Center(),
-                    17.verticalSpace,
-                    TitleWidget(
-                        title: StringConstants.populartours,
-                        viewAll: StringConstants.viewallTxt),
-                    state is StateOnSuccess<GettingStartedData>
-                        ? (state.response.tourLoading == true
-                            ? ImageSliderShimmer()
-                            : popularTourList())
-                        : Center(),
-                  ],
-                ),
+        return Scaffold(
+          body: SafeArea(
+              child: SingleChildScrollView(
+            child: Container(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  topView(context),
+                  15.verticalSpace,
+                  TitleWidget(
+                      title: StringConstants.popularhotels,
+                      viewAll: StringConstants.viewallTxt),
+                  state is StateOnSuccess<GettingStartedData>
+                      ? (state.response.imageLoading != true
+                          ? slidableImageList()
+                          : ImageSliderShimmer())
+                      : Center(),
+                  17.verticalSpace,
+                  TitleWidget(
+                      title: StringConstants.populartours,
+                      viewAll: StringConstants.viewallTxt),
+                  state is StateOnSuccess<GettingStartedData>
+                      ? (state.response.tourLoading == true
+                          ? ImageSliderShimmer()
+                          : popularTourList())
+                      : Center(),
+                ],
               ),
-            )),
-          );
-        },
-      ),
+            ),
+          )),
+        );
+      },
     );
   }
 }

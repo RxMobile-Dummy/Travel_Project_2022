@@ -124,12 +124,7 @@ class Router {
       case RoutesName.home:
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
-            providers: [
-              BlocProvider.value(
-                value: slHomePage<HomepageCubit>()..getImagesApi()..getToursApi(),
-              ),
-              BlocProvider.value(value: slHomePage<TabBarCubit>())
-            ],
+            providers: [BlocProvider.value(value: slHomePage<TabBarCubit>())],
             child: HomePage(),
           );
         });
@@ -140,7 +135,8 @@ class Router {
       case RoutesName.wishList:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => wishListSl<WishListCubit>()..getWishListCubitData(),
+            create: (context) =>
+                wishListSl<WishListCubit>()..getWishListCubitData(),
             child: WishListPage(),
           );
         });
@@ -227,7 +223,8 @@ class Router {
               ),
               BlocProvider.value(
                 value: BlocProvider.of<SelectRoomCountCubit>(arg["context"]),
-              ),BlocProvider.value(
+              ),
+              BlocProvider.value(
                 value: roomDetailSl<RoomCategoryCubit>(),
               )
             ],

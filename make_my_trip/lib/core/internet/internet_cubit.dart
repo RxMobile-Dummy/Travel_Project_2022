@@ -14,7 +14,6 @@ class InternetCubit extends Cubit<BaseState> {
   }
 
   void monitorInternetConnection() async {
-    emitInternetDisconnected();
     connectivityStreamSubscription =
         connectivity!.onConnectivityChanged.listen((connectivityResult) async {
       try {
