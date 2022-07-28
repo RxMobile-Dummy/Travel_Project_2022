@@ -21,6 +21,6 @@ class BookingController {
 
 router.post('/hotelbooking', BookingController.addBooking);
 router.get('/check', BookingController.roomBookAvailableCheck);
-router.get('/user/history', BookingController.userBookingHistory);
+router.get('/user/bookings', BookingController.userBookingHistory);
 export { router };
 

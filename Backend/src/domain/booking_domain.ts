@@ -28,6 +28,7 @@ class BookingDomain {
                     total_price: req.body.price.total_price
                 }
             }
+            var sum = 0;
             var rommIdFromReq: any = (req.body.room_id);
             console.log(rommIdFromReq);
             var getHotelRoom = await hotelmodel.find({ _id: req.body.hotel_id })
@@ -36,12 +37,9 @@ class BookingDomain {
                 e.room.forEach((d: any) => {
                     if (rommIdFromReq.includes(d.room_id)) {
                         roomPrice.push(d.price);
+                        sum = sum +d.price;
                     }
                 })
-            })
-            var sum = 0;
-            roomPrice.forEach((a: any) => {
-                sum = sum + a;
             })
             const getHotelRoomPrice: number = sum;
             console.log(getHotelRoom);
@@ -145,7 +143,7 @@ class BookingDomain {
                     if (roomDetailList.length != 0) {
                         //Room Image query
                         const roomImageData: any = [];
-                        var resPromise = Promise.all(
+                        await Promise.all(
                             roomDetailList.map(async (e: any) => {
                                 let image = await imagemodel.find({ $and: [{ room_id: e.room_id }, { hotel_id: hotelId }] })
                                 roomImageData.push({
@@ -160,16 +158,14 @@ class BookingDomain {
                                     "image": image
                                 }
                                 );
-                                return roomImageData;
                             })
 
                         );
                         const deluxeList: any = [];
                         const semiDeluxeList: any = [];
                         const superDeluxeList: any = []
-                        resPromise.then((f: any) => {
-                            var roomList = f[f.length - 1];
-                            roomList.forEach((e: any) => {
+                       
+                        roomImageData.forEach((e: any) => {
                                 if (e.room_type == "Deluxe") {
                                     deluxeList.push(e);
                                 } else if (e.room_type == "Semi-Deluxe") {
@@ -186,19 +182,15 @@ class BookingDomain {
                                 "super-deluxe": superDeluxeList
                             };
                             res.status(StatusCode.Sucess).send(resultData);
-                        }).catch((e) => {
-                            res.status(StatusCode.Server_Error).send(e.message);
-                            res.end();
-                        });
                     } else {
-                        var resultData = {
+                        var resError = {
                             "hotel_id": hotelId,
                             "hotel_name": hotelName,
                             "deluxe": [],
                             "semi-deluxe": [],
                             "super-deluxe": []
                         };
-                        res.status(StatusCode.Sucess).send(resultData)
+                        res.status(StatusCode.Sucess).send(resError)
                         res.end()
                     }
                 } else {
