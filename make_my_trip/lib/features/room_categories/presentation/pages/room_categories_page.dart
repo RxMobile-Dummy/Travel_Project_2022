@@ -10,6 +10,7 @@ import 'package:make_my_trip/features/room_categories/presentation/pages/room_ca
 import 'package:make_my_trip/features/room_categories/presentation/widgets/room_list_widget.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 
 import '../../../../core/navigation/route_info.dart';
@@ -40,10 +41,31 @@ class RoomCategoriesPage extends StatelessWidget {
             roomCategoryModel!.semiDeluxe!.isEmpty &&
             roomCategoryModel!.deluxe!.isEmpty ) {
           return Scaffold(
-            body: Center(
-              child: Text('No Room Availble In Your CheckIn Date'),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Spacer(),
+                AspectRatio(
+                  aspectRatio: 1.6,
+                  child: Image.asset(
+                    ImagePath.noRoomFound,
+                  ),
+                ),
+
+                25.verticalSpace,
+                Text(
+                  StringConstants.noRoomAvail,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      color: MakeMyTripColors.accentColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                ),
+                const Spacer(),
+              ],
             ),
           );
+
         }
       } else if (state is StateLoading) {
         return RoomCategoriesShimmerPage();

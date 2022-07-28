@@ -9,7 +9,10 @@ import 'package:make_my_trip/features/booking/presentation/cubit/book_cubit.dart
 import 'package:make_my_trip/features/booking/presentation/pages/booking_shimmer_page.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 
 class BookingPage extends StatelessWidget {
@@ -29,11 +32,26 @@ class BookingPage extends StatelessWidget {
                   Navigator.of(context).pushNamedAndRemoveUntil(RoutesName.home,(route)=>false);
                 });
                 return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(32.0))),
                   elevation: 4,
-                  title: Row(
+                  title: Column(
                     children: [
-                      Icon(Icons.check_circle,color: Colors.green,size: 18,),
-                      Text("Booking Success!!"),
+                      AspectRatio(
+                        aspectRatio: 1.6,
+                        child: Image.asset(
+                          ImagePath.confirmSuccess,
+                        ),
+                      ),
+                      30.verticalSpace,
+                      Text(
+                        StringConstants.confirmBooking,
+                        style: const TextStyle(
+                            color: MakeMyTripColors.accentColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      25.verticalSpace,
                     ],
                   ),
                 );

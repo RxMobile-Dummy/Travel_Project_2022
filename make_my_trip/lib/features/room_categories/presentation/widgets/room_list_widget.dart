@@ -43,7 +43,7 @@ class RoomListWidget extends StatelessWidget {
   builder: (context, state) {
     return Padding(
           padding: const EdgeInsets.only(
-              top: 12.0, left: 4.0, right: 4.0, bottom: 4.0),
+              top: 4.0, left: 4.0, right: 4.0, bottom: 2.0),
           child: Card(
             elevation: 50, // Change this
             shadowColor: MakeMyTripColors.color10gray,
@@ -51,7 +51,7 @@ class RoomListWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(15.0),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(14.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -65,7 +65,6 @@ class RoomListWidget extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-
                           Navigator.pushNamed(context, RoutesName.roomDetail,
                               arguments: {
                                 'hotel_id': hotelId,

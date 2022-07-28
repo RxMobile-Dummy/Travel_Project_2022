@@ -154,6 +154,7 @@ class StringConstants {
 
   static String isAnonymousSharedPreference = "isAnonymous";
   static String userIdSharedPreference = "userId";
-
+  static String confirmBooking="Booking Success";
+  static String noRoomAvail="There is No Room Availble in Your Checking Date";
 
 }
