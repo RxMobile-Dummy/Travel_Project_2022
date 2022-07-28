@@ -4,7 +4,6 @@ import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/review/data/model/review_model.dart';
 import 'package:make_my_trip/features/review/presentation/cubit/publish_review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/widgets/publish_review_slider_widget.dart';
@@ -30,6 +29,11 @@ class PublishReviewPage extends StatelessWidget {
         } else if (state is ValidationError) {
           var snackBar = SnackBar(content: Text(state.errorMessage));
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (state is StateNoData) {
+          var snackBar = SnackBar(
+              content: Text(StringConstants.noReviewComment));
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
       child: Scaffold(
@@ -51,28 +55,29 @@ class PublishReviewPage extends StatelessWidget {
           actions: [
             BlocBuilder<PublishReviewCubit, ReviewValueState>(
               builder: (context, state) {
-                return GestureDetector(
-                    onTap: () {
-                      ReviewModel reviewModel = ReviewModel(
-                        comment: state.commentReview,
-                        cleanliness: state.cleanlinessReview,
-                        comfort: state.comfortReview,
-                        location: state.locationReview,
-                        facilities: state.facilitiesReview,
-                      );
-                      context
-                          .read<ReviewCubit>()
-                          .postHotelReviewData(reviewModel, arg['hotel_id']);
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: TextButton(
+                    child: Text(StringConstants.publish,
+                        style: AppTextStyles.infoContentStyle2),
+                    onPressed: () {
+                      if (state.commentReview.isEmpty ||
+                          state.commentReview == null ||
+                          state.commentReview.length == 0 ||
+                          state.commentReview.toString().trim().length == 0) {
+                        var snackBar = SnackBar(content: Text("error"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                      context.read<ReviewCubit>().postHotelReviewData(
+                          state.commentReview,
+                          state.cleanlinessReview,
+                          state.locationReview,
+                          state.comfortReview,
+                          state.facilitiesReview,
+                          arg['hotel_id']);
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: Center(
-                        child: Text(
-                          StringConstants.publish,
-                          style: AppTextStyles.infoContentStyle2,
-                        ),
-                      ),
-                    ));
+                  ),
+                );
               },
             )
           ],
