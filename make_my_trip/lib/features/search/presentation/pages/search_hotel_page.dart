@@ -58,58 +58,60 @@ class SearchHotelPage extends StatelessWidget {
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: StringConstants.searchPageTitle,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Column(
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: StringConstants.searchPageTitle,
+                  ),
+                  onChanged: (String query) {
+                    context.read<SearchHotelCubit>().getSearchInputData(query);
+                  },
                 ),
-                onChanged: (String query) {
-                  context.read<SearchHotelCubit>().getSearchInputData(query);
-                },
-              ),
-              8.verticalSpace,
-              BlocBuilder<SearchHotelCubit, BaseState>(
-                  builder: (context, state) {
-                if (state is StateOnKnownToSuccess) {
-                  searchModel = state.response as List<SearchHotelModel>;
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 16),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                            width: 1, color: MakeMyTripColors.color30gray)),
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                    RoutesName.hotelList,
-                                    arguments: {
-                                      'city_name':
-                                          searchModel?[index].description
-                                    });
-                              },
-                              child:
-                                  Text(searchModel?[index].description ?? ""));
-                        },
-                        separatorBuilder: (context, index) {
-                          return const Divider(
-                              height: 24,
-                              thickness: 1,
-                              color: MakeMyTripColors.color30gray);
-                        },
-                        itemCount: searchModel!.length),
-                  );
-                } else {
-                  return Container();
-                }
-              }),
-            ],
+                8.verticalSpace,
+                BlocBuilder<SearchHotelCubit, BaseState>(
+                    builder: (context, state) {
+                  if (state is StateOnKnownToSuccess) {
+                    searchModel = state.response as List<SearchHotelModel>;
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 16),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                              width: 1, color: MakeMyTripColors.color30gray)),
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                      RoutesName.hotelList,
+                                      arguments: {
+                                        'city_name':
+                                            searchModel?[index].description
+                                      });
+                                },
+                                child:
+                                    Text(searchModel?[index].description ?? ""));
+                          },
+                          separatorBuilder: (context, index) {
+                            return const Divider(
+                                height: 24,
+                                thickness: 1,
+                                color: MakeMyTripColors.color30gray);
+                          },
+                          itemCount: searchModel!.length),
+                    );
+                  } else {
+                    return Container();
+                  }
+                }),
+              ],
+            ),
           ),
         ),
       ),

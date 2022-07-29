@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
           return CommonErrorWidget(
               imagePath: ImagePath.serverFailImage,
               title: StringConstants.serverFail,
-              statusCode: "500");
+              statusCode: "");
         }
         return Scaffold(
           body: SafeArea(
@@ -144,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                                             });
                                       },
                                       imageData:
-                                          imagelist[index].images![0].imageUrl!,
+                                          imagelist[index].images![0].imageUrl??"https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png",
                                       address:
                                           imagelist[index].address!.addressLine,
                                     ),
@@ -177,8 +177,8 @@ class HomeScreen extends StatelessWidget {
                                       rating: tourdata!.rating.toString(),
                                       hotelName: tourdata.tourName.toString(),
                                       onTap: () {},
-                                      imageData: tourdata.images!.first.imageUrl
-                                          .toString(),
+                                      imageData: tourdata.images![0].imageUrl??"https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png"
+                                         ,
                                     ),
                                   );
                                 }))
@@ -281,13 +281,25 @@ class PopularHotelWidget extends StatelessWidget {
                 height: MediaQuery.of(context).size.width * .35,
                 width: MediaQuery.of(context).size.width * .6,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                        opacity: .8,
-                        colorFilter: const ColorFilter.mode(
-                            Colors.black, BlendMode.lighten),
-                        fit: BoxFit.cover,
-                        image: NetworkImage(imageData))),
+                  borderRadius: BorderRadius.circular(12),
+
+                image: DecorationImage(
+                    opacity: .8,
+                    colorFilter: const ColorFilter.mode(
+                        Colors.black, BlendMode.lighten),
+                    fit: BoxFit.cover,
+                    image: NetworkImage(imageData))),
+                // child: ClipRRect(
+                //     child: FadeInImage.assetNetwork(
+                //         placeholder: 'assets/img/placeholder.png',
+                //         image: imageData,
+                //         fit: BoxFit.cover ,imageErrorBuilder:
+                //         (context, error, stackTrace) {
+                //       return Image.asset(
+                //           'assets/img/placeholder.png',
+                //           fit: BoxFit.fitWidth);
+                //     }),
+                //     borderRadius: BorderRadius.circular(12)),
               ),
               Positioned(
                 top: 12,
