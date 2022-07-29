@@ -63,7 +63,6 @@ class LoginPage extends StatelessWidget {
                       ImagePath.appLogo,
                     ),
                   ),
-                  20.verticalSpace,
                   TextFormField(
                     controller: loginEmailController,
                     decoration:
@@ -188,15 +187,16 @@ class LoginPage extends StatelessWidget {
           ),
           Positioned(
             top: 20,
-            right: 20,
+            left: 20,
             child: GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: Text(StringConstants.skipTxt,
-                    style: AppTextStyles.hintTextStyle.copyWith(
-                      color: MakeMyTripColors.color50gray,
-                    ))),
+                child: Icon(
+                  Icons.cancel_sharp,
+                  size: 28,
+                  color: MakeMyTripColors.colorBlack.withOpacity(.6),
+                )),
           )
         ])),
       ),

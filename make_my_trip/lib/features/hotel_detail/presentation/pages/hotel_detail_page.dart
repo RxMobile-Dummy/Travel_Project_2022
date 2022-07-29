@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +21,7 @@ import '../../../../core/theme/make_my_trip_colors.dart';
 import '../widgets/circle_icon_button.dart';
 import '../widgets/features_item_widget.dart';
 import '../widgets/loaction_widget.dart';
+import 'package:platform/platform.dart' as pl;
 import '../widgets/review_container.dart';
 
 class HotelDetailPage extends StatelessWidget {
@@ -34,8 +37,7 @@ class HotelDetailPage extends StatelessWidget {
     return BlocConsumer<HotelDetailCubit, BaseState>(
       listener: (context, state) {
         if (state is Unauthenticated) {
-          Navigator.pushReplacementNamed(
-              context, RoutesName.login,
+          Navigator.pushReplacementNamed(context, RoutesName.login,
               arguments: {"route_name": RoutesName.hotelDetail});
         }
       },
@@ -64,33 +66,38 @@ class HotelDetailPage extends StatelessWidget {
               SliverLayoutBuilder(
                 builder: (context, constraints) {
                   final scrolled =
-                      constraints.scrollOffset > screen.width * .55;
+                      constraints.scrollOffset > screen.height * .25;
                   return SliverAppBar(
                     backgroundColor: MakeMyTripColors.colorWhite,
-                    expandedHeight: screen.width * .7,
+                    expandedHeight: screen.height * .35,
                     elevation: 0,
                     excludeHeaderSemantics: true,
                     floating: true,
                     pinned: true,
                     leading: IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: scrolled
-                            ? MakeMyTripColors.colorBlack
-                            : MakeMyTripColors.colorWhite,
-                      ),
-                    ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: (Platform.isAndroid)
+                            ? Icon(
+                                Icons.arrow_back_outlined,
+                                color: scrolled
+                                    ? MakeMyTripColors.colorBlack
+                                    : MakeMyTripColors.colorWhite,
+                              )
+                            : Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                                color: scrolled
+                                    ? MakeMyTripColors.colorBlack
+                                    : MakeMyTripColors.colorWhite,
+                              )),
                     actions: [
                       GestureDetector(
                         onTap: () {
                           var searchState =
                               context.read<HotelDetailCubit>().state;
                           if (searchState is Unauthenticated) {
-                            Navigator.popAndPushNamed(
-                                context, RoutesName.login,
+                            Navigator.popAndPushNamed(context, RoutesName.login,
                                 arguments: {
                                   "route_name": RoutesName.hotelDetail
                                 });

@@ -64,13 +64,8 @@ class SearchHotelPage extends StatelessWidget {
             children: [
               TextFormField(
                 decoration: InputDecoration(
-                    hintText: StringConstants.searchPageTitle,
-                    filled: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 16.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    )),
+                  hintText: StringConstants.searchPageTitle,
+                ),
                 onChanged: (String query) {
                   context.read<SearchHotelCubit>().getSearchInputData(query);
                 },

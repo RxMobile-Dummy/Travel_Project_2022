@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 /// hotel_id : 1
 /// hotel_name : "Hotel Khyber Palace"
 /// address : {"address_line":"Sanand Cir, Sarkhej, Ahmedabad, Gujarat, India 382210","pincode":382210,"city_id":69,"location":{"longitude":23.0609355,"latitude":72.4483075}}
@@ -7,29 +8,34 @@ import 'dart:convert';
 /// checking_date : "2022-01-08T00:00:00.000Z"
 /// checkout_date : "2022-01-10T00:00:00.000Z"
 
-UserHistoryModel userHistoryModelFromJson(String str) => UserHistoryModel.fromJson(json.decode(str));
-String userHistoryModelToJson(UserHistoryModel data) => json.encode(data.toJson());
+UserHistoryModel userHistoryModelFromJson(String str) =>
+    UserHistoryModel.fromJson(json.decode(str));
+String userHistoryModelToJson(UserHistoryModel data) =>
+    json.encode(data.toJson());
+
 class UserHistoryModel {
   UserHistoryModel({
-      this.hotelId, 
-      this.hotelName, 
-      this.address, 
-      this.images, 
-      this.price, 
-      this.checkingDate, 
-      this.checkoutDate,});
+    this.hotelId,
+    this.hotelName,
+    this.address,
+    this.images,
+    this.price,
+    this.checkingDate,
+    this.checkoutDate,
+  });
 
   UserHistoryModel.fromJson(dynamic json) {
     hotelId = json['hotel_id'];
     hotelName = json['hotel_name'];
-    address = json['address'] != null ? Address.fromJson(json['address']) : null;
+    address =
+        json['address'] != null ? Address.fromJson(json['address']) : null;
     if (json['images'] != null) {
       images = [];
       json['images'].forEach((v) {
         images?.add(Images.fromJson(v));
       });
     }
-    price = json['price'];
+    price = double.parse(json['price'].toString());
     checkingDate = json['checking_date'];
     checkoutDate = json['checkout_date'];
   }
@@ -37,7 +43,7 @@ class UserHistoryModel {
   String? hotelName;
   Address? address;
   List<Images>? images;
-  int? price;
+  double? price;
   String? checkingDate;
   String? checkoutDate;
 
@@ -56,7 +62,6 @@ class UserHistoryModel {
     map['checkout_date'] = checkoutDate;
     return map;
   }
-
 }
 
 /// _id : 16
@@ -68,14 +73,16 @@ class UserHistoryModel {
 
 Images imagesFromJson(String str) => Images.fromJson(json.decode(str));
 String imagesToJson(Images data) => json.encode(data.toJson());
+
 class Images {
   Images({
-      this.id, 
-      this.imageUrl, 
-      this.hotelId, 
-      this.roomId, 
-      this.tourId, 
-      this.userId,});
+    this.id,
+    this.imageUrl,
+    this.hotelId,
+    this.roomId,
+    this.tourId,
+    this.userId,
+  });
 
   Images.fromJson(dynamic json) {
     id = json['_id'];
@@ -102,7 +109,6 @@ class Images {
     map['user_id'] = userId;
     return map;
   }
-
 }
 
 /// address_line : "Sanand Cir, Sarkhej, Ahmedabad, Gujarat, India 382210"
@@ -112,18 +118,21 @@ class Images {
 
 Address addressFromJson(String str) => Address.fromJson(json.decode(str));
 String addressToJson(Address data) => json.encode(data.toJson());
+
 class Address {
   Address({
-      this.addressLine, 
-      this.pincode, 
-      this.cityId, 
-      this.location,});
+    this.addressLine,
+    this.pincode,
+    this.cityId,
+    this.location,
+  });
 
   Address.fromJson(dynamic json) {
     addressLine = json['address_line'];
     pincode = json['pincode'];
     cityId = json['city_id'];
-    location = json['location'] != null ? Location.fromJson(json['location']) : null;
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
   }
   String? addressLine;
   int? pincode;
@@ -140,7 +149,6 @@ class Address {
     }
     return map;
   }
-
 }
 
 /// longitude : 23.0609355
@@ -148,10 +156,12 @@ class Address {
 
 Location locationFromJson(String str) => Location.fromJson(json.decode(str));
 String locationToJson(Location data) => json.encode(data.toJson());
+
 class Location {
   Location({
-      this.longitude, 
-      this.latitude,});
+    this.longitude,
+    this.latitude,
+  });
 
   Location.fromJson(dynamic json) {
     longitude = json['longitude'];
@@ -166,5 +176,4 @@ class Location {
     map['latitude'] = latitude;
     return map;
   }
-
 }

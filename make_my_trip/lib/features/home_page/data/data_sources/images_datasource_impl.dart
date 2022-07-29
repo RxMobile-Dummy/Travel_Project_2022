@@ -6,6 +6,7 @@ import 'package:make_my_trip/features/home_page/data/data_sources/images_datasou
 import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
 import '../../../../core/failures/failures.dart';
+import '../../../hotel_listing/data/models/hotel_list_model.dart';
 
 class ImagesDataSourceImpl implements ImagesDataSource {
   final Dio dio;
@@ -18,16 +19,16 @@ class ImagesDataSourceImpl implements ImagesDataSource {
   }
 
   @override
-  Future<Either<Failures, List<ImageModel>>> getList() async {
+  Future<Either<Failures, List<HotelListModel>>> getList() async {
     try {
       final response = await dio.get('${BaseConstant.baseUrl}hotel/image/5',
           options: await createDioOptions());
       var result = response.data;
       if (response.statusCode == 200) {
-        List<ImageModel> postList = [];
+        List<HotelListModel> postList = [];
         {
           for (Map i in result) {
-            postList.add(ImageModel.fromJson(i));
+            postList.add(HotelListModel.fromJson(i));
           }
         }
         return Right(postList);
@@ -40,7 +41,6 @@ class ImagesDataSourceImpl implements ImagesDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
-
       return Left(ServerFailure(statusCode: "503"));
     }
   }

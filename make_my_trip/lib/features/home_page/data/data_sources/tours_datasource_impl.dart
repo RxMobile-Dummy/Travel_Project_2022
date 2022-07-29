@@ -18,7 +18,8 @@ class ToursDataSourceImpl implements ToursDataSource {
   @override
   Future<Either<Failures, List<ToursModel>>> getToursData() async {
     try {
-      final response = await dio.get('${BaseConstant.baseUrl}tour/5',options: await createDioOptions());
+      final response = await dio.get('${BaseConstant.baseUrl}tour/5',
+          options: await createDioOptions());
       var result = response.data;
       if (response.statusCode == 200) {
         List<ToursModel> postList = [];
@@ -37,6 +38,7 @@ class ToursDataSourceImpl implements ToursDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
+      print(e);
       return Left(ServerFailure(statusCode: "503"));
     }
   }
