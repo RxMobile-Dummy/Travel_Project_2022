@@ -230,4 +230,8 @@ class StringConstants {
   static const cameraIsolate = "Camera Upload";
   static const imageUploaded = "Image Uploaded Successfully!";
 
+  static const galleryIsolate = "Gallery Upload";
+  static const cameraIsolate = "Camera Upload";
+  static const imageUploaded = "Image Uploaded Successfully!";
+
 }
