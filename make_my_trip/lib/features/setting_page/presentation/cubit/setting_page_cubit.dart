@@ -48,21 +48,23 @@ class SettingPageCubit extends Cubit<BaseState> {
 
   getFromGallery() async {
     final res = await updateImageUseCase.call(NoParams());
+    var userValue = await getUserData();
     res.fold(
         (l) => emit(StateErrorGeneral(StringConstants.errorGallery)),
         (r) => emit(StateOnKnownToSuccess(
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
-                .copyWith(imageValue: r))));
+                .copyWith(imageValue: r,userValue: userValue))));
   }
 
   getFromCamera() async {
     final res = await updateImageUseCase.callImageFromCamera(NoParams());
+    var userValue = await getUserData();
     res.fold(
         (l) => emit(StateErrorGeneral(StringConstants.errorCamera)),
         (r) => emit(StateOnKnownToSuccess(
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
-                .copyWith(imageValue: r))));
+                .copyWith(imageValue: r,userValue: userValue))));
   }
 }

@@ -213,4 +213,8 @@ class StringConstants {
   static const firebaseFolderName = "userImage/";
   static const firebaseCollectionName = "Images";
   static const failedToLoadImg = "failed to add image";
+  static const galleryIsolate = "Gallery Upload";
+  static const cameraIsolate = "Camera Upload";
+  static const imageUploaded = "Image Uploaded Successfully!";
+
 }

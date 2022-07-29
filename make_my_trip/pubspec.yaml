@@ -39,6 +39,7 @@ dependencies:
   flutter_facebook_auth: ^4.4.0
   firebase_storage: ^10.3.4
   cloud_firestore: ^3.4.1
+  flutter_isolate:
 
   #state management :::use cubit pattern
   flutter_bloc: ^8.0.1
@@ -71,6 +72,7 @@ dependencies:
   dots_indicator: ^2.1.0
   google_maps_flutter: ^2.1.8
   url_launcher: ^6.1.5
+
 #  video_player: ^2.4.5
   scrollable_clean_calendar: ^1.4.0
   page_transition: ^2.0.9
