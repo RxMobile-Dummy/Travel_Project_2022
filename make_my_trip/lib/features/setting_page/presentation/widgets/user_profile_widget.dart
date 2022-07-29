@@ -16,7 +16,7 @@ Widget userProfileWidget(BuildContext context) {
         if (state is StateOnKnownToSuccess<SettingPageData>) {
           return CircleAvatar(
             backgroundImage: NetworkImage(state.response.userValue?.userImage ??
-                StringConstants.emptyString),
+                ImagePath.userPlaceholder),
             radius: 50,
             backgroundColor: MakeMyTripColors.colorLightGray,
           );

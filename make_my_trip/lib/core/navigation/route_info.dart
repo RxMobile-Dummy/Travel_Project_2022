@@ -14,7 +14,7 @@ class RoutesName {
   static const myTrips = '/mytrip';
   static const wishList = '/wishList';
   static const profile = '/profile';
-
+  static const help = '/help';
   static const search = '/search';
 
   static const hotelList = "/hotelList";

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 
-import '../../../../core/theme/text_styles.dart';
+import '../../wishlist_injection_container.dart';
 import '../widgets/shimmer_effect_page.dart';
 
 class WishListPage extends StatelessWidget {
@@ -48,11 +49,14 @@ class WishListPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
                           ) //TextStyle
-                          ), //Text
+                      ), //Text
                       background: Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: ExactAssetImage(ImagePath.wishlistImage2),
+                            image: NetworkImage(
+                                wishlistModel[wishlistModel.length - 1]
+                                    .wishListImage![0]
+                                    .imageUrl!),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -67,38 +71,37 @@ class WishListPage extends StatelessWidget {
                     ),
                     expandedHeight: 230,
                     backgroundColor: MakeMyTripColors.colorWhite,
-                    leading: IconButton(
+                    leading: (!Platform.isAndroid) ? IconButton(
                       color: scroll
                           ? MakeMyTripColors.color70gray
                           : MakeMyTripColors.colorWhite,
                       icon: const Icon(Icons.arrow_back_ios),
                       tooltip: 'back',
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ) : IconButton(
+                      color: scroll
+                          ? MakeMyTripColors.color70gray
+                          : MakeMyTripColors.colorWhite,
+                      icon: const Icon(Icons.arrow_back_outlined),
+                      tooltip: 'back',
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
-                    //IconButton
-                    actions: <Widget>[
-                      IconButton(
-                        color: scroll
-                            ? MakeMyTripColors.color70gray
-                            : MakeMyTripColors.colorWhite,
-                        icon: const Icon(
-                          Icons.share,
-                        ),
-                        tooltip: 'Share Icon',
-                        onPressed: () {},
-                      ), //IconButton
-                    ], //<Widget>[]
+
                   );
                 }), //SliverAppBar
                 SliverList(
                     delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return HotalDetails(
-                      wishlistModel: wishlistModel[index],
-                    );
-                  },
-                  childCount: wishlistModel.length,
-                )),
+                          (BuildContext context, int index) {
+                        return HotalDetails(
+                          wishlistModel: wishlistModel[index],
+                        );
+                      },
+                      childCount: wishlistModel.length,
+                    )),
               ], //<Widget>[]
             );
           } else if (state is StateLoading) {

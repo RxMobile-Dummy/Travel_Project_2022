@@ -28,7 +28,7 @@ List<MySetting> settingList = [
       text: StringConstants.privacyAndSecurity,
       routeName: ""),
   MySetting(
-      icon: Icons.help_outline, text: StringConstants.help, routeName: ""),
+      icon: Icons.help_outline, text: StringConstants.help, routeName: RoutesName.help),
   MySetting(
       icon: Icons.info_outline, text: StringConstants.aboutUs, routeName: "")
 ];

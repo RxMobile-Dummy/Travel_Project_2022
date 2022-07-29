@@ -25,26 +25,24 @@ class HistoryListViewWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                child: SizedBox(
-                  height: 100,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12.0),
-                    child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/img/placeholder.png',
-                        image:userHistoryModel.images![rnd.nextInt(userHistoryModel.images!.length)].imageUrl.toString(),
-                        fit: BoxFit.fill,
-                        imageErrorBuilder:
-                            (context, error, stackTrace) {
-                          return Image.asset(
-                              'assets/img/placeholder.png',
-                              fit: BoxFit.fitWidth);
-                        }),
-                  ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+              child: SizedBox(
+                height: 100,
+                width: 100,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/img/placeholder.png',
+                      image:userHistoryModel.images![rnd.nextInt(userHistoryModel.images!.length)].imageUrl.toString(),
+                      fit: BoxFit.fill,
+                      imageErrorBuilder:
+                          (context, error, stackTrace) {
+                        return Image.asset(
+                            'assets/img/placeholder.png',
+                            fit: BoxFit.fitWidth);
+                      }),
                 ),
               ),
             ),
@@ -67,53 +65,30 @@ class HistoryListViewWidget extends StatelessWidget {
                         size: 16,
                       ),
                       Expanded(
-                          flex: 3,
-                          child: Text(userHistoryModel.address!.addressLine
-                              .toString(), maxLines: 2)),
-                      const Spacer(),
-                      Flexible(
-                        flex: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.0),
-                              border: Border.all(),
-                            ),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Text(
-                                  '₹ ${userHistoryModel.price.toString()}',
-                                  style: AppTextStyles.infoLabelStyle
-                                      .copyWith(fontSize: 14),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: Text(userHistoryModel.address!.addressLine
+                            .toString(), overflow: TextOverflow.ellipsis,),
                       ),
-                      10.horizontalSpace,
+
                     ],
+                  ), Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Text(
+                      '₹ ${userHistoryModel.price.toString()}',
+                      style: AppTextStyles.infoLabelStyle
+                          .copyWith(fontSize: 14),
+                    ),
                   ),
-                  4.verticalSpace,
                   Row(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4.0),
-                          border: Border.all(),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Text(
-                            '${userHistoryModel.checkingDate!.substring(0, userHistoryModel.checkingDate!.indexOf('T'))} - ${userHistoryModel.checkoutDate!.substring(0, userHistoryModel.checkoutDate!.indexOf('T'))}',
-                            style: AppTextStyles.infoLabelStyle
-                                .copyWith(fontSize: 12),
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Text(
+                          '${userHistoryModel.checkingDate!.substring(0, userHistoryModel.checkingDate!.indexOf('T'))} - ${userHistoryModel.checkoutDate!.substring(0, userHistoryModel.checkoutDate!.indexOf('T'))}',
+                          style: AppTextStyles.infoLabelStyle
+                              .copyWith(fontSize: 12),
                         ),
                       ),
-                      40.verticalSpace,
+
                     ],
                   ),
                 ],

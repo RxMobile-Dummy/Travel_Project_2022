@@ -34,6 +34,9 @@ class ImagePath {
 
   static const String forgetPassword = "assets/img/forgetpassword.png";
   static const String emailVerification = "assets/img/email_verification.png";
+  static const String helpImage = 'assets/img/cs.webp';
+  static const String helpSupportCall = "assets/img/telephone.png";
+  static const String helpSupportEmail = 'assets/img/email_image.png';
 
   static const String appLogoGif = "assets/video/logo.gif";
   static const String appLogo = "assets/img/logot.png";
@@ -41,4 +44,5 @@ class ImagePath {
   static const String noRoomFound = "assets/img/no_room_found.png";
 
   static const String userProfileImage1 = 'assets/img/userPage_logo.png';
+  static const String userPlaceholder = "https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/userImage%2FuserPage_logo.png?alt=media&token=98f2c2b1-b64a-452e-97b9-84145c5d022e";
 }

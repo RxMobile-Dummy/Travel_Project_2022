@@ -21,7 +21,6 @@ import '../../../../core/theme/make_my_trip_colors.dart';
 import '../widgets/circle_icon_button.dart';
 import '../widgets/features_item_widget.dart';
 import '../widgets/loaction_widget.dart';
-import 'package:platform/platform.dart' as pl;
 import '../widgets/review_container.dart';
 
 class HotelDetailPage extends StatelessWidget {

@@ -23,7 +23,8 @@ dependencies:
   shimmer: ^2.0.0
   fluttertoast: ^8.0.9
   image_picker: ^0.8.5+3
-
+  flutter_phone_direct_caller: ^2.1.1
+  flutter_email_sender: ^5.1.0
   #utils
 #  uuid: ^3.0.6
 #  grouped_list: ^4.1.0

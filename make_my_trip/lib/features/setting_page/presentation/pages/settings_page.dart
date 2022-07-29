@@ -49,7 +49,6 @@ class SettingsPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 10.0),
                             child: GestureDetector(
                               onTap: () {
-                                print("back");
                                 Navigator.pushNamed(
                                     context, settingList[index].routeName);
                               },

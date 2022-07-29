@@ -40,6 +40,7 @@ import '../../features/hotel_detail/presentation/pages/hotel_detail_page.dart';
 import '../../features/intro/presentation/cubit/intro_cubit.dart';
 import '../../features/intro/presentation/pages/intro_page.dart';
 import '../../features/search/presentation/pages/search_hotel_page.dart';
+import '../../features/setting_page/presentation/pages/customerSupport_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 
 import 'package:make_my_trip/features/home_page/home_page_injection_container.dart';
@@ -126,7 +127,7 @@ class Router {
       case RoutesName.myTrips:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => historyListSl<UserHistoryCubit>(),
+            create: (context) => historyListSl<UserHistoryCubit>()..getUserHistoryData(),
             child: UserHistoryPage(),
           );
         });
@@ -276,6 +277,13 @@ class Router {
           return BlocProvider.value(
             value: slSettingPage<SettingPageCubit>(),
             child: const SettingsPage(),
+          );
+        });
+      case RoutesName.help:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider<SettingPageCubit>(
+            create: (context) => slSettingPage<SettingPageCubit>(),
+            child: const CustomerSupportPage(),
           );
         });
       default:

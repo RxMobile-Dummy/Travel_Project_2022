@@ -14,7 +14,6 @@ class CalendarPage extends StatelessWidget {
   Map<String, dynamic> arg;
   @override
   Widget build(BuildContext context) {
-    print(arg['hotel_id']);
     final cubit = BlocProvider.of<CalenderCubit>(context)..init();
     return BlocConsumer<CalenderCubit, CalenderState>(
       listener: (context, state) {

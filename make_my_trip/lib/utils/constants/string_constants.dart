@@ -118,20 +118,26 @@ class StringConstants {
   static String noHotelInWishlist = "No Hotel In Your WishList";
 
   //no Hotel found
-  static String noHotelFound = "No Hotel Found";
+  static String noHotelFound = "Oops!! No Hotel Found";
 
   //no review
   static String noHotelReview = "No Reviews Yet!! Be the first Review Of hotel";
 
   //Opps!! Sorry your review is not post yet!!
-  static String noReviewComment = "Opps!! Sorry your review is not post yet!!";
+  static String noReviewComment = "Oops!! Sorry your review is not post yet!!";
 
   // RoomCategoriesPage Strings
-
+  static const helpAppbar= "Help";
+  static const helpTitle= 'Have Queries?!!';
+  static const helpSubTitle= "Reach us now!";
+  static const helpCall= "Call";
+  static const helpPhoneNumber= "9999999999";
+  static const helpEmail= "Email";
+  static const helpEmailAddress= "rxtrainee22@gmail.com";
   static String roomMoreDetails = 'More Details';
   static String roomSelectButtonTxt = 'BOOK';
   static String roomCategoriesPageHeading = 'SELECT ROOM';
-  static String searchPageTitle = "Search Hotel";
+  static String searchPageTitle = "Search city";
 
   static String resetPassword = "Forget Password";
   static String passwordLbl =
