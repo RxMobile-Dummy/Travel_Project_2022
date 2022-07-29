@@ -29,7 +29,7 @@ class UserHistoryModel {
         images?.add(Images.fromJson(v));
       });
     }
-    price = json['price'];
+    price = double.parse(json['price'].toString());
     checkingDate = json['checking_date'];
     checkoutDate = json['checkout_date'];
   }
@@ -37,7 +37,7 @@ class UserHistoryModel {
   String? hotelName;
   Address? address;
   List<Images>? images;
-  int? price;
+  double? price;
   String? checkingDate;
   String? checkoutDate;
 

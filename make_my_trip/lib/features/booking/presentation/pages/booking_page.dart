@@ -28,11 +28,11 @@ class BookingPage extends StatelessWidget {
               context: context,
               barrierDismissible: false,
               builder: (_){
-                Future.delayed(Duration(seconds: 2), () {
+                Future.delayed(const Duration(seconds: 2), () {
                   Navigator.of(context).pushNamedAndRemoveUntil(RoutesName.home,(route)=>false);
                 });
                 return AlertDialog(
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(32.0))),
                   elevation: 4,
                   title: Column(
@@ -68,13 +68,12 @@ class BookingPage extends StatelessWidget {
             Scaffold(
               appBar: AppBar(
                 leading: IconButton(
-                  icon: Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back),
                   onPressed: () {
                     Navigator.pop(context);
                   },
                 ),
-                title: Text(
-                  "Confirmation",
+                title: Text(StringConstants.confirMation,
                   style: AppTextStyles.labelStyle.copyWith(fontSize: 24),
                 ),
               ),
@@ -86,7 +85,7 @@ class BookingPage extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.only(left: 8.0),
                     child: Text(
-                      "Booking Details",
+                      StringConstants.bookingDetails,
                       style: AppTextStyles.unselectedLabelStyle,
                     ),
                   ),
@@ -97,7 +96,7 @@ class BookingPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
                         color: MakeMyTripColors.color0gray,
-                        boxShadow: [ BoxShadow(
+                        boxShadow: const [ BoxShadow(
                         // color: Colors.black,
                         blurRadius: 2.0,
                       ),]
@@ -204,12 +203,12 @@ class BookingPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 8.0),
+                        horizontal: 8.0, vertical: 10.0),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
                         color: MakeMyTripColors.color0gray,
-                          boxShadow: [ BoxShadow(
+                          boxShadow: const [ BoxShadow(
                             // color: Colors.black,
                             blurRadius: 2.0,
                           ),]
@@ -223,7 +222,7 @@ class BookingPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                const Text(
                                   "Room Rate",
                                   style: AppTextStyles.infoContentStyle,
                                 ),
@@ -238,7 +237,7 @@ class BookingPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                const Text(
                                   "No of Nights",
                                   style: AppTextStyles.infoContentStyle,
                                 ),
@@ -252,7 +251,7 @@ class BookingPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                const Text(
                                   "Sub Total",
                                   style: AppTextStyles.infoContentStyle,
                                 ),
@@ -266,7 +265,7 @@ class BookingPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                const Text(
                                   "GST (18%)",
                                   style: AppTextStyles.infoContentStyle,
                                 ),
@@ -284,7 +283,7 @@ class BookingPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                const Text(
                                   "Offer",
                                   style: AppTextStyles.infoContentStyle,
                                 ),
@@ -302,7 +301,7 @@ class BookingPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                const Text(
                                   "Grant Total",
                                   style: AppTextStyles.infoContentStyle,
                                 ),
@@ -332,7 +331,7 @@ class BookingPage extends StatelessWidget {
                         })),
               ));
         } else {
-          return ConfirmationPageShimmer();
+          return const ConfirmationPageShimmer();
         }
       },
     );

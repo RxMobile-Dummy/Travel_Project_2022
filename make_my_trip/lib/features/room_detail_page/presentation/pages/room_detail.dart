@@ -34,16 +34,15 @@ class RoomDetailsPage extends StatelessWidget {
       noOfRoom = arg['no_of_room'] == 0 ? 1 : arg['no_of_room'];
     }
     var roomMaxLength = roomType!.length;
-    var snackBar =
-        SnackBar(content: Text('No Room Selected, Pls First Select Room'));
+    var snackBar = const SnackBar(content: Text(StringConstants.noRoomSelect));
     return BlocConsumer<ImagesliderCubit, BaseState>(
         listener: (context, state) {
       if (state is Unauthenticated) {
         Navigator.pushNamed(context, RoutesName.login,
             arguments: {"route_name": RoutesName.roomDetail});
       } else if (state is StateSearchResult<RoomDataPostModel>) {
-        Navigator.pushNamed(
-            context, RoutesName.bookingPage,arguments: {"model":state.response });
+        Navigator.pushNamed(context, RoutesName.bookingPage,
+            arguments: {"model": state.response});
       }
     }, builder: (context, state) {
       if (state is StateOnKnownToSuccess) {
@@ -91,7 +90,7 @@ class RoomDetailsPage extends StatelessWidget {
                     centerTitle: true,
                     background: Stack(fit: StackFit.expand, children: [
                       PageView.builder(
-                        itemCount: roomDetailsModel!.images!.length-1,
+                        itemCount: roomDetailsModel!.images!.length - 1,
                         onPageChanged: (index) {
                           BlocProvider.of<ImagesliderCubit>(context)
                               .onSwipeIndicator(index);
@@ -166,13 +165,14 @@ class RoomDetailsPage extends StatelessWidget {
               },
             ),
             SliverPadding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 12),
               sliver: SliverList(
                   delegate: SliverChildListDelegate(
                 [
                   Text(
                       " ${roomDetailsModel?.roomType ?? "Room type"} ${StringConstants.room}",
-                      style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
+                      style: AppTextStyles.labelStyle.copyWith(fontSize: 26)),
+                  10.verticalSpace,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -239,7 +239,7 @@ class RoomDetailsPage extends StatelessWidget {
                   10.verticalSpace,
                   Text(StringConstants.descriptionTxt,
                       style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
-                  8.verticalSpace,
+                  10.verticalSpace,
                   Text(
                     roomDetailsModel?.description ?? "room description",
                     textAlign: TextAlign.justify,
@@ -277,7 +277,6 @@ class RoomDetailsPage extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        print('remove');
                         if (state is StateOnSuccess<SelectRoomCountState>) {
                           context.read<SelectRoomCountCubit>().removeRoomEvent(
                               roomDetailsModel!.roomType!,
@@ -400,17 +399,24 @@ class RoomDetailsPage extends StatelessWidget {
                               var searchState =
                                   context.read<ImagesliderCubit>().state;
                               if (searchState is Unauthenticated) {
-                                Navigator.pushNamed(
-                                    context, RoutesName.login,
+                                Navigator.pushNamed(context, RoutesName.login,
                                     arguments: {
                                       "route_name": RoutesName.roomDetail
                                     });
-                              }if (state is StateOnKnownToSuccess<RoomDataPostModel>) {
+                              }
+                              if (state
+                                  is StateOnKnownToSuccess<RoomDataPostModel>) {
                                 Navigator.pushNamed(
-                                    context, RoutesName.bookingPage,arguments: {"model":state.response});
+                                    context, RoutesName.bookingPage,
+                                    arguments: {"model": state.response});
                               } else {
                                 BlocProvider.of<ImagesliderCubit>(context)
-                                    .goToBooking(arg['hotel_id'], arg['cin'], arg['cout'], noOfRoom!,arg['room_list_model']);
+                                    .goToBooking(
+                                        arg['hotel_id'],
+                                        arg['cin'],
+                                        arg['cout'],
+                                        noOfRoom!,
+                                        arg['room_list_model']);
                               }
                             } else {
                               ScaffoldMessenger.of(context)

@@ -20,7 +20,7 @@ class StringConstants {
   static String orSignupWith = "or signup with";
 
   static String noAccount = "Or don't have account?";
-  static String alreadyAccount = "Already hav an account?";
+  static String alreadyAccount = "Already have an account?";
 
   static String facebookTxt = "Facebook";
   static String googleTxt = "Google";
@@ -130,7 +130,7 @@ class StringConstants {
 
   static String roomMoreDetails = 'More Details';
   static String roomSelectButtonTxt = 'BOOK';
-  static String roomCategoriesPageHeading = 'SELECT A ROOM';
+  static String roomCategoriesPageHeading = 'SELECT ROOM';
   static String searchPageTitle = "Search Hotel";
 
   static String resetPassword = "Forget Password";
@@ -213,4 +213,11 @@ class StringConstants {
   static const firebaseFolderName = "userImage/";
   static const firebaseCollectionName = "Images";
   static const failedToLoadImg = "failed to add image";
+
+  //No Room Selected, Pls First Select Room
+  static const noRoomSelect = "No Room Selected, Pls First Select Room";
+
+  //booking page string
+  static const confirMation= "Confirmation";
+  static const bookingDetails= "Booking Details";
 }
