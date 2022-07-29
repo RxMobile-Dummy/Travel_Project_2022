@@ -31,7 +31,7 @@ class ReviewDomain {
             await data.save();
             var hotelReview = await reviewmodel.find({ hotel_id: req.params.id }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } });
             if (hotelReview.length == 0) {
-                res.status(StatusCode.Not_Found).send("no data found");
+                res.status(StatusCode.Not_Found).send([]);
             }
             else {
                 console.log(hotelReview);
@@ -50,7 +50,7 @@ class ReviewDomain {
         try {
             var hotelReview = await reviewmodel.find({ hotel_id: req.params.id }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } });
             if (hotelReview.length == 0) {
-                res.status(StatusCode.Sucess).send("no data found");
+                res.status(StatusCode.Sucess).send([]);
             }
             else {
                 res.status(StatusCode.Sucess).send(hotelReview);
