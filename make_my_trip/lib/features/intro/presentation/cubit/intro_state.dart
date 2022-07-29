@@ -13,3 +13,5 @@ class IndicatorErrorState extends IntroState {
 }
 
 class IntroSucessState extends IntroState {}
+
+class AuthLoading extends IntroState {}
