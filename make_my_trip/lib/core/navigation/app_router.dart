@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/internet/internet_cubit.dart';
+import 'package:make_my_trip/core/internet/internet_injection_container.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/booking/booking_injection_container.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/book_cubit.dart';
@@ -124,7 +126,10 @@ class Router {
       case RoutesName.home:
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
-            providers: [BlocProvider.value(value: slHomePage<TabBarCubit>())],
+            providers: [
+              BlocProvider.value(value: slHomePage<TabBarCubit>()),
+              BlocProvider.value(value: slHomePage<HomepageCubit>()),
+            ],
             child: HomePage(),
           );
         });

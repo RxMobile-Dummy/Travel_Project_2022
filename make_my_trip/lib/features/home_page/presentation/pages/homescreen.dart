@@ -21,10 +21,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomepageCubit, BaseState>(
-      // buildWhen: (context, state) {
-      //   print(state is InternetConnected);
-      //   return state is InternetConnected;
-      // },
       builder: (context, state) {
         if (state is StateErrorGeneral) {
           return CommonErrorWidget(

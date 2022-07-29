@@ -77,8 +77,7 @@ class MyApp extends StatelessWidget {
           create: (context) => userSl<UserCubit>(),
         ),
         BlocProvider(
-          create: (context) =>
-              internetSl<InternetCubit>()..monitorInternetConnection(),
+          create: (context) => internetSl<InternetCubit>(),
         ),
       ],
       child: MaterialApp(

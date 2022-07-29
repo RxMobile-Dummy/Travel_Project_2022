@@ -28,10 +28,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<InternetCubit, BaseState>(
+    return BlocConsumer<InternetCubit, BaseState>(
       listener: (context, state) {
-        // TODO: implement listener
-        print(state);
         if (state is InternetLoading) {
           ProgressDialog.showLoadingDialog(context,
               message: "Internet Disconnected");
@@ -47,65 +45,66 @@ class HomePage extends StatelessWidget {
           ProgressDialog.hideLoadingDialog(context);
         }
       },
-      child: BlocConsumer<TabBarCubit, BaseState>(
-        listener: (context, state) {
-          if (state is Unauthenticated) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, RoutesName.login, (route) => true,
-                arguments: {"route_name": RoutesName.home});
-          }
-        },
-        builder: (context, state) {
-          if (state is StateOnSuccess) {
-            _selectedIndex = state.response;
-          }
-          return Scaffold(
-              body: Center(
-                child: _widgetOptions().elementAt(_selectedIndex),
-              ),
-              bottomNavigationBar: SalomonBottomBar(
-                items: <SalomonBottomBarItem>[
-                  SalomonBottomBarItem(
-                      icon: const Icon(Icons.home), title: const Text("Home")),
-                  SalomonBottomBarItem(
-                    icon: const Icon(Icons.shop),
-                    title: const Text("Bookings"),
-                  ),
-                  SalomonBottomBarItem(
-                    icon: const Icon(Icons.favorite),
-                    title: const Text("Favorite"),
-                  ),
-                  SalomonBottomBarItem(
-                    icon: const Icon(Icons.person),
-                    title: const Text("Profile"),
-                  )
-                ],
-                currentIndex: _selectedIndex,
-                selectedItemColor: MakeMyTripColors.accentColor,
-                onTap: (index) {
-                  var searchState = context.read<TabBarCubit>().state;
-                  if (searchState is Unauthenticated && index != 0) {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, RoutesName.login, (route) => true,
-                        arguments: {"route_name": RoutesName.home});
-                  } else {
-                    BlocProvider.of<TabBarCubit>(context).checkAnonymous(index);
-                  }
-                },
-              ));
-        },
-      ),
+      builder: (context, state) {
+        return BlocConsumer<TabBarCubit, BaseState>(
+          listener: (context, state) {
+            if (state is Unauthenticated) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, RoutesName.login, (route) => true,
+                  arguments: {"route_name": RoutesName.home});
+            }
+          },
+          builder: (context, state) {
+            if (state is StateOnSuccess) {
+              _selectedIndex = state.response;
+            }
+            return Scaffold(
+                body: Center(
+                  child: _widgetOptions().elementAt(_selectedIndex),
+                ),
+                bottomNavigationBar: SalomonBottomBar(
+                  items: <SalomonBottomBarItem>[
+                    SalomonBottomBarItem(
+                        icon: const Icon(Icons.home),
+                        title: const Text("Home")),
+                    SalomonBottomBarItem(
+                      icon: const Icon(Icons.shop),
+                      title: const Text("Bookings"),
+                    ),
+                    SalomonBottomBarItem(
+                      icon: const Icon(Icons.favorite),
+                      title: const Text("Favorite"),
+                    ),
+                    SalomonBottomBarItem(
+                      icon: const Icon(Icons.person),
+                      title: const Text("Profile"),
+                    )
+                  ],
+                  currentIndex: _selectedIndex,
+                  selectedItemColor: MakeMyTripColors.accentColor,
+                  onTap: (index) {
+                    var searchState = context.read<TabBarCubit>().state;
+                    if (searchState is Unauthenticated && index != 0) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RoutesName.login, (route) => true,
+                          arguments: {"route_name": RoutesName.home});
+                    } else {
+                      BlocProvider.of<TabBarCubit>(context)
+                          .checkAnonymous(index);
+                    }
+                  },
+                ));
+          },
+        );
+      },
     );
   }
 
   static List<Widget> _widgetOptions() => <Widget>[
         //View 1
-        BlocProvider(
-          create: (context) => slHomePage<HomepageCubit>()
-            ..getToursApi()
-            ..getImagesApi(),
-          child: HomeScreen(),
-        ),
+
+        HomeScreen(),
+
         BlocProvider(
           create: (context) =>
               historyListSl<UserHistoryCubit>()..getUserHistoryData(),

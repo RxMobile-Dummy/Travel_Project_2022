@@ -7,7 +7,9 @@ final internetSl = GetIt.instance;
 
 Future<void> init() async {
   internetSl.registerFactory(
-    () => InternetCubit(connectivity: internetSl.call()),
+    () => InternetCubit(
+      connectivity: internetSl.call(),
+    ),
   );
   internetSl.registerLazySingleton<Connectivity>(
     () => Connectivity(),
