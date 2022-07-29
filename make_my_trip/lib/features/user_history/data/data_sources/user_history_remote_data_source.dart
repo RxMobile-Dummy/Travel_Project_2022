@@ -37,6 +37,7 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
+      print(err);
       return Left(ServerFailure());
     }
   }

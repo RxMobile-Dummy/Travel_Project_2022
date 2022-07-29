@@ -41,7 +41,8 @@ class SignUpPage extends StatelessWidget {
                   context: context,
                   builder: (context) {
                     var alert = AlertDialog(
-                      title: Text("ddfds"),
+                      title: Text(
+                          "Please check your mail box and click there to verify your account"),
                       actions: [
                         ElevatedButton(
                             onPressed: () {
@@ -75,15 +76,20 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                   8.verticalSpace,
-                  TextFieldView(
-                    hint: StringConstants.fullnameTxt,
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: StringConstants.fullnameTxt,
+                    ),
                     controller: fullName,
                   ),
-                  TextFieldView(
-                    hint: StringConstants.emailTxt,
+                  12.verticalSpace,
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: StringConstants.emailTxt,
+                    ),
                     controller: email,
                   ),
-                  4.verticalSpace,
+                  12.verticalSpace,
                   TextFormField(
                     decoration: InputDecoration(
                       hintText: StringConstants.passwordTxt,

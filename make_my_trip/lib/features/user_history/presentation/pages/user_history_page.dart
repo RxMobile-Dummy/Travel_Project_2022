@@ -17,7 +17,6 @@ class UserHistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: true,
           title: Text(
             StringConstants.bookingHeading,
             style: AppTextStyles.unselectedLabelStyle,

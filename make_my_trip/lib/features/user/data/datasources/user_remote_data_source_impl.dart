@@ -15,7 +15,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final GoogleSignIn googleSignIn;
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  final FacebookAuth facebookAuth ;
+  final FacebookAuth facebookAuth;
 
   UserRemoteDataSourceImpl(
       {required this.auth,
@@ -98,7 +98,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<Either<Failures, UserModel>> userGoogleLogIn() async {
     try {
-      await _deleteAnonymousUser();
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
       if (googleUser != null) {
@@ -115,7 +114,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
         User? user = userCredential.user;
         if (user != null) {
-
           final response = await dio.post('${BaseConstant.baseUrl}user/post',
               options: await createDioOptions());
           if (response.statusCode == 200 || response.statusCode == 409) {
@@ -275,13 +273,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       return Right(result);
     } catch (err) {
       return Left(ServerFailure(failureMsg: "Error in verification"));
-    }
-  }
-
-  _deleteAnonymousUser(){
-    final curruntUser = auth.currentUser;
-    if(curruntUser!.isAnonymous){
-      curruntUser.delete();
     }
   }
 }

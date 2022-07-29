@@ -3,6 +3,8 @@ import 'package:make_my_trip/features/home_page/data/models/ToursModel.dart';
 import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 
+import '../../features/hotel_listing/data/models/hotel_list_model.dart';
+
 abstract class BaseState extends Equatable {}
 
 class Uninitialized extends BaseState {
@@ -206,7 +208,7 @@ class GettingStartedData extends BaseState implements Equatable {
   final bool? tourLoading;
   final bool? imageLoading;
   final List<ToursModel>? toursListValue;
-  final List<ImageModel>? imageListValue;
+  final List<HotelListModel>? imageListValue;
 
   GettingStartedData(
       {this.imageLoading,
@@ -218,7 +220,7 @@ class GettingStartedData extends BaseState implements Equatable {
     bool? tourLoading,
     bool? imageLoading,
     List<ToursModel>? toursListValue,
-    List<ImageModel>? imageListValue,
+    List<HotelListModel>? imageListValue,
   }) =>
       GettingStartedData(
           tourLoading: tourLoading ?? this.tourLoading,

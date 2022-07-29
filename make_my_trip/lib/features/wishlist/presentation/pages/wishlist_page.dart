@@ -20,13 +20,6 @@ class WishListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: Text(
-          StringConstants.wishlist,
-          style: AppTextStyles.unselectedLabelStyle,
-        ),
-      ),
       body: BlocBuilder<WishListCubit, BaseState>(
         builder: (context, state) {
           if (state is StateOnSuccess) {
