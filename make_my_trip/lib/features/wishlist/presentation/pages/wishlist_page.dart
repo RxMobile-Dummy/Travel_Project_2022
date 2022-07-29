@@ -49,7 +49,7 @@ class WishListPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
                           ) //TextStyle
-                      ), //Text
+                          ), //Text
                       background: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -71,37 +71,36 @@ class WishListPage extends StatelessWidget {
                     ),
                     expandedHeight: 230,
                     backgroundColor: MakeMyTripColors.colorWhite,
-                    leading: (!Platform.isAndroid) ? IconButton(
-                      color: scroll
-                          ? MakeMyTripColors.color70gray
-                          : MakeMyTripColors.colorWhite,
-                      icon: const Icon(Icons.arrow_back_ios),
-                      tooltip: 'back',
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ) : IconButton(
-                      color: scroll
-                          ? MakeMyTripColors.color70gray
-                          : MakeMyTripColors.colorWhite,
-                      icon: const Icon(Icons.arrow_back_outlined),
-                      tooltip: 'back',
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-
+                    // leading: (!Platform.isAndroid) ? IconButton(
+                    //   color: scroll
+                    //       ? MakeMyTripColors.color70gray
+                    //       : MakeMyTripColors.colorWhite,
+                    //   icon: const Icon(Icons.arrow_back_ios),
+                    //   tooltip: 'back',
+                    //   onPressed: () {
+                    //     Navigator.pop(context);
+                    //   },
+                    // ) : IconButton(
+                    //   color: scroll
+                    //       ? MakeMyTripColors.color70gray
+                    //       : MakeMyTripColors.colorWhite,
+                    //   icon: const Icon(Icons.arrow_back_outlined),
+                    //   tooltip: 'back',
+                    //   onPressed: () {
+                    //     Navigator.pop(context);
+                    //   },
+                    // ),
                   );
                 }), //SliverAppBar
                 SliverList(
                     delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                        return HotalDetails(
-                          wishlistModel: wishlistModel[index],
-                        );
-                      },
-                      childCount: wishlistModel.length,
-                    )),
+                  (BuildContext context, int index) {
+                    return HotalDetails(
+                      wishlistModel: wishlistModel[index],
+                    );
+                  },
+                  childCount: wishlistModel.length,
+                )),
               ], //<Widget>[]
             );
           } else if (state is StateLoading) {

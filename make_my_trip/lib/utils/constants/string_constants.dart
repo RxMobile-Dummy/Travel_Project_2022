@@ -127,13 +127,13 @@ class StringConstants {
   static String noReviewComment = "Oops!! Sorry your review is not post yet!!";
 
   // RoomCategoriesPage Strings
-  static const helpAppbar= "Help";
-  static const helpTitle= 'Have Queries?!!';
-  static const helpSubTitle= "Reach us now!";
-  static const helpCall= "Call";
-  static const helpPhoneNumber= "9999999999";
-  static const helpEmail= "Email";
-  static const helpEmailAddress= "rxtrainee22@gmail.com";
+  static const helpAppbar = "Help";
+  static const helpTitle = 'Have Queries?!!';
+  static const helpSubTitle = "Reach us now!";
+  static const helpCall = "Call";
+  static const helpPhoneNumber = "9999999999";
+  static const helpEmail = "Email";
+  static const helpEmailAddress = "rxtrainee22@gmail.com";
   static String roomMoreDetails = 'More Details';
   static String roomSelectButtonTxt = 'BOOK';
   static String roomCategoriesPageHeading = 'SELECT ROOM';
@@ -167,8 +167,8 @@ class StringConstants {
 
   static String isAnonymousSharedPreference = "isAnonymous";
   static String userIdSharedPreference = "userId";
-  static String confirmBooking="Booking Success";
-  static String noRoomAvail="There is No Room Availble in Your Checking Date";
+  static String confirmBooking = "Booking Success";
+  static String noRoomAvail = "There is No Room Availble in Your Checking Date";
 
 // Setting Strings
   //static const setting = "Settings";
@@ -224,14 +224,13 @@ class StringConstants {
   static const noRoomSelect = "No Room Selected, Pls First Select Room";
 
   //booking page string
-  static const confirMation= "Confirmation";
-  static const bookingDetails= "Booking Details";
+  static const confirMation = "Confirmation";
+  static const bookingDetails = "Booking Details";
   static const galleryIsolate = "Gallery Upload";
   static const cameraIsolate = "Camera Upload";
   static const imageUploaded = "Image Uploaded Successfully!";
 
-  static const galleryIsolate = "Gallery Upload";
-  static const cameraIsolate = "Camera Upload";
-  static const imageUploaded = "Image Uploaded Successfully!";
-
+  // static const galleryIsolate = "Gallery Upload";
+  // static const cameraIsolate = "Camera Upload";
+  // static const imageUploaded = "Image Uploaded Successfully!";
 }

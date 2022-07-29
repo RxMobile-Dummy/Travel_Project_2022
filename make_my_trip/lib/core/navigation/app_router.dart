@@ -65,7 +65,6 @@ import '../../features/user_history/user_history_injection_container.dart';
 import '../../features/wishlist/presentation/pages/wishlist_page.dart';
 
 class Router {
-
   Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case RoutesName.splash:
@@ -114,11 +113,7 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
             providers: [
-              BlocProvider.value(
-                value: slHomePage<HomepageCubit>()
-                  ..getImagesApi()
-                  ..getToursApi(),
-              ),
+              BlocProvider.value(value: slHomePage<HomepageCubit>()),
               BlocProvider.value(value: slHomePage<TabBarCubit>())
             ],
             child: HomePage(),
@@ -127,7 +122,8 @@ class Router {
       case RoutesName.myTrips:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => historyListSl<UserHistoryCubit>()..getUserHistoryData(),
+            create: (context) =>
+                historyListSl<UserHistoryCubit>()..getUserHistoryData(),
             child: UserHistoryPage(),
           );
         });
@@ -238,7 +234,7 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) =>
-            reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
+                reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
             child: ReviewPage(arg: arg),
           );
         });
@@ -268,7 +264,8 @@ class Router {
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => bookingSl<BookingCubit>()..getHotelDetailData(arg['model']),
+            create: (context) =>
+                bookingSl<BookingCubit>()..getHotelDetailData(arg['model']),
             child: BookingPage(arg: arg),
           );
         });

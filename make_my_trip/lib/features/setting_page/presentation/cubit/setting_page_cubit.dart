@@ -56,7 +56,7 @@ class SettingPageCubit extends Cubit<BaseState> {
         (r) => emit(StateOnKnownToSuccess(
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
-                .copyWith(imageValue: r,userValue: userValue))));
+                .copyWith(imageValue: r, userValue: userValue))));
   }
 
   getFromCamera() async {
@@ -67,7 +67,7 @@ class SettingPageCubit extends Cubit<BaseState> {
         (r) => emit(StateOnKnownToSuccess(
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
-                .copyWith(imageValue: r,userValue: userValue))));
+                .copyWith(imageValue: r, userValue: userValue))));
   }
 
   callNumber() async {

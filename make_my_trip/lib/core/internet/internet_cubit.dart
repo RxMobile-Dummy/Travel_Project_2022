@@ -9,9 +9,11 @@ import 'internet_enum.dart';
 
 class InternetCubit extends Cubit<BaseState> {
   final Connectivity? connectivity;
+  ConnectivityResult? connectivityResults;
   StreamSubscription? connectivityStreamSubscription;
 
   InternetCubit({required this.connectivity}) : super(InternetLoading()) {
+    monitorCheckConnection();
     monitorInternetConnection();
   }
 
@@ -30,6 +32,21 @@ class InternetCubit extends Cubit<BaseState> {
         emitInternetDisconnected();
       }
     });
+  }
+
+  void monitorCheckConnection() async {
+    connectivityResults = await connectivity!.checkConnectivity();
+    try {
+      if (connectivityResults == ConnectivityResult.wifi) {
+        emitInternetConnected(ConnectionType.WiFi);
+      } else if (connectivityResults == ConnectivityResult.mobile) {
+        emitInternetConnected(ConnectionType.Mobile);
+      } else if (connectivityResults == ConnectivityResult.none) {
+        emitInternetDisconnected();
+      }
+    } on SocketException catch (_) {
+      emitInternetDisconnected();
+    }
   }
 
   void emitInternetConnected(ConnectionType _connectionType) =>

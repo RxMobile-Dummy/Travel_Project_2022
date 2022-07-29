@@ -8,6 +8,8 @@ import 'package:make_my_trip/features/setting_page/setting_page_injection_contai
 import 'package:make_my_trip/features/user/user_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import './core/navigation/app_router.dart' as app_routes;
+import 'core/internet/internet_cubit.dart';
+import 'core/internet/internet_injection_container.dart';
 import 'firebase_options.dart';
 import './features/home_page/home_page_injection_container.dart'
     as home_page_di;
@@ -28,9 +30,11 @@ import './features/search/search_hotel_injection_container.dart' as search_di;
 import 'features/user_history/user_history_injection_container.dart'
     as history_di;
 import 'features/booking/booking_injection_container.dart' as booking_di;
+import 'core/internet/internet_injection_container.dart' as internet_di;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
+  await internet_di.init();
   await intro_di.init();
   await user_di.init();
   await splash_di.init();
@@ -71,6 +75,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => userSl<UserCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => internetSl<InternetCubit>(),
         ),
       ],
       child: MaterialApp(
