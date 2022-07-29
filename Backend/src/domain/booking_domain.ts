@@ -270,7 +270,7 @@ class BookingDomain {
                 res.status(StatusCode.Sucess).send(bookingHistoryData);
 
             } else {
-                res.status(StatusCode.Sucess).send("No Hotel Found")
+                res.status(StatusCode.Sucess).send([])
                 res.end()
             }
         } catch (e: any) {

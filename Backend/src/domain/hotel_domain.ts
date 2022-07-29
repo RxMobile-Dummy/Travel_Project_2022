@@ -23,6 +23,17 @@ class HotelDomain {
                     },
                 },
                 {
+                    $lookup: {
+                        from: "images",
+                        localField: "_id",
+                        foreignField: "hotel_id",
+                        pipeline: [
+                            { $match: { room_id: null } }
+                        ],
+                        as: "Images",
+                    },
+                },
+                {
                     "$project": {
                         "hotel_id": "$_id",
                         "hotel_name": "$hotel_name",
@@ -32,6 +43,7 @@ class HotelDomain {
                         'Images': "$Images"
                     }
                 },
+                
 
             ]);
             if (hoteBySerch.length == 0) {
@@ -51,24 +63,34 @@ class HotelDomain {
     async getHotelImage(req: Request, res: Response) {
         try {
 
-            var imageData = await imagemodel.aggregate([{
-                $match: {
-                    $and: [
-                        { room_id: null },
-                        { tour_id: null },
-                        { user_id: null }
-                    ]
-                }
-            }, { $sample: { size: parseInt(req.params.imagelimit) } }])
-            if (imageData) {
-                res.status(StatusCode.Sucess).send(imageData);
-            } else {
-                res.status(StatusCode.Sucess).send("can't find Image");
-            }
+            var hotelData = await hotelmodel.aggregate([
 
+                { $sample: { size: parseInt(req.params.imagelimit) } },
+                {
+                    $lookup: {
+                        from: "images",
+                        localField: "_id",
+                        foreignField: "hotel_id",
+                        pipeline: [
+                            { $match: { room_id: null } }
+                        ],
+                        as: "Images",
+                    },
+                },
+                {
+                    "$project": {
+                        "hotel_id": "$_id",
+                        "hotel_name": "$hotel_name",
+                        "rating": "$rating",
+                        "address": "$address",
+                        'Images': "$Images"
+                    }
+                },
+            ])
+            res.status(StatusCode.Sucess).send(hotelData);
             res.end();
         } catch (e: any) {
-            res.status(500).send(e.message);
+            res.status(StatusCode.Server_Error).send(e.message);
             res.end();
         }
     }
