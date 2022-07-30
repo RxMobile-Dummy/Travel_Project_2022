@@ -42,7 +42,9 @@ class ImagePath {
   static const String appLogo = "assets/img/logot.png";
   static const String confirmSuccess = "assets/img/confirmsuccess.png";
   static const String noRoomFound = "assets/img/no_room_found.png";
+  static const String sendMail = "assets/img/send_mail.png";
 
   static const String userProfileImage1 = 'assets/img/userPage_logo.png';
-  static const String userPlaceholder = "https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/userImage%2FuserPage_logo.png?alt=media&token=98f2c2b1-b64a-452e-97b9-84145c5d022e";
+  static const String userPlaceholder =
+      "https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/userImage%2FuserPage_logo.png?alt=media&token=98f2c2b1-b64a-452e-97b9-84145c5d022e";
 }

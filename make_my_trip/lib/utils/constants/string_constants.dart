@@ -41,6 +41,8 @@ class StringConstants {
   static String viewallTxt = "View All";
   static String fullnameTxt = "Full Name";
   static String conpassowrdTxt = "Confirm Password";
+  static String checkMailBox =
+      "Please check your mail box and Click there to verify your account";
 
   // room detail page
 

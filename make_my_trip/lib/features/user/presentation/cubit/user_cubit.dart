@@ -141,6 +141,7 @@ class UserCubit extends Cubit<BaseState> {
             emit(StateErrorGeneral(
                 StringConstants.messageInvalidConfirmPassword));
           } else {
+            emit(StateLoading());
             final response = await userSignUp.call(
                 signUpFullName, signUpEmail, signUpPassword);
             response.fold((failure) {
@@ -175,6 +176,7 @@ class UserCubit extends Cubit<BaseState> {
 
   // user sign_out event
   userSignOutEvent() async {
+    emit(StateLoading());
     final res = await userSignOut.call(NoParams());
     res.fold((failure) {
       emit(StateErrorGeneral("Logout Error"));
