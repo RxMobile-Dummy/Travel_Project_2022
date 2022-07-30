@@ -29,8 +29,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<Either<Failures, bool>> isAnonumousUser() async {
     try {
       User? user = auth.currentUser;
-      print(user!.email);
-      return Right(user.isAnonymous);
+
+      return Right(user!.isAnonymous);
     } catch (err) {
       return Left(ServerFailure());
     }
@@ -51,7 +51,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         return Right(UserModel.fromJson(const {}));
       }
     } catch (err) {
-      return Left(ServerFailure(failureMsg: "Something went wrong"));
+      return Left(ServerFailure(failureMsg: StringConstants.someThingWent));
     }
   }
 

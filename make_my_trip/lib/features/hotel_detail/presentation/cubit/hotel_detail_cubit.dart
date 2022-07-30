@@ -22,7 +22,6 @@ class HotelDetailCubit extends Cubit<BaseState> {
     emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
     res.fold((failure) {
-      print(failure);
     }, (success) {
       if (success) {
         emit(Unauthenticated());

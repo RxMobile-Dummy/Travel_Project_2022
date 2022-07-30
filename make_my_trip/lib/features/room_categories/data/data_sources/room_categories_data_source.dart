@@ -57,7 +57,7 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
     try {
       final response = await dio.post(
           '${baseurl}booking/hotelbooking', data: roomDataPostModel.toJson(),options: await createDioOptions());
-      print('this code ${response.statusCode}');
+
       if (response.statusCode == 200) {
         return Right(response.data);
       }else if(response.statusCode == 406){

@@ -45,9 +45,7 @@ class ReviewPage extends StatelessWidget {
         ),
         body: BlocBuilder<ReviewCubit, BaseState>(
           builder: (context, state) {
-            print('this is my ${state}');
             if (state is StateOnSuccess) {
-              print('model');
               reviewModel = state.response;
             } else if (state is StateLoading) {
               return ReviewPageShimmer();
@@ -130,7 +128,7 @@ class ReviewPage extends StatelessWidget {
                                 reviewModel![index].comment ?? "Comments",
                             ratingValue: reviewModel![index].rating ?? 0.0,
                             image: reviewModel![index].userId?.userImage ??
-                                "https://www.kindpng.com/picc/m/252-2524695_dummy-profile-image-jpg-hd-png-download.png",
+                                StringConstants.userImagePlaceHolder,
                           );
                         }),
                   ),

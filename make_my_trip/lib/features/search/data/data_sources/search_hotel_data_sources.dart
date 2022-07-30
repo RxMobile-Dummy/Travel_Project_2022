@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 
 import '../../../../core/failures/failures.dart';
 import '../models/search_hotel_model.dart';
@@ -12,7 +13,7 @@ abstract class SearchHotelDataSources {
 class SearchHotelDataSourcesImpl implements SearchHotelDataSources {
   final Dio dio;
   final String baseURL =
-      'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+      StringConstants.googleApiUrl;
   final String kPLACES_API_KEY = 'AIzaSyAcmpKXz5KH8e7zmPkHNIIUuSBXI8qEBNs';
 
   SearchHotelDataSourcesImpl(this.dio);

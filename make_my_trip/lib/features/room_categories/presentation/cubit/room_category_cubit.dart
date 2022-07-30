@@ -24,11 +24,6 @@ class RoomCategoryCubit extends Cubit<BaseState> {
         (r) => emit(StateOnKnownToSuccess<RoomCategoryModel>(r)));
   }
 
-  roomBookPost(int hotelId, RoomDataPostModel roomDataPostModel) async {
-    var res = await roomBookPostUsecase
-        .call(RoomBookParams(hotelId, roomDataPostModel));
-    res.fold((l) => {print(l)}, (r) => {print(r)});
-  }
 
   postModelCreate(int hotelId, String cin, String cout, int noOfRoom,
       List<RoomType> roomType) {
@@ -79,7 +74,6 @@ class RoomCategoryCubit extends Cubit<BaseState> {
     emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
     res.fold((failure) {
-      print(failure);
     }, (success) {
       if (success) {
         emit(Unauthenticated());

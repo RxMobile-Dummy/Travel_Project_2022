@@ -65,7 +65,7 @@ class CustomerSupportPage extends StatelessWidget {
                           padding: const EdgeInsets.all(10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children:  const [
+                            children:   [
                               Text(StringConstants.helpCall, style: AppTextStyles.infoContentStyle),
                               Text(StringConstants.helpPhoneNumber,
                                   style: TextStyle(color: MakeMyTripColors.colorCwsPrimary,fontWeight: FontWeight.bold))
@@ -97,7 +97,7 @@ class CustomerSupportPage extends StatelessWidget {
                           padding: const EdgeInsets.all(10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children:  const [
+                            children:   [
                               Text(StringConstants.helpEmail, style: AppTextStyles.infoContentStyle),
                               Text(StringConstants.helpEmailAddress,
                                   style : TextStyle(color: MakeMyTripColors.colorCwsPrimary,fontWeight: FontWeight.bold))

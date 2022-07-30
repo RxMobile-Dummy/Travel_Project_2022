@@ -17,8 +17,8 @@ import '../../../../utils/widgets/progress_loader.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key, required this.arg}) : super(key: key);
 
-  final TextEditingController loginEmailController = TextEditingController();
-  final TextEditingController loginPasswordController = TextEditingController();
+  final  loginEmailController = TextEditingController();
+  final  loginPasswordController = TextEditingController();
   bool passwordObSecure = true;
   final Map<String, dynamic> arg;
 
@@ -28,7 +28,7 @@ class LoginPage extends StatelessWidget {
     return BlocListener<UserCubit, BaseState>(
       listener: (context, state) {
         if (state is StateLoading) {
-          ProgressDialog.showLoadingDialog(context, message: "Loggin In...");
+          ProgressDialog.showLoadingDialog(context, message: StringConstants.loggedIn);
         } else if (state is StateOnSuccess) {
           ProgressDialog.hideLoadingDialog(context);
           if (arg["route_name"] == RoutesName.roomCategory ||
@@ -65,10 +65,20 @@ class LoginPage extends StatelessWidget {
                       ImagePath.appLogo,
                     ),
                   ),
-                  TextFormField(
-                    controller: loginEmailController,
-                    decoration:
-                        InputDecoration(hintText: StringConstants.emailTxt),
+                  BlocBuilder<UserCubit, BaseState>(
+                    builder: (context, state) {
+                      return TextFormField(
+                        controller: loginEmailController
+                          ..text = state is StateReorderSuccess
+                              ? state.response
+                              : loginEmailController.text..selection = TextSelection.collapsed(offset: loginEmailController.text.length),
+                        decoration:
+                            InputDecoration(hintText: StringConstants.emailTxt),
+                        onChanged: (val) {
+                          context.read<UserCubit>().emailChanged(val);
+                        },
+                      );
+                    },
                   ),
                   16.verticalSpace,
                   BlocBuilder<UserCubit, BaseState>(
@@ -99,7 +109,8 @@ class LoginPage extends StatelessWidget {
                     alignment: AlignmentDirectional.centerEnd,
                     child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/resetPassword');
+                          Navigator.of(context).pushNamed('/resetPassword',
+                              arguments: {'context': context});
                         },
                         child: Text(
                           StringConstants.forgotPass,

@@ -99,12 +99,12 @@ class RoomDetailsPage extends StatelessWidget {
                           return FadeInImage.assetNetwork(
                               fit: BoxFit.cover,
                               alignment: Alignment.center,
-                              placeholder: 'assets/img/placeholder.png',
+                              placeholder: ImagePath.placeHolderImage,
                               image:
                                   roomDetailsModel!.images![index].imageUrl ??
-                                      'assets/img/placeholder.png',
+                                      ImagePath.placeHolderImage,
                               imageErrorBuilder: (context, error, stackTrace) {
-                                return Image.asset('assets/img/placeholder.png',
+                                return Image.asset(ImagePath.placeHolderImage,
                                     fit: BoxFit.fitWidth);
                               });
                         },

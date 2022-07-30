@@ -4,6 +4,7 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/wishlist/data/model/wishlist_model.dart';
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -51,7 +52,7 @@ class HotalDetails extends StatelessWidget {
                             pageSnapping: true,
                             itemBuilder: (context, index) {
                               return FadeInImage.assetNetwork(
-                                  placeholder: 'assets/img/placeholder.png',
+                                  placeholder: ImagePath.placeHolderImage,
                                   image: wishlistModel
                                       .wishListImage![index].imageUrl
                                       .toString(),
@@ -60,7 +61,7 @@ class HotalDetails extends StatelessWidget {
                                   imageErrorBuilder:
                                       (context, error, stackTrace) {
                                     return Image.asset(
-                                        'assets/img/placeholder.png',
+                                        ImagePath.placeHolderImage,
                                         fit: BoxFit.fitWidth);
                                   });
                             })

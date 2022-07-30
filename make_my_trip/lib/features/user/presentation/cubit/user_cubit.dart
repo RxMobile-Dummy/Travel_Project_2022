@@ -148,12 +148,7 @@ class UserCubit extends Cubit<BaseState> {
               emit(StateErrorGeneral(_getFailure(failure)));
             }, (success) async {
               showWaitingDialog();
-              // final response = await userVerification.call();
-              // response.fold((failure) {
-              //   emit(StateErrorGeneral(_getFailure(failure)));
-              // }, (success) {
-              //   emit(StateOnSuccess("success"));
-              // });
+
             });
           }
         }
@@ -183,5 +178,14 @@ class UserCubit extends Cubit<BaseState> {
     }, (success) {
       emit(StateOnSuccess("Logout success"));
     });
+  }
+
+  emailChanged(email){
+    var res=UserInfoValidation.emailAddressValidation(email);
+    if(res==null){
+      emit(StateReorderSuccess<String>(email,updatedIndex: 1));
+    }else{
+      emit(StateReorderSuccess<String>(email,updatedIndex: 0));
+    }
   }
 }

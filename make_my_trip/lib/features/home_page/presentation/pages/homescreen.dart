@@ -43,13 +43,13 @@ class HomeScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                "Explore",
+                                StringConstants.explorerTxt,
                                 style: TextStyle(
                                     fontSize: 28, fontWeight: FontWeight.bold),
                               ),
                               12.verticalSpace,
                               const Text(
-                                "We hope you find what you came for",
+                                StringConstants.weHopeTxt,
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                       child: TextFormField(
                         enabled: false,
                         decoration: const InputDecoration(
-                            hintText: "Search",
+                            hintText: StringConstants.searchTxt,
                             suffixIcon: Icon(Icons.search_rounded)),
                       ),
                     ),
@@ -88,21 +88,21 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         HomeFeaturesWidget(
                             iconData: Icons.hotel,
-                            text: "Hotels",
+                            text: StringConstants.hotelTxt,
                             onTap: () {
                               Navigator.pushNamed(context, RoutesName.search);
                             }),
                         HomeFeaturesWidget(
                             iconData: Icons.airplanemode_active_rounded,
-                            text: "Flights",
+                            text: StringConstants.flightTxt,
                             onTap: () {}),
                         HomeFeaturesWidget(
                             iconData: Icons.maps_home_work,
-                            text: "Places",
+                            text: StringConstants.placeTxt,
                             onTap: () {}),
                         HomeFeaturesWidget(
                             iconData: Icons.place,
-                            text: "States",
+                            text: StringConstants.statesTxt,
                             onTap: () {}),
                       ],
                     ),
@@ -116,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     child: Text(
-                      "Popular hotels",
+                      StringConstants.popularHotelsTxt,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
@@ -154,7 +154,7 @@ class HomeScreen extends StatelessWidget {
                                       imageData: imagelist[index]
                                               .images![0]
                                               .imageUrl ??
-                                          "https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png",
+                                          StringConstants.hotelImagePlaceHolder,
                                       address:
                                           imagelist[index].address!.addressLine,
                                     ),
@@ -166,7 +166,7 @@ class HomeScreen extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     child: Text(
-                      "Popular tours",
+                      StringConstants.popularTourTxt,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
@@ -191,7 +191,7 @@ class HomeScreen extends StatelessWidget {
                                       rating: tourdata!.rating.toString(),
                                       hotelName: tourdata.tourName.toString(),
                                       onTap: () {},
-                                      imageData: tourdata.images![0].imageUrl!,
+                                      imageData: tourdata.images![0].imageUrl ??  StringConstants.hotelImagePlaceHolder,
                                     ),
                                   );
                                 }))

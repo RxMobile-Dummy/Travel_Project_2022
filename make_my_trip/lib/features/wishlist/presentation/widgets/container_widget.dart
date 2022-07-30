@@ -6,9 +6,8 @@ class ContainerWidget extends StatelessWidget {
     double hight;
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           shape: BoxShape.rectangle,
           color: Colors.grey,
         ),

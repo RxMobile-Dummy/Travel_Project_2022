@@ -16,7 +16,6 @@ class TabBarCubit extends Cubit<BaseState> {
     emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
     res.fold((failure) {
-      print(failure);
     }, (success) {
       if (success) {
         if (index != 0) {
