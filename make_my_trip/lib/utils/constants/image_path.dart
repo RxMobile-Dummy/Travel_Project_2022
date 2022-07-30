@@ -56,6 +56,5 @@ class ImagePath {
   static const String likeLineIcon = "assets/icons/like_line.svg";
   static const String profilrFilIcon = "assets/icons/profile_fill.svg";
   static const String profilrLineIcon = "assets/icons/profile_line.svg";
-  static const String userPlaceholder =
-      "https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/userImage%2FuserPage_logo.png?alt=media&token=98f2c2b1-b64a-452e-97b9-84145c5d022e";
+
 }

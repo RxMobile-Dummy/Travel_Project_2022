@@ -311,7 +311,7 @@ class BookingPage extends StatelessWidget {
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
+                                      const Text(
                                         StringConstants.subTotal,
                                         style: AppTextStyles.infoContentStyle,
                                       ),
@@ -326,7 +326,7 @@ class BookingPage extends StatelessWidget {
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
+                                      const Text(
                                         StringConstants.gst,
                                         style: AppTextStyles.infoContentStyle,
                                       ),
