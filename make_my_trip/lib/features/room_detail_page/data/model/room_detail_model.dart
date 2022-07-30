@@ -1,108 +1,23 @@
 import 'dart:convert';
+
+import '../../../hotel_detail/data/model/hotel_detail_model.dart';
 /// hotel_id : 1
 /// hotel_name : "Hotel Khyber Palace"
-/// room_data : {"room_id":103,"room_type":"Super-Deluxe","room_size":"200 square feet","bed_size":"Twin bed","max_capacity":2,"price":8000,"features":["Free internet","Pet-Friendly Rooms","Coffee / Tea maker","Mini-Fridge","Smart TV with satellite","Individually air conditioning"],"description":"Super-Deluxe rooms, are modern decorated, can accommodate up to 2 persons, totally soundproofed and equipped with high tech comforts such as high speed internet access, USB ports , smart TV, room cleaning touch system and private hydromassage bathtub"}
-/// room_image : [{"_id":11,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F3.jpg?alt=media&token=a7f27b46-211f-46fc-a689-af797ad3bcc4","hotel_id":1,"room_id":103,"tour_id":null,"user_id":null},{"_id":12,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F2.jpg?alt=media&token=db35f435-2bb1-46f5-8e13-2686086e92b8","hotel_id":1,"room_id":103,"tour_id":null,"user_id":null},{"_id":13,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F15.jpg?alt=media&token=5713f4fc-8559-4fde-82c4-10d34b5b07d6","hotel_id":1,"room_id":103,"tour_id":null,"user_id":null},{"_id":14,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F14.jpg?alt=media&token=4fe38e88-a697-41f7-8e02-d884dec066e9","hotel_id":1,"room_id":103,"tour_id":null,"user_id":null},{"_id":15,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F14.jpg?alt=media&token=4fe38e88-a697-41f7-8e02-d884dec066e9","hotel_id":1,"room_id":103,"tour_id":null,"user_id":null}]
-
-RoomDetailsModel roomDetailsModelFromJson(String str) => RoomDetailsModel.fromJson(json.decode(str));
-String roomDetailsModelToJson(RoomDetailsModel data) => json.encode(data.toJson());
-class RoomDetailsModel {
-  RoomDetailsModel({
-    this.hotelId,
-    this.hotelName,
-    this.roomData,
-    this.roomImage,});
-
-  RoomDetailsModel.fromJson(dynamic json) {
-    hotelId = json['hotel_id'];
-    hotelName = json['hotel_name'];
-    roomData = json['room_data'] != null ? RoomData.fromJson(json['room_data']) : null;
-    if (json['room_image'] != null) {
-      roomImage = [];
-      json['room_image'].forEach((v) {
-        roomImage?.add(RoomImage.fromJson(v));
-      });
-    }
-  }
-  int? hotelId;
-  String? hotelName;
-  RoomData? roomData;
-  List<RoomImage>? roomImage;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['hotel_id'] = hotelId;
-    map['hotel_name'] = hotelName;
-    if (roomData != null) {
-      map['room_data'] = roomData?.toJson();
-    }
-    if (roomImage != null) {
-      map['room_image'] = roomImage?.map((v) => v.toJson()).toList();
-    }
-    return map;
-  }
-
-}
-
-/// _id : 11
-/// image_url : "https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F3.jpg?alt=media&token=a7f27b46-211f-46fc-a689-af797ad3bcc4"
-/// hotel_id : 1
-/// room_id : 103
-/// tour_id : null
-/// user_id : null
-
-RoomImage roomImageFromJson(String str) => RoomImage.fromJson(json.decode(str));
-String roomImageToJson(RoomImage data) => json.encode(data.toJson());
-class RoomImage {
-  RoomImage({
-    this.id,
-    this.imageUrl,
-    this.hotelId,
-    this.roomId,
-    this.tourId,
-    this.userId,});
-
-  RoomImage.fromJson(dynamic json) {
-    id = json['_id'];
-    imageUrl = json['image_url'];
-    hotelId = json['hotel_id'];
-    roomId = json['room_id'];
-    tourId = json['tour_id'];
-    userId = json['user_id'];
-  }
-  int? id;
-  String? imageUrl;
-  int? hotelId;
-  int? roomId;
-  dynamic tourId;
-  dynamic userId;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['_id'] = id;
-    map['image_url'] = imageUrl;
-    map['hotel_id'] = hotelId;
-    map['room_id'] = roomId;
-    map['tour_id'] = tourId;
-    map['user_id'] = userId;
-    return map;
-  }
-
-}
-
-/// room_id : 103
-/// room_type : "Super-Deluxe"
-/// room_size : "200 square feet"
+/// room_id : 102
+/// room_type : "Semi-Deluxe"
+/// room_size : "100 square feet"
 /// bed_size : "Twin bed"
 /// max_capacity : 2
-/// price : 8000
-/// features : ["Free internet","Pet-Friendly Rooms","Coffee / Tea maker","Mini-Fridge","Smart TV with satellite","Individually air conditioning"]
-/// description : "Super-Deluxe rooms, are modern decorated, can accommodate up to 2 persons, totally soundproofed and equipped with high tech comforts such as high speed internet access, USB ports , smart TV, room cleaning touch system and private hydromassage bathtub"
-
-RoomData roomDataFromJson(String str) => RoomData.fromJson(json.decode(str));
-String roomDataToJson(RoomData data) => json.encode(data.toJson());
-class RoomData {
-  RoomData({
+/// price : 5500
+/// features : ["Free internet","Coffee / Tea maker","Mini-Fridge","Smart TV with satellite","Individually air conditioning"]
+/// description : "Semi-Deluxe rooms, are modern decorated, can accommodate up to 2 persons, totally soundproofed and equipped with high tech comforts such as high speed internet access, USB ports , smart TV, room cleaning touch system and private hydromassage bathtub"
+/// images : [{"_id":6,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F1.jpg?alt=media&token=7ffb9c24-4acb-444e-ad28-12a40b619698","hotel_id":1,"room_id":102,"tour_id":null,"user_id":null},{"_id":7,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F10.jpg?alt=media&token=ef24362d-f35b-47cd-ba6d-ee0f8c86992b","hotel_id":1,"room_id":102,"tour_id":null,"user_id":null},{"_id":8,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F11.jpg?alt=media&token=32b7a860-63cd-42d6-9eef-d8ca1108cbee","hotel_id":1,"room_id":102,"tour_id":null,"user_id":null},{"_id":9,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F12.jpg?alt=media&token=738c4f05-66f4-40cf-9b54-0373b086410a","hotel_id":1,"room_id":102,"tour_id":null,"user_id":null},{"_id":10,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F13.jpg?alt=media&token=224f046d-4867-4cd9-a3ef-db632cadb993","hotel_id":1,"room_id":102,"tour_id":null,"user_id":null}]
+RoomDetailModel roomDetailModelFromJson(String str) => RoomDetailModel.fromJson(json.decode(str));
+String roomDetailModelToJson(RoomDetailModel data) => json.encode(data.toJson());
+class RoomDetailModel {
+  RoomDetailModel({
+    this.hotelId,
+    this.hotelName,
     this.roomId,
     this.roomType,
     this.roomSize,
@@ -110,9 +25,12 @@ class RoomData {
     this.maxCapacity,
     this.price,
     this.features,
-    this.description,});
+    this.description,
+    this.images,});
 
-  RoomData.fromJson(dynamic json) {
+  RoomDetailModel.fromJson(dynamic json) {
+    hotelId = json['hotel_id'];
+    hotelName = json['hotel_name'];
     roomId = json['room_id'];
     roomType = json['room_type'];
     roomSize = json['room_size'];
@@ -121,7 +39,15 @@ class RoomData {
     price = json['price'];
     features = json['features'] != null ? json['features'].cast<String>() : [];
     description = json['description'];
+    if (json['images'] != null) {
+      images = [];
+      json['images'].forEach((v) {
+        images?.add(Images.fromJson(v));
+      });
+    }
   }
+  int? hotelId;
+  String? hotelName;
   int? roomId;
   String? roomType;
   String? roomSize;
@@ -130,9 +56,12 @@ class RoomData {
   int? price;
   List<String>? features;
   String? description;
+  List<Images>? images;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
+    map['hotel_id'] = hotelId;
+    map['hotel_name'] = hotelName;
     map['room_id'] = roomId;
     map['room_type'] = roomType;
     map['room_size'] = roomSize;
@@ -141,7 +70,55 @@ class RoomData {
     map['price'] = price;
     map['features'] = features;
     map['description'] = description;
+    if (images != null) {
+      map['images'] = images?.map((v) => v.toJson()).toList();
+    }
     return map;
   }
 
 }
+
+/// _id : 6
+/// image_url : "https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F1.jpg?alt=media&token=7ffb9c24-4acb-444e-ad28-12a40b619698"
+/// hotel_id : 1
+/// room_id : 102
+/// tour_id : null
+/// user_id : null
+// Images imagesFromJson(String str) => Images.fromJson(json.decode(str));
+// String imagesToJson(Images data) => json.encode(data.toJson());
+// class Images {
+//   Images({
+//     this.id,
+//     this.imageUrl,
+//     this.hotelId,
+//     this.roomId,
+//     this.tourId,
+//     this.userId,});
+//
+//   Images.fromJson(dynamic json) {
+//     id = json['_id'];
+//     imageUrl = json['image_url'];
+//     hotelId = json['hotel_id'];
+//     roomId = json['room_id'];
+//     tourId = json['tour_id'];
+//     userId = json['user_id'];
+//   }
+//   int? id;
+//   String? imageUrl;
+//   int? hotelId;
+//   int? roomId;
+//   dynamic tourId;
+//   dynamic userId;
+//
+//   Map<String, dynamic> toJson() {
+//     final map = <String, dynamic>{};
+//     map['_id'] = id;
+//     map['image_url'] = imageUrl;
+//     map['hotel_id'] = hotelId;
+//     map['room_id'] = roomId;
+//     map['tour_id'] = tourId;
+//     map['user_id'] = userId;
+//     return map;
+//   }
+//
+// }

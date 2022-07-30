@@ -5,19 +5,19 @@ import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/repositories/hotel_detail_repository.dart';
 import '../../data/model/hotel_detail_model.dart';
 
-class HotelDetailUseCase implements Usecase<HotelDetailModel, Params> {
+class HotelDetailUseCase implements Usecase<HotelDetailModel, HotelDetailParams> {
   final HotelDetailRepository hotelDetailRepository;
   HotelDetailUseCase(this.hotelDetailRepository);
   @override
-  Future<Either<Failures, HotelDetailModel>> call(Params params) async {
+  Future<Either<Failures, HotelDetailModel>> call(HotelDetailParams params) async {
     return await hotelDetailRepository.getHotelDetails(params.index);
   }
 }
 
-class Params extends Equatable {
+class HotelDetailParams extends Equatable {
   final int index;
 
-  const Params({required this.index});
+  const HotelDetailParams({required this.index});
 
   @override
   List<Object?> get props => [index];

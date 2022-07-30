@@ -6,3 +6,12 @@ class IndicatorIndexState extends IntroState {
   final double index;
   IndicatorIndexState({required this.index});
 }
+
+class IndicatorErrorState extends IntroState {
+  final String error;
+  IndicatorErrorState({required this.error});
+}
+
+class IntroSucessState extends IntroState {}
+
+class AuthLoading extends IntroState {}

@@ -6,4 +6,6 @@ import '../../../../core/failures/failures.dart';
 
 abstract class HotelDetailRepository {
   Future<Either<Failures, HotelDetailModel>> getHotelDetails(int index);
+  Future<Either<Failures, void>> postIsLike(int hotelId);
+  Future<Either<Failures, void>> deleteIsLike(int hotelId);
 }

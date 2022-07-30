@@ -26,6 +26,7 @@ class HotelDetailModel {
     this.description,
     this.features,
     this.images,
+    this.isbookmark,
   });
 
   HotelDetailModel.fromJson(dynamic json) {
@@ -38,6 +39,7 @@ class HotelDetailModel {
     phoneNumber = json['phone_number'];
     description = json['description'];
     features = json['features'] != null ? json['features'].cast<String>() : [];
+    isbookmark=json['isbookmark'];
     if (json['images'] != null) {
       images = [];
       json['images'].forEach((v) {
@@ -54,7 +56,7 @@ class HotelDetailModel {
   String? description;
   List<String>? features;
   List<Images>? images;
-
+  bool? isbookmark;
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['_id'] = id;
@@ -67,6 +69,7 @@ class HotelDetailModel {
     map['phone_number'] = phoneNumber;
     map['description'] = description;
     map['features'] = features;
+    map['isbookmark']=isbookmark;
     if (images != null) {
       map['images'] = images?.map((v) => v.toJson()).toList();
     }

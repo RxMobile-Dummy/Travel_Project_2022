@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,8 +9,11 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
+import 'package:make_my_trip/features/hotel_detail/presentation/pages/hotel_detail_shimmer.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,7 +25,6 @@ import '../widgets/review_container.dart';
 
 class HotelDetailPage extends StatelessWidget {
   HotelDetailPage({Key? key}) : super(key: key);
-
   bool isLiked = false;
   bool isReadMore = false;
   int imgIndex = 0;
@@ -29,47 +33,77 @@ class HotelDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
-    return BlocBuilder<HotelDetailCubit, BaseState>(
+    return BlocConsumer<HotelDetailCubit, BaseState>(
+      listener: (context, state) {
+        if (state is Unauthenticated) {
+          Navigator.pushReplacementNamed(context, RoutesName.login,
+              arguments: {"route_name": RoutesName.hotelDetail});
+        }
+      },
       builder: (context, state) {
         if (state is StateOnKnownToSuccess) {
           hotelDetailModel = state.response;
+          isLiked = hotelDetailModel!.isbookmark!;
         } else if (state is StateSearchResult) {
           isLiked = state.response;
         } else if (state is StateOnResponseSuccess) {
           imgIndex = state.response;
         } else if (state is StateOnSuccess) {
           isReadMore = state.response;
+        } else if (state is StateLoading) {
+          return const HotelDetailsShimmer();
+        } else if (state is StateErrorGeneral) {
+          return CommonErrorWidget(
+              imagePath: ImagePath.serverFailImage,
+              title: StringConstants.serverFail,
+              statusCode: "");
         }
+
         return Scaffold(
           body: CustomScrollView(
             slivers: [
               SliverLayoutBuilder(
                 builder: (context, constraints) {
                   final scrolled =
-                      constraints.scrollOffset > screen.width * .55;
+                      constraints.scrollOffset > screen.height * .25;
                   return SliverAppBar(
                     backgroundColor: MakeMyTripColors.colorWhite,
-                    expandedHeight: screen.width * .7,
+                    expandedHeight: screen.height * .35,
                     elevation: 0,
                     excludeHeaderSemantics: true,
                     floating: true,
                     pinned: true,
                     leading: IconButton(
-                      onPressed: () {
-                        debugPrint("back");
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: scrolled
-                            ? MakeMyTripColors.colorBlack
-                            : MakeMyTripColors.colorWhite,
-                      ),
-                    ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: (Platform.isAndroid)
+                            ? Icon(
+                                Icons.arrow_back_outlined,
+                                color: scrolled
+                                    ? MakeMyTripColors.colorBlack
+                                    : MakeMyTripColors.colorWhite,
+                              )
+                            : Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                                color: scrolled
+                                    ? MakeMyTripColors.colorBlack
+                                    : MakeMyTripColors.colorWhite,
+                              )),
                     actions: [
                       GestureDetector(
                         onTap: () {
-                          BlocProvider.of<HotelDetailCubit>(context)
-                              .onLikeTap(isLiked);
+                          var searchState =
+                              context.read<HotelDetailCubit>().state;
+                          if (searchState is Unauthenticated) {
+                            Navigator.popAndPushNamed(context, RoutesName.login,
+                                arguments: {
+                                  "route_name": RoutesName.hotelDetail
+                                });
+                          } else {
+                            BlocProvider.of<HotelDetailCubit>(context)
+                                .onLikeTap(isLiked, hotelDetailModel!.id);
+                          }
                         },
                         child: Icon(
                           (isLiked) ? Icons.favorite : Icons.favorite_border,
@@ -93,11 +127,18 @@ class HotelDetailPage extends StatelessWidget {
                                 .onSwipeIndicator(index);
                           },
                           itemBuilder: (BuildContext context, int index) {
-                            return Image.network(
-                              hotelDetailModel?.images![index].imageUrl ??
-                                  "https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png",
-                              fit: BoxFit.cover,
-                            );
+                            return FadeInImage.assetNetwork(
+                                placeholder: 'assets/img/placeholder.png',
+                                image: hotelDetailModel
+                                        ?.images![index].imageUrl ??
+                                    "https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png",
+                                fit: BoxFit.cover,
+                                imageErrorBuilder:
+                                    (context, error, stackTrace) {
+                                  return Image.asset(
+                                      'assets/img/placeholder.png',
+                                      fit: BoxFit.fitWidth);
+                                });
                           },
                         ),
                         Container(
@@ -120,8 +161,11 @@ class HotelDetailPage extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamedAndRemoveUntil(context,
-                                      RoutesName.galleryPage, (route) => true);
+                                  Navigator.pushNamed(
+                                      context, RoutesName.galleryPage,
+                                      arguments: {
+                                        "image_list": hotelDetailModel!.images
+                                      });
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -187,7 +231,7 @@ class HotelDetailPage extends StatelessWidget {
                             if (await canLaunchUrl(url)) {
                               await launchUrl(url);
                             } else {
-                              throw 'Could not launch $url';
+                              throw 'Could not launch ';
                             }
                           },
                         )
@@ -203,7 +247,7 @@ class HotelDetailPage extends StatelessWidget {
                           textAlign: TextAlign.justify,
                         ),
                         (hotelDetailModel?.description == null)
-                            ? SizedBox()
+                            ? const SizedBox()
                             : Align(
                                 alignment: Alignment.centerRight,
                                 child: GestureDetector(
@@ -249,8 +293,14 @@ class HotelDetailPage extends StatelessWidget {
                       leadingText: hotelDetailModel?.rating?.toString() ?? "3",
                       tralingText: StringConstants.seeAllReview,
                       onTap: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, RoutesName.reviewPage, (route) => true);
+                        if (hotelDetailModel!.id != null) {
+                          Navigator.pushNamed(context, RoutesName.reviewPage,
+                              arguments: {
+                                "hotel_id": hotelDetailModel!.id,
+                                'rating': hotelDetailModel!.rating
+                              });
+                        }
+                        // context.read<ReviewCubit>().getHotelReviewData(hotelDetailModel?.id);
                       },
                     ),
                     18.verticalSpace,
@@ -258,8 +308,10 @@ class HotelDetailPage extends StatelessWidget {
                       leadingText: StringConstants.gallery,
                       tralingText: StringConstants.seeAllPhoto,
                       onTap: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, RoutesName.galleryPage, (route) => true);
+                        Navigator.pushNamed(context, RoutesName.galleryPage,
+                            arguments: {
+                              "image_list": hotelDetailModel!.images
+                            });
                       },
                     ),
                     18.verticalSpace,
@@ -277,14 +329,18 @@ class HotelDetailPage extends StatelessWidget {
                       ),
                     ),
                     12.verticalSpace,
-                    LocationViewWidet(
-                      log:
-                          hotelDetailModel?.address?.location?.latitude ?? 10.0,
-                      lat: hotelDetailModel?.address?.location?.longitude ??
-                          10.0,
-                      titleName: hotelDetailModel?.hotelName! ?? "Hotel",
-                      mapHeight: 200,
-                    ),
+                    (hotelDetailModel != null)
+                        ? LocationViewWidet(
+                            log:
+                                hotelDetailModel?.address?.location?.latitude ??
+                                    10,
+                            lat: hotelDetailModel
+                                    ?.address?.location?.longitude ??
+                                10,
+                            titleName: hotelDetailModel?.hotelName! ?? "Hotel",
+                            mapHeight: 200,
+                          )
+                        : SizedBox(),
                   ],
                 )),
               )
@@ -297,8 +353,8 @@ class HotelDetailPage extends StatelessWidget {
                 child: CommonPrimaryButton(
                     text: StringConstants.selectRoom,
                     onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, RoutesName.roomCategory, (route) => true);
+                      Navigator.pushNamed(context, RoutesName.calendar,
+                          arguments: {'hotel_id': hotelDetailModel!.id});
                     })),
           ),
         );

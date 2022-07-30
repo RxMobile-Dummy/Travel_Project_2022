@@ -11,13 +11,16 @@ class StringConstants {
   static String messageEmptyPassword = 'Please fill empty Password';
   static String messageInvalidPassword =
       'Please enter length of minimum 6 character';
+
   // Login String
   static String loginTitle =
       'Meet new people from over millions of\nusers. Create posts, find friends and more.';
   static String forgotPass = 'Forgot Password?';
   static String orLoginWith = "or login with";
+  static String orSignupWith = "or signup with";
 
   static String noAccount = "Or don't have account?";
+  static String alreadyAccount = "Already have an account?";
 
   static String facebookTxt = "Facebook";
   static String googleTxt = "Google";
@@ -62,9 +65,11 @@ class StringConstants {
       'Please enter both passwords same';
 
   static String tc = "By signing up, you agree to our";
+
   // HomePage Strings
   static String appname = "MakeMyTrip";
   static String populartours = "Popular Tours";
+  static String popularhotels = "Popular Hotels";
 
   static String hotels = "Hotels";
   static String places = "Places";
@@ -97,22 +102,49 @@ class StringConstants {
   static String wishlistRsSymbol = "₹";
   static String wishlistRs = "8000";
   static String wishlistSublineText = 'Breakfast available at extra charges';
-
   static String room = "Room";
+  static String wishlist = "My Wishlist";
 
   //serverFail String
   static String serverFail = "The server is currently unavailable";
 
-  // RoomCategoriesPage Strings
+  //No data Found
+  static String noDataFound = "No Data Found";
 
+  //no booking string
+  static String noBooking = "No bookings, yet";
+
+  //no Hotel in wishlist
+  static String noHotelInWishlist = "No Hotel In Your WishList";
+
+  //no Hotel found
+  static String noHotelFound = "Oops!! No Hotel Found";
+
+  //no review
+  static String noHotelReview = "No Reviews Yet!! Be the first Review Of hotel";
+
+  //Opps!! Sorry your review is not post yet!!
+  static String noReviewComment = "Oops!! Sorry your review is not post yet!!";
+
+  // RoomCategoriesPage Strings
+  static const helpAppbar = "Help";
+  static const helpTitle = 'Have Queries?!!';
+  static const helpSubTitle = "Reach us now!";
+  static const helpCall = "Call";
+  static const helpPhoneNumber = "9999999999";
+  static const helpEmail = "Email";
+  static const helpEmailAddress = "rxtrainee22@gmail.com";
   static String roomMoreDetails = 'More Details';
-  static String roomSelectButtonTxt = 'SELECT';
-  static String roomCategoriesPageHeading = 'SELECT A ROOM';
-  static String searchPageTitle = "Search Hotel";
+  static String roomSelectButtonTxt = 'BOOK';
+  static String roomCategoriesPageHeading = 'SELECT ROOM';
+  static String searchPageTitle = "Search city";
 
   static String resetPassword = "Forget Password";
   static String passwordLbl =
-      'Enter the email associated with your account and we will send an email with instrucrions to reset your password.';
+      'Enter the email associated with your account and we will send an email with instructions to reset your password.';
+  static String emailVerificationTxt =
+      'Please verify your email which is sent to nikkhorwal@gmail.com';
+
   static String emailAddress = 'Email Address';
   static String hintText = "helloworld123@gmail.com";
   static String sendLink = "Send Link";
@@ -126,10 +158,79 @@ class StringConstants {
   static String seeAllPhoto = "See all photo";
   static String location = "Location";
 
-  static String historyHeading = 'History';
+  static String bookingHeading = 'Booking';
   static String bookingPrice = '₹ 100000';
   static String bookingDate = '12 Jul, 22 - 19JUl, 22';
   static String totalBookingDays = '365 Days';
   static String bookingLocation = 'Location';
   static String bookingtitle = 'Hotel or Tour Name';
+
+  static String isAnonymousSharedPreference = "isAnonymous";
+  static String userIdSharedPreference = "userId";
+  static String confirmBooking = "Booking Success";
+  static String noRoomAvail = "There is No Room Availble in Your Checking Date";
+
+// Setting Strings
+  //static const setting = "Settings";
+  static const profile = "Profile";
+  static const ok = "OK";
+  static const done = "Done";
+  static const editProfile = "Edit Profile";
+
+  // Setting Strings
+
+  static const setting = "Settings";
+
+  static const userName = "User Name";
+
+  static const userEmail = "helloworld123@gmail.com";
+
+  static const userEditProfile = "Edit Profile";
+
+  static const myTrips = "My Trips";
+
+  static const privacyAndSecurity = "Privacy and Security";
+
+  static const help = "Help";
+
+  static const aboutUs = "About Us";
+
+  static const logout = "Logout";
+
+  //static const logout = "Logout";
+  static const fullName = "Full Name";
+  static const phone = "Phone";
+  static const update = "Update";
+  static const emptyString = "";
+  static const nullString = "null";
+  static const enterName = "Enter User Name";
+  static const enterPhone = "Enter Phone Number";
+  static const userNameJson = "user_name";
+  static const userPhoneJson = "user_phone_number";
+  static const camera = "Camera";
+  static const profileUpdate = "Profile Updated Successfully";
+  static const errorGallery = "Error GetFromGallery";
+  static const errorCamera = "Error GetFromCamera";
+  static const token = "token";
+  static const user = "user";
+  static const validUserName = "please enter valid user name";
+  static const validPhoneNumber = "please enter valid phone number";
+  static const imageJson = "user_image";
+  static const firebaseFolderName = "userImage/";
+  static const firebaseCollectionName = "Images";
+  static const failedToLoadImg = "failed to add image";
+
+  //No Room Selected, Pls First Select Room
+  static const noRoomSelect = "No Room Selected, Pls First Select Room";
+
+  //booking page string
+  static const confirMation = "Confirmation";
+  static const bookingDetails = "Booking Details";
+  static const galleryIsolate = "Gallery Upload";
+  static const cameraIsolate = "Camera Upload";
+  static const imageUploaded = "Image Uploaded Successfully!";
+
+  // static const galleryIsolate = "Gallery Upload";
+  // static const cameraIsolate = "Camera Upload";
+  // static const imageUploaded = "Image Uploaded Successfully!";
 }
