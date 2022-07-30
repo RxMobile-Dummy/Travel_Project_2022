@@ -112,16 +112,7 @@ class HomePage extends StatelessWidget {
                   currentIndex: _selectedIndex,
                   selectedItemColor: MakeMyTripColors.colorBlack,
                   onTap: (index) {
-                    var searchState = context.read<TabBarCubit>().state;
-                    print(searchState);
-                    if (searchState is Unauthenticated && index != 0) {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, RoutesName.login, (route) => true,
-                          arguments: {"route_name": RoutesName.home});
-                    } else {
-                      BlocProvider.of<TabBarCubit>(context)
-                          .checkAnonymous(index);
-                    }
+                    BlocProvider.of<TabBarCubit>(context).checkAnonymous(index);
                   },
                 ));
           },

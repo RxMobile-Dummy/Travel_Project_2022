@@ -36,17 +36,7 @@ class SearchHotelPage extends StatelessWidget {
           actions: [
             GestureDetector(
               onTap: () {
-                var searchState = context.read<SearchHotelCubit>().state;
-                if (searchState is Unauthenticated) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, RoutesName.login, (route) => true,
-                      arguments: {"route_name": RoutesName.wishList});
-                } else if (searchState is Authenticated) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, RoutesName.wishList, (route) => true);
-                } else {
-                  BlocProvider.of<SearchHotelCubit>(context).goToWishlist();
-                }
+                BlocProvider.of<SearchHotelCubit>(context).goToWishlist();
               },
               child: const Padding(
                 padding: EdgeInsets.only(right: 20),
@@ -95,8 +85,8 @@ class SearchHotelPage extends StatelessWidget {
                                             searchModel?[index].description
                                       });
                                 },
-                                child:
-                                    Text(searchModel?[index].description ?? ""));
+                                child: Text(
+                                    searchModel?[index].description ?? ""));
                           },
                           separatorBuilder: (context, index) {
                             return const Divider(
