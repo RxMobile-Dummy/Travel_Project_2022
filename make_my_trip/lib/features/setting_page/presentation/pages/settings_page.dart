@@ -12,6 +12,8 @@ import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
+import '../../../../utils/widgets/progress_loader.dart';
+
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -19,10 +21,12 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<UserCubit, BaseState>(
       listener: (context, state) {
-        if(state is StateOnSuccess)
-          {
-            Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
-          }
+        if (state is StateLoading) {
+          ProgressDialog.showLoadingDialog(context, message: "Log out...");
+        } else if (state is StateOnSuccess) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, RoutesName.home, (route) => false);
+        }
       },
       child: SafeArea(
         bottom: true,
@@ -44,8 +48,7 @@ class SettingsPage extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: settingList.length,
-                      itemBuilder: (context, index) =>
-                          Padding(
+                      itemBuilder: (context, index) => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10.0),
                             child: GestureDetector(
                               onTap: () {

@@ -19,9 +19,9 @@ class RoomCategoryCubit extends Cubit<BaseState> {
 
   getData(int hotelId, String cIn, String cOut) async {
     emit(StateLoading());
-    var res = await roomCategoriesUseCase.call(Params(hotelId,cIn,cOut));
-    res.fold((l) => emit(StateErrorGeneral("errorMessage")), (r) =>
-        emit(StateOnKnownToSuccess<RoomCategoryModel>(r)));
+    var res = await roomCategoriesUseCase.call(Params(hotelId, cIn, cOut));
+    res.fold((l) => emit(StateErrorGeneral("errorMessage")),
+        (r) => emit(StateOnKnownToSuccess<RoomCategoryModel>(r)));
   }
 
 
@@ -38,15 +38,26 @@ class RoomCategoryCubit extends Cubit<BaseState> {
     }
     Price p = Price(
         numberOfNights: noOfNights,
-        basePrice:((roomType[0].price ?? 1) * noOfRoom).toDouble(),
-        roomPrice: (((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights),
-        gst: ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) * 0.18),
-        discount:((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) + ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) * 0.18) ) * 0.05 ,
-        totalPrice: (
-            (((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) +
-                ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) * 0.18)-
-                ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) + ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) * 0.18) ) * 0.05
-        ));
+        basePrice: ((roomType[0].price ?? 1) * noOfRoom).toDouble(),
+        roomPrice: (((roomType[0].price ?? 1) * noOfRoom).toDouble() *
+            noOfNights),
+        gst: ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) *
+            0.18),
+        discount:
+            ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) +
+                    ((((roomType[0].price ?? 1) * noOfRoom).toDouble() *
+                            noOfNights) *
+                        0.18)) *
+                0.05,
+        totalPrice: ((((roomType[0].price ?? 1) * noOfRoom).toDouble() *
+                noOfNights) +
+            ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) *
+                0.18) -
+            ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) +
+                    ((((roomType[0].price ?? 1) * noOfRoom).toDouble() *
+                            noOfNights) *
+                        0.18)) *
+                0.05));
 
     RoomDataPostModel roomDataPostModel = RoomDataPostModel(
         hotelId: hotelId,
@@ -60,6 +71,7 @@ class RoomCategoryCubit extends Cubit<BaseState> {
   }
 
   goToBooking(hotelId, cin, cout, totalSelectedRoom, roomList) async {
+    emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
     res.fold((failure) {
     }, (success) {

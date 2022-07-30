@@ -396,28 +396,13 @@ class RoomDetailsPage extends StatelessWidget {
                                             ? state.response.superDeluxValue
                                             : 0))) >
                                 0) {
-                              var searchState =
-                                  context.read<ImagesliderCubit>().state;
-                              if (searchState is Unauthenticated) {
-                                Navigator.pushNamed(context, RoutesName.login,
-                                    arguments: {
-                                      "route_name": RoutesName.roomDetail
-                                    });
-                              }
-                              if (state
-                                  is StateOnKnownToSuccess<RoomDataPostModel>) {
-                                Navigator.pushNamed(
-                                    context, RoutesName.bookingPage,
-                                    arguments: {"model": state.response});
-                              } else {
-                                BlocProvider.of<ImagesliderCubit>(context)
-                                    .goToBooking(
-                                        arg['hotel_id'],
-                                        arg['cin'],
-                                        arg['cout'],
-                                        noOfRoom!,
-                                        arg['room_list_model']);
-                              }
+                              BlocProvider.of<ImagesliderCubit>(context)
+                                  .goToBooking(
+                                      arg['hotel_id'],
+                                      arg['cin'],
+                                      arg['cout'],
+                                      noOfRoom!,
+                                      arg['room_list_model']);
                             } else {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);

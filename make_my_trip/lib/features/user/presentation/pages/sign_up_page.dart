@@ -13,6 +13,7 @@ import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 
 import '../../../../core/navigation/route_info.dart';
 import '../../../../utils/constants/image_path.dart';
+import '../../../../utils/widgets/progress_loader.dart';
 
 class SignUpPage extends StatelessWidget {
   final TextEditingController fullName = TextEditingController();
@@ -36,25 +37,53 @@ class SignUpPage extends StatelessWidget {
             if (state is StateOnSuccess) {
               Navigator.pushNamedAndRemoveUntil(
                   context, RoutesName.home, (route) => true);
+            } else if (state is StateLoading) {
+              ProgressDialog.showLoadingDialog(context, message: "Loading...");
             } else if (state is StateShowSearching) {
+              ProgressDialog.hideLoadingDialog(context);
               showDialog(
                   context: context,
-                  builder: (context) {
-                    var alert = AlertDialog(
-                      title: Text(
-                          StringConstants.pleaseCheckemailTxt),
-                      actions: [
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                              Navigator.pushReplacementNamed(
-                                  context, RoutesName.login,
-                                  arguments: {"route_name": arg["route_name"]});
-                            },
-                            child: Text(StringConstants.ok))
-                      ],
+                  barrierDismissible: false,
+                  builder: (_) {
+                    return AlertDialog(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(32.0))),
+                      elevation: 4,
+                      title: Column(
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1.6,
+                            child: Image.asset(
+                              ImagePath.sendMail,
+                            ),
+                          ),
+                          30.verticalSpace,
+                          Text(
+                            StringConstants.checkMailBox,
+                            style: const TextStyle(
+                                color: MakeMyTripColors.accentColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                          25.verticalSpace,
+                          SizedBox(
+                            width: double.infinity,
+                            child: CommonPrimaryButton(
+                                text: "Ok",
+                                onTap: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
+                                  Navigator.pushReplacementNamed(
+                                      context, RoutesName.login, arguments: {
+                                    "route_name": arg["route_name"]
+                                  });
+                                }),
+                          ),
+                        ],
+                      ),
                     );
-                    return alert;
                   });
             }
           }, builder: (context, state) {

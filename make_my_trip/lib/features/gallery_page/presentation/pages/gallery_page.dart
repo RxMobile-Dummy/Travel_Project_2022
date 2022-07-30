@@ -18,7 +18,7 @@ class GalleryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<GalleryCubit, BaseState>(
       builder: (context, state) {
-        if(state is StateOnSuccess){
+        if (state is StateOnSuccess) {
           imageList = state.response;
         }
         return Scaffold(
@@ -41,10 +41,9 @@ class GalleryPage extends StatelessWidget {
                     pattern: getPattern()),
                 childrenDelegate: SliverChildListDelegate(List.generate(
                   imageList.length,
-                      (index) =>
-                      Tile(
-                        index: index,
-                      ),
+                  (index) => Tile(
+                    index: index,
+                  ),
                 )),
               ),
             ));
@@ -108,8 +107,7 @@ class Tile extends StatelessWidget {
     return GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  ViewImage(
+              builder: (context) => ViewImage(
                     index: index,
                     imgStr: imageList[index],
                   )));

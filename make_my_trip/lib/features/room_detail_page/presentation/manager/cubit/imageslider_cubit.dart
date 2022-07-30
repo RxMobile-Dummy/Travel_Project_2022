@@ -9,21 +9,23 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../../../user/domain/usecases/is_anonymous_user.dart';
 
 class ImagesliderCubit extends Cubit<BaseState> {
-  ImagesliderCubit(this.roomDetailUsecase, this.isAnonymousUser) : super(StateInitial());
+  ImagesliderCubit(this.roomDetailUsecase, this.isAnonymousUser)
+      : super(StateInitial());
   final RoomDetailUsecase roomDetailUsecase;
   final IsAnonymousUser isAnonymousUser;
   getindex(int i) {
     emit(StateOnSuccess<int>(i));
     return i;
   }
+
   goToBooking(hotelId, cin, cout, totalSelectedRoom, roomList) async {
+    emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
     res.fold((failure) {
     }, (success) {
       if (success) {
         emit(Unauthenticated());
       } else {
-        // emit(Authenticated());
         postModelCreate(hotelId, cin, cout, totalSelectedRoom, roomList);
       }
     });
@@ -62,15 +64,26 @@ class ImagesliderCubit extends Cubit<BaseState> {
     }
     Price p = Price(
         numberOfNights: noOfNights,
-        basePrice:((roomType[0].price ?? 1) * noOfRoom).toDouble(),
-        roomPrice: (((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights),
-        gst: ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) * 0.18),
-        discount:((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) + ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) * 0.18) ) * 0.05 ,
-        totalPrice: (
-            (((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) +
-                ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) * 0.18)-
-                ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) + ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) * 0.18) ) * 0.05
-        ));
+        basePrice: ((roomType[0].price ?? 1) * noOfRoom).toDouble(),
+        roomPrice: (((roomType[0].price ?? 1) * noOfRoom).toDouble() *
+            noOfNights),
+        gst: ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) *
+            0.18),
+        discount:
+            ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) +
+                    ((((roomType[0].price ?? 1) * noOfRoom).toDouble() *
+                            noOfNights) *
+                        0.18)) *
+                0.05,
+        totalPrice: ((((roomType[0].price ?? 1) * noOfRoom).toDouble() *
+                noOfNights) +
+            ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) *
+                0.18) -
+            ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) +
+                    ((((roomType[0].price ?? 1) * noOfRoom).toDouble() *
+                            noOfNights) *
+                        0.18)) *
+                0.05));
 
     RoomDataPostModel roomDataPostModel = RoomDataPostModel(
         hotelId: hotelId,

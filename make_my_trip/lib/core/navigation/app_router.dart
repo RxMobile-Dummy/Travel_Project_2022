@@ -114,7 +114,10 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: slHomePage<HomepageCubit>()),
+              BlocProvider.value(
+                  value: slHomePage<HomepageCubit>()
+                    ..getToursApi()
+                    ..getImagesApi()),
               BlocProvider.value(value: slHomePage<TabBarCubit>())
             ],
             child: HomePage(),
@@ -167,8 +170,10 @@ class Router {
           type: PageTransitionType.bottomToTop,
           duration: const Duration(milliseconds: 500),
           child: BlocProvider(
-            create: (context) => hotelDetailSl<HotelDetailCubit>()
-              ..getHotelDetailData(arg['hotel_id']),
+            create: (context) {
+              return hotelDetailSl<HotelDetailCubit>()
+                ..getHotelDetailData(arg['hotel_id']);
+            },
             child: HotelDetailPage(),
           ),
         );

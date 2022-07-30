@@ -36,7 +36,7 @@ class HotelDetailPage extends StatelessWidget {
     return BlocConsumer<HotelDetailCubit, BaseState>(
       listener: (context, state) {
         if (state is Unauthenticated) {
-          Navigator.pushReplacementNamed(context, RoutesName.login,
+          Navigator.pushNamed(context, RoutesName.login,
               arguments: {"route_name": RoutesName.hotelDetail});
         }
       },
@@ -93,17 +93,8 @@ class HotelDetailPage extends StatelessWidget {
                     actions: [
                       GestureDetector(
                         onTap: () {
-                          var searchState =
-                              context.read<HotelDetailCubit>().state;
-                          if (searchState is Unauthenticated) {
-                            Navigator.popAndPushNamed(context, RoutesName.login,
-                                arguments: {
-                                  "route_name": RoutesName.hotelDetail
-                                });
-                          } else {
-                            BlocProvider.of<HotelDetailCubit>(context)
-                                .onLikeTap(isLiked, hotelDetailModel!.id);
-                          }
+                          BlocProvider.of<HotelDetailCubit>(context)
+                              .onLikeTap(isLiked, hotelDetailModel!.id);
                         },
                         child: Icon(
                           (isLiked) ? Icons.favorite : Icons.favorite_border,
