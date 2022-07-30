@@ -33,19 +33,17 @@ class HotelListPage extends StatelessWidget {
               List<HotelListModel> hotelListModel = state.response;
 
               if (hotelListModel.isEmpty) {
-                return Expanded(
-                    child: CommonErrorWidget(
-                        imagePath: ImagePath.noDataFoundImage,
-                        title: StringConstants.noHotelFound,
-                        statusCode: ""));
+                return CommonErrorWidget(
+                    imagePath: ImagePath.noDataFoundImage,
+                    title: StringConstants.noHotelFound,
+                    statusCode: "");
               }
-              return Expanded(
-                  child: ListView.builder(
-                      itemCount: hotelListModel.length,
-                      itemBuilder: (context, index) {
-                        return HotelListViewWidget(
-                            hotelListModel: hotelListModel[index]);
-                      }));
+              return ListView.builder(
+                  itemCount: hotelListModel.length,
+                  itemBuilder: (context, index) {
+                    return HotelListViewWidget(
+                        hotelListModel: hotelListModel[index]);
+                  });
             } else {
               return HotelListShimmer();
             }

@@ -13,7 +13,7 @@
     <application
         android:label="make_my_trip"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/travelsy">
 
        <meta-data android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyDbEilehd2rVJUqlxUKXBrClnmIuMTYziY"/>
