@@ -17,7 +17,6 @@ class SplashPage extends StatelessWidget {
     return BlocListener<SplashCubit, BaseState>(
       bloc: splashSl<SplashCubit>()..splashLoad(),
       listener: (context, state) {
-        print(state);
         if (state is Unauthenticated) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.onBoard, (route) => false);

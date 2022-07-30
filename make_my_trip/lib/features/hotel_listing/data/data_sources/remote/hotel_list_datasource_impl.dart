@@ -20,7 +20,7 @@ class HotelListDataSourceImpl implements HotelListDataSource {
       String hotelName) async {
     try {
       final baseurl = '${BaseConstant.baseUrl}hotel/${hotelName}';
-      print(baseurl);
+
       final response = await dio.get(baseurl,options: await createDioOptions());
       if (response.statusCode == 200) {
         final List<HotelListModel> hotelList = [];
@@ -38,7 +38,7 @@ class HotelListDataSourceImpl implements HotelListDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
-      print(e);
+
       return Left(ServerFailure(failureMsg: e.toString()));
     }
   }

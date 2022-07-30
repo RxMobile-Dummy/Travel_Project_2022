@@ -42,7 +42,7 @@ class SignUpPage extends StatelessWidget {
                   builder: (context) {
                     var alert = AlertDialog(
                       title: Text(
-                          "Please check your mail box and click there to verify your account"),
+                          StringConstants.pleaseCheckemailTxt),
                       actions: [
                         ElevatedButton(
                             onPressed: () {
@@ -51,7 +51,7 @@ class SignUpPage extends StatelessWidget {
                                   context, RoutesName.login,
                                   arguments: {"route_name": arg["route_name"]});
                             },
-                            child: Text("ok"))
+                            child: Text(StringConstants.ok))
                       ],
                     );
                     return alert;

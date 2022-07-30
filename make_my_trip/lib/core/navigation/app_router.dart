@@ -103,9 +103,10 @@ class Router {
           return HomePage();
         });
       case RoutesName.resetPassword:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
-            create: (context) => userSl<UserCubit>(),
+          return BlocProvider.value(
+            value: BlocProvider.of<UserCubit>(arg['context']),
             child: ResetPasswordPage(),
           );
         });

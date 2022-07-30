@@ -113,7 +113,7 @@ class RoomListWidget extends StatelessWidget {
                                 height: 150,
                                 fit: BoxFit.cover,
                                 alignment: Alignment.center,
-                                placeholder: 'assets/img/placeholder.png',
+                                placeholder: ImagePath.placeHolderImage,
                                 image: roomData.image!.isNotEmpty
                                     ? (roomData.image![0].imageUrl ??
                                         ImagePath.demoroom)
@@ -121,7 +121,7 @@ class RoomListWidget extends StatelessWidget {
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
                                   return Image.asset(
-                                      'assets/img/placeholder.png',
+                                      ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 })),
                       ),
@@ -135,7 +135,7 @@ class RoomListWidget extends StatelessWidget {
                                 height: 150,
                                 fit: BoxFit.cover,
                                 alignment: Alignment.center,
-                                placeholder: 'assets/img/placeholder.png',
+                                placeholder: ImagePath.placeHolderImage,
                                 image: roomData.image!.isNotEmpty
                                     ? (roomData.image![1].imageUrl ??
                                         ImagePath.demoroom)
@@ -143,7 +143,7 @@ class RoomListWidget extends StatelessWidget {
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
                                   return Image.asset(
-                                      'assets/img/placeholder.png',
+                                      ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 })),
                       ),

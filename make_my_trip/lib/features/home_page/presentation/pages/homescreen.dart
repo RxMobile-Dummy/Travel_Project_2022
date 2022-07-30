@@ -40,13 +40,13 @@ class HomeScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              "Explore",
+                              StringConstants.explorerTxt,
                               style: TextStyle(
                                   fontSize: 28, fontWeight: FontWeight.bold),
                             ),
                             12.verticalSpace,
                             const Text(
-                              "We hope you find what you \ncame for",
+                              StringConstants.weHopeTxt,
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                       child: TextFormField(
                         enabled: false,
                         decoration: const InputDecoration(
-                            hintText: "Search",
+                            hintText: StringConstants.searchTxt,
                             suffixIcon: Icon(Icons.search_rounded)),
                       ),
                     ),
@@ -84,21 +84,21 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         HomeFeatures(
                             iconData: Icons.hotel,
-                            text: "Hotels",
+                            text: StringConstants.hotelTxt,
                             onTap: () {
                               Navigator.pushNamed(context, RoutesName.search);
                             }),
                         HomeFeatures(
                             iconData: Icons.airplanemode_active_rounded,
-                            text: "Flights",
+                            text: StringConstants.flightTxt,
                             onTap: () {}),
                         HomeFeatures(
                             iconData: Icons.maps_home_work,
-                            text: "Places",
+                            text: StringConstants.placeTxt,
                             onTap: () {}),
                         HomeFeatures(
                             iconData: Icons.place,
-                            text: "States",
+                            text: StringConstants.statesTxt,
                             onTap: () {}),
                       ],
                     ),
@@ -111,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    child: ListTitleWidget(titleText: "Popular hotels"),
+                    child: ListTitleWidget(titleText: StringConstants.popularHotelsTxt),
                   ),
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
@@ -144,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                                             });
                                       },
                                       imageData:
-                                          imagelist[index].images![0].imageUrl??"https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png",
+                                          imagelist[index].images![0].imageUrl?? StringConstants.hotelImagePlaceHolder,
                                       address:
                                           imagelist[index].address!.addressLine,
                                     ),
@@ -155,7 +155,7 @@ class HomeScreen extends StatelessWidget {
                   16.verticalSpace,
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    child: ListTitleWidget(titleText: "Popular tours"),
+                    child: ListTitleWidget(titleText: StringConstants.popularTourTxt),
                   ),
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
@@ -177,8 +177,8 @@ class HomeScreen extends StatelessWidget {
                                       rating: tourdata!.rating.toString(),
                                       hotelName: tourdata.tourName.toString(),
                                       onTap: () {},
-                                      imageData: tourdata.images![0].imageUrl??"https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png"
-                                         ,
+                                      imageData: tourdata.images![0].imageUrl?? StringConstants.hotelImagePlaceHolder
+
                                     ),
                                   );
                                 }))
@@ -289,17 +289,6 @@ class PopularHotelWidget extends StatelessWidget {
                         Colors.black, BlendMode.lighten),
                     fit: BoxFit.cover,
                     image: NetworkImage(imageData))),
-                // child: ClipRRect(
-                //     child: FadeInImage.assetNetwork(
-                //         placeholder: 'assets/img/placeholder.png',
-                //         image: imageData,
-                //         fit: BoxFit.cover ,imageErrorBuilder:
-                //         (context, error, stackTrace) {
-                //       return Image.asset(
-                //           'assets/img/placeholder.png',
-                //           fit: BoxFit.fitWidth);
-                //     }),
-                //     borderRadius: BorderRadius.circular(12)),
               ),
               Positioned(
                 top: 12,

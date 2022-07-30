@@ -128,15 +128,15 @@ class HotelDetailPage extends StatelessWidget {
                           },
                           itemBuilder: (BuildContext context, int index) {
                             return FadeInImage.assetNetwork(
-                                placeholder: 'assets/img/placeholder.png',
+                                placeholder: ImagePath.placeHolderImage,
                                 image: hotelDetailModel
                                         ?.images![index].imageUrl ??
-                                    "https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png",
+                                    StringConstants.hotelImagePlaceHolder,
                                 fit: BoxFit.cover,
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
                                   return Image.asset(
-                                      'assets/img/placeholder.png',
+                                      ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 });
                           },

@@ -18,10 +18,7 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
 
   final Dio dio;
 
-  void printWrapped(String text) {
-    final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
-    pattern.allMatches(text).forEach((match) => print(match.group(0)));
-  }
+
 
   Future<Options> createDioOptions() async {
     final auth = FirebaseAuth.instance;
@@ -141,7 +138,6 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
         catch(e){
 
         }
-        print(ref.getDownloadURL());
 
         var mapData = {StringConstants.imageJson: await ref.getDownloadURL()};
 
@@ -154,7 +150,7 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
 
         await dio.put(BaseConstant.baseUrl + StringConstants.user,
             data: mapData, options: await createDioOptions());
-        await Fluttertoast.showToast(msg: "Image Uploaded Successfully!");
+        await Fluttertoast.showToast(msg: StringConstants.imageUploadSucefullytxt);
         return Right(mapData.entries.first.value.toString());
       } else {
         return Left(ErrorWithMessageFailure(StringConstants.failedToLoadImg));

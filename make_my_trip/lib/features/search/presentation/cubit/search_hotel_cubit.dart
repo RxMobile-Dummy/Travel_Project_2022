@@ -22,7 +22,6 @@ class SearchHotelCubit extends Cubit<BaseState> {
   goToWishlist() async {
     final res = await isAnonymousUser.call(NoParams());
     res.fold((failure) {
-      print(failure);
     }, (success) {
       if (success) {
         emit(Unauthenticated());

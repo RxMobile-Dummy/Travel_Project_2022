@@ -45,4 +45,14 @@ class ImagePath {
 
   static const String userProfileImage1 = 'assets/img/userPage_logo.png';
   static const String userPlaceholder = "https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/userImage%2FuserPage_logo.png?alt=media&token=98f2c2b1-b64a-452e-97b9-84145c5d022e";
+  static const String placeHolderImage = "assets/img/placeholder.png";
+
+  static const String homeIcon= "assets/icons/home_fill.svg";
+  static const String homeLineIcon= "assets/icons/home_line.svg";
+  static const String bookingFill= "assets/icons/booking_fill.svg";
+  static const String bookingLine = "assets/icons/booking_line.svg";
+  static const String likeFillIcon = "assets/icons/like_fill.svg";
+  static const String likeLineIcon = "assets/icons/like_line.svg";
+  static const String profilrFilIcon = "assets/icons/profile_fill.svg";
+  static const String profilrLineIcon = "assets/icons/profile_line.svg";
 }
