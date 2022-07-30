@@ -203,12 +203,12 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           await auth.fetchSignInMethodsForEmail(user!.email!);
       if (response[0] == "google.com") {
         await googleSignIn.signOut();
-        auth.signInAnonymously();
       } else if (response[0] == "facebook.com") {
         await facebookAuth.logOut();
       } else {
         await auth.signOut();
       }
+      await auth.signInAnonymously();
       return const Right(null);
     } on FirebaseException catch (e) {
       return Left(ServerFailure());
