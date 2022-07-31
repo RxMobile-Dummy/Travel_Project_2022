@@ -1,0 +1,46 @@
+# This is a basic workflow to help you get started with Actions
+
+name: make_my_trip_dev_IOS
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "development" ]
+  pull_request:
+    branches: [ "development" ]
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: macos-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Create file
+        run: cat ./make_my_trip/ios/runner/GoogleService-Info.plist | base64
+      - name: Provide Firebase ios plist
+        env:
+          GOOGLE_SERVICE_PLIST: ${{ secrets.GOOGLE_SERVICE_PLIST }}
+        run: echo $GOOGLE_SERVICE_PLIST > ./make_my_trip/ios/runner/GoogleService-Info.plist
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.0.1'
+      - name: basic config
+        run: | 
+          cd ./make_my_trip
+          flutter pub get
+          flutter pub run build_runner build
+          # flutter format --set-exit-if-changed
+          # flutter analyze
+          # flutter test
+          flutter build ios --release --no-codesign
