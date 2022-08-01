@@ -47,8 +47,12 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Travelsy need camera access for capture image.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>The Travel Project needs location permission</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Travelsy need gallery access for select image.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

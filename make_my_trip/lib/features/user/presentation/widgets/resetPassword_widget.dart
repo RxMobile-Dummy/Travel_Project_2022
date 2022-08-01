@@ -13,8 +13,6 @@ import '../../../../core/theme/text_styles.dart';
 class ResetPasswordPage extends StatelessWidget {
   ResetPasswordPage({Key? key}) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,20 +44,29 @@ class ResetPasswordPage extends StatelessWidget {
                   ),
                   40.verticalSpace,
                   TextFormField(
-                    decoration: InputDecoration(
-                        hintText: StringConstants.emailTxt),
-                    controller: emailController..text = state is StateReorderSuccess ? state.response: emailController.text..selection = TextSelection.collapsed(offset: emailController.text.length),
+                    decoration:
+                        InputDecoration(hintText: StringConstants.emailTxt),
+                    controller: emailController
+                      ..text = state is StateReorderSuccess
+                          ? state.response
+                          : emailController.text
+                      ..selection = TextSelection.collapsed(
+                          offset: emailController.text.length),
                     onChanged: (val) {
                       context.read<UserCubit>().emailChanged(val);
-
                     },
                   ),
                   10.verticalSpace,
                   Align(
                       alignment: AlignmentDirectional.centerEnd,
-                      child: Text((state is StateReorderSuccess ? (state.updatedIndex==1 ?  "" : StringConstants.enterValidMail) : ""),
-                        style:
-                        TextStyle(color: MakeMyTripColors.colorRed, fontSize: 16),
+                      child: Text(
+                        (state is StateReorderSuccess
+                            ? (state.updatedIndex == 1
+                                ? ""
+                                : StringConstants.enterValidMail)
+                            : ""),
+                        style: TextStyle(
+                            color: MakeMyTripColors.colorRed, fontSize: 16),
                       )),
                   10.verticalSpace,
                   FractionallySizedBox(
@@ -67,6 +74,9 @@ class ResetPasswordPage extends StatelessWidget {
                     child: CommonPrimaryButton(
                         text: StringConstants.sendLink,
                         onTap: () {
+                          var snackBar = SnackBar(
+                              content: Text(StringConstants.sendMailTxt));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           context
                               .read<UserCubit>()
                               .userForgetPassword(emailController.text);

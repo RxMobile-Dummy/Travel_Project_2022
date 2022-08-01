@@ -123,7 +123,8 @@ class StringConstants {
   static String noHotelFound = "Oops!! No Hotel Found";
 
   //no review
-  static String noHotelReview = "No Reviews Yet!! Be the first Review Of hotel";
+  static String noHotelReview =
+      "No Reviews Yet!!\n Be the first reviewer Of hotel";
 
   //Opps!! Sorry your review is not post yet!!
   static String noReviewComment = "Oops!! Sorry your review is not post yet!!";
@@ -231,9 +232,8 @@ class StringConstants {
   static const galleryIsolate = "Gallery Upload";
   static const cameraIsolate = "Camera Upload";
   static const imageUploaded = "Image Uploaded Successfully!";
-  static const warningBooking = "* This booking is non-refundable. Changing the dates of your stay is not possible.";
-
-
+  static const warningBooking =
+      "* This booking is non-refundable. Changing the dates of your stay is not possible.";
 
   // static const galleryIsolate = "Gallery Upload";
   // static const cameraIsolate = "Camera Upload";
@@ -241,17 +241,16 @@ class StringConstants {
 
   // booking page String
   static const roomType = "Room Type";
-  static const checkInDate = "Check In Date";
-  static const checkOutDate = "Check Out Date";
+  static const checkInDate = "Check In";
+  static const checkOutDate = "Check Out";
   static const paymentSummary = "Payment Summary";
   static const roomRate = "Room Rate";
-  static const noOfNight = "No of Nights";
+  static const noOfNight = "No of Days";
   static const subTotal = "Sub Total";
   static const gst = "GST (18%)";
   static const offer = "Offer";
-  static const grandTotal = "Grant Total";
+  static const grandTotal = "Grand Total";
   static const book = "Book";
-
   //calender page String
   static const only30Day = "You can book hotel rooms for only 30 days.";
   static const selectDate = "Select Dates";
@@ -260,7 +259,7 @@ class StringConstants {
   static const checkOutDateUp = "CHECK-OUT DATE";
 
   //home page String
-  static const interNetDsc= "Internet Disconnected";
+  static const interNetDsc = "Internet Disconnected";
   static const homeTxt = "Home";
   static const bookingTxt = "Booking";
   static const favouriteTxt = "Favorites";
@@ -273,40 +272,42 @@ class StringConstants {
   static const placeTxt = "Places";
   static const statesTxt = "States";
   static const popularHotelsTxt = "Popular hotels";
-  static const hotelImagePlaceHolder = "https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png";
+  static const hotelImagePlaceHolder =
+      "https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png";
   static const popularTourTxt = "Popular tours";
 
-
   //review Page
-  static const pleaseEntCom ="Please Enter Comment";
-  static const cleanlinessTxt= "Cleanliness";
-  static const comfortTxt= "Comfort";
-  static const loacationTxt= "Location";
-  static const facilitiesTxt= "Facilities";
-  static const userImagePlaceHolder= "https://www.kindpng.com/picc/m/252-2524695_dummy-profile-image-jpg-hd-png-download.png";
+  static const pleaseEntCom = "Please Enter Comment";
+  static const cleanlinessTxt = "Cleanliness";
+  static const comfortTxt = "Comfort";
+  static const loacationTxt = "Location";
+  static const facilitiesTxt = "Facilities";
+  static const userImagePlaceHolder =
+      "https://www.kindpng.com/picc/m/252-2524695_dummy-profile-image-jpg-hd-png-download.png";
 
   //search page string
-  static const googleApiUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/json";
+  static const googleApiUrl =
+      "https://maps.googleapis.com/maps/api/place/autocomplete/json";
 
   //setting page string
-  static const imageUploadSucefullytxt= "Image Uploaded Successfully!";
+  static const imageUploadSucefullytxt = "Image Uploaded Successfully!";
 
   //user page string
-  static const someThingWent= "Something went wrong";
-
+  static const someThingWent = "Something went wrong";
 
   //login page
   static const loggedIn = "Loggin In...";
-  static const pleaseCheckemailTxt="Please check your mail box and click there to verify your account";
+  static const pleaseCheckemailTxt =
+      "Please check your mail box and click there to verify your account";
   static const okTxt = "ok";
   static const enterValidMail = "Enter Valid Email";
   static const termsTxt = "Terms & Privacy";
-
 
   //user history page
   static const noDatatxt = "No data found";
 
   //main file String
   static const appTitle = "Travelsy";
-
+  static const futureTxt = "Upcoming Feature";
+  static const sendMailTxt = "Send reset password to you Email-id";
 }

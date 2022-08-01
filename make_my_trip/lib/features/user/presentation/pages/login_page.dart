@@ -11,24 +11,22 @@ import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
-
 import '../../../../utils/widgets/progress_loader.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key, required this.arg}) : super(key: key);
-
-  final  loginEmailController = TextEditingController();
-  final  loginPasswordController = TextEditingController();
+  final loginEmailController = TextEditingController();
+  final loginPasswordController = TextEditingController();
   bool passwordObSecure = true;
   final Map<String, dynamic> arg;
-
   @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
     return BlocListener<UserCubit, BaseState>(
       listener: (context, state) {
         if (state is StateLoading) {
-          ProgressDialog.showLoadingDialog(context, message: StringConstants.loggedIn);
+          ProgressDialog.showLoadingDialog(context,
+              message: StringConstants.loggedIn);
         } else if (state is StateOnSuccess) {
           ProgressDialog.hideLoadingDialog(context);
           if (arg["route_name"] == RoutesName.roomCategory ||
@@ -36,13 +34,6 @@ class LoginPage extends StatelessWidget {
               arg["route_name"] == RoutesName.hotelDetail ||
               arg["route_name"] == RoutesName.reviewPage) {
             Navigator.pop(context);
-            // }
-            // else if (arg["route_name"] == RoutesName.reviewPage) {
-            //   Navigator.pushReplacementNamed(context, arg["route_name"],
-            //       arguments: {
-            //         'hotel_id': arg['hotel_id'],
-            //         'rating': arg['rating']
-            //       });
           } else {
             Navigator.pushReplacementNamed(context, arg["route_name"]);
           }
@@ -71,7 +62,9 @@ class LoginPage extends StatelessWidget {
                         controller: loginEmailController
                           ..text = state is StateReorderSuccess
                               ? state.response
-                              : loginEmailController.text..selection = TextSelection.collapsed(offset: loginEmailController.text.length),
+                              : loginEmailController.text
+                          ..selection = TextSelection.collapsed(
+                              offset: loginEmailController.text.length),
                         decoration:
                             InputDecoration(hintText: StringConstants.emailTxt),
                         onChanged: (val) {
@@ -185,9 +178,7 @@ class LoginPage extends StatelessWidget {
                         TextSpan(
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.pushReplacementNamed(
-                                  context, RoutesName.signup,
-                                  arguments: {"route_name": arg["route_name"]});
+                              Navigator.pushNamed(context, RoutesName.signup);
                             },
                           text: StringConstants.signUpTxt,
                           style: AppTextStyles.infoContentStyle2

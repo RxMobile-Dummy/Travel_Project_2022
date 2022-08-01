@@ -220,7 +220,9 @@ class SignUpPage extends StatelessWidget {
                         TextSpan(
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.pop(context);
+                              Navigator.pushReplacementNamed(
+                                  context, RoutesName.login,
+                                  arguments: {"route_name": arg["route_name"]});
                             },
                           text: StringConstants.loginTxt,
                           style: AppTextStyles.infoContentStyle2,
