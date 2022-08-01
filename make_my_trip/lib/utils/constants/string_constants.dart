@@ -25,6 +25,7 @@ class StringConstants {
   static String facebookTxt = "Facebook";
   static String googleTxt = "Google";
   static String passwordTxt = 'Password';
+  static String conPasswordTxt = 'Confirm Password';
   static String signUpTxt = 'SignUp';
   static String loginTxt = 'Login';
   static String emailTxt = 'Email';
@@ -40,7 +41,6 @@ class StringConstants {
   static String readLessTxt = 'Read Less';
   static String viewallTxt = "View All";
   static String fullnameTxt = "Full Name";
-  static String conpassowrdTxt = "Confirm Password";
   static String checkMailBox =
       "Please check your mail box and Click there to verify your account";
 
@@ -262,7 +262,7 @@ class StringConstants {
   static const interNetDsc = "Internet Disconnected";
   static const homeTxt = "Home";
   static const bookingTxt = "Booking";
-  static const favouriteTxt = "Favorites";
+  static const favouriteTxt = "My Wishlist";
   static const profileTxt = "Profile";
   static const explorerTxt = "Explore";
   static const weHopeTxt = "We hope you find what you \ncame for";

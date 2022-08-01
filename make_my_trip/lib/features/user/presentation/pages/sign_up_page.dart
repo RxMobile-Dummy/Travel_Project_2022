@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
+import 'package:make_my_trip/features/user/presentation/widgets/text_field.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/features/user/presentation/widgets/social_buttons.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
-
 import '../../../../core/navigation/route_info.dart';
 import '../../../../utils/constants/image_path.dart';
 import '../../../../utils/widgets/progress_loader.dart';
@@ -19,13 +19,12 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController conPassword = TextEditingController();
-
   bool pass = true;
   bool conPass = true;
   String error = "";
-  final Map<String, dynamic> arg;
-  SignUpPage({Key? key, required this.arg}) : super(key: key);
-
+  SignUpPage({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,10 +73,7 @@ class SignUpPage extends StatelessWidget {
                                 onTap: () {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop();
-                                  Navigator.pushReplacementNamed(
-                                      context, RoutesName.login, arguments: {
-                                    "route_name": arg["route_name"]
-                                  });
+                                  Navigator.pop(context);
                                 }),
                           ),
                         ],
@@ -137,7 +133,7 @@ class SignUpPage extends StatelessWidget {
                   12.verticalSpace,
                   TextFormField(
                     decoration: InputDecoration(
-                      hintText: StringConstants.passwordTxt,
+                      hintText: StringConstants.conPasswordTxt,
                       suffixIcon: GestureDetector(
                         child: Icon((conPass == true)
                             ? Icons.visibility_off
@@ -219,9 +215,7 @@ class SignUpPage extends StatelessWidget {
                         TextSpan(
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.pushReplacementNamed(
-                                  context, RoutesName.login,
-                                  arguments: {"route_name": arg["route_name"]});
+                              Navigator.pop(context);
                             },
                           text: StringConstants.loginTxt,
                           style: AppTextStyles.infoContentStyle2,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
-
 import '../../../../core/theme/make_my_trip_colors.dart';
 
 class HomeFeaturesWidget extends StatelessWidget {
@@ -13,13 +12,14 @@ class HomeFeaturesWidget extends StatelessWidget {
   final IconData iconData;
   final String text;
   final VoidCallback onTap;
-
   @override
   Widget build(BuildContext context) {
+    Size screen = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        width: screen.width / 4 - 16,
+        padding: EdgeInsets.symmetric(vertical: 18),
         decoration: BoxDecoration(
             color: MakeMyTripColors.accentColor.withOpacity(.2),
             borderRadius: BorderRadius.circular(12)),

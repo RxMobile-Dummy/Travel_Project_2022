@@ -90,7 +90,6 @@ class Router {
           );
         });
       case RoutesName.signup:
-        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
             providers: [
@@ -98,12 +97,8 @@ class Router {
                 create: (context) => userSl<UserCubit>(),
               ),
             ],
-            child: SignUpPage(arg: arg),
+            child: SignUpPage(),
           );
-        });
-      case RoutesName.otp:
-        return MaterialPageRoute(builder: (_) {
-          return HomePage();
         });
       case RoutesName.resetPassword:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
@@ -141,10 +136,6 @@ class Router {
                 wishListSl<WishListCubit>()..getWishListCubitData(),
             child: WishListPage(),
           );
-        });
-      case RoutesName.profile:
-        return MaterialPageRoute(builder: (_) {
-          return HomePage();
         });
       case RoutesName.search:
         return PageTransition(
@@ -294,7 +285,7 @@ class Router {
         });
       case RoutesName.errorPage:
         return MaterialPageRoute(builder: (_) {
-          return CommonErrorWidget(
+          return const CommonErrorWidget(
               imagePath: ImagePath.confirmSuccess,
               title: StringConstants.futureTxt,
               statusCode: "");
