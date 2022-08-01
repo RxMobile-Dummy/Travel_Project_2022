@@ -67,6 +67,8 @@ class ResetPasswordPage extends StatelessWidget {
                     child: CommonPrimaryButton(
                         text: StringConstants.sendLink,
                         onTap: () {
+                          var snackBar = SnackBar(content: Text(StringConstants.sendMailTxt));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           context
                               .read<UserCubit>()
                               .userForgetPassword(emailController.text);

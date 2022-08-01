@@ -27,6 +27,9 @@ import 'package:make_my_trip/features/user_history/presentation/cubit/user_histo
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../features/calendar/presentation/pages/calendar_page.dart';
@@ -288,6 +291,10 @@ class Router {
             create: (context) => slSettingPage<SettingPageCubit>(),
             child: const CustomerSupportPage(),
           );
+        });
+      case RoutesName.errorPage:
+        return MaterialPageRoute(builder: (_) {
+          return CommonErrorWidget(imagePath: ImagePath.confirmSuccess, title: StringConstants.futureTxt, statusCode: "");
         });
       default:
         return MaterialPageRoute(builder: (_) {

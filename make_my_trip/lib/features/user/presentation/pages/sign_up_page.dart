@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/user/presentation/widgets/text_field.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/features/user/presentation/widgets/social_buttons.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
@@ -220,7 +219,10 @@ class SignUpPage extends StatelessWidget {
                         TextSpan(
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.pop(context);
+                              Navigator.pushReplacementNamed(
+                                  context, RoutesName.login, arguments: {
+                                "route_name": arg["route_name"]
+                              });
                             },
                           text: StringConstants.loginTxt,
                           style: AppTextStyles.infoContentStyle2,

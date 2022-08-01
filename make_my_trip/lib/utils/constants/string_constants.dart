@@ -123,7 +123,7 @@ class StringConstants {
   static String noHotelFound = "Oops!! No Hotel Found";
 
   //no review
-  static String noHotelReview = "No Reviews Yet!! Be the first Review Of hotel";
+  static String noHotelReview = "No Reviews Yet!! Be the first Reviewer Of hotel";
 
   //Opps!! Sorry your review is not post yet!!
   static String noReviewComment = "Oops!! Sorry your review is not post yet!!";
@@ -241,15 +241,15 @@ class StringConstants {
 
   // booking page String
   static const roomType = "Room Type";
-  static const checkInDate = "Check In Date";
-  static const checkOutDate = "Check Out Date";
+  static const checkInDate = "Check In";
+  static const checkOutDate = "Check Out";
   static const paymentSummary = "Payment Summary";
   static const roomRate = "Room Rate";
-  static const noOfNight = "No of Nights";
+  static const noOfNight = "No of Days";
   static const subTotal = "Sub Total";
   static const gst = "GST (18%)";
   static const offer = "Offer";
-  static const grandTotal = "Grant Total";
+  static const grandTotal = "Grand Total";
   static const book = "Book";
 
   //calender page String
@@ -308,5 +308,7 @@ class StringConstants {
 
   //main file String
   static const appTitle = "Travelsy";
+  static const futureTxt = "Upcoming Feature";
+  static const sendMailTxt = "Send reset password to you Email-id";
 
 }
