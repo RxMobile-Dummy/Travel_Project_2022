@@ -18,8 +18,6 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
 
   final Dio dio;
 
-
-
   Future<Options> createDioOptions() async {
     final auth = FirebaseAuth.instance;
     final token = await auth.currentUser!.getIdToken();
@@ -37,7 +35,6 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
         UserDetailsModel userModel;
         final apiData = response.data[0];
         userModel = UserDetailsModel.fromJson(apiData);
-
         return Right(userModel);
       } else {
         return Left(ServerFailure());

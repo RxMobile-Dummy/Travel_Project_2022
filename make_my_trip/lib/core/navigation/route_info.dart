@@ -36,5 +36,6 @@ class RoutesName {
   static const bookingPage = "/bookingPage";
 
   static const settingPage = "/settingPage";
+
   static const errorPage = "/errorPage";
 }
