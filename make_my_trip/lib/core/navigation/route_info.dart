@@ -18,6 +18,7 @@ class RoutesName {
   static const search = '/search';
 
   static const hotelList = "/hotelList";
+  static const filter = "/filter";
 
   static const hotelDetail = "/hotelDetail";
 

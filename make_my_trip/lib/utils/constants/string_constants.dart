@@ -310,4 +310,6 @@ class StringConstants {
   static const appTitle = "Travelsy";
   static const futureTxt = "Upcoming Feature";
   static const sendMailTxt = "Send reset password to you Email-id";
+
+  static String filters = "Filters";
 }
