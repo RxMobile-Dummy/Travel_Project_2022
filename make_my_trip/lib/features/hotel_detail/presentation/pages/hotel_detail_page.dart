@@ -120,14 +120,13 @@ class HotelDetailPage extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return FadeInImage.assetNetwork(
                                 placeholder: ImagePath.placeHolderImage,
-                                image: hotelDetailModel
-                                        ?.images![index].imageUrl ??
-                                    StringConstants.hotelImagePlaceHolder,
+                                image:
+                                    hotelDetailModel?.images![index].imageUrl ??
+                                        StringConstants.hotelImagePlaceHolder,
                                 fit: BoxFit.cover,
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
-                                  return Image.asset(
-                                      ImagePath.placeHolderImage,
+                                  return Image.asset(ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 });
                           },
@@ -225,7 +224,16 @@ class HotelDetailPage extends StatelessWidget {
                               throw 'Could not launch ';
                             }
                           },
-                        )
+                        ),
+                        5.verticalSpace,
+                        CircleIconButton(
+                            iconData: Icons.share_rounded,
+                            isRotete: false,
+                            iconBtn: () {
+                              context
+                                  .read<HotelDetailCubit>()
+                                  .createDynamicLink(hotelDetailModel!.id!);
+                            })
                       ],
                     ),
                     12.verticalSpace,
