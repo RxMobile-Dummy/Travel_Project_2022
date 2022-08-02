@@ -334,4 +334,6 @@ class StringConstants {
   static String selectRoomLabel = 'Number of rooms';
   static String selectAdultsLabel = 'Adults';
   static String selectChildrensLabel = 'Childrens';
+
+  static String filters = "Filters";
 }
