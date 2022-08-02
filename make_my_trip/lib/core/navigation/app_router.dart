@@ -139,7 +139,7 @@ class Router {
             child: WishListPage(),
           );
         });
-      case RoutesName.search:
+      case RoutesName.searchHotel:
         return PageTransition(
           type: PageTransitionType.scale,
           duration: const Duration(milliseconds: 500),
@@ -149,6 +149,13 @@ class Router {
             child: const SearchHotel(),
           ),
         );
+      case RoutesName.search:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider(
+            create: (context) => searchHotelSl<SearchHotelCubit>(),
+            child: SearchHotelPage(),
+          );
+        });
       case RoutesName.hotelList:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return PageTransition(

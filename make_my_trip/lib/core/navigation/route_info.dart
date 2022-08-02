@@ -16,6 +16,7 @@ class RoutesName {
   static const profile = '/profile';
   static const help = '/help';
   static const search = '/search';
+  static const searchHotel = '/searchHotel';
 
   static const hotelList = "/hotelList";
   static const filter = "/filter";

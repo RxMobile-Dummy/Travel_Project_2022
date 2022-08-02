@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                         horizontal: 16, vertical: 16),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, RoutesName.search);
+                        Navigator.pushNamed(context, RoutesName.searchHotel);
                       },
                       child: TextFormField(
                         enabled: false,
@@ -90,7 +90,8 @@ class HomeScreen extends StatelessWidget {
                             iconData: Icons.hotel,
                             text: StringConstants.hotelTxt,
                             onTap: () {
-                              Navigator.pushNamed(context, RoutesName.search);
+                              Navigator.pushNamed(
+                                  context, RoutesName.searchHotel);
                             }),
                         HomeFeaturesWidget(
                             iconData: Icons.airplanemode_active_rounded,

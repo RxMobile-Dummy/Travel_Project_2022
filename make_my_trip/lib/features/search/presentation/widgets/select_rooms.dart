@@ -67,7 +67,8 @@ class SelectRoom extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                   }),
-            )
+            ),
+            20.verticalSpace,
           ],
         ),
       ),

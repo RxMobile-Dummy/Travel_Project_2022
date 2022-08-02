@@ -23,20 +23,6 @@ class SearchHotelPage extends StatelessWidget {
         title: Text(
           StringConstants.searchPageTitle,
         ),
-        // actions: [
-        //   GestureDetector(
-        //     onTap: () {
-        //       BlocProvider.of<SearchHotelCubit>(context).goToWishlist();
-        //     },
-        //     child: const Padding(
-        //       padding: EdgeInsets.only(right: 20),
-        //       child: Icon(
-        //         Icons.favorite_border,
-        //         color: Colors.black,
-        //       ),
-        //     ),
-        //   ),
-        // ],
       ),
       body: SingleChildScrollView(
         child: Padding(

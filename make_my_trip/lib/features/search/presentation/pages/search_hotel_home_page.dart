@@ -42,7 +42,6 @@ class SearchHotel extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   BlocProvider.of<SearchHotelCubit>(context).goToWishlist();
-                  print('yes');
                 },
                 child: const Padding(
                   padding: EdgeInsets.only(right: 20),
@@ -149,7 +148,7 @@ class SearchHotel extends StatelessWidget {
                           width: double.infinity,
                           child: CommonPrimaryButton(
                               onTap: () {},
-                              text: StringConstants.searchButtonLabel))
+                              text: StringConstants.searchButtonLabel)),
                     ]),
                   ),
                 ),
