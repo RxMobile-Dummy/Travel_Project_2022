@@ -154,6 +154,7 @@ class StringConstants {
 
   // Hotel Detail Page String
   static String selectRoom = "Select Room";
+  static String selectdate = "Select Dates";
   static String photos = "Photos";
 
   static String gallery = "Gallery";
@@ -224,7 +225,7 @@ class StringConstants {
   static const failedToLoadImg = "failed to add image";
 
   //No Room Selected, Pls First Select Room
-  static const noRoomSelect = "No Room Selected, Pls First Select Room";
+  static const noRoomSelect = "No Room Selected, Please Select Room First";
 
   //booking page string
   static const confirMation = "Confirmation";
@@ -252,7 +253,7 @@ class StringConstants {
   static const grandTotal = "Grand Total";
   static const book = "Book";
   //calender page String
-  static const only30Day = "You can book hotel rooms for only 30 days.";
+  static const only30Day = "You can book hotel rooms for maximum range of 30 days.";
   static const selectDate = "Select Dates";
   static const reset = "reset";
   static const checkInDateUp = "CHECK-IN DATE";
@@ -309,5 +310,5 @@ class StringConstants {
   //main file String
   static const appTitle = "Travelsy";
   static const futureTxt = "Upcoming Feature";
-  static const sendMailTxt = "Send reset password to you Email-id";
+  static const sendMailTxt = "Send reset password to your Email-id";
 }

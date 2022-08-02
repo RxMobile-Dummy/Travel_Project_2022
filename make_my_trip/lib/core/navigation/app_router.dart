@@ -16,6 +16,8 @@ import 'package:make_my_trip/features/search/search_hotel_injection_container.da
 import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
 import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
+import 'package:make_my_trip/features/setting_page/presentation/pages/aboutUs.dart';
+import 'package:make_my_trip/features/setting_page/presentation/pages/privacyAndSecurity.dart';
 import 'package:make_my_trip/features/setting_page/presentation/pages/settings_page.dart';
 import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/pages/sign_up_page.dart';
@@ -282,6 +284,14 @@ class Router {
             create: (context) => slSettingPage<SettingPageCubit>(),
             child: const CustomerSupportPage(),
           );
+        });
+      case RoutesName.aboutUs:
+        return MaterialPageRoute(builder: (_) {
+          return const AboutUs();
+        });
+      case RoutesName.privacyAndSecurity:
+        return MaterialPageRoute(builder: (_) {
+          return const PrivacyAndSecurity();
         });
       case RoutesName.errorPage:
         return MaterialPageRoute(builder: (_) {

@@ -342,7 +342,7 @@ class HotelDetailPage extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: CommonPrimaryButton(
-                    text: StringConstants.selectRoom,
+                    text: StringConstants.selectDate,
                     onTap: () {
                       Navigator.pushNamed(context, RoutesName.calendar,
                           arguments: {'hotel_id': hotelDetailModel!.id});

@@ -75,7 +75,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           }));
         } else {
           auth.signOut();
-          return Left(AuthFailure(failureMsg: "Email not varified"));
+          return Left(AuthFailure(failureMsg: "Email is not verified"));
         }
       } else {
         return Left(ServerFailure());
@@ -219,7 +219,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         await userSignOut();
         if (response.statusCode == 409) {
           return Left(
-              AuthFailure(failureMsg: "Enter Email is Already Registered"));
+              AuthFailure(failureMsg: "Entered Email is Already Registered"));
         } else {
           if (response.statusCode == 200) {
             return const Right(true);
@@ -233,7 +233,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     } on FirebaseAuthException catch (err) {
       if (err.code == 'email-already-in-use') {
         return Left(
-            AuthFailure(failureMsg: "Enter Email is Already Registered"));
+            AuthFailure(failureMsg: "Entered Email is Already Registered"));
       } else {
         return Left(ServerFailure(failureMsg: "Something went Wrong"));
       }

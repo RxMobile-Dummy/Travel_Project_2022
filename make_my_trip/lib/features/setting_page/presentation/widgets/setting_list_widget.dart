@@ -26,7 +26,7 @@ List<MySetting> settingList = [
   MySetting(
       icon: Icons.security,
       text: StringConstants.privacyAndSecurity,
-      routeName: RoutesName.errorPage),
+      routeName: RoutesName.privacyAndSecurity),
   MySetting(
       icon: Icons.help_outline,
       text: StringConstants.help,
@@ -34,5 +34,5 @@ List<MySetting> settingList = [
   MySetting(
       icon: Icons.info_outline,
       text: StringConstants.aboutUs,
-      routeName: RoutesName.errorPage)
+      routeName: RoutesName.aboutUs)
 ];
