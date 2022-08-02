@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
@@ -18,8 +20,9 @@ class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
+
   Widget build(BuildContext context) {
-    return BlocListener<UserCubit, BaseState>(
+      return BlocListener<UserCubit, BaseState>(
       listener: (context, state) {
         if (state is StateLoading) {
           ProgressDialog.showLoadingDialog(context, message: "Log out...");
@@ -27,13 +30,39 @@ class SettingsPage extends StatelessWidget {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.home, (route) => false);
         }
+      },child : WillPopScope(
+          onWillPop: () {
+        return navigateToHomePage(context);
+
       },
-      child: Scaffold(
+    child: Scaffold(
         backgroundColor: MakeMyTripColors.colorWhite,
-        appBar: commonAppBarWidget(
-            text: StringConstants.setting,
-            context: context,
-            routename: RoutesName.home),
+        appBar:AppBar(
+          elevation: 0,
+          backgroundColor: MakeMyTripColors.colorWhite,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
+              },
+              icon: (Platform.isAndroid)
+                  ? Icon(
+                Icons.arrow_back_outlined,
+                    )
+                  : Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color:
+                   MakeMyTripColors.colorBlack
+
+              )),
+          title: const Text(StringConstants.setting,
+              style: TextStyle(
+                  color: MakeMyTripColors.colorBlack,
+                  fontWeight: FontWeight.bold)),
+        ),
+        // commonAppBarWidget(
+        //     text: StringConstants.setting,
+        //     context: context,
+        //     routename: RoutesName.home),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -98,6 +127,12 @@ class SettingsPage extends StatelessWidget {
           ),
         ),
       ),
-    );
+    )
+      );
   }
+
+
+}
+navigateToHomePage(BuildContext context){
+  return Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
 }

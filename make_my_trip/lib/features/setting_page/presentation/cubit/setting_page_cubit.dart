@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
@@ -77,11 +78,21 @@ class SettingPageCubit extends Cubit<BaseState> {
   }
 
   sendingMails() async {
-    var url = Uri.parse("mailto:rxtrainee22@gmail.com");
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+    // var url = Uri.parse("mailto:rxtrainee22@gmail.com");
+    // if (await canLaunchUrl(url)) {
+    //   await launchUrl(url);
+    // } else {
+    //   throw 'Could not launch $url';
+    // }
+
+    final Email email = Email(
+      subject: 'Your concern about..',
+      body: 'To,\n'
+            'Travelsy customer support,\n'
+                                        'I would like to let you know that.....',
+      recipients: ['rxtrainee22@gmail.com'],
+      isHTML: false,
+    );
+    await FlutterEmailSender.send(email);
   }
 }

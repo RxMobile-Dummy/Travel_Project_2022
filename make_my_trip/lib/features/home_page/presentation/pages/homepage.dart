@@ -16,6 +16,7 @@ import 'package:make_my_trip/features/wishlist/presentation/pages/wishlist_page.
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:rxdart/rxdart.dart';
 import '../../../../core/internet/internet_cubit.dart';
 import '../../../../core/navigation/route_info.dart';
 import '../../../../utils/widgets/progress_loader.dart';
@@ -24,8 +25,14 @@ import '../cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
-  int _selectedIndex = 0;
+  int i;
+
+  HomePage({Key? key,required this.i}) : super(key: key);
+  int selectedIndex=0;
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +64,11 @@ class HomePage extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is StateOnSuccess) {
-              _selectedIndex = state.response;
+             selectedIndex = state.response;
             }
             return Scaffold(
                 body: Center(
-                  child: _widgetOptions().elementAt(_selectedIndex),
+                  child: _widgetOptions().elementAt(i==0?selectedIndex:selectedIndex),
                 ),
                 bottomNavigationBar: BottomNavigationBar(
                   type: BottomNavigationBarType.fixed,
@@ -110,7 +117,7 @@ class HomePage extends StatelessWidget {
                   showUnselectedLabels: true,
                   showSelectedLabels: true,
                   unselectedItemColor: Colors.black,
-                  currentIndex: _selectedIndex,
+                  currentIndex:i==0?selectedIndex:selectedIndex,
                   selectedItemColor: MakeMyTripColors.colorBlack,
                   onTap: (index) {
                     BlocProvider.of<TabBarCubit>(context).checkAnonymous(index);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
+import 'package:make_my_trip/features/setting_page/presentation/pages/settings_page.dart';
 import 'package:make_my_trip/features/user_history/data/model/user_history_model.dart';
 import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/shimmer_history_page.dart';
@@ -15,7 +16,12 @@ class UserHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () {
+      return navigateToHomePage(context);
+
+    },
+      child : Scaffold(
         appBar: AppBar(
           title: Text(
             StringConstants.bookingHeading,
@@ -51,6 +57,7 @@ class UserHistoryPage extends StatelessWidget {
               }
             },
           ),
-        ));
+        ))
+    );
   }
 }
