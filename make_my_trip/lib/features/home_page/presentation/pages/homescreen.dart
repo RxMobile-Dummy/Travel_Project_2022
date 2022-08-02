@@ -191,7 +191,8 @@ class HomeScreen extends StatelessWidget {
                                       rating: tourdata!.rating.toString(),
                                       hotelName: tourdata.tourName.toString(),
                                       onTap: () {},
-                                      imageData: tourdata.images![0].imageUrl ??  StringConstants.hotelImagePlaceHolder,
+                                      imageData: tourdata.images![0].imageUrl ??
+                                          StringConstants.hotelImagePlaceHolder,
                                     ),
                                   );
                                 }))

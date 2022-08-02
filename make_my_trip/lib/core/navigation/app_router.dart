@@ -42,7 +42,8 @@ import '../../features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import '../../features/hotel_detail/presentation/pages/hotel_detail_page.dart';
 import '../../features/intro/presentation/cubit/intro_cubit.dart';
 import '../../features/intro/presentation/pages/intro_page.dart';
-import '../../features/search/presentation/pages/search_hotel_page.dart';
+import '../../features/search/presentation/pages/search_hotel_home_page.dart';
+import '../../features/search/presentation/widgets/search_hotel_page.dart';
 import '../../features/setting_page/presentation/pages/customerSupport_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 
@@ -144,7 +145,7 @@ class Router {
           alignment: Alignment.center,
           child: BlocProvider(
             create: (context) => searchHotelSl<SearchHotelCubit>(),
-            child: SearchHotelPage(),
+            child: const SearchHotel(),
           ),
         );
       case RoutesName.hotelList:

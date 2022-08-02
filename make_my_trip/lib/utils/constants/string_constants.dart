@@ -310,4 +310,28 @@ class StringConstants {
   static const appTitle = "Travelsy";
   static const futureTxt = "Upcoming Feature";
   static const sendMailTxt = "Send reset password to you Email-id";
+
+  //Search Page
+  static String searchAppbarTitle = "Search Hotel";
+  static String searchHotelContainerLabel = "CITY/Hotel NAME";
+  static String searchCheckInContainerLabel = "CHECK-IN DATE";
+  static String searchCheckOutContainerLabel = "CHECK-OUT DATE";
+  static String searchEmptyLabel = "Select Date";
+  static String searchRoomContainerLabel = "rooms & Guests";
+  static String searchButtonLabel = 'SEARCH HOTELS';
+  static String searchCountryName = "India";
+  static String roomText = "Room";
+  static String childrenText = "Children";
+  static String adultText = "Adult";
+  static String aboveAgeLabel = "Age 13 years & above";
+  static String belowAgeLabel = "Age 12 years & below";
+  static String whishlistText = "Whishlist";
+
+  static String calenderPageTitle = "Select Dates";
+  static String resetText = "Reset";
+
+  static String selectRoomAppbar = "Select Rooms";
+  static String selectRoomLabel = 'Number of rooms';
+  static String selectAdultsLabel = 'Adults';
+  static String selectChildrensLabel = 'Childrens';
 }
