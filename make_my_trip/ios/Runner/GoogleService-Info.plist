@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1074927524993-kmpi9guih60tcsd1muc0fi6rj72gau4d.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1074927524993-kmpi9guih60tcsd1muc0fi6rj72gau4d</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1074927524993-07k18hoebcl5arrb9g32bkiubdj7ojok.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBKPIj044gcRW2oSXNVt_A5OK1zyBT66U0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1074927524993</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.worldtour.makeMyTrip</string>
+	<key>PROJECT_ID</key>
+	<string>travelproject22-6b9d4</string>
+	<key>STORAGE_BUCKET</key>
+	<string>travelproject22-6b9d4.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1074927524993:ios:27186c50ca75f71d054180</string>
+</dict>
+</plist>
