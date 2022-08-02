@@ -140,10 +140,10 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final LoginResult loginResult = await facebookAuth.login();
       if (loginResult.status == LoginStatus.success) {
         final OAuthCredential facebookAuthCredential =
-            FacebookAuthProvider.credential(loginResult.accessToken!.token);
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
         var userData = await facebookAuth.getUserData();
         UserCredential userCredential =
-            await auth.signInWithCredential(facebookAuthCredential);
+        await auth.signInWithCredential(facebookAuthCredential);
         User? user = userCredential.user;
         user!.updatePhotoURL(userData["picture"]["data"]["url"]);
         // ignore: unnecessary_null_comparison
