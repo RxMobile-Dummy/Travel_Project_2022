@@ -1,13 +1,12 @@
 name: make_my_trip
 description: Flutter make my trip clone.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
 environment:
   sdk: ">=2.16.1 <3.0.0"
-
 
 dependencies:
   flutter:
@@ -16,20 +15,32 @@ dependencies:
   #ui
   cupertino_icons: ^1.0.2
   material_design_icons_flutter: ^5.0.6595
-  flutter_svg: ^1.0.0
+#  flutter_svg: ^1.0.0
   carousel_slider: ^4.1.1
-
+  flutter_staggered_grid_view: ^0.6.2
+  smooth_page_indicator: ^1.0.0+2
+  shared_preferences: ^2.0.15
+  shimmer: ^2.0.0
+  fluttertoast: ^8.0.9
+  image_picker: ^0.8.5+3
+  flutter_phone_direct_caller: ^2.1.1
+  flutter_email_sender: ^5.1.0
   #utils
-  uuid: ^3.0.6
-  grouped_list: ^4.1.0
-  string_validator: ^0.3.0
+#  uuid: ^3.0.6
+#  grouped_list: ^4.1.0
+#  string_validator: ^0.3.0
 
   #api call
   dio: ^4.0.6
 
   #firebase services
-  firebase_core: ^1.3.0
+  firebase_core: ^1.20.0
   firebase_auth: ^2.0.0
+  google_sign_in: ^5.0.2
+  flutter_facebook_auth: ^4.4.0
+  firebase_storage: ^10.3.4
+  cloud_firestore: ^3.4.1
+  flutter_isolate:
 
   #state management :::use cubit pattern
   flutter_bloc: ^8.0.1
@@ -38,7 +49,7 @@ dependencies:
   equatable: ^2.0.3
 
   #for routing use auto_route or go_route or any named routing
-  auto_route: ^3.2.1
+#  auto_route: ^3.2.1
 
   #error handling
   dartz: ^0.10.1
@@ -57,7 +68,18 @@ dependencies:
 
   #for checking internet connectivity
   connectivity_plus: ^2.3.5
+  flutter_rating_bar: ^4.0.1
+#  salomon_bottom_bar: ^3.3.1
+  dots_indicator: ^2.1.0
+  google_maps_flutter: ^2.1.8
+  url_launcher: ^6.1.5
 
+#  video_player: ^2.4.5
+  scrollable_clean_calendar: ^1.4.0
+  page_transition: ^2.0.9
+  flutter_svg: ^1.1.1+1
+
+  #shimmer effect
 
 dev_dependencies:
   flutter_test:
@@ -82,6 +104,8 @@ flutter:
   #your all local assets
   assets:
     - assets/icons/
+    - assets/img/
+    - assets/video/
 
   # font family of app
   fonts:
@@ -95,4 +119,3 @@ flutter:
           weight: 600
         - asset: fonts/Montserrat-Bold.ttf
           weight: 700
-

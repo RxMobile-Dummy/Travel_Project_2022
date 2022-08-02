@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 
 ///add more theme data here as per your need also add separate class for dark theme
@@ -8,16 +9,12 @@ class MakeMyTripLightTheme {
 
   static ThemeData lightTheme = ThemeData(
     appBarTheme: const AppBarTheme(
-      elevation: 0,
+      color: MakeMyTripColors.colorWhite,
+      elevation: 1,
       foregroundColor: Colors.black,
-      centerTitle: true,
-      color: Colors.transparent,
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-      ),
       titleTextStyle: TextStyle(
         fontSize: 24,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w500,
         color: Colors.black,
       ),
     ),
@@ -27,5 +24,14 @@ class MakeMyTripLightTheme {
       labelStyle: AppTextStyles.labelStyle,
       unselectedLabelStyle: AppTextStyles.unselectedLabelStyle,
     ),
+    inputDecorationTheme: InputDecorationTheme(
+        hintStyle: AppTextStyles.hintTextStyle,
+        filled: true,
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide.none,
+        )),
   );
 }
