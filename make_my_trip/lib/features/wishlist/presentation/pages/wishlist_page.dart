@@ -24,7 +24,6 @@ class WishListPage extends StatelessWidget {
     return WillPopScope(
       onWillPop: () {
         return navigateToHomePage(context);
-
       },
       child: Scaffold(
         body: BlocBuilder<WishListCubit, BaseState>(
@@ -77,7 +76,6 @@ class WishListPage extends StatelessWidget {
                       ),
                       expandedHeight: 230,
                       backgroundColor: MakeMyTripColors.colorWhite,
-
                     );
                   }), //SliverAppBar
                   SliverList(

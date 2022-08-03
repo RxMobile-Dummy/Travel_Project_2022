@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
@@ -71,15 +72,9 @@ Widget userProfileWidget(BuildContext context) {
       Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
         child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => BlocProvider<SettingPageCubit>(
-                          create: (BuildContext context) =>
-                              slSettingPage<SettingPageCubit>(),
-                          child: const ProfileDetailPage(),
-                        )));
+          onTap: () async{
+            await Navigator.pushNamed(context, RoutesName.settingDetailsPage);
+            BlocProvider.of<SettingPageCubit>(context).getUserData();
           },
           child: Padding(
             padding: const EdgeInsets.only(top: 10),

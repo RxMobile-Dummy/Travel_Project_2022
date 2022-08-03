@@ -78,13 +78,6 @@ class SettingPageCubit extends Cubit<BaseState> {
   }
 
   sendingMails() async {
-    // var url = Uri.parse("mailto:rxtrainee22@gmail.com");
-    // if (await canLaunchUrl(url)) {
-    //   await launchUrl(url);
-    // } else {
-    //   throw 'Could not launch $url';
-    // }
-
     final Email email = Email(
       subject: 'Your concern about..',
       body: 'To,\n'

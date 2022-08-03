@@ -19,28 +19,14 @@ class ProfileDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return _moveToScreen2(context);
-
-      },
-      child: Scaffold(
+    return  Scaffold(
         backgroundColor: MakeMyTripColors.colorWhite,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: MakeMyTripColors.colorWhite,
           leading: IconButton(
               onPressed: () {
-               Navigator.of(context).pop(MaterialPageRoute(builder: (context)=>MultiBlocProvider(
-                                      providers: [
-                                        BlocProvider.value(
-                                            value: slHomePage<HomepageCubit>()
-                                              ..getToursApi()
-                                              ..getImagesApi()),
-                                        BlocProvider.value(value: slHomePage<TabBarCubit>())
-                                      ],
-                                      child: HomePage(i: 3),
-                                    )));
+                Navigator.of(context).pop();
                //  Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context)=>MultiBlocProvider(
                //        providers: [
                //          BlocProvider.value(
@@ -96,20 +82,8 @@ class ProfileDetailPage extends StatelessWidget {
                 settingProfileBody(context)
               ]),
             )),
-      ),
-    );
+      );
+
   }
 }
 
-_moveToScreen2(BuildContext context) {
-  return  Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context)=>MultiBlocProvider(
-    providers: [
-      BlocProvider.value(
-          value: slHomePage<HomepageCubit>()
-            ..getToursApi()
-            ..getImagesApi()),
-      BlocProvider.value(value: slHomePage<TabBarCubit>())
-    ],
-    child: HomePage(i: 3,),
-  )));
-}

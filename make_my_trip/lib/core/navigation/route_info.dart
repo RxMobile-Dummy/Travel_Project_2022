@@ -40,4 +40,5 @@ class RoutesName {
   static const settingPage = "/settingPage";
 
   static const errorPage = "/errorPage";
+  static const settingDetailsPage = '/settingDetailsPage';
 }

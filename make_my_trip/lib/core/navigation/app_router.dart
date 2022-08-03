@@ -18,6 +18,7 @@ import 'package:make_my_trip/features/room_detail_page/room_detail_injection_con
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
 import 'package:make_my_trip/features/setting_page/presentation/pages/aboutUs.dart';
 import 'package:make_my_trip/features/setting_page/presentation/pages/privacyAndSecurity.dart';
+import 'package:make_my_trip/features/setting_page/presentation/pages/profile_detail_page.dart';
 import 'package:make_my_trip/features/setting_page/presentation/pages/settings_page.dart';
 import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/pages/sign_up_page.dart';
@@ -276,6 +277,13 @@ class Router {
           return BlocProvider.value(
             value: slSettingPage<SettingPageCubit>(),
             child: const SettingsPage(),
+          );
+        });
+        case RoutesName.settingDetailsPage:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider.value(
+            value: slSettingPage<SettingPageCubit>(),
+            child: const ProfileDetailPage(),
           );
         });
       case RoutesName.help:

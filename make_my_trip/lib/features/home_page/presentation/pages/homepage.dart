@@ -25,14 +25,9 @@ import '../cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
 
 class HomePage extends StatelessWidget {
-  int i;
 
-  HomePage({Key? key,required this.i}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
   int selectedIndex=0;
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +63,7 @@ class HomePage extends StatelessWidget {
             }
             return Scaffold(
                 body: Center(
-                  child: _widgetOptions().elementAt(i==0?selectedIndex:selectedIndex),
+                  child: _widgetOptions().elementAt(selectedIndex),
                 ),
                 bottomNavigationBar: BottomNavigationBar(
                   type: BottomNavigationBarType.fixed,
@@ -117,7 +112,7 @@ class HomePage extends StatelessWidget {
                   showUnselectedLabels: true,
                   showSelectedLabels: true,
                   unselectedItemColor: Colors.black,
-                  currentIndex:i==0?selectedIndex:selectedIndex,
+                  currentIndex:selectedIndex,
                   selectedItemColor: MakeMyTripColors.colorBlack,
                   onTap: (index) {
                     BlocProvider.of<TabBarCubit>(context).checkAnonymous(index);
