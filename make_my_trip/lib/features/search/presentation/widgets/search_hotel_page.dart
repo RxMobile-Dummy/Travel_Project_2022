@@ -53,16 +53,16 @@ class SearchHotelPage extends StatelessWidget {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                    RoutesName.hotelList,
-                                    arguments: {
-                                      'city_name':
-                                          searchModel?[index].description
-                                    });
+                              onTap: () async {
+                                await context
+                                    .read<SearchHotelCubit>()
+                                    .selectCityName(
+                                        searchModel?[index].name ?? "Ahmedabad",
+                                        searchModel?[index].id ?? 1,
+                                        searchModel?[index].type ?? "Hotel");
+                                Navigator.pop(context);
                               },
-                              child:
-                                  Text(searchModel?[index].description ?? ""));
+                              child: Text(searchModel?[index].name ?? ""));
                         },
                         separatorBuilder: (context, index) {
                           return const Divider(

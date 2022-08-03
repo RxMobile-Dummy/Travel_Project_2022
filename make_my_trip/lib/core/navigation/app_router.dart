@@ -146,13 +146,14 @@ class Router {
           alignment: Alignment.center,
           child: BlocProvider(
             create: (context) => searchHotelSl<SearchHotelCubit>(),
-            child: const SearchHotel(),
+            child: SearchHotel(),
           ),
         );
       case RoutesName.search:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
-            create: (context) => searchHotelSl<SearchHotelCubit>(),
+          return BlocProvider.value(
+            value: BlocProvider.of<SearchHotelCubit>(arg["context"]),
             child: SearchHotelPage(),
           );
         });
@@ -163,7 +164,8 @@ class Router {
           duration: const Duration(milliseconds: 500),
           child: BlocProvider(
             create: (context) => hotelListSl<HotelListCubit>()
-              ..getHotelListApi(arg['city_name']),
+              ..getHotelListApi(arg['cin'], arg['cout'], arg['no_of_room'],
+                  arg['id'], arg['type']),
             child: HotelListPage(arg: arg),
           ),
         );

@@ -12,32 +12,26 @@ abstract class SearchHotelDataSources {
 
 class SearchHotelDataSourcesImpl implements SearchHotelDataSources {
   final Dio dio;
-  final String baseURL =
-      StringConstants.googleApiUrl;
-  final String kPLACES_API_KEY = 'AIzaSyAcmpKXz5KH8e7zmPkHNIIUuSBXI8qEBNs';
-
   SearchHotelDataSourcesImpl(this.dio);
 
   @override
   Future<Either<Failures, List<SearchHotelModel>>> getNearByPlaces(
-      String place) async {
+    String place,
+  ) async {
     try {
-      String request = '$baseURL?input=$place&key=$kPLACES_API_KEY';
-      var response = await dio.get(request);
+      final response = await dio.get("http://192.168.101.124:4000/city/",
+          queryParameters: {'searchdata': place});
       if (response.statusCode == 200) {
-        final searchList = <SearchHotelModel>[];
-        final jsonList = response.data['predictions'];
+        final List<SearchHotelModel> searchList = [];
+        final jsonList = response.data;
         for (var item in jsonList) {
-          searchList.add(SearchHotelModel(
-              description: item["description"],
-              placeId: item["place_id"],
-              reference: item["reference"]));
+          searchList.add(SearchHotelModel.fromJson(item));
         }
         return Right(searchList);
       } else {
         return Left(ServerFailure());
       }
-    } catch (e) {
+    } catch (err) {
       return Left(ServerFailure());
     }
   }

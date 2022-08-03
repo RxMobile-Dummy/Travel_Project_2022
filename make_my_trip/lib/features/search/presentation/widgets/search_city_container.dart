@@ -35,20 +35,19 @@ class SearchCityContainer extends StatelessWidget {
                 color: Colors.grey,
               ),
             ),
-            RichText(
-                text: TextSpan(
-                    text: "$label\n",
-                    style: AppTextStyles.smallGrayTitleStyle,
-                    children: [
-                  TextSpan(
-                      text: "$detail ",
-                      style: AppTextStyles.generalLabelStyle,
+            Flexible(
+              child: RichText(
+                  softWrap: true,
+                  text: TextSpan(
+                      text: "$label\n",
+                      style: AppTextStyles.smallGrayTitleStyle,
                       children: [
                         TextSpan(
-                            text: subDetail ?? "",
-                            style: AppTextStyles.smallBlackTitleStyle)
-                      ])
-                ]))
+                          text: "$detail ",
+                          style: AppTextStyles.generalLabelStyle,
+                        )
+                      ])),
+            )
           ],
         ),
       ),

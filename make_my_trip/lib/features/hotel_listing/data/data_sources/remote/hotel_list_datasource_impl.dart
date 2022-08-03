@@ -15,13 +15,25 @@ class HotelListDataSourceImpl implements HotelListDataSource {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     return Options(headers: {'token': userToken});
   }
+
   @override
   Future<Either<Failures, List<HotelListModel>>> getHotelListData(
-      String hotelName) async {
+      String cin, String cout, int noOfRoom, int id, String type) async {
     try {
-      final baseurl = '${BaseConstant.baseUrl}hotel/${hotelName}';
+      final baseurl =
+          'http://192.168.101.124:4000/booking/hotellist/checkbooking';
 
-      final response = await dio.get(baseurl,options: await createDioOptions());
+      final response = await dio.get(
+        baseurl,
+        queryParameters: {
+          'cin': cin,
+          'cout': cout,
+          'no_of_room': noOfRoom,
+          'id': id,
+          'type': type
+        },
+      );
+      print(response.data);
       if (response.statusCode == 200) {
         final List<HotelListModel> hotelList = [];
         final jsonList = response.data;
@@ -38,7 +50,7 @@ class HotelListDataSourceImpl implements HotelListDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
-
+      print(e);
       return Left(ServerFailure(failureMsg: e.toString()));
     }
   }

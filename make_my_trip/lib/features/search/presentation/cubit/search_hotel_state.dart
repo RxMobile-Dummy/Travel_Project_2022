@@ -11,6 +11,8 @@ class ErrorState extends SearchHotelState {
 
 class NoOfRooms extends SearchHotelState {}
 
+class CityNameState extends SearchHotelState {}
+
 class UninitializedState extends SearchHotelState {}
 
 class AuthenticatedState extends SearchHotelState {}

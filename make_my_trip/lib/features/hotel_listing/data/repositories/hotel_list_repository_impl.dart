@@ -12,7 +12,8 @@ class HotelListRepositoryImpl implements HotelListRepository {
 
   @override
   Future<Either<Failures, List<HotelListModel>>> getHotelList(
-      String hotelName) async {
-    return await hotelListDataSource.getHotelListData(hotelName);
+      String cin, String cout, int noOfRoom, int id, String type) async {
+    return await hotelListDataSource.getHotelListData(
+        cin, cout, noOfRoom, id, type);
   }
 }

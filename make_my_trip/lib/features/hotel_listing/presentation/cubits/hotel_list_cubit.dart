@@ -8,8 +8,9 @@ class HotelListCubit extends Cubit<BaseState> {
   HotelListCubit({required this.hotelListUsecase}) : super(StateInitial());
   final HotelListUsecase hotelListUsecase;
 
-  getHotelListApi(String hotelName) async {
-    var hotelListData = await hotelListUsecase.call(Params(hotelName));
+  getHotelListApi(cin, cout, noOfRoom, searchId, type) async {
+    var hotelListData = await hotelListUsecase
+        .call(Params(cin, cout, noOfRoom, searchId, type));
     hotelListData.fold((l) => emit(StateErrorGeneral("errorMessage")),
         (r) => emit(StateOnSuccess<List<HotelListModel>>(r)));
   }

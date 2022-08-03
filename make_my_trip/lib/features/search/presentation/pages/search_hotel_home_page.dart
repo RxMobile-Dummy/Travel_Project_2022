@@ -15,7 +15,7 @@ import '../widgets/select_dates.dart';
 import '../widgets/select_rooms.dart';
 
 class SearchHotel extends StatelessWidget {
-  const SearchHotel({Key? key}) : super(key: key);
+  SearchHotel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,16 +64,13 @@ class SearchHotel extends StatelessWidget {
                       SearchCityContainer(
                         label: StringConstants.searchHotelContainerLabel
                             .toUpperCase(),
-                        detail: "Ahmedabad",
+                        detail:
+                            (cubit.city == null) ? "Select City" : cubit.city!,
                         subDetail: StringConstants.searchCountryName,
                         iconData: Icons.location_on_outlined,
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => BlocProvider.value(
-                                    value: BlocProvider.of<SearchHotelCubit>(
-                                        context),
-                                    child: SearchHotelPage(),
-                                  )));
+                          Navigator.pushNamed(context, RoutesName.search,
+                              arguments: {"context": context});
                         },
                       ),
                       8.verticalSpace,
@@ -147,7 +144,26 @@ class SearchHotel extends StatelessWidget {
                       SizedBox(
                           width: double.infinity,
                           child: CommonPrimaryButton(
-                              onTap: () {},
+                              onTap: () {
+                                var checkInDate = cubit.inTime
+                                    .toString()
+                                    .substring(0,
+                                        cubit.inTime.toString().indexOf(" "));
+                                var checkOutDate = cubit.outTime
+                                    .toString()
+                                    .substring(0,
+                                        cubit.outTime.toString().indexOf(" "));
+                                Navigator.of(context).pushNamed(
+                                    RoutesName.hotelList,
+                                    arguments: {
+                                      'city_name': cubit.city!,
+                                      'cin': checkInDate,
+                                      'cout': checkOutDate,
+                                      'no_of_room': cubit.rooms,
+                                      'id': cubit.searchId,
+                                      'type': cubit.type,
+                                    });
+                              },
                               text: StringConstants.searchButtonLabel)),
                     ]),
                   ),
