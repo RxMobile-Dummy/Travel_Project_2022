@@ -125,19 +125,21 @@ class Router {
           );
         });
       case RoutesName.myTrips:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) =>
                 historyListSl<UserHistoryCubit>()..getUserHistoryData(),
-            child: UserHistoryPage(),
+            child: UserHistoryPage(arg: arg,),
           );
         });
       case RoutesName.wishList:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) =>
                 wishListSl<WishListCubit>()..getWishListCubitData(),
-            child: WishListPage(),
+            child: WishListPage(arg:arg),
           );
         });
       case RoutesName.search:

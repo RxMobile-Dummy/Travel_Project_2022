@@ -12,18 +12,27 @@ import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 
+import '../../../../core/navigation/route_info.dart';
 import '../../../setting_page/presentation/pages/settings_page.dart';
 import '../../wishlist_injection_container.dart';
 import '../widgets/shimmer_effect_page.dart';
 
 class WishListPage extends StatelessWidget {
-  WishListPage({Key? key}) : super(key: key);
+  Map<String, dynamic>? arg;
+  WishListPage({Key? key,this.arg}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        return navigateToHomePage(context);
+        var argument = arg!["route_name"];
+        if (argument == RoutesName.search ||
+        argument == RoutesName.settingPage){
+          return navigateToPrevious(context,argument);
+        }
+        else {
+          return navigateToHomePage(context);
+        }
       },
       child: Scaffold(
         body: BlocBuilder<WishListCubit, BaseState>(
@@ -34,7 +43,7 @@ class WishListPage extends StatelessWidget {
                 return CommonErrorWidget(
                     imagePath: ImagePath.noDataFoundImage,
                     title: StringConstants.noHotelInWishlist,
-                    statusCode: "");
+                    statusCode: StringConstants.emptyString);
               }
               return CustomScrollView(
                 slivers: <Widget>[
@@ -44,6 +53,7 @@ class WishListPage extends StatelessWidget {
                       snap: false,
                       pinned: true,
                       floating: false,
+                      iconTheme: scroll?const IconThemeData(color: MakeMyTripColors.colorBlack):const IconThemeData(color: MakeMyTripColors.colorWhite),
                       flexibleSpace: FlexibleSpaceBar(
                         centerTitle: true,
                         title: Text(StringConstants.wishlist,
@@ -95,16 +105,21 @@ class WishListPage extends StatelessWidget {
               return CommonErrorWidget(
                   imagePath: ImagePath.serverFailImage,
                   title: StringConstants.serverFail,
-                  statusCode: "");
+                  statusCode: StringConstants.emptyString);
             } else {
               return CommonErrorWidget(
                   imagePath: ImagePath.noDataFoundImage,
                   title: StringConstants.noHotelInWishlist,
-                  statusCode: "");
+                  statusCode: StringConstants.emptyString);
             }
           },
         ),
       ),
     );
   }
+
+
+}
+navigateToPrevious(BuildContext context, arg) {
+  Navigator.of(context).pop(arg);
 }

@@ -24,7 +24,7 @@ class SearchHotelPage extends StatelessWidget {
               arguments: {"route_name": RoutesName.wishList});
         } else if (state is Authenticated) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.wishList, (route) => true);
+              context, RoutesName.wishList, (route) => true,arguments: {"route_name":RoutesName.search});
         }
       },
       child: Scaffold(
@@ -42,7 +42,7 @@ class SearchHotelPage extends StatelessWidget {
                 padding: EdgeInsets.only(right: 20),
                 child: Icon(
                   Icons.favorite_border,
-                  color: Colors.black,
+                  color: MakeMyTripColors.colorBlack,
                 ),
               ),
             ),
@@ -86,7 +86,7 @@ class SearchHotelPage extends StatelessWidget {
                                       });
                                 },
                                 child: Text(
-                                    searchModel?[index].description ?? ""));
+                                    searchModel?[index].description ?? StringConstants.emptyString));
                           },
                           separatorBuilder: (context, index) {
                             return const Divider(

@@ -11,14 +11,24 @@ import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 
+import '../../../../core/navigation/route_info.dart';
+import '../../../wishlist/presentation/pages/wishlist_page.dart';
+
 class UserHistoryPage extends StatelessWidget {
-  const UserHistoryPage({Key? key}) : super(key: key);
+  Map<String, dynamic>? arg;
+  UserHistoryPage({Key? key,this.arg}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () {
-      return navigateToHomePage(context);
+          var argument = arg!["route_name"];
+          if (argument == RoutesName.settingPage){
+            return navigateToPrevious(context,argument);
+          }
+          else {
+            return navigateToHomePage(context);
+          }
 
     },
       child : Scaffold(

@@ -16,7 +16,7 @@ Widget userProfileWidget(BuildContext context) {
     children: [
       BlocBuilder<SettingPageCubit, BaseState>(builder: (context, state) {
         if (state is StateOnKnownToSuccess<SettingPageData>) {
-          return state.response.profileloading==false?Column(
+          return state.response.profileLoading==false?Column(
             children: [
               CircleAvatar(
                 backgroundImage: NetworkImage(
@@ -43,55 +43,15 @@ Widget userProfileWidget(BuildContext context) {
                 ),
               )
             ],
-          ):SettingProfileShimmer();
+          ):const SettingProfileShimmer();
         } else {
-          return CircleAvatar(
+          return const CircleAvatar(
             backgroundImage: AssetImage(ImagePath.userProfileImage1),
             radius: 50,
             backgroundColor: MakeMyTripColors.colorLightGray,
           );
         }
       }),
-      // BlocBuilder<SettingPageCubit, BaseState>(builder: (context, state) {
-      //   if (state is StateOnKnownToSuccess<SettingPageData>) {
-      //     return Padding(
-      //       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-      //       child: Text(
-      //         state.response.userValue?.userName ?? StringConstants.userName,
-      //         style: AppTextStyles.unselectedLabelStyle,
-      //       ),
-      //     );
-      //   } else {
-      //     return const Padding(
-      //       padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-      //       child: Text(
-      //         StringConstants.userName,
-      //         style: AppTextStyles.unselectedLabelStyle,
-      //       ),
-      //     );
-      //   }
-      // }),
-      // BlocBuilder<SettingPageCubit, BaseState>(builder: (context, state) {
-      //   if (state is StateOnKnownToSuccess<SettingPageData>) {
-      //     return Padding(
-      //       padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
-      //       child: Text(
-      //         state.response.userValue?.userEmail ??
-      //             StringConstants.emptyString,
-      //         style: AppTextStyles.infoContentStyle
-      //             .copyWith(fontWeight: FontWeight.w500),
-      //       ),
-      //     );
-      //   } else {
-      //     return const Padding(
-      //       padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-      //       child: Text(
-      //         StringConstants.emptyString,
-      //         style: AppTextStyles.unselectedLabelStyle,
-      //       ),
-      //     );
-      //   }
-      // }),
       Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
         child: GestureDetector(

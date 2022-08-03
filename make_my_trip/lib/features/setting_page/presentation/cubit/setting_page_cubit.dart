@@ -29,14 +29,14 @@ class SettingPageCubit extends Cubit<BaseState> {
     emit(StateOnKnownToSuccess(
         (state as StateOnKnownToSuccess<SettingPageData>)
             .response
-            . copyWith(profileloading: true)));
+            . copyWith(profileLoading: true)));
     final res = await getUserDataUseCase.call(NoParams());
     res.fold(
         (l) => emit(StateNoData()),
         (r) => emit(StateOnKnownToSuccess(
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
-                .copyWith(userValue: r,profileloading: false))
+                .copyWith(userValue: r,profileLoading: false))
            ));
   }
 
@@ -63,7 +63,7 @@ class SettingPageCubit extends Cubit<BaseState> {
     emit(StateOnKnownToSuccess(
         (state as StateOnKnownToSuccess<SettingPageData>)
             .response
-            .copyWith(profileloading: true)));
+            .copyWith(profileLoading: true)));
     final res = await updateImageUseCase.call(NoParams());
     var userValue = await getUserData();
     res.fold(
@@ -71,14 +71,14 @@ class SettingPageCubit extends Cubit<BaseState> {
         (r) => emit(StateOnKnownToSuccess(
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
-                .copyWith(imageValue: r, userValue: userValue,profileloading: false))));
+                .copyWith(imageValue: r, userValue: userValue,profileLoading: false))));
   }
 
   getFromCamera() async {
     emit(StateOnKnownToSuccess(
         (state as StateOnKnownToSuccess<SettingPageData>)
             .response
-            .copyWith(profileloading: true)));
+            .copyWith(profileLoading: true)));
     final res = await updateImageUseCase.callImageFromCamera(NoParams());
     var userValue = await getUserData();
     res.fold(
@@ -86,7 +86,7 @@ class SettingPageCubit extends Cubit<BaseState> {
         (r) => emit(StateOnKnownToSuccess(
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
-                .copyWith(imageValue: r, userValue: userValue,profileloading: false))));
+                .copyWith(imageValue: r, userValue: userValue,profileLoading: false))));
   }
 
   callNumber() async {

@@ -33,39 +33,31 @@ class ProfileDetailPage extends StatelessWidget {
             },
             icon: (Platform.isAndroid)
                 ? const Icon(
-              Icons.arrow_back_outlined,
-            )
-                : const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color:
-                MakeMyTripColors.colorBlack
-
-            )),
+                    Icons.arrow_back_outlined,
+                  )
+                : const Icon(Icons.arrow_back_ios_new_rounded,
+                    color: MakeMyTripColors.colorBlack)),
         title: const Text(StringConstants.userEditProfile,
             style: TextStyle(
                 color: MakeMyTripColors.colorBlack,
                 fontWeight: FontWeight.bold)),
       ),
-      body: BlocBuilder<SettingPageCubit, BaseState>(
-        builder: (context, state) {
-          if (state is StateOnKnownToSuccess<SettingPageData>) {
-            return state.response.profileloading==false?Container(
-                color: MakeMyTripColors.colorWhite,
-                child: SingleChildScrollView(
-                  child: Column(children: [
-                    settingProfileHeader(context),
-                    settingProfileBody(context)
-                  ]),
-                )):UserProfileShimmer();
-          }
-          else{
-            return Text("");
-          }
+      body: BlocBuilder<SettingPageCubit, BaseState>(builder: (context, state) {
+        if (state is StateOnKnownToSuccess<SettingPageData>) {
+          return state.response.profileLoading == false
+              ? Container(
+                  color: MakeMyTripColors.colorWhite,
+                  child: SingleChildScrollView(
+                    child: Column(children: [
+                      settingProfileHeader(context),
+                      settingProfileBody(context)
+                    ]),
+                  ))
+              : const UserProfileShimmer();
+        } else {
+          return const Text(StringConstants.emptyString);
         }
-
-
-      ),
+      }),
     );
   }
 }
-

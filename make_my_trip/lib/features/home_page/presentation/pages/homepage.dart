@@ -111,7 +111,7 @@ class HomePage extends StatelessWidget {
                   ],
                   showUnselectedLabels: true,
                   showSelectedLabels: true,
-                  unselectedItemColor: Colors.black,
+                  unselectedItemColor: MakeMyTripColors.colorBlack,
                   currentIndex:selectedIndex,
                   selectedItemColor: MakeMyTripColors.colorBlack,
                   onTap: (index) {
@@ -130,12 +130,12 @@ class HomePage extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               historyListSl<UserHistoryCubit>()..getUserHistoryData(),
-          child: UserHistoryPage(),
+          child: UserHistoryPage(arg: const {},),
         ),
         BlocProvider(
           create: (context) =>
               wishListSl<WishListCubit>()..getWishListCubitData(),
-          child: WishListPage(),
+          child: WishListPage(arg: const {},),
         ),
         MultiBlocProvider(
           providers: [
@@ -146,7 +146,7 @@ class HomePage extends StatelessWidget {
               create: (context) => userSl<UserCubit>(),
             ),
           ],
-          child: SettingsPage(),
+          child: const SettingsPage(),
         )
       ];
 }

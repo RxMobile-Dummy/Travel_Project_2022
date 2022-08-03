@@ -44,10 +44,10 @@ class SettingsPage extends StatelessWidget {
                 Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
               },
               icon: (Platform.isAndroid)
-                  ? Icon(
+                  ? const Icon(
                 Icons.arrow_back_outlined,
                     )
-                  : Icon(
+                  : const Icon(
                 Icons.arrow_back_ios_new_rounded,
                 color:
                    MakeMyTripColors.colorBlack
@@ -75,7 +75,7 @@ class SettingsPage extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, settingList[index].routeName);
+                                  context, settingList[index].routeName,arguments: settingList[index].argument);
                             },
                             child: SizedBox(
                               child: Row(
