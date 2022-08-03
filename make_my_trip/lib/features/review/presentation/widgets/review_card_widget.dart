@@ -24,90 +24,92 @@ class ReviewCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
-      child: Card(
+      child:  Card(
         color: MakeMyTripColors.color10gray,
-        elevation: 20,
+        elevation: 10,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
             side: const BorderSide(color: MakeMyTripColors.color50gray)),
-        child: SizedBox(
-          height: 180,
+        child: Container(
           width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
-              16.verticalSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 4,
-                    child: CircleAvatar(
-                      radius: 24,
-                      backgroundColor: MakeMyTripColors.color50gray,
-                      child: CircleAvatar(
-                        radius: 22,
-                        backgroundImage: NetworkImage(image),
-                        backgroundColor: MakeMyTripColors.color30gray,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 9,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: AppTextStyles.infoContentStyle
-                              .copyWith(fontSize: 18),
-                        ),
-                        2.verticalSpace,
-                        RatingBar.builder(
-                          ignoreGestures: true,
-                          itemSize: 16,
-                          initialRating: ratingValue,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemBuilder: (context, _) => const Icon(
-                            Icons.star,
-                            color: MakeMyTripColors.accentColor,
+                children:
+                [
+                  16.verticalSpace,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 4,
+                        child: CircleAvatar(
+                          radius: 24,
+                          backgroundColor: MakeMyTripColors.color50gray,
+                          child: CircleAvatar(
+                            radius: 22,
+                            backgroundImage: NetworkImage(image),
+                            backgroundColor: MakeMyTripColors.color30gray,
                           ),
-                          onRatingUpdate: (rating) {},
                         ),
-                      ],
-                    ),
+                      ),
+                      Expanded(
+                        flex: 9,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                             name,
+                              style: AppTextStyles.infoContentStyle
+                                  .copyWith(fontSize: 18),
+                            ),
+                            2.verticalSpace,
+                            RatingBar.builder(
+                              ignoreGestures: true,
+                              itemSize: 16,
+                              initialRating: ratingValue,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: MakeMyTripColors.accentColor,
+                              ),
+                              onRatingUpdate: (rating) {},
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const Spacer(),
+                      Expanded(
+                        flex: 5,
+                        child: Text(
+                          date,
+                          style: AppTextStyles.labelDetails.copyWith(fontSize: 14),
+                        ),
+                      ),
+                    ],
                   ),
-                  const Spacer(),
-                  Expanded(
-                    flex: 5,
+                  Padding(
+                    padding: const EdgeInsets.only( left: 20.0,right: 20,bottom: 20.0,top: 5.0),
                     child: Text(
-                      date,
-                      style: AppTextStyles.labelDetails.copyWith(fontSize: 14),
+                      description,
+                      textAlign: TextAlign.justify,
+                      style: AppTextStyles.labelDescriptionStyle
+                          .copyWith(fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
-              ),
-              12.verticalSpace,
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Text(
-                    description,
-                    textAlign: TextAlign.justify,
-                    style: AppTextStyles.labelDescriptionStyle
-                        .copyWith(fontWeight: FontWeight.w400),
-                  ),
-                ),
-              ),
+              )
             ],
           ),
         ),
-      ),
+      )
     );
   }
 }
