@@ -10,6 +10,7 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 import '../cubits/hotel_list_cubit.dart';
 import '../widgets/hotel_list_view_widget.dart';
+import 'filter_list.dart';
 
 class HotelListPage extends StatelessWidget {
   const HotelListPage({Key? key, required this.arg}) : super(key: key);
@@ -24,8 +25,11 @@ class HotelListPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, RoutesName.filter);
+              onTap: () async {
+                await Navigator.pushNamed(context, RoutesName.filter,
+                    arguments: {"context": context});
+                BlocProvider.of<HotelListCubit>(context)
+                  ..getHotelListApi(arg['city_name']);
               },
               child: const Icon(
                 Icons.filter_alt_off_outlined,
@@ -52,14 +56,26 @@ class HotelListPage extends StatelessWidget {
                     title: StringConstants.noHotelFound,
                     statusCode: "");
               }
-              return ListView.builder(
-                  itemCount: hotelListModel.length,
-                  itemBuilder: (context, index) {
-                    return HotelListViewWidget(
-                        hotelListModel: hotelListModel[index]);
-                  });
+              return Column(
+                children: [
+                  AllFiltersWidget(),
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: hotelListModel.length,
+                        itemBuilder: (context, index) {
+                          return HotelListViewWidget(
+                              hotelListModel: hotelListModel[index]);
+                        }),
+                  ),
+                ],
+              );
             } else {
-              return HotelListShimmer();
+              return Column(
+                children: [
+                  // AllFiltersWidget(),
+                  Expanded(child: HotelListShimmer()),
+                ],
+              );
             }
           },
         ),

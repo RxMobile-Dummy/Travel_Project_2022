@@ -41,6 +41,7 @@ import '../../features/home_page/presentation/pages/homepage.dart';
 import '../../features/hotel_detail/hotel_detail_injection_container.dart';
 import '../../features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import '../../features/hotel_detail/presentation/pages/hotel_detail_page.dart';
+import '../../features/hotel_listing/presentation/cubits/filter_cubit_cubit.dart';
 import '../../features/intro/presentation/cubit/intro_cubit.dart';
 import '../../features/intro/presentation/pages/intro_page.dart';
 import '../../features/search/presentation/pages/search_hotel_home_page.dart';
@@ -161,15 +162,26 @@ class Router {
         return PageTransition(
           type: PageTransitionType.rightToLeft,
           duration: const Duration(milliseconds: 500),
-          child: BlocProvider(
-            create: (context) => hotelListSl<HotelListCubit>()
-              ..getHotelListApi(arg['city_name']),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => hotelListSl<HotelListCubit>()
+                  ..getHotelListApi(arg['city_name']),
+              ),
+              BlocProvider(
+                create: (context) => FilterCubit(),
+              ),
+            ],
             child: HotelListPage(arg: arg),
           ),
         );
       case RoutesName.filter:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
-          return FilterList();
+          return BlocProvider.value(
+            value: BlocProvider.of<FilterCubit>(arg["context"]),
+            child: FilterList(arg: arg),
+          );
         });
       case RoutesName.hotelDetail:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;

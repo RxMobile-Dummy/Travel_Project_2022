@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model.dart';
 import 'package:make_my_trip/features/hotel_listing/domain/use_cases/hotel_list_usecase.dart';
+import 'package:make_my_trip/utils/extensions/common/common_extensions.dart';
 
 class HotelListCubit extends Cubit<BaseState> {
   HotelListCubit({required this.hotelListUsecase}) : super(StateInitial());
