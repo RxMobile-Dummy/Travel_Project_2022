@@ -2,11 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
+import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
 import 'package:make_my_trip/features/setting_page/presentation/pages/settings_page.dart';
 import 'package:make_my_trip/features/setting_page/presentation/widgets/common_appbar_widget.dart';
+import 'package:make_my_trip/features/setting_page/presentation/widgets/shimmer_user_profile.dart';
 import '../../../../utils/constants/string_constants.dart';
 import '../../../home_page/home_page_injection_container.dart';
 import '../../../home_page/presentation/cubit/homepage_cubit.dart';
@@ -19,71 +22,50 @@ class ProfileDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
+      backgroundColor: MakeMyTripColors.colorWhite,
+      appBar: AppBar(
+        elevation: 0,
         backgroundColor: MakeMyTripColors.colorWhite,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: MakeMyTripColors.colorWhite,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-               //  Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context)=>MultiBlocProvider(
-               //        providers: [
-               //          BlocProvider.value(
-               //              value: slHomePage<HomepageCubit>()
-               //                ..getToursApi()
-               //                ..getImagesApi()),
-               //          BlocProvider.value(value: slHomePage<TabBarCubit>())
-               //        ],
-               //        child: HomePage(i: 3),
-               //      )));
-                 // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MultiBlocProvider(
-                 //   providers: [
-                 //     BlocProvider.value(
-                 //         value: slHomePage<HomepageCubit>()
-                 //           ..getToursApi()
-                 //           ..getImagesApi()),
-                 //     BlocProvider.value(value: slHomePage<TabBarCubit>())
-                 //   ],
-                 //   child: HomePage(3),
-                 // )), (route) => false);
-                // Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context)=>MultiBlocProvider(
-                //       providers: [
-                //         BlocProvider.value(
-                //             value: slHomePage<HomepageCubit>()
-                //               ..getToursApi()
-                //               ..getImagesApi()),
-                //         BlocProvider.value(value: slHomePage<TabBarCubit>())
-                //       ],
-                //       child: HomePage(3),
-                //     )));
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: (Platform.isAndroid)
+                ? const Icon(
+              Icons.arrow_back_outlined,
+            )
+                : const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color:
+                MakeMyTripColors.colorBlack
 
-              },
-              icon: (Platform.isAndroid)
-                  ? const Icon(
-                Icons.arrow_back_outlined,
-              )
-                  : const Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color:
-                  MakeMyTripColors.colorBlack
-
-              )),
-          title: const Text(StringConstants.userEditProfile,
-              style: TextStyle(
-                  color: MakeMyTripColors.colorBlack,
-                  fontWeight: FontWeight.bold)),
-        ),
-        body: Container(
-            color: MakeMyTripColors.colorWhite,
-            child: SingleChildScrollView(
-              child: Column(children: [
-                settingProfileHeader(context),
-                settingProfileBody(context)
-              ]),
             )),
-      );
+        title: const Text(StringConstants.userEditProfile,
+            style: TextStyle(
+                color: MakeMyTripColors.colorBlack,
+                fontWeight: FontWeight.bold)),
+      ),
+      body: BlocBuilder<SettingPageCubit, BaseState>(
+        builder: (context, state) {
+          if (state is StateOnKnownToSuccess<SettingPageData>) {
+            return state.response.profileloading==false?Container(
+                color: MakeMyTripColors.colorWhite,
+                child: SingleChildScrollView(
+                  child: Column(children: [
+                    settingProfileHeader(context),
+                    settingProfileBody(context)
+                  ]),
+                )):UserProfileShimmer();
+          }
+          else{
+            return Text("");
+          }
+        }
 
+
+      ),
+    );
   }
 }
 
