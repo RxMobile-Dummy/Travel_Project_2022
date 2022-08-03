@@ -28,8 +28,12 @@ class HotelListPage extends StatelessWidget {
               onTap: () async {
                 await Navigator.pushNamed(context, RoutesName.filter,
                     arguments: {"context": context});
-                BlocProvider.of<HotelListCubit>(context)
-                  ..getHotelListApi(arg['city_name']);
+                BlocProvider.of<HotelListCubit>(context).getHotelListApi(
+                    arg['cin'],
+                    arg['cout'],
+                    arg['no_of_room'],
+                    arg['id'],
+                    arg['type']);
               },
               child: const Icon(
                 Icons.filter_alt_off_outlined,
