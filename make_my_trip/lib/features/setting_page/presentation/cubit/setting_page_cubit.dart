@@ -32,7 +32,7 @@ class SettingPageCubit extends Cubit<BaseState> {
             . copyWith(profileLoading: true)));
     final res = await getUserDataUseCase.call(NoParams());
     res.fold(
-        (l) => emit(StateNoData()),
+        (l) => getUserData(),
         (r) => emit(StateOnKnownToSuccess(
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
@@ -41,11 +41,15 @@ class SettingPageCubit extends Cubit<BaseState> {
   }
 
   updateUserData(Map<String, String> postData) async {
+
     var nameErrorMsg =
         UserInfoValidation.nameValidation(postData.entries.first.value);
     var phoneErrorMsg =
         UserInfoValidation.phoneNumberValidation(postData.entries.last.value);
-    if (nameErrorMsg != null) {
+    if(postData.entries.first.value.length>30){
+      Fluttertoast.showToast(msg: "Please enter a name less than 30");
+    }
+    else if (nameErrorMsg != null) {
       Fluttertoast.showToast(msg: nameErrorMsg.toString());
     } else if (phoneErrorMsg != null) {
       Fluttertoast.showToast(msg: phoneErrorMsg.toString());

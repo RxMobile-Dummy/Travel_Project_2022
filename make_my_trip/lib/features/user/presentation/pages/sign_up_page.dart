@@ -35,6 +35,8 @@ class SignUpPage extends StatelessWidget {
             if (state is StateOnSuccess) {
               Navigator.pushNamedAndRemoveUntil(
                   context, RoutesName.home, (route) => true);
+            } else if(state is StateErrorGeneral){
+              ProgressDialog.hideLoadingDialog(context);
             } else if (state is StateLoading) {
               ProgressDialog.showLoadingDialog(context, message: "Loading...");
             } else if (state is StateShowSearching) {
