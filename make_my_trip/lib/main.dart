@@ -55,7 +55,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   HttpOverrides.global = MyHttpOverrides();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -68,7 +68,8 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -82,11 +83,11 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: StringConstants.appTitle,
-        theme: MakeMyTripLightTheme.lightTheme,
-        onGenerateRoute: app_routes.Router().generateRoutes,
-      ),
+          debugShowCheckedModeBanner: false,
+          title: StringConstants.appTitle,
+          theme: MakeMyTripLightTheme.lightTheme,
+          onGenerateRoute: app_routes.Router().generateRoutes,
+          navigatorKey: navigatorKey),
     );
   }
 }

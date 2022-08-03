@@ -225,14 +225,14 @@ class HotelDetailPage extends StatelessWidget {
                             }
                           },
                         ),
-                        5.verticalSpace,
+                        5.horizontalSpace,
                         CircleIconButton(
                             iconData: Icons.share_rounded,
                             isRotete: false,
                             iconBtn: () {
                               context
                                   .read<HotelDetailCubit>()
-                                  .createDynamicLink(hotelDetailModel!.id!);
+                                  .onShare(hotelDetailModel!, context);
                             })
                       ],
                     ),
@@ -339,7 +339,7 @@ class HotelDetailPage extends StatelessWidget {
                             titleName: hotelDetailModel?.hotelName! ?? "Hotel",
                             mapHeight: 200,
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ],
                 )),
               )

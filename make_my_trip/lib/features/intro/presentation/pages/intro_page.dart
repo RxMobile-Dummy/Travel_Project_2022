@@ -12,8 +12,8 @@ import '../../../../utils/constants/image_path.dart';
 import '../widgets/intro_widget.dart';
 
 class IntroPage extends StatelessWidget {
-  IntroPage({Key? key}) : super(key: key);
-
+  IntroPage({Key? key, required this.arg}) : super(key: key);
+  final Map<String, dynamic> arg;
   int introIndex = 0;
 
   PageController introSliderController = PageController();
@@ -45,8 +45,14 @@ class IntroPage extends StatelessWidget {
     return BlocListener<IntroCubit, IntroState>(
       listener: (context, state) {
         if (state is IntroSucessState) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.home, (route) => false);
+          if (arg == null) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, RoutesName.home, (route) => false);
+          } else {
+            Navigator.pushNamedAndRemoveUntil(
+                context, RoutesName.hotelDetail, (route) => false,
+                arguments: {"hotel_id": arg});
+          }
         }
       },
       child: Scaffold(

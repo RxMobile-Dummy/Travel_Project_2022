@@ -1,13 +1,11 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_downloader/image_downloader.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/hotel_detail_usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/islike_delete_usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/islike_post_usecase.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../../core/base/base_state.dart';
 import '../../../user/domain/usecases/is_anonymous_user.dart';
@@ -77,20 +75,11 @@ class HotelDetailCubit extends Cubit<BaseState> {
 
   Future<void> onShare(
       HotelDetailModel hotelDetailModel, BuildContext context) async {
-    final box = context.findRenderObject();
-    var status = await Permission.storage.status;
-    if (status.isDenied) {
-      await Permission.storage.request();
-    }
-    var imageId = await ImageDownloader.downloadImage(
-        hotelDetailModel.images![0].imageUrl!);
-    if (imageId == null) {
-      return;
-    }
-    var path = await ImageDownloader.findPath(imageId);
+    final box = context.findRenderObject() as RenderBox?;
+    Uri subjectLink = await createDynamicLink(hotelDetailModel.id!);
     await Share.share(
-      " Check Out This amazing Hotel on Travelsy! \n ${hotelDetailModel.hotelName!}",
-      subject: createDynamicLink(hotelDetailModel.id!).toString(),
+      "Check Out This amazing Hotel on Travelsy! \n ${hotelDetailModel.hotelName!} \n ${subjectLink.toString()}",
+      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
     );
   }
 }
