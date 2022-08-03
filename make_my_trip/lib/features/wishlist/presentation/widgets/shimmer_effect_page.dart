@@ -30,8 +30,8 @@ class ShimmerEffect extends StatelessWidget {
           ),
           Expanded(
             child: Shimmer.fromColors(
-              baseColor: Colors.grey,
-              highlightColor: Colors.grey[300]!,
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.white,
               direction: ShimmerDirection.ltr,
               child: ListView.builder(
                 itemBuilder: (_, __) => Padding(

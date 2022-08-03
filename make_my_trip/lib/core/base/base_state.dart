@@ -260,13 +260,16 @@ class SettingPageData {
   UserDetailsModel? userValue;
   String? imageValue;
   String? error;
+  bool? profileloading;
 
-  SettingPageData({this.userValue, this.imageValue, this.error});
+  SettingPageData({this.userValue, this.imageValue, this.error,this.profileloading});
 
   SettingPageData copyWith(
-          {UserDetailsModel? userValue, String? imageValue, String? error}) =>
+          {UserDetailsModel? userValue, String? imageValue, String? error,bool? profileloading}) =>
       SettingPageData(
           error: error ?? this.error,
           userValue: userValue ?? this.userValue,
-          imageValue: imageValue ?? this.imageValue);
+          imageValue: imageValue ?? this.imageValue,
+        profileloading: profileloading?? this.profileloading
+          );
 }

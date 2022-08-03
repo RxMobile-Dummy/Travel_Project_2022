@@ -20,7 +20,6 @@ class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
-
   Widget build(BuildContext context) {
       return BlocListener<UserCubit, BaseState>(
       listener: (context, state) {
@@ -59,10 +58,6 @@ class SettingsPage extends StatelessWidget {
                   color: MakeMyTripColors.colorBlack,
                   fontWeight: FontWeight.bold)),
         ),
-        // commonAppBarWidget(
-        //     text: StringConstants.setting,
-        //     context: context,
-        //     routename: RoutesName.home),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

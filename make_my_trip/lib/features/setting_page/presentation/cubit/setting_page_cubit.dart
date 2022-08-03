@@ -1,3 +1,5 @@
+
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -24,13 +26,18 @@ class SettingPageCubit extends Cubit<BaseState> {
   }
 
   getUserData() async {
+    emit(StateOnKnownToSuccess(
+        (state as StateOnKnownToSuccess<SettingPageData>)
+            .response
+            . copyWith(profileloading: true)));
     final res = await getUserDataUseCase.call(NoParams());
     res.fold(
         (l) => emit(StateNoData()),
         (r) => emit(StateOnKnownToSuccess(
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
-                .copyWith(userValue: r))));
+                .copyWith(userValue: r,profileloading: false))
+           ));
   }
 
   updateUserData(Map<String, String> postData) async {
@@ -42,14 +49,21 @@ class SettingPageCubit extends Cubit<BaseState> {
       Fluttertoast.showToast(msg: nameErrorMsg.toString());
     } else if (phoneErrorMsg != null) {
       Fluttertoast.showToast(msg: phoneErrorMsg.toString());
-    } else {
+    }
+    else {
       final res = await updateUserDataUseCase.call(postData);
       res.fold((l) => emit(StateErrorGeneral(l.toString())),
-          (r) => Fluttertoast.showToast(msg: StringConstants.profileUpdate));
+          (r) {
+        Fluttertoast.showToast(msg: StringConstants.profileUpdate);
+      });
     }
   }
 
   getFromGallery() async {
+    emit(StateOnKnownToSuccess(
+        (state as StateOnKnownToSuccess<SettingPageData>)
+            .response
+            .copyWith(profileloading: true)));
     final res = await updateImageUseCase.call(NoParams());
     var userValue = await getUserData();
     res.fold(
@@ -57,10 +71,14 @@ class SettingPageCubit extends Cubit<BaseState> {
         (r) => emit(StateOnKnownToSuccess(
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
-                .copyWith(imageValue: r, userValue: userValue))));
+                .copyWith(imageValue: r, userValue: userValue,profileloading: false))));
   }
 
   getFromCamera() async {
+    emit(StateOnKnownToSuccess(
+        (state as StateOnKnownToSuccess<SettingPageData>)
+            .response
+            .copyWith(profileloading: true)));
     final res = await updateImageUseCase.callImageFromCamera(NoParams());
     var userValue = await getUserData();
     res.fold(
@@ -68,7 +86,7 @@ class SettingPageCubit extends Cubit<BaseState> {
         (r) => emit(StateOnKnownToSuccess(
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
-                .copyWith(imageValue: r, userValue: userValue))));
+                .copyWith(imageValue: r, userValue: userValue,profileloading: false))));
   }
 
   callNumber() async {
