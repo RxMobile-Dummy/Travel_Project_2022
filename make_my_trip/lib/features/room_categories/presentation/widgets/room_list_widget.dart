@@ -119,8 +119,7 @@ class RoomListWidget extends StatelessWidget {
                                     : ImagePath.demoroom,
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
-                                  return Image.asset(
-                                      ImagePath.placeHolderImage,
+                                  return Image.asset(ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 })),
                       ),
@@ -141,8 +140,7 @@ class RoomListWidget extends StatelessWidget {
                                     : ImagePath.demoroom,
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
-                                  return Image.asset(
-                                      ImagePath.placeHolderImage,
+                                  return Image.asset(ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 })),
                       ),
@@ -231,36 +229,36 @@ class RoomListWidget extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            "₹ ${(roomData.price! * (totalSelectedRoom > 1 ? totalSelectedRoom : 1)).toString()} ",
+                            "₹ ${(roomData.price!).toString()} ",
                             style: AppTextStyles.infoContentStyle
-                                .copyWith(fontSize: 16),
+                                .copyWith(fontSize: 18),
                           ),
-                          const Spacer(),
-                          ElevatedButton(
-                            onPressed: () {
-                              if (totalSelectedRoom > 0) {
-                                BlocProvider.of<RoomCategoryCubit>(context)
-                                    .goToBooking(hotelId, cin, cout,
-                                        totalSelectedRoom, roomList);
-                              } else {
-                                (ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar));
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(75, 45),
-                                primary: totalSelectedRoom > 0
-                                    ? MakeMyTripColors.colorBlue
-                                    : MakeMyTripColors.color30gray,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                )),
-                            child: Text(
-                              StringConstants.roomSelectButtonTxt,
-                              style: AppTextStyles.infoContentStyle
-                                  .copyWith(fontSize: 14),
-                            ),
-                          ),
+                          //const Spacer(),
+                          // ElevatedButton(
+                          //   onPressed: () {
+                          //     if (totalSelectedRoom > 0) {
+                          //       BlocProvider.of<RoomCategoryCubit>(context)
+                          //           .goToBooking(hotelId, cin, cout,
+                          //               totalSelectedRoom, roomList);
+                          //     } else {
+                          //       (ScaffoldMessenger.of(context)
+                          //           .showSnackBar(snackBar));
+                          //     }
+                          //   },
+                          //   style: ElevatedButton.styleFrom(
+                          //       fixedSize: const Size(75, 45),
+                          //       primary: totalSelectedRoom > 0
+                          //           ? MakeMyTripColors.colorBlue
+                          //           : MakeMyTripColors.color30gray,
+                          //       shape: RoundedRectangleBorder(
+                          //         borderRadius: BorderRadius.circular(12.0),
+                          //       )),
+                          //   child: Text(
+                          //     StringConstants.roomSelectButtonTxt,
+                          //     style: AppTextStyles.infoContentStyle
+                          //         .copyWith(fontSize: 14),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

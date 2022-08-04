@@ -194,44 +194,55 @@ class RoomCategoriesPage extends StatelessWidget {
               return CircularProgressIndicator();
             }
           }),
-          bottomNavigationBar: SafeArea(
-            child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '₹ 75232',
-                          style: AppTextStyles.smallBlackTitleStyle
-                              .copyWith(fontSize: 20),
-                        ),
-                        Text(
-                          'Per night for 2 Rooms',
-                          style: AppTextStyles.smallGrayTitleStyle
-                              .copyWith(color: MakeMyTripColors.color70gray),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 35,
-                      width: 150,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text(StringConstants.book),
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+          bottomNavigationBar: BlocBuilder<SelectRoomCountCubit, BaseState>(
+            builder: (context, state) {
+              if (state is StateOnSuccess<SelectRoomCountState>) {
+                print('');
+                print(state.response.deluxValue);
+                return SafeArea(
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "₹ ${(roomCategoryModel?.deluxe?[0].price! ?? 0 * (state.response.deluxValue > 1 ? state.response.deluxValue : 1)).toString()} ",
+                                style: AppTextStyles.smallBlackTitleStyle
+                                    .copyWith(fontSize: 22),
+                              ),
+                              Text(
+                                'Per night for 2 Rooms',
+                                style: AppTextStyles.smallGrayTitleStyle
+                                    .copyWith(
+                                        color: MakeMyTripColors.color70gray),
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                    )
-                  ],
-                )),
+                          SizedBox(
+                            height: 35,
+                            width: 150,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              child: Text(StringConstants.book),
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      )),
+                );
+              } else {
+                return SizedBox();
+              }
+            },
           ),
         );
       },
