@@ -148,7 +148,8 @@ class HomeScreen extends StatelessWidget {
                                             context, RoutesName.hotelDetail,
                                             arguments: {
                                               "hotel_id":
-                                                  imagelist[index].hotelId
+                                                  imagelist[index].hotelId,
+                                              "share_link": false
                                             });
                                       },
                                       imageData: imagelist[index]

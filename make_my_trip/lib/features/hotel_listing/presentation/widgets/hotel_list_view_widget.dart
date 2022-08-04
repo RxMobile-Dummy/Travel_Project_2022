@@ -19,7 +19,7 @@ class HotelListViewWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.pushNamed(context, RoutesName.hotelDetail,
-              arguments: {"hotel_id": hotelListModel.id});
+              arguments: {"hotel_id": hotelListModel.id, "share_link": false});
         },
         child: Card(
             shape: RoundedRectangleBorder(
@@ -36,16 +36,13 @@ class HotelListViewWidget extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: FadeInImage.assetNetwork(
-                        placeholder: ImagePath.placeHolderImage,
-                        image:hotelListModel.images![0].imageUrl.toString(),
-                        fit: BoxFit.fill,
-                          imageErrorBuilder:
-                              (context, error, stackTrace) {
-                            return Image.asset(
-                                ImagePath.placeHolderImage,
+                          placeholder: ImagePath.placeHolderImage,
+                          image: hotelListModel.images![0].imageUrl.toString(),
+                          fit: BoxFit.fill,
+                          imageErrorBuilder: (context, error, stackTrace) {
+                            return Image.asset(ImagePath.placeHolderImage,
                                 fit: BoxFit.fitWidth);
-                          }
-                      ),
+                          }),
                     ),
                   ),
                 ),

@@ -45,13 +45,15 @@ class IntroPage extends StatelessWidget {
     return BlocListener<IntroCubit, IntroState>(
       listener: (context, state) {
         if (state is IntroSucessState) {
-          if (arg == null) {
+          if (arg["hotel_id"] == null) {
             Navigator.pushNamedAndRemoveUntil(
                 context, RoutesName.home, (route) => false);
           } else {
             Navigator.pushNamedAndRemoveUntil(
-                context, RoutesName.hotelDetail, (route) => false,
-                arguments: {"hotel_id": arg});
+                context, RoutesName.hotelDetail, (route) => false, arguments: {
+              "hotel_id": int.parse(arg["hotel_id"]),
+              "share_link": true
+            });
           }
         }
       },

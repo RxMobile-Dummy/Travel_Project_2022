@@ -24,7 +24,8 @@ import '../widgets/loaction_widget.dart';
 import '../widgets/review_container.dart';
 
 class HotelDetailPage extends StatelessWidget {
-  HotelDetailPage({Key? key}) : super(key: key);
+  HotelDetailPage({Key? key, required this.arg}) : super(key: key);
+  final bool arg;
   bool isLiked = false;
   bool isReadMore = false;
   int imgIndex = 0;
@@ -59,302 +60,325 @@ class HotelDetailPage extends StatelessWidget {
               statusCode: "");
         }
 
-        return Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              SliverLayoutBuilder(
-                builder: (context, constraints) {
-                  final scrolled =
-                      constraints.scrollOffset > screen.height * .25;
-                  return SliverAppBar(
-                    backgroundColor: MakeMyTripColors.colorWhite,
-                    expandedHeight: screen.height * .35,
-                    elevation: 0,
-                    excludeHeaderSemantics: true,
-                    floating: true,
-                    pinned: true,
-                    leading: IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: (Platform.isAndroid)
-                            ? Icon(
-                                Icons.arrow_back_outlined,
-                                color: scrolled
-                                    ? MakeMyTripColors.colorBlack
-                                    : MakeMyTripColors.colorWhite,
-                              )
-                            : Icon(
-                                Icons.arrow_back_ios_new_rounded,
-                                color: scrolled
-                                    ? MakeMyTripColors.colorBlack
-                                    : MakeMyTripColors.colorWhite,
-                              )),
-                    actions: [
-                      GestureDetector(
-                        onTap: () {
-                          BlocProvider.of<HotelDetailCubit>(context)
-                              .onLikeTap(isLiked, hotelDetailModel!.id);
-                        },
-                        child: Icon(
-                          (isLiked) ? Icons.favorite : Icons.favorite_border,
-                          color: (isLiked)
-                              ? MakeMyTripColors.colorRed
-                              : (scrolled && !isLiked)
-                                  ? MakeMyTripColors.colorBlack
-                                  : MakeMyTripColors.colorWhite,
-                          size: 28,
-                        ),
-                      ),
-                      12.horizontalSpace,
-                    ],
-                    flexibleSpace: FlexibleSpaceBar(
-                      centerTitle: true,
-                      background: Stack(fit: StackFit.expand, children: [
-                        PageView.builder(
-                          itemCount: 4,
-                          onPageChanged: (index) {
-                            BlocProvider.of<HotelDetailCubit>(context)
-                                .onSwipeIndicator(index);
-                          },
-                          itemBuilder: (BuildContext context, int index) {
-                            return FadeInImage.assetNetwork(
-                                placeholder: ImagePath.placeHolderImage,
-                                image:
-                                    hotelDetailModel?.images![index].imageUrl ??
-                                        StringConstants.hotelImagePlaceHolder,
-                                fit: BoxFit.cover,
-                                imageErrorBuilder:
-                                    (context, error, stackTrace) {
-                                  return Image.asset(ImagePath.placeHolderImage,
-                                      fit: BoxFit.fitWidth);
-                                });
-                          },
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                              bottom: 10, right: 10, left: 10),
-                          alignment: Alignment.bottomCenter,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              DotsIndicator(
-                                dotsCount: 4,
-                                position: imgIndex.toDouble(),
-                                decorator: DotsDecorator(
-                                  activeSize: const Size(9.0, 9.0),
-                                  activeColor: MakeMyTripColors.accentColor,
-                                  color: MakeMyTripColors.colorBlack,
-                                  activeShape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5.0)),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, RoutesName.galleryPage,
-                                      arguments: {
-                                        "image_list": hotelDetailModel!.images
-                                      });
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: MakeMyTripColors.colorWhite,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                        "${hotelDetailModel?.images?.length} ${StringConstants.photos}",
-                                        style: AppTextStyles.infoContentStyle,
-                                      ),
-                                      8.horizontalSpace,
-                                      const Icon(Icons.image)
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ]),
-                    ),
-                  );
-                },
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.all(16),
-                sliver: SliverList(
-                    delegate: SliverChildListDelegate(
-                  [
-                    RatingBar.builder(
-                      ignoreGestures: true,
-                      itemSize: 20,
-                      initialRating: hotelDetailModel?.rating?.toDouble() ?? 3,
-                      minRating: 0,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemBuilder: (context, _) => const Icon(
-                        Icons.star,
-                        color: MakeMyTripColors.accentColor,
-                      ),
-                      onRatingUpdate: (rating) {},
-                    ),
-                    12.verticalSpace,
-                    Text(hotelDetailModel?.hotelName ?? "Hotel name",
-                        style: AppTextStyles.labelStyle),
-                    Row(
-                      children: [
-                        Text("₹ ${hotelDetailModel?.price?.toString()} /night"),
-                        const Spacer(),
-                        CircleIconButton(
-                          isRotete: false,
-                          iconData: Icons.call,
-                          iconBtn: () async {
-                            var url = Uri.parse(
-                                "tel:${hotelDetailModel?.phoneNumber}");
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(url);
+        return WillPopScope(
+          onWillPop: () async {
+            if (arg == false) {
+              Navigator.pop(context);
+              return true;
+            } else {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, RoutesName.home, (route) => false);
+              return true;
+            }
+          },
+          child: Scaffold(
+            body: CustomScrollView(
+              slivers: [
+                SliverLayoutBuilder(
+                  builder: (context, constraints) {
+                    final scrolled =
+                        constraints.scrollOffset > screen.height * .25;
+                    return SliverAppBar(
+                      backgroundColor: MakeMyTripColors.colorWhite,
+                      expandedHeight: screen.height * .35,
+                      elevation: 0,
+                      excludeHeaderSemantics: true,
+                      floating: true,
+                      pinned: true,
+                      leading: IconButton(
+                          onPressed: () {
+                            if (arg == false) {
+                              Navigator.of(context).pop();
                             } else {
-                              throw 'Could not launch ';
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, RoutesName.home, (route) => false);
                             }
                           },
+                          icon: (Platform.isAndroid)
+                              ? Icon(
+                                  Icons.arrow_back_outlined,
+                                  color: scrolled
+                                      ? MakeMyTripColors.colorBlack
+                                      : MakeMyTripColors.colorWhite,
+                                )
+                              : Icon(
+                                  Icons.arrow_back_ios_new_rounded,
+                                  color: scrolled
+                                      ? MakeMyTripColors.colorBlack
+                                      : MakeMyTripColors.colorWhite,
+                                )),
+                      actions: [
+                        GestureDetector(
+                          onTap: () {
+                            BlocProvider.of<HotelDetailCubit>(context)
+                                .onLikeTap(isLiked, hotelDetailModel!.id);
+                          },
+                          child: Icon(
+                            (isLiked) ? Icons.favorite : Icons.favorite_border,
+                            color: (isLiked)
+                                ? MakeMyTripColors.colorRed
+                                : (scrolled && !isLiked)
+                                    ? MakeMyTripColors.colorBlack
+                                    : MakeMyTripColors.colorWhite,
+                            size: 28,
+                          ),
                         ),
-                        5.horizontalSpace,
-                        CircleIconButton(
-                            iconData: Icons.share_rounded,
-                            isRotete: false,
-                            iconBtn: () {
-                              context
-                                  .read<HotelDetailCubit>()
-                                  .onShare(hotelDetailModel!, context);
-                            })
+                        12.horizontalSpace,
                       ],
-                    ),
-                    12.verticalSpace,
-                    Column(
-                      children: [
-                        Text(
-                          hotelDetailModel?.description ?? "hotel description",
-                          maxLines: (isReadMore) ? 10 : 3,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.justify,
-                        ),
-                        (hotelDetailModel?.description == null)
-                            ? const SizedBox()
-                            : Align(
-                                alignment: Alignment.centerRight,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    BlocProvider.of<HotelDetailCubit>(context)
-                                        .onReadMoreTap(isReadMore);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Text(
-                                      (isReadMore)
-                                          ? StringConstants.readLessTxt
-                                          : StringConstants.readMoreTxt,
-                                      style: const TextStyle(
-                                          color: MakeMyTripColors.accentColor,
-                                          fontSize: 16),
-                                    ),
+                      flexibleSpace: FlexibleSpaceBar(
+                        centerTitle: true,
+                        background: Stack(fit: StackFit.expand, children: [
+                          PageView.builder(
+                            itemCount: 4,
+                            onPageChanged: (index) {
+                              BlocProvider.of<HotelDetailCubit>(context)
+                                  .onSwipeIndicator(index);
+                            },
+                            itemBuilder: (BuildContext context, int index) {
+                              return FadeInImage.assetNetwork(
+                                  placeholder: ImagePath.placeHolderImage,
+                                  image: hotelDetailModel
+                                          ?.images![index].imageUrl ??
+                                      StringConstants.hotelImagePlaceHolder,
+                                  fit: BoxFit.cover,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    return Image.asset(
+                                        ImagePath.placeHolderImage,
+                                        fit: BoxFit.fitWidth);
+                                  });
+                            },
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(
+                                bottom: 10, right: 10, left: 10),
+                            alignment: Alignment.bottomCenter,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                DotsIndicator(
+                                  dotsCount: 4,
+                                  position: imgIndex.toDouble(),
+                                  decorator: DotsDecorator(
+                                    activeSize: const Size(9.0, 9.0),
+                                    activeColor: MakeMyTripColors.accentColor,
+                                    color: MakeMyTripColors.colorBlack,
+                                    activeShape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0)),
                                   ),
                                 ),
-                              )
-                      ],
-                    ),
-                    12.verticalSpace,
-                    Wrap(
-                      children: [
-                        FeaturesItemWidget(
-                            text:
-                                hotelDetailModel?.features![0] ?? "feature 1"),
-                        FeaturesItemWidget(
-                            text:
-                                hotelDetailModel?.features![1] ?? "feature 2"),
-                        FeaturesItemWidget(
-                            text:
-                                hotelDetailModel?.features![2] ?? "feature 3"),
-                        FeaturesItemWidget(
-                            text:
-                                hotelDetailModel?.features![3] ?? "feature 4"),
-                      ],
-                    ),
-                    18.verticalSpace,
-                    ReviewContainer(
-                      icon: Icons.star_rounded,
-                      leadingText: hotelDetailModel?.rating?.toString() ?? "3",
-                      tralingText: StringConstants.seeAllReview,
-                      onTap: () {
-                        if (hotelDetailModel!.id != null) {
-                          Navigator.pushNamed(context, RoutesName.reviewPage,
-                              arguments: {
-                                "hotel_id": hotelDetailModel!.id,
-                                'rating': hotelDetailModel!.rating
-                              });
-                        }
-                        // context.read<ReviewCubit>().getHotelReviewData(hotelDetailModel?.id);
-                      },
-                    ),
-                    18.verticalSpace,
-                    ReviewContainer(
-                      leadingText: StringConstants.gallery,
-                      tralingText: StringConstants.seeAllPhoto,
-                      onTap: () {
-                        Navigator.pushNamed(context, RoutesName.galleryPage,
-                            arguments: {
-                              "image_list": hotelDetailModel!.images
-                            });
-                      },
-                    ),
-                    18.verticalSpace,
-                    Text(
-                      StringConstants.location,
-                      style: AppTextStyles.unselectedLabelStyle,
-                    ),
-                    12.verticalSpace,
-                    Text(
-                      hotelDetailModel?.address!.addressLine ??
-                          "Hotel location",
-                      maxLines: 2,
-                      style: const TextStyle(
-                        color: MakeMyTripColors.color70gray,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, RoutesName.galleryPage,
+                                        arguments: {
+                                          "image_list": hotelDetailModel!.images
+                                        });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: MakeMyTripColors.colorWhite,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          "${hotelDetailModel?.images?.length} ${StringConstants.photos}",
+                                          style: AppTextStyles.infoContentStyle,
+                                        ),
+                                        8.horizontalSpace,
+                                        const Icon(Icons.image)
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ]),
                       ),
-                    ),
-                    12.verticalSpace,
-                    (hotelDetailModel != null)
-                        ? LocationViewWidet(
-                            log:
-                                hotelDetailModel?.address?.location?.latitude ??
-                                    10,
-                            lat: hotelDetailModel
-                                    ?.address?.location?.longitude ??
-                                10,
-                            titleName: hotelDetailModel?.hotelName! ?? "Hotel",
-                            mapHeight: 200,
-                          )
-                        : const SizedBox(),
-                  ],
-                )),
-              )
-            ],
-          ),
-          bottomNavigationBar: SafeArea(
-            child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: CommonPrimaryButton(
-                    text: StringConstants.selectRoom,
-                    onTap: () {
-                      Navigator.pushNamed(context, RoutesName.calendar,
-                          arguments: {'hotel_id': hotelDetailModel!.id});
-                    })),
+                    );
+                  },
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.all(16),
+                  sliver: SliverList(
+                      delegate: SliverChildListDelegate(
+                    [
+                      RatingBar.builder(
+                        ignoreGestures: true,
+                        itemSize: 20,
+                        initialRating:
+                            hotelDetailModel?.rating?.toDouble() ?? 3,
+                        minRating: 0,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemBuilder: (context, _) => const Icon(
+                          Icons.star,
+                          color: MakeMyTripColors.accentColor,
+                        ),
+                        onRatingUpdate: (rating) {},
+                      ),
+                      12.verticalSpace,
+                      Text(hotelDetailModel?.hotelName ?? "Hotel name",
+                          style: AppTextStyles.labelStyle),
+                      Row(
+                        children: [
+                          Text(
+                              "₹ ${hotelDetailModel?.price?.toString()} /night"),
+                          const Spacer(),
+                          CircleIconButton(
+                            isRotete: false,
+                            iconData: Icons.call,
+                            iconBtn: () async {
+                              var url = Uri.parse(
+                                  "tel:${hotelDetailModel?.phoneNumber}");
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url);
+                              } else {
+                                throw 'Could not launch ';
+                              }
+                            },
+                          ),
+                          8.horizontalSpace,
+                          CircleIconButton(
+                              iconData: Icons.share_rounded,
+                              isRotete: false,
+                              iconBtn: () {
+                                context
+                                    .read<HotelDetailCubit>()
+                                    .onShare(hotelDetailModel!, context);
+                              })
+                        ],
+                      ),
+                      12.verticalSpace,
+                      Column(
+                        children: [
+                          Text(
+                            hotelDetailModel?.description ??
+                                "hotel description",
+                            maxLines: (isReadMore) ? 10 : 3,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.justify,
+                          ),
+                          (hotelDetailModel?.description == null)
+                              ? const SizedBox()
+                              : Align(
+                                  alignment: Alignment.centerRight,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      BlocProvider.of<HotelDetailCubit>(context)
+                                          .onReadMoreTap(isReadMore);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Text(
+                                        (isReadMore)
+                                            ? StringConstants.readLessTxt
+                                            : StringConstants.readMoreTxt,
+                                        style: const TextStyle(
+                                            color: MakeMyTripColors.accentColor,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                        ],
+                      ),
+                      12.verticalSpace,
+                      Wrap(
+                        children: [
+                          FeaturesItemWidget(
+                              text: hotelDetailModel?.features![0] ??
+                                  "feature 1"),
+                          FeaturesItemWidget(
+                              text: hotelDetailModel?.features![1] ??
+                                  "feature 2"),
+                          FeaturesItemWidget(
+                              text: hotelDetailModel?.features![2] ??
+                                  "feature 3"),
+                          FeaturesItemWidget(
+                              text: hotelDetailModel?.features![3] ??
+                                  "feature 4"),
+                        ],
+                      ),
+                      18.verticalSpace,
+                      ReviewContainer(
+                        icon: Icons.star_rounded,
+                        leadingText:
+                            hotelDetailModel?.rating?.toString() ?? "3",
+                        tralingText: StringConstants.seeAllReview,
+                        onTap: () {
+                          if (hotelDetailModel!.id != null) {
+                            Navigator.pushNamed(context, RoutesName.reviewPage,
+                                arguments: {
+                                  "hotel_id": hotelDetailModel!.id,
+                                  'rating': hotelDetailModel!.rating
+                                });
+                          }
+                        },
+                      ),
+                      18.verticalSpace,
+                      ReviewContainer(
+                        leadingText: StringConstants.gallery,
+                        tralingText: StringConstants.seeAllPhoto,
+                        onTap: () {
+                          Navigator.pushNamed(context, RoutesName.galleryPage,
+                              arguments: {
+                                "image_list": hotelDetailModel!.images
+                              });
+                        },
+                      ),
+                      18.verticalSpace,
+                      Text(
+                        StringConstants.location,
+                        style: AppTextStyles.unselectedLabelStyle,
+                      ),
+                      12.verticalSpace,
+                      Text(
+                        hotelDetailModel?.address!.addressLine ??
+                            "Hotel location",
+                        maxLines: 2,
+                        style: const TextStyle(
+                          color: MakeMyTripColors.color70gray,
+                        ),
+                      ),
+                      12.verticalSpace,
+                      (hotelDetailModel != null)
+                          ? LocationViewWidet(
+                              log: hotelDetailModel
+                                      ?.address?.location?.latitude ??
+                                  10,
+                              lat: hotelDetailModel
+                                      ?.address?.location?.longitude ??
+                                  10,
+                              titleName:
+                                  hotelDetailModel?.hotelName! ?? "Hotel",
+                              mapHeight: 200,
+                            )
+                          : const SizedBox(),
+                    ],
+                  )),
+                )
+              ],
+            ),
+            bottomNavigationBar: SafeArea(
+              child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: CommonPrimaryButton(
+                      text: StringConstants.selectRoom,
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesName.calendar,
+                            arguments: {'hotel_id': hotelDetailModel!.id});
+                      })),
+            ),
           ),
         );
       },

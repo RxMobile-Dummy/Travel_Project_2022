@@ -44,7 +44,7 @@ class HotelListPage extends StatelessWidget {
                         hotelListModel: hotelListModel[index]);
                   });
             } else {
-              return HotelListShimmer();
+              return const HotelListShimmer();
             }
           },
         ),

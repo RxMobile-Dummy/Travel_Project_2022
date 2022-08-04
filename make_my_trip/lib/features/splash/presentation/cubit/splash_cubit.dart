@@ -13,19 +13,25 @@ class SplashCubit extends Cubit<BaseState> {
 
   final GetUser getUser;
 
-  Future<String> handleDynamicLinks() async {
-    final PendingDynamicLinkData? data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri deepLink = data!.link;
-    var paramValue = deepLink.queryParameters['paramId'];
-    return paramValue ?? "";
+  Future<String?> handleDynamicLinks() async {
+    try {
+      final PendingDynamicLinkData? data =
+          await FirebaseDynamicLinks.instance.getInitialLink();
+      final Uri deepLink = data!.link;
+      var paramValue = deepLink.queryParameters['paramId'];
+      return paramValue;
+    } catch (e) {
+      return null;
+    }
   }
 
   splashLoad() async {
     await Future.delayed(const Duration(seconds: 2));
     final res = await getUser.call(NoParams());
-    final String linkData = await handleDynamicLinks();
-    res.fold((failure) {}, (success) {
+    final String? linkData = await handleDynamicLinks();
+    res.fold((failure) {
+      print(failure);
+    }, (success) {
       if (success.userId != null) {
         emit(StateOnResponseSuccess(linkData));
       } else {

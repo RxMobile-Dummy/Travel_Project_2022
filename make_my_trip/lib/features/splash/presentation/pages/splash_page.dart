@@ -18,14 +18,16 @@ class SplashPage extends StatelessWidget {
         if (state is StateOnSuccess) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.onBoard, (route) => false,
-              arguments: {state.response as String});
+              arguments: {"hotel_id": state.response});
         } else if (state is StateOnResponseSuccess && state.response == null) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.home, (route) => false);
         } else if (state is StateOnResponseSuccess && state.response != null) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.hotelDetail, (route) => false,
-              arguments: {"hotel_id": state.response});
+              context, RoutesName.hotelDetail, (route) => false, arguments: {
+            "hotel_id": int.parse(state.response),
+            "share_link": true
+          });
         }
       },
       child: const Scaffold(

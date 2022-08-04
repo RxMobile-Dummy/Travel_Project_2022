@@ -161,6 +161,7 @@ class Router {
         );
       case RoutesName.hotelDetail:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
+
         return PageTransition(
           type: PageTransitionType.bottomToTop,
           duration: const Duration(milliseconds: 500),
@@ -169,7 +170,7 @@ class Router {
               return hotelDetailSl<HotelDetailCubit>()
                 ..getHotelDetailData(arg['hotel_id']);
             },
-            child: HotelDetailPage(),
+            child: HotelDetailPage(arg: arg['share_link']),
           ),
         );
 
