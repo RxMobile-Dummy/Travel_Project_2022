@@ -12,8 +12,7 @@ class HotelListUsecase implements Usecase<List<HotelListModel>, Params> {
 
   @override
   Future<Either<Failures, List<HotelListModel>>> call(Params params) async {
-    return await hotelListRepository.getHotelList(
-        params.cin, params.cout, params.noOfRoom, params.id, params.type);
+    return await hotelListRepository.getHotelList(params);
   }
 }
 
@@ -23,6 +22,16 @@ class Params {
   final int noOfRoom;
   final int id;
   final String type;
-
-  Params(this.cin, this.cout, this.noOfRoom, this.id, this.type);
+  final String? aminities;
+  final String? price;
+  final String? rating;
+  Params(
+      {this.aminities,
+      this.price,
+      this.rating,
+      required this.cin,
+      required this.cout,
+      required this.noOfRoom,
+      required this.id,
+      required this.type});
 }

@@ -78,6 +78,7 @@ dependencies:
   scrollable_clean_calendar: ^1.4.0
   page_transition: ^2.0.9
   flutter_svg: ^1.1.1+1
+  font_awesome_flutter: ^10.1.0
 
   #shimmer effect
 
