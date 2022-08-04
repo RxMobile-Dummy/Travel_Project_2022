@@ -179,7 +179,7 @@ class BookingDomain {
                                 "hotel_name": hotelName,
                                 "deluxe": deluxeList,
                                 "semi-deluxe": semiDeluxeList,
-                                "super-deluxe": superDeluxeList
+                                "super-deluxe": superDeluxeList,
                             };
                             res.status(StatusCode.Sucess).send(resultData);
                     } else {

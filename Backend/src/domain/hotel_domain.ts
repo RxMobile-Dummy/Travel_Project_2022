@@ -4,6 +4,7 @@ import { statemodel } from "../model/state";
 import { StatusCode } from "../statuscode";
 import { imagemodel } from "../model/image";
 import { bookmarkmodel } from "../model/bookmark";
+import { AvailabilityDomain } from "./availability_domain";
 import express, { Express, Request, Response } from 'express'
 
 class HotelDomain {
@@ -43,7 +44,7 @@ class HotelDomain {
                         'Images': "$Images"
                     }
                 },
-                
+
 
             ]);
             if (hoteBySerch.length == 0) {
@@ -64,7 +65,7 @@ class HotelDomain {
         try {
 
             var hotelData = await hotelmodel.aggregate([
-
+                { $match: { rating: { $gte: 5 } } },
                 { $sample: { size: parseInt(req.params.imagelimit) } },
                 {
                     $lookup: {
@@ -216,5 +217,172 @@ class HotelDomain {
         }
     }
 
+
+
+    async getHotelFilterList(req: Request, res: Response) {
+        var q: any = req.query;
+        try {
+
+            const availabilityDomain = new AvailabilityDomain();
+
+            if (q.cin.length != 0 && q.cout.length != 0 && q.no_of_room.length != 0 && q.type.length != 0 && q.id.length != 0) {
+
+                //query params data
+                const cIn: Date = new Date(q.cin);
+                const cOut: Date = new Date(q.cout);
+                const noOfRoom: any = q.no_of_room;
+                const type: any = q.type;
+                const id: any = q.id;
+
+                const hotelIdArray: any = [];
+                var avilHotelId: any = [];
+
+                //If particular hotel is searched
+                if (type == "hotel") {
+
+                    //availabilty check
+                    var hotelId = await availabilityDomain.checkAvailability(cIn, cOut, id, noOfRoom);
+                    if (hotelId != null) {
+
+                        //if hotel is available
+                        avilHotelId.push(hotelId)
+
+                    }
+
+                }
+                //city based hotel searched
+                else if (type == "area") {
+
+                    //city id based hotellist find
+                    var cityBasedSerch = await hotelmodel.find({ 'address.city_id': id });
+
+                    await Promise.all(cityBasedSerch.map(async (e: any) => {
+                        hotelIdArray.push(e._id);
+
+                        //availabilty check
+                        var hotelId = await availabilityDomain.checkAvailability(cIn, cOut, e._id, noOfRoom);
+                        if (hotelId != null) {
+
+                            //if hotel is available
+                            avilHotelId.push(hotelId);
+                        }
+
+                    }))
+
+                } else {
+                    res.status(StatusCode.Sucess).send('params is not match');
+                    res.end();
+                }
+
+                //available hotel list casting in number
+                var avilHotelId = avilHotelId.map(Number);
+
+                if (avilHotelId != null) {
+
+                    //query params for filter
+                    var ratingParams = q.rating.split(",").map(Number);
+                    var priceParams = q.price.split("-").map(Number);
+                    var featuresParams = q.features.split(",");
+
+                    var flag: boolean = false;
+
+                    //price default if params is single  
+                    q.price.length == 0 ? (null) : (priceParams.length == 1 ? (priceParams[1] = 100000) : (flag = false));
+
+                    var resData: any = [];
+
+                    await Promise.all(
+
+                        avilHotelId.map(async (e: any) => {
+
+                            //if filter is not apply
+                            if (q.rating.length == 0 && q.price.length == 0 && q.features.length == 0) {
+                                var hotelfilterlist = await hotelmodel.aggregate(
+                                    [{
+                                        $match: { _id: e },
+                                    },
+                                    {
+                                        $lookup: {
+                                            from: "images",
+                                            localField: "_id",
+                                            foreignField: "hotel_id",
+                                            pipeline: [
+                                                { $match: { room_id: null } }
+                                            ],
+                                            as: "Images",
+                                        },
+                                    },
+                                    {
+                                        "$project": {
+                                            "hotel_id": "$_id",
+                                            "hotel_name": "$hotel_name",
+                                            "rating": "$rating",
+                                            "address": "$address",
+                                            "price": "$price",
+                                            'Images': "$Images"
+                                        }
+                                    },
+                                    ]
+                                )
+                            }
+                            // if filter is apply
+                            else {
+
+                                var hotelfilterlist = await hotelmodel.aggregate(
+                                    [{
+                                        $match: {
+                                            $and: [{ _id: e }, {
+                                                $or: [{ rating: { $in: ratingParams } },
+                                                { price: { $gte: priceParams[0], $lte: priceParams[1] } },
+                                                { features: { $in: featuresParams } }
+                                                ]
+                                            }]
+                                        }
+                                    },
+                                    {
+                                        $lookup: {
+                                            from: "images",
+                                            localField: "_id",
+                                            foreignField: "hotel_id",
+                                            pipeline: [
+                                                { $match: { room_id: null } }
+                                            ],
+                                            as: "Images",
+                                        },
+                                    },
+                                    {
+                                        "$project": {
+                                            "hotel_id": "$_id",
+                                            "hotel_name": "$hotel_name",
+                                            "rating": "$rating",
+                                            "address": "$address",
+                                            "price": "$price",
+                                            'Images': "$Images"
+                                        }
+                                    },
+                                    ]
+                                )
+                            }
+
+                            if (hotelfilterlist.length != 0) {
+                                resData.push(hotelfilterlist[0]);
+                            }
+                        })
+                    )
+                    if(resData.length!=0){
+                        res.status(StatusCode.Sucess).send(resData);
+                        res.end();
+                    }else{
+                        res.status(StatusCode.Sucess).send([]);
+                        res.end();
+                    }
+                }
+            }
+
+        } catch (err:any) {
+            res.status(StatusCode.Server_Error).send(err.message);
+            res.end();
+        }
+    }
 }
 export { HotelDomain };

@@ -9,6 +9,7 @@ class TourDomain {
     async getTour(req: Request, res: Response) {
         try {
             var tourData = await tourmodel.aggregate([
+                {$match:{rating:{$gte:5}}},
                 {
                     $lookup: {
                         from: 'images',
