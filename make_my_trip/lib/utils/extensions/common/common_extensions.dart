@@ -51,7 +51,7 @@ extension NumericValidation on String {
 
 extension PriceApi on String {
   String changePriceApi() {
-    return this.replaceAll("₹", "").trim();
+    return this.replaceAll("₹", "").replaceAll("+", "").trim();
   }
 
   List changePriceToList() {

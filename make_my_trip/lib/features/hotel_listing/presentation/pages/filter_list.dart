@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/hotel_listing/presentation/cubits/filter_cubit_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
@@ -39,11 +38,11 @@ class FilterList extends StatelessWidget {
   final Map<String, dynamic> arg;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FilterCubit, BaseState>(
+    return BlocBuilder<HotelListCubit, BaseState>(
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () async {
-            BlocProvider.of<FilterCubit>(context).resetFilters();
+            BlocProvider.of<HotelListCubit>(context).resetFilters();
             return true;
           },
           child: Scaffold(
@@ -62,7 +61,7 @@ class FilterList extends StatelessWidget {
                     child: Text(StringConstants.resetText.toUpperCase(),
                         style: AppTextStyles.infoContentStyle2),
                     onPressed: () {
-                      BlocProvider.of<FilterCubit>(context).resetFilters();
+                      BlocProvider.of<HotelListCubit>(context).resetFilters();
                     },
                   )),
                 ),
@@ -113,14 +112,14 @@ class FilterList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: Divider(
-                      color: MakeMyTripColors.color30gray,
-                      thickness: 1,
-                    ),
+                  Divider(
+                    color: MakeMyTripColors.color30gray,
+                    thickness: 1,
                   ),
-                  AllFiltersWidget(),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 12, top: 6),
+                    child: AllFiltersWidget(),
+                  ),
                   Center(
                     child: FractionallySizedBox(
                         widthFactor: .9,
@@ -147,31 +146,32 @@ class AllFiltersWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FilterCubit, BaseState>(
-      builder: (context, state) {
-        print(state);
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(
-              (state is StateOnResponseSuccess<Set>)
-                  ? state.response.length
-                  : 0,
-              (index) => FilterContainer(
-                rating: (state is StateOnResponseSuccess<Set> &&
-                    state.response.toList()[index].runtimeType == int),
-                backColor: MakeMyTripColors.colorWhite,
-                textColor: MakeMyTripColors.colorBlack,
-                iconColor: MakeMyTripColors.accentColor,
-                borderColor: MakeMyTripColors.color30gray,
-                filterText: (state is StateOnResponseSuccess<Set>)
-                    ? state.response.toList()[index].toString()
-                    : "",
-              ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: List.generate(
+          BlocProvider.of<HotelListCubit>(context).selectedFilter.length,
+          (index) => Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: FilterContainer(
+              rating: BlocProvider.of<HotelListCubit>(context)
+                      .selectedFilter
+                      .toList()[index]
+                      .runtimeType ==
+                  int,
+              backColor: MakeMyTripColors.colorWhite,
+              textColor: MakeMyTripColors.colorBlack,
+              iconColor: MakeMyTripColors.accentColor,
+              borderColor: MakeMyTripColors.color30gray,
+              filterText: BlocProvider.of<HotelListCubit>(context)
+                  .selectedFilter
+                  .toList()[index]
+                  .toString(),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
@@ -211,34 +211,40 @@ class FilterMultipleSelectWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FilterCubit, BaseState>(
+    return BlocBuilder<HotelListCubit, BaseState>(
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.only(top: 12),
+          padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
           child: Wrap(
+            runSpacing: 12,
+            spacing: 8,
             children: List.generate(
                 filterList.length,
                 (index) => GestureDetector(
                       onTap: () {
-                        BlocProvider.of<FilterCubit>(context)
+                        BlocProvider.of<HotelListCubit>(context)
                             .selectFilter(filterList[index], type);
                       },
                       child: FilterContainer(
                         rating: rating,
-                        backColor: (state is StateOnResponseSuccess<Set> &&
-                                state.response.contains(filterList[index]))
+                        backColor: BlocProvider.of<HotelListCubit>(context)
+                                .selectedFilter
+                                .contains(filterList[index])
                             ? MakeMyTripColors.accentColor
                             : MakeMyTripColors.colorWhite,
-                        textColor: (state is StateOnResponseSuccess<Set> &&
-                                state.response.contains(filterList[index]))
+                        textColor: BlocProvider.of<HotelListCubit>(context)
+                                .selectedFilter
+                                .contains(filterList[index])
                             ? MakeMyTripColors.colorWhite
                             : MakeMyTripColors.colorBlack,
-                        iconColor: (state is StateOnResponseSuccess<Set> &&
-                                state.response.contains(filterList[index]))
+                        iconColor: BlocProvider.of<HotelListCubit>(context)
+                                .selectedFilter
+                                .contains(filterList[index])
                             ? MakeMyTripColors.colorWhite
                             : MakeMyTripColors.accentColor,
-                        borderColor: (state is StateOnResponseSuccess<Set> &&
-                                state.response.contains(filterList[index]))
+                        borderColor: BlocProvider.of<HotelListCubit>(context)
+                                .selectedFilter
+                                .contains(filterList[index])
                             ? MakeMyTripColors.accentColor
                             : MakeMyTripColors.color30gray,
                         filterText: filterList[index].toString(),
@@ -269,7 +275,6 @@ class FilterContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 12, bottom: 12),
       padding: EdgeInsets.symmetric(
           horizontal: 18,
           vertical: (rating == false || rating == null) ? 8 : 6),
