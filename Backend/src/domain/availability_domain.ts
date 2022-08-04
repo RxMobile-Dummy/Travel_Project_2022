@@ -46,17 +46,12 @@ class AvailabilityDomain{
             if (unAvailableBooking != null) {
 
                 //Available roomId 
-                unAvailableBooking.forEach(e => {
-                    e.room_id.forEach(d => {
-                        unAvailableRoomDupId.push(d);
+                unAvailableBooking.forEach((e:any) => {
+                    e.room_id.forEach((d:any) => {
+                        if (!unAvailableRoomId.includes(d)) {
+                            unAvailableRoomId.push(d);
+                        }
                     })
-                })
-
-                //Duplication Remove in roomId
-                unAvailableRoomDupId.forEach((item: any) => {
-                    if (!unAvailableRoomId.includes(item)) {
-                        unAvailableRoomId.push(item);
-                    }
                 })
 
                 //get hotel all room Id and subtract it from unAvailable
