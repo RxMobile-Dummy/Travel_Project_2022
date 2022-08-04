@@ -63,9 +63,7 @@ class AvailabilityDomain{
                 const hRoom = await hotelmodel.find({ _id: hotelId });
                 hRoom.forEach(e => {
                     e.room.forEach(c => {
-                        if (unAvailableRoomId.includes(c.room_id)) {
-
-                        } else {
+                        if (!unAvailableRoomId.includes(c.room_id)) {
                             roomDetailList.push(c);
                         }
                     });

@@ -270,7 +270,7 @@ class HotelDomain {
                     }))
 
                 } else {
-                    res.send('params is not match');
+                    res.status(StatusCode.Sucess).send('params is not match');
                     res.end();
                 }
 
