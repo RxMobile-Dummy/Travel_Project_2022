@@ -73,25 +73,24 @@ class SettingsPage extends StatelessWidget {
                     itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: GestureDetector(
+                            behavior: HitTestBehavior.opaque, //whole child gets Gesture property even if there is spacer or free space
                             onTap: () {
                               Navigator.pushNamed(
                                   context, settingList[index].routeName,arguments: settingList[index].argument);
                             },
-                            child: SizedBox(
-                              child: Row(
-                                children: [
-                                  Icon(settingList[index].icon),
-                                  10.horizontalSpace,
-                                  Text(settingList[index].text,
-                                      style: AppTextStyles.infoLabelStyle
-                                          .copyWith(fontSize: 16)),
-                                  const Spacer(),
-                                  const Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: MakeMyTripColors.color30gray,
-                                  )
-                                ],
-                              ),
+                            child: Row(
+                              children: [
+                                Icon(settingList[index].icon),
+                                10.horizontalSpace,
+                                Text(settingList[index].text,
+                                    style: AppTextStyles.infoLabelStyle
+                                        .copyWith(fontSize: 16)),
+                                const Spacer(),
+                                const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: MakeMyTripColors.color30gray,
+                                )
+                              ],
                             ),
                           ),
                         )),
@@ -99,6 +98,7 @@ class SettingsPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: GestureDetector(
+                  behavior: HitTestBehavior.opaque, //whole child gets Gesture property even if there is spacer or free space
                   onTap: () {
                     context.read<UserCubit>().userSignOutEvent();
                   },
