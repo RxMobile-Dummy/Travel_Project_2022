@@ -375,7 +375,6 @@ class HotelDetailPage extends StatelessWidget {
                   child: CommonPrimaryButton(
                       text: StringConstants.selectRoom,
                       onTap: () {
-
                         Navigator.pushNamed(context, RoutesName.calendar,
                             arguments: {'hotel_id': hotelDetailModel!.id});
                       })),
