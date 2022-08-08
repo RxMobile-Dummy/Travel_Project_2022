@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/booking/booking_injection_container.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/book_cubit.dart';
+import 'package:make_my_trip/features/booking/presentation/cubit/payment_integeration_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/pages/booking_page.dart';
 import 'package:make_my_trip/features/calendar/presentation/cubit/calendar_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
@@ -293,9 +294,16 @@ class Router {
       case RoutesName.bookingPage:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
-            create: (context) =>
-                bookingSl<BookingCubit>()..getHotelDetailData(arg['model']),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) =>
+                    bookingSl<BookingCubit>()..getHotelDetailData(arg['model']),
+              ),
+              BlocProvider(
+                create: (context) => bookingSl<PaymentCubit>(),
+              ),
+            ],
             child: BookingPage(arg: arg),
           );
         });
