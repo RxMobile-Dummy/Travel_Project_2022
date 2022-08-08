@@ -21,14 +21,13 @@ final userSl = GetIt.instance;
 
 Future<void> init() async {
   userSl.registerFactory(() => UserCubit(
-        signIn: userSl(),
-        forgetPassword: userSl(),
-        googleLogin: userSl(),
-        facebookLogin: userSl(),
-        userVerification: userSl(),
-        userSignUp: userSl(),
-        userSignOut: userSl(),
-      ));
+      signIn: userSl(),
+      forgetPassword: userSl(),
+      googleLogin: userSl(),
+      facebookLogin: userSl(),
+      userSignUp: userSl(),
+      userSignOut: userSl(),
+      userVerification: userSl()));
 
   //usecase
 
@@ -44,11 +43,10 @@ Future<void> init() async {
   userSl.registerLazySingleton(
       () => UserForgetPassword(userRepository: userSl()));
   userSl.registerLazySingleton(() => UserSignOut(userRepository: userSl()));
+  userSl.registerLazySingleton(()=>UserVerification(userRepository: userSl()));
 
   // sign_up use_cases
   userSl.registerLazySingleton(() => UserSignUp(userRepository: userSl()));
-  userSl
-      .registerLazySingleton(() => UserVerification(userRepository: userSl()));
 
   //repository
   userSl.registerLazySingleton<UserRepository>(
@@ -64,8 +62,7 @@ Future<void> init() async {
           facebookAuth: userSl()));
 
   //external
-  userSl.registerLazySingleton(()=> GoogleSignIn(
-    scopes: ['email']));
+  userSl.registerLazySingleton(() => GoogleSignIn(scopes: ['email']));
   userSl.registerLazySingleton(() => FacebookAuth.instance);
   userSl.registerLazySingleton(() => FirebaseAuth.instance);
 }

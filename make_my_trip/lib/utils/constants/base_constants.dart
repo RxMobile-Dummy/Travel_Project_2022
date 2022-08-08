@@ -1,3 +1,3 @@
 class BaseConstant {
-  static const String baseUrl = "https://boiling-tor-67701.herokuapp.com/";
+  static const String baseUrl = "https://ac40-180-211-112-179.in.ngrok.io/";
 }

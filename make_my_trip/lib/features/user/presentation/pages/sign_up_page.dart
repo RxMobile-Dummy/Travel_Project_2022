@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,17 +15,50 @@ import '../../../../core/navigation/route_info.dart';
 import '../../../../utils/constants/image_path.dart';
 import '../../../../utils/widgets/progress_loader.dart';
 
-class SignUpPage extends StatelessWidget {
-  final TextEditingController fullName = TextEditingController();
-  final TextEditingController email = TextEditingController();
-  final TextEditingController password = TextEditingController();
-  final TextEditingController conPassword = TextEditingController();
-  bool pass = true;
-  bool conPass = true;
-  String error = "";
+class SignUpPage extends StatefulWidget{
+
   SignUpPage({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
+  final TextEditingController fullName = TextEditingController();
+
+  final TextEditingController email = TextEditingController();
+
+  final TextEditingController password = TextEditingController();
+
+  final TextEditingController conPassword = TextEditingController();
+
+  bool pass = true;
+
+  bool conPass = true;
+
+  String error = "";
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state ==AppLifecycleState.resumed){
+      ProgressDialog.hideLoadingDialog(context);
+      BlocProvider.of<UserCubit>(context).userVerficationmethod();
+    }
+
+  }
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +94,7 @@ class SignUpPage extends StatelessWidget {
                           ),
                           30.verticalSpace,
                           Text(
-                            StringConstants.checkMailBox,
+                            "Email Verified successfully ! Please sign in to proceed",
                             style: const TextStyle(
                                 color: MakeMyTripColors.accentColor,
                                 fontSize: 16,
@@ -73,9 +107,7 @@ class SignUpPage extends StatelessWidget {
                             child: CommonPrimaryButton(
                                 text: "Ok",
                                 onTap: () {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
-                                  Navigator.pop(context);
+                                  Navigator.of(context).pop();
                                 }),
                           ),
                         ],
@@ -90,6 +122,7 @@ class SignUpPage extends StatelessWidget {
               conPass = state.response;
             } else if (state is StateErrorGeneral) {
               error = state.errorMessage;
+
             }
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -229,6 +262,9 @@ class SignUpPage extends StatelessWidget {
           }),
         ),
       ),
-    ));
+    )
+    );
+
   }
+
 }

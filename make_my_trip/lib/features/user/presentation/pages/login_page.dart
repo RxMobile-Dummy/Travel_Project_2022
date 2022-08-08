@@ -13,12 +13,39 @@ import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 import '../../../../utils/widgets/progress_loader.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget{
   LoginPage({Key? key, required this.arg}) : super(key: key);
-  final loginEmailController = TextEditingController();
-  final loginPasswordController = TextEditingController();
-  bool passwordObSecure = true;
   final Map<String, dynamic> arg;
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
+  final loginEmailController = TextEditingController();
+
+  final loginPasswordController = TextEditingController();
+
+  bool passwordObSecure = true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state ==AppLifecycleState.resumed){
+      ProgressDialog.hideLoadingDialog(context);
+      BlocProvider.of<UserCubit>(context).userVerficationmethod();
+    }
+
+  }
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
@@ -29,16 +56,59 @@ class LoginPage extends StatelessWidget {
               message: StringConstants.loggedIn);
         } else if (state is StateOnSuccess) {
           ProgressDialog.hideLoadingDialog(context);
-          if (arg["route_name"] == RoutesName.roomCategory ||
-              arg["route_name"] == RoutesName.roomDetail ||
-              arg["route_name"] == RoutesName.hotelDetail ||
-              arg["route_name"] == RoutesName.reviewPage) {
+          if (widget.arg["route_name"] == RoutesName.roomCategory ||
+              widget.arg["route_name"] == RoutesName.roomDetail ||
+              widget.arg["route_name"] == RoutesName.hotelDetail ||
+              widget.arg["route_name"] == RoutesName.reviewPage) {
             Navigator.pop(context);
           } else {
-            Navigator.pushReplacementNamed(context, arg["route_name"]);
+            Navigator.pushReplacementNamed(context, widget.arg["route_name"]);
           }
         } else {
           ProgressDialog.hideLoadingDialog(context);
+        }
+        if(state is StateErrorGeneral) {
+          if(state.errorMessage=="Email is not verified"){
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) {
+                  return AlertDialog(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(32.0))),
+                    elevation: 4,
+                    title: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1.6,
+                          child: Image.asset(
+                            ImagePath.sendMail,
+                          ),
+                        ),
+                        30.verticalSpace,
+                        Text(
+                          "Your email is not verified...Please Verify your email",
+                          style: const TextStyle(
+                              color: MakeMyTripColors.accentColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                        25.verticalSpace,
+                        SizedBox(
+                          width: double.infinity,
+                          child: CommonPrimaryButton(
+                              text: "Ok",
+                              onTap: () {
+                               BlocProvider.of<UserCubit>(context).sendEmailVerification();
+                              }),
+                        ),
+                      ],
+                    ),
+                  );
+                });
+          }
         }
       },
       child: Scaffold(

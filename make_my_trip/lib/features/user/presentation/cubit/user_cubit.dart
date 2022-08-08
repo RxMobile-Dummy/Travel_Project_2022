@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
@@ -19,22 +20,31 @@ class UserCubit extends Cubit<BaseState> {
       required this.facebookLogin,
       required this.forgetPassword,
       required this.userSignUp,
-      required this.userVerification,
-      required this.userSignOut})
+      required this.userSignOut,
+      required this.userVerification})
       : super(StateInitial());
   final UserGoogleLogin googleLogin;
   final UserSignIn signIn;
   final UserFacebookLogin facebookLogin;
   final UserForgetPassword forgetPassword;
   final UserSignUp userSignUp;
-  final UserVerification userVerification;
   final UserSignOut userSignOut;
+  final UserVerification userVerification;
 
   // login and sign_up password obSecure change event
   void changeObSecureEvent(bool obSecure) {
     emit(StateOnKnownToSuccess(!obSecure));
   }
+  userVerficationmethod() async{
+    final result = await userVerification.call();
+    print(result);
+    result.fold((failure) => print("Not verified"), (success) => showWaitingDialog());
+  }
 
+  sendEmailVerification() async{
+    await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+    emit(StateLoading());
+  }
   // google login event
   signInWithGoogle() async {
     emit(StateLoading());
@@ -147,7 +157,7 @@ class UserCubit extends Cubit<BaseState> {
             response.fold((failure) {
               emit(StateErrorGeneral(_getFailure(failure)));
             }, (success) async {
-              showWaitingDialog();
+              print(success);
 
             });
           }

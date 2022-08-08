@@ -59,6 +59,8 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Either<Failures, bool>> userVerification() async {
+    print("user repository");
+    print(await remoteDataSource.userVerification());
     return await remoteDataSource.userVerification();
   }
 }
