@@ -59,7 +59,7 @@ class SearchHotel extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 20),
+                        horizontal: 16, vertical: 16),
                     child: Column(children: [
                       SearchCityContainer(
                         label: StringConstants.searchHotelContainerLabel

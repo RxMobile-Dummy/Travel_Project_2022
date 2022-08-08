@@ -31,7 +31,8 @@ class SearchHotelPage extends StatelessWidget {
             children: [
               TextFormField(
                 decoration: InputDecoration(
-                  hintText: StringConstants.searchPageTitle,
+                  prefixIcon: const Icon(Icons.search_rounded),
+                  hintText: StringConstants.searchPagetextfield,
                 ),
                 onChanged: (String query) {
                   context.read<SearchHotelCubit>().getSearchInputData(query);
@@ -62,7 +63,23 @@ class SearchHotelPage extends StatelessWidget {
                                         searchModel?[index].type ?? "Hotel");
                                 Navigator.pop(context);
                               },
-                              child: Text(searchModel?[index].name ?? ""));
+                              child: Row(
+                                children: [
+                                  (searchModel?[index].type == "hotel")
+                                      ? Icon(
+                                          Icons.maps_home_work,
+                                          color: Colors.grey,
+                                        )
+                                      : Icon(
+                                          Icons.place,
+                                          color: Colors.grey,
+                                        ),
+                                  12.horizontalSpace,
+                                  Flexible(
+                                      child:
+                                          Text(searchModel?[index].name ?? "")),
+                                ],
+                              ));
                         },
                         separatorBuilder: (context, index) {
                           return const Divider(

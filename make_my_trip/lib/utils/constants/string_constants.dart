@@ -140,7 +140,8 @@ class StringConstants {
   static String roomMoreDetails = 'More Details';
   static String roomSelectButtonTxt = 'BOOK';
   static String roomCategoriesPageHeading = 'SELECT ROOM';
-  static String searchPageTitle = "Search city";
+  static String searchPageTitle = "Search Hotel";
+  static String searchPagetextfield = "Search Hotel / city / area";
 
   static String resetPassword = "Forget Password";
   static String passwordLbl =
