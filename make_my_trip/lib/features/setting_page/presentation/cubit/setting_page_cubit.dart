@@ -94,17 +94,15 @@ class SettingPageCubit extends Cubit<BaseState> {
   }
 
   callNumber() async {
-    const number = '9999999999'; //set the number here
+    const number = StringConstants.helpLineNumber; //set the number here
     bool? res = await FlutterPhoneDirectCaller.callNumber(number);
     return res;
   }
 
   sendingMails() async {
     final Email email = Email(
-      subject: 'Your concern about..',
-      body: 'To,\n'
-            'Travelsy customer support,\n'
-                                        'I would like to let you know that.....',
+      subject: StringConstants.emailSubject,
+      body: StringConstants.emailBody,
       recipients: ['rxtrainee22@gmail.com'],
       isHTML: false,
     );

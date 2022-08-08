@@ -20,7 +20,7 @@ class HotelListShimmer extends StatelessWidget {
               direction: ShimmerDirection.ltr,
               child: ListView.builder(
                 itemBuilder: (_, __) => Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0, left: 23),
+                  padding: const EdgeInsets.only(bottom: 20.0, left: 23,top: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,

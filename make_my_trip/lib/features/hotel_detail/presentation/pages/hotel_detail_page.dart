@@ -331,7 +331,7 @@ class HotelDetailPage extends StatelessWidget {
                             titleName: hotelDetailModel?.hotelName! ?? "Hotel",
                             mapHeight: 200,
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ],
                 )),
               )

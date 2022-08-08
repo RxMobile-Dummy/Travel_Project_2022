@@ -30,7 +30,6 @@ class HotelListPage extends StatelessWidget {
           builder: (context, state) {
             if (state is StateOnSuccess) {
               List<HotelListModel> hotelListModel = state.response;
-
               if (hotelListModel.isEmpty) {
                 return CommonErrorWidget(
                     imagePath: ImagePath.noDataFoundImage,

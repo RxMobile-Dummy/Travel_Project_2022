@@ -196,10 +196,16 @@ class StringConstants {
   static const privacyAndSecurity = "Privacy and Security";
 
   static const help = "Help";
-
+  static const emailSubject = 'Your concern about..';
+  static const emailBody = 'To,\n'
+      'Travelsy customer support,\n'
+      'I would like to let you know that.....';
+  static const helpLineNumber = '9999999999';
   static const aboutUs = "About Us";
 
   static const logout = "Logout";
+
+
 
   //static const logout = "Logout";
   static const fullName = "Full Name";
