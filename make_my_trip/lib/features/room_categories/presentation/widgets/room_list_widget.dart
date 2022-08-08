@@ -23,8 +23,10 @@ class RoomListWidget extends StatelessWidget {
     required this.roomList,
     required this.cin,
     required this.cout,
+    required this.maxCount,
   }) : super(key: key);
   final List<RoomType> roomList;
+  final int maxCount;
   final RoomType roomData;
   final VoidCallback roomRemoveOnTap;
   final VoidCallback roomAddOnTap;
@@ -172,6 +174,16 @@ class RoomListWidget extends StatelessWidget {
                             : "",
                       ),
                     ],
+                  ),
+                  12.verticalSpace,
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      (maxCount > 0)
+                          ? "Only $maxCount ${(maxCount > 1) ? "rooms" : "room"} left!!"
+                          : "No Rooms available!",
+                      style: const TextStyle(color: MakeMyTripColors.colorRed),
+                    ),
                   ),
                   12.verticalSpace,
                   Container(

@@ -13,7 +13,7 @@ class HotelListDataSourceImpl implements HotelListDataSource {
 
   HotelListDataSourceImpl(this.dio);
   Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken(true);
     return Options(headers: {'token': userToken});
   }
 
@@ -21,22 +21,20 @@ class HotelListDataSourceImpl implements HotelListDataSource {
   Future<Either<Failures, List<HotelListModel>>> getHotelListData(
       Params params) async {
     try {
-      // http://localhost:4000/hotel/gethotellist/gethotelfilterlist/?cin=2022-07-30&cout=2022-08-12&type=area&id=67&no_of_room=1&features=Parking&rating=1&price=4000-6000
-      final baseurl =
-          'http://192.168.102.56:4000/hotel/gethotellist/gethotelfilterlist';
-      final response = await dio.get(
-        baseurl,
-        queryParameters: {
-          'cin': params.cin,
-          'cout': params.cout,
-          'no_of_room': params.noOfRoom,
-          'id': params.id,
-          'type': params.type,
-          'features': params.aminities,
-          'rating': params.rating,
-          'price': params.price
-        },
-      );
+      const baseurl =
+          "${BaseConstant.baseUrl}hotel/gethotellist/gethotelfilterlist";
+      final response = await dio.get(baseurl,
+          queryParameters: {
+            'cin': params.cin,
+            'cout': params.cout,
+            'no_of_room': params.noOfRoom,
+            'id': params.id,
+            'type': params.type,
+            'features': params.aminities,
+            'rating': params.rating,
+            'price': params.price
+          },
+          options: await createDioOptions());
       print(response.realUri);
       if (response.statusCode == 200) {
         final List<HotelListModel> hotelList = [];

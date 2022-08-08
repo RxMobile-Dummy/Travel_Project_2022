@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:make_my_trip/utils/constants/base_constants.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 
 import '../../../../core/failures/failures.dart';
@@ -14,13 +16,19 @@ class SearchHotelDataSourcesImpl implements SearchHotelDataSources {
   final Dio dio;
   SearchHotelDataSourcesImpl(this.dio);
 
+  Future<Options> createDioOptions() async {
+    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken(true);
+    return Options(headers: {'token': userToken});
+  }
+
   @override
   Future<Either<Failures, List<SearchHotelModel>>> getNearByPlaces(
     String place,
   ) async {
     try {
-      final response = await dio.get("http://192.168.101.124:4000/city/",
-          queryParameters: {'searchdata': place});
+      final response = await dio.get("${BaseConstant.baseUrl}city/",
+          queryParameters: {'searchdata': place},
+          options: await createDioOptions());
       if (response.statusCode == 200) {
         final List<SearchHotelModel> searchList = [];
         final jsonList = response.data;

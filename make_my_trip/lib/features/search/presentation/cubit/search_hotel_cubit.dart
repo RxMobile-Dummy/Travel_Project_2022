@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_state.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:scrollable_clean_calendar/controllers/clean_calendar_controller.dart';
@@ -97,21 +98,25 @@ class SearchHotelCubit extends Cubit<SearchHotelState> {
   }
 
   selectRooms(int rooms) {
+    emit(UninitializedState());
     this.rooms = rooms;
     emit(NoOfRooms());
   }
 
   selectAdults(int adults) {
+    emit(UninitializedState());
     this.adults = adults;
     emit(NoOfRooms());
   }
 
   selectChildrens(int childrens) {
+    emit(UninitializedState());
     this.childrens = childrens;
     emit(NoOfRooms());
   }
 
   selectCityName(String cityName, int searchId, String type) {
+    emit(UninitializedState());
     this.city = cityName;
     this.searchId = searchId;
     this.type = type;

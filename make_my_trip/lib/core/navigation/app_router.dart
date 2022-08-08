@@ -68,8 +68,11 @@ import 'package:make_my_trip/features/room_categories/room_categories_injection_
 
 import '../../features/user_history/user_history_injection_container.dart';
 import '../../features/wishlist/presentation/pages/wishlist_page.dart';
+import '../../features/search/search_hotel_injection_container.dart';
 
 class Router {
+  final searchHotelCubit = SearchHotelCubit(searchHotelSl(), searchHotelSl());
+
   Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case RoutesName.splash:
@@ -144,8 +147,8 @@ class Router {
           type: PageTransitionType.scale,
           duration: const Duration(milliseconds: 500),
           alignment: Alignment.center,
-          child: BlocProvider(
-            create: (context) => searchHotelSl<SearchHotelCubit>(),
+          child: BlocProvider.value(
+            value: searchHotelCubit,
             child: SearchHotel(),
           ),
         );
@@ -182,11 +185,18 @@ class Router {
         return PageTransition(
           type: PageTransitionType.bottomToTop,
           duration: const Duration(milliseconds: 500),
-          child: BlocProvider(
-            create: (context) {
-              return hotelDetailSl<HotelDetailCubit>()
-                ..getHotelDetailData(arg['hotel_id']);
-            },
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) {
+                  return hotelDetailSl<HotelDetailCubit>()
+                    ..getHotelDetailData(arg['hotel_id']);
+                },
+              ),
+              BlocProvider.value(
+                value: searchHotelCubit,
+              ),
+            ],
             child: HotelDetailPage(),
           ),
         );
@@ -212,7 +222,8 @@ class Router {
             providers: [
               BlocProvider(
                 create: (context) => roomCategorySl<RoomCategoryCubit>()
-                  ..getData(arg['hotel_id'], arg['cin'], arg['cout']),
+                  ..getData(arg['hotel_id'], arg['cin'], arg['cout'],
+                      arg['noofrooms']),
               ),
               BlocProvider(
                 create: (context) => roomCategorySl<SelectRoomCountCubit>(),

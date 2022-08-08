@@ -21,7 +21,6 @@ class ReviewPage extends StatelessWidget {
     List<ReviewModel>? reviewModel;
     return BlocListener<ReviewCubit, BaseState>(
       listener: (context, state) {
-
         if (state is Authenticated) {
           Navigator.pushReplacementNamed(context, RoutesName.publishReviewPage,
               arguments: {
@@ -29,10 +28,14 @@ class ReviewPage extends StatelessWidget {
                 'hotel_id': arg['hotel_id'],
                 'rating': arg['rating']
               });
-        }else{
+        } else {
           if (state is Unauthenticated) {
             Navigator.pushReplacementNamed(context, RoutesName.login,
-                arguments: {"route_name": RoutesName.reviewPage,'hotel_id': arg['hotel_id'],'rating': arg['rating']});
+                arguments: {
+                  "route_name": RoutesName.reviewPage,
+                  'hotel_id': arg['hotel_id'],
+                  'rating': arg['rating']
+                });
           }
         }
       },
@@ -63,7 +66,6 @@ class ReviewPage extends StatelessWidget {
                         ImagePath.noDataFoundImage,
                       ),
                     ),
-
                     25.verticalSpace,
                     Text(
                       StringConstants.noHotelReview,
@@ -151,7 +153,7 @@ class ReviewPage extends StatelessWidget {
               } else if (searchState is Unauthenticated) {
                 Navigator.pushReplacementNamed(context, RoutesName.login,
                     arguments: {"route_name": RoutesName.reviewPage});
-              } else  {
+              } else {
                 BlocProvider.of<ReviewCubit>(context).goToPostReview();
               }
             },
