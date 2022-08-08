@@ -11,7 +11,7 @@ class ToursModel {
   ToursModel({
     int? id,
     String? tourName,
-    int? rating,
+    double? rating,
     int? price,
     List<Images>? images,
   }) {
@@ -34,15 +34,17 @@ class ToursModel {
       });
     }
   }
+
   int? _id;
   String? _tourName;
-  int? _rating;
+  double? _rating;
   int? _price;
   List<Images>? _images;
+
   ToursModel copyWith({
     int? id,
     String? tourName,
-    int? rating,
+    double? rating,
     int? price,
     List<Images>? images,
   }) =>
@@ -53,10 +55,15 @@ class ToursModel {
         price: price ?? _price,
         images: images ?? _images,
       );
+
   int? get id => _id;
+
   String? get tourName => _tourName;
-  int? get rating => _rating;
+
+  double? get rating => _rating;
+
   int? get price => _price;
+
   List<Images>? get images => _images;
 
   Map<String, dynamic> toJson() {
@@ -104,12 +111,14 @@ class Images {
     _tourId = json['tour_id'];
     _userId = json['user_id'];
   }
+
   int? _id;
   String? _imageUrl;
   dynamic _hotelId;
   dynamic _roomId;
   int? _tourId;
   dynamic _userId;
+
   Images copyWith({
     int? id,
     String? imageUrl,
@@ -126,11 +135,17 @@ class Images {
         tourId: tourId ?? _tourId,
         userId: userId ?? _userId,
       );
+
   int? get id => _id;
+
   String? get imageUrl => _imageUrl;
+
   dynamic get hotelId => _hotelId;
+
   dynamic get roomId => _roomId;
+
   int? get tourId => _tourId;
+
   dynamic get userId => _userId;
 
   Map<String, dynamic> toJson() {

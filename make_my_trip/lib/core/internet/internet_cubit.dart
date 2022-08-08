@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../base/base_state.dart';
@@ -15,6 +16,7 @@ class InternetCubit extends Cubit<BaseState> {
   InternetCubit({required this.connectivity}) : super(InternetLoading()) {
     monitorCheckConnection();
     monitorInternetConnection();
+    handleDynamicLinks2();
   }
 
   void monitorInternetConnection() async {
@@ -58,5 +60,18 @@ class InternetCubit extends Cubit<BaseState> {
   Future<void> close() async {
     connectivityStreamSubscription!.cancel();
     return super.close();
+  }
+
+  Future<void> handleDynamicLinks2() async {
+    try {
+      FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+        emit(Uninitialized());
+        final Uri deepLink = dynamicLinkData.link;
+        var paramValue = deepLink.queryParameters['paramId'];
+        emit(StateOnGetShareLink(paramValue));
+      });
+    } catch (e) {
+      return;
+    }
   }
 }

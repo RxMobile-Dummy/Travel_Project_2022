@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
-import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
 import 'package:make_my_trip/features/setting_page/presentation/pages/settings_page.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
@@ -44,6 +43,12 @@ class HomePage extends StatelessWidget {
             ..getImagesApi()
             ..getToursApi();
           ProgressDialog.hideLoadingDialog(context);
+        }
+        if (state is StateOnGetShareLink) {
+          Navigator.pushNamed(context, RoutesName.hotelDetail, arguments: {
+            "hotel_id": int.parse(state.response),
+            "share_link": true
+          });
         }
       },
       builder: (context, state) {
@@ -128,7 +133,7 @@ class HomePage extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               historyListSl<UserHistoryCubit>()..getUserHistoryData(),
-          child: UserHistoryPage(),
+          child: const UserHistoryPage(),
         ),
         BlocProvider(
           create: (context) =>
@@ -144,7 +149,7 @@ class HomePage extends StatelessWidget {
               create: (context) => userSl<UserCubit>(),
             ),
           ],
-          child: SettingsPage(),
+          child: const SettingsPage(),
         )
       ];
 }
