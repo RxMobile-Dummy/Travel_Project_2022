@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
@@ -9,6 +10,11 @@ class AboutUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("About Us", style: const TextStyle(
+            color: MakeMyTripColors.colorBlack,
+            fontWeight: FontWeight.bold)),
+      ),
       body:SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 15.0,left: 30,right: 20,bottom: 20),

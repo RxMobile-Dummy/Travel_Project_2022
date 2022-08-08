@@ -25,11 +25,11 @@ class ReviewCardWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
       child:  Card(
-        color: MakeMyTripColors.color10gray,
+        color: MakeMyTripColors.colorWhite,
         elevation: 10,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
-            side: const BorderSide(color: MakeMyTripColors.color50gray)),
+            side: const BorderSide(color: MakeMyTripColors.colorWhite)),
         child: Container(
           width: double.infinity,
           child: Stack(
