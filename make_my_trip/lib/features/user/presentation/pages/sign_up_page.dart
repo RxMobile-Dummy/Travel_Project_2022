@@ -38,25 +38,25 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
 
   String error = "";
   bool mailSent = false;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addObserver(this);
-  // }
-  //
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state){
-  //   if(state ==AppLifecycleState.resumed){
-  //     //BlocProvider.of<UserCubit>(context).userVerificationmethod();
-  //     ProgressDialog.hideLoadingDialog(context);
-  //   }
-  //
-  // }
-  // @override
-  // void dispose() {
-  //   WidgetsBinding.instance.removeObserver(this);
-  //   super.dispose();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state){
+    if(state ==AppLifecycleState.resumed){
+      //BlocProvider.of<UserCubit>(context).userVerificationmethod();
+      ProgressDialog.hideLoadingDialog(context);
+    }
+
+  }
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
