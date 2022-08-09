@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/user/presentation/widgets/text_field.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/features/user/presentation/widgets/social_buttons.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
@@ -39,25 +37,26 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
   bool conPass = true;
 
   String error = "";
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(state ==AppLifecycleState.resumed){
-      ProgressDialog.hideLoadingDialog(context);
-      BlocProvider.of<UserCubit>(context).userVerficationmethod();
-    }
-
-  }
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
+  bool mailSent = false;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addObserver(this);
+  // }
+  //
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state){
+  //   if(state ==AppLifecycleState.resumed){
+  //     //BlocProvider.of<UserCubit>(context).userVerificationmethod();
+  //     ProgressDialog.hideLoadingDialog(context);
+  //   }
+  //
+  // }
+  // @override
+  // void dispose() {
+  //   WidgetsBinding.instance.removeObserver(this);
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +71,14 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
             } else if(state is StateErrorGeneral){
               ProgressDialog.hideLoadingDialog(context);
             } else if (state is StateLoading) {
-              ProgressDialog.showLoadingDialog(context, message: "Loading...");
+              if(mailSent==false) {
+                ProgressDialog.showLoadingDialog(
+                    context, message: StringConstants.loggedIn);
+              }
+              else{
+                ProgressDialog.showLoadingDialog(
+                    context, message: StringConstants.pleaseCheckemailTxt);
+              }
             } else if (state is StateShowSearching) {
               ProgressDialog.hideLoadingDialog(context);
               showDialog(
@@ -93,9 +99,9 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
                             ),
                           ),
                           30.verticalSpace,
-                          Text(
-                            "Email Verified successfully ! Please sign in to proceed",
-                            style: const TextStyle(
+                          const Text(
+                            "Email Verified successfully ! You are successfully logged in!",
+                            style: TextStyle(
                                 color: MakeMyTripColors.accentColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold),
@@ -107,7 +113,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
                             child: CommonPrimaryButton(
                                 text: "Ok",
                                 onTap: () {
-                                  Navigator.of(context).pop();
+                                  Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
                                 }),
                           ),
                         ],
@@ -157,6 +163,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
                             ? Icons.visibility_off
                             : Icons.visibility),
                         onTap: () {
+                          mailSent = true;
                           BlocProvider.of<UserCubit>(context)
                               .changeObSecureEvent(pass);
                         },
@@ -174,6 +181,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
                             ? Icons.visibility_off
                             : Icons.visibility),
                         onTap: () {
+                          mailSent = true;
                           BlocProvider.of<UserCubit>(context)
                               .conPassEyeChange(conPass);
                         },
@@ -250,6 +258,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
                         TextSpan(
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
+                              mailSent = false;
                               Navigator.pop(context);
                             },
                           text: StringConstants.loginTxt,

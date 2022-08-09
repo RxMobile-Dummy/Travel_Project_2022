@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   final loginPasswordController = TextEditingController();
 
   bool passwordObSecure = true;
+  bool mailsent = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -37,7 +38,7 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if(state ==AppLifecycleState.resumed){
       ProgressDialog.hideLoadingDialog(context);
-      BlocProvider.of<UserCubit>(context).userVerficationmethod();
+      BlocProvider.of<UserCubit>(context).userVerificationmethod();
     }
 
   }
@@ -48,12 +49,17 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   }
   @override
   Widget build(BuildContext context) {
-    Size screen = MediaQuery.of(context).size;
     return BlocListener<UserCubit, BaseState>(
       listener: (context, state) {
         if (state is StateLoading) {
-          ProgressDialog.showLoadingDialog(context,
-              message: StringConstants.loggedIn);
+          if(mailsent==true){
+            ProgressDialog.showLoadingDialog(context,
+                message: StringConstants.pleaseCheckemailTxt);
+          }
+          else {
+            ProgressDialog.showLoadingDialog(context,
+                message: StringConstants.loggedIn);
+          }
         } else if (state is StateOnSuccess) {
           ProgressDialog.hideLoadingDialog(context);
           if (widget.arg["route_name"] == RoutesName.roomCategory ||
@@ -100,8 +106,10 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                           width: double.infinity,
                           child: CommonPrimaryButton(
                               text: "Ok",
-                              onTap: () {
-                               BlocProvider.of<UserCubit>(context).sendEmailVerification();
+                              onTap: () async {
+                                mailsent=true;
+                               await BlocProvider.of<UserCubit>(context).sendEmailVerification(loginEmailController.text,loginPasswordController.text);
+                               Navigator.of(context).pop();
                               }),
                         ),
                       ],
@@ -109,6 +117,47 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                   );
                 });
           }
+        }
+        else if(state is StateShowSearching){
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) {
+                return AlertDialog(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(32.0))),
+                  elevation: 4,
+                  title: Column(
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1.6,
+                        child: Image.asset(
+                          ImagePath.sendMail,
+                        ),
+                      ),
+                      30.verticalSpace,
+                      Text(
+                        "Email Verified successfully ! You are successfully logged in!",
+                        style: const TextStyle(
+                            color: MakeMyTripColors.accentColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      25.verticalSpace,
+                      SizedBox(
+                        width: double.infinity,
+                        child: CommonPrimaryButton(
+                            text: "Ok",
+                            onTap: () {
+                              Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
+                            }),
+                      ),
+                    ],
+                  ),
+                );
+              });
         }
       },
       child: Scaffold(

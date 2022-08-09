@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/user/data/datasources/user_remote_data_source.dart';
@@ -75,7 +76,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           })
           );
         } else {
-          auth.signOut();
           return Left(AuthFailure(failureMsg: "Email is not verified"));
         }
       }

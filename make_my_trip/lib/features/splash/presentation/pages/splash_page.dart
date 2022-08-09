@@ -30,7 +30,7 @@ class SplashPage extends StatelessWidget {
           else{
             BlocProvider.of<UserCubit>(context).userSignOutEvent();
             Navigator.pushNamedAndRemoveUntil(
-                context, RoutesName.onBoard, (route) => false);
+                context, RoutesName.home, (route) => false);
           }
 
         }

@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/src/widgets/editable_text.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
@@ -35,14 +37,26 @@ class UserCubit extends Cubit<BaseState> {
   void changeObSecureEvent(bool obSecure) {
     emit(StateOnKnownToSuccess(!obSecure));
   }
-  userVerficationmethod() async{
+  userVerificationmethod() async{
     final result = await userVerification.call();
     print(result);
-    result.fold((failure) => print("Not verified"), (success) => showWaitingDialog());
+    result.fold((failure){
+      Fluttertoast.showToast(msg: "Email Not Verified!");
+      FirebaseAuth.instance.signOut();
+    }, (success) => showWaitingDialog());
   }
 
-  sendEmailVerification() async{
-    await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+  sendEmailVerification(String email, String password) async{
+
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email, password: password);
+    try {
+      await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+    }
+    catch(e)
+    {
+      Fluttertoast.showToast(msg: 'You have reached maximum limits of receiving mail please try after sometime');
+    }
     emit(StateLoading());
   }
   // google login event
