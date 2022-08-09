@@ -66,7 +66,7 @@ class BookingPage extends StatelessWidget {
               });
         } else if (state is StateLoading) {
           ProgressDialog.showLoadingDialog(context, message: "Please wait");
-        } else if (state is StateErrorGeneral) {
+        } else if (state is StateNoData) {
           ProgressDialog.hideLoadingDialog(context);
           BlocProvider.of<PaymentCubit>(context).bookingConfirm(detail.hotelId!,
               detail.checkinDate!, detail.checkoutDate!, detail.roomId!);

@@ -7,14 +7,17 @@ import 'package:make_my_trip/features/booking/domain/use_cases/booking_usecase.d
 import 'package:make_my_trip/features/booking/domain/use_cases/payment_usecase.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../../../core/base/base_state.dart';
+import '../../../room_categories/domain/use_cases/room_book_post_usecase.dart';
 
 class PaymentCubit extends Cubit<BaseState> {
-  PaymentCubit(this._razorpay, this.paymentUseCase, this.bookingUseCase)
+  PaymentCubit(this._razorpay, this.paymentUseCase, this.bookingUseCase,
+      this.roomBookPostUsecase)
       : super(StateInitial());
 
   final Razorpay _razorpay;
   final PaymentUseCase paymentUseCase;
   final BookingUseCase bookingUseCase;
+  final RoomBookPostUsecase roomBookPostUsecase;
 
   init() {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -29,7 +32,7 @@ class PaymentCubit extends Cubit<BaseState> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    emit(StateErrorGeneral(""));
+    emit(StateNoData());
     Fluttertoast.showToast(
         msg: "ERROR: ${response.code} - ${response.message}",
         timeInSecForIosWeb: 4);
@@ -68,7 +71,7 @@ class PaymentCubit extends Cubit<BaseState> {
     emit(StateLoading());
     final data = await paymentUseCase.call(PaymentParams(amount));
     data.fold((l) {
-      print(l);
+      emit(StateErrorGeneral(l.toString()));
     }, (r) {
       init();
       openCheckout(
@@ -79,8 +82,16 @@ class PaymentCubit extends Cubit<BaseState> {
   bookingConfirm(int hotelId, String cIn, String cOut, List<int> roomId) async {
     final data =
         await bookingUseCase.call(BookingParams(hotelId, cIn, cOut, roomId));
-    data.fold((l) => emit(StateNoData()),
+    data.fold((l) => emit(StateErrorGeneral(l.toString())),
         (r) => emit(StateOnSuccess<BookingModel>(r)));
+  }
+
+  roomBookPost(
+      String orderId, String paymentId, BookingModel bookingModel) async {
+    var res = await roomBookPostUsecase
+        .call(RoomBookParams(orderId, paymentId, bookingModel));
+    res.fold((l) => {emit(StateErrorGeneral(l.toString()))},
+        (r) => {emit(StateOnKnownToSuccess(r))});
   }
 
   @override

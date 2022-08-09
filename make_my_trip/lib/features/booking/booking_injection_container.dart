@@ -16,7 +16,8 @@ Future<void> init() async {
   //cubit
   bookingSl.registerFactory(() => BookingCubit(bookingSl(), bookingSl()));
 
-  bookingSl.registerFactory(() => PaymentCubit(bookingSl(), bookingSl(),bookingSl()));
+  bookingSl.registerFactory(
+      () => PaymentCubit(bookingSl(), bookingSl(), bookingSl(), bookingSl()));
 
   bookingSl.registerLazySingleton(() => _razorpay);
 
