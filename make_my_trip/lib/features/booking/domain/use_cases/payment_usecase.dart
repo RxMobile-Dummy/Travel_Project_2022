@@ -12,8 +12,8 @@ class PaymentUseCase implements Usecase<PaymentModel, PaymentParams> {
   PaymentUseCase(this.bookingRepository);
 
   @override
-  Future<Either<Failures, PaymentModel>> call(params) {
-   return bookingRepository.getPaymentDetails(params.amt);
+  Future<Either<Failures, PaymentModel>> call(params) async {
+   return await bookingRepository.getPaymentDetails(params.amt);
   }
 }
 

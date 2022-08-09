@@ -43,11 +43,11 @@ class BookingModel {
     hotelid = json['hotelid'];
     hotelName = json['hotelName'];
     address = json['address'];
-    rating = json['rating'];
+    rating = json['rating'].toDouble();
     checkInDate = json['checkInDate'];
     checkOutDate = json['checkOutDate'];
     roomId = json['roomId'] != null ? json['roomId'].cast<int>() : [];
-    roomPrice = json['roomPrice'];
+    roomPrice = json['roomPrice'].toDouble();
     noOfDays = json['noOfDays'];
     subTotal = json['subTotal'];
     gstPercentage = json['gstPercentage'];
@@ -63,7 +63,7 @@ class BookingModel {
   String? checkInDate;
   String? checkOutDate;
   List<int>? roomId;
-  int? roomPrice;
+  double? roomPrice;
   int? noOfDays;
   int? subTotal;
   int? gstPercentage;

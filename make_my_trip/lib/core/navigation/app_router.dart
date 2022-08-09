@@ -44,6 +44,7 @@ import '../../features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import '../../features/hotel_detail/presentation/pages/hotel_detail_page.dart';
 import '../../features/intro/presentation/cubit/intro_cubit.dart';
 import '../../features/intro/presentation/pages/intro_page.dart';
+import '../../features/room_categories/data/model/room_data_booking_post_model.dart';
 import '../../features/search/presentation/pages/search_hotel_home_page.dart';
 import '../../features/search/presentation/widgets/search_hotel_page.dart';
 import '../../features/setting_page/presentation/pages/customerSupport_page.dart';
@@ -293,18 +294,23 @@ class Router {
         });
       case RoutesName.bookingPage:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
+        var detail = arg["model"] as RoomDataPostModel;
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
             providers: [
+              // BlocProvider(
+              //   create: (context) =>
+              //       bookingSl<BookingCubit>()..getHotelDetailData(arg['model']),
+              // ),
               BlocProvider(
-                create: (context) =>
-                    bookingSl<BookingCubit>()..getHotelDetailData(arg['model']),
-              ),
-              BlocProvider(
-                create: (context) => bookingSl<PaymentCubit>(),
+                create: (context) => bookingSl<PaymentCubit>()
+                  ..bookingConfirm(detail.hotelId!, detail.checkinDate!,
+                      detail.checkoutDate!, detail.roomId!),
               ),
             ],
-            child: BookingPage(arg: arg),
+            child: BookingPage(
+              arg: arg,
+            ),
           );
         });
       case RoutesName.settingPage:
