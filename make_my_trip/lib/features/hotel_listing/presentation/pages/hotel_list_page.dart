@@ -38,7 +38,7 @@ class HotelListPage extends StatelessWidget {
                     arg['id'],
                     arg['type']);
               },
-              child: Icon(
+              child: const Icon(
                 FontAwesomeIcons.sliders,
                 color: MakeMyTripColors.color90gray,
               ),

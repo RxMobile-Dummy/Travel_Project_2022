@@ -65,7 +65,7 @@ class SearchHotel extends StatelessWidget {
                         label: StringConstants.searchHotelContainerLabel
                             .toUpperCase(),
                         detail:
-                            (cubit.city == null) ? "Select City" : cubit.city!,
+                            (cubit.city.isEmpty) ? "Select City" : cubit.city,
                         subDetail: StringConstants.searchCountryName,
                         iconData: Icons.location_on_outlined,
                         onTap: () {
@@ -153,16 +153,18 @@ class SearchHotel extends StatelessWidget {
                                     .toString()
                                     .substring(0,
                                         cubit.outTime.toString().indexOf(" "));
-                                Navigator.of(context).pushNamed(
-                                    RoutesName.hotelList,
-                                    arguments: {
-                                      'city_name': cubit.city!,
-                                      'cin': checkInDate,
-                                      'cout': checkOutDate,
-                                      'no_of_room': cubit.rooms,
-                                      'id': cubit.searchId,
-                                      'type': cubit.type,
-                                    });
+                                if (cubit.city.isNotEmpty) {
+                                  Navigator.of(context).pushNamed(
+                                      RoutesName.hotelList,
+                                      arguments: {
+                                        'city_name': cubit.city,
+                                        'cin': checkInDate,
+                                        'cout': checkOutDate,
+                                        'no_of_room': cubit.rooms,
+                                        'id': cubit.searchId,
+                                        'type': cubit.type,
+                                      });
+                                }
                               },
                               text: StringConstants.searchButtonLabel)),
                     ]),

@@ -17,7 +17,7 @@ class SearchHotelCubit extends Cubit<SearchHotelState> {
   int rooms = 1;
   int adults = 1;
   int childrens = 0;
-  String? city;
+  String city = "";
   int searchId = 0;
   String? type;
   DateTime? inTime = DateTime.now();
@@ -83,6 +83,8 @@ class SearchHotelCubit extends Cubit<SearchHotelState> {
       final res = await searchHotelUseCases.call(places);
       res.fold((l) => emit(StateNoDataState()),
           (r) => emit(StateOnKnownToSuccessState(r)));
+    } else {
+      emit(UninitializedState());
     }
   }
 

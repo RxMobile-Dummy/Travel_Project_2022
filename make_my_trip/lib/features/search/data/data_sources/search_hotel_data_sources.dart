@@ -27,7 +27,7 @@ class SearchHotelDataSourcesImpl implements SearchHotelDataSources {
   ) async {
     try {
       final response = await dio.get("${BaseConstant.baseUrl}city/",
-          queryParameters: {'searchdata': place},
+          queryParameters: {'searchdata': place.trim()},
           options: await createDioOptions());
       if (response.statusCode == 200) {
         final List<SearchHotelModel> searchList = [];
@@ -35,6 +35,7 @@ class SearchHotelDataSourcesImpl implements SearchHotelDataSources {
         for (var item in jsonList) {
           searchList.add(SearchHotelModel.fromJson(item));
         }
+
         return Right(searchList);
       } else {
         return Left(ServerFailure());

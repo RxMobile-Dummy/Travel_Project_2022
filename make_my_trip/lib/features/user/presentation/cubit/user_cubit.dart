@@ -148,7 +148,6 @@ class UserCubit extends Cubit<BaseState> {
               emit(StateErrorGeneral(_getFailure(failure)));
             }, (success) async {
               showWaitingDialog();
-
             });
           }
         }
@@ -180,12 +179,12 @@ class UserCubit extends Cubit<BaseState> {
     });
   }
 
-  emailChanged(email){
-    var res=UserInfoValidation.emailAddressValidation(email);
-    if(res==null){
-      emit(StateReorderSuccess<String>(email,updatedIndex: 1));
-    }else{
-      emit(StateReorderSuccess<String>(email,updatedIndex: 0));
+  emailChanged(email) {
+    var res = UserInfoValidation.emailAddressValidation(email);
+    if (res == null) {
+      emit(StateReorderSuccess<String>(email, updatedIndex: 1));
+    } else {
+      emit(StateReorderSuccess<String>(email, updatedIndex: 0));
     }
   }
 }

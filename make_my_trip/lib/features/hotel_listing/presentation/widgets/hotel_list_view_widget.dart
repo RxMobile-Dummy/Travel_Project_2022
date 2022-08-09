@@ -11,7 +11,6 @@ class HotelListViewWidget extends StatelessWidget {
   HotelListViewWidget({Key? key, required this.hotelListModel})
       : super(key: key);
   HotelListModel hotelListModel;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,7 +29,7 @@ class HotelListViewWidget extends StatelessWidget {
                 height: 200,
                 width: double.infinity,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(18),
                   child: FadeInImage.assetNetwork(
                       placeholder: ImagePath.placeHolderImage,
                       image: hotelListModel.images![0].imageUrl.toString(),
@@ -51,7 +50,9 @@ class HotelListViewWidget extends StatelessWidget {
                       Flexible(
                         child: Text(
                           hotelListModel.hotelName.toString(),
-                          style: AppTextStyles.infoContentStyle,
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       10.horizontalSpace,
