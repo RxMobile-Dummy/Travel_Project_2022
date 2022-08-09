@@ -16,7 +16,7 @@ class SelectRoom extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         color: MakeMyTripColors.colorWhite,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -45,7 +45,7 @@ class SelectRoom extends StatelessWidget {
                 color: MakeMyTripColors.colorLightGray,
                 height: 2,
                 thickness: 1),
-            20.verticalSpace,
+            16.verticalSpace,
             RoomGuestContainer(
               title: StringConstants.selectRoomLabel,
             ),
