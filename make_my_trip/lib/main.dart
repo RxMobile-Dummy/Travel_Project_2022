@@ -36,10 +36,11 @@ import 'features/booking/booking_injection_container.dart' as booking_di;
 import 'core/internet/internet_injection_container.dart' as internet_di;
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', 'High Importance Notifications', // id , name
-    description: 'This Channel is used for important notification',
-    importance: Importance.high,
-    playSound: true);
+  'high_importance_channel', 'High Importance Notifications', // id , name
+  description: 'This Channel is used for important notification',
+  importance: Importance.high,
+  playSound: true, enableVibration: true,
+);
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -84,7 +85,10 @@ void main() async {
       alert: true, badge: true, sound: true);
 
   HttpOverrides.global = MyHttpOverrides();
-  runApp(const MyApp());
+  runApp(const MaterialApp(
+    home: MyApp(),
+    debugShowCheckedModeBanner: false,
+  ));
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -124,6 +128,8 @@ class _MyAppState extends State<MyApp> {
                     channelDescription: channel.description,
                     color: Colors.blue,
                     playSound: true,
+                    //sound: const UriAndroidNotificationSound(
+                    //   "assets/tunes/pop.mp3"),
                     icon: '@mipmap/travelsy')));
 
         FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
