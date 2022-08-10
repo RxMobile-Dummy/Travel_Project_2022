@@ -6,7 +6,7 @@ import 'package:make_my_trip/utils/constants/base_constants.dart';
 import '../model/user_history_model.dart';
 
 abstract class UserHistoryDataSource {
-  Future<Either<Failures, List<UserHistoryModel>>> getUserHistoryData();
+  Future<Either<Failures, List<UserHistoryModel>>> getUserHistoryData(int page);
 }
 
 class UserHistoryDataSourceImpl implements UserHistoryDataSource {
@@ -19,10 +19,16 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
     return Options(headers: {'token': userToken});
   }
   @override
-  Future<Either<Failures, List<UserHistoryModel>>> getUserHistoryData() async {
+  Future<Either<Failures, List<UserHistoryModel>>> getUserHistoryData(
+      page) async {
     try {
+      final params = <String, dynamic>{
+        'pagesize': 10,
+        'page': page,
+      };
       final response = await dio.get(
           '${BaseConstant.baseUrl}booking/user/bookings',
+          queryParameters: params,
           options: await createDioOptions());
       if (response.statusCode == 200) {
         List<UserHistoryModel> userHistoryModel = [];
