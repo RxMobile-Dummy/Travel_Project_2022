@@ -17,7 +17,7 @@ class HistoryListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 90.0),
       child: Card(
         elevation: 4,
         color: MakeMyTripColors.color10gray,

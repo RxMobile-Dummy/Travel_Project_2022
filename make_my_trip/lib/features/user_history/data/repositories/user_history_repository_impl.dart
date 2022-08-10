@@ -10,7 +10,7 @@ class UserHistoryRepositoryImpl implements UserHistoryRepository {
   UserHistoryRepositoryImpl(this.userHistoryDataSource);
 
   @override
-  Future<Either<Failures, List<UserHistoryModel>>> getUserHistory() async {
-    return await userHistoryDataSource.getUserHistoryData();
+  Future<Either<Failures, List<UserHistoryModel>>> getUserHistory(page) async {
+    return await userHistoryDataSource.getUserHistoryData(page);
   }
 }

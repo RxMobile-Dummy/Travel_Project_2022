@@ -11,10 +11,11 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 
 class UserHistoryPage extends StatelessWidget {
-  const UserHistoryPage({Key? key}) : super(key: key);
-
+   UserHistoryPage({Key? key}) : super(key: key);
+ ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
+    context.read<UserHistoryCubit>.call().setUpScrollController(_scrollController);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -34,10 +35,19 @@ class UserHistoryPage extends StatelessWidget {
                       statusCode: "");
                 }
                 return ListView.builder(
-                    itemCount: userHistoryModel.length,
+                  controller: _scrollController,
+                    itemCount: state.isMoreLoading?userHistoryModel.length+1 : userHistoryModel.length,
                     itemBuilder: (context, index) {
-                      return HistoryListViewWidget(
-                          userHistoryModel: userHistoryModel[index]);
+                      return Column(
+                        children: [
+                          if(index!=userHistoryModel.length)
+                          HistoryListViewWidget(
+                              userHistoryModel: userHistoryModel[index]),
+                          if(index==userHistoryModel.length)
+                            const CircularProgressIndicator()
+
+                        ],
+                      );
                     });
               } else if (state is StateErrorGeneral) {
                 return CommonErrorWidget(
@@ -54,3 +64,4 @@ class UserHistoryPage extends StatelessWidget {
         ));
   }
 }
+
