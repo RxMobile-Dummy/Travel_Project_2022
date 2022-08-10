@@ -34,7 +34,7 @@ class HotelDetailModel {
     hotelName = json['hotel_name'];
     address =
         json['address'] != null ? Address.fromJson(json['address']) : null;
-    rating = json['rating'];
+    rating = json['rating'].toDouble();
     price = json['price'];
     phoneNumber = json['phone_number'];
     description = json['description'];

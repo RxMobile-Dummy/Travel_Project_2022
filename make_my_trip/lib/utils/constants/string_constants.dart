@@ -241,14 +241,14 @@ class StringConstants {
   // static const imageUploaded = "Image Uploaded Successfully!";
 
   // booking page String
-  static const roomType = "Room Type";
+  static const roomType = "Room no";
   static const checkInDate = "Check In";
   static const checkOutDate = "Check Out";
   static const paymentSummary = "Payment Summary";
   static const roomRate = "Room Rate";
   static const noOfNight = "No of Days";
   static const subTotal = "Sub Total";
-  static const gst = "GST (18%)";
+  static const gst = "GST";
   static const offer = "Offer";
   static const grandTotal = "Grand Total";
   static const book = "Book";

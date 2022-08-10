@@ -46,8 +46,6 @@ class RoomCategoryCubit extends Cubit<BaseState> {
       roomId.add(roomCategoryModel.superDeluxe![i].roomId!);
     }
 
-    print(roomId);
-
     // Price p = Price(
     //     numberOfNights: noOfNights,
     //     basePrice: ((roomType[0].price ?? 1) * noOfRoom).toDouble(),

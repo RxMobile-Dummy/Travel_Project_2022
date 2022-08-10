@@ -6,12 +6,14 @@ import 'package:make_my_trip/features/room_categories/data/model/room_categories
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
 
+import '../../../booking/data/model/booking_model.dart';
+
 abstract class RoomCategoriesDataSource {
   Future<Either<Failures, RoomCategoryModel>> getRoomDetailData(
       int hotelId, String cIn, String cOut, int noOfRooms);
 
   Future<Either<Failures, String>> bookingPostData(
-      int hotelId, RoomDataPostModel roomDataPostModel);
+      String orderId, String paymentId, BookingModel bookingModel);
 }
 
 class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
@@ -56,10 +58,10 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
 
   @override
   Future<Either<Failures, String>> bookingPostData(
-      int hotelId, RoomDataPostModel roomDataPostModel) async {
+      String orderId, String paymentId, BookingModel bookingModel) async {
     try {
       final response = await dio.post('${baseurl}booking/hotelbooking',
-          data: roomDataPostModel.toJson(), options: await createDioOptions());
+          data: bookingModel.toJson(), options: await createDioOptions());
 
       if (response.statusCode == 200) {
         return Right(response.data);
