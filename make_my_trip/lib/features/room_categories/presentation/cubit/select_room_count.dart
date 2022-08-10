@@ -13,9 +13,25 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
             deluxValue: 0,
             semiDeluxValue: 0,
             superDeluxValue: 0,
-            totalRooms: 0)));
+            totalRooms: 0,
+            extraMetresses: 0,
+            checkExtraMetresses: false)));
 
   final IsAnonymousUser isAnonymousUser;
+
+  changeExtraMetresses(bool value) {
+    emit(StateOnSuccess(
+        (state as StateOnSuccess<SelectRoomCountState>).response.copyWith(
+              checkExtraMetresses: value,
+            )));
+  }
+
+  extraMetresses(int value) {
+    emit(StateOnSuccess(
+        (state as StateOnSuccess<SelectRoomCountState>).response.copyWith(
+              extraMetresses: value,
+            )));
+  }
 
   void addRoomEvent(
       String roomType, int addRoomValue, int maxRoomCount, int userMaxCount) {
@@ -67,6 +83,10 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
         "super deluxe : ${(state as StateOnSuccess<SelectRoomCountState>).response.superDeluxValue}");
     print(
         "total : ${(state as StateOnSuccess<SelectRoomCountState>).response.totalRooms}");
+    print(
+        "Extra metresses : ${(state as StateOnSuccess<SelectRoomCountState>).response.extraMetresses}");
+    print(
+        "Check extra metresses : ${(state as StateOnSuccess<SelectRoomCountState>).response.checkExtraMetresses}");
   }
 
   void removeRoomEvent(String roomType, int removeRoomValue, int userMaxCount) {
@@ -101,31 +121,6 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
       }
     }
   }
-
-  // postModelCreate(int hotelId, String cin, String cout, int noOfRoom,
-  //     List<RoomType> roomType) {
-  //   List<int> roomId = [];
-  //   for (var i = 0; i < noOfRoom; i++) {
-  //     if (roomType[i].roomId != null) {
-  //       roomId.add(roomType[i].roomId!);
-  //     }
-  //   }
-  //   Price p = Price(
-  //     numberOfNights: 1,
-  //     roomPrice: 2,
-  //     gst: 2,
-  //     discount: 5,
-  //     totalPrice: 500,
-  //   );
-  //   RoomDataPostModel roomDataPostModel = RoomDataPostModel(
-  //       hotelId: hotelId,
-  //       checkinDate: cin,
-  //       checkoutDate: cout,
-  //       noOfRoom: noOfRoom,
-  //       price: p,
-  //       roomId: roomId);
-  //   emit(StateOnKnownToSuccess<RoomDataPostModel>(roomDataPostModel));
-  // }
 }
 
 class SelectRoomCountState extends Equatable {
@@ -133,8 +128,12 @@ class SelectRoomCountState extends Equatable {
   final int deluxValue;
   final int semiDeluxValue;
   final int totalRooms;
+  final int extraMetresses;
+  final bool checkExtraMetresses;
 
   const SelectRoomCountState({
+    required this.checkExtraMetresses,
+    required this.extraMetresses,
     required this.totalRooms,
     required this.superDeluxValue,
     required this.deluxValue,
@@ -143,10 +142,14 @@ class SelectRoomCountState extends Equatable {
 
   SelectRoomCountState copyWith(
           {int? superDeluxValue,
+          bool? checkExtraMetresses,
           int? deluxValue,
           int? semiDeluxValue,
-          int? totalRooms}) =>
+          int? totalRooms,
+          int? extraMetresses}) =>
       SelectRoomCountState(
+        checkExtraMetresses: checkExtraMetresses ?? this.checkExtraMetresses,
+        extraMetresses: extraMetresses ?? this.extraMetresses,
         totalRooms: totalRooms ?? this.totalRooms,
         superDeluxValue: superDeluxValue ?? this.superDeluxValue,
         deluxValue: deluxValue ?? this.deluxValue,
@@ -154,6 +157,12 @@ class SelectRoomCountState extends Equatable {
       );
 
   @override
-  List<Object?> get props =>
-      [superDeluxValue, deluxValue, semiDeluxValue, totalRooms];
+  List<Object?> get props => [
+        superDeluxValue,
+        deluxValue,
+        semiDeluxValue,
+        totalRooms,
+        extraMetresses,
+        checkExtraMetresses
+      ];
 }

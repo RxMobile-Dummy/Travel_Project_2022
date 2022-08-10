@@ -245,32 +245,6 @@ class RoomListWidget extends StatelessWidget {
                             style: AppTextStyles.infoContentStyle
                                 .copyWith(fontSize: 18),
                           ),
-                          //const Spacer(),
-                          // ElevatedButton(
-                          //   onPressed: () {
-                          //     if (totalSelectedRoom > 0) {
-                          //       BlocProvider.of<RoomCategoryCubit>(context)
-                          //           .goToBooking(hotelId, cin, cout,
-                          //               totalSelectedRoom, roomList);
-                          //     } else {
-                          //       (ScaffoldMessenger.of(context)
-                          //           .showSnackBar(snackBar));
-                          //     }
-                          //   },
-                          //   style: ElevatedButton.styleFrom(
-                          //       fixedSize: const Size(75, 45),
-                          //       primary: totalSelectedRoom > 0
-                          //           ? MakeMyTripColors.colorBlue
-                          //           : MakeMyTripColors.color30gray,
-                          //       shape: RoundedRectangleBorder(
-                          //         borderRadius: BorderRadius.circular(12.0),
-                          //       )),
-                          //   child: Text(
-                          //     StringConstants.roomSelectButtonTxt,
-                          //     style: AppTextStyles.infoContentStyle
-                          //         .copyWith(fontSize: 14),
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),
