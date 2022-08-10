@@ -77,7 +77,6 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         }
         if (state is StateErrorGeneral) {
           if (state.errorMessage == "Email is not verified") {
-            mailSent = true;
             showDialog(
                 context: context,
                 barrierDismissible: false,

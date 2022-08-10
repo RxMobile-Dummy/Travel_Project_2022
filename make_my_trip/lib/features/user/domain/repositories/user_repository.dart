@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
+import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/user/data/model/user_model.dart';
 
 abstract class UserRepository {
@@ -24,4 +25,5 @@ abstract class UserRepository {
       String fullName, String email, String password);
 
   Future<Either<Failures, bool>> userVerification();
+  Future<Either<Failures,bool>> sendEmailVerification();
 }

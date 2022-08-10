@@ -5,6 +5,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
+import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/user/data/datasources/user_remote_data_source.dart';
 import 'package:make_my_trip/features/user/data/model/user_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
@@ -253,6 +254,18 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       }
     } catch (err) {
       return Left(ServerFailure(failureMsg: "Error in verification"));
+    }
+  }
+
+  @override
+  Future<Either<Failures, bool>> sendEmailVerification() async {
+    try {
+      print("true");
+      await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+      return const Right(true);
+    }
+    catch(e){
+      return Left(AuthFailure(failureMsg: "You have crossed maximum numbers of attemps of receiving emails!"));
     }
   }
 }

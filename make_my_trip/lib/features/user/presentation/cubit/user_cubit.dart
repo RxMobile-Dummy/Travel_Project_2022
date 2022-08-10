@@ -15,6 +15,8 @@ import 'package:make_my_trip/features/user/domain/usecases/user_verification.dar
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/validators/user_info/user_information_validations.dart';
 
+import '../../domain/usecases/send_email_verification.dart';
+
 class UserCubit extends Cubit<BaseState> {
   UserCubit(
       {required this.googleLogin,
@@ -22,7 +24,8 @@ class UserCubit extends Cubit<BaseState> {
       required this.facebookLogin,
       required this.forgetPassword,
       required this.userSignUp,
-      required this.userSignOut,
+        required this.sendMailVerification,
+        required this.userSignOut,
       required this.userVerification})
       : super(StateInitial());
   final UserGoogleLogin googleLogin;
@@ -32,6 +35,7 @@ class UserCubit extends Cubit<BaseState> {
   final UserSignUp userSignUp;
   final UserSignOut userSignOut;
   final UserVerification userVerification;
+  final SendMailVerification sendMailVerification;
 
   // login and sign_up password obSecure change event
   void changeObSecureEvent(bool obSecure) {
@@ -47,14 +51,9 @@ class UserCubit extends Cubit<BaseState> {
   }
 
   sendEmailVerification() async {
-    try {
-      await FirebaseAuth.instance.currentUser?.sendEmailVerification();
-    } catch (e) {
-      Fluttertoast.showToast(
-          msg:
-              'You have reached maximum limits of receiving mail please try after sometime');
-    }
-    emit(StateLoading());
+    final result = await sendMailVerification.call();
+    result.fold((l) => Fluttertoast.showToast(msg:"You have crossed maximum numberbs of attemps of receiving emails!"), (r) =>  emit(StateLoading()));
+
   }
 
   // google login event
