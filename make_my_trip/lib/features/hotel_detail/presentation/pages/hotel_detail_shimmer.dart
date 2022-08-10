@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/wishlist/presentation/widgets/container_widget.dart';
 import 'package:make_my_trip/features/wishlist/presentation/widgets/list_container_widget.dart';
 import 'package:shimmer/shimmer.dart';
@@ -23,8 +24,8 @@ class HotelDetailsShimmer extends StatelessWidget {
             ),
             Expanded(
               child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.white,
+                baseColor: MakeMyTripColors.color30gray,
+                highlightColor: MakeMyTripColors.colorWhite,
                 direction: ShimmerDirection.ltr,
                 child: ListView.builder(
                   itemBuilder: (_, __) => Padding(
