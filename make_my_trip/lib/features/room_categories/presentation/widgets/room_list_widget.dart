@@ -119,8 +119,7 @@ class RoomListWidget extends StatelessWidget {
                                     : ImagePath.demoroom,
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
-                                  return Image.asset(
-                                      ImagePath.placeHolderImage,
+                                  return Image.asset(ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 })),
                       ),
@@ -141,8 +140,7 @@ class RoomListWidget extends StatelessWidget {
                                     : ImagePath.demoroom,
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
-                                  return Image.asset(
-                                      ImagePath.placeHolderImage,
+                                  return Image.asset(ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 })),
                       ),

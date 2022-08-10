@@ -12,8 +12,7 @@ abstract class SearchHotelDataSources {
 
 class SearchHotelDataSourcesImpl implements SearchHotelDataSources {
   final Dio dio;
-  final String baseURL =
-      StringConstants.googleApiUrl;
+  final String baseURL = StringConstants.googleApiUrl;
   final String kPLACES_API_KEY = 'AIzaSyAcmpKXz5KH8e7zmPkHNIIUuSBXI8qEBNs';
 
   SearchHotelDataSourcesImpl(this.dio);

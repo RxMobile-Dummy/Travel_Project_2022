@@ -11,7 +11,7 @@ import '../../../../core/theme/make_my_trip_colors.dart';
 import '../../../../core/theme/text_styles.dart';
 
 class ResetPasswordPage extends StatelessWidget {
-  ResetPasswordPage({Key? key}) : super(key: key);
+  const ResetPasswordPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

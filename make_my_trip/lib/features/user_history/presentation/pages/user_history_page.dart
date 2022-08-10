@@ -16,58 +16,55 @@ import '../../../wishlist/presentation/pages/wishlist_page.dart';
 
 class UserHistoryPage extends StatelessWidget {
   Map<String, dynamic>? arg;
-  UserHistoryPage({Key? key,this.arg}) : super(key: key);
+  UserHistoryPage({Key? key, this.arg}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () {
           var argument = arg!["route_name"];
-          if (argument == RoutesName.settingPage){
-            return navigateToPrevious(context,argument);
-          }
-          else {
+          if (argument == RoutesName.settingPage) {
+            return navigateToPrevious(context, argument);
+          } else {
             return navigateToHomePage(context);
           }
-
-    },
-      child : Scaffold(
-        appBar: AppBar(
-          title: Text(
-            StringConstants.bookingHeading,
-            style: AppTextStyles.unselectedLabelStyle,
-          ),
-        ),
-        body: SafeArea(
-          child: BlocBuilder<UserHistoryCubit, BaseState>(
-            builder: (context, state) {
-              if (state is StateOnSuccess) {
-                List<UserHistoryModel> userHistoryModel = state.response;
-                if (userHistoryModel.isEmpty) {
-                  return CommonErrorWidget(
-                      imagePath: ImagePath.noBookingPage,
-                      title: StringConstants.noBooking,
-                      statusCode: "");
-                }
-                return ListView.builder(
-                    itemCount: userHistoryModel.length,
-                    itemBuilder: (context, index) {
-                      return HistoryListViewWidget(
-                          userHistoryModel: userHistoryModel[index]);
-                    });
-              } else if (state is StateErrorGeneral) {
-                return CommonErrorWidget(
-                    imagePath: ImagePath.serverFailImage,
-                    title: StringConstants.serverFail,
-                    statusCode: "");
-              } else if (state is StateLoading) {
-                return const HistoryPageShimmer();
-              } else {
-                return const Center(child: Text(StringConstants.noDatatxt));
-              }
-            },
-          ),
-        ))
-    );
+        },
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text(
+                StringConstants.bookingHeading,
+                style: AppTextStyles.unselectedLabelStyle,
+              ),
+            ),
+            body: SafeArea(
+              child: BlocBuilder<UserHistoryCubit, BaseState>(
+                builder: (context, state) {
+                  if (state is StateOnSuccess) {
+                    List<UserHistoryModel> userHistoryModel = state.response;
+                    if (userHistoryModel.isEmpty) {
+                      return CommonErrorWidget(
+                          imagePath: ImagePath.noBookingPage,
+                          title: StringConstants.noBooking,
+                          statusCode: "");
+                    }
+                    return ListView.builder(
+                        itemCount: userHistoryModel.length,
+                        itemBuilder: (context, index) {
+                          return HistoryListViewWidget(
+                              userHistoryModel: userHistoryModel[index]);
+                        });
+                  } else if (state is StateErrorGeneral) {
+                    return CommonErrorWidget(
+                        imagePath: ImagePath.serverFailImage,
+                        title: StringConstants.serverFail,
+                        statusCode: "");
+                  } else if (state is StateLoading) {
+                    return const HistoryPageShimmer();
+                  } else {
+                    return const Center(child: Text(StringConstants.noDatatxt));
+                  }
+                },
+              ),
+            )));
   }
 }

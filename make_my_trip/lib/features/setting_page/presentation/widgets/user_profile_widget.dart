@@ -16,34 +16,36 @@ Widget userProfileWidget(BuildContext context) {
     children: [
       BlocBuilder<SettingPageCubit, BaseState>(builder: (context, state) {
         if (state is StateOnKnownToSuccess<SettingPageData>) {
-          return state.response.profileLoading==false?Column(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(
-                    state.response.userValue?.userImage ??
-                        ImagePath.userPlaceholder),
-                radius: 50,
-                backgroundColor: MakeMyTripColors.colorLightGray,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                child: Text(
-                  state.response.userValue?.userName ??
-                      StringConstants.userName,
-                  style: AppTextStyles.unselectedLabelStyle,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
-                child: Text(
-                  state.response.userValue?.userEmail ??
-                      StringConstants.emptyString,
-                  style: AppTextStyles.infoContentStyle
-                      .copyWith(fontWeight: FontWeight.w500),
-                ),
-              )
-            ],
-          ):const SettingProfileShimmer();
+          return state.response.profileLoading == false
+              ? Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          state.response.userValue?.userImage ??
+                              ImagePath.userPlaceholder),
+                      radius: 50,
+                      backgroundColor: MakeMyTripColors.colorLightGray,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      child: Text(
+                        state.response.userValue?.userName ??
+                            StringConstants.userName,
+                        style: AppTextStyles.unselectedLabelStyle,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
+                      child: Text(
+                        state.response.userValue?.userEmail ??
+                            StringConstants.emptyString,
+                        style: AppTextStyles.infoContentStyle
+                            .copyWith(fontWeight: FontWeight.w500),
+                      ),
+                    )
+                  ],
+                )
+              : const SettingProfileShimmer();
         } else {
           return const CircleAvatar(
             backgroundImage: AssetImage(ImagePath.userProfileImage1),

@@ -36,16 +36,13 @@ class HotelListViewWidget extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: FadeInImage.assetNetwork(
-                        placeholder: ImagePath.placeHolderImage,
-                        image:hotelListModel.images![0].imageUrl.toString(),
-                        fit: BoxFit.fill,
-                          imageErrorBuilder:
-                              (context, error, stackTrace) {
-                            return Image.asset(
-                                ImagePath.placeHolderImage,
+                          placeholder: ImagePath.placeHolderImage,
+                          image: hotelListModel.images![0].imageUrl.toString(),
+                          fit: BoxFit.fill,
+                          imageErrorBuilder: (context, error, stackTrace) {
+                            return Image.asset(ImagePath.placeHolderImage,
                                 fit: BoxFit.fitWidth);
-                          }
-                      ),
+                          }),
                     ),
                   ),
                 ),

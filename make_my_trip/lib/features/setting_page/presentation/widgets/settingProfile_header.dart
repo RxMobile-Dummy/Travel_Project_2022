@@ -146,8 +146,7 @@ Widget settingProfileHeader(BuildContext context) {
               ))
             ],
           ));
-    }
-    else{
+    } else {
       return 80.verticalSpace;
     }
   });

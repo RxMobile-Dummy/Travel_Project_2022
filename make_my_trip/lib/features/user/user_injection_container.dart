@@ -43,7 +43,8 @@ Future<void> init() async {
   userSl.registerLazySingleton(
       () => UserForgetPassword(userRepository: userSl()));
   userSl.registerLazySingleton(() => UserSignOut(userRepository: userSl()));
-  userSl.registerLazySingleton(()=>UserVerification(userRepository: userSl()));
+  userSl
+      .registerLazySingleton(() => UserVerification(userRepository: userSl()));
 
   // sign_up use_cases
   userSl.registerLazySingleton(() => UserSignUp(userRepository: userSl()));

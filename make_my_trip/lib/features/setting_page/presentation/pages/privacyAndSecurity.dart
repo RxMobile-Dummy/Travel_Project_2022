@@ -3,7 +3,6 @@ import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
-
 class PrivacyAndSecurity extends StatelessWidget {
   const PrivacyAndSecurity({Key? key}) : super(key: key);
 
@@ -11,9 +10,10 @@ class PrivacyAndSecurity extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Privacy and Security", style: const TextStyle(
-            color: MakeMyTripColors.colorBlack,
-            fontWeight: FontWeight.bold)),
+        title: Text("Privacy and Security",
+            style: const TextStyle(
+                color: MakeMyTripColors.colorBlack,
+                fontWeight: FontWeight.bold)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -27,11 +27,13 @@ class PrivacyAndSecurity extends StatelessWidget {
               ),
               30.verticalSpace,
               const Text(
-                  """We "Travelsy", are committed to protecting the privacy and security of your personal information. Your privacy is important to us and maintaining your trust is paramount.
+                """We "Travelsy", are committed to protecting the privacy and security of your personal information. Your privacy is important to us and maintaining your trust is paramount.
 
 This privacy policy explains how we collect, use, process and disclose information about you. By using our app and affiliated services, you consent to the terms of our privacy policy (“Privacy Policy”) in addition to our ‘Terms of Use.’ We encourage you to read this privacy policy to understand the collection, use, and disclosure of your information from time to time, to keep yourself updated with the changes and updates that we make to this policy.
 
-This privacy policy describes our privacy practices for all websites, products and services that are linked to it. However this policy does not apply to those affiliates and partners that have their own privacy policy. In such situations, we recommend that you read the privacy policy on the applicable site.""",textAlign: TextAlign.justify,),
+This privacy policy describes our privacy practices for all websites, products and services that are linked to it. However this policy does not apply to those affiliates and partners that have their own privacy policy. In such situations, we recommend that you read the privacy policy on the applicable site.""",
+                textAlign: TextAlign.justify,
+              ),
               20.verticalSpace,
               const Text(
                 'the collection, storage and use of information related to you',
@@ -39,7 +41,7 @@ This privacy policy describes our privacy practices for all websites, products a
               ),
               10.verticalSpace,
               const Text(
-                  """We may automatically store certain information including but not limited to information about your web browser, IP address, cookies stored on your device and other information about you based upon your behaviour on the website. We use this information to do internal research on our users’ demographics, interests and behaviour to better understand, protect and serve our users. This information is compiled and analyzed on an aggregated basis. This information may include the URL that you just came from (whether this URL is on the website or not), which URL you next go to (whether this URL is on the website or not), your computer browser information, your IP address, and other information associated with your interaction with the website.
+                """We may automatically store certain information including but not limited to information about your web browser, IP address, cookies stored on your device and other information about you based upon your behaviour on the website. We use this information to do internal research on our users’ demographics, interests and behaviour to better understand, protect and serve our users. This information is compiled and analyzed on an aggregated basis. This information may include the URL that you just came from (whether this URL is on the website or not), which URL you next go to (whether this URL is on the website or not), your computer browser information, your IP address, and other information associated with your interaction with the website.
 
 We may also share your Mobile IP/Device IP with third party(ies) and to the best of our knowledge, be-life and representations given to us by these third party(ies) this information is not stored by them.
 
@@ -79,14 +81,16 @@ To the extent possible, we provide you the option of not divulging any specific 
 
 Further, transacting over the internet has inherent risks which can only be avoided by following security practices yourself, such as not revealing account/login related information to any other person and informing our customer care team about any suspicious activity or where your account has/may have been compromised.
 
-""",textAlign: TextAlign.justify,),
+""",
+                textAlign: TextAlign.justify,
+              ),
               const Text(
                 """choices available regarding the collection, use and distribution of information""",
                 style: AppTextStyles.unselectedLabelStyle,
               ),
               10.verticalSpace,
               const Text(
-                  """To protect against the loss, misuse and alteration of the information under its control, the Company has in place appropriate physical, electronic and managerial procedures. For example, the Company servers are accessible only to authorized personnel and your information is shared with employees and authorized personnel on a need to know basis to complete the transaction and to provide the services requested by you. Although the Company endeavours to safeguard the confidentiality of your personally identifiable information, transmissions made by means of the Internet cannot be made absolutely secure. By using the website, you agree that the Company will have no liability for disclosure of your information due to errors in transmission and/or unauthorized acts of third parties.
+                """To protect against the loss, misuse and alteration of the information under its control, the Company has in place appropriate physical, electronic and managerial procedures. For example, the Company servers are accessible only to authorized personnel and your information is shared with employees and authorized personnel on a need to know basis to complete the transaction and to provide the services requested by you. Although the Company endeavours to safeguard the confidentiality of your personally identifiable information, transmissions made by means of the Internet cannot be made absolutely secure. By using the website, you agree that the Company will have no liability for disclosure of your information due to errors in transmission and/or unauthorized acts of third parties.
 
 We may share certain information with governmental agencies or other third parties, where we are:
 
@@ -94,7 +98,9 @@ Obligated under the applicable laws or in good faith to respond to court orders 
 Detecting and preventing against actual or potential occurrence of identity theft, fraud, abuse of Services and other illegal acts;
 Responding to claims that an advertisement, posting or other content violates the intellectual property rights of a third party;
 Under a duty to disclose or share your personal data in order to enforce our Terms of Use and other agreements, policies or to protect the rights, property, or safety of the Company, our customers, or others, or in the event of a claim or dispute relating to your use of our Services. This includes exchanging information with other companies and organisations for the purposes of fraud detection and credit risk reduction.
-Please note that the Company will not ask you to share any sensitive data or information via email or telephone. If you receive any such request by email or telephone, please do not respond/divulge any sensitive data or information and forward the information relating to the same to rxtrainee22@gmail.com for necessary action.""",textAlign: TextAlign.justify,),
+Please note that the Company will not ask you to share any sensitive data or information via email or telephone. If you receive any such request by email or telephone, please do not respond/divulge any sensitive data or information and forward the information relating to the same to rxtrainee22@gmail.com for necessary action.""",
+                textAlign: TextAlign.justify,
+              ),
             ],
           ),
         ),

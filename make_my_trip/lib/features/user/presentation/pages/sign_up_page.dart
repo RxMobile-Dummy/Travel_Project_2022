@@ -13,8 +13,7 @@ import '../../../../core/navigation/route_info.dart';
 import '../../../../utils/constants/image_path.dart';
 import '../../../../utils/widgets/progress_loader.dart';
 
-class SignUpPage extends StatefulWidget{
-
+class SignUpPage extends StatefulWidget {
   SignUpPage({
     Key? key,
   }) : super(key: key);
@@ -23,7 +22,7 @@ class SignUpPage extends StatefulWidget{
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
+class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
   final TextEditingController fullName = TextEditingController();
 
   final TextEditingController email = TextEditingController();
@@ -45,13 +44,13 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state){
-    if(state ==AppLifecycleState.resumed){
-      //BlocProvider.of<UserCubit>(context).userVerificationmethod();
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      mailSent = false;
       ProgressDialog.hideLoadingDialog(context);
     }
-
   }
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -68,16 +67,15 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
             if (state is StateOnSuccess) {
               Navigator.pushNamedAndRemoveUntil(
                   context, RoutesName.home, (route) => true);
-            } else if(state is StateErrorGeneral){
+            } else if (state is StateErrorGeneral) {
               ProgressDialog.hideLoadingDialog(context);
             } else if (state is StateLoading) {
-              if(mailSent==false) {
-                ProgressDialog.showLoadingDialog(
-                    context, message: StringConstants.loggedIn);
-              }
-              else{
-                ProgressDialog.showLoadingDialog(
-                    context, message: StringConstants.pleaseCheckemailTxt);
+              if (mailSent == false) {
+                ProgressDialog.showLoadingDialog(context,
+                    message: StringConstants.loggedIn);
+              } else {
+                ProgressDialog.showLoadingDialog(context,
+                    message: StringConstants.pleaseCheckemailTxt);
               }
             } else if (state is StateShowSearching) {
               ProgressDialog.hideLoadingDialog(context);
@@ -99,9 +97,9 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
                             ),
                           ),
                           30.verticalSpace,
-                          const Text(
-                            "Email Verified successfully ! You are successfully logged in!",
-                            style: TextStyle(
+                          Text(
+                            StringConstants.emailverifiedSuccess,
+                            style: const TextStyle(
                                 color: MakeMyTripColors.accentColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold),
@@ -113,7 +111,8 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
                             child: CommonPrimaryButton(
                                 text: "Ok",
                                 onTap: () {
-                                  Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      RoutesName.home, (route) => false);
                                 }),
                           ),
                         ],
@@ -127,8 +126,8 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
             } else if (state is StateOnResponseSuccess) {
               conPass = state.response;
             } else if (state is StateErrorGeneral) {
+              mailSent = false;
               error = state.errorMessage;
-
             }
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -211,6 +210,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
                     child: CommonPrimaryButton(
                         text: StringConstants.signUpTxt,
                         onTap: () {
+                          mailSent = true;
                           BlocProvider.of<UserCubit>(context).signUpWithEmail(
                               signUpEmail: email.text,
                               signUpPassword: password.text,
@@ -271,9 +271,6 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver{
           }),
         ),
       ),
-    )
-    );
-
+    ));
   }
-
 }

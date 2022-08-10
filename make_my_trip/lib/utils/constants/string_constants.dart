@@ -43,6 +43,8 @@ class StringConstants {
   static String fullnameTxt = "Full Name";
   static String checkMailBox =
       "Please check your mail box and Click there to verify your account";
+  static String emailverifiedSuccess =
+      "Email Verified successfully ! You are successfully logged in!";
 
   // room detail page
 
@@ -205,8 +207,6 @@ class StringConstants {
 
   static const logout = "Logout";
 
-
-
   //static const logout = "Logout";
   static const fullName = "Full Name";
   static const phone = "Phone";
@@ -259,7 +259,8 @@ class StringConstants {
   static const grandTotal = "Grand Total";
   static const book = "Book";
   //calender page String
-  static const only30Day = "You can book hotel rooms for maximum range of 30 days.";
+  static const only30Day =
+      "You can book hotel rooms for maximum range of 30 days.";
   static const selectDate = "Select Dates";
   static const reset = "reset";
   static const checkInDateUp = "CHECK-IN DATE";

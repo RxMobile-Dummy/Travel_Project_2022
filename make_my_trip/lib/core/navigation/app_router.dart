@@ -84,6 +84,7 @@ class Router {
             child: IntroPage(),
           );
         });
+
       case RoutesName.login:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
@@ -130,7 +131,9 @@ class Router {
           return BlocProvider(
             create: (context) =>
                 historyListSl<UserHistoryCubit>()..getUserHistoryData(),
-            child: UserHistoryPage(arg: arg,),
+            child: UserHistoryPage(
+              arg: arg,
+            ),
           );
         });
       case RoutesName.wishList:
@@ -139,7 +142,7 @@ class Router {
           return BlocProvider(
             create: (context) =>
                 wishListSl<WishListCubit>()..getWishListCubitData(),
-            child: WishListPage(arg:arg),
+            child: WishListPage(arg: arg),
           );
         });
       case RoutesName.search:
@@ -281,7 +284,7 @@ class Router {
             child: const SettingsPage(),
           );
         });
-        case RoutesName.settingDetailsPage:
+      case RoutesName.settingDetailsPage:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider.value(
             value: slSettingPage<SettingPageCubit>(),

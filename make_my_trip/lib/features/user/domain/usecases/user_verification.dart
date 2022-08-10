@@ -8,8 +8,6 @@ class UserVerification {
   UserVerification({required this.userRepository});
 
   Future<Either<Failures, bool>> call() async {
-    print("use case");
-    print(await userRepository.userVerification());
     return await userRepository.userVerification();
   }
 }

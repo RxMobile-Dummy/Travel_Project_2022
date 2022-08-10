@@ -16,18 +16,19 @@ import 'package:make_my_trip/features/wishlist/presentation/pages/wishlist_page.
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../../core/internet/internet_cubit.dart';
 import '../../../../core/navigation/route_info.dart';
+import '../../../../utils/widgets/common_primary_button.dart';
 import '../../../../utils/widgets/progress_loader.dart';
 import '../cubit/homepage_cubit.dart';
 import '../cubit/tab_bar_cubit.dart';
 import 'homescreen.dart';
 
 class HomePage extends StatelessWidget {
-
   HomePage({Key? key}) : super(key: key);
-  int selectedIndex=0;
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class HomePage extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is StateOnSuccess) {
-             selectedIndex = state.response;
+              selectedIndex = state.response;
             }
             return Scaffold(
                 body: Center(
@@ -112,7 +113,7 @@ class HomePage extends StatelessWidget {
                   showUnselectedLabels: true,
                   showSelectedLabels: true,
                   unselectedItemColor: MakeMyTripColors.colorBlack,
-                  currentIndex:selectedIndex,
+                  currentIndex: selectedIndex,
                   selectedItemColor: MakeMyTripColors.colorBlack,
                   onTap: (index) {
                     BlocProvider.of<TabBarCubit>(context).checkAnonymous(index);
@@ -130,12 +131,16 @@ class HomePage extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               historyListSl<UserHistoryCubit>()..getUserHistoryData(),
-          child: UserHistoryPage(arg: const {},),
+          child: UserHistoryPage(
+            arg: const {},
+          ),
         ),
         BlocProvider(
           create: (context) =>
               wishListSl<WishListCubit>()..getWishListCubitData(),
-          child: WishListPage(arg: const {},),
+          child: WishListPage(
+            arg: const {},
+          ),
         ),
         MultiBlocProvider(
           providers: [

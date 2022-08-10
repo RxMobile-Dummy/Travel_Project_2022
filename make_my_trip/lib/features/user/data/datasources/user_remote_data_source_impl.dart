@@ -73,13 +73,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
             "userPhone": user.phoneNumber,
             "userPic": user.photoURL,
             "userId": user.uid
-          })
-          );
+          }));
         } else {
           return Left(AuthFailure(failureMsg: "Email is not verified"));
         }
-      }
-      else{
+      } else {
         return Left(AuthFailure(failureMsg: "Email is not verified"));
       }
     } on FirebaseAuthException catch (e) {
@@ -142,10 +140,10 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final LoginResult loginResult = await facebookAuth.login();
       if (loginResult.status == LoginStatus.success) {
         final OAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+            FacebookAuthProvider.credential(loginResult.accessToken!.token);
         var userData = await facebookAuth.getUserData();
         UserCredential userCredential =
-        await auth.signInWithCredential(facebookAuthCredential);
+            await auth.signInWithCredential(facebookAuthCredential);
         User? user = userCredential.user;
         user!.updatePhotoURL(userData["picture"]["data"]["url"]);
         // ignore: unnecessary_null_comparison
@@ -246,19 +244,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     try {
       final User? currentUser = auth.currentUser;
 
-
-        await currentUser!.reload();
-        final User? verifiedUser = FirebaseAuth.instance.currentUser;
-        if (verifiedUser!.emailVerified) {
-          print("Right impl");
-          return Right(verifiedUser.emailVerified);
-
-        }
-        else{
-          return Left(ServerFailure(failureMsg: "Error in verification"));
-        }
-
-
+      await currentUser!.reload();
+      final User? verifiedUser = FirebaseAuth.instance.currentUser;
+      if (verifiedUser!.emailVerified) {
+        return Right(verifiedUser.emailVerified);
+      } else {
+        return Left(ServerFailure(failureMsg: "Error in verification"));
+      }
     } catch (err) {
       return Left(ServerFailure(failureMsg: "Error in verification"));
     }

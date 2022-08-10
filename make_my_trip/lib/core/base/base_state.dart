@@ -23,6 +23,11 @@ class Unauthenticated extends BaseState {
   List<Object?> get props => [];
 }
 
+class NotVerified extends BaseState {
+  @override
+  List<Object?> get props => [];
+}
+
 class StateInitial extends BaseState implements Equatable {
   @override
   List<Object> get props => [];

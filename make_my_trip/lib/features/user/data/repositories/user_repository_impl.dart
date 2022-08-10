@@ -33,7 +33,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<Failures, void>> userSignOut() async{
+  Future<Either<Failures, void>> userSignOut() async {
     return await remoteDataSource.userSignOut();
   }
 
@@ -59,8 +59,6 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Either<Failures, bool>> userVerification() async {
-    print("user repository");
-    print(await remoteDataSource.userVerification());
     return await remoteDataSource.userVerification();
   }
 }

@@ -13,8 +13,8 @@ import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 import '../../../../utils/widgets/progress_loader.dart';
 
-class LoginPage extends StatefulWidget{
-  LoginPage({Key? key, required this.arg}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key, required this.arg}) : super(key: key);
   final Map<String, dynamic> arg;
 
   @override
@@ -27,36 +27,38 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   final loginPasswordController = TextEditingController();
 
   bool passwordObSecure = true;
-  bool mailsent = false;
+  bool mailSent = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(state ==AppLifecycleState.resumed){
+    if (state == AppLifecycleState.resumed) {
       ProgressDialog.hideLoadingDialog(context);
+      mailSent = false;
       BlocProvider.of<UserCubit>(context).userVerificationmethod();
     }
-
   }
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<UserCubit, BaseState>(
       listener: (context, state) {
         if (state is StateLoading) {
-          if(mailsent==true){
+          if (mailSent == true) {
             ProgressDialog.showLoadingDialog(context,
                 message: StringConstants.pleaseCheckemailTxt);
-          }
-          else {
+          } else {
             ProgressDialog.showLoadingDialog(context,
                 message: StringConstants.loggedIn);
           }
@@ -73,16 +75,16 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         } else {
           ProgressDialog.hideLoadingDialog(context);
         }
-        if(state is StateErrorGeneral) {
-          if(state.errorMessage=="Email is not verified"){
+        if (state is StateErrorGeneral) {
+          if (state.errorMessage == "Email is not verified") {
+            mailSent = true;
             showDialog(
                 context: context,
                 barrierDismissible: false,
                 builder: (_) {
                   return AlertDialog(
                     shape: const RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(32.0))),
+                        borderRadius: BorderRadius.all(Radius.circular(32.0))),
                     elevation: 4,
                     title: Column(
                       children: [
@@ -94,7 +96,7 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                         ),
                         30.verticalSpace,
                         Text(
-                          "Your email is not verified...Please Verify your email",
+                          StringConstants.checkMailBox,
                           style: const TextStyle(
                               color: MakeMyTripColors.accentColor,
                               fontSize: 16,
@@ -107,9 +109,59 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                           child: CommonPrimaryButton(
                               text: "Ok",
                               onTap: () async {
-                                mailsent=true;
-                               await BlocProvider.of<UserCubit>(context).sendEmailVerification(loginEmailController.text,loginPasswordController.text);
-                               Navigator.of(context).pop();
+                                Navigator.pop(context);
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (_) {
+                                      return AlertDialog(
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(32.0))),
+                                        elevation: 4,
+                                        title: Column(
+                                          children: [
+                                            AspectRatio(
+                                              aspectRatio: 1.6,
+                                              child: Image.asset(
+                                                ImagePath.sendMail,
+                                              ),
+                                            ),
+                                            30.verticalSpace,
+                                            const Text(
+                                              "Have'nt received mail yet?",
+                                              style: TextStyle(
+                                                  color: MakeMyTripColors
+                                                      .accentColor,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            25.verticalSpace,
+                                            SizedBox(
+                                              width: double.infinity,
+                                              child: CommonPrimaryButton(
+                                                  text: "Yes",
+                                                  onTap: () async {
+                                                    mailSent = true;
+                                                    await BlocProvider.of<
+                                                            UserCubit>(context)
+                                                        .sendEmailVerification();
+                                                    Navigator.of(context).pop();
+                                                  }),
+                                            ),
+                                            SizedBox(
+                                              width: double.infinity,
+                                              child: CommonPrimaryButton(
+                                                  text: "No",
+                                                  onTap: () async {
+                                                    Navigator.of(context).pop();
+                                                  }),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    });
                               }),
                         ),
                       ],
@@ -117,16 +169,14 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                   );
                 });
           }
-        }
-        else if(state is StateShowSearching){
+        } else if (state is StateShowSearching) {
           showDialog(
               context: context,
               barrierDismissible: false,
               builder: (_) {
                 return AlertDialog(
                   shape: const RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.all(Radius.circular(32.0))),
+                      borderRadius: BorderRadius.all(Radius.circular(32.0))),
                   elevation: 4,
                   title: Column(
                     children: [
@@ -138,7 +188,7 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                       ),
                       30.verticalSpace,
                       Text(
-                        "Email Verified successfully ! You are successfully logged in!",
+                        StringConstants.emailverifiedSuccess,
                         style: const TextStyle(
                             color: MakeMyTripColors.accentColor,
                             fontSize: 16,
@@ -151,7 +201,8 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                         child: CommonPrimaryButton(
                             text: "Ok",
                             onTap: () {
-                              Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, RoutesName.home, (route) => false);
                             }),
                       ),
                     ],

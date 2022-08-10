@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
@@ -21,8 +22,7 @@ class HotelDetailCubit extends Cubit<BaseState> {
   onLikeTap(bool isLiked, int? hotelId) async {
     emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {
-    }, (success) {
+    res.fold((failure) {}, (success) {
       if (success) {
         emit(Unauthenticated());
       } else {

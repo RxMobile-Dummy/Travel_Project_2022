@@ -37,28 +37,26 @@ class UserCubit extends Cubit<BaseState> {
   void changeObSecureEvent(bool obSecure) {
     emit(StateOnKnownToSuccess(!obSecure));
   }
-  userVerificationmethod() async{
+
+  userVerificationmethod() async {
     final result = await userVerification.call();
     print(result);
-    result.fold((failure){
+    result.fold((failure) {
       Fluttertoast.showToast(msg: "Email Not Verified!");
-      FirebaseAuth.instance.signOut();
     }, (success) => showWaitingDialog());
   }
 
-  sendEmailVerification(String email, String password) async{
-
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email, password: password);
+  sendEmailVerification() async {
     try {
       await FirebaseAuth.instance.currentUser?.sendEmailVerification();
-    }
-    catch(e)
-    {
-      Fluttertoast.showToast(msg: 'You have reached maximum limits of receiving mail please try after sometime');
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg:
+              'You have reached maximum limits of receiving mail please try after sometime');
     }
     emit(StateLoading());
   }
+
   // google login event
   signInWithGoogle() async {
     emit(StateLoading());
@@ -172,7 +170,6 @@ class UserCubit extends Cubit<BaseState> {
               emit(StateErrorGeneral(_getFailure(failure)));
             }, (success) async {
               print(success);
-
             });
           }
         }
@@ -204,12 +201,12 @@ class UserCubit extends Cubit<BaseState> {
     });
   }
 
-  emailChanged(email){
-    var res=UserInfoValidation.emailAddressValidation(email);
-    if(res==null){
-      emit(StateReorderSuccess<String>(email,updatedIndex: 1));
-    }else{
-      emit(StateReorderSuccess<String>(email,updatedIndex: 0));
+  emailChanged(email) {
+    var res = UserInfoValidation.emailAddressValidation(email);
+    if (res == null) {
+      emit(StateReorderSuccess<String>(email, updatedIndex: 1));
+    } else {
+      emit(StateReorderSuccess<String>(email, updatedIndex: 0));
     }
   }
 }

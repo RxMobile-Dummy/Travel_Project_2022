@@ -12,7 +12,7 @@ class HistoryListViewWidget extends StatelessWidget {
       : super(key: key);
 
   UserHistoryModel userHistoryModel;
-  Random rnd =  Random();
+  Random rnd = Random();
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +36,13 @@ class HistoryListViewWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.0),
                   child: FadeInImage.assetNetwork(
                       placeholder: ImagePath.placeHolderImage,
-                      image:userHistoryModel.images![rnd.nextInt(userHistoryModel.images!.length)].imageUrl.toString(),
+                      image: userHistoryModel
+                          .images![rnd.nextInt(userHistoryModel.images!.length)]
+                          .imageUrl
+                          .toString(),
                       fit: BoxFit.fill,
-                      imageErrorBuilder:
-                          (context, error, stackTrace) {
-                        return Image.asset(
-                            ImagePath.placeHolderImage,
+                      imageErrorBuilder: (context, error, stackTrace) {
+                        return Image.asset(ImagePath.placeHolderImage,
                             fit: BoxFit.fitWidth);
                       }),
                 ),
@@ -66,17 +67,19 @@ class HistoryListViewWidget extends StatelessWidget {
                         size: 16,
                       ),
                       Expanded(
-                        child: Text(userHistoryModel.address!.addressLine
-                            .toString(), overflow: TextOverflow.ellipsis,),
+                        child: Text(
+                          userHistoryModel.address!.addressLine.toString(),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-
                     ],
-                  ), Padding(
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(6.0),
                     child: Text(
                       '₹ ${userHistoryModel.price.toString()}',
-                      style: AppTextStyles.infoLabelStyle
-                          .copyWith(fontSize: 14),
+                      style:
+                          AppTextStyles.infoLabelStyle.copyWith(fontSize: 14),
                     ),
                   ),
                   Row(
@@ -89,7 +92,6 @@ class HistoryListViewWidget extends StatelessWidget {
                               .copyWith(fontSize: 12),
                         ),
                       ),
-
                     ],
                   ),
                 ],

@@ -11,12 +11,15 @@ class RoomCategoriesRepositoryImpl implements RoomCategoriesRepository {
   RoomCategoriesRepositoryImpl(this.roomCategoriesDataSource);
 
   @override
-  Future<Either<Failures, RoomCategoryModel>> getRoomDetail(int hotelId,String cIn,String cOut) async {
-    return await roomCategoriesDataSource.getRoomDetailData(hotelId,cIn,cOut);
+  Future<Either<Failures, RoomCategoryModel>> getRoomDetail(
+      int hotelId, String cIn, String cOut) async {
+    return await roomCategoriesDataSource.getRoomDetailData(hotelId, cIn, cOut);
   }
 
   @override
-  Future<Either<Failures, String>> roomBookPost(int hotelId, RoomDataPostModel roomDataPostModel) async {
-    return await roomCategoriesDataSource.bookingPostData(hotelId, roomDataPostModel);
+  Future<Either<Failures, String>> roomBookPost(
+      int hotelId, RoomDataPostModel roomDataPostModel) async {
+    return await roomCategoriesDataSource.bookingPostData(
+        hotelId, roomDataPostModel);
   }
 }

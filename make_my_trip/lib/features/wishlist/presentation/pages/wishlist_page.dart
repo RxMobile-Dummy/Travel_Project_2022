@@ -19,7 +19,7 @@ import '../widgets/shimmer_effect_page.dart';
 
 class WishListPage extends StatelessWidget {
   Map<String, dynamic>? arg;
-  WishListPage({Key? key,this.arg}) : super(key: key);
+  WishListPage({Key? key, this.arg}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +27,9 @@ class WishListPage extends StatelessWidget {
       onWillPop: () {
         var argument = arg!["route_name"];
         if (argument == RoutesName.search ||
-        argument == RoutesName.settingPage){
-          return navigateToPrevious(context,argument);
-        }
-        else {
+            argument == RoutesName.settingPage) {
+          return navigateToPrevious(context, argument);
+        } else {
           return navigateToHomePage(context);
         }
       },
@@ -53,7 +52,11 @@ class WishListPage extends StatelessWidget {
                       snap: false,
                       pinned: true,
                       floating: false,
-                      iconTheme: scroll?const IconThemeData(color: MakeMyTripColors.colorBlack):const IconThemeData(color: MakeMyTripColors.colorWhite),
+                      iconTheme: scroll
+                          ? const IconThemeData(
+                              color: MakeMyTripColors.colorBlack)
+                          : const IconThemeData(
+                              color: MakeMyTripColors.colorWhite),
                       flexibleSpace: FlexibleSpaceBar(
                         centerTitle: true,
                         title: Text(StringConstants.wishlist,
@@ -117,9 +120,8 @@ class WishListPage extends StatelessWidget {
       ),
     );
   }
-
-
 }
+
 navigateToPrevious(BuildContext context, arg) {
   Navigator.of(context).pop(arg);
 }

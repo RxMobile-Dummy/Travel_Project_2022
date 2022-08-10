@@ -1,4 +1,4 @@
-  import 'package:bloc/bloc.dart';
+import 'package:bloc/bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/features/room_categories/domain/use_cases/room_book_post_usecase.dart';
@@ -23,7 +23,6 @@ class RoomCategoryCubit extends Cubit<BaseState> {
     res.fold((l) => emit(StateErrorGeneral("errorMessage")),
         (r) => emit(StateOnKnownToSuccess<RoomCategoryModel>(r)));
   }
-
 
   postModelCreate(int hotelId, String cin, String cout, int noOfRoom,
       List<RoomType> roomType) {
@@ -73,8 +72,7 @@ class RoomCategoryCubit extends Cubit<BaseState> {
   goToBooking(hotelId, cin, cout, totalSelectedRoom, roomList) async {
     emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {
-    }, (success) {
+    res.fold((failure) {}, (success) {
       if (success) {
         emit(Unauthenticated());
       } else {

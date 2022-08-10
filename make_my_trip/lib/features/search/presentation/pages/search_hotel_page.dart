@@ -24,7 +24,8 @@ class SearchHotelPage extends StatelessWidget {
               arguments: {"route_name": RoutesName.wishList});
         } else if (state is Authenticated) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.wishList, (route) => true,arguments: {"route_name":RoutesName.search});
+              context, RoutesName.wishList, (route) => true,
+              arguments: {"route_name": RoutesName.search});
         }
       },
       child: Scaffold(
@@ -85,8 +86,8 @@ class SearchHotelPage extends StatelessWidget {
                                             searchModel?[index].description
                                       });
                                 },
-                                child: Text(
-                                    searchModel?[index].description ?? StringConstants.emptyString));
+                                child: Text(searchModel?[index].description ??
+                                    StringConstants.emptyString));
                           },
                           separatorBuilder: (context, index) {
                             return const Divider(

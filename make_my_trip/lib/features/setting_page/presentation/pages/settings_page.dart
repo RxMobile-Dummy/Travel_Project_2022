@@ -21,113 +21,113 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return BlocListener<UserCubit, BaseState>(
-      listener: (context, state) {
-        if (state is StateLoading) {
-          ProgressDialog.showLoadingDialog(context, message: "Log out...");
-        } else if (state is StateOnSuccess) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.home, (route) => false);
-        }
-      },child : WillPopScope(
+    return BlocListener<UserCubit, BaseState>(
+        listener: (context, state) {
+          if (state is StateLoading) {
+            ProgressDialog.showLoadingDialog(context, message: "Log out...");
+          } else if (state is StateOnSuccess) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, RoutesName.home, (route) => false);
+          }
+        },
+        child: WillPopScope(
           onWillPop: () {
-        return navigateToHomePage(context);
-
-      },
-    child: Scaffold(
-        backgroundColor: MakeMyTripColors.colorWhite,
-        appBar:AppBar(
-          elevation: 0,
-          backgroundColor: MakeMyTripColors.colorWhite,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
-              },
-              icon: (Platform.isAndroid)
-                  ? const Icon(
-                Icons.arrow_back_outlined,
-                    )
-                  : const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color:
-                   MakeMyTripColors.colorBlack
-
-              )),
-          title: const Text(StringConstants.setting,
-              style: TextStyle(
-                  color: MakeMyTripColors.colorBlack,
-                  fontWeight: FontWeight.bold)),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              userProfileWidget(context),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 12.0, vertical: 12.0),
-                child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: settingList.length,
-                    itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.opaque, //whole child gets Gesture property even if there is spacer or free space
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, settingList[index].routeName,arguments: settingList[index].argument);
-                            },
-                            child: Row(
-                              children: [
-                                Icon(settingList[index].icon),
-                                10.horizontalSpace,
-                                Text(settingList[index].text,
-                                    style: AppTextStyles.infoLabelStyle
-                                        .copyWith(fontSize: 16)),
-                                const Spacer(),
-                                const Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: MakeMyTripColors.color30gray,
-                                )
-                              ],
-                            ),
-                          ),
-                        )),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque, //whole child gets Gesture property even if there is spacer or free space
-                  onTap: () {
-                    context.read<UserCubit>().userSignOutEvent();
+            return navigateToHomePage(context);
+          },
+          child: Scaffold(
+            backgroundColor: MakeMyTripColors.colorWhite,
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: MakeMyTripColors.colorWhite,
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, RoutesName.home, (route) => false);
                   },
-                  child: Row(
-                    children: [
-                      const Icon(Icons.logout),
-                      10.horizontalSpace,
-                      Text(StringConstants.logout,
-                          style: AppTextStyles.infoLabelStyle
-                              .copyWith(fontSize: 16)),
-                      const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: MakeMyTripColors.color30gray,
-                      )
-                    ],
+                  icon: (Platform.isAndroid)
+                      ? const Icon(
+                          Icons.arrow_back_outlined,
+                        )
+                      : const Icon(Icons.arrow_back_ios_new_rounded,
+                          color: MakeMyTripColors.colorBlack)),
+              title: const Text(StringConstants.setting,
+                  style: TextStyle(
+                      color: MakeMyTripColors.colorBlack,
+                      fontWeight: FontWeight.bold)),
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  userProfileWidget(context),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 12.0),
+                    child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: settingList.length,
+                        itemBuilder: (context, index) => Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: GestureDetector(
+                                behavior: HitTestBehavior
+                                    .opaque, //whole child gets Gesture property even if there is spacer or free space
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, settingList[index].routeName,
+                                      arguments: settingList[index].argument);
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(settingList[index].icon),
+                                    10.horizontalSpace,
+                                    Text(settingList[index].text,
+                                        style: AppTextStyles.infoLabelStyle
+                                            .copyWith(fontSize: 16)),
+                                    const Spacer(),
+                                    const Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: MakeMyTripColors.color30gray,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: GestureDetector(
+                      behavior: HitTestBehavior
+                          .opaque, //whole child gets Gesture property even if there is spacer or free space
+                      onTap: () {
+                        context.read<UserCubit>().userSignOutEvent();
+                      },
+                      child: Row(
+                        children: [
+                          const Icon(Icons.logout),
+                          10.horizontalSpace,
+                          Text(StringConstants.logout,
+                              style: AppTextStyles.infoLabelStyle
+                                  .copyWith(fontSize: 16)),
+                          const Spacer(),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            color: MakeMyTripColors.color30gray,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-    )
-      );
+        ));
   }
-
-
 }
-navigateToHomePage(BuildContext context){
-  return Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
+
+navigateToHomePage(BuildContext context) {
+  return Navigator.pushNamedAndRemoveUntil(
+      context, RoutesName.home, (route) => false);
 }
