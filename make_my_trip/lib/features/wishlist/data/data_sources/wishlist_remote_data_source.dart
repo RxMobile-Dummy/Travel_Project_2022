@@ -7,7 +7,7 @@ import '../../../../core/failures/failures.dart';
 import '../../../../utils/constants/base_constants.dart';
 
 abstract class WishListRemoteDataSource {
-  Future<Either<Failures, List<WishlistModel>>> getWishListData();
+  Future<Either<Failures, List<WishlistModel>>> getWishListData(int page);
 }
 
 class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
@@ -21,14 +21,18 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
   }
 
   @override
-  Future<Either<Failures, List<WishlistModel>>> getWishListData() {
-    return _getAllCharacterUrl("${BaseConstant.baseUrl}bookmark/user/wishlist");
+  Future<Either<Failures, List<WishlistModel>>> getWishListData(int page) {
+    return _getAllCharacterUrl("${BaseConstant.baseUrl}bookmark/user/wishlist",page);
   }
 
   Future<Either<Failures, List<WishlistModel>>> _getAllCharacterUrl(
-      String url) async {
+      String url,int page) async {
     try {
-      final response = await dio.get(url, options: await createDioOptions());
+      var params  = {
+        "pageSize" :1,
+        "page": page
+      };
+      final response = await dio.get(url,queryParameters: params, options: await createDioOptions());
 
       if (response.statusCode == 200) {
         List<WishlistModel> wishListModel = [];

@@ -27,7 +27,7 @@ class HotalDetails extends StatelessWidget {
               arguments: {
                 "hotel_id": wishlistModel.hotelId,
               });
-          BlocProvider.of<WishListCubit>(context).getWishListCubitData();
+          BlocProvider.of<WishListCubit>(context).getWish();
         },
         child: Card(
           elevation: 5,
