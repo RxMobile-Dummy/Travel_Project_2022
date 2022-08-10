@@ -24,7 +24,17 @@ class ResetPasswordPage extends StatelessWidget {
         ),
         elevation: 0,
       ),
-      body: BlocBuilder<UserCubit, BaseState>(
+      body: BlocConsumer<UserCubit, BaseState>(
+        listener: (context, state) {
+          if (state is StateOnSuccess) {
+            var snackBar =
+                const SnackBar(content: Text(StringConstants.sendMailTxt));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          } else if (state is StateErrorGeneral) {
+            var snackBar = SnackBar(content: Text(state.errorMessage));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        },
         builder: (context, state) {
           TextEditingController emailController = TextEditingController();
           return SingleChildScrollView(
@@ -60,12 +70,10 @@ class ResetPasswordPage extends StatelessWidget {
                   Align(
                       alignment: AlignmentDirectional.centerEnd,
                       child: Text(
-                        (state is StateReorderSuccess
-                            ? (state.updatedIndex == 1
-                                ? ""
-                                : StringConstants.enterValidMail)
-                            : ""),
-                        style: TextStyle(
+                        (state is StateReorderSuccess && state.updatedIndex == 1
+                            ? ""
+                            : StringConstants.enterValidMail),
+                        style: const TextStyle(
                             color: MakeMyTripColors.colorRed, fontSize: 16),
                       )),
                   10.verticalSpace,
@@ -74,12 +82,11 @@ class ResetPasswordPage extends StatelessWidget {
                     child: CommonPrimaryButton(
                         text: StringConstants.sendLink,
                         onTap: () {
-                          var snackBar = SnackBar(
-                              content: Text(StringConstants.sendMailTxt));
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          context
-                              .read<UserCubit>()
-                              .userForgetPassword(emailController.text);
+                          if (state is StateReorderSuccess) {
+                            context
+                                .read<UserCubit>()
+                                .userForgetPassword(emailController.text);
+                          }
                         }),
                   )
                 ],
