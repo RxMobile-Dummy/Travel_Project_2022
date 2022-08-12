@@ -5,7 +5,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:make_my_trip/features/home_page/data/data_sources/images_datasource.dart';
 import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
-import '../../../../core/failures/exception.dart';
 import '../../../../core/failures/failures.dart';
 import '../../../hotel_listing/data/models/hotel_list_model.dart';
 
