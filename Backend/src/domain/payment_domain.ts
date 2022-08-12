@@ -43,7 +43,7 @@ class PaymentDomain {
                 res.send(StatusCode.Sucess)
                 setTimeout(bookIngDomain.bookingFreezFail, 180000, resBooking);
             } else {
-                res.status(StatusCode.Error);
+                res.status(StatusCode.Error).send('Unable to booking table insertion');
             }
         } catch (error: any) {
             res.status(StatusCode.Error).send('Unable to create order');
