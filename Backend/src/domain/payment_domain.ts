@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 
 import { Usermodel } from '../model/users';
+import { BookingDomain } from './booking_domain';
 import * as dotenv from 'dotenv';
 dotenv.config();
 import { Razorpay } from 'razorpay-typescript';
@@ -23,7 +24,6 @@ class PaymentDomain {
             amount: amount * 100,
             currency: 'INR',
         }
-        console.log(options);
         try {
             var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
             var uid: string = reqData.uid;
@@ -37,18 +37,18 @@ class PaymentDomain {
                 user_email: userData[0].user_email,
                 user_phone_number: userData[0].user_phone_number,
             }
-            console.log(orderData);
-            res.send(StatusCode.Sucess)
+            const bookIngDomain = new BookingDomain();
+            var resBooking = await bookIngDomain.bookingFreeze(req, res, req.body.cin, req.body.cout, req.body.room_id, req.body.hotel_id);
+            if (resBooking != 0) {
+                res.send(StatusCode.Sucess).send('Order created!!');
+                setTimeout(bookIngDomain.bookingFreezFail, 180000, resBooking);
+            } else {
+                res.status(StatusCode.Error).send('Unable to booking table insertion');
+            }
         } catch (error: any) {
             res.status(StatusCode.Error).send('Unable to create order');
         }
-
-
-
     }
-
-
-    
 }
 
 export { PaymentDomain };
