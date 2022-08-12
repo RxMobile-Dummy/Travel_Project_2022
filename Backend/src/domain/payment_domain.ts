@@ -38,9 +38,9 @@ class PaymentDomain {
                 user_phone_number: userData[0].user_phone_number,
             }
             console.log(orderData);
-            res.send(orderData)
+            res.send(StatusCode.Sucess)
         } catch (error: any) {
-            res.status(400).send('Unable to create order');
+            res.status(StatusCode.Error).send('Unable to create order');
         }
 
 
