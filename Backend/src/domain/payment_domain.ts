@@ -40,7 +40,7 @@ class PaymentDomain {
             const bookIngDomain = new BookingDomain();
             var resBooking = await bookIngDomain.bookingFreeze(req, res, req.body.cin, req.body.cout, req.body.room_id, req.body.hotel_id);
             if (resBooking != 0) {
-                res.send(StatusCode.Sucess)
+                res.send(StatusCode.Sucess).send('Order created!!');
                 setTimeout(bookIngDomain.bookingFreezFail, 180000, resBooking);
             } else {
                 res.status(StatusCode.Error).send('Unable to booking table insertion');
