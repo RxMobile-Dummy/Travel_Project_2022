@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/hotel_detail_usecase.dart';
-import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
+import 'package:make_my_trip/features/room_categories/data/model/room_category_model.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/features/room_categories/domain/use_cases/room_book_post_usecase.dart';
 
@@ -29,7 +29,7 @@ class BookingCubit extends Cubit<BaseState> {
   }
 
   postModelCreate(int hotelId, String cin, String cout, int noOfRoom,
-      List<RoomType> roomType) {
+      List<Deluxe> roomType) {
     var dateCin = DateTime.parse(cin);
     var dateCout = DateTime.parse(cout);
     var noOfNights = dateCout.difference(dateCin).inDays;
@@ -51,8 +51,6 @@ class BookingCubit extends Cubit<BaseState> {
         checkinDate: cin,
         checkoutDate: cout,
         noOfRoom: noOfRoom,
-        roomType: roomType[0].roomType,
-        price: p,
         roomId: roomId);
     emit(StateOnSuccess((state as StateOnSuccess<CustomState>)
         .response

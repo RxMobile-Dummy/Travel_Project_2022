@@ -25,7 +25,7 @@ class ToursModel {
   ToursModel.fromJson(dynamic json) {
     _id = json['_id'];
     _tourName = json['tour_name'];
-    _rating = json['rating'];
+    _rating = json['rating'].toDouble();
     _price = json['price'];
     if (json['images'] != null) {
       _images = [];

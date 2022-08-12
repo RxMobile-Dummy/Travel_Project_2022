@@ -52,12 +52,6 @@ class SelectRoom extends StatelessWidget {
             20.verticalSpace,
             RoomGuestContainer(
               title: StringConstants.selectAdultsLabel,
-              subTitle: StringConstants.aboveAgeLabel,
-            ),
-            20.verticalSpace,
-            RoomGuestContainer(
-              title: StringConstants.selectChildrensLabel,
-              subTitle: StringConstants.belowAgeLabel,
             ),
             20.verticalSpace,
             SizedBox(
@@ -68,6 +62,7 @@ class SelectRoom extends StatelessWidget {
                     Navigator.pop(context);
                   }),
             ),
+            20.verticalSpace
           ],
         ),
       ),
@@ -79,11 +74,9 @@ class RoomGuestContainer extends StatelessWidget {
   const RoomGuestContainer({
     Key? key,
     required this.title,
-    this.subTitle,
   }) : super(key: key);
 
   final String title;
-  final String? subTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -92,15 +85,10 @@ class RoomGuestContainer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        RichText(
-            text: TextSpan(
-                text: title,
-                style: AppTextStyles.mediumLabelStyle,
-                children: [
-              TextSpan(
-                  text: (subTitle == null) ? "" : "\n$subTitle",
-                  style: AppTextStyles.smallGrayTitleStyle)
-            ])),
+        Text(
+          title,
+          style: AppTextStyles.mediumLabelStyle,
+        ),
         Container(
             height: 32,
             width: 80,
@@ -115,9 +103,7 @@ class RoomGuestContainer extends StatelessWidget {
                 if (title == StringConstants.selectRoomLabel) {
                   listOfItems = 20;
                 } else if (title == StringConstants.selectAdultsLabel) {
-                  listOfItems = cubit.rooms * 2;
-                } else if (title == StringConstants.selectChildrensLabel) {
-                  listOfItems = cubit.rooms * 3 + 1;
+                  listOfItems = cubit.rooms * 4;
                 }
                 return DropdownButton(
                   menuMaxHeight: 250,
@@ -126,9 +112,7 @@ class RoomGuestContainer extends StatelessWidget {
                       ? cubit.rooms
                       : (title == StringConstants.selectAdultsLabel)
                           ? cubit.adults
-                          : (title == StringConstants.selectChildrensLabel)
-                              ? cubit.childrens
-                              : cubit.rooms,
+                          : cubit.rooms,
                   icon: const Icon(
                     Icons.keyboard_arrow_down_sharp,
                     color: MakeMyTripColors.accentColor,
@@ -145,8 +129,6 @@ class RoomGuestContainer extends StatelessWidget {
                       cubit.selectRooms(value!);
                     } else if (title == StringConstants.selectAdultsLabel) {
                       cubit.selectAdults(value!);
-                    } else if (title == StringConstants.selectChildrensLabel) {
-                      cubit.selectChildrens(value!);
                     }
                   },
                 );

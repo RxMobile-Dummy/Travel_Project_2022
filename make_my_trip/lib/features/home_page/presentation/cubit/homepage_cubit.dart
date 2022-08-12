@@ -12,36 +12,43 @@ class HomepageCubit extends Cubit<BaseState> {
   final GetAllToursOfHomepageUseCase toursusecase;
 
   getImagesApi() async {
-    emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-        .response
-        .copyWith(imageLoading: true)));
-
-    var data = await imagesusecase.call();
-    data.fold((failure) {
-      if (failure is ServerFailure) {
-        emit(StateErrorGeneral(failure.failureMsg.toString()));
-      }
-    }, (success) {
+    try {
       emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
           .response
-          .copyWith(imageListValue: success, imageLoading: false)));
-    });
+          .copyWith(imageLoading: true)));
+
+      var data = await imagesusecase.call();
+      data.fold((failure) {
+        if (failure is ServerFailure) {
+          emit(StateErrorGeneral(failure.failureMsg.toString()));
+        }
+      }, (success) {
+        emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
+            .response
+            .copyWith(imageListValue: success, imageLoading: false)));
+      });
+    } catch (err) {
+      print(" cubit Catch : $err");
+    }
   }
 
   getToursApi() async {
-    emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-        .response
-        .copyWith(tourLoading: true)));
-    var data = await toursusecase.call();
-    data.fold((failure) {
-      if (failure is ServerFailure) {
-        emit(StateErrorGeneral(failure.failureMsg.toString()));
-      }
-      debugPrint(failure.toString());
-    }, (success) {
+    try {
       emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
           .response
-          .copyWith(toursListValue: success, tourLoading: false)));
-    });
+          .copyWith(tourLoading: true)));
+      var data = await toursusecase.call();
+      data.fold((failure) {
+        if (failure is ServerFailure) {
+          emit(StateErrorGeneral(failure.failureMsg.toString()));
+        }
+      }, (success) {
+        emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
+            .response
+            .copyWith(toursListValue: success, tourLoading: false)));
+      });
+    } catch (err) {
+      print("tour : $err");
+    }
   }
 }

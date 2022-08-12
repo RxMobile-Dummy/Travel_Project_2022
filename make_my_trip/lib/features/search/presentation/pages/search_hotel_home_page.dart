@@ -130,7 +130,7 @@ class SearchHotel extends StatelessWidget {
                               .toUpperCase(),
                           // detail: "1 Room, 2 Adults",
                           detail:
-                              "${cubit.rooms} ${StringConstants.roomText}, ${cubit.adults} ${StringConstants.adultText} ${(cubit.childrens != 0) ? ',' : ''} ${(cubit.childrens != 0) ? cubit.childrens : ''} ${(cubit.childrens != 0) ? StringConstants.childrenText : ''}",
+                              "${cubit.rooms} ${StringConstants.roomText}, ${cubit.adults} ${StringConstants.adultText}",
                           iconData: Icons.person,
                           onTap: () {
                             showModalBottomSheet(

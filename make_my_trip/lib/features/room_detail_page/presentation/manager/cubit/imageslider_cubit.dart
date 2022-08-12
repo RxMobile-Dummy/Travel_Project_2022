@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
-import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
+import 'package:make_my_trip/features/room_categories/data/model/room_category_model.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/features/room_detail_page/domain/use_cases/room_detail_usecase.dart';
 
@@ -21,8 +21,7 @@ class ImagesliderCubit extends Cubit<BaseState> {
   goToBooking(hotelId, cin, cout, totalSelectedRoom, roomList) async {
     emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {
-    }, (success) {
+    res.fold((failure) {}, (success) {
       if (success) {
         emit(Unauthenticated());
       } else {
@@ -50,7 +49,7 @@ class ImagesliderCubit extends Cubit<BaseState> {
   }
 
   postModelCreate(int hotelId, String cin, String cout, int noOfRoom,
-      List<RoomType> roomType) {
+      List<Deluxe> roomType) {
     List<int> roomId = [];
 
     var dateCin = DateTime.parse(cin);
@@ -90,8 +89,6 @@ class ImagesliderCubit extends Cubit<BaseState> {
         checkinDate: cin,
         checkoutDate: cout,
         noOfRoom: noOfRoom,
-        roomType: roomType[0].roomType,
-        price: p,
         roomId: roomId);
     emit(StateSearchResult<RoomDataPostModel>(roomDataPostModel));
   }

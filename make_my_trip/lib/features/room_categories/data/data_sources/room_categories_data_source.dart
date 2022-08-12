@@ -2,11 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
-import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
-import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
 
 import '../../../booking/data/model/booking_model.dart';
+import '../model/room_category_model.dart';
 
 abstract class RoomCategoriesDataSource {
   Future<Either<Failures, RoomCategoryModel>> getRoomDetailData(
@@ -39,6 +38,7 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
             "no_of_room": noOfRooms
           },
           options: await createDioOptions());
+      print(response.data);
       if (response.statusCode == 200) {
         final RoomCategoryModel roomCategoryModel =
             RoomCategoryModel.fromJson(response.data);
@@ -52,6 +52,7 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
+      print(e);
       return Left(ServerFailure());
     }
   }
@@ -71,6 +72,7 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
         return Left(ServerFailure());
       }
     } catch (e) {
+      print(e);
       return Left(ServerFailure());
     }
   }

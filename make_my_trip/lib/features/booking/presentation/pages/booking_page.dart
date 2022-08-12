@@ -68,8 +68,12 @@ class BookingPage extends StatelessWidget {
           ProgressDialog.showLoadingDialog(context, message: "Please wait");
         } else if (state is StateNoData) {
           ProgressDialog.hideLoadingDialog(context);
-          BlocProvider.of<PaymentCubit>(context).bookingConfirm(detail.hotelId!,
-              detail.checkinDate!, detail.checkoutDate!, detail.roomId!);
+          BlocProvider.of<PaymentCubit>(context).bookingConfirm(
+              detail.hotelId!,
+              detail.checkinDate!,
+              detail.checkoutDate!,
+              detail.roomId!,
+              detail.adults!);
         } else {
           ProgressDialog.hideLoadingDialog(context);
         }
@@ -297,6 +301,23 @@ class BookingPage extends StatelessWidget {
                                 )
                               ],
                             ),
+                            4.verticalSpace,
+                            (bookingModel!.noOfmatress! > 0)
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "${StringConstants.matresses}(${bookingModel!.noOfmatress})",
+                                        style: AppTextStyles.infoContentStyle,
+                                      ),
+                                      Text(
+                                        '₹ ${bookingModel?.matressPrize}',
+                                        style: AppTextStyles.labelDetails,
+                                      )
+                                    ],
+                                  )
+                                : SizedBox(),
                             4.verticalSpace,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

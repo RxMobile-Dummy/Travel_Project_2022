@@ -5,7 +5,7 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/widgets/features_item_widget.dart';
-import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
+import 'package:make_my_trip/features/room_categories/data/model/room_category_model.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
@@ -25,9 +25,9 @@ class RoomListWidget extends StatelessWidget {
     required this.cout,
     required this.maxCount,
   }) : super(key: key);
-  final List<RoomType> roomList;
+  final List<dynamic> roomList;
   final int maxCount;
-  final RoomType roomData;
+  final Deluxe roomData;
   final VoidCallback roomRemoveOnTap;
   final VoidCallback roomAddOnTap;
   final String cin;
@@ -47,8 +47,11 @@ class RoomListWidget extends StatelessWidget {
             elevation: 10, // Change this
             shadowColor: MakeMyTripColors.color10gray,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
+                borderRadius: BorderRadius.circular(15.0),
+                side: BorderSide(
+                    color: (roomList.isEmpty)
+                        ? MakeMyTripColors.colorRed
+                        : Colors.transparent)),
             child: Padding(
               padding: const EdgeInsets.all(14.0),
               child: Column(
@@ -69,7 +72,7 @@ class RoomListWidget extends StatelessWidget {
                                 'hotel_id': hotelId,
                                 'room_id': roomData.roomId,
                                 'no_of_room': totalSelectedRoom,
-                                'room_list_model': roomList,
+                                'room_list_model': roomData,
                                 "context": context,
                                 'cin': cin,
                                 'cout': cout

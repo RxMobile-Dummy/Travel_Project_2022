@@ -246,6 +246,7 @@ class StringConstants {
   static const checkOutDate = "Check Out";
   static const paymentSummary = "Payment Summary";
   static const roomRate = "Room Rate";
+  static const matresses = "+ Matresses";
   static const noOfNight = "No of Days";
   static const subTotal = "Sub Total";
   static const gst = "GST";
@@ -266,7 +267,7 @@ class StringConstants {
   static const favouriteTxt = "My Wishlist";
   static const profileTxt = "Profile";
   static const explorerTxt = "Explore";
-  static const weHopeTxt = "We hope you find what you \ncame for";
+  static const weHopeTxt = "We hope you find what you came for";
   static const searchTxt = "Search";
   static const hotelTxt = "Hotels";
   static const flightTxt = "Flights";

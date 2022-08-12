@@ -15,9 +15,9 @@ class BookingRepositoryImpl implements BookingRepository {
   }
 
   @override
-  Future<Either<Failures, BookingModel>> getBookingDetails(
-      int hotelId, String cIn, String cOut, List<int> roomId) async {
+  Future<Either<Failures, BookingModel>> getBookingDetails(int hotelId,
+      String cIn, String cOut, List<int> roomId, int adults) async {
     return await bookingRemoteDataSource.bookingRemoteDataSource(
-        hotelId, cIn, cOut, roomId);
+        hotelId, cIn, cOut, roomId, adults);
   }
 }

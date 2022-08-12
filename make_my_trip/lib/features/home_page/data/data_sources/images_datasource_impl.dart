@@ -15,7 +15,13 @@ class ImagesDataSourceImpl implements ImagesDataSource {
 
   Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    printWrapped(userToken);
     return Options(headers: {'token': userToken});
+  }
+
+  void printWrapped(String text) {
+    final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
+    pattern.allMatches(text).forEach((match) => print(match.group(0)));
   }
 
   @override
@@ -23,7 +29,10 @@ class ImagesDataSourceImpl implements ImagesDataSource {
     try {
       final response = await dio.get('${BaseConstant.baseUrl}hotel/image/5',
           options: await createDioOptions());
+
       var result = response.data;
+      print("image $result");
+
       if (response.statusCode == 200) {
         List<HotelListModel> postList = [];
         {
@@ -35,13 +44,13 @@ class ImagesDataSourceImpl implements ImagesDataSource {
       } else if (response.statusCode == 505) {
         return Left(ServerFailure());
       } else if (response.statusCode == 404) {
+        print("404");
         return Left(
             AuthFailure()); //Data Not Found Failure but in failure there is not method so AuthFailure
       } else {
         return Left(InternetFailure());
       }
     } catch (e) {
-      print(e);
       return Left(ServerFailure(statusCode: "503"));
     }
   }

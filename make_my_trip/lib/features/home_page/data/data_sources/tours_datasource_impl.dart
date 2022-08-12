@@ -21,6 +21,7 @@ class ToursDataSourceImpl implements ToursDataSource {
       final response = await dio.get('${BaseConstant.baseUrl}tour/5',
           options: await createDioOptions());
       var result = response.data;
+      print("tour $result");
       if (response.statusCode == 200) {
         List<ToursModel> postList = [];
         {
@@ -32,13 +33,14 @@ class ToursDataSourceImpl implements ToursDataSource {
       } else if (response.statusCode == 505) {
         return Left(ServerFailure());
       } else if (response.statusCode == 404) {
+        print("404");
         return Left(
             AuthFailure()); //Data Not Found Failure but in failure there is not method so AuthFailure
       } else {
         return Left(InternetFailure());
       }
     } catch (e) {
-      print(e);
+      print("tour $e");
       return Left(ServerFailure(statusCode: "503"));
     }
   }

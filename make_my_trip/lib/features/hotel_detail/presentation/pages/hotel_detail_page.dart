@@ -7,7 +7,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/calendar/presentation/cubit/calendar_cubit.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/pages/hotel_detail_shimmer.dart';
@@ -359,7 +358,8 @@ class HotelDetailPage extends StatelessWidget {
                             'hotel_id': hotelDetailModel!.id,
                             "cin": checkInDate,
                             "cout": checkOutDate,
-                            "noofrooms": calenderCubit.rooms
+                            "noofrooms": calenderCubit.rooms,
+                            "adults": calenderCubit.adults
                           });
                     })),
           ),

@@ -36,9 +36,11 @@ class HotelListDataSourceImpl implements HotelListDataSource {
           },
           options: await createDioOptions());
       print(response.realUri);
+      print(response.data);
       if (response.statusCode == 200) {
         final List<HotelListModel> hotelList = [];
         final jsonList = response.data;
+
         for (var item in jsonList) {
           hotelList.add(HotelListModel.fromJson(item));
         }

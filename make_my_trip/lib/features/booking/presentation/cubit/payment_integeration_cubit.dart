@@ -79,9 +79,10 @@ class PaymentCubit extends Cubit<BaseState> {
     });
   }
 
-  bookingConfirm(int hotelId, String cIn, String cOut, List<int> roomId) async {
-    final data =
-        await bookingUseCase.call(BookingParams(hotelId, cIn, cOut, roomId));
+  bookingConfirm(int hotelId, String cIn, String cOut, List<int> roomId,
+      int adults) async {
+    final data = await bookingUseCase
+        .call(BookingParams(hotelId, cIn, cOut, roomId, adults));
     data.fold((l) => emit(StateErrorGeneral(l.toString())),
         (r) => emit(StateOnSuccess<BookingModel>(r)));
   }

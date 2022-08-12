@@ -11,7 +11,7 @@ abstract class BookingRemoteDataSource {
   Future<Either<Failures, PaymentModel>> paymentIntegerationDataSource(
       double amount);
   Future<Either<Failures, BookingModel>> bookingRemoteDataSource(
-      int hotelId, String cIn, String cOut, List<int> roomId);
+      int hotelId, String cIn, String cOut, List<int> roomId, int adults);
 }
 
 class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
@@ -51,27 +51,30 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   }
 
   @override
-  Future<Either<Failures, BookingModel>> bookingRemoteDataSource(
-      int hotelId, String cIn, String cOut, List<int> roomId) async {
+  Future<Either<Failures, BookingModel>> bookingRemoteDataSource(int hotelId,
+      String cIn, String cOut, List<int> roomId, int adults) async {
     try {
-      final response = await dio.get(
-          '${BaseConstant.baseUrl}booking/roombooking/prize',
-          queryParameters: {
-            "hotelid": hotelId,
-            "cin": cIn,
-            "cout": cOut,
-            "roomid": roomId.join(",")
-          },
-          options: await createDioOptions());
+      final response =
+          await dio.get('${BaseConstant.baseUrl}booking/roombooking/prize',
+              queryParameters: {
+                "hotelid": hotelId,
+                "cin": cIn,
+                "cout": cOut,
+                "roomid": roomId.join(","),
+                "adults": adults
+              },
+              options: await createDioOptions());
       if (response.statusCode == 200) {
         BookingModel bookingModel;
         final data = response.data;
+        print(data);
         bookingModel = BookingModel.fromJson(data);
         return Right(bookingModel);
       } else {
         return Left(ServerFailure());
       }
     } catch (e) {
+      print(e);
       return Left(ServerFailure());
     }
   }

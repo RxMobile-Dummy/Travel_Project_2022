@@ -1,8 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
-import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
 import 'package:make_my_trip/features/room_categories/domain/repositories/room_categories_repository.dart';
+
+import '../../data/model/room_category_model.dart';
 
 class RoomCategoriesUseCase implements Usecase<RoomCategoryModel, Params> {
   final RoomCategoriesRepository roomCategoriesRepository;

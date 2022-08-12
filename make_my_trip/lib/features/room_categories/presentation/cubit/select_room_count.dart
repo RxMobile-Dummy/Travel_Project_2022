@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
-import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 
 import '../../../../core/usecases/usecase.dart';
@@ -10,12 +9,11 @@ import '../../../user/domain/usecases/is_anonymous_user.dart';
 class SelectRoomCountCubit extends Cubit<BaseState> {
   SelectRoomCountCubit(this.isAnonymousUser)
       : super(StateOnSuccess<SelectRoomCountState>(const SelectRoomCountState(
-            deluxValue: 0,
-            semiDeluxValue: 0,
-            superDeluxValue: 0,
-            totalRooms: 0,
-            extraMetresses: 0,
-            checkExtraMetresses: false)));
+          deluxValue: 0,
+          semiDeluxValue: 0,
+          superDeluxValue: 0,
+          totalRooms: 0,
+        )));
 
   final IsAnonymousUser isAnonymousUser;
 
@@ -35,7 +33,6 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
 
   void addRoomEvent(
       String roomType, int addRoomValue, int maxRoomCount, int userMaxCount) {
-    print("UserCount:$userMaxCount");
     if (addRoomValue < maxRoomCount &&
         addRoomValue < userMaxCount &&
         (state as StateOnSuccess<SelectRoomCountState>).response.totalRooms <
@@ -49,7 +46,6 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
                         .response
                         .totalRooms +
                     1)));
-        _print();
       } else if (roomType == 'Semi-Deluxe') {
         emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
             .response
@@ -59,7 +55,6 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
                         .response
                         .totalRooms +
                     1)));
-        _print();
       } else if (roomType == "Super-Deluxe") {
         emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
             .response
@@ -69,24 +64,8 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
                         .response
                         .totalRooms +
                     1)));
-        _print();
       }
     }
-  }
-
-  _print() {
-    print(
-        "deluxe : ${(state as StateOnSuccess<SelectRoomCountState>).response.deluxValue}");
-    print(
-        "semi deluxe : ${(state as StateOnSuccess<SelectRoomCountState>).response.semiDeluxValue}");
-    print(
-        "super deluxe : ${(state as StateOnSuccess<SelectRoomCountState>).response.superDeluxValue}");
-    print(
-        "total : ${(state as StateOnSuccess<SelectRoomCountState>).response.totalRooms}");
-    print(
-        "Extra metresses : ${(state as StateOnSuccess<SelectRoomCountState>).response.extraMetresses}");
-    print(
-        "Check extra metresses : ${(state as StateOnSuccess<SelectRoomCountState>).response.checkExtraMetresses}");
   }
 
   void removeRoomEvent(String roomType, int removeRoomValue, int userMaxCount) {
@@ -128,12 +107,8 @@ class SelectRoomCountState extends Equatable {
   final int deluxValue;
   final int semiDeluxValue;
   final int totalRooms;
-  final int extraMetresses;
-  final bool checkExtraMetresses;
 
   const SelectRoomCountState({
-    required this.checkExtraMetresses,
-    required this.extraMetresses,
     required this.totalRooms,
     required this.superDeluxValue,
     required this.deluxValue,
@@ -148,8 +123,6 @@ class SelectRoomCountState extends Equatable {
           int? totalRooms,
           int? extraMetresses}) =>
       SelectRoomCountState(
-        checkExtraMetresses: checkExtraMetresses ?? this.checkExtraMetresses,
-        extraMetresses: extraMetresses ?? this.extraMetresses,
         totalRooms: totalRooms ?? this.totalRooms,
         superDeluxValue: superDeluxValue ?? this.superDeluxValue,
         deluxValue: deluxValue ?? this.deluxValue,
@@ -162,7 +135,5 @@ class SelectRoomCountState extends Equatable {
         deluxValue,
         semiDeluxValue,
         totalRooms,
-        extraMetresses,
-        checkExtraMetresses
       ];
 }

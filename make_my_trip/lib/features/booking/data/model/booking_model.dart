@@ -55,6 +55,8 @@ class BookingModel {
     gst = json['gst'];
     offer = json['offer'];
     total = json['total'];
+    matressPrize = json['matressPrize'];
+    noOfmatress = json['noOfmatress'];
   }
   int? hotelid;
   String? hotelName;
@@ -71,6 +73,8 @@ class BookingModel {
   int? gst;
   int? offer;
   int? total;
+  int? matressPrize;
+  int? noOfmatress;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -89,6 +93,8 @@ class BookingModel {
     map['gst'] = gst;
     map['offer'] = offer;
     map['total'] = total;
+    map['matressPrize'] = matressPrize;
+    map['noOfmatress'] = noOfmatress;
     return map;
   }
 }

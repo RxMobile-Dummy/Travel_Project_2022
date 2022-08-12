@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/booking/booking_injection_container.dart';
-import 'package:make_my_trip/features/booking/presentation/cubit/book_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/payment_integeration_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/pages/booking_page.dart';
-import 'package:make_my_trip/features/calendar/presentation/cubit/calendar_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
 import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_container.dart';
@@ -34,7 +32,6 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../features/calendar/presentation/pages/calendar_page.dart';
 import '../../features/home_page/presentation/cubit/homepage_cubit.dart';
 import '../../features/home_page/presentation/cubit/tab_bar_cubit.dart';
 import '../../features/home_page/presentation/pages/homepage.dart';
@@ -203,18 +200,6 @@ class Router {
           ),
         );
 
-      case RoutesName.calendar:
-        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
-        return PageTransition(
-          type: PageTransitionType.fade,
-          duration: const Duration(milliseconds: 1500),
-          alignment: Alignment.bottomCenter,
-          child: BlocProvider(
-            create: (context) => CalenderCubit(),
-            child: CalendarPage(arg: arg),
-          ),
-        );
-
       case RoutesName.roomCategory:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return PageTransition(
@@ -298,14 +283,10 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
             providers: [
-              // BlocProvider(
-              //   create: (context) =>
-              //       bookingSl<BookingCubit>()..getHotelDetailData(arg['model']),
-              // ),
               BlocProvider(
                 create: (context) => bookingSl<PaymentCubit>()
                   ..bookingConfirm(detail.hotelId!, detail.checkinDate!,
-                      detail.checkoutDate!, detail.roomId!),
+                      detail.checkoutDate!, detail.roomId!, detail.adults!),
               ),
             ],
             child: BookingPage(

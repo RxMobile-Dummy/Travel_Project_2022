@@ -16,7 +16,6 @@ class SearchHotelCubit extends Cubit<SearchHotelState> {
 
   int rooms = 1;
   int adults = 1;
-  int childrens = 0;
   String city = "";
   int searchId = 0;
   String? type;
@@ -93,6 +92,7 @@ class SearchHotelCubit extends Cubit<SearchHotelState> {
   }
 
   clearCalender() {
+    emit(UninitializedState());
     cleanCalendarController!.clearSelectedDates();
     inTime = DateTime.now();
     outTime = DateTime.now().add(Duration(days: 1));
@@ -108,12 +108,7 @@ class SearchHotelCubit extends Cubit<SearchHotelState> {
   selectAdults(int adults) {
     emit(UninitializedState());
     this.adults = adults;
-    emit(NoOfRooms());
-  }
-
-  selectChildrens(int childrens) {
-    emit(UninitializedState());
-    this.childrens = childrens;
+    print(this.adults);
     emit(NoOfRooms());
   }
 

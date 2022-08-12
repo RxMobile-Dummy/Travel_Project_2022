@@ -6,7 +6,7 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/widgets/features_item_widget.dart';
-import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
+import 'package:make_my_trip/features/room_categories/data/model/room_category_model.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
 import 'package:make_my_trip/features/room_detail_page/data/model/room_detail_model.dart';
@@ -27,13 +27,13 @@ class RoomDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<RoomType>? roomType;
+    Deluxe? roomType;
     int? noOfRoom;
     if (arg['room_list_model'] != null) {
       roomType = arg['room_list_model'];
       noOfRoom = arg['no_of_room'] == 0 ? 1 : arg['no_of_room'];
     }
-    var roomMaxLength = roomType!.length;
+
     var snackBar = const SnackBar(content: Text(StringConstants.noRoomSelect));
     return BlocConsumer<ImagesliderCubit, BaseState>(
         listener: (context, state) {
@@ -265,185 +265,6 @@ class RoomDetailsPage extends StatelessWidget {
             )
           ],
         ),
-        // bottomNavigationBar: Container(
-        //   color: MakeMyTripColors.accentColor,
-        //   child: Padding(
-        //     padding: const EdgeInsets.only(
-        //         left: 15.0, right: 15.0, bottom: 20.0, top: 10.0),
-        //     child: BlocBuilder<SelectRoomCountCubit, BaseState>(
-        //       builder: (context, state) {
-        //         return Row(
-        //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //           children: [
-        //             GestureDetector(
-        //               onTap: () {
-        //                 // if (state is StateOnSuccess<SelectRoomCountState>) {
-        //                 //   context.read<SelectRoomCountCubit>().removeRoomEvent(
-        //                 //       roomDetailsModel!.roomType!,
-        //                 //       roomDetailsModel!.roomType == "Deluxe"
-        //                 //           ? state.response.deluxValue
-        //                 //           : (roomDetailsModel!.roomType == "Semi-Deluxe"
-        //                 //               ? state.response.semiDeluxValue
-        //                 //               : (roomDetailsModel!.roomType ==
-        //                 //                       "Super-Deluxe"
-        //                 //                   ? state.response.superDeluxValue
-        //                 //                   : int.parse(noOfRoom.toString()))));
-        //                 // }
-        //               },
-        //               // roomRemoveOnTap,
-        //               child: Stack(
-        //                   alignment: AlignmentDirectional.center,
-        //                   children: const [
-        //                     Icon(
-        //                       Icons.square_rounded,
-        //                       size: 25,
-        //                       color: MakeMyTripColors.colorWhite,
-        //                     ),
-        //                     Icon(
-        //                       Icons.remove,
-        //                       size: 20,
-        //                       color: MakeMyTripColors.accentColor,
-        //                     ),
-        //                   ]),
-        //             ),
-        //             Padding(
-        //               padding: const EdgeInsets.symmetric(horizontal: 4.0),
-        //               child: Text(
-        //                 state is StateOnSuccess<SelectRoomCountState>
-        //                     ? (roomDetailsModel!.roomType == "Deluxe"
-        //                         ? state.response.deluxValue.toString()
-        //                         : (roomDetailsModel!.roomType == "Semi-Deluxe"
-        //                             ? state.response.semiDeluxValue.toString()
-        //                             : (roomDetailsModel!.roomType ==
-        //                                     "Super-Deluxe"
-        //                                 ? state.response.superDeluxValue
-        //                                     .toString()
-        //                                 : "0")))
-        //                     : "0",
-        //                 style: AppTextStyles.infoContentStyle
-        //                     .copyWith(color: MakeMyTripColors.colorWhite),
-        //               ),
-        //             ),
-        //             GestureDetector(
-        //               onTap: () {
-        //                 // if (state is StateOnSuccess<SelectRoomCountState>) {
-        //                 //   context.read<SelectRoomCountCubit>().addRoomEvent(
-        //                 //       roomDetailsModel!.roomType!,
-        //                 //       roomDetailsModel!.roomType == "Deluxe"
-        //                 //           ? state.response.deluxValue
-        //                 //           : (roomDetailsModel!.roomType == "Semi-Deluxe"
-        //                 //               ? state.response.semiDeluxValue
-        //                 //               : (roomDetailsModel!.roomType ==
-        //                 //                       "Super-Deluxe"
-        //                 //                   ? state.response.superDeluxValue
-        //                 //                   : int.parse(noOfRoom.toString()))),
-        //                 //       roomMaxLength);
-        //                 // }
-        //               },
-        //               // roomAddOnTap,
-        //               child: Stack(
-        //                   alignment: AlignmentDirectional.center,
-        //                   children: const [
-        //                     Icon(
-        //                       Icons.square_rounded,
-        //                       size: 25,
-        //                       color: MakeMyTripColors.colorWhite,
-        //                     ),
-        //                     Icon(
-        //                       Icons.add,
-        //                       size: 20,
-        //                       color: MakeMyTripColors.accentColor,
-        //                     ),
-        //                   ]),
-        //             ),
-        //             const Spacer(),
-        //             Text(
-        //               "₹ ${((int.parse(roomDetailsModel!.price.toString()) * (state is StateOnSuccess<SelectRoomCountState> ? (roomDetailsModel!.roomType == "Deluxe" ? (state.response.deluxValue == 0 ? 1 : state.response.deluxValue) : (roomDetailsModel!.roomType == "Semi-Deluxe" ? (state.response.semiDeluxValue == 0 ? 1 : state.response.semiDeluxValue) : (roomDetailsModel!.roomType == "Super-Deluxe" ? (state.response.superDeluxValue == 0 ? 1 : state.response.superDeluxValue) : 1))) : 1)).toString())}",
-        //               style: AppTextStyles.labelNameTextStyle.copyWith(
-        //                   fontSize: 22, color: MakeMyTripColors.colorWhite),
-        //             ),
-        //             const Spacer(),
-        //             ElevatedButton(
-        //                 onPressed: () {
-        //                   if (state is StateOnSuccess<SelectRoomCountState>) {
-        //                     noOfRoom = (state
-        //                             is StateOnSuccess<SelectRoomCountState>
-        //                         ? (roomDetailsModel!.roomType == "Deluxe"
-        //                             ? (state.response.deluxValue == 0
-        //                                 ? 1
-        //                                 : state.response.deluxValue)
-        //                             : (roomDetailsModel!.roomType ==
-        //                                     "Semi-Deluxe"
-        //                                 ? (state.response.semiDeluxValue == 0
-        //                                     ? 1
-        //                                     : state.response.semiDeluxValue)
-        //                                 : (roomDetailsModel!.roomType ==
-        //                                         "Super-Deluxe"
-        //                                     ? (state.response.superDeluxValue ==
-        //                                             0
-        //                                         ? 1
-        //                                         : state
-        //                                             .response.superDeluxValue)
-        //                                     : 1)))
-        //                         : 1);
-        //                     if ((roomDetailsModel!.roomType == "Deluxe"
-        //                             ? state.response.deluxValue
-        //                             : (roomDetailsModel!.roomType ==
-        //                                     "Semi-Deluxe"
-        //                                 ? state.response.semiDeluxValue
-        //                                 : (roomDetailsModel!.roomType ==
-        //                                         "Super-Deluxe"
-        //                                     ? state.response.superDeluxValue
-        //                                     : 0))) >
-        //                         0) {
-        //                       BlocProvider.of<ImagesliderCubit>(context)
-        //                           .goToBooking(
-        //                               arg['hotel_id'],
-        //                               arg['cin'],
-        //                               arg['cout'],
-        //                               noOfRoom!,
-        //                               arg['room_list_model']);
-        //                     } else {
-        //                       ScaffoldMessenger.of(context)
-        //                           .showSnackBar(snackBar);
-        //                     }
-        //                   }
-        //                 },
-        //                 style: ElevatedButton.styleFrom(
-        //                     shape: RoundedRectangleBorder(
-        //                       borderRadius: BorderRadius.circular(30.0),
-        //                     ),
-        //                     primary: MakeMyTripColors.colorWhite),
-        //                 child: Text(
-        //                   'Book Now',
-        //                   style: TextStyle(
-        //                       color:
-        //                           (state is StateOnSuccess<SelectRoomCountState>
-        //                                   ? ((roomDetailsModel!.roomType ==
-        //                                               "Deluxe"
-        //                                           ? state.response.deluxValue
-        //                                           : (roomDetailsModel!
-        //                                                       .roomType ==
-        //                                                   "Semi-Deluxe"
-        //                                               ? state.response
-        //                                                   .semiDeluxValue
-        //                                               : (roomDetailsModel!
-        //                                                           .roomType ==
-        //                                                       "Super-Deluxe"
-        //                                                   ? state.response
-        //                                                       .superDeluxValue
-        //                                                   : 0))) >
-        //                                       0)
-        //                                   : false)
-        //                               ? MakeMyTripColors.accentColor
-        //                               : MakeMyTripColors.color30gray),
-        //                 ))
-        //           ],
-        //         );
-        //       },
-        //     ),
-        //   ),
-        // ),
       );
     });
   }
