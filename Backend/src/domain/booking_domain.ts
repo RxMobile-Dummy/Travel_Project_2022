@@ -37,7 +37,7 @@ class BookingDomain {
                 e.room.forEach((d: any) => {
                     if (rommIdFromReq.includes(d.room_id)) {
                         roomPrice.push(d.price);
-                        sum = sum +d.price;
+                        sum = sum + d.price;
                     }
                 })
             })
@@ -164,24 +164,24 @@ class BookingDomain {
                         const deluxeList: any = [];
                         const semiDeluxeList: any = [];
                         const superDeluxeList: any = []
-                       
+
                         roomImageData.forEach((e: any) => {
-                                if (e.room_type == "Deluxe") {
-                                    deluxeList.push(e);
-                                } else if (e.room_type == "Semi-Deluxe") {
-                                    semiDeluxeList.push(e);
-                                } else if (e.room_type == "Super-Deluxe") {
-                                    superDeluxeList.push(e);
-                                }
-                            })
-                            var resultData = {
-                                "hotel_id": hotelId,
-                                "hotel_name": hotelName,
-                                "deluxe": deluxeList,
-                                "semi-deluxe": semiDeluxeList,
-                                "super-deluxe": superDeluxeList,
-                            };
-                            res.status(StatusCode.Sucess).send(resultData);
+                            if (e.room_type == "Deluxe") {
+                                deluxeList.push(e);
+                            } else if (e.room_type == "Semi-Deluxe") {
+                                semiDeluxeList.push(e);
+                            } else if (e.room_type == "Super-Deluxe") {
+                                superDeluxeList.push(e);
+                            }
+                        })
+                        var resultData = {
+                            "hotel_id": hotelId,
+                            "hotel_name": hotelName,
+                            "deluxe": deluxeList,
+                            "semi-deluxe": semiDeluxeList,
+                            "super-deluxe": superDeluxeList,
+                        };
+                        res.status(StatusCode.Sucess).send(resultData);
                     } else {
                         var resError = {
                             "hotel_id": hotelId,
@@ -277,6 +277,65 @@ class BookingDomain {
             res.status(StatusCode.Server_Error).send(e.message);
             res.end();
         }
+    }
+
+    async bookingFreeze(req: Request, res: Response, cIn: string, cOut: string, roomId: any, hotelId: number) {
+        try {
+            var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
+
+            if (roomId.length != 0 && cIn != null && cOut != null && hotelId != 0) {
+
+                //Date converstion
+                var cin = new Date(cIn);
+                var cout = new Date(cOut);
+
+                //booking request id genteration
+                var nextID: any = await bookingmodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
+
+                //number of days count from cin & cout
+                var diff = Math.abs(cout.getTime() - cin.getTime());
+                var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+
+                var bookIngData: object = {
+                    _id: nextID?._id == undefined ? 1 : Number(nextID?.id) + 1,
+                    user_id: reqData.uid,
+                    hotel_id: hotelId,
+                    no_of_room: roomId.length,
+                    room_id: roomId,
+                    checkin_date: new Date(cin),
+                    checkout_date: new Date(cout),
+                    price: {
+                        number_of_nights: diffDays,
+                        room_price: 0,
+                        gst: 0,
+                        discount: 0,
+                        total_price: 0
+                    },
+                    status: "pending",
+                    paymentId: null,
+                    orderId: null
+                }
+
+                var bookedData = new bookingmodel(bookIngData);
+                await bookedData.save();
+
+                //return id for further delete
+                return nextID?._id == undefined ? 1 : Number(nextID?.id) + 1;
+
+            } else {
+                return 0;
+            }
+        } catch (err: any) {
+            res.status(StatusCode.Server_Error).send(err.message);
+            res.end();
+        }
+    }
+
+    //payment fail
+    async bookingFreezFail(bookingId: any) {
+
+        await bookingmodel.deleteOne({ $and: [{ _id: bookingId }, { status: "pending" }] });
+
     }
 }
 
