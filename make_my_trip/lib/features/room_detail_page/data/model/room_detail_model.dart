@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../../../hotel_detail/data/model/hotel_detail_model.dart';
+
 /// hotel_id : 1
 /// hotel_name : "Hotel Khyber Palace"
 /// room_id : 102
@@ -12,8 +13,11 @@ import '../../../hotel_detail/data/model/hotel_detail_model.dart';
 /// features : ["Free internet","Coffee / Tea maker","Mini-Fridge","Smart TV with satellite","Individually air conditioning"]
 /// description : "Semi-Deluxe rooms, are modern decorated, can accommodate up to 2 persons, totally soundproofed and equipped with high tech comforts such as high speed internet access, USB ports , smart TV, room cleaning touch system and private hydromassage bathtub"
 /// images : [{"_id":6,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F1.jpg?alt=media&token=7ffb9c24-4acb-444e-ad28-12a40b619698","hotel_id":1,"room_id":102,"tour_id":null,"user_id":null},{"_id":7,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F10.jpg?alt=media&token=ef24362d-f35b-47cd-ba6d-ee0f8c86992b","hotel_id":1,"room_id":102,"tour_id":null,"user_id":null},{"_id":8,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F11.jpg?alt=media&token=32b7a860-63cd-42d6-9eef-d8ca1108cbee","hotel_id":1,"room_id":102,"tour_id":null,"user_id":null},{"_id":9,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F12.jpg?alt=media&token=738c4f05-66f4-40cf-9b54-0373b086410a","hotel_id":1,"room_id":102,"tour_id":null,"user_id":null},{"_id":10,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/room%20images%2Fsemi%20delux%20room%2F13.jpg?alt=media&token=224f046d-4867-4cd9-a3ef-db632cadb993","hotel_id":1,"room_id":102,"tour_id":null,"user_id":null}]
-RoomDetailModel roomDetailModelFromJson(String str) => RoomDetailModel.fromJson(json.decode(str));
-String roomDetailModelToJson(RoomDetailModel data) => json.encode(data.toJson());
+RoomDetailModel roomDetailModelFromJson(String str) =>
+    RoomDetailModel.fromJson(json.decode(str));
+String roomDetailModelToJson(RoomDetailModel data) =>
+    json.encode(data.toJson());
+
 class RoomDetailModel {
   RoomDetailModel({
     this.hotelId,
@@ -26,7 +30,8 @@ class RoomDetailModel {
     this.price,
     this.features,
     this.description,
-    this.images,});
+    this.images,
+  });
 
   RoomDetailModel.fromJson(dynamic json) {
     hotelId = json['hotel_id'];
@@ -75,7 +80,6 @@ class RoomDetailModel {
     }
     return map;
   }
-
 }
 
 /// _id : 6

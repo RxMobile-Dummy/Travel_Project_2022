@@ -26,7 +26,8 @@ class UserHistoryPage extends StatelessWidget {
           child: BlocBuilder<UserHistoryCubit, BaseState>(
             builder: (context, state) {
               if (state is StateOnSuccess) {
-                List<UserHistoryModel> userHistoryModel = state.response;
+                List<UserHistoryModel> userHistoryModel =
+                    state.response as List<UserHistoryModel>;
                 if (userHistoryModel.isEmpty) {
                   return CommonErrorWidget(
                       imagePath: ImagePath.noBookingPage,

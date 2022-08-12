@@ -29,8 +29,8 @@ class PublishReviewPage extends StatelessWidget {
           // var snackBar = SnackBar(content: Text(state.errorMessage));
           // ScaffoldMessenger.of(context).showSnackBar(snackBar);
         } else if (state is StateNoData) {
-          var snackBar = SnackBar(
-              content: Text(StringConstants.noReviewComment));
+          var snackBar =
+              SnackBar(content: Text(StringConstants.noReviewComment));
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
@@ -64,7 +64,8 @@ class PublishReviewPage extends StatelessWidget {
                           state.commentReview == null ||
                           state.commentReview.length == 0 ||
                           state.commentReview.toString().trim().length == 0) {
-                        var snackBar = SnackBar(content: Text(StringConstants.pleaseEntCom));
+                        var snackBar = SnackBar(
+                            content: Text(StringConstants.pleaseEntCom));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                       context.read<ReviewCubit>().postHotelReviewData(

@@ -7,13 +7,12 @@ import '../../../../core/usecases/usecase.dart';
 import '../../data/model/payment_model.dart';
 
 class PaymentUseCase implements Usecase<PaymentModel, PaymentParams> {
-
   final BookingRepository bookingRepository;
   PaymentUseCase(this.bookingRepository);
 
   @override
   Future<Either<Failures, PaymentModel>> call(params) async {
-   return await bookingRepository.getPaymentDetails(params.amt);
+    return await bookingRepository.getPaymentDetails(params.amt);
   }
 }
 

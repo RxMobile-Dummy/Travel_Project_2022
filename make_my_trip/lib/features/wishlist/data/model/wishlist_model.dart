@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 /// _id : 5
 /// hotel_id : 12
 /// hotel_name : "Hotel The Royal Plaza"
@@ -6,8 +7,10 @@ import 'dart:convert';
 /// price : 3541
 /// wishListImage : [{"_id":226,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F83.jpg?alt=media&token=ee4bf1de-7585-4964-8c99-0deb2b72104a","hotel_id":12,"room_id":null,"tour_id":null,"user_id":null},{"_id":227,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F82.jpg?alt=media&token=940adafd-e2c5-4e54-a507-221a8c345a74","hotel_id":12,"room_id":null,"tour_id":null,"user_id":null},{"_id":228,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F81.jpg?alt=media&token=760b1ff5-ad13-480b-82fa-b4d86f54d3ba","hotel_id":12,"room_id":null,"tour_id":null,"user_id":null},{"_id":229,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F80.jpg?alt=media&token=44e12ead-843c-4db6-a4d4-7c0d0985327f","hotel_id":12,"room_id":null,"tour_id":null,"user_id":null},{"_id":230,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F8.jpg?alt=media&token=2d75c113-b0f4-4478-9e7b-e6454f0fbdfd","hotel_id":12,"room_id":null,"tour_id":null,"user_id":null}]
 
-WishlistModel wishlistModelFromJson(String str) => WishlistModel.fromJson(json.decode(str));
+WishlistModel wishlistModelFromJson(String str) =>
+    WishlistModel.fromJson(json.decode(str));
 String wishlistModelToJson(WishlistModel data) => json.encode(data.toJson());
+
 class WishlistModel {
   WishlistModel({
     this.id,
@@ -15,13 +18,15 @@ class WishlistModel {
     this.hotelName,
     this.address,
     this.price,
-    this.wishListImage,});
+    this.wishListImage,
+  });
 
   WishlistModel.fromJson(dynamic json) {
     id = json['_id'];
     hotelId = json['hotel_id'];
     hotelName = json['hotel_name'];
-    address = json['address'] != null ? Address.fromJson(json['address']) : null;
+    address =
+        json['address'] != null ? Address.fromJson(json['address']) : null;
     price = json['price'];
     if (json['wishListImage'] != null) {
       wishListImage = [];
@@ -51,7 +56,6 @@ class WishlistModel {
     }
     return map;
   }
-
 }
 
 /// _id : 226
@@ -61,8 +65,10 @@ class WishlistModel {
 /// tour_id : null
 /// user_id : null
 
-WishListImage wishListImageFromJson(String str) => WishListImage.fromJson(json.decode(str));
+WishListImage wishListImageFromJson(String str) =>
+    WishListImage.fromJson(json.decode(str));
 String wishListImageToJson(WishListImage data) => json.encode(data.toJson());
+
 class WishListImage {
   WishListImage({
     this.id,
@@ -70,7 +76,8 @@ class WishListImage {
     this.hotelId,
     this.roomId,
     this.tourId,
-    this.userId,});
+    this.userId,
+  });
 
   WishListImage.fromJson(dynamic json) {
     id = json['_id'];
@@ -97,7 +104,6 @@ class WishListImage {
     map['user_id'] = userId;
     return map;
   }
-
 }
 
 /// location : {"latitude":"28.621386","longitude":"77.2174032"}
@@ -107,15 +113,18 @@ class WishListImage {
 
 Address addressFromJson(String str) => Address.fromJson(json.decode(str));
 String addressToJson(Address data) => json.encode(data.toJson());
+
 class Address {
   Address({
     this.location,
     this.addressLine,
     this.cityId,
-    this.pincode,});
+    this.pincode,
+  });
 
   Address.fromJson(dynamic json) {
-    location = json['location'] != null ? Location.fromJson(json['location']) : null;
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
     addressLine = json['address_line'];
     cityId = json['city_id'];
     pincode = json['pincode'];
@@ -135,7 +144,6 @@ class Address {
     map['pincode'] = pincode;
     return map;
   }
-
 }
 
 /// latitude : "28.621386"
@@ -143,10 +151,12 @@ class Address {
 
 Location locationFromJson(String str) => Location.fromJson(json.decode(str));
 String locationToJson(Location data) => json.encode(data.toJson());
+
 class Location {
   Location({
     this.latitude,
-    this.longitude,});
+    this.longitude,
+  });
 
   Location.fromJson(dynamic json) {
     latitude = json['latitude'];
@@ -161,5 +171,4 @@ class Location {
     map['longitude'] = longitude;
     return map;
   }
-
 }

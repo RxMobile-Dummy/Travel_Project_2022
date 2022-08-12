@@ -12,6 +12,7 @@ class RoutesName {
 
   static const home = '/home';
   static const myTrips = '/mytrip';
+  static const bookingHistoryDetailPage = '/bookingHistoryDetail';
   static const wishList = '/wishList';
   static const profile = '/profile';
   static const help = '/help';

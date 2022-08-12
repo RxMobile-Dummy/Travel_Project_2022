@@ -168,6 +168,7 @@ class StringConstants {
   static String totalBookingDays = '365 Days';
   static String bookingLocation = 'Location';
   static String bookingtitle = 'Hotel or Tour Name';
+  static String bookingHistoryDetail = 'Booking History Detail';
 
   static String isAnonymousSharedPreference = "isAnonymous";
   static String userIdSharedPreference = "userId";

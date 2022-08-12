@@ -34,6 +34,8 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../features/booking_history_details/booking_detail_injection_container.dart';
+import '../../features/booking_history_details/presentation/pages/booking_history_detail_page.dart';
 import '../../features/calendar/presentation/pages/calendar_page.dart';
 import '../../features/home_page/presentation/cubit/homepage_cubit.dart';
 import '../../features/home_page/presentation/cubit/tab_bar_cubit.dart';
@@ -134,6 +136,14 @@ class Router {
             create: (context) =>
                 historyListSl<UserHistoryCubit>()..getUserHistoryData(),
             child: UserHistoryPage(),
+          );
+        });
+      case RoutesName.bookingHistoryDetailPage:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider(
+            create: (context) =>
+                historyListDetailSl<UserHistoryCubit>()..getUserHistoryData(),
+            child: BookingHistoryDetails(),
           );
         });
       case RoutesName.wishList:
@@ -298,10 +308,6 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
             providers: [
-              // BlocProvider(
-              //   create: (context) =>
-              //       bookingSl<BookingCubit>()..getHotelDetailData(arg['model']),
-              // ),
               BlocProvider(
                 create: (context) => bookingSl<PaymentCubit>()
                   ..bookingConfirm(detail.hotelId!, detail.checkinDate!,
