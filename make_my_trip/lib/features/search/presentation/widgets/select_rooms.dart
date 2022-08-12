@@ -36,7 +36,7 @@ class SelectRoom extends StatelessWidget {
                   },
                   child: const Icon(
                     Icons.close,
-                    color: Colors.grey,
+                    color: MakeMyTripColors.colorWhite,
                   ),
                 ),
               ],

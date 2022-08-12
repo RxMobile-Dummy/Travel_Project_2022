@@ -32,8 +32,6 @@ class SearchHotelPage extends StatelessWidget {
                   hintText: StringConstants.searchPagetextfield,
                 ),
                 onChanged: (String query) {
-                  print("search : " + query);
-
                   context.read<SearchHotelCubit>().getSearchInputData(query);
                 },
               ),
@@ -42,7 +40,6 @@ class SearchHotelPage extends StatelessWidget {
                   builder: (context, state) {
                 if (state is StateOnKnownToSuccessState) {
                   searchModel = state.response as List<SearchHotelModel>;
-                  print("model${searchModel}");
                   return Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(12),
@@ -75,11 +72,13 @@ class SearchHotelPage extends StatelessWidget {
                                       (searchModel?[index].type == "hotel")
                                           ? const Icon(
                                               Icons.maps_home_work,
-                                              color: Colors.grey,
+                                              color:
+                                                  MakeMyTripColors.color30gray,
                                             )
                                           : const Icon(
                                               Icons.place,
-                                              color: Colors.grey,
+                                              color:
+                                                  MakeMyTripColors.color30gray,
                                             ),
                                       12.horizontalSpace,
                                       Flexible(
@@ -97,7 +96,7 @@ class SearchHotelPage extends StatelessWidget {
                             itemCount: searchModel!.length),
                   );
                 } else {
-                  return Container();
+                  return const SizedBox.shrink();
                 }
               }),
             ],

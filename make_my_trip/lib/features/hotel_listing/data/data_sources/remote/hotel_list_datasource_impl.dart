@@ -12,10 +12,6 @@ class HotelListDataSourceImpl implements HotelListDataSource {
   final Dio dio;
 
   HotelListDataSourceImpl(this.dio);
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken(true);
-    return Options(headers: {'token': userToken});
-  }
 
   @override
   Future<Either<Failures, List<HotelListModel>>> getHotelListData(
@@ -34,9 +30,7 @@ class HotelListDataSourceImpl implements HotelListDataSource {
             'rating': params.rating,
             'price': params.price
           },
-          options: await createDioOptions());
-      print(response.realUri);
-      print(response.data);
+          options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
         final List<HotelListModel> hotelList = [];
         final jsonList = response.data;
@@ -54,7 +48,6 @@ class HotelListDataSourceImpl implements HotelListDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
-      print(e);
       return Left(ServerFailure(failureMsg: e.toString()));
     }
   }

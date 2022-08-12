@@ -24,9 +24,7 @@ class RoomCategoryCubit extends Cubit<BaseState> {
           .call(Params(hotelId, cIn, cOut, noOfRooms));
       res.fold((l) => emit(StateErrorGeneral("errorMessage")),
           (r) => emit(StateOnKnownToSuccess<RoomCategoryModel>(r)));
-    } catch (err) {
-      print(err);
-    }
+    } catch (err) {}
   }
 
   postModelCreate(int hotelId, String cin, String cout, int noOfRoom,
@@ -42,29 +40,6 @@ class RoomCategoryCubit extends Cubit<BaseState> {
       roomId.add(roomCategoryModel.superdeluxeRoomId![i]);
     }
 
-    // Price p = Price(
-    //     numberOfNights: noOfNights,
-    //     basePrice: ((roomType[0].price ?? 1) * noOfRoom).toDouble(),
-    //     roomPrice: (((roomType[0].price ?? 1) * noOfRoom).toDouble() *
-    //         noOfNights),
-    //     gst: ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) *
-    //         0.18),
-    //     discount:
-    //         ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) +
-    //                 ((((roomType[0].price ?? 1) * noOfRoom).toDouble() *
-    //                         noOfNights) *
-    //                     0.18)) *
-    //             0.05,
-    //     totalPrice: ((((roomType[0].price ?? 1) * noOfRoom).toDouble() *
-    //             noOfNights) +
-    //         ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) *
-    //             0.18) -
-    //         ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) +
-    //                 ((((roomType[0].price ?? 1) * noOfRoom).toDouble() *
-    //                         noOfNights) *
-    //                     0.18)) *
-    //             0.05));
-
     RoomDataPostModel roomDataPostModel = RoomDataPostModel(
         hotelId: hotelId,
         checkinDate: cin,
@@ -77,7 +52,7 @@ class RoomCategoryCubit extends Cubit<BaseState> {
 
   goToBooking(hotelId, cin, cout, totalSelectedRoom, roomList,
       RoomCategoryModel roomCategoryModel, int adults) async {
-    emit(Uninitialized());
+    emit(StateInitial());
     final res = await isAnonymousUser.call(NoParams());
     res.fold((failure) {}, (success) {
       if (success) {

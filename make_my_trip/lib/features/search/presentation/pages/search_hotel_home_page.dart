@@ -10,7 +10,6 @@ import '../../../../core/theme/make_my_trip_colors.dart';
 import '../../../../utils/constants/string_constants.dart';
 import '../../../../utils/widgets/common_primary_button.dart';
 import '../widgets/search_city_container.dart';
-import '../widgets/search_hotel_page.dart';
 import '../widgets/select_dates.dart';
 import '../widgets/select_rooms.dart';
 
@@ -47,7 +46,7 @@ class SearchHotel extends StatelessWidget {
                   padding: EdgeInsets.only(right: 20),
                   child: Icon(
                     Icons.favorite_border,
-                    color: Colors.black,
+                    color: MakeMyTripColors.colorBlack,
                   ),
                 ),
               ),

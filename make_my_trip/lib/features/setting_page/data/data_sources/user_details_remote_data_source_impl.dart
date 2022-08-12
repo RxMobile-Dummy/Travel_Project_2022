@@ -18,18 +18,12 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
 
   final Dio dio;
 
-  Future<Options> createDioOptions() async {
-    final auth = FirebaseAuth.instance;
-    final token = await auth.currentUser!.getIdToken();
-    return Options(headers: {StringConstants.token: token});
-  }
-
   @override
   Future<Either<Failures, UserDetailsModel>> getUserData() async {
     try {
       final response = await dio.get(
           BaseConstant.baseUrl + StringConstants.user,
-          options: await createDioOptions());
+          options: await BaseConstant.createDioOptions());
 
       if (response.statusCode == 200) {
         UserDetailsModel userModel;
@@ -61,7 +55,7 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
         final response = await dio.put(
             BaseConstant.baseUrl + StringConstants.user,
             data: postData,
-            options: await createDioOptions());
+            options: await BaseConstant.createDioOptions());
         if (response.statusCode == 200) {
           return const Right(null);
         } else {
@@ -77,8 +71,10 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
   Future<Either<Failures, String>> updateImageFromGallery() async {
     try {
       XFile? pickedFile = await ImagePicker().pickImage(
-        imageQuality: 20,
-          source: ImageSource.gallery, maxWidth: 1800, maxHeight: 1800);
+          imageQuality: 20,
+          source: ImageSource.gallery,
+          maxWidth: 1800,
+          maxHeight: 1800);
       if (pickedFile == null) {
         return const Right(StringConstants.emptyString);
       }
@@ -89,11 +85,9 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
 
         try {
           FlutterIsolate.spawn(
-             await uploadimageGallery(filename, pickedFile, ref), StringConstants.galleryIsolate);
-        }
-        catch(e){
-
-        }
+              await uploadimageGallery(filename, pickedFile, ref),
+              StringConstants.galleryIsolate);
+        } catch (e) {}
         var mapData = {StringConstants.imageJson: await ref.getDownloadURL()};
         await FirebaseFirestore.instance
             .collection(StringConstants.firebaseCollectionName)
@@ -101,7 +95,7 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
             .set(mapData)
             .onError((error, stackTrace) => null);
         await dio.put(BaseConstant.baseUrl + StringConstants.user,
-            data: mapData, options: await createDioOptions());
+            data: mapData, options: await BaseConstant.createDioOptions());
 
         return Right(mapData.entries.first.value.toString());
       } else {
@@ -130,24 +124,22 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
         final ref = FirebaseStorage.instance.ref().child(path);
         try {
           FlutterIsolate.spawn(
-              await uploadimageCamera(filename, pickedFile, ref), StringConstants.cameraIsolate);
-        }
-        catch(e){
-
-        }
+              await uploadimageCamera(filename, pickedFile, ref),
+              StringConstants.cameraIsolate);
+        } catch (e) {}
 
         var mapData = {StringConstants.imageJson: await ref.getDownloadURL()};
-
 
         await FirebaseFirestore.instance
             .collection(StringConstants.firebaseCollectionName)
             .doc(FirebaseAuth.instance.currentUser?.uid)
             .set(mapData)
-            .onError((error, stackTrace) => print(error));
+            .onError((error, stackTrace) {});
 
         await dio.put(BaseConstant.baseUrl + StringConstants.user,
-            data: mapData, options: await createDioOptions());
-        await Fluttertoast.showToast(msg: StringConstants.imageUploadSucefullytxt);
+            data: mapData, options: await BaseConstant.createDioOptions());
+        await Fluttertoast.showToast(
+            msg: StringConstants.imageUploadSucefullytxt);
         return Right(mapData.entries.first.value.toString());
       } else {
         return Left(ErrorWithMessageFailure(StringConstants.failedToLoadImg));
@@ -157,12 +149,11 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
     }
   }
 
-  uploadimageGallery(File filename, XFile pickedFile, Reference ref) async{
+  uploadimageGallery(File filename, XFile pickedFile, Reference ref) async {
     await ref.putFile(filename);
-
   }
-  uploadimageCamera(File filename, XFile pickedFile, Reference ref) async{
-    await ref.putFile(filename);
 
+  uploadimageCamera(File filename, XFile pickedFile, Reference ref) async {
+    await ref.putFile(filename);
   }
 }

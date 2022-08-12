@@ -31,7 +31,7 @@ class HotalDetails extends StatelessWidget {
         },
         child: Card(
           elevation: 5,
-          color: Colors.white,
+          color: MakeMyTripColors.colorWhite,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
@@ -73,7 +73,7 @@ class HotalDetails extends StatelessWidget {
                           count: wishlistModel.wishListImage?.length ?? 10,
                           axisDirection: Axis.horizontal,
                           effect: const SlideEffect(
-                            activeDotColor: Colors.white,
+                            activeDotColor: MakeMyTripColors.colorWhite,
                             dotHeight: 10,
                             dotColor: MakeMyTripColors.color50gray,
                             dotWidth: 10,
@@ -141,11 +141,12 @@ class HotalDetails extends StatelessWidget {
                         Row(
                           children: [
                             const Icon(Icons.check,
-                                color: Colors.green, size: 18),
+                                color: MakeMyTripColors.colorGreen, size: 18),
                             Text(
                               StringConstants.wishlistSublineText,
                               style: TextStyle(
-                                  color: Colors.green[300], fontSize: 11),
+                                  color: MakeMyTripColors.colorGreen,
+                                  fontSize: 11),
                             )
                           ],
                         )

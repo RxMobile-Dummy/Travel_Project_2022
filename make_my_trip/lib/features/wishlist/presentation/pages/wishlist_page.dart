@@ -64,14 +64,14 @@ class WishListPage extends StatelessWidget {
                           filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
                           child: Container(
                             decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.3)),
+                                color: MakeMyTripColors.colorBlack
+                                    .withOpacity(0.3)),
                           ),
                         ),
                       ),
                     ),
                     expandedHeight: 230,
                     backgroundColor: MakeMyTripColors.colorWhite,
-
                   );
                 }), //SliverAppBar
                 SliverList(

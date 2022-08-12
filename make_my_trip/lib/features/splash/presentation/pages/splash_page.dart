@@ -7,6 +7,7 @@ import 'package:make_my_trip/features/splash/presentation/cubit/splash_cubit.dar
 import 'package:make_my_trip/features/splash/presentation/widgets/app_logo_widget.dart';
 import 'package:make_my_trip/features/splash/splash_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
+import '../../../../core/theme/make_my_trip_colors.dart';
 import '../widgets/app_logo_widget.dart';
 
 class SplashPage extends StatelessWidget {
@@ -27,7 +28,7 @@ class SplashPage extends StatelessWidget {
       },
       child: const Scaffold(
         extendBodyBehindAppBar: true,
-        backgroundColor: Colors.white,
+        backgroundColor: MakeMyTripColors.colorWhite,
         body: AppLogoWidget(),
       ),
     );

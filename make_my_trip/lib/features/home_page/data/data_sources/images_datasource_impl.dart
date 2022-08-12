@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:make_my_trip/features/home_page/data/data_sources/images_datasource.dart';
 import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
+import '../../../../core/failures/exception.dart';
 import '../../../../core/failures/failures.dart';
 import '../../../hotel_listing/data/models/hotel_list_model.dart';
 
@@ -13,26 +14,13 @@ class ImagesDataSourceImpl implements ImagesDataSource {
 
   ImagesDataSourceImpl(this.dio);
 
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    printWrapped(userToken);
-    return Options(headers: {'token': userToken});
-  }
-
-  void printWrapped(String text) {
-    final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
-    pattern.allMatches(text).forEach((match) => print(match.group(0)));
-  }
-
   @override
   Future<Either<Failures, List<HotelListModel>>> getList() async {
     try {
       final response = await dio.get('${BaseConstant.baseUrl}hotel/image/5',
-          options: await createDioOptions());
+          options: await BaseConstant.createDioOptions());
 
       var result = response.data;
-      print("image $result");
-
       if (response.statusCode == 200) {
         List<HotelListModel> postList = [];
         {
@@ -44,7 +32,6 @@ class ImagesDataSourceImpl implements ImagesDataSource {
       } else if (response.statusCode == 505) {
         return Left(ServerFailure());
       } else if (response.statusCode == 404) {
-        print("404");
         return Left(
             AuthFailure()); //Data Not Found Failure but in failure there is not method so AuthFailure
       } else {

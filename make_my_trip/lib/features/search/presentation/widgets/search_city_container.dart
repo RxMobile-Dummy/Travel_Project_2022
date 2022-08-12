@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/make_my_trip_colors.dart';
 import '../../../../core/theme/text_styles.dart';
 
 class SearchCityContainer extends StatelessWidget {
@@ -32,7 +33,7 @@ class SearchCityContainer extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: Icon(
                 iconData,
-                color: Colors.grey,
+                color: MakeMyTripColors.color50gray,
               ),
             ),
             Flexible(

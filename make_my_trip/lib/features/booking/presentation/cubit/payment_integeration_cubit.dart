@@ -62,9 +62,7 @@ class PaymentCubit extends Cubit<BaseState> {
 
     try {
       _razorpay.open(options);
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   paymentConfirm(double amount) async {

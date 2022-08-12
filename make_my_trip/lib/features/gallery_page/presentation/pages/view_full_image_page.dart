@@ -24,7 +24,7 @@ class ViewImage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: const IconThemeData(color: MakeMyTripColors.colorWhite),
         ),
         backgroundColor: MakeMyTripColors.colorBlack,
         body: BlocBuilder<GalleryCubit, BaseState>(

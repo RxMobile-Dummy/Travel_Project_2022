@@ -32,7 +32,7 @@ class ProgressDialog {
                       child: CardView(
                           backgroudColor: Platform.isIOS
                               ? const Color(0xffe4e6e9)
-                              : Colors.white,
+                              : MakeMyTripColors.colorWhite,
                           margin: const EdgeInsets.all(20),
                           child: Platform.isIOS
                               ? Container(

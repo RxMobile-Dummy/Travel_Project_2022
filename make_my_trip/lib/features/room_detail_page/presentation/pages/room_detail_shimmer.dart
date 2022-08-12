@@ -4,6 +4,8 @@ import 'package:make_my_trip/features/wishlist/presentation/widgets/list_contain
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../core/theme/make_my_trip_colors.dart';
+
 class RoomDetailsShimmer extends StatelessWidget {
   const RoomDetailsShimmer({Key? key}) : super(key: key);
 
@@ -18,24 +20,27 @@ class RoomDetailsShimmer extends StatelessWidget {
           children: <Widget>[
             SafeArea(
               child: Center(
-                  child: ContainerWidget(width: size.width,hight: size.height * 0.3)
-              ),
+                  child: ContainerWidget(
+                      width: size.width, hight: size.height * 0.3)),
             ),
             Expanded(
               child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.white,
+                baseColor: MakeMyTripColors.color10gray,
+                highlightColor: MakeMyTripColors.colorWhite,
                 direction: ShimmerDirection.ltr,
                 child: ListView.builder(
                   itemBuilder: (_, __) => Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0,left: 23,top: 10,right: 10),
+                    padding: const EdgeInsets.only(
+                        bottom: 20.0, left: 23, top: 10, right: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-
                         // room title
-                        ListContainer(hight: 35,width: size.width * 0.35,),
+                        ListContainer(
+                          hight: 35,
+                          width: size.width * 0.35,
+                        ),
 
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
@@ -59,45 +64,62 @@ class RoomDetailsShimmer extends StatelessWidget {
                         // room description title
                         Padding(
                           padding: const EdgeInsets.only(top: 25),
-                          child: ListContainer(hight: 35,width: size.width * 0.35,),
+                          child: ListContainer(
+                            hight: 35,
+                            width: size.width * 0.35,
+                          ),
                         ),
 
                         // room description details
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
-                          child: ListContainer(hight: size.height * 0.15,width: size.width * 0.9,),
+                          child: ListContainer(
+                            hight: size.height * 0.15,
+                            width: size.width * 0.9,
+                          ),
                         ),
 
                         // room amenities
                         Padding(
                           padding: const EdgeInsets.only(top: 25),
-                          child: ListContainer(hight: 35,width: size.width * 0.35,),
+                          child: ListContainer(
+                            hight: 35,
+                            width: size.width * 0.35,
+                          ),
                         ),
 
                         Row(
                           children: [
                             Padding(
                                 padding: const EdgeInsets.only(top: 10),
-                                child: ListContainer(width: size.width * 0.3 ,hight: 20,)
-                            ),
+                                child: ListContainer(
+                                  width: size.width * 0.3,
+                                  hight: 20,
+                                )),
                             const Spacer(),
                             Padding(
                                 padding: const EdgeInsets.only(top: 10),
-                                child: ListContainer(width: size.width * 0.3 ,hight: 20,)
-                            ),
+                                child: ListContainer(
+                                  width: size.width * 0.3,
+                                  hight: 20,
+                                )),
                           ],
                         ),
                         Row(
                           children: [
                             Padding(
                                 padding: const EdgeInsets.only(top: 10),
-                                child: ListContainer(width: size.width * 0.3 ,hight: 20,)
-                            ),
+                                child: ListContainer(
+                                  width: size.width * 0.3,
+                                  hight: 20,
+                                )),
                             const Spacer(),
                             Padding(
                                 padding: const EdgeInsets.only(top: 10),
-                                child: ListContainer(width: size.width * 0.3 ,hight: 20,)
-                            ),
+                                child: ListContainer(
+                                  width: size.width * 0.3,
+                                  hight: 20,
+                                )),
                           ],
                         ),
                       ],

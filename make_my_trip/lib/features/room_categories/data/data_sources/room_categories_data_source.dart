@@ -21,11 +21,6 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
 
   RoomCategoriesDataSourceImpl(this.dio);
 
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    return Options(headers: {'token': userToken});
-  }
-
   @override
   Future<Either<Failures, RoomCategoryModel>> getRoomDetailData(
       int hotelId, String cIn, String cOut, int noOfRooms) async {
@@ -37,8 +32,7 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
             "cout": cOut,
             "no_of_room": noOfRooms
           },
-          options: await createDioOptions());
-      print(response.data);
+          options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
         final RoomCategoryModel roomCategoryModel =
             RoomCategoryModel.fromJson(response.data);
@@ -52,7 +46,6 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
-      print(e);
       return Left(ServerFailure());
     }
   }
@@ -62,7 +55,8 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
       String orderId, String paymentId, BookingModel bookingModel) async {
     try {
       final response = await dio.post('${baseurl}booking/hotelbooking',
-          data: bookingModel.toJson(), options: await createDioOptions());
+          data: bookingModel.toJson(),
+          options: await BaseConstant.createDioOptions());
 
       if (response.statusCode == 200) {
         return Right(response.data);
@@ -72,7 +66,6 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
         return Left(ServerFailure());
       }
     } catch (e) {
-      print(e);
       return Left(ServerFailure());
     }
   }

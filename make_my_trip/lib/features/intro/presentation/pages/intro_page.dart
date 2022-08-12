@@ -104,7 +104,7 @@ class IntroPage extends StatelessWidget {
                         dotDecoration: DotDecoration(
                           width: 24,
                           height: 10,
-                          color: Colors.grey,
+                          color: MakeMyTripColors.color50gray,
                           borderRadius: BorderRadius.circular(16),
                           verticalOffset: 1,
                         ),

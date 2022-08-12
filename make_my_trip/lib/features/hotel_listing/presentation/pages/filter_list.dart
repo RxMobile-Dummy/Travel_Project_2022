@@ -12,29 +12,7 @@ import '../../../../utils/constants/string_constants.dart';
 class FilterList extends StatelessWidget {
   FilterList({Key? key, required this.arg}) : super(key: key);
   RangeValues defaultRange = const RangeValues(0, 0);
-  List amenitiesList = [
-    "Parking",
-    "Healthy Breakfast",
-    "AC",
-    "Wifi",
-    "Transportation",
-    "Laundry",
-    "Entertainment"
-  ];
-  List priceList = [
-    "₹0 - ₹2000",
-    "₹2001 - ₹4000",
-    "₹4001 - ₹8000",
-    "₹8001 - ₹10000",
-    "₹10001 - ₹15000",
-    "₹15000+",
-  ];
-  List ratingList = [
-    2,
-    3,
-    4,
-    5,
-  ];
+
   final Map<String, dynamic> arg;
   @override
   Widget build(BuildContext context) {
@@ -74,7 +52,8 @@ class FilterList extends StatelessWidget {
                 children: [
                   const FilterTitleWidget(filterTitle: "Rating"),
                   FilterMultipleSelectWidget(
-                    filterList: ratingList,
+                    filterList:
+                        BlocProvider.of<HotelListCubit>(context).ratingList,
                     rating: true,
                     type: "Rating",
                   ),
@@ -88,7 +67,8 @@ class FilterList extends StatelessWidget {
                   ),
                   const FilterTitleWidget(filterTitle: "Amenities"),
                   FilterMultipleSelectWidget(
-                    filterList: amenitiesList,
+                    filterList:
+                        BlocProvider.of<HotelListCubit>(context).amenitiesList,
                     type: "Amenities",
                   ),
                   const Padding(
@@ -99,9 +79,10 @@ class FilterList extends StatelessWidget {
                       thickness: 1,
                     ),
                   ),
-                  FilterTitleWidget(filterTitle: "Price Range"),
+                  const FilterTitleWidget(filterTitle: "Price Range"),
                   FilterMultipleSelectWidget(
-                    filterList: priceList,
+                    filterList:
+                        BlocProvider.of<HotelListCubit>(context).priceList,
                     type: "Price Range",
                   ),
                 ],
@@ -112,11 +93,11 @@ class FilterList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Divider(
+                  const Divider(
                     color: MakeMyTripColors.color30gray,
                     thickness: 1,
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(bottom: 12, top: 6),
                     child: AllFiltersWidget(),
                   ),

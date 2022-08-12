@@ -34,10 +34,9 @@ class RoomListWidget extends StatelessWidget {
   final String cout;
   int totalSelectedRoom;
   final int hotelId;
-
+  var snackBar = const SnackBar(content: Text(StringConstants.noRoomSelect));
   @override
   Widget build(BuildContext context) {
-    var snackBar = const SnackBar(content: Text(StringConstants.noRoomSelect));
     return BlocBuilder<RoomCategoryCubit, BaseState>(
       builder: (context, state) {
         return Padding(
@@ -194,7 +193,7 @@ class RoomListWidget extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.grey[200],
+                      color: MakeMyTripColors.color10gray,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8.0, right: 2.0),
@@ -208,12 +207,12 @@ class RoomListWidget extends StatelessWidget {
                                   Icon(
                                     Icons.square_rounded,
                                     size: 25,
-                                    color: Colors.grey,
+                                    color: MakeMyTripColors.color50gray,
                                   ),
                                   Icon(
                                     Icons.remove,
                                     size: 20,
-                                    color: Colors.white,
+                                    color: MakeMyTripColors.colorWhite,
                                   ),
                                 ]),
                           ),
@@ -233,12 +232,12 @@ class RoomListWidget extends StatelessWidget {
                                   Icon(
                                     Icons.square_rounded,
                                     size: 25,
-                                    color: Colors.grey,
+                                    color: MakeMyTripColors.color50gray,
                                   ),
                                   Icon(
                                     Icons.add,
                                     size: 20,
-                                    color: Colors.white,
+                                    color: MakeMyTripColors.colorWhite,
                                   ),
                                 ]),
                           ),

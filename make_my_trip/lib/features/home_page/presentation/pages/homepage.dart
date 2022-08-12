@@ -109,7 +109,7 @@ class HomePage extends StatelessWidget {
                   ],
                   showUnselectedLabels: true,
                   showSelectedLabels: true,
-                  unselectedItemColor: Colors.black,
+                  unselectedItemColor: MakeMyTripColors.colorBlack,
                   currentIndex: _selectedIndex,
                   selectedItemColor: MakeMyTripColors.colorBlack,
                   onTap: (index) {

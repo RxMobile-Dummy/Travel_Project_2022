@@ -119,7 +119,6 @@ class BookingPage extends StatelessWidget {
                           color: MakeMyTripColors.colorWhite,
                           boxShadow: const [
                             BoxShadow(
-                              // color: Colors.black,
                               blurRadius: 1.0,
                             ),
                           ]),

@@ -142,7 +142,6 @@ class ReviewPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               var searchState = context.read<ReviewCubit>().state;
-              print(searchState);
               if (searchState is Authenticated) {
                 Navigator.pushReplacementNamed(
                     context, RoutesName.publishReviewPage, arguments: {

@@ -34,7 +34,7 @@ import 'features/booking/booking_injection_container.dart' as booking_di;
 import 'core/internet/internet_injection_container.dart' as internet_di;
 
 void main() async {
-  await WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await internet_di.init();
   await intro_di.init();
   await user_di.init();

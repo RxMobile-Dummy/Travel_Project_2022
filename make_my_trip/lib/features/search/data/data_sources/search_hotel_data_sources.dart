@@ -16,11 +16,6 @@ class SearchHotelDataSourcesImpl implements SearchHotelDataSources {
   final Dio dio;
   SearchHotelDataSourcesImpl(this.dio);
 
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken(true);
-    return Options(headers: {'token': userToken});
-  }
-
   @override
   Future<Either<Failures, List<SearchHotelModel>>> getNearByPlaces(
     String place,
@@ -28,7 +23,7 @@ class SearchHotelDataSourcesImpl implements SearchHotelDataSources {
     try {
       final response = await dio.get("${BaseConstant.baseUrl}city/",
           queryParameters: {'searchdata': place.trim()},
-          options: await createDioOptions());
+          options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
         final List<SearchHotelModel> searchList = [];
         final jsonList = response.data;

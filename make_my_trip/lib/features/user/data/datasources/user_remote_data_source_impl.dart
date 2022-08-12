@@ -52,11 +52,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     }
   }
 
-  Future<Options> createDioOptions() async {
-    final userToken = await auth.currentUser!.getIdToken(true);
-    return Options(headers: {'token': userToken});
-  }
-
   @override
   Future<Either<Failures, UserModel>> userSignIn(
       userEmail, userPassword) async {
@@ -107,7 +102,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         User? user = userCredential.user;
         if (user != null) {
           final response = await dio.post('${BaseConstant.baseUrl}user/post',
-              options: await createDioOptions());
+              options: await BaseConstant.createDioOptions());
           if (response.statusCode == 200 || response.statusCode == 409) {
             return Right(UserModel.fromJson({
               "userName": user.displayName,
@@ -149,7 +144,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         // ignore: unnecessary_null_comparison
         if (user != null) {
           final response = await dio.post('${BaseConstant.baseUrl}user/post',
-              options: await createDioOptions());
+              options: await BaseConstant.createDioOptions());
           if (response.statusCode == 200 || response.statusCode == 409) {
             return Right(UserModel.fromJson({
               "userName": user.displayName,
@@ -215,7 +210,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       user!.sendEmailVerification();
       if (user != null) {
         final response = await dio.post('${BaseConstant.baseUrl}user/post',
-            options: await createDioOptions());
+            options: await BaseConstant.createDioOptions());
         await userSignOut();
         if (response.statusCode == 409) {
           return Left(

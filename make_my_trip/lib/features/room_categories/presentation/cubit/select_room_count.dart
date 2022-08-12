@@ -1,9 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
-import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
-
-import '../../../../core/usecases/usecase.dart';
 import '../../../user/domain/usecases/is_anonymous_user.dart';
 
 class SelectRoomCountCubit extends Cubit<BaseState> {

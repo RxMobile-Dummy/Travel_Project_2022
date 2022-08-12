@@ -19,7 +19,7 @@ class ImagesliderCubit extends Cubit<BaseState> {
   }
 
   goToBooking(hotelId, cin, cout, totalSelectedRoom, roomList) async {
-    emit(Uninitialized());
+    emit(StateInitial());
     final res = await isAnonymousUser.call(NoParams());
     res.fold((failure) {}, (success) {
       if (success) {
@@ -61,28 +61,6 @@ class ImagesliderCubit extends Cubit<BaseState> {
         roomId.add(roomType[i].roomId!);
       }
     }
-    Price p = Price(
-        numberOfNights: noOfNights,
-        basePrice: ((roomType[0].price ?? 1) * noOfRoom).toDouble(),
-        roomPrice: (((roomType[0].price ?? 1) * noOfRoom).toDouble() *
-            noOfNights),
-        gst: ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) *
-            0.18),
-        discount:
-            ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) +
-                    ((((roomType[0].price ?? 1) * noOfRoom).toDouble() *
-                            noOfNights) *
-                        0.18)) *
-                0.05,
-        totalPrice: ((((roomType[0].price ?? 1) * noOfRoom).toDouble() *
-                noOfNights) +
-            ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) *
-                0.18) -
-            ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) +
-                    ((((roomType[0].price ?? 1) * noOfRoom).toDouble() *
-                            noOfNights) *
-                        0.18)) *
-                0.05));
 
     RoomDataPostModel roomDataPostModel = RoomDataPostModel(
         hotelId: hotelId,

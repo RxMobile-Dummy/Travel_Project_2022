@@ -11,7 +11,7 @@ import '../../../../core/theme/make_my_trip_colors.dart';
 import '../../../../core/theme/text_styles.dart';
 
 class ResetPasswordPage extends StatelessWidget {
-  ResetPasswordPage({Key? key}) : super(key: key);
+  const ResetPasswordPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class ResetPasswordPage extends StatelessWidget {
                                 ? ""
                                 : StringConstants.enterValidMail)
                             : ""),
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: MakeMyTripColors.colorRed, fontSize: 16),
                       )),
                   10.verticalSpace,
@@ -74,7 +74,7 @@ class ResetPasswordPage extends StatelessWidget {
                     child: CommonPrimaryButton(
                         text: StringConstants.sendLink,
                         onTap: () {
-                          var snackBar = SnackBar(
+                          var snackBar = const SnackBar(
                               content: Text(StringConstants.sendMailTxt));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           context

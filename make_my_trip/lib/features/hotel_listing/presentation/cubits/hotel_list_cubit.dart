@@ -12,9 +12,31 @@ class HotelListCubit extends Cubit<BaseState> {
   final Set selectedAmenities = {};
   String price = "";
   final Set selectedFilter = {};
-
+  List amenitiesList = [
+    "Parking",
+    "Healthy Breakfast",
+    "AC",
+    "Wifi",
+    "Transportation",
+    "Laundry",
+    "Entertainment"
+  ];
+  List priceList = [
+    "₹0 - ₹2000",
+    "₹2001 - ₹4000",
+    "₹4001 - ₹8000",
+    "₹8001 - ₹10000",
+    "₹10001 - ₹15000",
+    "₹15000+",
+  ];
+  List ratingList = [
+    2,
+    3,
+    4,
+    5,
+  ];
   resetFilters() {
-    emit(Uninitialized());
+    emit(StateInitial());
     selectedRating.clear();
     selectedAmenities.clear();
     price = "";
@@ -24,14 +46,12 @@ class HotelListCubit extends Cubit<BaseState> {
 
   selectFilter(filter, type) {
     selectedFilter.clear();
-    emit(Uninitialized());
+    emit(StateInitial());
     if (type == "Amenities") {
-      _contains(selectedAmenities, filter);
+      selectedAmenities.add(filter);
     } else if (type == "Rating") {
-      _contains(selectedRating, filter);
+      selectedRating.add(filter);
     } else if (type == "Price Range") {
-      print(filter);
-      print(price);
       if (filter == price) {
         price = "";
       } else {
@@ -42,15 +62,6 @@ class HotelListCubit extends Cubit<BaseState> {
     selectedFilter.addAll(selectedAmenities);
     (price == "") ? selectedFilter.remove(price) : selectedFilter.add(price);
     emit(StateOnResponseSuccess<Set>(selectedFilter));
-  }
-
-  _contains(list, filter) {
-    if (list.contains(filter)) {
-      list.remove(filter);
-    } else {
-      list.add(filter);
-    }
-    return list;
   }
 
   getHotelListApi(cin, cout, noOfRoom, searchId, type) async {

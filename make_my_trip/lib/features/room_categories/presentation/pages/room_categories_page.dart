@@ -18,7 +18,7 @@ import '../../data/model/room_category_model.dart';
 import '../../data/model/room_data_booking_post_model.dart';
 
 class RoomCategoriesPage extends StatelessWidget {
-  RoomCategoriesPage({Key? key, required this.arg}) : super(key: key);
+  const RoomCategoriesPage({Key? key, required this.arg}) : super(key: key);
   final Map<String, dynamic> arg;
 
   @override

@@ -36,7 +36,7 @@ class HomeListWidget extends StatelessWidget {
                     image: DecorationImage(
                         opacity: .8,
                         colorFilter: const ColorFilter.mode(
-                            Colors.black, BlendMode.lighten),
+                            MakeMyTripColors.colorBlack, BlendMode.lighten),
                         fit: BoxFit.cover,
                         image: NetworkImage(imageData))),
               ),
@@ -47,18 +47,18 @@ class HomeListWidget extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(.4),
+                      color: MakeMyTripColors.colorWhite.withOpacity(.4),
                       borderRadius: BorderRadius.circular(50)),
                   child: Row(
                     children: [
                       const Icon(Icons.star_rate_rounded,
-                          size: 18, color: Colors.white),
+                          size: 18, color: MakeMyTripColors.colorWhite),
                       Text(
                         rating,
                         style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white),
+                            color: MakeMyTripColors.colorWhite),
                       )
                     ],
                   ),

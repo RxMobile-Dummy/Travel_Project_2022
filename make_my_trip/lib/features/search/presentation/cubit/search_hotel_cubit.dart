@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_state.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:scrollable_clean_calendar/controllers/clean_calendar_controller.dart';
@@ -19,11 +18,15 @@ class SearchHotelCubit extends Cubit<SearchHotelState> {
   String city = "";
   int searchId = 0;
   String? type;
-  DateTime? inTime = DateTime.now();
-  DateTime? outTime = DateTime.now().add(const Duration(days: 1));
+  var today = DateTime.now();
+  DateTime? inTime;
+  DateTime? outTime;
 
   SearchHotelCubit(this.searchHotelUseCases, this.isAnonymousUser)
       : super(SearchHotelInitial()) {
+    inTime = today;
+    outTime = today.add(const Duration(days: 1));
+    init();
     searchData
         .debounceTime(const Duration(milliseconds: 500))
         .listen((searchData) {
@@ -33,8 +36,8 @@ class SearchHotelCubit extends Cubit<SearchHotelState> {
 
   init() {
     cleanCalendarController = CleanCalendarController(
-        minDate: DateTime.now(),
-        maxDate: DateTime.now().add(const Duration(days: 365)),
+        minDate: today,
+        maxDate: today.add(const Duration(days: 365)),
         onRangeSelected: (checkInTime, checkOutTime) {
           if (checkOutTime != null) {
             final diff = checkOutTime.difference(checkInTime).inDays;
@@ -44,10 +47,12 @@ class SearchHotelCubit extends Cubit<SearchHotelState> {
               inTime = checkInTime;
               outTime = null;
               emit(DateSelectState());
+              init();
             } else {
               if (checkInTime == checkOutTime) {
                 inTime = checkInTime;
                 outTime = null;
+                init();
                 emit(DateSelectState());
               } else {
                 inTime = checkInTime;
@@ -66,7 +71,7 @@ class SearchHotelCubit extends Cubit<SearchHotelState> {
   }
 
   goToWishlist() async {
-    emit(UninitializedState());
+    emit(SearchHotelInitial());
     final res = await isAnonymousUser.call(NoParams());
     res.fold((failure) {}, (success) {
       if (success) {
@@ -83,7 +88,7 @@ class SearchHotelCubit extends Cubit<SearchHotelState> {
       res.fold((l) => emit(StateNoDataState()),
           (r) => emit(StateOnKnownToSuccessState(r)));
     } else {
-      emit(UninitializedState());
+      emit(SearchHotelInitial());
     }
   }
 
@@ -92,28 +97,28 @@ class SearchHotelCubit extends Cubit<SearchHotelState> {
   }
 
   clearCalender() {
-    emit(UninitializedState());
+    emit(SearchHotelInitial());
     cleanCalendarController!.clearSelectedDates();
-    inTime = DateTime.now();
-    outTime = DateTime.now().add(Duration(days: 1));
+    inTime = today;
+    outTime = today.add(const Duration(days: 1));
+    init();
     emit(DateSelectState());
   }
 
   selectRooms(int rooms) {
-    emit(UninitializedState());
+    emit(SearchHotelInitial());
     this.rooms = rooms;
     emit(NoOfRooms());
   }
 
   selectAdults(int adults) {
-    emit(UninitializedState());
+    emit(SearchHotelInitial());
     this.adults = adults;
-    print(this.adults);
     emit(NoOfRooms());
   }
 
   selectCityName(String cityName, int searchId, String type) {
-    emit(UninitializedState());
+    emit(SearchHotelInitial());
     this.city = cityName;
     this.searchId = searchId;
     this.type = type;

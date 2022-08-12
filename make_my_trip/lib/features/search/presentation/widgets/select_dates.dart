@@ -18,7 +18,7 @@ class SelectDates extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<SearchHotelCubit>(context)..init();
+    final cubit = BlocProvider.of<SearchHotelCubit>(context);
     return BlocConsumer<SearchHotelCubit, SearchHotelState>(
       listener: (context, state) {
         if (state is ErrorState) {
@@ -27,10 +27,6 @@ class SelectDates extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is DateSelectState) {
-          cubit.init();
-        }
-
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -71,7 +67,7 @@ class SelectDates extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
+                  Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(children: [
                       Row(

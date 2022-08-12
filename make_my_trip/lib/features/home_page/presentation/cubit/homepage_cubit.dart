@@ -27,9 +27,7 @@ class HomepageCubit extends Cubit<BaseState> {
             .response
             .copyWith(imageListValue: success, imageLoading: false)));
       });
-    } catch (err) {
-      print(" cubit Catch : $err");
-    }
+    } catch (err) {}
   }
 
   getToursApi() async {
@@ -47,8 +45,6 @@ class HomepageCubit extends Cubit<BaseState> {
             .response
             .copyWith(toursListValue: success, tourLoading: false)));
       });
-    } catch (err) {
-      print("tour : $err");
-    }
+    } catch (err) {}
   }
 }
