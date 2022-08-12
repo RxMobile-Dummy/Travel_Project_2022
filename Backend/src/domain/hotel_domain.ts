@@ -65,7 +65,7 @@ class HotelDomain {
         try {
 
             var hotelData = await hotelmodel.aggregate([
-                { $match: { rating: { $gte: 5 } } },
+                { $match: { rating: { $gte: 4 } } },
                 { $sample: { size: parseInt(req.params.imagelimit) } },
                 {
                     $lookup: {
@@ -369,17 +369,17 @@ class HotelDomain {
                             }
                         })
                     )
-                    if(resData.length!=0){
+                    if (resData.length != 0) {
                         res.status(StatusCode.Sucess).send(resData);
                         res.end();
-                    }else{
+                    } else {
                         res.status(StatusCode.Sucess).send([]);
                         res.end();
                     }
                 }
             }
 
-        } catch (err:any) {
+        } catch (err: any) {
             res.status(StatusCode.Server_Error).send(err.message);
             res.end();
         }
