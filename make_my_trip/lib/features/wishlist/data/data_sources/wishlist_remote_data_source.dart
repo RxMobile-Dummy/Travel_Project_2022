@@ -29,10 +29,12 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
       String url,int page) async {
     try {
       var params  = {
-        "pageSize" :1,
+        "pagesize" :3,
         "page": page
       };
-      final response = await dio.get(url,queryParameters: params, options: await createDioOptions());
+      final response = await dio.get( url,
+          queryParameters: params,
+          options: await createDioOptions());
 
       if (response.statusCode == 200) {
         List<WishlistModel> wishListModel = [];
@@ -40,7 +42,6 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
         for (var item in apidata) {
           wishListModel.add(WishlistModel.fromJson(item));
         }
-
         return Right(wishListModel);
       } else {
         return Left(ServerFailure());

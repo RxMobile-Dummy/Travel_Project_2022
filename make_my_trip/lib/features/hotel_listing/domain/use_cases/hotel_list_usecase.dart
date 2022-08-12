@@ -25,13 +25,18 @@ class Params {
   final String? aminities;
   final String? price;
   final String? rating;
-  Params(
-      {this.aminities,
-      this.price,
-      this.rating,
-      required this.cin,
-      required this.cout,
-      required this.noOfRoom,
-      required this.id,
-      required this.type});
+  final int? pagesize;
+  final int? page;
+  Params({
+    this.aminities,
+    this.price,
+    this.rating,
+    required this.cin,
+    required this.cout,
+    required this.noOfRoom,
+    required this.id,
+    required this.type,
+    this.pagesize,
+    this.page,
+  });
 }

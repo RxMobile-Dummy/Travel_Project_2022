@@ -32,15 +32,17 @@ class HotelListDataSourceImpl implements HotelListDataSource {
             'type': params.type,
             'features': params.aminities,
             'rating': params.rating,
-            'price': params.price
+            'price': params.price,
+            "pagesize" : 3,
+            "page": params.page
           },
           options: await createDioOptions());
-      print(response.realUri);
       if (response.statusCode == 200) {
         final List<HotelListModel> hotelList = [];
         final jsonList = response.data;
         for (var item in jsonList) {
           hotelList.add(HotelListModel.fromJson(item));
+
         }
         return right(hotelList);
       } else if (response.statusCode == 505) {
@@ -52,7 +54,6 @@ class HotelListDataSourceImpl implements HotelListDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
-      print(e);
       return Left(ServerFailure(failureMsg: e.toString()));
     }
   }

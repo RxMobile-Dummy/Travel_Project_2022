@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
@@ -9,32 +10,41 @@ class WishListCubit extends Cubit<BaseState> {
   WishListCubit(this.wishListUsecase) : super(StateInitial());
 
   final WishListUsecase wishListUsecase;
-  int page=1;
+  int page = -1;
+  List<WishlistModel> wishList = [];
+  
+  
   getWishListCubitData() async {
+    if(state is !StateOnSuccess){
     emit(StateLoading());
+    }
+    else{
+      emit(StateOnSuccess<List<WishlistModel>>(wishList,isMoreLoading: true));
+    }
+    page++;
     final res = await wishListUsecase.call(page);
-    res.fold((l) => emit(StateErrorGeneral("errorMessage")),
-        (r) => emit(StateOnSuccess<List<WishlistModel>>(r)));
+    res.fold((l) {emit(StateErrorGeneral("errorMessage"));},
+        (r) {
+      for(var item in r ){
+        wishList.add(item);
+      }
+    emit(StateOnSuccess<List<WishlistModel>>(wishList,isMoreLoading: false));
+        });
+
   }
 
-  getWish() async{
-    if(state is StateReorderLoading) return;
-    final currentState = state;
-    var oldPosts = <WishlistModel>[];
 
-    if (currentState is StateOnSuccess) {
-      oldPosts = currentState.response;
-    }
-
-    emit(StateReorderLoading(oldPosts, post: page == 1));
-    wishListUsecase.call(page).then((newPosts) {
-      page++;
-
-      final posts = (state as StateReorderLoading).response;
-      posts.addAll(newPosts);
-
-      emit(StateOnSuccess(posts));
+  void setUpScrollController(ScrollController scrollController) {
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels != 0) {
+          getWishListCubitData();
+        }
+      }
     });
   }
-
 }
+
+
+
+
