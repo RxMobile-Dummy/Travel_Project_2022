@@ -23,7 +23,7 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
       page) async {
     try {
       final params = <String, dynamic>{
-        'pagesize': 10,
+        'pagesize': 6,
         'page': page,
       };
       final response = await dio.get(

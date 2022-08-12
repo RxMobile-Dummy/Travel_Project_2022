@@ -17,9 +17,11 @@ import '../widgets/shimmer_effect_page.dart';
 
 class WishListPage extends StatelessWidget {
   WishListPage({Key? key}) : super(key: key);
+  ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+    context.read<WishListCubit>.call().setUpScrollController(_scrollController);
     return Scaffold(
       body: BlocBuilder<WishListCubit, BaseState>(
         builder: (context, state) {
@@ -32,6 +34,7 @@ class WishListPage extends StatelessWidget {
                   statusCode: "");
             }
             return CustomScrollView(
+              controller: _scrollController,
               slivers: <Widget>[
                 SliverLayoutBuilder(builder: (context, constraints) {
                   final scroll = constraints.scrollOffset > 145;
@@ -76,11 +79,18 @@ class WishListPage extends StatelessWidget {
                 SliverList(
                     delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
-                    return HotalDetails(
-                      wishlistModel: wishlistModel[index],
+                    return Column(
+                      children: [
+                        if(index!=wishlistModel.length)
+                        HotalDetails(
+                          wishlistModel: wishlistModel[index],
+                        ),
+                        if(index==wishlistModel.length)
+                          const CircularProgressIndicator()
+                      ],
                     );
                   },
-                  childCount: wishlistModel.length,
+                  childCount: state.isMoreLoading ? wishlistModel.length+1 : wishlistModel.length,
                 )),
               ], //<Widget>[]
             );

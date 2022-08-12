@@ -12,11 +12,12 @@ import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 import '../../data/model/user_history_model.dart';
 
 class UserHistoryPage extends StatelessWidget {
-   UserHistoryPage({Key? key}) : super(key: key);
- ScrollController _scrollController = ScrollController();
+  UserHistoryPage({Key? key}) : super(key: key);
+  ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
-    context.read<UserHistoryCubit>.call().setUpScrollController(_scrollController);
+    context.read<UserHistoryCubit>.call()
+        .setUpScrollController(_scrollController);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -37,17 +38,18 @@ class UserHistoryPage extends StatelessWidget {
                       statusCode: "");
                 }
                 return ListView.builder(
-                  controller: _scrollController,
-                    itemCount: state.isMoreLoading?userHistoryModel.length+1 : userHistoryModel.length,
+                    controller: _scrollController,
+                    itemCount: state.isMoreLoading
+                        ? userHistoryModel.length + 1
+                        : userHistoryModel.length,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
-                          if(index!=userHistoryModel.length)
-                          HistoryListViewWidget(
-                              userHistoryModel: userHistoryModel[index]),
-                          if(index==userHistoryModel.length)
+                          if (index != userHistoryModel.length)
+                            HistoryListViewWidget(
+                                userHistoryModel: userHistoryModel[index]),
+                          if (index == userHistoryModel.length)
                             const CircularProgressIndicator()
-
                         ],
                       );
                     });
@@ -66,4 +68,3 @@ class UserHistoryPage extends StatelessWidget {
         ));
   }
 }
-
