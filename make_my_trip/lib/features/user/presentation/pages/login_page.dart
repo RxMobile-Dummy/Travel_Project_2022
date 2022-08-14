@@ -120,6 +120,7 @@ class LoginPage extends StatelessWidget {
                         BlocProvider.of<UserCubit>(context).signInWithEmail(
                             loginEmailController.text,
                             loginPasswordController.text);
+
                       },
                     ),
                   ),

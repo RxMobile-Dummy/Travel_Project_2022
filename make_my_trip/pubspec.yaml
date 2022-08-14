@@ -109,6 +109,7 @@ flutter:
     - assets/img/
     - assets/video/
 
+
   # font family of app
   fonts:
     - family: Montserrat
