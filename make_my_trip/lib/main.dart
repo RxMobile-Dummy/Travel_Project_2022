@@ -9,6 +9,7 @@ import 'package:make_my_trip/features/setting_page/setting_page_injection_contai
     as setting_page_di;
 import 'package:make_my_trip/features/user/user_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
+import 'package:make_my_trip/service.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import './core/navigation/app_router.dart' as app_routes;
 import 'core/internet/internet_cubit.dart';
@@ -74,21 +75,26 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+  // await flutterLocalNotificationsPlugin
+  //     .resolvePlatformSpecificImplementation<
+  //         AndroidFlutterLocalNotificationsPlugin>()
+  //     ?.createNotificationChannel(channel);
 
-  FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true, badge: true, sound: true);
-
+  // FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //     alert: true, badge: true, sound: true);
+  await PushNotificationService().setupInteractedMessage();
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MaterialApp(
     home: MyApp(),
     debugShowCheckedModeBanner: false,
   ));
+  RemoteMessage? initialMessage =
+      await FirebaseMessaging.instance.getInitialMessage();
+  if (initialMessage != null) {
+    // App received a notification when it was killed
+  }
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -110,51 +116,51 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    super.initState();
+    //   super.initState();
     FirebaseMessaging.instance
         .getToken()
         .then((value) => print("device_id  ${value}"));
-    FirebaseMessaging.instance.subscribeToTopic('Events');
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-                android: AndroidNotificationDetails(channel.id, channel.name,
-                    channelDescription: channel.description,
-                    color: Colors.blue,
-                    playSound: true,
-                    //sound: const UriAndroidNotificationSound(
-                    //   "assets/tunes/pop.mp3"),
-                    icon: '@mipmap/travelsy')));
+    //   FirebaseMessaging.instance.subscribeToTopic('Events');
+    //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //     RemoteNotification? notification = message.notification;
+    //     AndroidNotification? android = message.notification?.android;
+    //     if (notification != null && android != null) {
+    //       flutterLocalNotificationsPlugin.show(
+    //           notification.hashCode,
+    //           notification.title,
+    //           notification.body,
+    //           NotificationDetails(
+    //               android: AndroidNotificationDetails(channel.id, channel.name,
+    //                   channelDescription: channel.description,
+    //                   color: Colors.blue,
+    //                   playSound: true,
+    //                   //sound: const UriAndroidNotificationSound(
+    //                   //   "assets/tunes/pop.mp3"),
+    //                   icon: '@mipmap/travelsy')));
 
-        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-          print('A new onMessageOpenedApp event is published');
-          RemoteNotification? notification = message.notification;
-          AndroidNotification? android = message.notification?.android;
+    //       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    //         print('A new onMessageOpenedApp event is published');
+    //         RemoteNotification? notification = message.notification;
+    //         AndroidNotification? android = message.notification?.android;
 
-          if (notification != null && android != null) {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text(notification.title.toString()),
-                    content: SingleChildScrollView(
-                        child: Column(
-                      children: [
-                        Text(notification.body.toString()),
-                      ],
-                    )),
-                  );
-                });
-          }
-        });
-      }
-    });
+    //         if (notification != null && android != null) {
+    //           showDialog(
+    //               context: context,
+    //               builder: (context) {
+    //                 return AlertDialog(
+    //                   title: Text(notification.title.toString()),
+    //                   content: SingleChildScrollView(
+    //                       child: Column(
+    //                     children: [
+    //                       Text(notification.body.toString()),
+    //                     ],
+    //                   )),
+    //                 );
+    //               });
+    //         }
+    //       });
+    //     }
+    //   });
   }
 
   @override
