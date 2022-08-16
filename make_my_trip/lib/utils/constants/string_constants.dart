@@ -253,6 +253,7 @@ class StringConstants {
   static const offer = "Offer";
   static const grandTotal = "Grand Total";
   static const book = "Book";
+
   //calender page String
   static const only30Day = "You can book hotel rooms for only 30 days.";
   static const selectDate = "Select Dates";
@@ -338,4 +339,14 @@ class StringConstants {
   static String selectChildrensLabel = 'Childrens';
 
   static String filters = "Filters";
+
+  //Cancel booking
+  static String cancelBooking = "Cancel Booking";
+  static String bookedDate = "Booked Date";
+  static String checkIncheckOut = "Check In - Check Out";
+  static String totalNights = "Total Nights";
+  static String totalRooms = "Total Rooms";
+  static String roomPrice = "Room Price";
+  static String discount = "Discount";
+  static String cancellationPolicy = "Cancellation Policy";
 }

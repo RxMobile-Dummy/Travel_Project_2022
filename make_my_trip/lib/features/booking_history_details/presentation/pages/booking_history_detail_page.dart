@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/features/booking_history_details/presentation/widgets/history_detail_page_shimmer.dart';
 import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
@@ -13,23 +14,23 @@ import '../../../../utils/constants/string_constants.dart';
 import '../../../../utils/widgets/common_error_widget.dart';
 import '../../../../utils/widgets/common_primary_button.dart';
 import '../../../user_history/data/model/user_history_model.dart';
-import '../../../user_history/presentation/pages/shimmer_history_page.dart';
 
 class BookingHistoryDetails extends StatelessWidget {
   const BookingHistoryDetails({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: SafeArea(
           child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: CommonPrimaryButton(text: "Cancel Booking", onTap: () {})),
+              child: CommonPrimaryButton(
+                  text: StringConstants.cancelBooking, onTap: () {})),
         ),
         body: BlocBuilder<UserHistoryCubit, BaseState>(
           builder: (context, state) {
             if (state is StateOnSuccess) {
               List<UserHistoryModel> userHistoryModel = state.response;
-              var data = userHistoryModel.toList();
               return CustomScrollView(
                 slivers: <Widget>[
                   SliverLayoutBuilder(builder: (context, constraints) {
@@ -121,7 +122,7 @@ class BookingHistoryDetails extends StatelessWidget {
                             ),
                             12.verticalSpace,
                             Text(
-                              "Booking Details",
+                              StringConstants.bookingDetails,
                               style: AppTextStyles.labelStyle
                                   .copyWith(fontSize: 18),
                             ),
@@ -136,7 +137,7 @@ class BookingHistoryDetails extends StatelessWidget {
                                         left: 12.0, right: 0.0),
                                     leading: const Icon(Icons.book),
                                     title: Text(
-                                      "Booked Date",
+                                      StringConstants.bookedDate,
                                       style: AppTextStyles.infoContentStyle
                                           .copyWith(
                                               fontWeight: FontWeight.w600,
@@ -153,7 +154,7 @@ class BookingHistoryDetails extends StatelessWidget {
                                     leading: const Icon(
                                         Icons.check_circle_outline_outlined),
                                     title: Text(
-                                      "Check In - Check Out",
+                                      StringConstants.checkIncheckOut,
                                       style: AppTextStyles.infoContentStyle
                                           .copyWith(
                                               fontWeight: FontWeight.w600,
@@ -170,7 +171,7 @@ class BookingHistoryDetails extends StatelessWidget {
                                         left: 12.0, right: 0.0),
                                     leading: const Icon(Icons.nightlight_round),
                                     title: Text(
-                                      "Total Nights",
+                                      StringConstants.totalNights,
                                       style: AppTextStyles.infoContentStyle
                                           .copyWith(
                                               fontWeight: FontWeight.w600,
@@ -187,7 +188,7 @@ class BookingHistoryDetails extends StatelessWidget {
                                         left: 12.0, right: 0.0),
                                     leading: const Icon(Icons.room_service),
                                     title: Text(
-                                      "Total Rooms",
+                                      StringConstants.totalRooms,
                                       style: AppTextStyles.infoContentStyle
                                           .copyWith(
                                               fontWeight: FontWeight.w600,
@@ -203,7 +204,7 @@ class BookingHistoryDetails extends StatelessWidget {
                                         left: 12.0, right: 0.0),
                                     leading: const Icon(Icons.price_check),
                                     title: Text(
-                                      "Room Price",
+                                      StringConstants.roomPrice,
                                       style: AppTextStyles.infoContentStyle
                                           .copyWith(
                                               fontWeight: FontWeight.w600,
@@ -219,7 +220,7 @@ class BookingHistoryDetails extends StatelessWidget {
                                         left: 12.0, right: 0.0),
                                     leading: const Icon(Icons.discount),
                                     title: Text(
-                                      "Discount",
+                                      StringConstants.discount,
                                       style: AppTextStyles.infoContentStyle
                                           .copyWith(
                                               fontWeight: FontWeight.w600,
@@ -235,7 +236,7 @@ class BookingHistoryDetails extends StatelessWidget {
                                         left: 12.0, right: 0.0),
                                     leading: const Icon(Icons.local_atm_sharp),
                                     title: Text(
-                                      "GST",
+                                      StringConstants.gst,
                                       style: AppTextStyles.infoContentStyle
                                           .copyWith(
                                               fontWeight: FontWeight.w600,
@@ -250,7 +251,7 @@ class BookingHistoryDetails extends StatelessWidget {
                             ),
                             12.verticalSpace,
                             Text(
-                              "Cancellation Policy",
+                              StringConstants.cancellationPolicy,
                               style: AppTextStyles.labelStyle
                                   .copyWith(fontSize: 18),
                             ),
@@ -271,9 +272,9 @@ class BookingHistoryDetails extends StatelessWidget {
               return CommonErrorWidget(
                   imagePath: ImagePath.serverFailImage,
                   title: StringConstants.serverFail,
-                  statusCode: "");
+                  statusCode: StringConstants.emptyString);
             } else if (state is StateLoading) {
-              return const HistoryPageShimmer();
+              return const HistoryDetailPageShimmer();
             } else {
               return const Center(child: Text(StringConstants.noDatatxt));
             }

@@ -1,16 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
+import 'package:make_my_trip/features/booking_history_details/presentation/widgets/history_detail_page_shimmer.dart';
 import 'package:make_my_trip/features/user_history/data/model/user_history_model.dart';
-import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
-import '../../../booking_history_details/presentation/pages/booking_history_detail_page.dart';
 
 class HistoryListViewWidget extends StatelessWidget {
   HistoryListViewWidget({Key? key, required this.userHistoryModel})
