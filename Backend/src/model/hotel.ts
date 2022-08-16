@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const HotelSchema = new mongoose.Schema({
     _id: { type: Number, required: true, unique: true },
     hotel_name: { type: String, required: true },
+    mattressPrice : {type: Number},
     address: {
         address_line: { type: String, required: true },
         pincode : {type: Number},
