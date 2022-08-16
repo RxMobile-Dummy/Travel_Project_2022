@@ -31,7 +31,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     callLog();
     super.initState();
 
@@ -39,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size screen = MediaQuery.of(context).size;
+    //Size screen = MediaQuery.of(context).size;
     return BlocListener<UserCubit, BaseState>(
       listener: (context, state) {
         if (state is StateLoading) {
@@ -227,7 +226,7 @@ class _LoginPageState extends State<LoginPage> {
     var email = _prefs.getString("email") ?? "";
     print(email);
 
-    loginEmailController.text = email ?? "";
+    loginEmailController.text = email;
 
   }
 }
