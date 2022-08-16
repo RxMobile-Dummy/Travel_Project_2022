@@ -70,6 +70,7 @@ import 'package:make_my_trip/features/room_categories/room_categories_injection_
 import '../../features/user_history/user_history_injection_container.dart';
 import '../../features/wishlist/presentation/pages/wishlist_page.dart';
 
+/// use this class for routing purpose
 class Router {
   Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {

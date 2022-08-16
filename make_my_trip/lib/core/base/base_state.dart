@@ -6,6 +6,9 @@ import '../internet/internet_enum.dart';
 
 import '../../features/hotel_listing/data/models/hotel_list_model.dart';
 
+
+/// To Do : use this base state for emitting common states
+
 abstract class BaseState extends Equatable {}
 
 class Uninitialized extends BaseState {
