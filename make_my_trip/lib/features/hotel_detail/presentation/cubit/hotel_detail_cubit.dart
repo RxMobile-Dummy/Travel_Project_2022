@@ -6,6 +6,8 @@ import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/hotel_detail_usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/islike_delete_usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/islike_post_usecase.dart';
+import 'package:make_my_trip/utils/constants/base_constants.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../../core/base/base_state.dart';
 import '../../../user/domain/usecases/is_anonymous_user.dart';
@@ -55,15 +57,14 @@ class HotelDetailCubit extends Cubit<BaseState> {
 
   Future<Uri> createDynamicLink(int hotelId) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://travelproject22.page.link',
-      link: Uri.parse(
-          'https://travelproject22.page.link.com/hotel?paramId=$hotelId'),
-      androidParameters: const AndroidParameters(
-        packageName: 'com.example.make_my_trip',
+      uriPrefix: BaseConstant.uriPrefix,
+      link: Uri.parse('${BaseConstant.uriPrefix}/hotel?paramId=$hotelId'),
+      androidParameters: AndroidParameters(
+        packageName: StringConstants.packageName,
         minimumVersion: 1,
       ),
-      iosParameters: const IOSParameters(
-        bundleId: 'com.worldtour.makeMyTrip',
+      iosParameters: IOSParameters(
+        bundleId: StringConstants.bundleId,
         minimumVersion: '1',
       ),
     );
@@ -78,7 +79,7 @@ class HotelDetailCubit extends Cubit<BaseState> {
     final box = context.findRenderObject() as RenderBox?;
     Uri subjectLink = await createDynamicLink(hotelDetailModel.id!);
     await Share.share(
-      "Check Out This amazing Hotel on Travelsy! \n ${hotelDetailModel.hotelName!} \n ${subjectLink.toString()}",
+      "${StringConstants.shareMessage} \n ${hotelDetailModel.hotelName!} \n ${subjectLink.toString()}",
       sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
     );
   }

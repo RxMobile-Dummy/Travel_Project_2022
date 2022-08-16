@@ -50,7 +50,7 @@ class HotelDetailModel {
   int? id;
   String? hotelName;
   Address? address;
-  int? rating;
+  double? rating;
   int? price;
   int? phoneNumber;
   String? description;
