@@ -11,4 +11,5 @@ class StringConstants {
   static String messageEmptyPassword = 'Please fill empty Password';
   static String messageInvalidPassword =
       'Please enter length of minimum 6 character';
+  static String appTitle = "MakeMyTrip";
 }
