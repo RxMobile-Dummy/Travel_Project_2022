@@ -30,6 +30,7 @@ import 'features/splash/splash_injection_container.dart' as splash_di;
 import './features/search/search_hotel_injection_container.dart' as search_di;
 import 'features/user_history/user_history_injection_container.dart'
     as history_di;
+import 'features/booking_history_details/booking_detail_injection_container.dart' as user_history_detail_di;
 import 'features/booking/booking_injection_container.dart' as booking_di;
 import 'core/internet/internet_injection_container.dart' as internet_di;
 
@@ -49,8 +50,8 @@ void main() async {
   await history_di.init();
   await search_di.init();
   await setting_page_di.init();
-
   await booking_di.init();
+  await user_history_detail_di.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

@@ -16,6 +16,7 @@ String userHistoryModelToJson(UserHistoryModel data) =>
 class UserHistoryModel {
   UserHistoryModel({
     this.hotelId,
+    this.bookingId,
     this.hotelName,
     this.address,
     this.images,
@@ -27,6 +28,7 @@ class UserHistoryModel {
   UserHistoryModel.fromJson(dynamic json) {
     hotelId = json['hotel_id'];
     hotelName = json['hotel_name'];
+    bookingId = json['booking_id'];
     address =
         json['address'] != null ? Address.fromJson(json['address']) : null;
     if (json['images'] != null) {
@@ -40,6 +42,7 @@ class UserHistoryModel {
     checkoutDate = json['checkout_date'];
   }
   int? hotelId;
+  int? bookingId;
   String? hotelName;
   Address? address;
   List<Images>? images;
@@ -50,6 +53,7 @@ class UserHistoryModel {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['hotel_id'] = hotelId;
+    map['booking_id']= bookingId;
     map['hotel_name'] = hotelName;
     if (address != null) {
       map['address'] = address?.toJson();
@@ -79,6 +83,7 @@ class Images {
     this.id,
     this.imageUrl,
     this.hotelId,
+    this.bookingId,
     this.roomId,
     this.tourId,
     this.userId,
@@ -88,6 +93,7 @@ class Images {
     id = json['_id'];
     imageUrl = json['image_url'];
     hotelId = json['hotel_id'];
+    bookingId = json['booking_id'];
     roomId = json['room_id'];
     tourId = json['tour_id'];
     userId = json['user_id'];
@@ -95,6 +101,7 @@ class Images {
   int? id;
   String? imageUrl;
   int? hotelId;
+  int? bookingId;
   dynamic roomId;
   dynamic tourId;
   dynamic userId;
@@ -104,6 +111,7 @@ class Images {
     map['_id'] = id;
     map['image_url'] = imageUrl;
     map['hotel_id'] = hotelId;
+    map['booking_id'] = bookingId;
     map['room_id'] = roomId;
     map['tour_id'] = tourId;
     map['user_id'] = userId;

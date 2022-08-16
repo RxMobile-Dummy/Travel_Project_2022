@@ -5,6 +5,7 @@ import 'package:make_my_trip/features/booking/booking_injection_container.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/book_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/payment_integeration_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/pages/booking_page.dart';
+import 'package:make_my_trip/features/booking_history_details/presentation/cubit/cancel_booking_cubit.dart';
 import 'package:make_my_trip/features/calendar/presentation/cubit/calendar_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
@@ -140,9 +141,16 @@ class Router {
         });
       case RoutesName.bookingHistoryDetailPage:
         return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
-            create: (context) =>
-                historyListDetailSl<UserHistoryCubit>()..getUserHistoryData(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => historyListSl<UserHistoryCubit>()
+                  ..getUserHistoryData(),
+              ),
+              BlocProvider(
+                create: (context) => historyListDetailSl<CancelBookingCubit>(),
+              ),
+            ],
             child: BookingHistoryDetails(),
           );
         });
