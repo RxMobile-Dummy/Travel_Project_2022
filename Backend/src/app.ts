@@ -24,6 +24,7 @@ import { router as bookingroute } from './controller/booking_controller';
 import { router as bookmarkroute } from './controller/bookmark_controller';
 import { router as paymentroute } from './controller/payment_controller';
 
+import { router as couponroute} from './controller/coupon_controller';
 
 
 // FIREBASE INTITIALIZE
@@ -34,7 +35,7 @@ admin.initializeApp(
 );
 
 // TOKEN VERIFICATION CALL
-app.use(verifyToken, checkRequest);
+ app.use(verifyToken, checkRequest);
 
 // ROOT LEVEL
 app.get('/', (req: Request, res: Response) => {
@@ -51,6 +52,7 @@ app.use('/user', UserRouter)
 app.use('/review', reviewroute);
 app.use('/booking', bookingroute);
 app.use('/bookmark', bookmarkroute);
+app.use('/coupon', couponroute);
 app.use('/payment', paymentroute);
 
 
