@@ -6,4 +6,6 @@ export class StatusCode
     static  Unauthorized= 401;
     static Not_Acceptable=406;
     static DuplicationError = 409;
+    static Bad_Request = 400;
+    static Gone = 410;
 };

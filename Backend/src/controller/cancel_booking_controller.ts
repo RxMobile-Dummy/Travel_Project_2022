@@ -9,6 +9,6 @@ class CancelBookingController{
     }
 }
 
-router.post('/:bookingid/:deviceid', CancelBookingController.cancelBooking);
+router.put('/:bookingid/:deviceid', CancelBookingController.cancelBooking);
 
 export { router };
