@@ -20,11 +20,23 @@ class CouponDomain {
     }
 
 
+    async getCouponId(req: Request, res: Response) {
+        try {
+            var today = new Date();
+            var couponData = await couponmodel.find({ $and: [{"_id":req.params.id},{ "startDate": { $lte: today } }, { "endDate": { $gte: today } }] });
+            res.status(StatusCode.Sucess).send(couponData);
+            res.end();
+        }
+        catch (err: any) {
+            res.status(StatusCode.Server_Error).send(err.message);
+            res.end();
+        }
+    }
+
     async getCoupon(req: Request, res: Response) {
         try {
             var today = new Date();
-            var couponData = await couponmodel.find({ $and: [{ "startDate": { $lte: today } }, { "endDate": { $gte: today } }] });
-
+            var couponData = await couponmodel.find({ $and: [{"code":req.params.code},{ "startDate": { $lte: today } }, { "endDate": { $gte: today } }] });
             res.status(StatusCode.Sucess).send(couponData);
             res.end();
         }

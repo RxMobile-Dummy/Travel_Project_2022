@@ -6,7 +6,7 @@ const CouponSchema = new mongoose.Schema({
     description : {type : Number,required : true},
     couponImgUrl:{type:String,required:true},
     discount : {type : Number,required : true},
-    minValue: {type:Number},
+    minValue: {type:Number,required : true},
     maxOrderValue:{type:Number},
     noOfUser:{type:Number},
     eligibleFor:{type:String,enum : ['NEW','EXISTING','ALL'],default: 'ALL'},

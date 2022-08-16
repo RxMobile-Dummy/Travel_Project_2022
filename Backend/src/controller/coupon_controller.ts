@@ -9,11 +9,15 @@ class CouponController {
     }
 
     //serch Api
+    static async getCouponId(req: Request, res: Response) {
+        const couponDomain = new CouponDomain();
+        await couponDomain.getCouponId(req, res)
+    }
+
     static async getCoupon(req: Request, res: Response) {
         const couponDomain = new CouponDomain();
         await couponDomain.getCoupon(req, res)
     }
-
     static async getCouponListMostApplicable(req: Request, res: Response) {
         const couponDomain = new CouponDomain();
         await couponDomain.getCouponListMostApplicable(req, res)
@@ -21,6 +25,7 @@ class CouponController {
 }
 
 router.get('/coupon', CouponController.getAllCoupon);
-router.get('/coupon/:id', CouponController.getCoupon);
+router.get('/coupon/:id', CouponController.getCouponId);
+router.get('/coupon/:code', CouponController.getCoupon);
 router.get('/couponlistmostapplicable', CouponController.getCouponListMostApplicable);
 export { router }
