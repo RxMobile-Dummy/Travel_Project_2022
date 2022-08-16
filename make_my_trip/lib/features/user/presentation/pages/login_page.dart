@@ -25,7 +25,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController loginEmailController = TextEditingController();
 
-  TextEditingController loginPasswordController = TextEditingController();
+  final loginPasswordController = TextEditingController();
 
   bool passwordObSecure = true;
 
