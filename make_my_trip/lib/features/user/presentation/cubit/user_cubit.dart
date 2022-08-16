@@ -75,9 +75,9 @@ class UserCubit extends Cubit<BaseState> {
         }, (success) {
           emit(StateOnSuccess("success"));
              _prefs.setString("email", loginEmail);
-
-             var login = _prefs.getString("email");
-             print(login);
+             //
+             // var login = _prefs.getString("email");
+             // print(login);
         });
       }
     }
