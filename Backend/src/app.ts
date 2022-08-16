@@ -23,6 +23,8 @@ import { router as reviewroute } from './controller/review_controller';
 import { router as bookingroute } from './controller/booking_controller';
 import { router as bookmarkroute } from './controller/bookmark_controller';
 import { router as cancelbookingroute } from './controller/cancel_booking_controller';
+import { router as paymentroute } from './controller/payment_controller';
+
 
 
 // FIREBASE INTITIALIZE
@@ -51,6 +53,7 @@ app.use('/review', reviewroute);
 app.use('/booking', bookingroute);
 app.use('/bookmark', bookmarkroute);
 app.use('/cancelBooking', cancelbookingroute);
+app.use('/payment', paymentroute);
 
 
 // LISTEN
