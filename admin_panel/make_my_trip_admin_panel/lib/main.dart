@@ -5,6 +5,11 @@ import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 import 'core/theme/make_my_trip_theme.dart';
 import 'core/navigation/app_router.dart' as app_routes;
 import 'firebase_options.dart';
+import 'package:make_my_trip_admin_panel/features/faq/presentation/pages/faq_page.dart';
+import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
+import 'core/theme/make_my_trip_theme.dart';
+import 'core/navigation/app_router.dart' as app_routes;
+import 'features/faq/presentation/pages/faq_page.dart';
 
 Future<void> main() async {
   await Firebase.initializeApp(
@@ -19,10 +24,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: StringConstants.appTitle,
-      theme: MakeMyTripLightTheme.lightTheme,
-      home: const ReviewModeration(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: "StringConstants.appTitle",
+        theme: MakeMyTripLightTheme.lightTheme,
+        home: FaqPage());
   }
 }
