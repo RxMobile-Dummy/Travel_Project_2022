@@ -10,7 +10,7 @@ import '../../../user/domain/usecases/is_anonymous_user.dart';
 class ReviewCubit extends Cubit<BaseState> {
   final GetHotelReviewUseCases getHotelReviewUseCases;
   final PostHotelReviewUseCases postHotelReviewUseCases;
-
+  
   ReviewCubit(this.getHotelReviewUseCases, this.postHotelReviewUseCases,
       this.isAnonymousUser)
       : super(StateInitial());
