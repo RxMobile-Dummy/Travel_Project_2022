@@ -1,2 +1,4 @@
 /// this class will contain static route names
-class RoutesName {}
+class RoutesName {
+  static const adminLogin = '/';
+}
