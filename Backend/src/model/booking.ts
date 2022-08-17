@@ -9,6 +9,7 @@ const BookingSchema = new mongoose.Schema({
     room_id : {type : Array },
     checkin_date : {type : Date},
     checkout_date : {type : Date},
+    status : {type : String , enum : ['success' ,'pending' , 'cancel']},
     price: {
         number_of_nights:{type : Number},
         room_price : {type : Number},

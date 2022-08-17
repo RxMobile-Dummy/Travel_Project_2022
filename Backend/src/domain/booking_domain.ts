@@ -3,11 +3,15 @@ import { StatusCode } from "../statuscode";
 import { hotelmodel } from "../model/hotel";
 import { imagemodel } from "../model/image";
 import express, { Express, Request, Response } from 'express'
-
+import * as admin from 'firebase-admin';
+import { Usermodel } from "../model/users";
+import schedule from 'node-schedule';
 
 class BookingDomain {
     async addBooking(req: Request, res: Response) {
         var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
+        var checkinDate = new Date(req.body.checkin_date).toISOString().toString().replace("T00:00:00.000Z", "T06:30:00.000Z");
+        var checkoutDate = new Date(req.body.checkout_date).toISOString().toString().replace("T00:00:00.000Z", "T06:30:00.000Z")
 
         try {
             var nextID: any = await bookingmodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
@@ -18,19 +22,20 @@ class BookingDomain {
                 hotel_id: req.body.hotel_id,
                 no_of_room: noOfRoom,
                 room_id: req.body.room_id,
-                checkin_date: new Date(req.body.checkin_date),
-                checkout_date: new Date(req.body.checkout_date),
+                checkin_date: new Date(checkinDate),
+                checkout_date: new Date(checkoutDate),
                 price: {
                     number_of_nights: req.body.price.number_of_nights,
                     room_price: req.body.price.room_price,
                     gst: req.body.price.gst,
                     discount: req.body.price.discount,
                     total_price: req.body.price.total_price
-                }
+                },
+                status: "success"
             }
             var sum = 0;
             var rommIdFromReq: any = (req.body.room_id);
-            console.log(rommIdFromReq);
+            // console.log(rommIdFromReq);
             var getHotelRoom = await hotelmodel.find({ _id: req.body.hotel_id })
             var roomPrice: any = [];
             getHotelRoom.forEach((e: any) => {
@@ -42,28 +47,98 @@ class BookingDomain {
                 })
             })
             const getHotelRoomPrice: number = sum;
-            console.log(getHotelRoom);
-            console.log('price ' + getHotelRoomPrice);
+            // console.log(getHotelRoom);
+            // console.log('price ' + getHotelRoomPrice);
             var totalPrize = (req.body.price.total_price);
             var noOfNight = (req.body.price.number_of_nights);
             var roomGstPrice = ((18 / 100) * (getHotelRoomPrice * noOfNight));
             var roomDiscountPrice = ((getHotelRoomPrice * noOfNight) + roomGstPrice) * 0.05;
-            console.log(`gst ${roomGstPrice}`);
-            console.log(`discount ${roomDiscountPrice}`);
+            // console.log(`gst ${roomGstPrice}`);
+            // console.log(`discount ${roomDiscountPrice}`);
             var roomTotalPrize = ((getHotelRoomPrice * noOfNight) - roomDiscountPrice + roomGstPrice)
-            console.log('price ' + roomTotalPrize);
-            console.log('total ' + totalPrize);
+            // console.log('price ' + roomTotalPrize);
+            // console.log('total ' + totalPrize);
             if (roomTotalPrize == totalPrize) {
                 var bookedData = new bookingmodel(bookIngData);
-                console.log(bookedData);
+                // console.log(bookedData);
                 await bookedData.save();
+
+
+                // ****************************** FOR NOTIFICATION ****************************** //
+                const notification_options = {
+                    priority: "high",
+                    timeToLive: 60 * 60 * 24
+                };
+                const notificationId = nextID?._id == undefined ? 1 : Number(nextID?.id) + 1
+
+                const registrationToken = req.params.deviceid
+
+                const options = notification_options
+                var userData: any = await Usermodel.findById(reqData.uid);
+                var hotelData: any = await hotelmodel.findById(req.body.hotel_id);
+
+                const bookingSuccessfullMessage = {
+                    "notification": {
+                        "title": "Booking successfull",
+                        "body": `Hi ${userData.user_name}, thanks for choosing to stay at ${hotelData.hotel_name}, we're looking forward to welcoming you`
+                    }
+                }
+                const before24hrsmessage = {
+                    "notification": {
+                        "title": "24 hours remaining",
+                        "body": `Hi ${userData.user_name}, 24 hours remaining of your booking at ${hotelData.hotel_name}`
+                    }
+                }
+                const before1hrmessage = {
+                    "notification": {
+                        "title": "1 hours remaining",
+                        "body": `Hi ${userData.user_name}, only 1 hour remaining of your booking at ${hotelData.hotel_name}`
+                    }
+                }
+                const after1hrmessage = {
+                    "notification": {
+                        "title": "Review",
+                        "body": `Hi ${userData.user_name}, thanks for choosing to stay at ${hotelData.hotel_name} please give your feedback`
+                    }
+                }
+                //later date for testing
+                // var currentDate = new Date();
+                // var laterDate1 = new Date(currentDate.getTime() + (0.105 * 60000));
+                // var laterDate2 = new Date(currentDate.getTime() + (0.125 * 60000));
+                // var laterDate3 = new Date(currentDate.getTime() + (0.165 * 60000));
+
+
+                //Booking Successfull Notification
+                admin.messaging().sendToDevice(registrationToken, bookingSuccessfullMessage, options);
+
+                //24 hr before checkin date notification 
+                var laterDate1 = new Date(new Date(checkinDate).getTime() - (24 * 60 * 60 * 1000));
+                var job1 = schedule.scheduleJob(`${notificationId}1`, laterDate1, () => {
+                    admin.messaging().sendToDevice(registrationToken, before24hrsmessage);
+
+                });
+
+                //1 hr before checkin date notification 
+                var laterDate2 = new Date(new Date(checkinDate).getTime() - (1 * 60 * 60 * 1000));
+                var job2 = schedule.scheduleJob(`${notificationId}2`, laterDate2, () => {
+                    admin.messaging().sendToDevice(registrationToken, before1hrmessage);
+
+                });
+
+                //1 hr after check out date notification for review
+                var laterDate3 = new Date(new Date(checkoutDate).getTime() + (1 * 60 * 60 * 1000));
+                var job3 = schedule.scheduleJob(`${notificationId}3`, laterDate3, () => {
+                    admin.messaging().sendToDevice(registrationToken, after1hrmessage);
+
+                });
+
                 res.status(StatusCode.Sucess).send("Booking Success")
                 res.end();
             }
             else {
                 res.status(StatusCode.Not_Acceptable).send("Error in calculation");
             }
-            res.end();
+            //res.end();
         } catch (err: any) {
             res.status(StatusCode.Server_Error).send(err.message);
             res.end();
@@ -232,6 +307,7 @@ class BookingDomain {
                     },
                     {
                         "$project": {
+
                             "hotel_id": "$_id",
                             "hotel_name": "$hotel_name",
                             "address": "$address",
@@ -245,11 +321,19 @@ class BookingDomain {
                     hotelData.forEach(d => {
                         if (e.hotel_id == d._id) {
                             bookingHistoryData.push({
+                                "booking_id": e._id,
+                                "status": e.status,
                                 "hotel_id": d._id,
                                 "hotel_name": d.hotel_name,
                                 "address": d.address,
                                 'images': d.images,
                                 "price": e.price?.total_price,
+                                "no_of_room": e.no_of_room,
+                                "number_of_nights": e.price?.number_of_nights,
+                                "room_price": e.price?.room_price,
+                                "discount": e.price?.discount,
+                                "gst": e.price?.gst,
+                                "booked_date": e.booked_date,
                                 "checking_date": e.checkin_date,
                                 "checkout_date": e.checkout_date
                             })
@@ -409,4 +493,4 @@ class BookingDomain {
 
 }
 
-export { BookingDomain };
+export { BookingDomain }

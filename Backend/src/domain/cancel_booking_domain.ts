@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { bookingmodel } from '../model/booking';
 import { StatusCode } from '../statuscode';
-var admin = require('firebase-admin');
+import * as admin from 'firebase-admin';
+import schedule from 'node-schedule';
 
 class CancelBookingDomain {
     async cancelBooking(req: Request, res: Response) {
@@ -25,6 +26,13 @@ class CancelBookingDomain {
                     res.status(StatusCode.Gone).send("can't cancel hotel bacause your check in date is started...");
                 }
                 else {
+                    //change status in booking table
+                    var cancelStatus: object = {
+                        status: "cancel"
+                    }
+                    await bookingmodel.findByIdAndUpdate(bookingId, cancelStatus);
+
+                    //For calculate hours difference between check in date and current date
                     var temp: any = await bookingmodel.aggregate([
                         {
                             $lookup: {
@@ -58,10 +66,10 @@ class CancelBookingDomain {
 
 
                     ]);
-                    
+
                     //Production 
                     var hoursDifference: Number = Number(temp[0].hoursDiff);
-                    
+
                     //testing
                     //var hoursDifference = 23;
                     var paymentPrice = Number(temp[0].price.total_price);
@@ -92,7 +100,7 @@ class CancelBookingDomain {
                         refundAmmount = paymentPrice * 0
                     }
 
-                    //For Notification
+                    // ****************************** FOR NOTIFICATION ****************************** //
                     const notification_options = {
                         priority: "high",
                         timeToLive: 60 * 60 * 24
@@ -106,14 +114,28 @@ class CancelBookingDomain {
                         }
                     }
 
+                    // Booking Cancelled Notification
                     admin.messaging().sendToDevice(registrationToken, message, options)
-                        .then((response: any) => {
 
-                            res.status(StatusCode.Sucess).send("notification sent successfully");
-
-                        }).catch((error: any) => {
-                            res.status(StatusCode.Server_Error).send("Faild to sent notification");
-                        });
+                    // Delete scheduled notification 
+                    var job1 = schedule.scheduledJobs[`${bookingId}1`];
+                    var job2 = schedule.scheduledJobs[`${bookingId}2`];
+                    var job3 = schedule.scheduledJobs[`${bookingId}3`];
+                    
+                    if(job1 != undefined)
+                    {
+                        job1.cancel();
+                    }
+                    if(job2 != undefined)
+                    {
+                        job2.cancel();
+                    }
+                    if(job3 != undefined)
+                    {
+                        job3.cancel();
+                    }
+   
+                    res.status(StatusCode.Sucess).send("booking cancelled")
                 }
             }
 

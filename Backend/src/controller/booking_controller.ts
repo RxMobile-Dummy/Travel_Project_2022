@@ -24,7 +24,7 @@ class BookingController {
     }
 }
 
-router.post('/hotelbooking', BookingController.addBooking);
+router.post('/hotelbooking/:deviceid', BookingController.addBooking);
 router.get('/check', BookingController.roomBookAvailableCheck);
 router.get('/user/bookings', BookingController.userBookingHistory);
 router.get('/roombooking/prize', BookingController.getRoomBookingPrize);
