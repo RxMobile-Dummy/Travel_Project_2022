@@ -12,4 +12,10 @@ class StringConstants {
   static String messageInvalidPassword =
       'Please enter length of minimum 6 character';
   static String appTitle = "MakeMyTrip";
+
+  //Admin_login_constant_String
+  static String emailHintTxt = "Enter your Email";
+  static String passwordHintTxt = "Enter your Password";
+  static String emailLabel = "Email";
+  static String passwordLabel = "Password";
 }

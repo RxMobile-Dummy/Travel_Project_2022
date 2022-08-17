@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
+import 'package:make_my_trip_admin_panel/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/cubit/admin_login_cubit.dart';
+import 'package:make_my_trip_admin_panel/utils/constants/image_path.dart';
+import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 import 'package:make_my_trip_admin_panel/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip_admin_panel/utils/widgets/common_primary_button.dart';
 
 class AdminLoginPage extends StatelessWidget {
   AdminLoginPage({Key? key}) : super(key: key);
   bool passwordObSecure = true;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,7 @@ class AdminLoginPage extends StatelessWidget {
                         Align(
                           alignment: AlignmentDirectional.center,
                           child: Image.asset(
-                            "assets/img/logot.png",
+                            ImagePath.logoImg,
                             fit: BoxFit.fill,
                             height: 240,
                             width: 320,
@@ -43,26 +48,44 @@ class AdminLoginPage extends StatelessWidget {
                         ),
                         32.verticalSpace,
                         TextFormField(
+                          onChanged: (value) {
+                            context
+                                .read<AdminLoginCubit>()
+                                .emailValidationEvent(value.toString());
+                          },
+                          controller: emailController,
                           keyboardType: TextInputType.emailAddress,
                           autofocus: true,
                           decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.person),
-                            hintText: "Enter Email",
-                            labelText: "Email",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
+                              prefixIcon: const Icon(Icons.person),
+                              hintText: StringConstants.emailHintTxt,
+                              labelText: StringConstants.emailLabel,
+                              suffixIcon: state is StateOnKnownToSuccess
+                                  ? const Icon(
+                                      Icons.check,
+                                      color: MakeMyTripColors.colorGreen,
+                                    )
+                                  : const Icon(
+                                      Icons.cancel,
+                                      color: MakeMyTripColors.colorRed,
+                                    )),
                         ),
-                        16.verticalSpace,
+
+                        20.verticalSpace,
                         TextFormField(
+                          onChanged: (value) {
+                            context
+                                .read<AdminLoginCubit>()
+                                .passwordValidationEvent(value.toString());
+                          },
+                          controller: passwordController,
                           obscureText: passwordObSecure,
                           keyboardType: TextInputType.emailAddress,
                           autofocus: true,
                           decoration: InputDecoration(
-                            labelText: "Password",
+                            labelText: StringConstants.passwordLabel,
                             prefixIcon: const Icon(Icons.key),
-                            hintText: "Enter password",
+                            hintText: StringConstants.passwordHintTxt,
                             suffixIcon: GestureDetector(
                               child: Icon((passwordObSecure)
                                   ? Icons.visibility_off
@@ -72,20 +95,20 @@ class AdminLoginPage extends StatelessWidget {
                                     .changeObSecureEvent(passwordObSecure);
                               },
                             ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
                           ),
                         ),
-                        8.verticalSpace,
+                        12.verticalSpace,
                         Align(
                           alignment: AlignmentDirectional.bottomEnd,
                           child: GestureDetector(
                               onTap: () {},
                               child: const Text("Forgot Password")),
                         ),
-                        24.verticalSpace,
-                        CommonPrimaryButton(text: "Login", onTap: () {}),
+                        28.verticalSpace,
+                        SizedBox(
+                            width: double.infinity,
+                            child: CommonPrimaryButton(
+                                text: "Login", onTap: () {})),
                       ],
                     ),
                   ),
