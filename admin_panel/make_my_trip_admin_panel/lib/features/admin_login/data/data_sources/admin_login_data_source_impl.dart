@@ -53,7 +53,6 @@ class AdminLoginDataSourceImpl implements AdminLoginDataSource {
     try {
       final response = await dio.get('${BaseConstant.baseUrl}user/admincheck',
           options: await createDioOptions());
-      print(response.statusCode);
       if (response.statusCode == 200) {
         return const Right(null);
       }

@@ -19,7 +19,8 @@ class AdminLoginPage extends StatelessWidget {
     return BlocConsumer<AdminLoginCubit, BaseState>(
       listener: (context, state) {
         if (state is StateOnKnownToSuccess) {
-          Navigator.pushNamed(context, RoutesName.adminLogin);
+          Navigator.pushNamedAndRemoveUntil(
+              context, RoutesName.bookingModerationPage, (route) => false);
         }
       },
       builder: (context, state) {

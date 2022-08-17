@@ -24,6 +24,7 @@ dependencies:
 
   #api call
   dio: ^4.0.6
+  dio_logging_interceptor: ^1.0.1
 
   #firebase services
   firebase_core: ^1.20.1
