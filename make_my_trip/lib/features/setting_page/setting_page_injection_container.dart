@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:make_my_trip/features/setting_page/data/data_sources/user_details_remote_data_source_impl.dart';
 import 'package:make_my_trip/features/setting_page/data/repositories/setting_page_repository_impl.dart';
@@ -7,17 +8,20 @@ import 'package:make_my_trip/features/setting_page/domain/use_cases/update_image
 import 'package:make_my_trip/features/setting_page/domain/use_cases/update_user_data_usecase.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
 import 'data/data_sources/user_details_remote_data_source.dart';
+import 'domain/use_cases/faq_usecase.dart';
 
 final slSettingPage = GetIt.instance;
 
 Future<void> init() async {
+  slSettingPage.registerLazySingleton(() => FirebaseFirestore.instance);
+
   //cubit
-  slSettingPage.registerFactory(() =>
-      SettingPageCubit(slSettingPage(), slSettingPage(), slSettingPage()));
+  slSettingPage.registerFactory(() => SettingPageCubit(
+      slSettingPage(), slSettingPage(), slSettingPage(), slSettingPage()));
 
   //Data source
   slSettingPage.registerLazySingleton<UserDetailsRemoteDataSource>(
-      () => UserDetailsRemoteDataSourceImpl(slSettingPage()));
+      () => UserDetailsRemoteDataSourceImpl(slSettingPage(), slSettingPage()));
 
   //Repository
   slSettingPage.registerLazySingleton<SettingPageRepository>(
@@ -32,4 +36,5 @@ Future<void> init() async {
 
   slSettingPage
       .registerLazySingleton(() => UpdateUserDataUseCase(slSettingPage()));
+  slSettingPage.registerLazySingleton(() => FaqUseCase(slSettingPage()));
 }

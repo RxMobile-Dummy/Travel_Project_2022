@@ -19,6 +19,7 @@ import 'package:make_my_trip/features/room_categories/presentation/cubit/select_
 import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
 import 'package:make_my_trip/features/setting_page/presentation/pages/settings_page.dart';
+import 'package:make_my_trip/features/setting_page/presentation/widgets/faq_widget.dart';
 import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/pages/sign_up_page.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
@@ -326,6 +327,26 @@ class Router {
             create: (context) => slSettingPage<SettingPageCubit>(),
             child: const CustomerSupportPage(),
           );
+        });
+      case RoutesName.privacyPolicy:
+        return MaterialPageRoute(builder: (_) {
+          return const CustomerSupportPage();
+        });
+      case RoutesName.faq:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider(
+            create: (context) =>
+                slSettingPage<SettingPageCubit>()..getFaqData(),
+            child: FaqPage(),
+          );
+        });
+      case RoutesName.aboutUs:
+        return MaterialPageRoute(builder: (_) {
+          return const CustomerSupportPage();
+        });
+      case RoutesName.termsAndCondition:
+        return MaterialPageRoute(builder: (_) {
+          return const CustomerSupportPage();
         });
       case RoutesName.errorPage:
         return MaterialPageRoute(builder: (_) {

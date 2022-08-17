@@ -27,6 +27,7 @@ class PaymentCubit extends Cubit<BaseState> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     emit(StateShowSearching());
+
     Fluttertoast.showToast(
         msg: "SUCCESS: ${response.paymentId}", timeInSecForIosWeb: 4);
   }

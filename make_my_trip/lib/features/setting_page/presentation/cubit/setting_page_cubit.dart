@@ -10,14 +10,16 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utils/validators/user_info/user_information_validations.dart';
+import '../../domain/use_cases/faq_usecase.dart';
 
 class SettingPageCubit extends Cubit<BaseState> {
   GetUserDataUseCase getUserDataUseCase;
   UpdateImageUseCase updateImageUseCase;
   UpdateUserDataUseCase updateUserDataUseCase;
+  FaqUseCase faqUseCase;
 
   SettingPageCubit(this.getUserDataUseCase, this.updateImageUseCase,
-      this.updateUserDataUseCase)
+      this.updateUserDataUseCase, this.faqUseCase)
       : super(StateOnKnownToSuccess<SettingPageData>(SettingPageData())) {
     getUserData();
   }
@@ -68,6 +70,12 @@ class SettingPageCubit extends Cubit<BaseState> {
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
                 .copyWith(imageValue: r, userValue: userValue))));
+  }
+
+  getFaqData() async {
+    final res = await faqUseCase.call(NoParams());
+    return res.fold((l) => emit(StateErrorGeneral(l.toString())),
+        (r) => emit(StateOnSuccess(r)));
   }
 
   callNumber() async {

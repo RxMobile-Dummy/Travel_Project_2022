@@ -26,13 +26,21 @@ List<MySetting> settingList = [
   MySetting(
       icon: Icons.security,
       text: StringConstants.privacyAndSecurity,
-      routeName: RoutesName.errorPage),
+      routeName: RoutesName.privacyPolicy),
   MySetting(
       icon: Icons.help_outline,
       text: StringConstants.help,
       routeName: RoutesName.help),
   MySetting(
+      icon: Icons.help_outline,
+      text: StringConstants.faq,
+      routeName: RoutesName.faq),
+  MySetting(
       icon: Icons.info_outline,
       text: StringConstants.aboutUs,
-      routeName: RoutesName.errorPage)
+      routeName: RoutesName.aboutUs),
+  MySetting(
+      icon: Icons.help_outline,
+      text: StringConstants.terms,
+      routeName: RoutesName.termsAndCondition),
 ];
