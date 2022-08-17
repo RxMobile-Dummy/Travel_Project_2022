@@ -11,19 +11,24 @@ import express, { Express, Request, Response } from 'express'
 class HotelDomain {
     //Get All hotel list
     async getAllHotel(req: Request, res: Response) {
+        var pageSize: any = req.query.pagesize;
+        var page: any = req.query.page;
+        var hotelSearchParams: any = req.query.searchdata;
+        var city: any = await citymodel.findOne({ city_name: { $regex: hotelSearchParams + '.*', $options: 'i' } })
+        var cityId: Number = city?._id;
         try {
             var hoteBySerch: any = await hotelmodel.aggregate([
+
                 {
-                    $lookup: {
-                        from: "images",
-                        localField: "_id",
-                        foreignField: "hotel_id",
-                        pipeline: [
-                            { $match: { room_id: null } }
-                        ],
-                        as: "Images",
-                    },
+                    $match: {
+                        $or: [{ "address.city_id": cityId },
+                        { "address.address_line": { $regex: hotelSearchParams + '.*', $options: 'i' } },
+                        { "address.pincode": { $regex: hotelSearchParams + '.*', $options: 'i' } },
+                        { hotel_name: { $regex: hotelSearchParams + '.*', $options: 'i' } }]
+                    }
                 },
+
+                { $sort: { _id: 1 } },
                 {
                     $lookup: {
                         from: "images",
@@ -46,8 +51,7 @@ class HotelDomain {
                     }
                 },
 
-
-            ]);
+            ]).skip((parseInt(pageSize) * parseInt(page))).limit(parseInt(pageSize));
             if (hoteBySerch.length == 0) {
                 res.status(StatusCode.Sucess).send("No Hotel Found")
                 res.end()
@@ -546,6 +550,143 @@ class HotelDomain {
             }
         }
         else {
+            res.status(StatusCode.Unauthorized).send("you are not authorize")
+        }
+    }
+
+    async addRoomImage(req: Request, res: Response, roomtype: String) {
+        var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
+        var uid: string = reqData.uid;
+        var userData = await Usermodel.find({ _id: uid }).select("-__v");
+        if (userData[0].user_type == "admin") {
+            var nextID: any = await imagemodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
+            var hotelId: any = await hotelmodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
+            req.body._id = nextID._id + 1;
+            var roomId: any = [];
+            var roomdata = await hotelmodel.findOne({ _id: hotelId }).select("room");
+            roomdata!.room.forEach((e: any) => {
+                if (e.room_type == roomtype) {
+                    roomId.push(e.room_id);
+                }
+            });
+
+            var imagearray: any = req.body.image_url;
+            var imageData: any = [];
+            var i: any;
+            var j: any;
+
+
+            for (j = 0; j < roomId.length; j++) {
+                for (i = 0; i < imagearray.length; i++) {
+                    var images = {
+                        "image_url": imagearray[i],
+                        "hotel_id": req.body.hotel_id,
+                        "room_id": roomId[j],
+                        "tour_id": null,
+                        "user_id": null
+                    }
+                    imageData.push(images)
+
+                }
+            }
+            for (i = 0; i < imageData.length; i++) {
+                imageData[i]._id = nextID._id + i + 1;
+            }
+
+            imagemodel.insertMany(imageData, function (err: any, result: any) {
+                if (err) throw err;
+                res.status(StatusCode.Sucess).send("Image sucessfully added");
+            });
+        } else {
+            res.status(StatusCode.Unauthorized).send("you are not authorize")
+        }
+    }
+
+
+
+    async addDeluxRoomImage(req: Request, res: Response) {
+        await this.addRoomImage(req, res, "Deluxe");
+    }
+
+    async addSuperDeluxRoomImage(req: Request, res: Response) {
+        await this.addRoomImage(req, res, "Super-Deluxe");
+    }
+
+
+    async addSemiDeluxRoomImage(req: Request, res: Response) {
+        await this.addRoomImage(req, res, "Semi-Deluxe");
+    }
+
+
+    //update hotel
+    async updateHotel(req: Request, res: Response) {
+        var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
+        var uid: string = reqData.uid;
+        var userData = await Usermodel.find({ _id: uid }).select("-__v");
+        if (userData[0].user_type == "admin") {
+            var newHotelData = req.body;
+            var room: any = []
+            var noOfDelux = req.body.noofdeluxe;
+            var noOfSuperDeluxe = req.body.noodsuperdeluxe;
+            var noOfSemiDeluxe = req.body.noofsemideluxe;
+            var i: any;
+            for (i = 0; i < noOfDelux; i++) {
+                var deluxRoomDetails = {
+                    "room_id": ((newHotelData._id) * 100) + (i + 1),
+                    "room_type": "Deluxe",
+                    "room_size": req.body.deluxesize,
+                    "bed_size": req.body.deluxebadsize,
+                    "max_capacity": req.body.deluxemaxcapacity,
+                    "price": req.body.deluxeprice,
+                    "features": req.body.deluxefeatures,
+                    "description": req.body.deluxedescription
+                }
+                room.push(deluxRoomDetails);
+            }
+
+            for (i = 0; i < noOfSemiDeluxe; i++) {
+                var semideluxRoomDetails = {
+                    "room_id": ((newHotelData._id) * 100) + (i + 1 + noOfDelux),
+                    "room_type": "Semi-Deluxe",
+                    "room_size": req.body.semideluxesize,
+                    "bed_size": req.body.semideluxebadsize,
+                    "max_capacity": req.body.semideluxemaxcapacity,
+                    "price": req.body.semideluxeprice,
+                    "features": req.body.semideluxefeatures,
+                    "description": req.body.semideluxedescription
+                }
+                room.push(semideluxRoomDetails);
+            }
+
+            for (i = 0; i < noOfSuperDeluxe; i++) {
+                var superdeluxRoomDetails = {
+                    "room_id": ((newHotelData._id) * 100) + (i + 1 + noOfSemiDeluxe + noOfDelux),
+                    "room_type": "Super-Deluxe",
+                    "room_size": req.body.superdeluxesize,
+                    "bed_size": req.body.superdeluxebadsize,
+                    "max_capacity": req.body.superdeluxemaxcapacity,
+                    "price": req.body.superdeluxeprice,
+                    "features": req.body.superdeluxefeatures,
+                    "description": req.body.superdeluxedescription
+                }
+                room.push(superdeluxRoomDetails);
+            }
+
+
+            newHotelData.room = room;
+            console.log(newHotelData);
+
+            try {
+                var data = req.body;
+                console.log(data);
+                await hotelmodel.updateOne({ _id: data._id }, data)
+                res.status(StatusCode.Sucess).send('update saved success');
+            }
+            catch (err: any) {
+                res.status(StatusCode.Server_Error).send(err.message);
+                res.end();
+            }
+        } else {
             res.status(StatusCode.Unauthorized).send("you are not authorize")
         }
     }
