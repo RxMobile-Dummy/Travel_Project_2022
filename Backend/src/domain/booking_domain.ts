@@ -398,7 +398,6 @@ class BookingDomain {
                 gst: Math.floor(roomPriceWithGst),
                 offer: Math.floor(discountPrice),
                 total: Math.floor(totalRoomPrice)
-
             }
             res.status(StatusCode.Sucess).send(roomPriceData);
             res.end();
@@ -407,12 +406,7 @@ class BookingDomain {
             res.status(StatusCode.Server_Error).send(err.message);
             res.end();
         }
-
-
-
     }
-
-
 
 }
 
