@@ -12,4 +12,31 @@ class StringConstants {
   static String messageInvalidPassword =
       'Please enter length of minimum 6 character';
   static String appTitle = "MakeMyTrip";
+  static String aboutUs = "AboutUs";
+  static String tc = "Terms & Condition";
+  static String faq = "Add New FAQ";
+  static String privacyPolicy = "Privacy Policy";
+  static String contactUs = "Contact Us";
+  static String emailHint = "Enter your email...";
+  static String numberHint = "Enter your number...";
+  static String email = "Email :";
+  static String number = "Number :";
+  static String faqHint = "Enter Title Here";
+  static String editorHint = "Your text here...";
+  static String undo = "Undo";
+  static String redo = "Redo";
+  static String submit = "Submit";
+  static String reset = "Reset";
+  static String disable = "Disable";
+  static String enable = "Enable";
+  static String insertTxt = "Insert Text";
+  static String html = "Insert HTML";
+  static String link = "Insert Link";
+  static String network = "Insert network image";
+  static String info = "Info";
+  static String warning = "Warning";
+  static String success = "Success";
+  static String danger = "Danger";
+  static String plaintext = "Plaintext";
+  static String remove = "Remove";
 }

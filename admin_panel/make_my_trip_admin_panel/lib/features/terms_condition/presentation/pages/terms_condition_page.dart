@@ -1,25 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:make_my_trip_admin_panel/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
-import 'package:make_my_trip_admin_panel/utils/html_editor/editor.dart';
 
-import '../../../../core/theme/make_my_trip_colors.dart';
 import '../../../../core/theme/text_styles.dart';
+import '../../../../utils/html_editor/editor.dart';
 
-class FaqPage extends StatefulWidget {
-  FaqPage({Key? key}) : super(key: key);
+class TcPage extends StatefulWidget {
+  TcPage({Key? key}) : super(key: key);
 
   @override
   _HtmlEditorExampleState createState() => _HtmlEditorExampleState();
 }
 
-class _HtmlEditorExampleState extends State<FaqPage> {
+class _HtmlEditorExampleState extends State<TcPage> {
   //String result = '';
   final HtmlEditorController controller = HtmlEditorController();
-  final TextEditingController titleController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,30 +29,22 @@ class _HtmlEditorExampleState extends State<FaqPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  StringConstants.faq,
+                  StringConstants.tc,
                   style: AppTextStyles.labelStyle
                       .copyWith(fontWeight: FontWeight.w300),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: titleController,
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        hintText: StringConstants.faqHint,
-                        hintStyle: AppTextStyles.unselectedLabelStyle.copyWith(
-                            fontSize: 16, fontWeight: FontWeight.w300)),
-                  ),
+                const Divider(
+                  color: MakeMyTripColors.colorBlack,
                 ),
                 EditorPage(
                     controller: controller,
                     onTap: () async {
                       await controller.getText().then((value) =>
-                          FirebaseFirestore.instance.collection('faq').add({
-                            'title': titleController.text,
-                            'subtitle': value,
+                          FirebaseFirestore.instance
+                              .collection('termsAndCondition')
+                              .add({
+                            'title': value,
                           }));
-                      titleController.clear();
                       controller.clear();
                     })
               ],
