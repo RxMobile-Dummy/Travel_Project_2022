@@ -16,13 +16,9 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
 
   Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    printWrapped(userToken);
     return Options(headers: {'token': userToken});
   }
-  void printWrapped(String text) {
-    final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
-    pattern.allMatches(text).forEach((match) => print(match.group(0)));
-  }
+
   @override
   Future<Either<Failures, List<UserHistoryModel>>> getUserHistoryData() async {
     try {
@@ -40,7 +36,6 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
-      print(err);
       return Left(ServerFailure());
     }
   }
