@@ -192,32 +192,33 @@ class _HtmlEditorExampleState extends State<FaqPage> {
                       children: <Widget>[
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor: Colors.blueGrey),
+                              backgroundColor: MakeMyTripColors.color70gray),
                           onPressed: () {
                             controller.undo();
                           },
-                          child: const Text('Undo',
-                              style: TextStyle(color: Colors.white)),
+                          child: Text('Undo',
+                              style: AppTextStyles.infoContentStyle5.copyWith(
+                                  fontWeight: FontWeight.w300, fontSize: 14)),
                         ),
                         const SizedBox(
                           width: 16,
                         ),
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor: Colors.blueGrey),
+                              backgroundColor: MakeMyTripColors.color70gray),
                           onPressed: () {
                             controller.clear();
                           },
-                          child: const Text('Reset',
-                              style: TextStyle(color: Colors.white)),
+                          child: Text('Reset',
+                              style: AppTextStyles.infoContentStyle5.copyWith(
+                                  fontWeight: FontWeight.w300, fontSize: 14)),
                         ),
                         const SizedBox(
                           width: 16,
                         ),
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary),
+                              backgroundColor: MakeMyTripColors.accentColor),
                           onPressed: () async {
                             var txt = await controller.getText();
                             if (txt.contains('src=\"data:')) {
@@ -228,9 +229,10 @@ class _HtmlEditorExampleState extends State<FaqPage> {
                               result = txt;
                             });
                           },
-                          child: const Text(
+                          child: Text(
                             'Submit',
-                            style: TextStyle(color: Colors.white),
+                            style: AppTextStyles.infoContentStyle5.copyWith(
+                                fontWeight: FontWeight.w300, fontSize: 14),
                           ),
                         ),
                         const SizedBox(
@@ -238,14 +240,14 @@ class _HtmlEditorExampleState extends State<FaqPage> {
                         ),
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary),
+                              backgroundColor: MakeMyTripColors.accentColor),
                           onPressed: () {
                             controller.redo();
                           },
-                          child: const Text(
+                          child: Text(
                             'Redo',
-                            style: TextStyle(color: Colors.white),
+                            style: AppTextStyles.infoContentStyle5.copyWith(
+                                fontWeight: FontWeight.w300, fontSize: 14),
                           ),
                         ),
                       ],
@@ -262,26 +264,27 @@ class _HtmlEditorExampleState extends State<FaqPage> {
                       children: <Widget>[
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor: Colors.blueGrey),
+                              backgroundColor: MakeMyTripColors.color70gray),
                           onPressed: () {
                             controller.disable();
                           },
-                          child: const Text('Disable',
-                              style: TextStyle(color: Colors.white)),
+                          child: Text('Disable',
+                              style: AppTextStyles.infoContentStyle5.copyWith(
+                                  fontWeight: FontWeight.w300, fontSize: 14)),
                         ),
                         const SizedBox(
                           width: 16,
                         ),
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary),
+                              backgroundColor: MakeMyTripColors.accentColor),
                           onPressed: () async {
                             controller.enable();
                           },
-                          child: const Text(
+                          child: Text(
                             'Enable',
-                            style: const TextStyle(color: Colors.white),
+                            style: AppTextStyles.infoContentStyle5.copyWith(
+                                fontWeight: FontWeight.w300, fontSize: 14),
                           ),
                         ),
                       ],
@@ -295,27 +298,27 @@ class _HtmlEditorExampleState extends State<FaqPage> {
                       children: <Widget>[
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary),
+                              backgroundColor: MakeMyTripColors.accentColor),
                           onPressed: () {
                             controller.insertText('Google');
                           },
-                          child: const Text('Insert Text',
-                              style: const TextStyle(color: Colors.white)),
+                          child: Text('Insert Text',
+                              style: AppTextStyles.infoContentStyle5.copyWith(
+                                  fontWeight: FontWeight.w300, fontSize: 14)),
                         ),
                         const SizedBox(
                           width: 16,
                         ),
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary),
+                              backgroundColor: MakeMyTripColors.accentColor),
                           onPressed: () {
                             controller.insertHtml(
                                 '''<p style="color: blue">Google in blue</p>''');
                           },
-                          child: const Text('Insert HTML',
-                              style: const TextStyle(color: Colors.white)),
+                          child: Text('Insert HTML',
+                              style: AppTextStyles.infoContentStyle5.copyWith(
+                                  fontWeight: FontWeight.w300, fontSize: 14)),
                         ),
                       ],
                     ),
@@ -327,15 +330,15 @@ class _HtmlEditorExampleState extends State<FaqPage> {
                       children: <Widget>[
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary),
+                              backgroundColor: MakeMyTripColors.accentColor),
                           onPressed: () async {
                             controller.insertLink(
                                 'Google linked', 'https://google.com', true);
                           },
-                          child: const Text(
+                          child: Text(
                             'Insert Link',
-                            style: const TextStyle(color: Colors.white),
+                            style: AppTextStyles.infoContentStyle5.copyWith(
+                                fontWeight: FontWeight.w300, fontSize: 14),
                           ),
                         ),
                         const SizedBox(
@@ -343,16 +346,16 @@ class _HtmlEditorExampleState extends State<FaqPage> {
                         ),
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary),
+                              backgroundColor: MakeMyTripColors.accentColor),
                           onPressed: () {
                             controller.insertNetworkImage(
                                 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png',
                                 filename: 'Google network image');
                           },
-                          child: const Text(
+                          child: Text(
                             'Insert network image',
-                            style: TextStyle(color: Colors.white),
+                            style: AppTextStyles.infoContentStyle5.copyWith(
+                                fontWeight: FontWeight.w300, fontSize: 14),
                           ),
                         ),
                       ],
@@ -366,41 +369,43 @@ class _HtmlEditorExampleState extends State<FaqPage> {
                       children: <Widget>[
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor: Colors.blueGrey),
+                              backgroundColor: MakeMyTripColors.color70gray),
                           onPressed: () {
                             controller.addNotification(
                                 'Info notification', NotificationType.info);
                           },
-                          child: const Text('Info',
-                              style: TextStyle(color: Colors.white)),
+                          child: Text('Info',
+                              style: AppTextStyles.infoContentStyle5.copyWith(
+                                  fontWeight: FontWeight.w300, fontSize: 14)),
                         ),
                         const SizedBox(
                           width: 16,
                         ),
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor: Colors.blueGrey),
+                              backgroundColor: MakeMyTripColors.color70gray),
                           onPressed: () {
                             controller.addNotification('Warning notification',
                                 NotificationType.warning);
                           },
-                          child: const Text('Warning',
-                              style: const TextStyle(color: Colors.white)),
+                          child: Text('Warning',
+                              style: AppTextStyles.infoContentStyle5.copyWith(
+                                  fontWeight: FontWeight.w300, fontSize: 14)),
                         ),
                         const SizedBox(
                           width: 16,
                         ),
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary),
+                              backgroundColor: MakeMyTripColors.accentColor),
                           onPressed: () async {
                             controller.addNotification('Success notification',
                                 NotificationType.success);
                           },
-                          child: const Text(
+                          child: Text(
                             'Success',
-                            style: TextStyle(color: Colors.white),
+                            style: AppTextStyles.infoContentStyle5.copyWith(
+                                fontWeight: FontWeight.w300, fontSize: 14),
                           ),
                         ),
                         const SizedBox(
@@ -408,15 +413,15 @@ class _HtmlEditorExampleState extends State<FaqPage> {
                         ),
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary),
+                              backgroundColor: MakeMyTripColors.accentColor),
                           onPressed: () {
                             controller.addNotification(
                                 'Danger notification', NotificationType.danger);
                           },
-                          child: const Text(
+                          child: Text(
                             'Danger',
-                            style: const TextStyle(color: Colors.white),
+                            style: AppTextStyles.infoContentStyle5.copyWith(
+                                fontWeight: FontWeight.w300, fontSize: 14),
                           ),
                         ),
                       ],
@@ -430,27 +435,28 @@ class _HtmlEditorExampleState extends State<FaqPage> {
                       children: <Widget>[
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor: Colors.blueGrey),
+                              backgroundColor: MakeMyTripColors.color70gray),
                           onPressed: () {
                             controller.addNotification('Plaintext notification',
                                 NotificationType.plaintext);
                           },
-                          child: const Text('Plaintext',
-                              style: const TextStyle(color: Colors.white)),
+                          child: Text('Plaintext',
+                              style: AppTextStyles.infoContentStyle5.copyWith(
+                                  fontWeight: FontWeight.w300, fontSize: 14)),
                         ),
                         const SizedBox(
                           width: 16,
                         ),
                         TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary),
+                              backgroundColor: MakeMyTripColors.accentColor),
                           onPressed: () async {
                             controller.removeNotification();
                           },
-                          child: const Text(
+                          child: Text(
                             'Remove',
-                            style: const TextStyle(color: Colors.white),
+                            style: AppTextStyles.infoContentStyle5.copyWith(
+                                fontWeight: FontWeight.w300, fontSize: 14),
                           ),
                         ),
                       ],

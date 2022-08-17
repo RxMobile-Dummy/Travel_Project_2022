@@ -57,6 +57,7 @@ dependencies:
   connectivity_plus: ^2.3.6+1
   html_editor_enhanced: ^2.2.0+1-dev.1
   file_picker: ^4.6.1
+  firebase_remote_config: ^2.0.14
 
 dev_dependencies:
   flutter_test:
