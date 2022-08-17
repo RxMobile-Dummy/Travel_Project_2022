@@ -18,4 +18,11 @@ class StringConstants {
   static String passwordHintTxt = "Enter your Password";
   static String emailLabel = "Email";
   static String passwordLabel = "Password";
+  static String emailValidationErrorMessage = "email is not valid!";
+  static String passwordValidationErrorMessage = "password is not strong!";
+  static String loginSuccessMessage = "Login Success";
+  static String firebaseEmailError = "user-not-found";
+  static String firebasePassError = "wrong-password";
+  static String firebaseInvalidPassMessage = "Invalid Password";
+  static String firebaseInvalidEmailMessage = "Invalid Email";
 }

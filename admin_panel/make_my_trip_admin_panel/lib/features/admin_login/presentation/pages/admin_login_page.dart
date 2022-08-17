@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
-import 'package:make_my_trip_admin_panel/core/theme/make_my_trip_colors.dart';
+import 'package:make_my_trip_admin_panel/core/navigation/route_info.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/cubit/admin_login_cubit.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/image_path.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
@@ -16,7 +16,12 @@ class AdminLoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AdminLoginCubit, BaseState>(
+    return BlocConsumer<AdminLoginCubit, BaseState>(
+      listener: (context, state) {
+        if (state is StateOnKnownToSuccess) {
+          Navigator.pushNamed(context, RoutesName.adminLogin);
+        }
+      },
       builder: (context, state) {
         if (state is StateOnSuccess) {
           passwordObSecure = state.response;
@@ -48,36 +53,17 @@ class AdminLoginPage extends StatelessWidget {
                         ),
                         32.verticalSpace,
                         TextFormField(
-                          onChanged: (value) {
-                            context
-                                .read<AdminLoginCubit>()
-                                .emailValidationEvent(value.toString());
-                          },
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,
                           autofocus: true,
                           decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.person),
-                              hintText: StringConstants.emailHintTxt,
-                              labelText: StringConstants.emailLabel,
-                              suffixIcon: state is StateOnKnownToSuccess
-                                  ? const Icon(
-                                      Icons.check,
-                                      color: MakeMyTripColors.colorGreen,
-                                    )
-                                  : const Icon(
-                                      Icons.cancel,
-                                      color: MakeMyTripColors.colorRed,
-                                    )),
+                            prefixIcon: const Icon(Icons.person),
+                            hintText: StringConstants.emailHintTxt,
+                            labelText: StringConstants.emailLabel,
+                          ),
                         ),
-
                         20.verticalSpace,
                         TextFormField(
-                          onChanged: (value) {
-                            context
-                                .read<AdminLoginCubit>()
-                                .passwordValidationEvent(value.toString());
-                          },
                           controller: passwordController,
                           obscureText: passwordObSecure,
                           keyboardType: TextInputType.emailAddress,
@@ -97,18 +83,26 @@ class AdminLoginPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        12.verticalSpace,
+                        24.verticalSpace,
                         Align(
                           alignment: AlignmentDirectional.bottomEnd,
-                          child: GestureDetector(
-                              onTap: () {},
-                              child: const Text("Forgot Password")),
+                          child: state is StateErrorGeneral
+                              ? Text(
+                                  state.errorMessage,
+                                )
+                              : const Text(""),
                         ),
-                        28.verticalSpace,
+                        12.verticalSpace,
                         SizedBox(
                             width: double.infinity,
                             child: CommonPrimaryButton(
-                                text: "Login", onTap: () {})),
+                                text: "Login",
+                                onTap: () {
+                                  context
+                                      .read<AdminLoginCubit>()
+                                      .signInWithEmail(emailController.text,
+                                          passwordController.text);
+                                })),
                       ],
                     ),
                   ),

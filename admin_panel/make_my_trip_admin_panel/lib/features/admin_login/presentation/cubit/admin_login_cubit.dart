@@ -1,32 +1,54 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
+import 'package:make_my_trip_admin_panel/core/failures/failures.dart';
+import 'package:make_my_trip_admin_panel/core/usecases/usecase.dart';
+import 'package:make_my_trip_admin_panel/features/admin_login/domain/use_cases/admin_login_use_cases.dart';
+import 'package:make_my_trip_admin_panel/features/admin_login/domain/use_cases/validate_admin_use_cases.dart';
+import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 import 'package:make_my_trip_admin_panel/utils/validations/user_info/user_information_validations.dart';
 
 class AdminLoginCubit extends Cubit<BaseState> {
-  AdminLoginCubit() : super(StateInitial());
+  AdminLoginCubit(this.adminLoginUseCases, this.adminValidationUseCases)
+      : super(StateInitial());
+
+  final AdminLoginUseCases adminLoginUseCases;
+  final AdminValidationUseCases adminValidationUseCases;
 
   void changeObSecureEvent(bool obSecureValue) {
     emit(StateOnSuccess(!obSecureValue));
   }
 
-  void emailValidationEvent(String email) {
-    final emailValidation = UserInfoValidation.emailAddressValidation(email);
+  signInWithEmail(String loginEmail, String loginPassword) async {
+    final emailValidation =
+        UserInfoValidation.emailAddressValidation(loginEmail);
     if (emailValidation != null) {
-      emit(ValidationError("email is not valid!"));
+      emit(StateErrorGeneral(StringConstants.emailValidationErrorMessage));
     } else {
-      emit(StateOnKnownToSuccess("perfect!"));
-    }
-  }
+      final passwordValidation =
+          UserInfoValidation.passwordValidation(loginPassword);
+      if (passwordValidation != null) {
+        emit(StateErrorGeneral(StringConstants.passwordValidationErrorMessage));
+      } else {
+        final res = await adminLoginUseCases
+            .call(LoginParams(email: loginEmail, password: loginPassword));
 
-  void passwordValidationEvent(String password) {
-    final passValidation = UserInfoValidation.passwordValidation(password);
-    if (passValidation != null) {
-      emit(StateErrorGeneral("password is not strong!"));
-    } else {
-      emit(StateOnResponseSuccess("done!"));
+        res.fold((failure) {
+          if (failure is AuthFailure) {
+            emit(StateErrorGeneral(failure.failureMsg!));
+          }
+        }, (success) async {
+          final result = await adminValidationUseCases.call(NoParams());
+          result.fold((l) {
+            if (l is AuthFailure) {
+              emit(StateErrorGeneral(l.failureMsg!));
+            } else {
+              emit(StateErrorGeneral(l.toString()));
+            }
+          },
+              (r) => emit(
+                  StateOnKnownToSuccess(StringConstants.loginSuccessMessage)));
+        });
+      }
     }
-  }
-
-  void signInWithEmailAndPassword(String email, String password) {
   }
 }
