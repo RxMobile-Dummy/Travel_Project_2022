@@ -3,13 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
 import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart'
     as setting_page_di;
 import 'package:make_my_trip/features/user/user_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
-import 'package:make_my_trip/service.dart';
+import 'package:make_my_trip/core/services/notification/notification_service.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import './core/navigation/app_router.dart' as app_routes;
 import 'core/internet/internet_cubit.dart';
@@ -36,23 +35,6 @@ import 'features/user_history/user_history_injection_container.dart'
 import 'features/booking/booking_injection_container.dart' as booking_di;
 import 'core/internet/internet_injection_container.dart' as internet_di;
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', 'High Importance Notifications', // id , name
-  description: 'This Channel is used for important notification',
-  importance: Importance.high,
-  playSound: true, enableVibration: true,
-);
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  print('a bakground message just showed uo : ${message.messageId}');
-}
-
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await internet_di.init();
@@ -75,15 +57,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  // await flutterLocalNotificationsPlugin
-  //     .resolvePlatformSpecificImplementation<
-  //         AndroidFlutterLocalNotificationsPlugin>()
-  //     ?.createNotificationChannel(channel);
-
-  // FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-  //     alert: true, badge: true, sound: true);
   await PushNotificationService().setupInteractedMessage();
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MaterialApp(
@@ -106,65 +79,15 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    //   super.initState();
+  Widget build(BuildContext context) {
     FirebaseMessaging.instance
         .getToken()
         .then((value) => print("device_id  ${value}"));
-    //   FirebaseMessaging.instance.subscribeToTopic('Events');
-    //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //     RemoteNotification? notification = message.notification;
-    //     AndroidNotification? android = message.notification?.android;
-    //     if (notification != null && android != null) {
-    //       flutterLocalNotificationsPlugin.show(
-    //           notification.hashCode,
-    //           notification.title,
-    //           notification.body,
-    //           NotificationDetails(
-    //               android: AndroidNotificationDetails(channel.id, channel.name,
-    //                   channelDescription: channel.description,
-    //                   color: Colors.blue,
-    //                   playSound: true,
-    //                   //sound: const UriAndroidNotificationSound(
-    //                   //   "assets/tunes/pop.mp3"),
-    //                   icon: '@mipmap/travelsy')));
 
-    //       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    //         print('A new onMessageOpenedApp event is published');
-    //         RemoteNotification? notification = message.notification;
-    //         AndroidNotification? android = message.notification?.android;
-
-    //         if (notification != null && android != null) {
-    //           showDialog(
-    //               context: context,
-    //               builder: (context) {
-    //                 return AlertDialog(
-    //                   title: Text(notification.title.toString()),
-    //                   content: SingleChildScrollView(
-    //                       child: Column(
-    //                     children: [
-    //                       Text(notification.body.toString()),
-    //                     ],
-    //                   )),
-    //                 );
-    //               });
-    //         }
-    //       });
-    //     }
-    //   });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(

@@ -1,31 +1,21 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:make_my_trip/core/navigation/route_info.dart';
 
 class PushNotificationService {
   Future<void> setupInteractedMessage() async {
     await Firebase.initializeApp();
-// Get any messages which caused the application to open from a terminated state.
-    // If you want to handle a notification click when the app is terminated, you can use `getInitialMessage`
-    // to get the initial message, and depending in the remoteMessage, you can decide to handle the click
-    // This function can be called from anywhere in your app, there is an example in main file.
-    // RemoteMessage initialMessage =
-    //     await FirebaseMessaging.instance.getInitialMessage();
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
-    // if (initialMessage != null && initialMessage.data['type'] == 'chat') {
-    // Navigator.pushNamed(context, '/chat',
-    //     arguments: ChatArguments(initialMessage));
-    // }
-// Also handle any interaction when the app is in the background via a
-    // Stream listener
-    // This function is called when the app is in the background and user clicks on the notification
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      // Get.toNamed(NOTIFICATIOINS_ROUTE);
-      if (message.data['type'] == 'chat') {
-        // Navigator.pushNamed(context, '/chat',
-        //     arguments: ChatArguments(message));
-      }
+
+    FirebaseMessaging.onMessageOpenedApp.listen((
+      RemoteMessage message,
+    ) {
+      // if (message.data['type'] == 'chat') {
+      // Navigator.pushNamed(context, '/chat',
+      //     arguments: ChatArguments(message));
+      // Navigator.pushNamedAndRemoveUntil(context, RoutesName.myTrips, (route) => false);
+      // }
     });
     await enableIOSNotifications();
     await registerNotificationListeners();
@@ -39,8 +29,9 @@ class PushNotificationService {
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
-    var androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
-    var iOSSettings = IOSInitializationSettings(
+    var androidSettings =
+        const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iOSSettings = const IOSInitializationSettings(
       requestSoundPermission: false,
       requestBadgePermission: false,
       requestAlertPermission: false,
@@ -88,7 +79,7 @@ class PushNotificationService {
     );
   }
 
-  androidNotificationChannel() => AndroidNotificationChannel(
+  androidNotificationChannel() => const AndroidNotificationChannel(
         'high_importance_channel', 'High Importance Notifications', // id , name
         description: 'This Channel is used for important notification',
         importance: Importance.high,
