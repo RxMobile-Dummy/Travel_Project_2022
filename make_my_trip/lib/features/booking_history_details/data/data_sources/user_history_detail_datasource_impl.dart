@@ -14,9 +14,14 @@ class UserHistoryDetailDataSourceImpl extends UserHistoryDetailDataSource {
 
   Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    print("hello");
+    printWrapped(userToken);
     return Options(headers: {'token': userToken});
   }
-
+  void printWrapped(String text) {
+    final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
+    pattern.allMatches(text).forEach((match) => print(match.group(0)));
+  }
   @override
   Future<Either<Failures, String>> cancelBooking(bookingId) async {
     var deviceId = await FirebaseMessaging.instance.getToken();

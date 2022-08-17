@@ -2,21 +2,19 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/booking_history_details/presentation/cubit/cancel_booking_cubit.dart';
 import 'package:make_my_trip/features/booking_history_details/presentation/widgets/booking_history_detail_body.dart';
-import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import '../../../../core/theme/make_my_trip_colors.dart';
-import '../../../../utils/constants/string_constants.dart';
 import '../../../../utils/widgets/common_primary_button.dart';
 import '../../../user_history/data/model/user_history_model.dart';
 
 class BookingHistoryDetails extends StatelessWidget {
-  const BookingHistoryDetails({Key? key}) : super(key: key);
-
+  BookingHistoryDetails({Key? key, required this.userHistoryModel}) : super(key: key);
+  UserHistoryModel userHistoryModel;
   @override
   Widget build(BuildContext context) {
     return  BlocBuilder<CancelBookingCubit, CancelBookingState>(
@@ -35,9 +33,9 @@ class BookingHistoryDetails extends StatelessWidget {
                     ),
                   ),
                   30.verticalSpace,
-                  const Text(
-                    "Cancelled Booking Successfuly",
-                    style: TextStyle(
+                  Text(
+                    StringConstants.bookingCancelledSuccessfully,
+                    style: const TextStyle(
                         color: MakeMyTripColors.accentColor,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
@@ -70,9 +68,9 @@ class BookingHistoryDetails extends StatelessWidget {
                     ),
                   ),
                   30.verticalSpace,
-                  const Text(
-                    "Error Occurred while cancelling booking please try after some times",
-                    style: TextStyle(
+                  Text(
+                    StringConstants.cantCancellBooking,
+                    style: const TextStyle(
                         color: MakeMyTripColors.accentColor,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
@@ -92,7 +90,7 @@ class BookingHistoryDetails extends StatelessWidget {
               ),
             );
           } else {
-            return const BookingHistoryDetailBody();
+            return BookingHistoryDetailBody(userHistoryModel);
           }
         }
         );

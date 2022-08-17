@@ -349,4 +349,8 @@ class StringConstants {
   static String roomPrice = "Room Price";
   static String discount = "Discount";
   static String cancellationPolicy = "Cancellation Policy";
+  static String cancelAreYouSure = "Are you sure want to cancel booking?";
+  static String yourBookingIsCancel = "This hotel is been cancelled";
+  static String bookingCancelledSuccessfully = "Booking Cancelled Successfully";
+  static String cantCancellBooking = "Booking can not be cancelled in last 24 hours of booking as per our cancellation policy";
 }

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/user_history/data/model/user_history_model.dart';
 import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/shimmer_history_page.dart';
 import 'package:make_my_trip/features/user_history/presentation/widgets/history_list_view_widget.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
+
+import '../../data/model/user_history_model.dart';
 
 class UserHistoryPage extends StatelessWidget {
   const UserHistoryPage({Key? key}) : super(key: key);

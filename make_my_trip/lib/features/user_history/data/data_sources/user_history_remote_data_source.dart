@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
-import 'package:make_my_trip/features/user_history/data/model/user_history_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
+import '../model/user_history_model.dart';
 
 abstract class UserHistoryDataSource {
   Future<Either<Failures, List<UserHistoryModel>>> getUserHistoryData();
@@ -16,9 +16,13 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
 
   Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    printWrapped(userToken);
     return Options(headers: {'token': userToken});
   }
-
+  void printWrapped(String text) {
+    final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
+    pattern.allMatches(text).forEach((match) => print(match.group(0)));
+  }
   @override
   Future<Either<Failures, List<UserHistoryModel>>> getUserHistoryData() async {
     try {
@@ -36,6 +40,7 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
+      print(err);
       return Left(ServerFailure());
     }
   }

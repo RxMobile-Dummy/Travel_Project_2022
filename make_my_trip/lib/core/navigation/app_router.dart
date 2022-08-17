@@ -26,6 +26,7 @@ import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/features/user/presentation/pages/login_page.dart';
 import 'package:make_my_trip/features/user/presentation/widgets/resetPassword_widget.dart';
 import 'package:make_my_trip/features/user/user_injection_container.dart';
+import 'package:make_my_trip/features/user_history/data/model/user_history_model.dart';
 import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
@@ -140,6 +141,7 @@ class Router {
           );
         });
       case RoutesName.bookingHistoryDetailPage:
+        UserHistoryModel arg = settings.arguments as  UserHistoryModel;
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
             providers: [
@@ -151,7 +153,7 @@ class Router {
                 create: (context) => historyListDetailSl<CancelBookingCubit>(),
               ),
             ],
-            child: BookingHistoryDetails(),
+            child: BookingHistoryDetails(userHistoryModel: arg,),
           );
         });
       case RoutesName.wishList:

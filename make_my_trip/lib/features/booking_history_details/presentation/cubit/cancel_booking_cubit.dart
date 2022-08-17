@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +15,6 @@ part 'cancel_booking_state.dart';
 class CancelBookingCubit extends Cubit<CancelBookingState> {
   UserHistoryDetailUseCase userHistoryDetailUseCase;
   CancelBookingCubit(this.userHistoryDetailUseCase) : super(CancelBookingInitial());
-
   cancelBooking(int? bookingId) async{
     try {
       final response = await userHistoryDetailUseCase.call(bookingId);
@@ -25,5 +25,6 @@ class CancelBookingCubit extends Cubit<CancelBookingState> {
       emit(BookingsCancellationFailure());
     }
   }
+
 
 }
