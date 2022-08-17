@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/setting_page/data/data_sources/user_details_remote_data_source.dart';
+import 'package:make_my_trip/features/setting_page/data/models/content_model.dart';
 import 'package:make_my_trip/features/setting_page/data/models/faq_model.dart';
 import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 import 'package:make_my_trip/features/setting_page/domain/repositories/setting_page_repository.dart';
@@ -34,5 +35,20 @@ class SettingPageRepositoryImpl implements SettingPageRepository {
   @override
   Future<Either<Failures, List<FaqModel>>> getFaq() async {
     return await userDetailsRemoteDataSource.getFaqData();
+  }
+
+  @override
+  Future<Either<Failures, List<ContentModel>>> getAboutUs() async {
+    return await userDetailsRemoteDataSource.getAboutUsData();
+  }
+
+  @override
+  Future<Either<Failures, List<ContentModel>>> getPrivacyPolicy() async {
+    return await userDetailsRemoteDataSource.getPrivacyPolicyData();
+  }
+
+  @override
+  Future<Either<Failures, List<ContentModel>>> getTermsAndCondition() async {
+    return await userDetailsRemoteDataSource.getTermsAndConditionData();
   }
 }

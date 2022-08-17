@@ -19,7 +19,10 @@ import 'package:make_my_trip/features/room_categories/presentation/cubit/select_
 import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
 import 'package:make_my_trip/features/setting_page/presentation/pages/settings_page.dart';
+import 'package:make_my_trip/features/setting_page/presentation/widgets/about_us_widget.dart';
 import 'package:make_my_trip/features/setting_page/presentation/widgets/faq_widget.dart';
+import 'package:make_my_trip/features/setting_page/presentation/widgets/privacy_policy_widget.dart';
+import 'package:make_my_trip/features/setting_page/presentation/widgets/terms_condition_widget.dart';
 import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/pages/sign_up_page.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
@@ -330,7 +333,10 @@ class Router {
         });
       case RoutesName.privacyPolicy:
         return MaterialPageRoute(builder: (_) {
-          return const CustomerSupportPage();
+          return BlocProvider(
+            create: (context) => slSettingPage<SettingPageCubit>()..getPrivacyPolicyData(),
+             child: PrivacyPolicyPage(),
+          );
         });
       case RoutesName.faq:
         return MaterialPageRoute(builder: (_) {
@@ -342,11 +348,17 @@ class Router {
         });
       case RoutesName.aboutUs:
         return MaterialPageRoute(builder: (_) {
-          return const CustomerSupportPage();
+          return BlocProvider(
+            create: (context) => slSettingPage<SettingPageCubit>()..getAboutUsData(),
+            child: AboutUsPage(),
+          );
         });
       case RoutesName.termsAndCondition:
         return MaterialPageRoute(builder: (_) {
-          return const CustomerSupportPage();
+          return BlocProvider(
+            create: (context) => slSettingPage<SettingPageCubit>()..getTermsConditionData(),
+            child: TermsConditionPage(),
+          );
         });
       case RoutesName.errorPage:
         return MaterialPageRoute(builder: (_) {

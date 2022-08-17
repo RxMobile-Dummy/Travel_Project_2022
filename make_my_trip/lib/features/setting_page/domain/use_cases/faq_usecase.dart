@@ -11,20 +11,7 @@ class FaqUseCase implements Usecase<List<FaqModel>, NoParams> {
 
   @override
   Future<Either<Failures, List<FaqModel>>> call(NoParams params) async {
-    // TODO: implement call
     return await settingPageRepository.getFaq();
   }
 }
 
-class FaqParams {
-  final String title;
-  final String subtitle;
-
-  FaqParams(
-    this.title,
-    this.subtitle,
-  );
-
-  @override
-  List<Object?> get props => [title, subtitle];
-}

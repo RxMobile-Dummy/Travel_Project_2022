@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/setting_page/data/data_sources/user_details_remote_data_source.dart';
+import 'package:make_my_trip/features/setting_page/data/models/content_model.dart';
 import 'package:make_my_trip/features/setting_page/data/models/faq_model.dart';
 import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
@@ -179,7 +180,51 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
       });
       return Right(subscription);
     } catch (e) {
-      print(e);
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<ContentModel>>> getAboutUsData() async {
+    try {
+      List<ContentModel> contentModel = [];
+      await firebaseFirestore.collection('aboutUs').get().then((snapshot) {
+        snapshot.docs.map((doc) {
+          contentModel.add(ContentModel.fromJson(doc.data()));
+        }).toList();
+      });
+      return Right(contentModel);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<ContentModel>>> getPrivacyPolicyData() async {
+    try {
+      List<ContentModel> contentModel = [];
+      await firebaseFirestore.collection('privacyPolicy').get().then((snapshot) {
+        snapshot.docs.map((doc) {
+          contentModel.add(ContentModel.fromJson(doc.data()));
+        }).toList();
+      });
+      return Right(contentModel);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<ContentModel>>> getTermsAndConditionData() async {
+    try {
+      List<ContentModel> contentModel = [];
+      await firebaseFirestore.collection('termsAndCondition').get().then((snapshot) {
+        snapshot.docs.map((doc) {
+          contentModel.add(ContentModel.fromJson(doc.data()));
+        }).toList();
+      });
+      return Right(contentModel);
+    } catch (e) {
       return Left(ServerFailure());
     }
   }

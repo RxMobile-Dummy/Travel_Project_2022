@@ -3,7 +3,10 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
+import 'package:make_my_trip/features/setting_page/domain/use_cases/about_us_usecase.dart';
 import 'package:make_my_trip/features/setting_page/domain/use_cases/get_user_data_usecase.dart';
+import 'package:make_my_trip/features/setting_page/domain/use_cases/privacy_policy_usecase.dart';
+import 'package:make_my_trip/features/setting_page/domain/use_cases/terms_and_condition_usecase.dart';
 import 'package:make_my_trip/features/setting_page/domain/use_cases/update_image_usecase.dart';
 import 'package:make_my_trip/features/setting_page/domain/use_cases/update_user_data_usecase.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
@@ -17,9 +20,12 @@ class SettingPageCubit extends Cubit<BaseState> {
   UpdateImageUseCase updateImageUseCase;
   UpdateUserDataUseCase updateUserDataUseCase;
   FaqUseCase faqUseCase;
+  AboutUsUseCase aboutUsUseCase;
+  PrivacyPolicyUseCase privacyPolicyUseCase;
+  TermsConditionUseCase termsConditionUseCase;
 
   SettingPageCubit(this.getUserDataUseCase, this.updateImageUseCase,
-      this.updateUserDataUseCase, this.faqUseCase)
+      this.updateUserDataUseCase, this.faqUseCase,this.aboutUsUseCase,this.privacyPolicyUseCase,this.termsConditionUseCase)
       : super(StateOnKnownToSuccess<SettingPageData>(SettingPageData())) {
     getUserData();
   }
@@ -76,6 +82,24 @@ class SettingPageCubit extends Cubit<BaseState> {
     final res = await faqUseCase.call(NoParams());
     return res.fold((l) => emit(StateErrorGeneral(l.toString())),
         (r) => emit(StateOnSuccess(r)));
+  }
+
+  getAboutUsData() async {
+    final res = await aboutUsUseCase.call(NoParams());
+    return res.fold((l) => emit(StateErrorGeneral(l.toString())),
+            (r) => emit(StateOnSuccess(r)));
+  }
+
+  getPrivacyPolicyData() async {
+    final res = await privacyPolicyUseCase.call(NoParams());
+    return res.fold((l) => emit(StateErrorGeneral(l.toString())),
+            (r) => emit(StateOnSuccess(r)));
+  }
+
+  getTermsConditionData() async {
+    final res = await termsConditionUseCase.call(NoParams());
+    return res.fold((l) => emit(StateErrorGeneral(l.toString())),
+            (r) => emit(StateOnSuccess(r)));
   }
 
   callNumber() async {
