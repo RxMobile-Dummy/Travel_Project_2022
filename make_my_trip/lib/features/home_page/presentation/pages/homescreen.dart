@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/features/home_page/presentation/widgets/coupon_widget.dart';
 import 'package:make_my_trip/features/home_page/presentation/widgets/imege_slidder_shimmer.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
@@ -199,7 +200,44 @@ class HomeScreen extends StatelessWidget {
                                 }))
                         : const ImageSliderShimmer()),
                   ),
-                  16.verticalSpace
+                  16.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: Text(
+                      StringConstants.attractiveOffers,
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: ((state is StateOnSuccess<GettingStartedData> &&
+                            state.response.couponListvalue != null)
+                        ? (state.response.couponLoading == true)
+                            ? const ImageSliderShimmer()
+                            : Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: List.generate(
+                                    state.response.couponListvalue!.length,
+                                    (index) {
+                                  var coupondata =
+                                      state.response.couponListvalue?[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: CouponWidget(
+                                      couponTitle: coupondata!.title.toString(),
+                                      expiryDate:
+                                          coupondata!.endDate.toString(),
+                                      imgUrl:
+                                          coupondata!.couponImgUrl.toString(),
+                                      discountText:
+                                          coupondata!.discount.toString(),
+                                    ),
+                                  );
+                                }))
+                        : const ImageSliderShimmer()),
+                  ),
                 ],
               ),
             ),

@@ -122,7 +122,9 @@ class Router {
               BlocProvider.value(
                   value: slHomePage<HomepageCubit>()
                     ..getToursApi()
-                    ..getImagesApi()),
+                    ..getImagesApi()
+                    ..getCouponsApi()
+              ),
               BlocProvider.value(value: slHomePage<TabBarCubit>())
             ],
             child: HomePage(),
