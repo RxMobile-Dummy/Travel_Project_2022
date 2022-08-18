@@ -14,7 +14,6 @@ import 'package:make_my_trip/features/user_history/user_history_injection_contai
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/presentation/pages/wishlist_page.dart';
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../../../../core/internet/internet_cubit.dart';
 import '../../../../core/navigation/route_info.dart';
 import '../../../../utils/widgets/progress_loader.dart';
