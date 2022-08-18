@@ -25,10 +25,9 @@ class TermsConditionPage extends StatelessWidget {
           return ListView.builder(
               itemCount: contentModel.length,
               itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Text(contentModel[index].title ?? ""),
-                  ],
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(contentModel[index].title ?? ""),
                 );
               });
         },
