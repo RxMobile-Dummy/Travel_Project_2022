@@ -29,7 +29,10 @@ class _HtmlEditorExampleState extends State<EditorPage> {
   void initState() {
     super.initState();
     if (widget.contentModel.isNotEmpty) {
-      result = widget.contentModel[0].title ?? "";
+      result = widget.contentModel[0].subtitle == null
+          ? widget.contentModel[0].title ?? ""
+          : widget.contentModel[0].subtitle ?? "";
+      // result = widget.contentModel[0].title ?? "";
     }
     Future.delayed(Duration(seconds: 5)).then((value) {
       try {

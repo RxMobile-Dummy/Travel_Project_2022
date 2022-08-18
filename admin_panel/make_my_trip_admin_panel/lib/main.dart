@@ -11,6 +11,7 @@ import '../../features/privacy_policy/privacy_policy_injection_container.dart'
     as dipp;
 import '../../features/terms_condition/terms_condition_injection_container.dart'
     as ditc;
+import '../../features/faq/faq_injection_container.dart' as difaq;
 
 Future<void> main() async {
   await Firebase.initializeApp(
@@ -19,6 +20,7 @@ Future<void> main() async {
   await di.init();
   await dipp.init();
   await ditc.init();
+  await difaq.init();
   runApp(const MyApp());
 }
 
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
       title: "StringConstants.appTitle",
       theme: MakeMyTripLightTheme.lightTheme,
       onGenerateRoute: app_routes.Router().generateRoutes,
-      initialRoute: RoutesName.tc,
+      initialRoute: RoutesName.aboutUs,
     );
   }
 }

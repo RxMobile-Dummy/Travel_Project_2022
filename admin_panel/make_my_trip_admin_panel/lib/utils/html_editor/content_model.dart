@@ -5,18 +5,19 @@ ContentModel contentModelFromJson(String str) =>
 String contentModelToJson(ContentModel data) => json.encode(data.toJson());
 
 class ContentModel {
-  ContentModel({
-    this.title,
-  });
+  ContentModel({this.title, this.subtitle});
 
   ContentModel.fromJson(dynamic json) {
     title = json['title'];
+    subtitle = json['subtitle'] ?? null;
   }
   String? title;
+  String? subtitle;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['title'] = title;
+    map['subtitle'] = subtitle ?? null;
     return map;
   }
 
