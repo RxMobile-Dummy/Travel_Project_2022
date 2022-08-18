@@ -58,6 +58,8 @@ void main() async {
   );
 
   await PushNotificationService().setupInteractedMessage();
+  PushNotificationService().broadcastNotification();
+
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MaterialApp(
     home: MyApp(),
@@ -98,6 +100,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        navigatorKey: NavigationService.navigatorKey,
         debugShowCheckedModeBanner: false,
         title: StringConstants.appTitle,
         theme: MakeMyTripLightTheme.lightTheme,
