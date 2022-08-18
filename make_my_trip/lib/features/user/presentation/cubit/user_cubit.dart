@@ -22,7 +22,9 @@ class UserCubit extends Cubit<BaseState> {
       required this.userSignUp,
       required this.userVerification,
       required this.userSignOut})
-      : super(StateInitial());
+      : super(StateInitial()){
+    callLog();
+  }
   final UserGoogleLogin googleLogin;
   final UserSignIn signIn;
   final UserFacebookLogin facebookLogin;
@@ -192,5 +194,11 @@ class UserCubit extends Cubit<BaseState> {
     } else {
       emit(StateReorderSuccess<String>(email, updatedIndex: 0));
     }
+  }
+
+  void callLog() async{
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    String email = _prefs.getString("email") ?? "";
+    emit(StateReorderSuccess(email));
   }
 }

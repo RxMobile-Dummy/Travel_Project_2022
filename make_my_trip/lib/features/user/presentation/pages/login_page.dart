@@ -14,27 +14,21 @@ import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../utils/widgets/progress_loader.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   LoginPage({Key? key, required this.arg}) : super(key: key);
   final Map<String, dynamic> arg;
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  TextEditingController loginEmailController = TextEditingController();
+ TextEditingController loginEmailController = TextEditingController();
 
   final loginPasswordController = TextEditingController();
 
   bool passwordObSecure = true;
 
-  @override
-  void initState() {
-    callLog();
-    super.initState();
-
-  }
+  // @override
+  // void initState() {
+  //   callLog();
+  //   super.initState();
+  //
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +40,13 @@ class _LoginPageState extends State<LoginPage> {
               message: StringConstants.loggedIn);
         } else if (state is StateOnSuccess) {
           ProgressDialog.hideLoadingDialog(context);
-          if (widget.arg["route_name"] == RoutesName.roomCategory ||
-              widget.arg["route_name"] == RoutesName.roomDetail ||
-              widget.arg["route_name"] == RoutesName.hotelDetail ||
-              widget.arg["route_name"] == RoutesName.reviewPage) {
+          if (arg["route_name"] == RoutesName.roomCategory ||
+              arg["route_name"] == RoutesName.roomDetail ||
+              arg["route_name"] == RoutesName.hotelDetail ||
+              arg["route_name"] == RoutesName.reviewPage) {
             Navigator.pop(context);
           } else {
-            Navigator.pushReplacementNamed(context, widget.arg["route_name"]);
+            Navigator.pushReplacementNamed(context, arg["route_name"]);
           }
         } else {
           ProgressDialog.hideLoadingDialog(context);
@@ -220,13 +214,12 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-  void callLog() async{
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    var email = _prefs.getString("email") ?? "";
-    print(email);
-
-    loginEmailController.text = email;
-
-  }
+  //
+  // void callLog() async{
+  //   SharedPreferences _prefs = await SharedPreferences.getInstance();
+  //   var email = _prefs.getString("email") ?? "";
+  //   print(email);
+  //
+  //   loginEmailController.text = email;
+  // }
 }
