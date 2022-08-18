@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/booking/data/model/booking_model.dart';
-import 'package:make_my_trip/features/booking/presentation/cubit/book_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/payment_integeration_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/pages/booking_shimmer_page.dart';
-import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
@@ -422,8 +419,7 @@ class BookingPage extends StatelessWidget {
                   child: CommonPrimaryButton(
                       text: StringConstants.book,
                       onTap: () {
-                        context.read<PaymentCubit>().paymentConfirm(20);
-                        //context.read<BookingCubit>().roomBookPost(roomDataPostModel!.hotelId!, roomDataPostModel);
+                        context.read<PaymentCubit>().paymentConfirm(20,detail.roomId,detail.hotelId,detail.checkinDate,detail.checkoutDate,bookingModel!.roomPrice ?? 0,bookingModel!.gst ?? 0,bookingModel!.offer ?? 0,bookingModel!.total ?? 0,0);
                       })),
             ),
           );

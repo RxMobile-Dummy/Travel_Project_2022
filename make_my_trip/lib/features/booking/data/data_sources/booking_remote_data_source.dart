@@ -1,7 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 import '../../../../core/failures/failures.dart';
 import '../../../../utils/constants/base_constants.dart';
@@ -10,7 +8,7 @@ import '../model/payment_model.dart';
 
 abstract class BookingRemoteDataSource {
   Future<Either<Failures, PaymentModel>> paymentIntegerationDataSource(
-      double amount);
+      double amount,List<int> roomId,int hotelId,String cIn,String cOut,  double roomPrice, int gst, int offer, int total, int couponId );
   Future<Either<Failures, BookingModel>> bookingRemoteDataSource(
       int hotelId, String cIn, String cOut, List<int> roomId, int adults);
 }
@@ -21,10 +19,16 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
   @override
   Future<Either<Failures, PaymentModel>> paymentIntegerationDataSource(
-      double amount) async {
+      double amount,List<int> roomId,int hotelId,String cIn,String cOut, double roomPrice, int gst, int offer, int total, int couponId) async {
     try {
       final response = await dio.post('${BaseConstant.baseUrl}payment',
-          data: {'amount': amount},
+          data: {'amount': amount,"room_id":roomId,"cin":cIn,"cout":cOut,"hotel_id":hotelId,"coupon_id":couponId,"price":{
+            "room_price":roomPrice,
+            "offer":offer,
+            "gst":gst,
+            "total":total
+          }
+          },
           options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
         PaymentModel paymentModel;

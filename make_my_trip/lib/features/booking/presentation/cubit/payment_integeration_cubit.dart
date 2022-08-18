@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/booking/data/model/booking_model.dart';
 import 'package:make_my_trip/features/booking/domain/use_cases/booking_usecase.dart';
 import 'package:make_my_trip/features/booking/domain/use_cases/payment_usecase.dart';
@@ -65,9 +64,9 @@ class PaymentCubit extends Cubit<BaseState> {
     } catch (e) {}
   }
 
-  paymentConfirm(double amount) async {
+  paymentConfirm(double amount,roomId,hotelId,cin,cout,double roomPrice,int gst,int offer,int totalPrice,int couponID) async {
     emit(StateLoading());
-    final data = await paymentUseCase.call(PaymentParams(amount));
+    final data = await paymentUseCase.call(PaymentParams(amount,roomId,hotelId,cin,cout,roomPrice,gst,offer,totalPrice,couponID));
     data.fold((l) {
       emit(StateErrorGeneral(l.toString()));
     }, (r) {

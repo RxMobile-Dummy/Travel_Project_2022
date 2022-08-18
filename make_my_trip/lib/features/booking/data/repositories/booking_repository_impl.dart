@@ -10,8 +10,9 @@ class BookingRepositoryImpl implements BookingRepository {
   BookingRepositoryImpl(this.bookingRemoteDataSource);
 
   @override
-  Future<Either<Failures, PaymentModel>> getPaymentDetails(double price) async {
-    return await bookingRemoteDataSource.paymentIntegerationDataSource(price);
+  Future<Either<Failures, PaymentModel>> getPaymentDetails(double price,List<int> roomId,int hotelId,String cIn,String cOut, double
+    roomPrice, int gst, int offer, int total, int couponId) async {
+    return await bookingRemoteDataSource.paymentIntegerationDataSource(price,roomId,hotelId,cIn,cOut,roomPrice,gst,offer,total,couponId);
   }
 
   @override
