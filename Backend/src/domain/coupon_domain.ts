@@ -9,7 +9,7 @@ class CouponDomain {
     async getAllCoupon(req: Request, res: Response) {
         try {
             var today = new Date();
-            var couponData = await couponmodel.find({ $and: [{ "startDate": { $lte: today } }, { "endDate": { $gte: today } }] });
+            var couponData = await couponmodel.find({ $and: [{ "startDate": { $lte: today } }, { "endDate": { $gte: today } }] }).select({_id:1,title:1,image_url:1,discount:1});
             res.status(StatusCode.Sucess).send(couponData);
             res.end();
         }
