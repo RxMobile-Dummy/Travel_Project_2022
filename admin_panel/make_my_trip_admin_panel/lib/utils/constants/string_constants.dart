@@ -31,4 +31,15 @@ class StringConstants {
     "All Hotels",
     "Hotels Reviews"
   ];
+
+  //Review moderation
+  static const noResultsTxt = "No results found";
+  static const noReviewsTxt = "You don't have any new reviews at this moment";
+  static const reviewAppbarTitle = "Reviews";
+  static const approveTxt = "Approve";
+  static const rejectTxt = "Reject";
+  static const cleanlinessTxt = "Cleanliness";
+  static const comfortTxt = "Comfort";
+  static const facilitiesTxt = "Facilities";
+  static const locationTxt = "Location";
 }

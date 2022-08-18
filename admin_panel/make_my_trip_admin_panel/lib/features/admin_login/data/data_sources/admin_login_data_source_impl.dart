@@ -12,17 +12,6 @@ class AdminLoginDataSourceImpl implements AdminLoginDataSource {
 
   AdminLoginDataSourceImpl(this.auth, this.dio);
 
-  Future<Options> createDioOptions() async {
-    final userToken = await auth.currentUser!.getIdToken(true);
-    printWrapped(userToken);
-    return Options(headers: {'token': userToken});
-  }
-
-  void printWrapped(String text) {
-    final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
-    pattern.allMatches(text).forEach((match) => print(match.group(0)));
-  }
-
   @override
   Future<Either<Failures, void>> adminLogin(email, password) async {
     try {
@@ -52,7 +41,7 @@ class AdminLoginDataSourceImpl implements AdminLoginDataSource {
   Future<Either<Failures, void>> validateAdmin() async {
     try {
       final response = await dio.get('${BaseConstant.baseUrl}user/admincheck',
-          options: await createDioOptions());
+          options: await BaseConstant.createDioOptions());
       return const Right(null);
     } on DioError catch (err) {
       if (err.response!.statusCode == 401) {
@@ -60,6 +49,8 @@ class AdminLoginDataSourceImpl implements AdminLoginDataSource {
       } else {
         return Left(ServerFailure());
       }
+    } catch (err) {
+      return Left(ServerFailure());
     }
   }
 }

@@ -20,7 +20,7 @@ class AdminLoginPage extends StatelessWidget {
       listener: (context, state) {
         if (state is StateOnKnownToSuccess) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.bookingModerationPage, (route) => false);
+              context, RoutesName.reviewModerationPage, (route) => false);
         }
       },
       builder: (context, state) {
