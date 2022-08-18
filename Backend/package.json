@@ -12,8 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "@firebase/auth": "^0.20.5",
+    "@types/cors": "^2.8.12",
     "@types/hapi__joi": "^17.1.8",
     "@types/jwt-decode": "^3.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "firebase-admin": "^11.0.0",
