@@ -21,15 +21,9 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -61,5 +55,26 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://travelproject22-6b9d4-default-rtdb.firebaseio.com',
     storageBucket: 'travelproject22-6b9d4.appspot.com',
     measurementId: 'G-V9CZ5MR3J2',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyDzWZNLmDFe91FAnd90xBs9SjIkoeyHLZo',
+    appId: '1:1074927524993:android:ab269a803fdc010d054180',
+    messagingSenderId: '1074927524993',
+    projectId: 'travelproject22-6b9d4',
+    databaseURL: 'https://travelproject22-6b9d4-default-rtdb.firebaseio.com',
+    storageBucket: 'travelproject22-6b9d4.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBKPIj044gcRW2oSXNVt_A5OK1zyBT66U0',
+    appId: '1:1074927524993:ios:06284f38a8960608054180',
+    messagingSenderId: '1074927524993',
+    projectId: 'travelproject22-6b9d4',
+    databaseURL: 'https://travelproject22-6b9d4-default-rtdb.firebaseio.com',
+    storageBucket: 'travelproject22-6b9d4.appspot.com',
+    androidClientId: '1074927524993-07k18hoebcl5arrb9g32bkiubdj7ojok.apps.googleusercontent.com',
+    iosClientId: '1074927524993-63pct0sv6rlpr9q6c82tv1vvt9vl85a9.apps.googleusercontent.com',
+    iosBundleId: 'com.example.makeMyTripAdminPanel',
   );
 }
