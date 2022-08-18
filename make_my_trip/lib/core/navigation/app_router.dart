@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/booking/booking_injection_container.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/payment_integeration_cubit.dart';
+import 'package:make_my_trip/features/booking/presentation/pages/applyCoupon_page.dart';
 import 'package:make_my_trip/features/booking/presentation/pages/booking_page.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
@@ -325,6 +326,14 @@ class Router {
               imagePath: ImagePath.confirmSuccess,
               title: StringConstants.futureTxt,
               statusCode: "");
+        });
+      case RoutesName.applyCoupon:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider(
+            create: (context) => bookingSl<PaymentCubit>()..showApplicableCoupons(arg['price']),
+            child: const ApplyCouponPage(),
+          );
         });
       default:
         return MaterialPageRoute(builder: (_) {

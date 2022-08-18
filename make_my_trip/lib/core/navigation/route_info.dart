@@ -41,4 +41,5 @@ class RoutesName {
 
   static const errorPage = "/errorPage";
 
+  static const applyCoupon="/applyCouponPage";
 }

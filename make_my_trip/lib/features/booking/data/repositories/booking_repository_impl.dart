@@ -4,6 +4,7 @@ import 'package:make_my_trip/features/booking/data/data_sources/booking_remote_d
 import 'package:make_my_trip/features/booking/data/model/booking_model.dart';
 import 'package:make_my_trip/features/booking/data/model/payment_model.dart';
 import 'package:make_my_trip/features/booking/domain/repositories/booking_repository.dart';
+import 'package:make_my_trip/features/home_page/data/models/ViewCouponModel.dart';
 
 class BookingRepositoryImpl implements BookingRepository {
   final BookingRemoteDataSource bookingRemoteDataSource;
@@ -20,4 +21,12 @@ class BookingRepositoryImpl implements BookingRepository {
     return await bookingRemoteDataSource.bookingRemoteDataSource(
         hotelId, cIn, cOut, roomId, adults);
   }
+
+  @override
+  Future<Either<Failures, List<ViewCouponModel>>> showApplicableCoupons(int price) async{
+    // TODO: implement showApplicableCoupons
+    return await bookingRemoteDataSource.showApplicableCoupons(price);
+    throw UnimplementedError();
+  }
+
 }

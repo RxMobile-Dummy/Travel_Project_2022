@@ -53,23 +53,7 @@ class HomepageCubit extends Cubit<BaseState> {
     } catch (err) {}
   }
 
-  getCouponsApi() async {
-    emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-        .response
-        .copyWith(couponLoading: true)));
-    var data = await couponsusecase.call();
-    data.fold((failure) {
-      if (failure is ServerFailure) {
-        emit(StateErrorGeneral(failure.failureMsg.toString()));
-      }
-      debugPrint(failure.toString());
-    }, (success) {
 
-      emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-          .response
-          .copyWith(couponListValue: success, couponLoading: false)));
-    });
-  }
 
   getCouponsIdApi(int id) async {
     emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
@@ -101,15 +85,4 @@ class HomepageCubit extends Cubit<BaseState> {
     });
   }
 
-  getCouponsIdApi(int id) async {
-    emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-        .response
-        .copyWith(couponLoading: true)));
-    var data = await getParticularCouponUsecase.call(id);
-    data.fold((failure) {
-      debugPrint(failure.toString());
-    }, (success) {
-      print(success);
-    });
-  }
 }

@@ -1,23 +1,28 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/booking/data/model/booking_model.dart';
 import 'package:make_my_trip/features/booking/domain/use_cases/booking_usecase.dart';
 import 'package:make_my_trip/features/booking/domain/use_cases/payment_usecase.dart';
+import 'package:make_my_trip/features/booking/domain/use_cases/showApplicableCouponsUsecase.dart';
+import 'package:make_my_trip/features/home_page/data/models/ViewCouponModel.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../../../core/base/base_state.dart';
 import '../../../room_categories/domain/use_cases/room_book_post_usecase.dart';
 
 class PaymentCubit extends Cubit<BaseState> {
   PaymentCubit(this._razorpay, this.paymentUseCase, this.bookingUseCase,
-      this.roomBookPostUsecase)
+      this.roomBookPostUsecase, this.showApplicableCouponsUsecase)
       : super(StateInitial());
 
   final Razorpay _razorpay;
   final PaymentUseCase paymentUseCase;
   final BookingUseCase bookingUseCase;
   final RoomBookPostUsecase roomBookPostUsecase;
+  final ShowApplicableCouponsUsecase showApplicableCouponsUsecase;
 
   init() {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -96,5 +101,22 @@ class PaymentCubit extends Cubit<BaseState> {
   @override
   Future<void> close() async {
     return _razorpay.clear();
+  }
+
+  showApplicableCoupons(int price) async{
+    print('cubit');
+    var data = await showApplicableCouponsUsecase.call(ShowApplicableCouponParams(price));
+    data.fold((failure) {
+      print('fail');
+      if (failure is ServerFailure) {
+        emit(StateErrorGeneral('No data Found'));
+      }
+      debugPrint(failure.toString());
+    }, (success) {
+        print('success');
+        print(success);
+        emit(StateOnSuccess<List<ViewCouponModel>>(success));
+      // emit(StateOnSuccess();
+    });
   }
 }
