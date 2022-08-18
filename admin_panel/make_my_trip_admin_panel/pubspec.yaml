@@ -23,7 +23,6 @@ dependencies:
   flutter_rating_bar: ^4.0.1
 
 
-
   #api call
   dio: ^4.0.6
 

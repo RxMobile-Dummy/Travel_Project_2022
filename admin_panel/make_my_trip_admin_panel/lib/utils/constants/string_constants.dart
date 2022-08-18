@@ -12,4 +12,5 @@ class StringConstants {
   static String messageInvalidPassword =
       'Please enter length of minimum 6 character';
   static String appTitle = "MakeMyTrip";
+  static String noHotelFound = "Oops!! No Hotel Found";
 }
