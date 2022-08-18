@@ -64,6 +64,7 @@ class HomepageCubit extends Cubit<BaseState> {
       }
       debugPrint(failure.toString());
     }, (success) {
+
       emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
           .response
           .copyWith(couponListValue: success, couponLoading: false)));
