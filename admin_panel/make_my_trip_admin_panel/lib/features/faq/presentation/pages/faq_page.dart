@@ -48,16 +48,17 @@ class _HtmlEditorExampleState extends State<FaqPage> {
                   ),
                 ),
                 EditorPage(
-                    controller: controller,
-                    onTap: () async {
-                      await controller.getText().then((value) =>
-                          FirebaseFirestore.instance.collection('faq').add({
-                            'title': titleController.text,
-                            'subtitle': value,
-                          }));
-                      titleController.clear();
-                      controller.clear();
-                    })
+                  // controller: controller,
+                  // onTap: () {
+                  //   controller.getText().then((value) =>
+                  //       FirebaseFirestore.instance.collection('faq').add({
+                  //         'title': titleController.text,
+                  //         'subtitle': value,
+                  //       }));
+                  // },
+                  contentModel: [],
+                  callback: (String val) {},
+                )
               ],
             ),
           ),

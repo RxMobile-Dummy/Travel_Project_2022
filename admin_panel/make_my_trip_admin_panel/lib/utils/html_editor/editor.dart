@@ -6,20 +6,41 @@ import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 
 import '../../core/theme/make_my_trip_colors.dart';
 import '../../core/theme/text_styles.dart';
+import 'content_model.dart';
+
+typedef void StringCallback(String val);
 
 class EditorPage extends StatefulWidget {
-  EditorPage({Key? key, required this.controller, required this.onTap})
+  EditorPage({Key? key, required this.contentModel, required this.callback})
       : super(key: key);
 
-  final HtmlEditorController controller;
-  VoidCallback onTap;
+  final HtmlEditorController controller = HtmlEditorController();
+  List<ContentModel> contentModel;
+  final StringCallback callback;
 
   @override
   _HtmlEditorExampleState createState() => _HtmlEditorExampleState();
 }
 
 class _HtmlEditorExampleState extends State<EditorPage> {
-  //String result = '';
+  String result = '';
+  String data = '';
+  @override
+  void initState() {
+    super.initState();
+    if (widget.contentModel.isNotEmpty) {
+      result = widget.contentModel[0].title ?? "";
+    }
+    Future.delayed(Duration(seconds: 5)).then((value) {
+      try {
+        if (widget.contentModel.isNotEmpty) {
+          widget.controller.insertHtml(widget.contentModel[0].title ?? "");
+        }
+      } catch (e) {
+        print(e);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +63,7 @@ class _HtmlEditorExampleState extends State<EditorPage> {
               child: HtmlEditor(
                 controller: widget.controller,
                 htmlEditorOptions: HtmlEditorOptions(
+                  initialText: result,
                   hint: StringConstants.editorHint,
                   shouldEnsureVisible: true,
                   //initialText: "<p>text content initial, if any</p>",
@@ -89,6 +111,7 @@ class _HtmlEditorExampleState extends State<EditorPage> {
                   if (kDebugMode) {
                     print('content changed to $changed');
                   }
+                  data = changed ?? "";
                 }, onChangeCodeview: (String? changed) {
                   if (kDebugMode) {
                     print('code changed to $changed');
@@ -136,7 +159,7 @@ class _HtmlEditorExampleState extends State<EditorPage> {
                     onImageUploadError: (FileUpload? file, String? base64Str,
                         UploadError error) {
                   if (kDebugMode) {
-                    print(describeEnum(error));
+                    // print(describeEnum(error));
                     print(base64Str ?? '');
                   }
                   if (file != null) {
@@ -228,7 +251,9 @@ class _HtmlEditorExampleState extends State<EditorPage> {
                 TextButton(
                   style: TextButton.styleFrom(
                       backgroundColor: MakeMyTripColors.accentColor),
-                  onPressed: widget.onTap,
+                  onPressed: () {
+                    widget.callback(data);
+                  },
                   child: Text(
                     StringConstants.submit,
                     style: AppTextStyles.infoContentStyle5
