@@ -25,4 +25,10 @@ class StringConstants {
   static String firebasePassError = "wrong-password";
   static String firebaseInvalidPassMessage = "Invalid Password";
   static String firebaseInvalidEmailMessage = "Invalid Email";
+  static List<String> drawerListTitle = [
+    "Hotels Bookings",
+    "Add new Hotels",
+    "All Hotels",
+    "Hotels Reviews"
+  ];
 }

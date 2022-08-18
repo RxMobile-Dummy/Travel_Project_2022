@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/admin_booking_moderation_injection_container.dart'
+    as admin_booking_moderation_di;
 import 'package:make_my_trip_admin_panel/features/admin_login/admin_login_injection_container.dart'
     as admin_login_di;
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
@@ -11,6 +13,7 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   await admin_login_di.init();
+  await admin_booking_moderation_di.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

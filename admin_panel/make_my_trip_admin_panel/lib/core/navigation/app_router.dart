@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip_admin_panel/core/navigation/route_info.dart';
+import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/admin_booking_moderation_injection_container.dart';
+import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/cubit/admin_booking_moderation_cubit.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/pages/admin_booking_page.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/admin_login_injection_container.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/cubit/admin_login_cubit.dart';
@@ -18,7 +20,11 @@ class Router {
         });
       case RoutesName.bookingModerationPage:
         return MaterialPageRoute(builder: (_) {
-          return const AdminBookingPage();
+          return BlocProvider<AdminBookingModerationCubit>(
+            create: (context) =>
+                slBookingModeration<AdminBookingModerationCubit>(),
+            child: AdminBookingPage(),
+          );
         });
       default:
         return MaterialPageRoute(builder: (_) {
