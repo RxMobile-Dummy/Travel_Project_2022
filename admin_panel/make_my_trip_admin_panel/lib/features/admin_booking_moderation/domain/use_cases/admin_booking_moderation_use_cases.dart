@@ -19,18 +19,18 @@ class AdminBookingModerationUseCases
 }
 
 class FilterParams extends Equatable {
-  final int page;
-  final String date1;
-  final String date2;
-  final String hotelname;
-  final String username;
+  final int? page;
+  final String? date1;
+  final String? date2;
+  final String? hotelname;
+  final String? username;
 
   const FilterParams(
       {required this.page,
-      required this.date1,
-      required this.date2,
-      required this.hotelname,
-      required this.username});
+      this.date1,
+      this.date2,
+      this.hotelname,
+      this.username});
 
   @override
   List<Object?> get props => [page, date1, date2, hotelname, username];

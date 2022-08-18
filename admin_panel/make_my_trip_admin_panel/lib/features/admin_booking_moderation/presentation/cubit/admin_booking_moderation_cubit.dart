@@ -10,8 +10,9 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
   final AdminBookingModerationUseCases adminBookingModerationUseCases;
   int page = -1;
   List<BookingModerationModel> bookingList = [];
+  List<BookingModerationModel> filterList = [];
 
-  getAllBookingListEvent(date1, date2, hotelname, username) async {
+  getAllBookingListEvent(String? date1, String? date2) async {
     if (state is! StateOnSuccess) {
       emit(StateLoading());
     } else {
@@ -19,12 +20,8 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
           isMoreLoading: true));
     }
     page++;
-    final res = await adminBookingModerationUseCases.call(FilterParams(
-        page: page,
-        date1: date1,
-        date2: date2,
-        hotelname: hotelname,
-        username: username));
+    final res = await adminBookingModerationUseCases
+        .call(FilterParams(page: page, date1: date1, date2: date2));
     res.fold((l) => StateError(l.toString()), (r) {
       for (var item in r) {
         bookingList.add(item);
@@ -35,13 +32,33 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
   }
 
   void setUpScrollController(
-      ScrollController scrollController, date1, date2, hotelname, username) {
+      ScrollController scrollController, String? date1, String? date2) {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          getAllBookingListEvent(date1, date2, hotelname, username);
+          getAllBookingListEvent(date1, date2);
         }
       }
     });
+  }
+
+  void searchList(String searchKeyWord) {
+    emit(StateLoading());
+    filterList = [];
+    for (var item in bookingList) {
+      if (item.userdata![0].userName!
+              .toLowerCase()
+              .contains(searchKeyWord.toLowerCase()) ||
+          item.hoteldata![0].hotelName!
+              .toLowerCase()
+              .contains(searchKeyWord.toLowerCase())) {
+        filterList.add(item);
+      }
+    }
+    if (filterList.isEmpty) {
+      emit(StateNoData());
+    } else {
+      emit(StateOnSuccess(filterList, isMoreLoading: false));
+    }
   }
 }

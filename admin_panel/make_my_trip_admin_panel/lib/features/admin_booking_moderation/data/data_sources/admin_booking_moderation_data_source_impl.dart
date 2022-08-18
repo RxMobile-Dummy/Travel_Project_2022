@@ -22,7 +22,7 @@ class AdminBookingModerationDataSourceImpl
       filterParams) async {
     try {
       var params = {
-        "pagesize": 10,
+        "pagesize": 20,
         "page": filterParams.page,
         "date1": filterParams.date1,
         "date2": filterParams.date2,

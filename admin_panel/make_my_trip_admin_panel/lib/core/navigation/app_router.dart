@@ -7,7 +7,6 @@ import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/prese
 import 'package:make_my_trip_admin_panel/features/admin_login/admin_login_injection_container.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/cubit/admin_login_cubit.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/pages/admin_login_page.dart';
-import 'package:make_my_trip_admin_panel/features/review_moderation/presentation/pages/review_moderation.dart';
 
 class Router {
   Route<dynamic> generateRoutes(RouteSettings settings) {
@@ -23,14 +22,9 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider<AdminBookingModerationCubit>(
             create: (context) =>
-                slBookingModeration<AdminBookingModerationCubit>()
-                  ..getAllBookingListEvent("", "", "", ""),
+                slBookingModeration<AdminBookingModerationCubit>()..getAllBookingListEvent("2020-01-01",""),
             child: (AdminBookingPage()),
           );
-        });
-      case RoutesName.reviewModerationPage:
-        return MaterialPageRoute(builder: (_) {
-          return ReviewModeration();
         });
       default:
         return MaterialPageRoute(builder: (_) {
