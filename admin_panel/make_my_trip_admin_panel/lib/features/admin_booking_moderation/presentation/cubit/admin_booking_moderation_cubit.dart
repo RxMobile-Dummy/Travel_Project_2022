@@ -11,7 +11,7 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
   int page = -1;
   List<BookingModerationModel> wishList = [];
 
-  getAllBookingListEvent(date1,date2, hotelname,username) async {
+  getAllBookingListEvent(date1, date2, hotelname, username) async {
     if (state is! StateOnSuccess) {
       emit(StateLoading());
     } else {
@@ -34,11 +34,12 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
     });
   }
 
-  void setUpScrollController(ScrollController scrollController) {
+  void setUpScrollController(
+      ScrollController scrollController, date1, date2, hotelname, username) {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          // getAllBookingListEvent();
+          getAllBookingListEvent(date1, date2, hotelname, username);
         }
       }
     });
