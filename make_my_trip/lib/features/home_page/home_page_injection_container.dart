@@ -7,12 +7,15 @@ import 'package:make_my_trip/features/home_page/data/data_sources/tours_datasour
 import 'package:make_my_trip/features/home_page/data/data_sources/tours_datasource_impl.dart';
 import 'package:make_my_trip/features/home_page/data/data_sources/viewCoupon_datasource.dart';
 import 'package:make_my_trip/features/home_page/data/data_sources/viewCoupon_datasource_impl.dart';
+import 'package:make_my_trip/features/home_page/data/repositories/getParticularCoupon_repository_impl.dart';
 import 'package:make_my_trip/features/home_page/data/repositories/image_repository_impl.dart';
 import 'package:make_my_trip/features/home_page/data/repositories/tours_repository_impl.dart';
 import 'package:make_my_trip/features/home_page/data/repositories/viewCoupon_repository_impl.dart';
+import 'package:make_my_trip/features/home_page/domain/repositories/getParticularCoupon.dart';
 import 'package:make_my_trip/features/home_page/domain/repositories/images_repository.dart';
 import 'package:make_my_trip/features/home_page/domain/repositories/tours_repository.dart';
 import 'package:make_my_trip/features/home_page/domain/repositories/viewCoupon_repository.dart';
+import 'package:make_my_trip/features/home_page/domain/use_cases/GetParticularCouponUsecase.dart';
 import 'package:make_my_trip/features/home_page/domain/use_cases/image_usecase.dart';
 import 'package:make_my_trip/features/home_page/domain/use_cases/tour_usecase.dart';
 import 'package:make_my_trip/features/home_page/domain/use_cases/viewCoupon_usecase.dart';
@@ -24,7 +27,7 @@ final slHomePage = GetIt.instance;
 Future<void> init() async {
   //cubit
   slHomePage.registerFactory<HomepageCubit>(
-      () => HomepageCubit(slHomePage(), slHomePage(), slHomePage()));
+      () => HomepageCubit(slHomePage(), slHomePage(), slHomePage(),slHomePage()));
   slHomePage.registerFactory(() => TabBarCubit(isAnonymousUser: slHomePage()));
   //data source
   slHomePage.registerLazySingleton<ImagesDataSource>(
@@ -41,6 +44,9 @@ Future<void> init() async {
       ToursRepositoryImpl(toursDataSource: ToursDataSourceImpl(slHomePage())));
   slHomePage.registerLazySingleton<ViewCouponRepository>(
           () => ViewCouponRepositoryImpl(viewCouponsDataSource: ViewCouponsDataSourceImpl(slHomePage())));
+  slHomePage.registerLazySingleton<GetParticularCouponCouponRepository>(
+          () => GetParticularCouponRepositoryImpl(viewCouponsDataSource: ViewCouponsDataSourceImpl(slHomePage())));
+
 
   //use case
   slHomePage.registerLazySingleton<GetAllImagesOfHomePageUseCase>(() =>
@@ -55,6 +61,9 @@ Future<void> init() async {
       GetAllCouponsOfHomepage(
           viewCouponRepository  : ViewCouponRepositoryImpl(
               viewCouponsDataSource: ViewCouponsDataSourceImpl(slHomePage.call()))));
+
+  slHomePage.registerLazySingleton<GetParticularCouponUsecase>(() =>
+      GetParticularCouponUsecase(slHomePage.call()));
 
   slHomePage.registerLazySingleton(() => Dio());
 }

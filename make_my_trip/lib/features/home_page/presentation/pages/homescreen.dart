@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/features/home_page/presentation/pages/view_full_coupon_page.dart';
 import 'package:make_my_trip/features/home_page/presentation/widgets/coupon_widget.dart';
 import 'package:make_my_trip/features/home_page/presentation/widgets/imege_slidder_shimmer.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
@@ -225,14 +226,45 @@ class HomeScreen extends StatelessWidget {
                                       state.response.couponListvalue?[index];
                                   return Padding(
                                     padding: const EdgeInsets.only(left: 16),
-                                    child: CouponWidget(
-                                      couponTitle: coupondata!.title.toString(),
-                                      expiryDate:
-                                          coupondata!.endDate.toString(),
-                                      imgUrl:
-                                          coupondata!.couponImgUrl.toString(),
-                                      discountText:
-                                          coupondata!.discount.toString(),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewFullCoupon(
+                                                        discountText: coupondata!
+                                                            .discount
+                                                            .toString(),
+                                                        imgUrl: coupondata!
+                                                            .couponImgUrl
+                                                            .toString(),
+                                                        expiryDate: coupondata!
+                                                            .endDate
+                                                            .toString()
+                                                            .substring(0, 10),
+                                                        couponTitle:
+                                                            coupondata!
+                                                                .title
+                                                                .toString(),
+                                                        couponCode: coupondata!
+                                                            .code
+                                                            .toString(),
+                                                        couponDetails:
+                                                            coupondata!
+                                                                .description
+                                                                .toString())));
+                                      },
+                                      child: CouponWidget(
+                                        couponTitle:
+                                            coupondata!.title.toString(),
+                                        expiryDate: coupondata.endDate
+                                            .toString()
+                                            .substring(0, 10),
+                                        imgUrl:
+                                            coupondata.couponImgUrl.toString(),
+                                        discountText:
+                                            coupondata!.discount.toString(),
+                                      ),
                                     ),
                                   );
                                 }))

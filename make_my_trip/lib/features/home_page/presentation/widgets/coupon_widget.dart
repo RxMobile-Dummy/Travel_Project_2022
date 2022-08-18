@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:make_my_trip/features/home_page/presentation/pages/view_full_coupon_page.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class CouponWidget extends StatelessWidget {
@@ -22,7 +21,6 @@ class CouponWidget extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Container(
         height: 180,
-        width: double.infinity, //need to change to show atleast data in coming
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           gradient: LinearGradient(
@@ -39,7 +37,7 @@ class CouponWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 12.0),
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(8.0),
                   topRight: Radius.circular(8.0),
                 ),
@@ -72,7 +70,7 @@ class CouponWidget extends StatelessWidget {
                   textAlign: TextAlign.left,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
-                Text('Expires at ',
+                const Text('Expires at ',
                     style: TextStyle(fontSize: 14, color: Colors.redAccent)),
                 Text('$expiryDate',
                     style: TextStyle(fontSize: 14, color: Colors.redAccent)),
@@ -81,7 +79,7 @@ class CouponWidget extends StatelessWidget {
                   children: [
                     60.horizontalSpace,
                     Text(
-                      '*terms & conditions applied',
+                      '*terms & conditions applied   ',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.green[900],
