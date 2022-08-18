@@ -156,7 +156,7 @@ class HotelDomain {
             var bookmark;
             if (req.headers['token'] != null) {
                 var reqData = JSON.parse(JSON.stringify(req.headers['data']));
-
+                
                 var uId = reqData.uid;
                 if (reqData.provider != 'anyonums' && reqData.email != null) {
                     let dataBook = await bookmarkmodel.find({ $and: [{ hotel_id: req.params.hotel_id }, { user_id: uId }] });

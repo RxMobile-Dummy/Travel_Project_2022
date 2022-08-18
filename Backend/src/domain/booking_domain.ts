@@ -2,6 +2,7 @@ import { bookingmodel } from "../model/booking";
 import { StatusCode } from "../statuscode";
 import { hotelmodel } from "../model/hotel";
 import { imagemodel } from "../model/image";
+import { couponmodel } from "../model/coupon"
 import express, { Express, Request, Response } from 'express'
 
 
@@ -137,7 +138,7 @@ class BookingDomain {
                     var hRoom = await hotelmodel.find({ _id: hotelId });
                     hRoom.forEach(e => {
                         hotelName = e.hotel_name;
-                        e.room.forEach(c => {
+                        e.room.forEach((c: any) => {
                             if (!unAvailableRoomId.includes(c.room_id)) {
                                 roomDetailList.push(c);
                             }
@@ -330,16 +331,14 @@ class BookingDomain {
 
     //prize confirmation page 
     async getRoomPrize(req: Request, res: Response) {
-
         try {
             var query: any = req.query;
             var roomid: any = query.roomid.split(",").map(Number);
             var hotelid: any = query.hotelid
             var adults: any = query.adults
-            console.log("roomid", roomid.length);
             var noOfPersonforRoom = ((roomid.length) * 2);
             var countOfMattress: any = ((adults - noOfPersonforRoom) < 0) ? 0 : (adults - noOfPersonforRoom);
-            console.log("countOfMattress", countOfMattress);
+
             var getHotelRoom = await hotelmodel.find({ _id: hotelid })
             var hotelId = parseInt(getHotelRoom[0]._id.toString());
             var hotelName = getHotelRoom[0].hotel_name.toString();
@@ -348,7 +347,7 @@ class BookingDomain {
             var roomPrice: any = [];
             var sum = 0;
             var hotelMattress = await hotelmodel.findOne({ _id: hotelid }).select("mattressPrice");
-            console.log(hotelMattress!.mattressPrice);
+
             var hotelMattressPrize = hotelMattress?.mattressPrice ?? 0;
             getHotelRoom.forEach((e: any) => {
                 e.room.forEach((d: any) => {
@@ -358,9 +357,7 @@ class BookingDomain {
                     }
                 })
             })
-            console.log(countOfMattress);
             var totalMattressPrize = hotelMattressPrize * countOfMattress;
-            console.log(totalMattressPrize);
             var checkInDate = new Date(query.cin);
             var checkOutDate = new Date(query.cout);
             var diff = Math.abs(checkOutDate.getTime() - checkInDate.getTime());
@@ -369,9 +366,19 @@ class BookingDomain {
             var totalHotelRoomPrize = getHotelRoomPrice + totalMattressPrize;
             var roomPrizwWithDays = totalHotelRoomPrize * diffDays;
             var gstPercentage = 18;
-            var discountPercentage = 5;
+            var discountPercentage;
             var roomPriceWithGst = (roomPrizwWithDays * (gstPercentage / 100));
-            var discountPrice = (roomPrizwWithDays + roomPriceWithGst) * (discountPercentage / 100);
+            if (query.coupon_id != 0) {
+                var resCoupon = await couponmodel.find({ "_id": query.coupon_id })
+                discountPercentage = Number(resCoupon[0]?.discount);
+                var discountPrice:number = (roomPrizwWithDays + roomPriceWithGst) * (discountPercentage / 100)
+                if(discountPrice>resCoupon[0].minValue){
+                    discountPrice=resCoupon[0].minValue;
+                }
+            } else {
+                discountPercentage = 0;
+                discountPrice = 0;
+            }
             var totalRoomPrice = (roomPrizwWithDays + roomPriceWithGst - discountPrice);
             var roomPriceData = {
                 hotelid: hotelId,
@@ -391,7 +398,6 @@ class BookingDomain {
                 gst: Math.floor(roomPriceWithGst),
                 offer: Math.floor(discountPrice),
                 total: Math.floor(totalRoomPrice)
-
             }
             res.status(StatusCode.Sucess).send(roomPriceData);
             res.end();
@@ -400,12 +406,7 @@ class BookingDomain {
             res.status(StatusCode.Server_Error).send(err.message);
             res.end();
         }
-
-
-
     }
-
-
 
 }
 
