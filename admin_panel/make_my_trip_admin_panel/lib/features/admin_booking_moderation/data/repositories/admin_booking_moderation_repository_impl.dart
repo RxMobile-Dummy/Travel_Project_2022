@@ -3,6 +3,7 @@ import 'package:make_my_trip_admin_panel/core/failures/failures.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/data/data_sources/admin_booking_moderation_data_source.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/data/models/booking_moderation_model.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/domain/repositories/admin_booking_moderation_repository.dart';
+import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/domain/use_cases/admin_booking_moderation_use_cases.dart';
 
 class AdminBookingModerationRepositoryImpl
     implements AdminBookingModerationRepository {
@@ -12,7 +13,7 @@ class AdminBookingModerationRepositoryImpl
 
   @override
   Future<Either<Failures, List<BookingModerationModel>>> getAllBookings(
-      page) async {
-    return await adminBookingModerationDataSource.getAllBookings(page);
+      FilterParams params) async {
+    return await adminBookingModerationDataSource.getAllBookings(params);
   }
 }

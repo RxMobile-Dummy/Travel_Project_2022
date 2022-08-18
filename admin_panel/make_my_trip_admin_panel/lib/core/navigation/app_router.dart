@@ -22,7 +22,7 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider<AdminBookingModerationCubit>(
             create: (context) =>
-                slBookingModeration<AdminBookingModerationCubit>()..getAllBookingListEvent("", "", "", ""),
+                slBookingModeration<AdminBookingModerationCubit>()..getAllBookingListEvent("2020-01-01",""),
             child: (AdminBookingPage()),
           );
         });
