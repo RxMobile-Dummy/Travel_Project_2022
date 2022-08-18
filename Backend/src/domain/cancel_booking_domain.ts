@@ -108,9 +108,10 @@ class CancelBookingDomain {
                     const registrationToken = req.params.deviceid
                     const options = notification_options
                     const message = {
+                        "data": {"key" : "booking"},
                         "notification": {
                             "title": "Booking Cancelled successfully",
-                            "body": `Dear ${temp[0].user_data[0].user_name} your booking of ${temp[0].hotel_data[0].hotel_name} was canceled successfully you will get refunfd ₹${refundAmmount} as per our booking cancellation policy`
+                            "body": `Dear ${temp[0].user_data[0].user_name} ,refund ammount is ₹${refundAmmount} for your booking of ${temp[0].hotel_data[0].hotel_name} as per our booking cancellation policy`
                         }
                     }
 

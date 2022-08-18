@@ -63,13 +63,23 @@ class BookingDomain {
                 // console.log(bookedData);
                 await bookedData.save();
 
-
+                
                 // ****************************** FOR NOTIFICATION ****************************** //
+                setTimeout(async() => {
+                const notificationId = nextID?._id == undefined ? 1 : Number(nextID?.id) + 1  
+                var currentBookingData = await bookingmodel.findById(notificationId);
+                if(currentBookingData == null)
+                {
+                        console.log("order cancel no notification");
+                        
+                }
+                else
+                {
                 const notification_options = {
                     priority: "high",
                     timeToLive: 60 * 60 * 24
                 };
-                const notificationId = nextID?._id == undefined ? 1 : Number(nextID?.id) + 1
+                
 
                 const registrationToken = req.params.deviceid
 
@@ -78,24 +88,29 @@ class BookingDomain {
                 var hotelData: any = await hotelmodel.findById(req.body.hotel_id);
 
                 const bookingSuccessfullMessage = {
+                    "data": {"key" : "booking"},
                     "notification": {
                         "title": "Booking successfull",
-                        "body": `Hi ${userData.user_name}, thanks for choosing to stay at ${hotelData.hotel_name}, we're looking forward to welcoming you`
+                        "body": `Hi ${userData.user_name}, thanks for choosing to stay at ${hotelData.hotel_name}`
                     }
+
                 }
                 const before24hrsmessage = {
+                    "data": {"key" : "booking"},
                     "notification": {
                         "title": "24 hours remaining",
                         "body": `Hi ${userData.user_name}, 24 hours remaining of your booking at ${hotelData.hotel_name}`
                     }
                 }
                 const before1hrmessage = {
+                    "data": {"key" : "booking"},
                     "notification": {
                         "title": "1 hours remaining",
                         "body": `Hi ${userData.user_name}, only 1 hour remaining of your booking at ${hotelData.hotel_name}`
                     }
                 }
                 const after1hrmessage = {
+                    "data": {"key" : "booking"},
                     "notification": {
                         "title": "Review",
                         "body": `Hi ${userData.user_name}, thanks for choosing to stay at ${hotelData.hotel_name} please give your feedback`
@@ -131,6 +146,8 @@ class BookingDomain {
                     admin.messaging().sendToDevice(registrationToken, after1hrmessage);
 
                 });
+            }
+            }, 1000);
 
                 res.status(StatusCode.Sucess).send("Booking Success")
                 res.end();
@@ -138,6 +155,7 @@ class BookingDomain {
             else {
                 res.status(StatusCode.Not_Acceptable).send("Error in calculation");
             }
+
             //res.end();
         } catch (err: any) {
             res.status(StatusCode.Server_Error).send(err.message);
