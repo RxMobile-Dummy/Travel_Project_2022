@@ -32,12 +32,12 @@ class ViewFullCoupon extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(8.0),
                   topRight: Radius.circular(8.0),
                 ),
                 child: Image.network('$imgUrl',
-                    width: 350, height: 350, fit: BoxFit.fill),
+                    width: 250, height: 250, fit: BoxFit.fill),
               ),
             ),
             Padding(
@@ -78,7 +78,7 @@ class ViewFullCoupon extends StatelessWidget {
                       decoration: BoxDecoration(color: Colors.white),
                       child: SelectableText(
                         couponCode,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 35,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
@@ -88,14 +88,14 @@ class ViewFullCoupon extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'Expiry Date : $expiryDate',
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 4),
+            const Padding(
+              padding: EdgeInsets.only(top: 8.0, bottom: 4),
               child: Text(
                 'Details',
                 style: TextStyle(

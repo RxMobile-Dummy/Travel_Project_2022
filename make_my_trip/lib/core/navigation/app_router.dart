@@ -6,6 +6,7 @@ import 'package:make_my_trip/features/booking/presentation/cubit/payment_integer
 import 'package:make_my_trip/features/booking/presentation/pages/booking_page.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
+import 'package:make_my_trip/features/home_page/presentation/pages/view_full_coupon_page.dart';
 import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_container.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/filter_list.dart';
@@ -131,7 +132,8 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) =>
-                historyListSl<UserHistoryCubit>()..getUserHistoryData(),
+            historyListSl<UserHistoryCubit>()
+              ..getUserHistoryData(),
             child: UserHistoryPage(),
           );
         });
@@ -139,7 +141,8 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) =>
-                wishListSl<WishListCubit>()..getWishListCubitData(),
+            wishListSl<WishListCubit>()
+              ..getWishListCubitData(),
             child: WishListPage(),
           );
         });
@@ -167,7 +170,8 @@ class Router {
           type: PageTransitionType.rightToLeft,
           duration: const Duration(milliseconds: 500),
           child: BlocProvider(
-            create: (context) => hotelListSl<HotelListCubit>()
+            create: (context) =>
+            hotelListSl<HotelListCubit>()
               ..getHotelListApi(arg['cin'], arg['cout'], arg['no_of_room'],
                   arg['id'], arg['type']),
             child: HotelListPage(arg: arg),
@@ -210,7 +214,8 @@ class Router {
           child: MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => roomCategorySl<RoomCategoryCubit>()
+                create: (context) =>
+                roomCategorySl<RoomCategoryCubit>()
                   ..getData(arg['hotel_id'], arg['cin'], arg['cout'],
                       arg['noofrooms']),
               ),
@@ -232,7 +237,8 @@ class Router {
           child: MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => roomDetailSl<ImagesliderCubit>()
+                create: (context) =>
+                roomDetailSl<ImagesliderCubit>()
                   ..getRoomData(arg['hotel_id'], arg['room_id']),
               ),
               BlocProvider.value(
@@ -253,7 +259,8 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) =>
-                reviewSl<ReviewCubit>()..getHotelReviewData(arg['hotel_id']),
+            reviewSl<ReviewCubit>()
+              ..getHotelReviewData(arg['hotel_id']),
             child: ReviewPage(arg: arg),
           );
         });
@@ -273,7 +280,8 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) =>
-                GalleryCubit()..convertImageData(arg['image_list']),
+            GalleryCubit()
+              ..convertImageData(arg['image_list']),
             child: GalleryPage(
               arg: arg,
             ),
@@ -286,7 +294,8 @@ class Router {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => bookingSl<PaymentCubit>()
+                create: (context) =>
+                bookingSl<PaymentCubit>()
                   ..bookingConfirm(detail.hotelId!, detail.checkinDate!,
                       detail.checkoutDate!, detail.roomId!, detail.adults!),
               ),

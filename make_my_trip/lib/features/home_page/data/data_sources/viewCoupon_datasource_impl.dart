@@ -18,7 +18,6 @@ class ViewCouponsDataSourceImpl implements ViewCouponsDataSource {
 
   @override
   Future<Either<Failures, List<ViewCouponModel>>> getCouponsData() async {
-    // TODO: implement getCoupons
     try {
       final response = await dio.get('${BaseConstant.baseUrl}coupon/coupon',
           options: await createDioOptions());
@@ -30,6 +29,31 @@ class ViewCouponsDataSourceImpl implements ViewCouponsDataSource {
             viewCouponList.add(ViewCouponModel.fromJson(i));
           }
         }
+        return Right(viewCouponList);
+      } else if (response.statusCode == 505) {
+        return Left(ServerFailure());
+      } else if (response.statusCode == 404) {
+        return Left(
+            AuthFailure()); //Data Not Found Failure but in failure there is no method so AuthFailure
+      } else {
+        return Left(InternetFailure());
+      }
+    } catch (e) {
+      print(e);
+      return Left(ServerFailure(statusCode: "503"));
+    }
+  }
+
+  @override
+  Future<Either<Failures, ViewCouponModel>> getCouponId(int id) async {
+    try {
+      final response = await dio.get(
+          '${BaseConstant.baseUrl}coupon/coupon/${id}',
+          options: await createDioOptions());
+      //var result = response.data;
+      if (response.statusCode == 200) {
+        ViewCouponModel viewCouponList = response.data[0];
+
         return Right(viewCouponList);
       } else if (response.statusCode == 505) {
         return Left(ServerFailure());
