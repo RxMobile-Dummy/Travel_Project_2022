@@ -9,13 +9,13 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
       : super(StateInitial());
   final AdminBookingModerationUseCases adminBookingModerationUseCases;
   int page = -1;
-  List<BookingModerationModel> wishList = [];
+  List<BookingModerationModel> bookingList = [];
 
   getAllBookingListEvent(date1, date2, hotelname, username) async {
     if (state is! StateOnSuccess) {
       emit(StateLoading());
     } else {
-      emit(StateOnSuccess<List<BookingModerationModel>>(wishList,
+      emit(StateOnSuccess<List<BookingModerationModel>>(bookingList,
           isMoreLoading: true));
     }
     page++;
@@ -27,9 +27,9 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
         username: username));
     res.fold((l) => StateError(l.toString()), (r) {
       for (var item in r) {
-        wishList.add(item);
+        bookingList.add(item);
       }
-      emit(StateOnSuccess<List<BookingModerationModel>>(wishList,
+      emit(StateOnSuccess<List<BookingModerationModel>>(bookingList,
           isMoreLoading: false));
     });
   }

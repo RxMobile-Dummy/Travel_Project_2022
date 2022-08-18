@@ -12,6 +12,7 @@ import 'core/navigation/app_router.dart' as app_routes;
 import 'firebase_options.dart';
 
 Future<void> main() async {
+  await WidgetsFlutterBinding.ensureInitialized();
   await admin_login_di.init();
   await admin_booking_moderation_di.init();
   await Firebase.initializeApp(

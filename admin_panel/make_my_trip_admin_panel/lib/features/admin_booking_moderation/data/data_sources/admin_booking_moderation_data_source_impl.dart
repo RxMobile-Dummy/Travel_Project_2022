@@ -30,12 +30,12 @@ class AdminBookingModerationDataSourceImpl
         "username": filterParams.username
       };
       const baseurl = BaseConstant.baseUrl;
-      final response = await dio.get(baseurl,
+      final response = await dio.get('${baseurl}booking/getallbooking',
           options: await createDioOptions(), queryParameters: params);
       if (response.statusCode == 200) {
         final List<BookingModerationModel> bookingList = [];
         for (var item in response.data) {
-          bookingList.add(bookingModerationModelFromJson(item));
+          bookingList.add(BookingModerationModel.fromJson(item));
         }
         return right(bookingList);
       } else {

@@ -1,3 +1,3 @@
 class BaseConstant {
-  static const String baseUrl = "http://192.168.102.79:5000/";
+  static const String baseUrl = "https://1ff2-180-211-112-179.in.ngrok.io/";
 }

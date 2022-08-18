@@ -22,8 +22,8 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider<AdminBookingModerationCubit>(
             create: (context) =>
-                slBookingModeration<AdminBookingModerationCubit>(),
-            child: AdminBookingPage(),
+                slBookingModeration<AdminBookingModerationCubit>()..getAllBookingListEvent("", "", "", ""),
+            child: (AdminBookingPage()),
           );
         });
       default:
