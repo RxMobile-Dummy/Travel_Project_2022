@@ -3,6 +3,7 @@ import { bookingmodel } from '../model/booking';
 import { StatusCode } from '../statuscode';
 import * as admin from 'firebase-admin';
 import schedule from 'node-schedule';
+import { devicemodel } from '../model/device';
 
 class CancelBookingDomain {
     async cancelBooking(req: Request, res: Response) {
@@ -105,10 +106,17 @@ class CancelBookingDomain {
                         priority: "high",
                         timeToLive: 60 * 60 * 24
                     };
-                    const registrationToken = req.params.deviceid
+
+                    // To find FCM token
+                    var userDevices = await devicemodel.find({ useruid: "user1" });
+                    var registrationToken: any = [];
+                    userDevices.forEach(element => {
+                        registrationToken.push(element.fcmtoken);
+                    });
+
                     const options = notification_options
                     const message = {
-                        "data": {"key" : "booking"},
+                        "data": { "key": "booking" },
                         "notification": {
                             "title": "Booking Cancelled successfully",
                             "body": `Dear ${temp[0].user_data[0].user_name} ,refund ammount is ₹${refundAmmount} for your booking of ${temp[0].hotel_data[0].hotel_name} as per our booking cancellation policy`
@@ -122,20 +130,17 @@ class CancelBookingDomain {
                     var job1 = schedule.scheduledJobs[`${bookingId}1`];
                     var job2 = schedule.scheduledJobs[`${bookingId}2`];
                     var job3 = schedule.scheduledJobs[`${bookingId}3`];
-                    
-                    if(job1 != undefined)
-                    {
+
+                    if (job1 != undefined) {
                         job1.cancel();
                     }
-                    if(job2 != undefined)
-                    {
+                    if (job2 != undefined) {
                         job2.cancel();
                     }
-                    if(job3 != undefined)
-                    {
+                    if (job3 != undefined) {
                         job3.cancel();
                     }
-   
+
                     res.status(StatusCode.Sucess).send("booking cancelled")
                 }
             }

@@ -6,6 +6,7 @@ import express, { Express, Request, Response } from 'express'
 import * as admin from 'firebase-admin';
 import { Usermodel } from "../model/users";
 import schedule from 'node-schedule';
+import { devicemodel } from "../model/device";
 
 class BookingDomain {
     async addBooking(req: Request, res: Response) {
@@ -65,7 +66,7 @@ class BookingDomain {
 
                 
                 // ****************************** FOR NOTIFICATION ****************************** //
-                setTimeout(async() => {
+               
                 const notificationId = nextID?._id == undefined ? 1 : Number(nextID?.id) + 1  
                 var currentBookingData = await bookingmodel.findById(notificationId);
                 if(currentBookingData == null)
@@ -80,8 +81,12 @@ class BookingDomain {
                     timeToLive: 60 * 60 * 24
                 };
                 
-
-                const registrationToken = req.params.deviceid
+                // To find FCM token
+                var userDevices = await devicemodel.find({useruid : "user1"});
+                var registrationToken : any = [];
+                userDevices.forEach(element => {
+                    registrationToken.push(element.fcmtoken) ;
+                 });   
 
                 const options = notification_options
                 var userData: any = await Usermodel.findById(reqData.uid);
@@ -147,7 +152,6 @@ class BookingDomain {
 
                 });
             }
-            }, 1000);
 
                 res.status(StatusCode.Sucess).send("Booking Success")
                 res.end();
