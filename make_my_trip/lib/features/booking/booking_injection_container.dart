@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:make_my_trip/features/booking/domain/use_cases/booking_usecase.dart';
+import 'package:make_my_trip/features/booking/domain/use_cases/checkCoupon.dart';
 import 'package:make_my_trip/features/booking/domain/use_cases/showApplicableCouponsUsecase.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/book_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/payment_integeration_cubit.dart';
@@ -18,7 +19,7 @@ Future<void> init() async {
   bookingSl.registerFactory(() => BookingCubit(bookingSl(), bookingSl()));
 
   bookingSl.registerFactory(
-      () => PaymentCubit(bookingSl(), bookingSl(), bookingSl(), bookingSl(),bookingSl()));
+      () => PaymentCubit(bookingSl(), bookingSl(), bookingSl(), bookingSl(),bookingSl(),bookingSl()));
 
   bookingSl.registerLazySingleton(() => _razorpay);
 
@@ -34,4 +35,5 @@ Future<void> init() async {
   bookingSl.registerLazySingleton(() => PaymentUseCase(bookingSl()));
   bookingSl.registerLazySingleton(() => BookingUseCase(bookingSl()));
   bookingSl.registerLazySingleton(() => ShowApplicableCouponsUsecase(bookingSl()));
+  bookingSl.registerLazySingleton(() => CheckCouponUsecase(bookingSl()));
 }

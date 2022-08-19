@@ -298,7 +298,7 @@ class Router {
                 create: (context) =>
                 bookingSl<PaymentCubit>()
                   ..bookingConfirm(detail.hotelId!, detail.checkinDate!,
-                      detail.checkoutDate!, detail.roomId!, detail.adults!),
+                      detail.checkoutDate!, detail.roomId!, detail.adults!,arg['coupon_id'] ?? 0),
               ),
             ],
             child: BookingPage(
@@ -332,7 +332,7 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) => bookingSl<PaymentCubit>()..showApplicableCoupons(arg['price']),
-            child: const ApplyCouponPage(),
+            child:  ApplyCouponPage(arg: arg,),
           );
         });
       default:

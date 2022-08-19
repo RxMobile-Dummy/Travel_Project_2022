@@ -74,7 +74,7 @@ class BookingPage extends StatelessWidget {
               detail.checkinDate!,
               detail.checkoutDate!,
               detail.roomId!,
-              detail.adults!);
+              detail.adults!,0);
         } else {
           ProgressDialog.hideLoadingDialog(context);
         }
@@ -270,10 +270,7 @@ class BookingPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 12.0),
                     child: GestureDetector(
                       onTap: (){
-                        //api calling fn for available coupons
-                        print('navigate');
-                        Navigator.of(context).pushNamed(RoutesName.applyCoupon,arguments: {'price':bookingModel!.gst});
-                        print('nav');
+                        Navigator.of(context).pushNamed(RoutesName.applyCoupon,arguments: {'price':bookingModel!.subTotal,'model':arg['model']});
                       },
                       child: Container(
                         height: 60,
@@ -443,7 +440,7 @@ class BookingPage extends StatelessWidget {
                       style: AppTextStyles.unselectedLabelStyle.copyWith(
                           fontSize: 16, color: MakeMyTripColors.colorRed),
                     ),
-                  )
+                  ),
                 ],
               ),
             )),
@@ -455,7 +452,6 @@ class BookingPage extends StatelessWidget {
                       text: StringConstants.book,
                       onTap: () {
                         context.read<PaymentCubit>().paymentConfirm(20);
-                        //context.read<BookingCubit>().roomBookPost(roomDataPostModel!.hotelId!, roomDataPostModel);
                       })),
             ),
           );

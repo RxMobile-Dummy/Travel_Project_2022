@@ -18,7 +18,7 @@ class CouponWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(top:8.0,bottom: 8.0),
       child: Container(
         height: 180,
         decoration: BoxDecoration(
@@ -51,44 +51,54 @@ class CouponWidget extends StatelessWidget {
                 thickness: 3,
                 color: Colors.blue[900],
               ),
-            ),
-            Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                20.verticalSpace,
-                Text(
-                  '$discountText% OFF',
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue[900]),
-                ),
-                Text(
-                  '$couponTitle',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                const Text('Expires at ',
-                    style: TextStyle(fontSize: 14, color: Colors.redAccent)),
-                Text('$expiryDate',
-                    style: TextStyle(fontSize: 14, color: Colors.redAccent)),
-                25.verticalSpace,
-                Row(
+            ),Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    60.horizontalSpace,
+                    20.verticalSpace,
                     Text(
-                      '*terms & conditions applied   ',
+                      '$discountText% OFF',
+                      textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.green[900],
-                      ),
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[900]),
+                    ),
+
+                          Container(
+                            width: 200,
+                            child: Text(
+                                '$couponTitle',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                          ),
+                          
+
+
+                    const Text('Expires at ',
+                        style: TextStyle(fontSize: 14, color: Colors.redAccent)),
+                    Text('$expiryDate',
+                        style: TextStyle(fontSize: 14, color: Colors.redAccent)),
+                    25.verticalSpace,
+                    Row(
+                      children: [
+                        60.horizontalSpace,
+                        Text(
+                          '*terms & conditions applied   ',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.green[900],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
-                ),
-              ],
-            )
+
+            ),
+            
           ],
         ),
       ),

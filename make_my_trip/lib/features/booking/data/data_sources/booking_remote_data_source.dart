@@ -12,13 +12,19 @@ import '../model/payment_model.dart';
 abstract class BookingRemoteDataSource {
   Future<Either<Failures, PaymentModel>> paymentIntegerationDataSource(
       double amount);
+
   Future<Either<Failures, BookingModel>> bookingRemoteDataSource(
-      int hotelId, String cIn, String cOut, List<int> roomId, int adults);
-  Future<Either<Failures, List<ViewCouponModel>>> showApplicableCoupons(int price);
+      int hotelId, String cIn, String cOut, List<int> roomId, int adults,int coupon_id);
+
+  Future<Either<Failures, List<ViewCouponModel>>> showApplicableCoupons(
+      int price);
+  Future<Either<Failures, List<ViewCouponModel>>> checkCoupon(
+      int price, String code);
 }
 
 class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   final Dio dio;
+
   BookingRemoteDataSourceImpl(this.dio);
 
   @override
@@ -43,7 +49,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
   @override
   Future<Either<Failures, BookingModel>> bookingRemoteDataSource(int hotelId,
-      String cIn, String cOut, List<int> roomId, int adults) async {
+      String cIn, String cOut, List<int> roomId, int adults,int coupon_id) async {
     try {
       final response =
           await dio.get('${BaseConstant.baseUrl}booking/roombooking/prize',
@@ -52,7 +58,8 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
                 "cin": cIn,
                 "cout": cOut,
                 "roomid": roomId.join(","),
-                "adults": adults
+                "adults": adults,
+                "coupon_id":coupon_id
               },
               options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
@@ -70,27 +77,57 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   }
 
   @override
-  Future<Either<Failures, List<ViewCouponModel>>> showApplicableCoupons(int price) async{
+  Future<Either<Failures, List<ViewCouponModel>>> showApplicableCoupons(
+      int price) async {
     // TODO: implement showApplicableCoupons
     try {
       final response = await dio.get(
           '${BaseConstant.baseUrl}coupon/couponlistmostapplicable/',
-          queryParameters: {
-            "price":price
-          },
+          queryParameters: {"price": price},
+          options: await BaseConstant.createDioOptions());
+      var result = response.data;
+      print('data');
+      if (response.statusCode == 200) {
+        List<ViewCouponModel> showApplicableCouponList = [];
+        {
+          for (Map i in result) {
+            showApplicableCouponList.add(ViewCouponModel.fromJson(i));
+          }
+        }
+
+        return Right(showApplicableCouponList);
+      } else if (response.statusCode == 505) {
+        return Left(ServerFailure());
+      } else if (response.statusCode == 404) {
+        return Left(
+            AuthFailure()); //Data Not Found Failure but in failure there is no method so AuthFailure
+      } else {
+        return Left(InternetFailure());
+      }
+    } catch (e) {
+      print(e);
+      return Left(ServerFailure(statusCode: "503"));
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<ViewCouponModel>>> checkCoupon(int price,String code) async{
+    // TODO: implement checkCoupon
+    try {
+      final response = await dio.get(
+          '${BaseConstant.baseUrl}coupon/code/',
+          queryParameters: {"price": price,"code": code},
           options: await BaseConstant.createDioOptions());
     var result = response.data;
     print('data');
-    print(result);
     if (response.statusCode == 200) {
-    List <ViewCouponModel> showApplicableCouponList = [];
+    List<ViewCouponModel> checkCouponList = [];
     {
-      for (Map i in result) {
-        showApplicableCouponList.add(ViewCouponModel.fromJson(i));
-      }
+    for (Map i in result) {
+      checkCouponList.add(ViewCouponModel.fromJson(i));
     }
-
-    return Right(showApplicableCouponList);
+    }
+    return Right(checkCouponList);
     } else if (response.statusCode == 505) {
     return Left(ServerFailure());
     } else if (response.statusCode == 404) {
