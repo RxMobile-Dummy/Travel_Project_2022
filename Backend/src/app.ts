@@ -23,6 +23,7 @@ import { router as reviewroute } from './controller/review_controller';
 import { router as bookingroute } from './controller/booking_controller';
 import { router as bookmarkroute } from './controller/bookmark_controller';
 import { router as paymentroute } from './controller/payment_controller';
+import {router as deviceroute} from './controller/device_controller';
 
 
 
@@ -34,7 +35,7 @@ admin.initializeApp(
 );
 
 // TOKEN VERIFICATION CALL
-app.use(verifyToken, checkRequest);
+//app.use(verifyToken, checkRequest);
 
 // ROOT LEVEL
 app.get('/', (req: Request, res: Response) => {
@@ -52,6 +53,7 @@ app.use('/review', reviewroute);
 app.use('/booking', bookingroute);
 app.use('/bookmark', bookmarkroute);
 app.use('/payment', paymentroute);
+app.use('/device',deviceroute);
 
 
 // LISTEN

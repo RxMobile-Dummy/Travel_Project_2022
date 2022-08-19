@@ -102,6 +102,15 @@ class UserDomain {
         }
     }
 
+
+    // //delete user 
+     async deleteuser(req: Request , res: Response){
+        var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
+            var uid: string = reqData.uid;
+            console.log("sd")
+        admin.auth().updateUser(uid, { disabled: true })
+     }
+
 }
 
 //EXPORT

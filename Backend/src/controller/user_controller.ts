@@ -21,6 +21,13 @@ class UserController {
         await userDomain.getUser(req, res);
     }
 
+     //deleteuser
+     static async deleteuser(req: Request, res: Response) {
+        const userDomain: UserDomain = new UserDomain();
+        await userDomain.deleteuser(req, res);
+    }
+
+
 }
 
 // POST
@@ -31,6 +38,8 @@ router.put('/', UserController.updateUser);
 
 //get
 router.get('/', UserController.getUser);
+
+router.get('/deleteuser', UserController.deleteuser);
 
 //EXPORT
 export { router };
