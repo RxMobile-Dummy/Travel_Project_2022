@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
+import 'package:make_my_trip/features/user/domain/usecases/delete_device_id.dart';
+import 'package:make_my_trip/features/user/domain/usecases/send_device_id.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_facebook_login.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_forget_password.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_google_login.dart';
@@ -15,6 +19,8 @@ import 'package:make_my_trip/utils/validators/user_info/user_information_validat
 class UserCubit extends Cubit<BaseState> {
   UserCubit(
       {required this.googleLogin,
+      required this.deleteDeviceId,
+      required this.sendDeviceId,
       required this.signIn,
       required this.facebookLogin,
       required this.forgetPassword,
@@ -29,6 +35,31 @@ class UserCubit extends Cubit<BaseState> {
   final UserSignUp userSignUp;
   final UserVerification userVerification;
   final UserSignOut userSignOut;
+  final SendDeviceId sendDeviceId;
+  final DeleteDeviceId deleteDeviceId;
+
+  sendDeviceIdCubit() async {
+    emit(StateLoading());
+
+    final res = await sendDeviceId.call(NoParams());
+    res.fold((failure) {
+      userSignOutEvent();
+      emit(StateErrorGeneral("Something went wrong"));
+    }, (success) {
+      emit(StateOnSuccess("success"));
+    });
+  }
+
+  deleteDeviceIdCubit() async {
+    emit(StateLoading());
+
+    final res = await deleteDeviceId.call(NoParams());
+    res.fold((failure) {
+      emit(StateErrorGeneral("Something went wrong"));
+    }, (success) {
+      userSignOutEvent();
+    });
+  }
 
   // login and sign_up password obSecure change event
   void changeObSecureEvent(bool obSecure) {
@@ -46,7 +77,7 @@ class UserCubit extends Cubit<BaseState> {
         emit(StateErrorGeneral(""));
       }
     }, (success) {
-      emit(StateOnSuccess("success"));
+      sendDeviceIdCubit();
     });
   }
 
@@ -71,7 +102,7 @@ class UserCubit extends Cubit<BaseState> {
             emit(StateErrorGeneral(failure.failureMsg!));
           }
         }, (success) {
-          emit(StateOnSuccess("success"));
+          sendDeviceIdCubit();
         });
       }
     }
@@ -85,7 +116,7 @@ class UserCubit extends Cubit<BaseState> {
         emit(StateErrorGeneral(failure.failureMsg!));
       }
     }, (success) {
-      emit(StateOnSuccess("success"));
+      sendDeviceIdCubit();
     });
   }
 
@@ -175,7 +206,7 @@ class UserCubit extends Cubit<BaseState> {
     res.fold((failure) {
       emit(StateErrorGeneral("Logout Error"));
     }, (success) {
-      emit(StateOnSuccess("Logout success"));
+      emit(StateOnSuccess("success"));
     });
   }
 

@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/user/data/model/user_model.dart';
 
+import '../usecases/send_device_id.dart';
+
 abstract class UserRepository {
   //user anonymous repository methods
   Future<Either<Failures, bool>> isAnonumousUser();
@@ -24,4 +26,8 @@ abstract class UserRepository {
       String fullName, String email, String password);
 
   Future<Either<Failures, bool>> userVerification();
+
+  Future<Either<Failures, bool>> sendDeviceId();
+  Future<Either<Failures, bool>> deleteDeviceId();
+  Future<Either<Failures, bool>> refreshFcmToken();
 }
