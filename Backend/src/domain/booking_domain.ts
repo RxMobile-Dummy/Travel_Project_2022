@@ -271,7 +271,7 @@ class BookingDomain {
         }
     }
 
-    async bookingFreeze(req: Request, res: Response, cIn: string, cOut: string, roomId: any, hotelId: number) {
+    async bookingFreeze(req: Request, res: Response, cIn: string, cOut: string, roomId: any, hotelId: number,orderId:any,price:any,) {
         try {
             var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
 
@@ -298,14 +298,14 @@ class BookingDomain {
                     checkout_date: new Date(cout),
                     price: {
                         number_of_nights: diffDays,
-                        room_price: 0,
-                        gst: 0,
-                        discount: 0,
-                        total_price: 0
+                        room_price: price.room_price,
+                        gst: price.gst,
+                        discount: price.discount,
+                        total_price: price.total_price
                     },
                     status: "pending",
                     paymentId: null,
-                    orderId: null
+                    orderId: orderId
                 }
 
                 var bookedData = new bookingmodel(bookIngData);
@@ -327,7 +327,7 @@ class BookingDomain {
     async bookingFreezFail(bookingId: any) {
 
         await bookingmodel.deleteOne({ $and: [{ _id: bookingId }, { status: "pending" }] });
-
+        
     }
 
     //prize confirmation page 
