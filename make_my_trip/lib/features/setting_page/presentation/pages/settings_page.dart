@@ -76,7 +76,7 @@ class SettingsPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: GestureDetector(
                   onTap: () {
-                    context.read<UserCubit>().userSignOutEvent();
+                    context.read<UserCubit>().deleteDeviceIdCubit();
                   },
                   child: Row(
                     children: [

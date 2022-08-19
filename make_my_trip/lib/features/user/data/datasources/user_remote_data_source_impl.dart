@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/user/data/datasources/user_remote_data_source.dart';
 import 'package:make_my_trip/features/user/data/model/user_model.dart';
+import 'package:make_my_trip/features/user/domain/usecases/send_device_id.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,10 +19,12 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final FirebaseAuth auth;
   final GoogleSignIn googleSignIn;
   final Dio dio;
+  final FirebaseMessaging firebaseMessaging;
   final SharedPreferences sharedPreferences;
   final FacebookAuth facebookAuth;
   UserRemoteDataSourceImpl(
       {required this.auth,
+      required this.firebaseMessaging,
       required this.dio,
       required this.sharedPreferences,
       required this.googleSignIn,
@@ -252,6 +259,86 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       return Right(result);
     } catch (err) {
       return Left(ServerFailure(failureMsg: "Error in verification"));
+    }
+  }
+
+  @override
+  Future<Either<Failures, bool>> sendDeviceId() async {
+    try {
+      String? device;
+      if (Platform.isAndroid) {
+        device = "android";
+      } else if (Platform.isIOS) {
+        device = "ios";
+      }
+
+      final response = await dio.post('${BaseConstant.baseUrl}device',
+          data: {
+            "deviceid": await _getId(),
+            "fcmtoken": await _getFcmToken(),
+            "devicetype": device
+          },
+          options: await BaseConstant.createDioOptions());
+      if (response.statusCode == 200) {
+        return const Right(true);
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (err) {
+      return Left(ServerFailure());
+    }
+  }
+
+  _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor;
+    } else if (Platform.isAndroid) {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.id;
+    }
+  }
+
+  _getFcmToken() async {
+    String? token;
+    token = await firebaseMessaging.getToken().then((value) => value);
+
+    return token;
+  }
+
+  @override
+  Future<Either<Failures, bool>> deleteDeviceId() async {
+    try {
+      final response = await dio.delete(
+          '${BaseConstant.baseUrl}device/${await _getId()}',
+          options: await BaseConstant.createDioOptions());
+      if (response.statusCode == 200) {
+        return const Right(true);
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (err) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, bool>> refreshFcmToken() async {
+    try {
+      final response = await dio.get('${BaseConstant.baseUrl}device/updatefcm',
+          queryParameters: {
+            "deviceid": await _getId(),
+            "fcmtoken": await _getFcmToken(),
+          },
+          options: await BaseConstant.createDioOptions());
+      if (response.statusCode == 200) {
+        return const Right(true);
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (err) {
+      return Left(ServerFailure());
     }
   }
 }

@@ -14,20 +14,6 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
 
   final IsAnonymousUser isAnonymousUser;
 
-  changeExtraMetresses(bool value) {
-    emit(StateOnSuccess(
-        (state as StateOnSuccess<SelectRoomCountState>).response.copyWith(
-              checkExtraMetresses: value,
-            )));
-  }
-
-  extraMetresses(int value) {
-    emit(StateOnSuccess(
-        (state as StateOnSuccess<SelectRoomCountState>).response.copyWith(
-              extraMetresses: value,
-            )));
-  }
-
   void addRoomEvent(
       String roomType, int addRoomValue, int maxRoomCount, int userMaxCount) {
     if (addRoomValue < maxRoomCount &&

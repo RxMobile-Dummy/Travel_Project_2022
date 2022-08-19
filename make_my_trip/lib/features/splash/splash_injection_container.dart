@@ -6,5 +6,6 @@ import 'package:make_my_trip/features/user/domain/usecases/is_anonymous_user.dar
 final splashSl = GetIt.instance;
 
 Future<void> init() async {
-  splashSl.registerFactory(() => SplashCubit(getUser: splashSl()));
+  splashSl.registerFactory(
+      () => SplashCubit(getUser: splashSl(), refreshFcmToken: splashSl()));
 }
