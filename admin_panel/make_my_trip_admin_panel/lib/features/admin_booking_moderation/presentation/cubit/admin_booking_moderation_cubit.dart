@@ -8,35 +8,59 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
   AdminBookingModerationCubit(this.adminBookingModerationUseCases)
       : super(StateInitial());
   final AdminBookingModerationUseCases adminBookingModerationUseCases;
-  int page = -1;
+  int defaultPage = -1;
   List<BookingModerationModel> bookingList = [];
   List<BookingModerationModel> filterList = [];
 
-  getAllBookingListEvent(String? date1, String? date2) async {
+  getAllBookingListEvent(
+      {int? page,
+      String? userName,
+      String? hotelName,
+      String? checkInDateValue,
+      String? checkOutDateValue,
+      bool? filter}) async {
+    if (filter == true) {
+      resetFilterEvent(filter!);
+    }
+    filterList = [];
     if (state is! StateOnSuccess) {
       emit(StateLoading());
     } else {
-      emit(StateOnSuccess<List<BookingModerationModel>>(bookingList,
+      filterList = bookingList;
+      emit(StateOnSuccess<List<BookingModerationModel>>(filterList,
           isMoreLoading: true));
     }
-    page++;
-    final res = await adminBookingModerationUseCases
-        .call(FilterParams(page: page, date1: date1, date2: date2));
+    defaultPage = page ?? ++defaultPage;
+    final res = await adminBookingModerationUseCases.call(FilterParams(
+        page: defaultPage,
+        checkInDate: checkInDateValue,
+        checkOutDate: checkOutDateValue,
+        hotelname: hotelName,
+        username: userName));
     res.fold((l) => StateError(l.toString()), (r) {
-      for (var item in r) {
-        bookingList.add(item);
+      if (page == null) {
+        for (var item in r) {
+          bookingList.add(item);
+        }
+        filterList = bookingList;
+      } else {
+        filterList = r;
       }
-      emit(StateOnSuccess<List<BookingModerationModel>>(bookingList,
-          isMoreLoading: false));
+      if (filterList.isEmpty) {
+        emit(StateNoData());
+      } else {
+        emit(StateOnSuccess<List<BookingModerationModel>>(filterList,
+            isMoreLoading: false));
+      }
     });
   }
 
-  void setUpScrollController(
-      ScrollController scrollController, String? date1, String? date2) {
+  void setUpScrollController(ScrollController scrollController,
+      {String? userName, String? hotelName, String? date1, String? date2}) {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          getAllBookingListEvent(date1, date2);
+          getAllBookingListEvent();
         }
       }
     });
@@ -60,5 +84,9 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
     } else {
       emit(StateOnSuccess(filterList, isMoreLoading: false));
     }
+  }
+
+  void resetFilterEvent(bool resetValue) {
+    emit(StateOnKnownToSuccess(resetValue));
   }
 }

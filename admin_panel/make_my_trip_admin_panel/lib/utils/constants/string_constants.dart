@@ -31,4 +31,20 @@ class StringConstants {
     "All Hotels",
     "Hotels Reviews"
   ];
+  static String bookingIdLabel = "Booking ID";
+  static String userNameLabel = "UserName";
+  static String hotelNameLabel = "Hotel Name";
+  static String checkInDateLabel = "check_In_Date";
+  static String checkOutDateLabel = "check_Out_Date";
+  static String revenueLabel = "Revenue";
+  static String noBookingFound = "No Bookings Found";
+  static String searchHintTxt = "Search";
+  static String filterLabel = "Filter";
+  static String filterHotelNameLabel = "Find booking by Hotel Name";
+  static String filterUserNameLabel = "Find booking by User Name";
+  static String filterHotelNameHint = "Enter UserName";
+  static String filterUserNameHint = "Enter HotelName";
+  static String applyTxt = "Apply";
+  static String cancelTxt = "Cancel";
+  static String resetTxt = "Reset";
 }

@@ -73,8 +73,10 @@ class DefaultFirebaseOptions {
     projectId: 'travelproject22-6b9d4',
     databaseURL: 'https://travelproject22-6b9d4-default-rtdb.firebaseio.com',
     storageBucket: 'travelproject22-6b9d4.appspot.com',
-    androidClientId: '1074927524993-07k18hoebcl5arrb9g32bkiubdj7ojok.apps.googleusercontent.com',
-    iosClientId: '1074927524993-63pct0sv6rlpr9q6c82tv1vvt9vl85a9.apps.googleusercontent.com',
+    androidClientId:
+        '1074927524993-07k18hoebcl5arrb9g32bkiubdj7ojok.apps.googleusercontent.com',
+    iosClientId:
+        '1074927524993-63pct0sv6rlpr9q6c82tv1vvt9vl85a9.apps.googleusercontent.com',
     iosBundleId: 'com.example.makeMyTripAdminPanel',
   );
 }

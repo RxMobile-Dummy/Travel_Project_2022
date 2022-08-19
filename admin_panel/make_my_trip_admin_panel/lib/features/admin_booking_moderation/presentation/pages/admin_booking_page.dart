@@ -5,22 +5,28 @@ import 'package:make_my_trip_admin_panel/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip_admin_panel/core/theme/text_styles.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/data/models/booking_moderation_model.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/cubit/admin_booking_moderation_cubit.dart';
+import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/widgets/filter_view_widget.dart';
+import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 import 'package:make_my_trip_admin_panel/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class AdminBookingPage extends StatelessWidget {
   AdminBookingPage({Key? key}) : super(key: key);
   ScrollController scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
+  final TextEditingController bookingUserNameController =
+      TextEditingController();
+  final TextEditingController bookingHotelNameController =
+      TextEditingController();
+  final TextEditingController checkInDateController = TextEditingController();
+  final TextEditingController checkOutDateController = TextEditingController();
   List<BookingModerationModel> bookingModel = [];
-  TextEditingController checkInDateController = TextEditingController();
-  TextEditingController checkOutDateController = TextEditingController();
+  bool filterValue = false;
 
   @override
   Widget build(BuildContext context) {
-    context.read<AdminBookingModerationCubit>.call().setUpScrollController(
+    context.read<AdminBookingModerationCubit>().setUpScrollController(
         scrollController,
-        checkInDateController.text,
-        checkOutDateController.text);
+        date1: DateTime.now().toString().substring(0, 10));
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -37,71 +43,41 @@ class AdminBookingPage extends StatelessWidget {
                           .searchList(value.toString());
                     },
                     controller: searchController,
-                    decoration: const InputDecoration(
-                      hintText: 'Search',
-                      suffixIcon: Icon(Icons.search),
+                    decoration: InputDecoration(
+                      hintText: StringConstants.searchHintTxt,
+                      suffixIcon: const Icon(Icons.search),
                     ),
                   ),
                 ),
                 24.horizontalSpace,
                 GestureDetector(
                   onTap: () {
-                    context
-                        .read<AdminBookingModerationCubit>()
-                        .getAllBookingListEvent(checkInDateController.text,
-                            checkOutDateController.text);
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return FilterViewWidget(
+                              providerContext: context,
+                              checkOutDateController: checkOutDateController,
+                              bookingHotelNameController:
+                                  bookingHotelNameController,
+                              bookingUserNameController:
+                                  bookingUserNameController,
+                              checkInDateController: checkInDateController,
+                              filterResetValue: filterValue);
+                        });
                   },
-                  child: const Text(
-                    "Filter",
-                    style: AppTextStyles.infoContentStyle,
-                  ),
-                ),
-              ],
-            ),
-            8.verticalSpace,
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: TextFormField(
-                    controller: checkInDateController,
-                    onTap: () async {
-                      await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100))
-                          .then((value) {
-                        checkInDateController.text =
-                            value.toString().substring(0, 10);
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'Check_In_Date',
-                      suffixIcon: Icon(Icons.calendar_month_sharp),
-                    ),
-                  ),
-                ),
-                24.horizontalSpace,
-                Expanded(
-                  flex: 1,
-                  child: TextFormField(
-                    onTap: () async {
-                      await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100))
-                          .then((value) {
-                        checkOutDateController.text =
-                            value.toString().substring(0, 10);
-                      });
-                    },
-                    controller: checkOutDateController,
-                    decoration: const InputDecoration(
-                      hintText: 'Check_Out_Date',
-                      suffixIcon: Icon(Icons.calendar_month_sharp),
-                    ),
+                  child: Row(
+                    children: [
+                      Text(
+                        StringConstants.filterLabel,
+                        style: AppTextStyles.infoContentStyle,
+                      ),
+                      Text(
+                        filterValue == true ? "*" : "",
+                        style:
+                            const TextStyle(color: MakeMyTripColors.colorRed),
+                      )
+                    ],
                   ),
                 ),
               ],
@@ -113,17 +89,21 @@ class AdminBookingPage extends StatelessWidget {
               child: Row(
                 children: [
                   8.horizontalSpace,
-                  const Expanded(flex: 2, child: Text("Booking ID")),
+                  Expanded(
+                      flex: 2, child: Text(StringConstants.bookingIdLabel)),
                   const Spacer(),
-                  const Expanded(flex: 4, child: Text("UserName")),
+                  Expanded(flex: 4, child: Text(StringConstants.userNameLabel)),
                   const Spacer(),
-                  const Expanded(flex: 4, child: Text("Hotel Name")),
+                  Expanded(
+                      flex: 4, child: Text(StringConstants.hotelNameLabel)),
                   const Spacer(),
-                  const Expanded(flex: 3, child: Text("check_In_Date")),
+                  Expanded(
+                      flex: 3, child: Text(StringConstants.checkInDateLabel)),
                   const Spacer(),
-                  const Expanded(flex: 3, child: Text("Check_out_Date")),
+                  Expanded(
+                      flex: 3, child: Text(StringConstants.checkOutDateLabel)),
                   const Spacer(),
-                  const Expanded(flex: 2, child: Text("Revenue")),
+                  Expanded(flex: 2, child: Text(StringConstants.revenueLabel)),
                 ],
               ),
             ),
@@ -132,71 +112,88 @@ class AdminBookingPage extends StatelessWidget {
                 builder: (context, state) {
               if (state is StateOnSuccess) {
                 bookingModel = state.response;
+              } else if (state is StateNoData) {
+                return Text(StringConstants.noBookingFound);
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
               return Expanded(
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
+                    physics: const ClampingScrollPhysics(),
                     controller: scrollController,
                     shrinkWrap: true,
                     itemCount: state.isMoreLoading!
                         ? bookingModel.length + 1
                         : bookingModel.length,
                     itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: 100,
-                        child: Card(
-                          elevation: 5,
-                          child: Row(
-                            children: [
-                              8.horizontalSpace,
-                              Expanded(
-                                  flex: 2,
-                                  child:
-                                      Text(bookingModel[index].id.toString())),
-                              const Spacer(),
-                              Expanded(
-                                  flex: 4,
-                                  child: Text(bookingModel[index]
-                                      .userdata!
-                                      .first
-                                      .userName!)),
-                              const Spacer(),
-                              Expanded(
-                                  flex: 4,
-                                  child: Text(bookingModel[index]
-                                      .hoteldata!
-                                      .first
-                                      .hotelName!)),
-                              const Spacer(),
-                              Expanded(
-                                  flex: 3,
-                                  child: Text(bookingModel[index]
-                                      .checkinDate!
-                                      .substring(
-                                          0,
-                                          bookingModel[index]
-                                              .checkinDate!
-                                              .indexOf('T')))),
-                              const Spacer(),
-                              Expanded(
-                                  flex: 3,
-                                  child: Text(bookingModel[index]
-                                      .checkoutDate!
-                                      .substring(
-                                          0,
-                                          bookingModel[index]
-                                              .checkoutDate!
-                                              .indexOf('T')))),
-                              const Spacer(),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                      '${bookingModel[index].price!.totalPrice!.toString()} Rs.')),
-                            ],
-                          ),
-                        ),
+                      return Column(
+                        children: [
+                          if (index != bookingModel.length)
+                            SizedBox(
+                              height: 100,
+                              child: Card(
+                                elevation: 5,
+                                child: Row(
+                                  children: [
+                                    8.horizontalSpace,
+                                    Expanded(
+                                        flex: 2,
+                                        child: Text(
+                                            bookingModel[index].id.toString())),
+                                    const Spacer(),
+                                    Expanded(
+                                        flex: 4,
+                                        child: Text(bookingModel[index]
+                                            .userdata!
+                                            .first
+                                            .userName!)),
+                                    const Spacer(),
+                                    Expanded(
+                                        flex: 4,
+                                        child: Text(bookingModel[index]
+                                            .hoteldata!
+                                            .first
+                                            .hotelName!)),
+                                    const Spacer(),
+                                    Expanded(
+                                        flex: 3,
+                                        child: Text(bookingModel[index]
+                                            .checkinDate!
+                                            .substring(
+                                                0,
+                                                bookingModel[index]
+                                                    .checkinDate!
+                                                    .indexOf('T')))),
+                                    const Spacer(),
+                                    Expanded(
+                                        flex: 3,
+                                        child: Text(bookingModel[index]
+                                            .checkoutDate!
+                                            .substring(
+                                                0,
+                                                bookingModel[index]
+                                                    .checkoutDate!
+                                                    .indexOf('T')))),
+                                    const Spacer(),
+                                    Expanded(
+                                        flex: 2,
+                                        child: Text(
+                                          '${bookingModel[index].price!.totalPrice!.toString()} Rs.',
+                                          style: const TextStyle(
+                                              color:
+                                                  MakeMyTripColors.colorGreen),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          if (index == bookingModel.length)
+                            const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16.0),
+                              child: CircularProgressIndicator(),
+                            )
+                        ],
                       );
                     }),
               );
