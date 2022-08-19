@@ -24,8 +24,14 @@ class SettingPageCubit extends Cubit<BaseState> {
   PrivacyPolicyUseCase privacyPolicyUseCase;
   TermsConditionUseCase termsConditionUseCase;
 
-  SettingPageCubit(this.getUserDataUseCase, this.updateImageUseCase,
-      this.updateUserDataUseCase, this.faqUseCase,this.aboutUsUseCase,this.privacyPolicyUseCase,this.termsConditionUseCase)
+  SettingPageCubit(
+      this.getUserDataUseCase,
+      this.updateImageUseCase,
+      this.updateUserDataUseCase,
+      this.faqUseCase,
+      this.aboutUsUseCase,
+      this.privacyPolicyUseCase,
+      this.termsConditionUseCase)
       : super(StateOnKnownToSuccess<SettingPageData>(SettingPageData())) {
     getUserData();
   }
@@ -79,27 +85,31 @@ class SettingPageCubit extends Cubit<BaseState> {
   }
 
   getFaqData() async {
+    emit(StateLoading());
     final res = await faqUseCase.call(NoParams());
     return res.fold((l) => emit(StateErrorGeneral(l.toString())),
         (r) => emit(StateOnSuccess(r)));
   }
 
   getAboutUsData() async {
+    emit(StateLoading());
     final res = await aboutUsUseCase.call(NoParams());
     return res.fold((l) => emit(StateErrorGeneral(l.toString())),
-            (r) => emit(StateOnSuccess(r)));
+        (r) => emit(StateOnSuccess(r)));
   }
 
   getPrivacyPolicyData() async {
+    emit(StateLoading());
     final res = await privacyPolicyUseCase.call(NoParams());
     return res.fold((l) => emit(StateErrorGeneral(l.toString())),
-            (r) => emit(StateOnSuccess(r)));
+        (r) => emit(StateOnSuccess(r)));
   }
 
   getTermsConditionData() async {
+    emit(StateLoading());
     final res = await termsConditionUseCase.call(NoParams());
     return res.fold((l) => emit(StateErrorGeneral(l.toString())),
-            (r) => emit(StateOnSuccess(r)));
+        (r) => emit(StateOnSuccess(r)));
   }
 
   callNumber() async {
