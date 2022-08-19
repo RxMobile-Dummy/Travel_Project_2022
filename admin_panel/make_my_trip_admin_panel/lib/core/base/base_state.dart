@@ -72,13 +72,10 @@ class StateOnSuccess<T> extends BaseState {
   final T response;
   final bool? isMoreLoading;
 
-  StateOnSuccess(
-    this.response,
-      {this.isMoreLoading}
-  );
+  StateOnSuccess(this.response, {this.isMoreLoading});
 
   @override
-  List<Object?> get props => [response];
+  List<Object?> get props => [response, isMoreLoading];
 }
 
 class StateReorderSuccess<T> extends BaseState {

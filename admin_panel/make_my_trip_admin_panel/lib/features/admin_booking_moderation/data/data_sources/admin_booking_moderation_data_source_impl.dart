@@ -22,12 +22,12 @@ class AdminBookingModerationDataSourceImpl
       filterParams) async {
     try {
       var params = {
-        "pagesize": 20,
+        "pagesize": 10,
         "page": filterParams.page,
-        "date1": filterParams.date1,
-        "date2": filterParams.date2,
-        "hotelname": filterParams.hotelname,
-        "username": filterParams.username
+        "date1": filterParams.checkInDate ?? "",
+        "date2": filterParams.checkOutDate ?? "",
+        "hotelname": filterParams.hotelname ?? "",
+        "username": filterParams.username ?? ""
       };
       const baseurl = BaseConstant.baseUrl;
       final response = await dio.get('${baseurl}booking/getallbooking',
@@ -37,6 +37,7 @@ class AdminBookingModerationDataSourceImpl
         for (var item in response.data) {
           bookingList.add(BookingModerationModel.fromJson(item));
         }
+
         return right(bookingList);
       } else {
         return Left(InternetFailure());

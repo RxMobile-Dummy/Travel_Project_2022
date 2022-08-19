@@ -7,7 +7,7 @@ import '../../core/failures/failures.dart';
 
 class BaseConstant {
   // static const String baseUrl = "https://db55-180-211-112-179.in.ngrok.io/";
-  static const String baseUrl = "http://192.168.102.164:4000/";
+  static const String baseUrl = "https://0eae-180-211-112-179.in.ngrok.io/";
 
   static Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
@@ -23,4 +23,5 @@ class BaseConstant {
       return StateErrorGeneralStateErrorServer();
     }
   }
+
 }
