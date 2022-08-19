@@ -104,12 +104,30 @@ class UserDomain {
 
 
     // //delete user 
-     async deleteuser(req: Request , res: Response){
+
+    async deleteuser(req: Request, res: Response) {
+
         var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
-            var uid: string = reqData.uid;
-            console.log("sd")
-        admin.auth().updateUser(uid, { disabled: true })
-     }
+
+        var uid: string = reqData.uid;
+
+        await admin.auth().updateUser(uid, {
+            disabled: true,
+        })
+            .then((userRecord) => {
+                // See the UserRecord reference doc for the contents of userRecord.
+                console.log('Successfully updated user', userRecord.toJSON());
+                res.end();
+            })
+            .catch((error) => {
+                console.log('Error updating user:', error);
+                res.end();
+            });
+        console.log("uid", uid);
+
+    }
+
+
 
 }
 

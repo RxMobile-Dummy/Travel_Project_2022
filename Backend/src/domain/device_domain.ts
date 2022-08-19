@@ -1,5 +1,6 @@
 import { devicemodel } from "../model/device";
 import express, { Express, Request, Response } from 'express'
+import { StatusCode } from "../statuscode";
 
 class DeviceDomain {
     async adddevice(req: Request, res: Response) {
@@ -28,16 +29,16 @@ class DeviceDomain {
                         }
                     }
                 );
-                res.send("data updated")
+                res.status(StatusCode.Sucess).send("data updated")
             }
             else {
                 await data.save();
-                res.send("Data save")
+                res.status(StatusCode.Sucess).send("Data save")
             }
 
         }
         catch (err: any) {
-            res.send(err.message);
+            res.status(StatusCode.Server_Error).send(err.message);
         }
 
     }
@@ -45,14 +46,20 @@ class DeviceDomain {
     async deletedevice(req: Request, res: Response) {
         console.log(req.params.deviceid)
         await devicemodel.deleteOne({ device_id: req.params.deviceid }).then(function () {
-            console.log("Data deleted"); // Success
+            console.log("Data deleted");
+            res.status(StatusCode.Sucess).send("Data deleted") // Success
+            res.end();
         }).catch(function (error) {
             console.log(error); // Failure
+            res.status(StatusCode.Server_Error).send(error.message);
+            res.end();
         });
     }
 
 
     async refreshFCM(req: Request, res: Response) {
+        console.log("hy");
+        console.log(req.query);
         console.log(req.query.deviceid);
         var deviceId = await devicemodel.find({ device_id: req.query.deviceid });
         if (deviceId.length == 1) {
@@ -66,9 +73,10 @@ class DeviceDomain {
                     }
                 }
             );
-            res.send("update fcm");
+            res.status(StatusCode.Sucess).send("update fcm");
         } else {
-            res.send("not update");
+            console.log("not updae")
+            res.status(StatusCode.Sucess).send("not update");
 
         }
     }

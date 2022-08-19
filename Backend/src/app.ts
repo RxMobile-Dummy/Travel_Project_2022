@@ -35,7 +35,7 @@ admin.initializeApp(
 );
 
 // TOKEN VERIFICATION CALL
-//app.use(verifyToken, checkRequest);
+app.use(verifyToken, checkRequest);
 
 // ROOT LEVEL
 app.get('/', (req: Request, res: Response) => {
