@@ -10,11 +10,14 @@ import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 import 'core/theme/make_my_trip_theme.dart';
 import 'core/navigation/app_router.dart' as app_routes;
 import 'firebase_options.dart';
+import 'package:make_my_trip_admin_panel/features/push_notification/push_notification_injection_container.dart'
+    as push_notification_di;
 
 Future<void> main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await admin_login_di.init();
   await admin_booking_moderation_di.init();
+  await push_notification_di.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

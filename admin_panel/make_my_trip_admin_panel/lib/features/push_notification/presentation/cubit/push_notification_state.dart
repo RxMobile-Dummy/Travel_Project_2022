@@ -5,14 +5,16 @@ abstract class PushNotificationState {}
 
 class PushNotificationInitial extends PushNotificationState {}
 
-
 class PushNotificationResponse extends PushNotificationState {
-  String fileName;
-  String refurl;
-  PushNotificationResponse(this.fileName,this.refurl);
+  String? fileName;
+  String? refUrl;
+  int? registerUser;
+  int? endUser;
+  PushNotificationResponse(
+      [this.fileName, this.refUrl, this.registerUser, this.endUser]);
 }
-class SetRadioButton extends PushNotificationState{
-  int broadCast;
-  int endUser;
-  SetRadioButton(this.broadCast,this.endUser);
+
+class ErrorState extends PushNotificationState {
+  String error;
+  ErrorState(this.error);
 }

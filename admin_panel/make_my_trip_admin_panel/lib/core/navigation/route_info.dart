@@ -1,6 +1,6 @@
 /// this class will contain static route names
 class RoutesName {
-  static const adminLogin = '/pushNotificationPage';
+  static const adminLogin = '/';
   static const bookingModerationPage = '/bookingModerationPage';
-  static const pushNotificationPage = '/';
+  static const pushNotificationPage = '/pushedNotificationAdmin';
 }

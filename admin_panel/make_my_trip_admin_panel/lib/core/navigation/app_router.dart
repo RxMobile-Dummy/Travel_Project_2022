@@ -7,12 +7,9 @@ import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/prese
 import 'package:make_my_trip_admin_panel/features/admin_login/admin_login_injection_container.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/cubit/admin_login_cubit.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/pages/admin_login_page.dart';
-import 'package:make_my_trip_admin_panel/features/push_notification/data/data_sources/push_notification_datasource_impl.dart';
-import 'package:make_my_trip_admin_panel/features/push_notification/data/repositories/push_notification_repository_impl.dart';
-import 'package:make_my_trip_admin_panel/features/push_notification/domain/repositories/push_notification_repository.dart';
-import 'package:make_my_trip_admin_panel/features/push_notification/domain/use_cases/push_notification_usecase.dart';
 import 'package:make_my_trip_admin_panel/features/push_notification/presentation/cubit/push_notification_cubit.dart';
 import 'package:make_my_trip_admin_panel/features/push_notification/presentation/pages/push_notification_admin.dart';
+import 'package:make_my_trip_admin_panel/features/push_notification/push_notification_injection_container.dart';
 
 class Router {
   Route<dynamic> generateRoutes(RouteSettings settings) {
@@ -28,15 +25,16 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider<AdminBookingModerationCubit>(
             create: (context) =>
-                slBookingModeration<AdminBookingModerationCubit>()..getAllBookingListEvent("", "", "", ""),
+                slBookingModeration<AdminBookingModerationCubit>()
+                  ..getAllBookingListEvent("", "", "", ""),
             child: (AdminBookingPage()),
           );
         });
       case RoutesName.pushNotificationPage:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider<PushNotificationCubit>(
-            create: (context) => PushNotificationCubit(PushNotificationUseCase(PushNotificationRepositoryImpl(PushNotificationDaaSource_Impl()))),
-            child: const PushNotificationAdminPanel(),
+            create: (context) => slPushNotification<PushNotificationCubit>(),
+            child: PushNotificationAdminPanel(),
           );
         });
       default:

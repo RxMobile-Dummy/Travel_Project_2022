@@ -3,12 +3,12 @@ import 'package:make_my_trip_admin_panel/features/push_notification/domain/repos
 
 import '../../../../core/failures/failures.dart';
 
-class PushNotificationUseCase{
+class PushNotificationUseCase {
   final PushNotificationRepository pushNotificationRepository;
 
   PushNotificationUseCase(this.pushNotificationRepository);
 
-  Future<Either<Failures,List<dynamic>>> call() async {
+  Future<Either<Failures, List<dynamic>>> call() async {
     return await pushNotificationRepository.getImageFromDevice();
   }
 }

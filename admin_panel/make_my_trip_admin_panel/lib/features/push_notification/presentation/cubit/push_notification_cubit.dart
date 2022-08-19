@@ -1,33 +1,58 @@
-
 import 'package:bloc/bloc.dart';
-import 'package:flutter/src/widgets/editable_text.dart';
+import 'package:dio/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip_admin_panel/features/push_notification/domain/use_cases/push_notification_usecase.dart';
+import 'package:make_my_trip_admin_panel/features/push_notification/domain/use_cases/register_user_notification_usecase.dart';
+import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 import 'package:meta/meta.dart';
 
-
+import '../../domain/use_cases/enduser_notification_usecase.dart';
 part 'push_notification_state.dart';
 
 class PushNotificationCubit extends Cubit<PushNotificationState> {
   PushNotificationUseCase pushNotificationUseCase;
-  PushNotificationCubit(this.pushNotificationUseCase) : super(PushNotificationInitial()){
-    setRadioButton(0,0);
-  }
+  RegisterUserNotificationUseCase registerUserNotificationUseCase;
+  EndUserNotificationUseCase endUserNotificationUseCase;
 
-  getImagefromDevice() async {
+  PushNotificationCubit(this.pushNotificationUseCase,
+      this.registerUserNotificationUseCase, this.endUserNotificationUseCase)
+      : super(PushNotificationInitial());
+
+  getImagefromDevice(int registerUser, int endUser) async {
     final response = await pushNotificationUseCase.call();
-    response.fold((l) => null, (r) =>
-        emit(PushNotificationResponse(r.first.toString(),r.last.toString())));
-
-
+    response.fold(
+        (l) => null,
+        (r) => emit(PushNotificationResponse(
+            r.first.toString(), r.last.toString(), registerUser, endUser)));
   }
 
-  setRadioButton(broadCast,endUser) async{
-    emit(SetRadioButton(broadCast, endUser));
+  setRadioButton(fileName, url, registerUser, endUser) async {
+    emit(PushNotificationResponse(fileName, url, registerUser, endUser));
   }
 
-  broadCastPushNotification(TextEditingController title, TextEditingController body, String url, int broadCast) async{
-    if(broadCast==1){
+  registeredUserPushNotification(String title, String body, String url) async {
+    if (title.isEmpty || body.isEmpty || url.isEmpty) {
+      emit(ErrorState(StringConstants.errorMsgNotification));
+    } else {
+      final response =
+          await registerUserNotificationUseCase.call(title, body, url);
+      response.fold(
+          (l) => null,
+          (r) => Fluttertoast.showToast(
+              msg: StringConstants.pushedNotificationToRegisteredUser));
     }
+  }
 
+  endUserPushNotification(
+      String title, String body, String url, int endUser) async {
+    if (title.isEmpty || body.isEmpty || url.isEmpty) {
+      emit(ErrorState(StringConstants.errorMsgNotification));
+    } else {
+      final response = await endUserNotificationUseCase.call(title, body, url);
+      response.fold(
+          (l) => null,
+          (r) => Fluttertoast.showToast(
+              msg: StringConstants.pushedNotificationToEndUser));
+    }
   }
 }

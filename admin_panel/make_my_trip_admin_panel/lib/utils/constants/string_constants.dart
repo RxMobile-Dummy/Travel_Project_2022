@@ -31,4 +31,20 @@ class StringConstants {
     "All Hotels",
     "Hotels Reviews"
   ];
+
+  //Admin push notification string
+  static String pushNotification = "Push Notification";
+  static String title = "Title";
+  static String body = "Body";
+  static String uploadImage = "Upload Image";
+  static String pleasUploadImage = "Please Upload Image";
+  static String imageUploadedSuccessfully = "Image Uploaded Successfully";
+  static String toRegisteredUser = "To Registered User";
+  static String toEndUser = "To End User";
+  static String sendNotification = "Send Notification";
+  static String pushedNotificationToRegisteredUser =
+      "Pushed Notification Successfully To Registered Users";
+  static String pushedNotificationToEndUser =
+      "Pushed Notification Successfully To Registered Users";
+  static String errorMsgNotification = "Please fill all the required fields";
 }
