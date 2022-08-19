@@ -419,7 +419,7 @@ class BookingPage extends StatelessWidget {
                   child: CommonPrimaryButton(
                       text: StringConstants.book,
                       onTap: () {
-                        context.read<PaymentCubit>().paymentConfirm(20,detail.roomId,detail.hotelId,detail.checkinDate,detail.checkoutDate,bookingModel!.roomPrice ?? 0,bookingModel!.gst ?? 0,bookingModel!.offer ?? 0,bookingModel!.total ?? 0,0);
+                        context.read<PaymentCubit>().paymentConfirm(20,detail.roomId,detail.hotelId,detail.checkinDate,detail.checkoutDate,bookingModel!.roomPrice ?? 0,bookingModel!.gst ?? 0,bookingModel!.offer ?? 0,bookingModel!.total ?? 0,2);
                       })),
             ),
           );

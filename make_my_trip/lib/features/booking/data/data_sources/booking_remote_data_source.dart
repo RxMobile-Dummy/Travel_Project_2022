@@ -26,8 +26,8 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
             "room_price":roomPrice,
             "offer":offer,
             "gst":gst,
-            "total":total
-          }
+            "total":total,
+          },
           },
           options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
@@ -54,7 +54,8 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
                 "cin": cIn,
                 "cout": cOut,
                 "roomid": roomId.join(","),
-                "adults": adults
+                "adults": adults,
+                "coupon_id":2
               },
               options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
