@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       title: "StringConstants.appTitle",
       theme: MakeMyTripLightTheme.lightTheme,
       onGenerateRoute: app_routes.Router().generateRoutes,
-      initialRoute: RoutesName.aboutUs,
+      initialRoute: RoutesName.faq,
     );
   }
 }

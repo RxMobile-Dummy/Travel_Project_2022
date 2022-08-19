@@ -5,6 +5,7 @@ import 'data/data_sources/faq_remote_data_sources.dart';
 import 'data/repositories/faq_repository_impl.dart';
 import 'domain/repositories/faq_respository.dart';
 import 'domain/use_cases/faq_usecase.dart';
+import 'domain/use_cases/update_faq_usecase.dart';
 
 final slFaqPage = GetIt.instance;
 
@@ -12,12 +13,11 @@ Future<void> init() async {
   // slPrivacyPage.registerLazySingleton(() => FirebaseFirestore.instance);
 
   //cubit
-  slFaqPage.registerFactory(() => FaqCubit(slFaqPage()));
+  slFaqPage.registerFactory(() => FaqCubit(slFaqPage(), slFaqPage()));
 
   //Usecase
   slFaqPage.registerLazySingleton(() => FaqUseCase(slFaqPage()));
-  // slFaqPage
-  //     .registerLazySingleton(() => PrivacyPolicyUpdateUseCase(slFaqPage()));
+  slFaqPage.registerLazySingleton(() => FaqUpdateUseCase(slFaqPage()));
 
   //Repository
   slFaqPage.registerLazySingleton<FaqRepository>(

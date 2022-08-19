@@ -53,8 +53,9 @@ class FaqPage extends StatelessWidget {
                     ),
                     EditorPage(
                       callback: (String val) async {
-                        // await context
-                        //     .read<FaqCubit>().
+                        await context
+                            .read<FaqCubit>()
+                            .updateFaqData(titleController.text, val);
                       },
                       contentModel: contentModel,
                     )
