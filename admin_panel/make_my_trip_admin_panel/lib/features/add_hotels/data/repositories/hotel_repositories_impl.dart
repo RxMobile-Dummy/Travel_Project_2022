@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:make_my_trip_admin_panel/core/failures/failures.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/data_sources/hotel_dataSource_repositories.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelModels.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPutModel.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_model.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/repositories/hotel_repositories.dart';
 
@@ -11,8 +12,8 @@ class HotelRepositoriesImpl implements HotelRepositories {
   HotelRepositoriesImpl({required this.repositories});
 
   @override
-  Future<Either<Failures, void>> postEmployee(hotel) {
-    return repositories.postEmployee(hotel);
+  Future<Either<Failures, void>> postHotel(hotel) {
+    return repositories.postHotel(hotel);
   }
 
   @override
@@ -20,4 +21,23 @@ class HotelRepositoriesImpl implements HotelRepositories {
     // TODO: implement getHotel
     return repositories.getHotel();
   }
+
+  @override
+  Future<Either<Failures, void>> deleteHotel(String id) {
+    // TODO: implement deleteHotel
+    return repositories.deleteHotel(id);
+  }
+
+  @override
+  Future<Either<Failures, void>> updateHotel(HotelPutModel hotelPutModel) {
+    // TODO: implement updateHotel
+    return repositories.updateHotel(hotelPutModel);
+  }
+
+  @override
+  Future<Either<Failures, HotelPutModel>> getHotelUpdate(String id) {
+    // TODO: implement getHotelUpdate
+    return repositories.getHotelUpdate(id);
+  }
+
 }

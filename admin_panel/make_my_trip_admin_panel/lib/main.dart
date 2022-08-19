@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<HotelCubit>(),
+      create: (context) => sl<HotelCubit>()..getHotels(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: StringConstants.appTitle,

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:make_my_trip_admin_panel/core/failures/failures.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPutModel.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_model.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/base_constants.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
@@ -8,9 +9,12 @@ import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 import '../models/HotelModels.dart';
 
 abstract class HotelDataRourceRepositories {
-  Future<Either<Failures, void>> postEmployee(Hotel hotel);
-
+  Future<Either<Failures, void>> postHotel(Hotel hotel);
   Future<Either<Failures, List<HotelModels>>> getHotel();
+  Future<Either<Failures,void>> deleteHotel(String id);
+
+  Future<Either<Failures,HotelPutModel>> getHotelUpdate(String id);
+  Future<Either<Failures,void>> updateHotel(HotelPutModel hotelPutModel);
 }
 
 class HotelDataSourceRepositoriesImpl implements HotelDataRourceRepositories {
@@ -21,10 +25,10 @@ class HotelDataSourceRepositoriesImpl implements HotelDataRourceRepositories {
   HotelDataSourceRepositoriesImpl({required this.dio});
 
   @override
-  Future<Either<Failures, void>> postEmployee(Hotel hotel) async {
+  Future<Either<Failures, void>> postHotel(Hotel hotel) async {
     try {
       Response response =
-          await dio.post('${BaseConstant.baseUrl}hotel/addhotel', data: hotel);
+          await dio.post('http://192.168.102.79:4000/hotel/addhotel', data: hotel);
       if (response.statusCode == 200) {
         print('success');
         return Right(null);
@@ -41,9 +45,9 @@ class HotelDataSourceRepositoriesImpl implements HotelDataRourceRepositories {
   @override
   Future<Either<Failures, List<HotelModels>>> getHotel() async {
     try {
-      final baseurl = '${BaseConstant.baseUrl}hotel/';
+      final baseurl = 'http://192.168.102.79:4000/hotel';
       print(baseurl);
-      final response = await dio.get(baseurl);
+      final response = await dio.get('http://192.168.102.79:4000/hotel');
       if (response.statusCode == 200) {
         print("success");
         final List<HotelModels> hotelList = [];
@@ -56,6 +60,71 @@ class HotelDataSourceRepositoriesImpl implements HotelDataRourceRepositories {
         return right(hotelList);
       } else {
         print("fail");
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      print(e);
+      return Left(ServerFailure(failureMsg: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, void>> deleteHotel(String id) async{
+    // TODO: implement deleteHotel
+    try {
+      final baseurl = 'http://192.168.102.79:4000/hotel/deletehotel/${int.parse(id)}';
+      print(baseurl);
+      final response = await dio.delete(baseurl);
+      if (response.statusCode == 200) {
+           print("success");
+           return Right(null);
+        }
+     else {
+        print("fail");
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      print(e);
+      return Left(ServerFailure(failureMsg: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, HotelPutModel>> getHotelUpdate(String id) async{
+    // TODO: implement getHotelUpdate
+    try {
+      final response = await dio.get('http://192.168.102.79:4000/hotel/updatehoteldata/${int.parse(id)}');
+      if (response.statusCode == 200) {
+        print("success");
+        final HotelPutModel jsonList = HotelPutModel.fromJson(response.data);
+
+        print(jsonList);
+        print('data finded success');
+
+        return Right(jsonList);
+      } else {
+        print("fail");
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      print(e);
+      return Left(ServerFailure(failureMsg: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, void>> updateHotel(HotelPutModel hotelPutModel)async{
+    try {
+      final response = await dio.put('http://192.168.102.79:4000/hotel/updatehotel',data: hotelPutModel.toJson());
+      print(hotelPutModel.toJson());
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+
+        print('data Update success');
+
+        return Right(null);
+      } else {
+
         return Left(ServerFailure());
       }
     } catch (e) {

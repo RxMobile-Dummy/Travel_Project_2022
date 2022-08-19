@@ -2,15 +2,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
 import 'package:make_my_trip_admin_panel/core/usecases/usecase.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelModels.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPutModel.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_model.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/add_hotel.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/delete_hotel.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/get_hotel.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/get_hotelUpdate.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/update_hotel.dart';
 
 class HotelCubit extends Cubit<BaseState> {
   PostHotel postHotel;
   GetAllHotel getHotel;
+  DeleteHotel deleteHotel;
+  GetHotelPut getHotelPut;
+  UpdateHotel updateHotel;
 
-  HotelCubit({required this.postHotel,required this.getHotel}) : super(StateInitial());
+  HotelCubit(
+      {required this.postHotel,
+      required this.getHotel,
+      required this.deleteHotel,
+      required this.getHotelPut,
+      required this.updateHotel})
+      : super(StateInitial()) {
+    getHotels();
+  }
+
+  List<HotelModels> bookingList = [];
+  List<HotelModels> filterList = [];
 
   addHotels(
       double? latitude,
@@ -25,6 +43,7 @@ class HotelCubit extends Cubit<BaseState> {
       int no_rooms,
       String description,
       String deluxebadsize,
+
       String deluxedescription,
       List<String> deluxefeatures,
       int deluxemaxcapacity,
@@ -93,19 +112,163 @@ class HotelCubit extends Cubit<BaseState> {
       },
     );
   }
-  demo(String hotelname,int price,String address, List<String> semiDeluxeRoomFeatures) async{
-      print(price);
-      print(semiDeluxeRoomFeatures);
+
+  updateHotels(
+      int id,
+      String hotelname,
+      int pincode,
+      int city_id,
+      String address_line,
+      double rating,
+      int price,
+      int phonenumber,
+      int no_rooms,
+      String description,
+      String deluxebadsize,
+      String deluxedescription,
+      List<String> deluxefeatures,
+      int deluxemaxcapacity,
+      int deluxeprice,
+      String deluxesize,
+      List<String> hotelFeatures,
+      int no_of_room,
+      int noodsuperdeluxe,
+      int noofdeluxe,
+      int noofsemideluxe,
+      String semideluxebadsize,
+      String semideluxedescription,
+      List<String> semideluxefeatures,
+      int semideluxemaxcapacity,
+      int semideluxeprice,
+      String semideluxesize,
+      String superdeluxebadsize,
+      String superdeluxedescription,
+      List<String> superdeluxefeatures,
+      int superdeluxemaxcapacity,
+      int superdeluxeprice,
+      String superdeluxesize,
+      latitude,
+      logitude) async {
+    print("cubit called");
+    print(id);
+    var res = await updateHotel.call(HotelPutModel(
+        id: id,
+        address: Addresss(
+            pincode: pincode,
+            cityId: city_id,
+            addressLine: address_line,
+            location: Locationn(longitude: logitude, latitude: latitude)),
+        deluxebadsize: deluxebadsize,
+        deluxedescription: deluxedescription,
+        deluxefeatures: deluxefeatures,
+        deluxemaxcapacity: deluxemaxcapacity,
+        deluxeprice: deluxeprice,
+        deluxesize: deluxesize,
+        features: hotelFeatures,
+        hotelName: hotelname,
+        noOfRoom: no_of_room,
+        noodsuperdeluxe: noodsuperdeluxe,
+        noofdeluxe: noofdeluxe,
+        noofsemideluxe: noofsemideluxe,
+        phoneNumber: phonenumber,
+        price: price,
+        rating: rating,
+        semideluxebadsize: semideluxebadsize,
+        semideluxedescription: semideluxedescription,
+        semideluxefeatures: semideluxefeatures,
+        semideluxemaxcapacity: semideluxemaxcapacity,
+        semideluxeprice: semideluxeprice,
+        semideluxesize: semideluxesize,
+        superdeluxebadsize: superdeluxebadsize,
+        superdeluxedescription: superdeluxedescription,
+        superdeluxefeatures: superdeluxefeatures,
+        superdeluxemaxcapacity: superdeluxemaxcapacity,
+        superdeluxeprice: superdeluxeprice,
+        superdeluxesize: superdeluxesize,
+        description: description));
+    res.fold(
+      (failure) {
+        print("failure");
+        emit(StateNoData());
+      },
+      (success) {
+        print("success");
+
+        emit(StateShowSearching());
+      },
+    );
   }
 
-  getHotels() async{
-    var res = await getHotel.call(NoParams());
+  demo(String hotelname, int price, String address,
+      List<String> semiDeluxeRoomFeatures) async {
+    print(price);
+    print(semiDeluxeRoomFeatures);
+  }
+
+  getHotels() async {
+    try {
+      emit(StateLoading());
+      var res = await getHotel.call(NoParams());
+      res.fold((l) {
+        print("failure");
+        emit(StateErrorGeneral("errorMessage"));
+      }, (r) {
+        print("success");
+        for (var item in r) {
+          bookingList.add(item);
+        }
+        emit(StateOnSuccess<List<HotelModels>>(bookingList));
+      });
+    } catch (er) {
+      print("sadasdas$er");
+    }
+  }
+
+  getPutHotel(String id) async {
+    emit(StateLoading());
+    var res = await getHotelPut.call(id);
     res.fold((l) {
       print("failure");
       emit(StateErrorGeneral("errorMessage"));
-      }, (r) {
-        print("success");
-        emit(StateOnSuccess<List<HotelModels>>(r));
+    }, (r) {
+      print("success");
+      print(r.price);
+      emit(StateOnResponseSuccess<HotelPutModel>(r));
     });
+  }
+
+  deleteHotels(String id) async {
+    var res = await deleteHotel.call(id);
+    print('cubit');
+    res.fold(
+      (failure) {
+        print("failure");
+        emit(StateErrorGeneral("Failure"));
+      },
+      (success) {
+        print("success");
+        getHotels();
+        // emit(StateOnSuccess(success));
+      },
+    );
+  }
+
+  void searchList(String searchKeyWord) {
+    emit(StateLoading());
+    filterList = [];
+    for (var item in bookingList) {
+      if (item.hotelName!.toLowerCase().contains(searchKeyWord.toLowerCase()) ||
+          item.address!.addressLine!
+              .toString()
+              .toLowerCase()
+              .contains(searchKeyWord.toLowerCase())) {
+        filterList.add(item);
+      }
+    }
+    if (filterList.isEmpty) {
+      emit(StateNoData());
+    } else {
+      emit(StateOnSuccess(filterList));
+    }
   }
 }

@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
+import 'package:make_my_trip_admin_panel/core/navigation/route_info.dart';
 import 'package:make_my_trip_admin_panel/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip_admin_panel/core/theme/text_styles.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPutModel.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/presentation/cubit/hotel_cubit.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/presentation/pages/get_hotels_ui.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/presentation/widgets/checkBoxWidget.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/presentation/widgets/lognText_textField.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/presentation/widgets/textFieldWidget.dart';
@@ -18,12 +21,12 @@ class AddHotels extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Row(
-          children: [
-            Expanded(flex: 4, child: Container()),
-            Expanded(flex: 8, child: AddNewHotels()),
-            Expanded(flex: 4, child: Container())
-          ],
-        ));
+      children: [
+        Expanded(flex: 4, child: Container()),
+        Expanded(flex: 8, child: AddNewHotels()),
+        Expanded(flex: 4, child: Container())
+      ],
+    ));
   }
 }
 
@@ -111,7 +114,7 @@ class _AddNewHotelsState extends State<AddNewHotels> {
   Widget build(BuildContext context) {
     return BlocListener<HotelCubit, BaseState>(
       listener: (context, state) {
-        if(state is StateOnSuccess){
+        if (state is StateOnSuccess) {
           Fluttertoast.showToast(
               msg: "This is Center Short Toast",
               toastLength: Toast.LENGTH_SHORT,
@@ -119,8 +122,48 @@ class _AddNewHotelsState extends State<AddNewHotels> {
               timeInSecForIosWeb: 1,
               backgroundColor: Colors.red,
               textColor: Colors.white,
-              fontSize: 16.0
-          );
+              fontSize: 16.0);
+        }
+        if (state is StateOnResponseSuccess<HotelPutModel>) {
+          hotelName.text = state.response.hotelName!;
+          hotelAddress.text = state.response.address!.addressLine!;
+          pincode.text = state.response.address!.pincode.toString();
+          hotelRating.text = state.response.rating.toString();
+          price.text = state.response.price.toString();
+          phone_number.text = state.response.phoneNumber.toString();
+          no_of_rooms.text = state.response.noOfRoom.toString();
+          hotel_Description.text = state.response.description!;
+
+          no_of_deluxeRoom.text = state.response.noofdeluxe.toString();
+          deluxe_roomSize.text = state.response.deluxesize!;
+          deluxe_room_bed_details.text = state.response.deluxebadsize!;
+          deluxe_room_max_capacity.text =
+              state.response.deluxemaxcapacity.toString();
+          deluxe_room_price.text = state.response.deluxeprice.toString();
+          deluxe_room_description.text =
+              state.response.deluxedescription.toString();
+
+          no_of_semiDeluxeRoom.text = state.response.noofsemideluxe.toString();
+          semiDeluxe_roomSize.text = state.response.semideluxesize!;
+          semiDeluxe_room_bed_details.text = state.response.semideluxebadsize!;
+          semiDeluxe_room_max_capacity.text =
+              state.response.semideluxemaxcapacity.toString();
+          semiDeluxe_room_price.text =
+              state.response.semideluxeprice.toString();
+          semiDeluxe_room_description.text =
+              state.response.semideluxedescription!;
+
+          no_of_superDeluxeRoom.text =
+              state.response.noodsuperdeluxe.toString();
+          superDeluxe_roomSize.text = state.response.superdeluxesize!;
+          superDeluxe_room_bed_details.text =
+              state.response.superdeluxebadsize!;
+          superDeluxe_room_max_capacity.text =
+              state.response.superdeluxemaxcapacity.toString();
+          superDeluxe_room_price.text =
+              state.response.superdeluxeprice.toString();
+          superDeluxe_room_description.text =
+              state.response.superdeluxedescription!;
         }
       },
       child: Padding(
@@ -138,9 +181,9 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                 children: [
                   Center(
                       child: Text(
-                        'Add Hotels',
-                        style: AppTextStyles.unselectedLabelStyle,
-                      )),
+                    'Add Hotels',
+                    style: AppTextStyles.unselectedLabelStyle,
+                  )),
                   20.verticalSpace,
                   Text("Hotel Info", style: AppTextStyles.unselectedLabelStyle),
                   Padding(
@@ -156,14 +199,14 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                     children: [
                       Expanded(
                           child: TextFieldView(
-                            hintTextvar: "City Id",
-                            textFieldViewController: cityId,
-                          )),
+                        hintTextvar: "City Id",
+                        textFieldViewController: cityId,
+                      )),
                       Expanded(
                           child: TextFieldView(
-                            hintTextvar: "Pincode",
-                            textFieldViewController: pincode,
-                          ))
+                        hintTextvar: "Pincode",
+                        textFieldViewController: pincode,
+                      ))
                     ],
                   ),
                   20.verticalSpace,
@@ -175,14 +218,14 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                       children: [
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Rating",
-                              textFieldViewController: hotelRating,
-                            )),
+                          hintTextvar: "Rating",
+                          textFieldViewController: hotelRating,
+                        )),
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Price",
-                              textFieldViewController: price,
-                            ))
+                          hintTextvar: "Price",
+                          textFieldViewController: price,
+                        ))
                       ],
                     ),
                   ),
@@ -192,14 +235,14 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                       children: [
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Phone Number",
-                              textFieldViewController: phone_number,
-                            )),
+                          hintTextvar: "Phone Number",
+                          textFieldViewController: phone_number,
+                        )),
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Number of Rooms",
-                              textFieldViewController: no_of_rooms,
-                            ))
+                          hintTextvar: "Number of Rooms",
+                          textFieldViewController: no_of_rooms,
+                        ))
                       ],
                     ),
                   ),
@@ -255,14 +298,14 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                       children: [
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Number of Deluxe Room",
-                              textFieldViewController: no_of_deluxeRoom,
-                            )),
+                          hintTextvar: "Number of Deluxe Room",
+                          textFieldViewController: no_of_deluxeRoom,
+                        )),
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Deluxe Room Size (square feet)",
-                              textFieldViewController: deluxe_roomSize,
-                            ))
+                          hintTextvar: "Deluxe Room Size (square feet)",
+                          textFieldViewController: deluxe_roomSize,
+                        ))
                       ],
                     ),
                   ),
@@ -272,14 +315,14 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                       children: [
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Deluxe Rome bed Details",
-                              textFieldViewController: deluxe_room_bed_details,
-                            )),
+                          hintTextvar: "Deluxe Rome bed Details",
+                          textFieldViewController: deluxe_room_bed_details,
+                        )),
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Deluxe Room Maximum Capacity",
-                              textFieldViewController: deluxe_room_max_capacity,
-                            ))
+                          hintTextvar: "Deluxe Room Maximum Capacity",
+                          textFieldViewController: deluxe_room_max_capacity,
+                        ))
                       ],
                     ),
                   ),
@@ -289,9 +332,9 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                       children: [
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Deluxe Rome Price",
-                              textFieldViewController: deluxe_room_price,
-                            )),
+                          hintTextvar: "Deluxe Rome Price",
+                          textFieldViewController: deluxe_room_price,
+                        )),
                       ],
                     ),
                   ),
@@ -338,14 +381,14 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                       children: [
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Number of Semi Deluxe Room",
-                              textFieldViewController: no_of_semiDeluxeRoom,
-                            )),
+                          hintTextvar: "Number of Semi Deluxe Room",
+                          textFieldViewController: no_of_semiDeluxeRoom,
+                        )),
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Semi Deluxe Room Size (square feet)",
-                              textFieldViewController: semiDeluxe_roomSize,
-                            ))
+                          hintTextvar: "Semi Deluxe Room Size (square feet)",
+                          textFieldViewController: semiDeluxe_roomSize,
+                        ))
                       ],
                     ),
                   ),
@@ -355,14 +398,14 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                       children: [
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Semi Deluxe Rome bed Details",
-                              textFieldViewController: semiDeluxe_room_bed_details,
-                            )),
+                          hintTextvar: "Semi Deluxe Rome bed Details",
+                          textFieldViewController: semiDeluxe_room_bed_details,
+                        )),
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Semi Deluxe Room Maximum Capacity",
-                              textFieldViewController: semiDeluxe_room_max_capacity,
-                            ))
+                          hintTextvar: "Semi Deluxe Room Maximum Capacity",
+                          textFieldViewController: semiDeluxe_room_max_capacity,
+                        ))
                       ],
                     ),
                   ),
@@ -372,9 +415,9 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                       children: [
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Semi Deluxe Rome Price",
-                              textFieldViewController: semiDeluxe_room_price,
-                            )),
+                          hintTextvar: "Semi Deluxe Rome Price",
+                          textFieldViewController: semiDeluxe_room_price,
+                        )),
                       ],
                     ),
                   ),
@@ -421,14 +464,14 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                       children: [
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Number of Super Deluxe Room",
-                              textFieldViewController: no_of_superDeluxeRoom,
-                            )),
+                          hintTextvar: "Number of Super Deluxe Room",
+                          textFieldViewController: no_of_superDeluxeRoom,
+                        )),
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Super Deluxe Room Size (square feet)",
-                              textFieldViewController: superDeluxe_roomSize,
-                            ))
+                          hintTextvar: "Super Deluxe Room Size (square feet)",
+                          textFieldViewController: superDeluxe_roomSize,
+                        ))
                       ],
                     ),
                   ),
@@ -438,14 +481,15 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                       children: [
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Super Deluxe Rome bed Details",
-                              textFieldViewController: superDeluxe_room_bed_details,
-                            )),
+                          hintTextvar: "Super Deluxe Rome bed Details",
+                          textFieldViewController: superDeluxe_room_bed_details,
+                        )),
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Super Deluxe Room Maximum Capacity",
-                              textFieldViewController: superDeluxe_room_max_capacity,
-                            ))
+                          hintTextvar: "Super Deluxe Room Maximum Capacity",
+                          textFieldViewController:
+                              superDeluxe_room_max_capacity,
+                        ))
                       ],
                     ),
                   ),
@@ -455,9 +499,9 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                       children: [
                         Expanded(
                             child: TextFieldView(
-                              hintTextvar: "Super Deluxe Rome Price",
-                              textFieldViewController: superDeluxe_room_price,
-                            )),
+                          hintTextvar: "Super Deluxe Rome Price",
+                          textFieldViewController: superDeluxe_room_price,
+                        )),
                       ],
                     ),
                   ),
@@ -499,18 +543,25 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                       hintTextvar: "Super Deluxe Room Description",
                       textFieldViewController: superDeluxe_room_description),
                   Center(
-                    child: CommonPrimaryButton(
-                      text: "Add hotel",
-                      onTap: () {
-                        BlocProvider.of<HotelCubit>(context).addHotels
-                          (
-                            22.25,
-                            35.25,
+                      child: BlocConsumer<HotelCubit, BaseState>(
+                          listener: (context, state) {
+                            print(state);
+                    if (state is StateShowSearching) {
+                      Navigator.pop(context);
+                    }
+                  }, builder: (context, state) {
+                    if (state is StateOnResponseSuccess<HotelPutModel>) {
+                      return CommonPrimaryButton(
+                        text: "Update hotel",
+                        onTap: () {
+                          print("object");
+                          BlocProvider.of<HotelCubit>(context).updateHotels(
+                            state.response.id!.toInt(),
                             hotelName.text,
                             int.parse(pincode.text),
                             int.parse(cityId.text),
                             hotelAddress.text,
-                            int.parse(hotelRating.text),
+                            double.parse(hotelRating.text),
                             int.parse(price.text),
                             int.parse(phone_number.text),
                             int.parse(no_of_rooms.text),
@@ -537,13 +588,61 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             superDeluxeRoomFeatures,
                             int.parse(superDeluxe_room_max_capacity.text),
                             int.parse(superDeluxe_room_price.text),
-                            superDeluxe_room_bed_details.text);
-                        // BlocProvider.of<HotelCubit>(context).demo(hotelName.text, int.parse(price.text), hotelAddress.text,semiDeluxeRoomFeatures); },
-                      },
-                      backColor: Colors.blue,
-                      disable: false,
-                    ),
-                  )
+                            superDeluxe_room_bed_details.text,
+                            state.response.address!.location!.latitude,
+                            state.response.address!.location!.longitude,
+                          );
+                          // BlocProvider.of<HotelCubit>(context).demo(hotelName.text, int.parse(price.text), hotelAddress.text,semiDeluxeRoomFeatures); },
+                        },
+                        backColor: Colors.blue,
+                        disable: false,
+                      );
+                    } else {
+                      return CommonPrimaryButton(
+                        text: "Add hotel",
+                        onTap: () {
+                          BlocProvider.of<HotelCubit>(context).addHotels(
+                              22.25,
+                              35.25,
+                              hotelName.text,
+                              int.parse(pincode.text),
+                              int.parse(cityId.text),
+                              hotelAddress.text,
+                              int.parse(hotelRating.text),
+                              int.parse(price.text),
+                              int.parse(phone_number.text),
+                              int.parse(no_of_rooms.text),
+                              hotel_Description.text,
+                              deluxe_room_bed_details.text,
+                              deluxe_room_description.text,
+                              deluxeRoomFeatures,
+                              int.parse(deluxe_room_max_capacity.text),
+                              int.parse(deluxe_room_price.text),
+                              deluxe_roomSize.text,
+                              hotelFeatures,
+                              int.parse(no_of_rooms.text),
+                              int.parse(no_of_superDeluxeRoom.text),
+                              int.parse(no_of_deluxeRoom.text),
+                              int.parse(no_of_semiDeluxeRoom.text),
+                              semiDeluxe_room_bed_details.text,
+                              semiDeluxe_room_description.text,
+                              semiDeluxeRoomFeatures,
+                              int.parse(semiDeluxe_room_max_capacity.text),
+                              int.parse(semiDeluxe_room_price.text),
+                              semiDeluxe_roomSize.text,
+                              superDeluxe_roomSize.text,
+                              superDeluxe_room_description.text,
+                              superDeluxeRoomFeatures,
+                              int.parse(superDeluxe_room_max_capacity.text),
+                              int.parse(superDeluxe_room_price.text),
+                              superDeluxe_room_bed_details.text);
+                          // BlocProvider.of<HotelCubit>(context).demo(hotelName.text, int.parse(price.text), hotelAddress.text,semiDeluxeRoomFeatures); },
+                        },
+                        backColor: Colors.blue,
+                        disable: false,
+                      );
+                    }
+                  }))
                 ],
               ),
             ),

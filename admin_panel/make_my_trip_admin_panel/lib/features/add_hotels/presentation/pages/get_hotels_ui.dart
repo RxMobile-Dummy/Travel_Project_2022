@@ -10,31 +10,63 @@ import 'package:make_my_trip_admin_panel/utils/constants/image_path.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 
 class GetHotelUi extends StatelessWidget {
-  const GetHotelUi({Key? key}) : super(key: key);
-
+  GetHotelUi({Key? key}) : super(key: key);
+  final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          BlocProvider.of<HotelCubit>(context).getHotels();
-        },
-        child: Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: (){
+      //     BlocProvider.of<HotelCubit>(context).getHotels();
+      //   },
+      //   child: Icon(Icons.add),
+      // ),
       body: SafeArea(
         child: BlocBuilder<HotelCubit, BaseState>(
           builder: (context, state) {
+            print("object");
+            print(state);
+            if(state is StateShowSearching){
+              context.read<HotelCubit>().getHotels();
+            }
             if (state is StateOnSuccess) {
                List<HotelModels> hotel = state.response;
-              return Expanded(
-                  child: ListView.builder(
-                      itemCount: hotel.length,
-                      itemBuilder: (context, index) {
-                        return HotelListViewWidget(
-                            hotel: hotel![index]);
-                      }));
-            } else {
-              return Text("Details");
+              return Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child:
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      onChanged: (value) {
+                        context
+                            .read<HotelCubit>()
+                            .searchList(value.toString());
+                      },
+                      controller: searchController,
+                      decoration: const InputDecoration(
+                        hintText: 'Search',
+                        suffixIcon: Icon(Icons.search),
+                      ),
+                    ),
+                  ),
+                  ),
+                  Expanded(
+                    flex: 9,
+                      child: ListView.builder(
+                          itemCount: hotel.length,
+                          itemBuilder: (context, index) {
+                            return HotelListViewWidget(
+                                hotel: hotel[index]);
+                          })),
+                ],
+              );
+            } else if(state is StateNoData){
+              return const Center(child: Text("No data "));
+            }
+            else{
+              return const Center(child: CircularProgressIndicator());
             }
           },
         ),
