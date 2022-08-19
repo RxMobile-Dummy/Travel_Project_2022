@@ -2,6 +2,7 @@ import { bookingmodel } from "../model/booking";
 import { StatusCode } from "../statuscode";
 import { hotelmodel } from "../model/hotel";
 import { imagemodel } from "../model/image";
+import { Usermodel } from "../model/users";
 import { couponmodel } from "../model/coupon"
 import express, { Express, Request, Response } from 'express'
 
@@ -408,6 +409,173 @@ class BookingDomain {
         }
     }
 
+
+
+
+    //get allbooking
+    async getAllBookingAdmin(req: Request, res: Response) {
+        var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
+        var uid: string = reqData.uid;
+        var userData = await Usermodel.find({ _id: uid }).select("-__v");
+        if (userData[0].user_type == "admin") {
+            var q: any = req.query;
+            var pageSize: any = req.query.pagesize;
+            var page: any = req.query.page;
+            var hotelName: any = req.query.hotelname;
+
+            let todayDate = new Date();
+            var checkIndata: any = ((req.query.date1) == "" ? todayDate : (req.query.date1));
+
+            var newCheckIndate = new Date(checkIndata);
+            console.log(newCheckIndate);
+            var hotelid: any = await hotelmodel.findOne({ hotel_name: { $regex: hotelName + '.*', $options: 'i' } })
+            var allHotelId: any = await hotelmodel.find().select("_id");
+            var allHotelIdarr: any = [];
+            allHotelId.forEach((e: any) => {
+                allHotelIdarr.push(e._id);
+            });
+            var hotelIdtoSearch: any = [];
+            var hotelId: Number = hotelid?._id;
+            hotelIdtoSearch.push(hotelId);
+            var hotelIdFind = (hotelName == "" ? allHotelIdarr : hotelIdtoSearch);
+            console.log("hotelIdFind", hotelIdFind);
+            var date2: any = req.query.date2;
+            var newCheckOutdata = new Date(date2);
+            console.log("newCheckOutdata", newCheckOutdata)
+            var userName = req.query.username;
+            var userId = await Usermodel.findOne({ user_name: { $regex: userName + '.*', $options: 'i' } })
+            var userIdarr: any = [];
+            var allUserIdarr: any = [];
+            userIdarr.push(userId?._id);
+            var allUserid: any = await Usermodel.find().select("_id");
+            allUserid.forEach((e: any) => {
+                allUserIdarr.push(e._id);
+            })
+            var userIdsearch = ((req.query.username) == "" ? allUserIdarr : userIdarr);
+            console.log("userIdsearch", userIdsearch);
+
+            if (date2) {
+                var allBookingData = await bookingmodel.aggregate([
+                    {
+                        $match: {
+                            $and: [
+                                { "checkin_date": { $gte: newCheckIndate } },
+
+                                { "checkin_date": { $lte: newCheckOutdata } },
+
+                                { "hotel_id": { $in: hotelIdFind } },
+
+                                { "user_id": { $in: userIdsearch } }
+
+
+                            ]
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: 'users',
+                            localField: 'user_id',
+                            foreignField: '_id',
+                            pipeline: [
+                                {
+                                    $project: {
+                                        _id: 1,
+                                        user_name: 1,
+                                        user_email: 1,
+                                        user_image: 1
+                                    }
+                                }
+                            ],
+                            as: 'userdata'
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: 'hotels',
+                            localField: 'hotel_id',
+                            foreignField: '_id',
+                            pipeline: [
+                                {
+                                    $project: {
+                                        _id: 1,
+                                        hotel_name: 1
+                                    }
+                                }
+                            ],
+                            as: 'hoteldata'
+                        }
+                    },
+                ]).skip((parseInt(pageSize) * parseInt(page))).limit(parseInt(pageSize))
+
+                if (allBookingData) {
+                    res.status(StatusCode.Sucess).send(allBookingData);
+                    res.end();
+                }
+                else {
+                    res.status(StatusCode.Sucess).send([]);
+                    res.end();
+                }
+            } else {
+                var allBookingData = await bookingmodel.aggregate([
+                    {
+                        $match: {
+                            $and: [
+                                { "checkin_date": { $gte: newCheckIndate } },
+                                { "hotel_id": { $in: hotelIdFind } },
+                                { "user_id": { $in: userIdsearch } }
+                            ]
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: 'users',
+                            localField: 'user_id',
+                            foreignField: '_id',
+                            pipeline: [
+                                {
+                                    $project: {
+                                        _id: 1,
+                                        user_name: 1,
+                                        user_email: 1,
+                                        user_image: 1
+
+                                    }
+                                }
+                            ],
+                            as: 'userdata'
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: 'hotels',
+                            localField: 'hotel_id',
+                            foreignField: '_id',
+                            pipeline: [
+                                {
+                                    $project: {
+                                        _id: 1,
+                                        hotel_name: 1
+                                    }
+                                }
+                            ],
+                            as: 'hoteldata'
+                        }
+                    },
+                ]).skip((parseInt(pageSize) * parseInt(page))).limit(parseInt(pageSize))
+
+                if (allBookingData) {
+                    res.status(StatusCode.Sucess).send(allBookingData);
+                }
+                else {
+                    res.status(StatusCode.Sucess).send([]);
+                }
+
+            }
+        } else {
+            res.status(StatusCode.Unauthorized).send("you are not authorize")
+        }
+
+    }
 }
 
 export { BookingDomain };
