@@ -6,6 +6,7 @@ import 'package:make_my_trip/utils/widgets/loading_widget.dart';
 import '../../../../core/base/base_state.dart';
 import '../../../../utils/constants/string_constants.dart';
 import '../../data/models/content_model.dart';
+import '../cubit/information_page_cubit.dart';
 import '../cubit/setting_page_cubit.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
@@ -19,9 +20,8 @@ class PrivacyPolicyPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(StringConstants.privacyPolicy),
       ),
-      body: BlocBuilder<SettingPageCubit, BaseState>(
+      body: BlocBuilder<InformationPageCubit, BaseState>(
         builder: (context, state) {
-          print(state);
           if (state is StateOnSuccess) {
             contentModel = state.response;
             return ListView.builder(

@@ -19,19 +19,9 @@ class SettingPageCubit extends Cubit<BaseState> {
   GetUserDataUseCase getUserDataUseCase;
   UpdateImageUseCase updateImageUseCase;
   UpdateUserDataUseCase updateUserDataUseCase;
-  FaqUseCase faqUseCase;
-  AboutUsUseCase aboutUsUseCase;
-  PrivacyPolicyUseCase privacyPolicyUseCase;
-  TermsConditionUseCase termsConditionUseCase;
 
-  SettingPageCubit(
-      this.getUserDataUseCase,
-      this.updateImageUseCase,
-      this.updateUserDataUseCase,
-      this.faqUseCase,
-      this.aboutUsUseCase,
-      this.privacyPolicyUseCase,
-      this.termsConditionUseCase)
+  SettingPageCubit(this.getUserDataUseCase, this.updateImageUseCase,
+      this.updateUserDataUseCase)
       : super(StateOnKnownToSuccess<SettingPageData>(SettingPageData())) {
     getUserData();
   }
@@ -82,48 +72,5 @@ class SettingPageCubit extends Cubit<BaseState> {
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
                 .copyWith(imageValue: r, userValue: userValue))));
-  }
-
-  getFaqData() async {
-    emit(StateLoading());
-    final res = await faqUseCase.call(NoParams());
-    return res.fold((l) => emit(StateErrorGeneral(l.toString())),
-        (r) => emit(StateOnSuccess(r)));
-  }
-
-  getAboutUsData() async {
-    emit(StateLoading());
-    final res = await aboutUsUseCase.call(NoParams());
-    return res.fold((l) => emit(StateErrorGeneral(l.toString())),
-        (r) => emit(StateOnSuccess(r)));
-  }
-
-  getPrivacyPolicyData() async {
-    emit(StateLoading());
-    final res = await privacyPolicyUseCase.call(NoParams());
-    return res.fold((l) => emit(StateErrorGeneral(l.toString())),
-        (r) => emit(StateOnSuccess(r)));
-  }
-
-  getTermsConditionData() async {
-    emit(StateLoading());
-    final res = await termsConditionUseCase.call(NoParams());
-    return res.fold((l) => emit(StateErrorGeneral(l.toString())),
-        (r) => emit(StateOnSuccess(r)));
-  }
-
-  callNumber() async {
-    const number = '9999999999'; //set the number here
-    bool? res = await FlutterPhoneDirectCaller.callNumber(number);
-    return res;
-  }
-
-  sendingMails() async {
-    var url = Uri.parse("mailto:rxtrainee22@gmail.com");
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }

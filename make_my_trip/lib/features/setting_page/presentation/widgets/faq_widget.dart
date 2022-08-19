@@ -4,6 +4,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/setting_page/data/models/faq_model.dart';
+import 'package:make_my_trip/features/setting_page/presentation/cubit/information_page_cubit.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/widgets/loading_widget.dart';
@@ -19,7 +20,7 @@ class FaqPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(StringConstants.faq),
       ),
-      body: BlocBuilder<SettingPageCubit, BaseState>(
+      body: BlocBuilder<InformationPageCubit, BaseState>(
         builder: (context, state) {
           if (state is StateOnSuccess) {
             faqModel = state.response;

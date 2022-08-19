@@ -49,7 +49,6 @@ void main() async {
   await history_di.init();
   await search_di.init();
   await setting_page_di.init();
-
   await booking_di.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
