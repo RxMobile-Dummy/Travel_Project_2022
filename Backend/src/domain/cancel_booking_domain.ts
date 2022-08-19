@@ -24,9 +24,16 @@ class CancelBookingDomain {
             else {
                 var bookingData: object | null | any = await bookingmodel.findOne({ $and: [{ _id: bookingId }, { checkin_date: { $gt: currentDate } }] });
                 if (bookingData == null) {
-                    res.status(StatusCode.Gone).send("can't cancel hotel bacause your check in date is started...");
+                    res.status(StatusCode.Gone).send("can't cancel hotel booking bacause your check in date is started...");
                 }
-                else {
+                else { 
+                    var bookingStatus: object | null | any = await bookingmodel.findOne({ $and: [{ _id: bookingId }, { status : "success" }] });
+                    if(bookingStatus == null)
+                    {
+                        res.status(StatusCode.Bad_Request).send("can't cancel hotel booking bacause you already cancelled ");
+                    }
+                    else
+                    {
                     //change status in booking table
                     var cancelStatus: object = {
                         status: "cancel"
@@ -62,7 +69,7 @@ class CancelBookingDomain {
                                 }
                             }
                         },
-                        { $match: { hoursDiff: { $gt: 0 }, "_id": bookingId } },
+                        { $match: { hoursDiff: { $gt: 0 }, "_id": bookingId ,} },
 
 
 
@@ -108,7 +115,7 @@ class CancelBookingDomain {
                     };
 
                     // To find FCM token
-                    var userDevices = await devicemodel.find({ useruid: "user1" });
+                    var userDevices = await devicemodel.find({ useruid: temp[0].user_data[0]._id });
                     var registrationToken: any = [];
                     userDevices.forEach(element => {
                         registrationToken.push(element.fcmtoken);
@@ -143,6 +150,7 @@ class CancelBookingDomain {
 
                     res.status(StatusCode.Sucess).send("booking cancelled")
                 }
+            }
             }
 
         } catch (error: any) {
