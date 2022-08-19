@@ -12,6 +12,8 @@ class PushNotificationAdminPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     var fileName = "";
     var url = "";
+    var broadCast = 0;
+    var endUser = 0;
     final title = TextEditingController();
     final body = TextEditingController();
     return Scaffold(
@@ -33,10 +35,10 @@ class PushNotificationAdminPanel extends StatelessWidget {
                   children: [
                     Center(
                         child: Text(
-                      "Push Notification",
-                      style: AppTextStyles.labelStyle2
-                          .copyWith(color: Colors.black),
-                    )),
+                          "Push Notification",
+                          style: AppTextStyles.labelStyle2
+                              .copyWith(color: Colors.black),
+                        )),
                     const Align(
                       alignment: AlignmentDirectional.center,
                     ),
@@ -64,27 +66,39 @@ class PushNotificationAdminPanel extends StatelessWidget {
                       ),
                     ),
                     25.verticalSpace,
-                    const Text(
-                      "Upload a image",
-                      style: AppTextStyles.infoContentStyle
-                    ),
+                    const Text("Upload a image",
+                        style: AppTextStyles.infoContentStyle),
                     20.verticalSpace,
                     Center(
-                      child: BlocBuilder<PushNotificationCubit,PushNotificationState>(
+                      child: BlocBuilder<PushNotificationCubit,
+                          PushNotificationState>(
                         builder: (context, state) {
-                          if(state is PushNotificationResponse){
+                          if (state is PushNotificationResponse) {
                             fileName = state.fileName.toString();
                             url = state.refurl.toString();
+                            BlocProvider.of<PushNotificationCubit>(
+                                context)
+                                .setRadioButton(0, 0);
                           }
                           return Column(
                             children: [
                               SizedBox(
                                 height: 220,
                                 width: 500,
-                                child: url.isNotEmpty?Image.network(url,fit: BoxFit.fill,):Image.asset(ImagePath.defaultImg,fit: BoxFit.fill,),
+                                child: url.isNotEmpty
+                                    ? Image.network(
+                                  url,
+                                  fit: BoxFit.fill,
+                                )
+                                    : Image.asset(
+                                  ImagePath.defaultImg,
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                               10.verticalSpace,
-                              fileName.isNotEmpty?Text(fileName):const Text("Please upload image")
+                              fileName.isNotEmpty
+                                  ? Text(fileName)
+                                  : const Text("Please upload image")
                             ],
                           );
                         },
@@ -106,15 +120,58 @@ class PushNotificationAdminPanel extends StatelessWidget {
                         ),
                       ),
                     ),
-                    70.verticalSpace,
+                    20.verticalSpace,
+                    BlocBuilder<PushNotificationCubit,PushNotificationState>(
+                      builder: (context, state) {
+                        if (state is SetRadioButton) {
+                          broadCast = state.broadCast;
+                          endUser = state.endUser;
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('As BroadCast'),
+                              Radio(
+                                value: state.broadCast,
+                                groupValue: 1,
+                                activeColor: Colors.blue,
+                                onChanged: (value) {
+                                  BlocProvider.of<PushNotificationCubit>(
+                                      context)
+                                      .setRadioButton(1, 0);
+                                },
+                              ),
+                              40.horizontalSpace,
+                              Text('To end user'),
+                              Radio(
+                                value: state.endUser,
+                                groupValue: 1,
+                                activeColor: Colors.blue,
+                                onChanged: (value) {
+                                  BlocProvider.of<PushNotificationCubit>(
+                                      context)
+                                      .setRadioButton(0, 1);
+                                },
+                              )
+                            ],
+                          );
+                        }
+                        else{
+                          return SizedBox();
+                        }
+
+
+                      }
+                    ),
                     Center(
                         child: Container(
-                      height: 50,
-                      width: 700,
-                      child: ElevatedButton(
-                          onPressed: () {},
-                          child: const Text("Send Notification")),
-                    )),
+                          height: 50,
+                          width: 700,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                BlocProvider.of<PushNotificationCubit>(context).broadCastPushNotification(title,body,url,broadCast);
+                              },
+                              child: const Text("Send Notification")),
+                        )),
                   ],
                 ),
               ),

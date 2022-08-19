@@ -11,3 +11,8 @@ class PushNotificationResponse extends PushNotificationState {
   String refurl;
   PushNotificationResponse(this.fileName,this.refurl);
 }
+class SetRadioButton extends PushNotificationState{
+  int broadCast;
+  int endUser;
+  SetRadioButton(this.broadCast,this.endUser);
+}
