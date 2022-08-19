@@ -47,6 +47,28 @@ class HotelController {
         const hoteldomain = new HotelDomain();
         await hoteldomain.deleteHotel(req,res);
     }
+
+    static async adddeluxeroomimage (req:Request , res : Response){
+        const hoteldomain = new HotelDomain();
+        await hoteldomain.addDeluxRoomImage(req,res);
+    }
+
+    
+    static async addsuperdeluxeroomimage (req:Request , res : Response){
+        const hoteldomain = new HotelDomain();
+        await hoteldomain.addSuperDeluxRoomImage(req,res);
+    }
+
+
+    static async addsemideluxeroomimage (req:Request , res : Response){
+        const hoteldomain = new HotelDomain();
+        await hoteldomain.addSemiDeluxRoomImage(req,res);
+    }
+
+    static async updatehoteldata (req:Request , res : Response){
+        const hoteldomain = new HotelDomain();
+        await hoteldomain.updateHotel(req,res);
+    }
 }
 
 router.get('/', HotelController.getHotel);
@@ -59,5 +81,10 @@ router.get('/gethotellist/gethotelfilterlist',HotelController.getHotelFilterList
 router.post('/addhotel',HotelController.addHotel);
 router.post('/addhotelimage',HotelController.addHotelImage);
 router.delete('/deleteHotel/:hoteId', HotelController.deleteHotel);
+router.post('/adddeluxeroomimage', HotelController.adddeluxeroomimage);
+router.post('/addsuperdeluxeroomimage', HotelController.addsuperdeluxeroomimage);
+router.post('/addsemideluxeroomimage', HotelController.addsemideluxeroomimage);
+router.put('/updatehotel', HotelController.updatehoteldata);
+
 
 export { router };

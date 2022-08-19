@@ -23,31 +23,8 @@ class CouponDomain {
     async getCouponId(req: Request, res: Response) {
         try {
             var today = new Date();
-            var couponResult: any = [];
             var couponData = await couponmodel.find({ $and: [{ "_id": req.params.id }, { "startDate": { $lte: today } }, { "endDate": { $gte: today } }] });
-            couponData.forEach((e: any) => {
-                var desArray = e.description.split('.');
-                var htmlRend: any = [];
-                desArray.forEach((e: any) => {
-                    htmlRend.push(`<li>${e}</li>`);
-                })
-                couponResult.push({
-                    "_id": e._id,
-                    "code": e.code,
-                    "title": `<h1>${e.title}</h1>`,
-                    "description": `<ul>${htmlRend.join("")}</ul>`,
-                    "couponImgUrl": e.couponImgUrl,
-                    "discount": e.discount,
-                    "minValue": e.minValue,
-                    "maxOrderValue": e.maxOrderValue,
-                    "noOfUser": e.noOfUser,
-                    "eligibleFor": e.eligibleFor,
-                    "startDate": e.startDate,
-                    "endDate": e.endDate
-                }
-                );
-            })
-            res.status(StatusCode.Sucess).send(couponResult);
+            res.status(StatusCode.Sucess).send(couponData);
             res.end();
         }
         catch (err: any) {
@@ -84,35 +61,36 @@ class CouponDomain {
                             { 'eligibleFor': 'ALL' }]
                     }]
                 });
-                var couponResult: any = [];
                 if (couponData.length != 0) {
-                    couponData.forEach((e: any) => {
-                        var desArray = e.description.split('.');
-                        var htmlRend: any = [];
-                        desArray.forEach((e: any) => {
-                            htmlRend.push(`<li>${e}</li>`);
-                        })
-                        couponResult.push({
-                            "_id": e._id,
-                            "code": e.code,
-                            "title": `<h1>${e.title}</h1>`,
-                            "description": `<ul>${htmlRend.join("")}</ul>`,
-                            "couponImgUrl": e.couponImgUrl,
-                            "discount": e.discount,
-                            "minValue": e.minValue,
-                            "maxOrderValue": e.maxOrderValue,
-                            "noOfUser": e.noOfUser,
-                            "eligibleFor": e.eligibleFor,
-                            "startDate": e.startDate,
-                            "endDate": e.endDate
-                        }
-                        );
-                    })
-                    res.status(StatusCode.Sucess).send(couponResult);
+                    res.status(StatusCode.Sucess).send(couponData);
                     res.end();
                 } else {
-                    res.status(StatusCode.Sucess).send([]);
-                    res.end();
+                    var couponData = await couponmodel.find({
+                        $and: [{ "code": q.code }, { "startDate": { $lte: today } }, { "endDate": { $gte: today } }, 
+                        {
+                            $or: [
+                                { 'eligibleFor': userEligibiltiy },
+                                { 'eligibleFor': 'ALL' }]
+                        }]
+                    });
+                    if(couponData.length!=0){
+                       
+                        res.status(StatusCode.Sucess).send('This Booking Amount is LOW!!\nSo you can not apply this coupon..\nBetter Luck Next Time!!');
+                        res.end();
+                    }else{
+                        var couponD = await couponmodel.find({
+                            $and: [{ "code": q.code }, { "startDate": { $lte: today } }, { "endDate": { $gte: today } },{ "maxOrderValue": { $gte: price } } 
+                            ]
+                        });
+                        if(couponD.length!=0){
+                            res.status(StatusCode.Sucess).send('Oh NO!!\n\nSo you can not apply this coupon..\nBetter Luck Next Time!!');
+                            res.end();
+                        }else{
+                            res.status(StatusCode.Sucess).send([]);
+                            res.end();
+                        }
+                        
+                    }
                 }
             }
         }
@@ -159,26 +137,8 @@ class CouponDomain {
                 await Promise.all(couponData.map(async (e: any) => {
                     var bookingData = await bookingmodel.find({ coupon_id: e._id });
                     if (bookingData.length == 0) {
-                        var desArray = e.description.split('.');
-                        var htmlRend: any = [];
-                        desArray.forEach((e: any) => {
-                            htmlRend.push(`<li>${e}</li>`);
-                        })
-                        couponResult.push({
-                            "_id": e._id,
-                            "code": e.code,
-                            "title": `<h1>${e.title}</h1>`,
-                            "description": `<ul>${htmlRend.join("")}</ul>`,
-                            "couponImgUrl": e.couponImgUrl,
-                            "discount": e.discount,
-                            "minValue": e.minValue,
-                            "maxOrderValue": e.maxOrderValue,
-                            "noOfUser": e.noOfUser,
-                            "eligibleFor": e.eligibleFor,
-                            "startDate": e.startDate,
-                            "endDate": e.endDate
-                        }
-                        );
+                        
+                        couponResult.push(e);
                     }
                     if (bookingData.length != 0) {
                         count = 0;
@@ -188,20 +148,7 @@ class CouponDomain {
                             }
                         })
                         if (count < e.noOfUser) {
-                            couponResult.push({
-                                "_id": e._id,
-                                "code": e.code,
-                                "title": `<h1>${e.title}</h1>`,
-                                "description": `<P>${e.description}</p>`,
-                                "couponImgUrl": e.couponImgUrl,
-                                "discount": e.discount,
-                                "minValue": e.minValue,
-                                "maxOrderValue": e.maxOrderValue,
-                                "noOfUser": e.noOfUser,
-                                "eligibleFor": e.eligibleFor,
-                                "startDate": e.startDate,
-                                "endDate": e.endDate
-                            });
+                            couponResult.push(e);
                         }
                     }
                 }))

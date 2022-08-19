@@ -17,8 +17,10 @@ const BookingSchema = new mongoose.Schema({
         gst : {type : Number},
         total_price : {type : Number},
     },
-    coupon_id:{type:Number,ref:'coupons'}
-    
+    coupon_id:{type:Number,ref:'coupons'},
+    status:{type:String},
+    paymentId:{type:String},
+    orderId:{type:String}
 })
 
 const bookingmodel = mongoose.model('bookings',BookingSchema);
