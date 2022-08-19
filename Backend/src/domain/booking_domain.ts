@@ -505,10 +505,12 @@ class BookingDomain {
                 ]).skip((parseInt(pageSize) * parseInt(page))).limit(parseInt(pageSize))
 
                 if (allBookingData) {
-                    res.send(allBookingData);
+                    res.status(StatusCode.Sucess).send(allBookingData);
+                    res.end();
                 }
                 else {
-                    res.send([]);
+                    res.status(StatusCode.Sucess).send([]);
+                    res.end();
                 }
             } else {
                 var allBookingData = await bookingmodel.aggregate([
@@ -559,10 +561,10 @@ class BookingDomain {
                 ]).skip((parseInt(pageSize) * parseInt(page))).limit(parseInt(pageSize))
 
                 if (allBookingData) {
-                    res.send(allBookingData);
+                    res.status(StatusCode.Sucess).send(allBookingData);
                 }
                 else {
-                    res.send([]);
+                    res.status(StatusCode.Sucess).send([]);
                 }
 
             }

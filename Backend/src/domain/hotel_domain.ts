@@ -594,11 +594,16 @@ class HotelDomain {
             }
 
             imagemodel.insertMany(imageData, function (err: any, result: any) {
-                if (err) throw err;
+                if (err) {
+                    res.status(StatusCode.Error).send(err.message);
+                    res.end();
+                };
                 res.status(StatusCode.Sucess).send("Image sucessfully added");
+                res.end();
             });
         } else {
             res.status(StatusCode.Unauthorized).send("you are not authorize")
+            res.end();
         }
     }
 
