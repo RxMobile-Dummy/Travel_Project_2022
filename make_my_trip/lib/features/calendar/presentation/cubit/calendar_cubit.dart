@@ -19,8 +19,7 @@ class CalenderCubit extends Cubit<CalenderState> {
           if (checkOutTime != null) {
             final diff = checkOutTime.difference(checkInTime).inDays;
             if (diff > 30) {
-              emit(ErrorState(
-                  error: StringConstants.only30Day));
+              emit(ErrorState(error: StringConstants.only30Day));
               inTime = checkInTime;
               outTime = null;
               emit(DateSelectState());

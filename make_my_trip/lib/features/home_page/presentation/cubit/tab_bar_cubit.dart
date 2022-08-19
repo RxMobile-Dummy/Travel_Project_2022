@@ -15,8 +15,7 @@ class TabBarCubit extends Cubit<BaseState> {
   checkAnonymous(index) async {
     emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {
-    }, (success) {
+    res.fold((failure) {}, (success) {
       if (success) {
         if (index != 0) {
           emit(Unauthenticated());

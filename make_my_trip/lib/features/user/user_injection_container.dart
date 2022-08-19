@@ -16,6 +16,7 @@ import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'data/datasources/user_remote_data_source.dart';
 import 'data/repositories/user_repository_impl.dart';
 import 'domain/repositories/user_repository.dart';
+import 'domain/usecases/user_delete_usecase.dart';
 
 final userSl = GetIt.instance;
 
@@ -28,9 +29,8 @@ Future<void> init() async {
         userVerification: userSl(),
         userSignUp: userSl(),
         userSignOut: userSl(),
+        deleteUserUseCase: userSl(),
       ));
-
-  //usecase
 
   //user anonymous use_cases
   userSl.registerLazySingleton(() => IsAnonymousUser(repository: userSl()));
@@ -44,6 +44,7 @@ Future<void> init() async {
   userSl.registerLazySingleton(
       () => UserForgetPassword(userRepository: userSl()));
   userSl.registerLazySingleton(() => UserSignOut(userRepository: userSl()));
+  userSl.registerLazySingleton(() => DeleteUserUseCase(userSl()));
 
   // sign_up use_cases
   userSl.registerLazySingleton(() => UserSignUp(userRepository: userSl()));
@@ -64,8 +65,7 @@ Future<void> init() async {
           facebookAuth: userSl()));
 
   //external
-  userSl.registerLazySingleton(()=> GoogleSignIn(
-    scopes: ['email']));
+  userSl.registerLazySingleton(() => GoogleSignIn(scopes: ['email']));
   userSl.registerLazySingleton(() => FacebookAuth.instance);
   userSl.registerLazySingleton(() => FirebaseAuth.instance);
 }

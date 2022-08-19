@@ -19,6 +19,8 @@ abstract class UserRemoteDataSource {
 
   Future<Either<Failures, void>> userSignOut();
 
+  Future<Either<Failures, void>> deleteUserData();
+
 //sign_up data_source methods
   Future<Either<Failures, bool>> userSignUp(
       {required String fullName,

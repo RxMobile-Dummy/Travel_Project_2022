@@ -203,7 +203,10 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
   Future<Either<Failures, List<ContentModel>>> getPrivacyPolicyData() async {
     try {
       List<ContentModel> contentModel = [];
-      await firebaseFirestore.collection('privacyPolicy').get().then((snapshot) {
+      await firebaseFirestore
+          .collection('privacyPolicy')
+          .get()
+          .then((snapshot) {
         snapshot.docs.map((doc) {
           contentModel.add(ContentModel.fromJson(doc.data()));
         }).toList();
@@ -215,10 +218,14 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
   }
 
   @override
-  Future<Either<Failures, List<ContentModel>>> getTermsAndConditionData() async {
+  Future<Either<Failures, List<ContentModel>>>
+      getTermsAndConditionData() async {
     try {
       List<ContentModel> contentModel = [];
-      await firebaseFirestore.collection('termsAndCondition').get().then((snapshot) {
+      await firebaseFirestore
+          .collection('termsAndCondition')
+          .get()
+          .then((snapshot) {
         snapshot.docs.map((doc) {
           contentModel.add(ContentModel.fromJson(doc.data()));
         }).toList();

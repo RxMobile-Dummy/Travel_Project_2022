@@ -24,4 +24,6 @@ abstract class UserRepository {
       String fullName, String email, String password);
 
   Future<Either<Failures, bool>> userVerification();
+
+  Future<Either<Failures, void>> deleteUser();
 }

@@ -6,7 +6,6 @@ import '../../data/models/content_model.dart';
 import '../repositories/setting_page_repository.dart';
 
 class TermsConditionUseCase implements Usecase<List<ContentModel>, NoParams> {
-
   final SettingPageRepository settingPageRepository;
   TermsConditionUseCase(this.settingPageRepository);
 

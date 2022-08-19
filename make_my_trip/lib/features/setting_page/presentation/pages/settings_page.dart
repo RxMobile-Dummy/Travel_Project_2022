@@ -4,6 +4,7 @@ import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
+import 'package:make_my_trip/features/setting_page/presentation/cubit/information_page_cubit.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
 import 'package:make_my_trip/features/setting_page/presentation/widgets/common_appbar_widget.dart';
 import 'package:make_my_trip/features/setting_page/presentation/widgets/setting_list_widget.dart';
@@ -23,6 +24,8 @@ class SettingsPage extends StatelessWidget {
       listener: (context, state) {
         if (state is StateLoading) {
           ProgressDialog.showLoadingDialog(context, message: "Log out...");
+        } else if (state is StateNoData) {
+          ProgressDialog.showLoadingDialog(context, message: "Deleting...");
         } else if (state is StateOnSuccess) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.home, (route) => false);
@@ -40,8 +43,8 @@ class SettingsPage extends StatelessWidget {
             children: [
               userProfileWidget(context),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 12.0, vertical: 12.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                 child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -76,7 +79,32 @@ class SettingsPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: GestureDetector(
                   onTap: () {
-                    context.read<UserCubit>().userSignOutEvent();
+                    context.read<UserCubit>()
+                      ..disableUser()
+                      ..userSignOutEvent();
+                  },
+                  child: Row(
+                    children: [
+                      const Icon(Icons.delete_outline),
+                      10.horizontalSpace,
+                      Text(StringConstants.delete,
+                          style: AppTextStyles.infoLabelStyle
+                              .copyWith(fontSize: 16)),
+                      const Spacer(),
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        color: MakeMyTripColors.color30gray,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16),
+                child: GestureDetector(
+                  onTap: () {
+                    context.read<UserCubit>().userSignOutEvent(true);
                   },
                   child: Row(
                     children: [

@@ -205,7 +205,7 @@ class StringConstants {
 
   static const logout = "Logout";
 
-  //static const logout = "Logout";
+  static const delete = "Delete";
   static const fullName = "Full Name";
   static const phone = "Phone";
   static const update = "Update";

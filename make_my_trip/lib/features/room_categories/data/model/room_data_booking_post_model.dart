@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 /// hotel_id : 1
 /// no_of_room : 1
 /// room_id : [1,1,1]
@@ -6,8 +7,11 @@ import 'dart:convert';
 /// checkout_date : ""
 /// price : {"number_of_nights":1,"room_price":1247,"gst":18,"discount":5,"total_price":5000}
 
-RoomDataPostModel roomDataPostModelFromJson(String str) => RoomDataPostModel.fromJson(json.decode(str));
-String roomDataPostModelToJson(RoomDataPostModel data) => json.encode(data.toJson());
+RoomDataPostModel roomDataPostModelFromJson(String str) =>
+    RoomDataPostModel.fromJson(json.decode(str));
+String roomDataPostModelToJson(RoomDataPostModel data) =>
+    json.encode(data.toJson());
+
 class RoomDataPostModel {
   RoomDataPostModel({
     this.hotelId,
@@ -16,7 +20,8 @@ class RoomDataPostModel {
     this.checkinDate,
     this.checkoutDate,
     this.roomType,
-    this.price,});
+    this.price,
+  });
 
   RoomDataPostModel.fromJson(dynamic json) {
     hotelId = json['hotel_id'];
@@ -24,7 +29,7 @@ class RoomDataPostModel {
     roomId = json['room_id'] != null ? json['room_id'].cast<int>() : [];
     checkinDate = json['checkin_date'];
     checkoutDate = json['checkout_date'];
-    roomType=json['room_type'];
+    roomType = json['room_type'];
     price = json['price'] != null ? Price.fromJson(json['price']) : null;
   }
   int? hotelId;
@@ -40,7 +45,7 @@ class RoomDataPostModel {
     map['hotel_id'] = hotelId;
     map['no_of_room'] = noOfRoom;
     map['room_id'] = roomId;
-    map['room_type']=roomType;
+    map['room_type'] = roomType;
     map['checkin_date'] = checkinDate;
     map['checkout_date'] = checkoutDate;
     if (price != null) {
@@ -48,7 +53,6 @@ class RoomDataPostModel {
     }
     return map;
   }
-
 }
 
 /// number_of_nights : 1
@@ -59,6 +63,7 @@ class RoomDataPostModel {
 
 Price priceFromJson(String str) => Price.fromJson(json.decode(str));
 String priceToJson(Price data) => json.encode(data.toJson());
+
 class Price {
   Price({
     this.basePrice,
@@ -66,7 +71,8 @@ class Price {
     this.roomPrice,
     this.gst,
     this.discount,
-    this.totalPrice,});
+    this.totalPrice,
+  });
 
   Price.fromJson(dynamic json) {
     numberOfNights = json['number_of_nights'];
@@ -91,5 +97,4 @@ class Price {
     map['total_price'] = totalPrice;
     return map;
   }
-
 }

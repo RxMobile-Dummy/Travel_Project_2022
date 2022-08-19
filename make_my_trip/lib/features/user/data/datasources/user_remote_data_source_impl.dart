@@ -259,4 +259,15 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       return Left(ServerFailure(failureMsg: "Error in verification"));
     }
   }
+
+  @override
+  Future<Either<Failures, void>> deleteUserData() async {
+    final response = await dio.get("${BaseConstant.baseUrl}user/deleteuser",
+        options: await createDioOptions());
+    if (response.statusCode == 200) {
+      return const Right(null);
+    } else {
+      return Left(ServerFailure());
+    }
+  }
 }

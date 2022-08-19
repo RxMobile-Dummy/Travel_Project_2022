@@ -21,5 +21,4 @@ abstract class UserDetailsRemoteDataSource {
   Future<Either<Failures, List<ContentModel>>> getTermsAndConditionData();
 
   Future<Either<Failures, List<ContentModel>>> getPrivacyPolicyData();
-
 }

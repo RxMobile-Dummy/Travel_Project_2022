@@ -25,7 +25,7 @@ class GalleryPage extends StatelessWidget {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
-              title:  Text(
+              title: Text(
                 StringConstants.gallery,
                 style: AppTextStyles.unselectedLabelStyle,
               ),

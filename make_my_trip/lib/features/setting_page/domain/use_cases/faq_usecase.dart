@@ -14,4 +14,3 @@ class FaqUseCase implements Usecase<List<FaqModel>, NoParams> {
     return await settingPageRepository.getFaq();
   }
 }
-

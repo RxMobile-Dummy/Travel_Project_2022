@@ -71,7 +71,6 @@ class WishListPage extends StatelessWidget {
                     ),
                     expandedHeight: 230,
                     backgroundColor: MakeMyTripColors.colorWhite,
-
                   );
                 }), //SliverAppBar
                 SliverList(

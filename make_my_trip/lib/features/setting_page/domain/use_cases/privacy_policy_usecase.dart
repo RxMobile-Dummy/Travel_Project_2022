@@ -6,7 +6,6 @@ import '../../data/models/content_model.dart';
 import '../repositories/setting_page_repository.dart';
 
 class PrivacyPolicyUseCase implements Usecase<List<ContentModel>, NoParams> {
-
   final SettingPageRepository settingPageRepository;
   PrivacyPolicyUseCase(this.settingPageRepository);
 

@@ -1,11 +1,13 @@
 import 'dart:convert';
 
-ContentModel contentModelFromJson(String str) => ContentModel.fromJson(json.decode(str));
+ContentModel contentModelFromJson(String str) =>
+    ContentModel.fromJson(json.decode(str));
 String contentModelToJson(ContentModel data) => json.encode(data.toJson());
 
 class ContentModel {
   ContentModel({
-      this.title,});
+    this.title,
+  });
 
   ContentModel.fromJson(dynamic json) {
     title = json['title'];
@@ -17,5 +19,4 @@ class ContentModel {
     map['title'] = title;
     return map;
   }
-
 }

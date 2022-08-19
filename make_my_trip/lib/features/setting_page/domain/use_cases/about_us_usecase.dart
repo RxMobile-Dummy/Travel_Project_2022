@@ -8,12 +8,11 @@ import '../../data/models/faq_model.dart';
 import '../repositories/setting_page_repository.dart';
 
 class AboutUsUseCase implements Usecase<List<ContentModel>, NoParams> {
-
   final SettingPageRepository settingPageRepository;
   AboutUsUseCase(this.settingPageRepository);
 
   @override
   Future<Either<Failures, List<ContentModel>>> call(NoParams params) async {
-   return await settingPageRepository.getAboutUs();
+    return await settingPageRepository.getAboutUs();
   }
 }

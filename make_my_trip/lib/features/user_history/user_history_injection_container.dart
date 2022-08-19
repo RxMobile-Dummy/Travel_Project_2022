@@ -13,14 +13,15 @@ Future<void> init() async {
 
   //DataSource
   historyListSl.registerLazySingleton<UserHistoryDataSource>(
-          () => UserHistoryDataSourceImpl(historyListSl()));
+      () => UserHistoryDataSourceImpl(historyListSl()));
 
   //Repository
   historyListSl.registerLazySingleton<UserHistoryRepository>(
-          () => UserHistoryRepositoryImpl(historyListSl()));
+      () => UserHistoryRepositoryImpl(historyListSl()));
 
   //usecase
-  historyListSl.registerLazySingleton(() => UserHistoryUsecase(historyListSl()));
+  historyListSl
+      .registerLazySingleton(() => UserHistoryUsecase(historyListSl()));
 
   // historyListSl.registerFactory(() => Dio());
 }
