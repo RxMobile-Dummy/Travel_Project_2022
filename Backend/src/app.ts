@@ -5,12 +5,28 @@ import { verifyToken, checkRequest } from "./authentication/verify_token";
 import * as admin from 'firebase-admin';
 import credential from "./travelproject22-6b9d4-firebase-adminsdk-2wiay-c9c1876710.json";
 import { LoggerMiddleware } from './middlewear/logger';
+import cors from "cors";
+
+
 
 const app: Express = express();
 const connection = mongoose.connect('mongodb+srv://akash:akash@cluster0.4gzjhma.mongodb.net/mmt');
 dotenv.config();
 const port = process.env.PORT;
 app.use(express.json());
+const allowedOrigins = ['*'];
+const options: cors.CorsOptions = {
+    origin: '*',
+    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH','OPTIONS'],
+    credentials: true,
+    allowedHeaders:"Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+    exposedHeaders:"*",
+    maxAge:3600
+  };
+  // Then pass these options to cors:
+  app.use(cors(options));
+  
+
 app.use(LoggerMiddleware);
 
 // ROUTER
@@ -24,6 +40,7 @@ import { router as bookingroute } from './controller/booking_controller';
 import { router as bookmarkroute } from './controller/bookmark_controller';
 import { router as paymentroute } from './controller/payment_controller';
 
+import { router as couponroute } from './controller/coupon_controller';
 
 
 // FIREBASE INTITIALIZE
@@ -51,6 +68,7 @@ app.use('/user', UserRouter)
 app.use('/review', reviewroute);
 app.use('/booking', bookingroute);
 app.use('/bookmark', bookmarkroute);
+app.use('/coupon', couponroute);
 app.use('/payment', paymentroute);
 
 
