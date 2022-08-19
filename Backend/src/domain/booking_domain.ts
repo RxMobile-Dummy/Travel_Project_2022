@@ -6,7 +6,6 @@ import { Usermodel } from "../model/users";
 import { couponmodel } from "../model/coupon"
 import express, { Express, Request, Response } from 'express'
 import * as admin from 'firebase-admin';
-import { Usermodel } from "../model/users";
 import schedule from 'node-schedule';
 import { devicemodel } from "../model/device";
 
@@ -65,96 +64,6 @@ class BookingDomain {
                 var bookedData = new bookingmodel(bookIngData);
                 // console.log(bookedData);
                 await bookedData.save();
-
-                
-                // ****************************** FOR NOTIFICATION ****************************** //
-               
-                const notificationId = nextID?._id == undefined ? 1 : Number(nextID?.id) + 1  
-                var currentBookingData = await bookingmodel.findById(notificationId);
-                if(currentBookingData == null)
-                {
-                        console.log("order cancel no notification");
-                        
-                }
-                else
-                {
-                const notification_options = {
-                    priority: "high",
-                    timeToLive: 60 * 60 * 24
-                };
-                
-                // To find FCM token
-                var userDevices = await devicemodel.find({useruid : "user1"});
-                var registrationToken : any = [];
-                userDevices.forEach(element => {
-                    registrationToken.push(element.fcmtoken) ;
-                 });   
-
-                const options = notification_options
-                var userData: any = await Usermodel.findById(reqData.uid);
-                var hotelData: any = await hotelmodel.findById(req.body.hotel_id);
-
-                const bookingSuccessfullMessage = {
-                    "data": {"key" : "booking"},
-                    "notification": {
-                        "title": "Booking successfull",
-                        "body": `Hi ${userData.user_name}, thanks for choosing to stay at ${hotelData.hotel_name}`
-                    }
-
-                }
-                const before24hrsmessage = {
-                    "data": {"key" : "booking"},
-                    "notification": {
-                        "title": "24 hours remaining",
-                        "body": `Hi ${userData.user_name}, 24 hours remaining of your booking at ${hotelData.hotel_name}`
-                    }
-                }
-                const before1hrmessage = {
-                    "data": {"key" : "booking"},
-                    "notification": {
-                        "title": "1 hours remaining",
-                        "body": `Hi ${userData.user_name}, only 1 hour remaining of your booking at ${hotelData.hotel_name}`
-                    }
-                }
-                const after1hrmessage = {
-                    "data": {"key" : "booking"},
-                    "notification": {
-                        "title": "Review",
-                        "body": `Hi ${userData.user_name}, thanks for choosing to stay at ${hotelData.hotel_name} please give your feedback`
-                    }
-                }
-                //later date for testing
-                // var currentDate = new Date();
-                // var laterDate1 = new Date(currentDate.getTime() + (0.105 * 60000));
-                // var laterDate2 = new Date(currentDate.getTime() + (0.125 * 60000));
-                // var laterDate3 = new Date(currentDate.getTime() + (0.165 * 60000));
-
-
-                //Booking Successfull Notification
-                admin.messaging().sendToDevice(registrationToken, bookingSuccessfullMessage, options);
-
-                //24 hr before checkin date notification 
-                var laterDate1 = new Date(new Date(checkinDate).getTime() - (24 * 60 * 60 * 1000));
-                var job1 = schedule.scheduleJob(`${notificationId}1`, laterDate1, () => {
-                    admin.messaging().sendToDevice(registrationToken, before24hrsmessage);
-
-                });
-
-                //1 hr before checkin date notification 
-                var laterDate2 = new Date(new Date(checkinDate).getTime() - (1 * 60 * 60 * 1000));
-                var job2 = schedule.scheduleJob(`${notificationId}2`, laterDate2, () => {
-                    admin.messaging().sendToDevice(registrationToken, before1hrmessage);
-
-                });
-
-                //1 hr after check out date notification for review
-                var laterDate3 = new Date(new Date(checkoutDate).getTime() + (1 * 60 * 60 * 1000));
-                var job3 = schedule.scheduleJob(`${notificationId}3`, laterDate3, () => {
-                    admin.messaging().sendToDevice(registrationToken, after1hrmessage);
-
-                });
-            }
-
                 res.status(StatusCode.Sucess).send("Booking Success")
                 res.end();
             }
@@ -386,6 +295,9 @@ class BookingDomain {
                 //Date converstion
                 var cin = new Date(cIn);
                 var cout = new Date(cOut);
+                var checkinDate = new Date(cIn).toISOString().toString().replace("T00:00:00.000Z", "T06:30:00.000Z");
+                var checkoutDate = new Date(cOut).toISOString().toString().replace("T00:00:00.000Z", "T06:30:00.000Z")
+
 
                 //booking request id genteration
                 var nextID: any = await bookingmodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
@@ -400,8 +312,8 @@ class BookingDomain {
                     hotel_id: hotelId,
                     no_of_room: roomId.length,
                     room_id: roomId,
-                    checkin_date: new Date(cin),
-                    checkout_date: new Date(cout),
+                    checkin_date: new Date(checkinDate),
+                    checkout_date: new Date(checkoutDate),
                     price: {
                         number_of_nights: diffDays,
                         room_price: price.room_price,

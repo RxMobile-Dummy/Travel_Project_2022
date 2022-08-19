@@ -39,41 +39,17 @@ import { router as bookmarkroute } from './controller/bookmark_controller';
 import { router as cancelbookingroute } from './controller/cancel_booking_controller';
 import { router as paymentroute } from './controller/payment_controller';
 import { router as couponroute } from './controller/coupon_controller';
+import { router as webhookroute } from './controller/webhook_controller';
 
-
-
+app.use('/webhook',webhookroute );
 // FIREBASE INTITIALIZE
 admin.initializeApp(
     {
         credential: admin.credential.cert(JSON.parse(JSON.stringify(credential)))
     }
 );
+app.use('/webhook',webhookroute );
 
-app.post('/payment/verifypayment', async (req, res) => {
-    const SECRET = '123456';
-    console.log(req.body);
-    console.log(req.body.payload);
-    // res.send(req.body);
-    console.log(req.body.payload.payment.entity.status);
-    if (req.body.payload.payment.entity.status == "captured") {
-
-        console.log(req.body.payload.payment.entity.status);
-        console.log(req.body.payload.payment.entity.order_id);
-        await bookingmodel.updateOne(
-            {
-                "orderId": req.body.payload.payment.entity.order_id,
-
-            },
-            {
-                $set: {
-                    status: "success",
-                    paymentId: req.body.payload.payment.entity.id
-                }
-            }
-        );
-    }
-
-})
 // TOKEN VERIFICATION CALL
 app.use(verifyToken, checkRequest);
 
