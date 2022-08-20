@@ -7,6 +7,7 @@ import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/domai
 class AdminBookingModerationCubit extends Cubit<BaseState> {
   AdminBookingModerationCubit(this.adminBookingModerationUseCases)
       : super(StateInitial());
+
   final AdminBookingModerationUseCases adminBookingModerationUseCases;
   int defaultPage = -1;
   List<BookingModerationModel> bookingList = [];
@@ -19,7 +20,11 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
       String? checkInDateValue,
       String? checkOutDateValue,
       bool? filter}) async {
-    if (filter == true) {
+    if (filter == true &&
+        userName != null &&
+        hotelName != null &&
+        checkInDateValue != DateTime.now().toString().substring(0, 10) &&
+        checkOutDateValue != null) {
       resetFilterEvent(filter!);
     }
     filterList = [];
@@ -37,7 +42,7 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
         checkOutDate: checkOutDateValue,
         hotelname: hotelName,
         username: userName));
-    res.fold((l) => StateError(l.toString()), (r) {
+    res.fold((l) => StateErrorGeneral(l.toString()), (r) {
       if (page == null) {
         for (var item in r) {
           bookingList.add(item);
@@ -56,7 +61,10 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
   }
 
   void setUpScrollController(ScrollController scrollController,
-      {String? userName, String? hotelName, String? date1, String? date2}) {
+      {String? userName,
+      String? hotelName,
+      String? checkInDateVal,
+      String? checkOutDateVal}) {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {

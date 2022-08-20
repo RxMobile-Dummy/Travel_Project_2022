@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
 import 'package:make_my_trip_admin_panel/core/navigation/route_info.dart';
+import 'package:make_my_trip_admin_panel/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/cubit/admin_login_cubit.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/image_path.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
@@ -20,7 +21,7 @@ class AdminLoginPage extends StatelessWidget {
       listener: (context, state) {
         if (state is StateOnKnownToSuccess) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.reviewModerationPage, (route) => false);
+              context, RoutesName.homePage, (route) => false);
         }
       },
       builder: (context, state) {
@@ -90,8 +91,12 @@ class AdminLoginPage extends StatelessWidget {
                           child: state is StateErrorGeneral
                               ? Text(
                                   state.errorMessage,
+                                  style: const TextStyle(
+                                      color: MakeMyTripColors.colorRed),
                                 )
-                              : const Text(""),
+                              : state is StateLoading
+                                  ? Text(StringConstants.waitLoginTxt)
+                                  : const Text(""),
                         ),
                         12.verticalSpace,
                         SizedBox(

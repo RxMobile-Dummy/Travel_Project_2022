@@ -32,6 +32,7 @@ class AdminBookingModerationDataSourceImpl
       const baseurl = BaseConstant.baseUrl;
       final response = await dio.get('${baseurl}booking/getallbooking',
           options: await createDioOptions(), queryParameters: params);
+      print(response.data);
       if (response.statusCode == 200) {
         final List<BookingModerationModel> bookingList = [];
         for (var item in response.data) {

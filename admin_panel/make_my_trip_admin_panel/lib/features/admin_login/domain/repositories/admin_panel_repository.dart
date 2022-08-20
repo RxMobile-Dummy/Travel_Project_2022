@@ -5,4 +5,6 @@ abstract class AdminLoginRepository {
   Future<Either<Failures, void>> adminLogin({email, password});
 
   Future<Either<Failures, void>> validateAdmin();
+
+  Future<Either<Failures, void>> logOut();
 }

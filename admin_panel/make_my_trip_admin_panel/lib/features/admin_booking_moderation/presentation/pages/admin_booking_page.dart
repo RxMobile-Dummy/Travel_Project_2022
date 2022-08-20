@@ -26,16 +26,35 @@ class AdminBookingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<AdminBookingModerationCubit>().setUpScrollController(
         scrollController,
-        date1: DateTime.now().toString().substring(0, 10));
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: Column(children: [
-            Row(
-              children: [
-                Expanded(
-                  flex: 4,
+        checkInDateVal: checkInDateController.text,
+        checkOutDateVal: checkOutDateController.text,
+        userName: bookingUserNameController.text,
+        hotelName: bookingHotelNameController.text);
+    return BlocListener<AdminBookingModerationCubit, BaseState>(
+      listener: (context, state) {
+        if (state is StateOnKnownToSuccess) {
+          filterValue = state.response;
+          if (filterValue == false) {
+            bookingUserNameController.clear();
+            bookingHotelNameController.clear();
+            checkInDateController.text =
+                DateTime.now().toString().substring(0, 10);
+            checkOutDateController.clear();
+          } else {
+            checkInDateController.text =
+                DateTime.now().toString().substring(0, 10);
+          }
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        child: Column(children: [
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: SizedBox(
+                  height: 40,
                   child: TextFormField(
                     onChanged: (value) {
                       context
@@ -49,157 +68,240 @@ class AdminBookingPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                24.horizontalSpace,
-                GestureDetector(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (_) {
-                          return FilterViewWidget(
-                              providerContext: context,
-                              checkOutDateController: checkOutDateController,
-                              bookingHotelNameController:
-                                  bookingHotelNameController,
-                              bookingUserNameController:
-                                  bookingUserNameController,
-                              checkInDateController: checkInDateController,
-                              filterResetValue: filterValue);
-                        });
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        StringConstants.filterLabel,
-                        style: AppTextStyles.infoContentStyle,
-                      ),
-                      Text(
-                        filterValue == true ? "*" : "",
-                        style:
-                            const TextStyle(color: MakeMyTripColors.colorRed),
-                      )
-                    ],
-                  ),
+              ),
+              24.horizontalSpace,
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (_) {
+                        return FilterViewWidget(
+                            providerContext: context,
+                            checkOutDateController: checkOutDateController,
+                            bookingHotelNameController:
+                                bookingHotelNameController,
+                            bookingUserNameController:
+                                bookingUserNameController,
+                            checkInDateController: checkInDateController,
+                            filterResetValue: filterValue);
+                      });
+                },
+                child: Row(
+                  children: [
+                    Text(
+                      StringConstants.filterLabel,
+                      style: AppTextStyles.infoContentStyle,
+                    ),
+                    (filterValue == true)
+                        ? const Text(
+                            "*",
+                            style: TextStyle(color: MakeMyTripColors.colorRed),
+                          )
+                        : const Text(""),
+                  ],
                 ),
+              ),
+            ],
+          ),
+          36.verticalSpace,
+          Container(
+            color: MakeMyTripColors.customLightBlue,
+            height: 40,
+            child: Row(
+              children: [
+                8.horizontalSpace,
+                Expanded(
+                    flex: 2,
+                    child: Text(
+                      StringConstants.bookingIdLabel,
+                      style: AppTextStyles.infoContentStyle,
+                    )),
+                const Spacer(),
+                Expanded(
+                    flex: 3,
+                    child: Text(StringConstants.userNameLabel,
+                        style: AppTextStyles.infoContentStyle)),
+                const Spacer(),
+                Expanded(
+                    flex: 4,
+                    child: Text(StringConstants.hotelDataLabel,
+                        style: AppTextStyles.infoContentStyle)),
+                const Spacer(),
+                Expanded(
+                    flex: 3,
+                    child: Text(StringConstants.bookingDataLabel,
+                        style: AppTextStyles.infoContentStyle)),
+                const Spacer(),
+                Expanded(
+                    flex: 4,
+                    child: Text(StringConstants.paymentDataLabel,
+                        style: AppTextStyles.infoContentStyle)),
               ],
             ),
-            36.verticalSpace,
-            Container(
-              color: MakeMyTripColors.color10gray,
-              height: 40,
-              child: Row(
-                children: [
-                  8.horizontalSpace,
-                  Expanded(
-                      flex: 2, child: Text(StringConstants.bookingIdLabel)),
-                  const Spacer(),
-                  Expanded(flex: 4, child: Text(StringConstants.userNameLabel)),
-                  const Spacer(),
-                  Expanded(
-                      flex: 4, child: Text(StringConstants.hotelNameLabel)),
-                  const Spacer(),
-                  Expanded(
-                      flex: 3, child: Text(StringConstants.checkInDateLabel)),
-                  const Spacer(),
-                  Expanded(
-                      flex: 3, child: Text(StringConstants.checkOutDateLabel)),
-                  const Spacer(),
-                  Expanded(flex: 2, child: Text(StringConstants.revenueLabel)),
-                ],
-              ),
-            ),
-            24.verticalSpace,
-            BlocBuilder<AdminBookingModerationCubit, BaseState>(
-                builder: (context, state) {
-              if (state is StateOnSuccess) {
-                bookingModel = state.response;
-              } else if (state is StateNoData) {
-                return Text(StringConstants.noBookingFound);
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-              return Expanded(
-                child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    physics: const ClampingScrollPhysics(),
-                    controller: scrollController,
-                    shrinkWrap: true,
-                    itemCount: state.isMoreLoading!
-                        ? bookingModel.length + 1
-                        : bookingModel.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          if (index != bookingModel.length)
-                            SizedBox(
-                              height: 100,
-                              child: Card(
-                                elevation: 5,
-                                child: Row(
-                                  children: [
-                                    8.horizontalSpace,
-                                    Expanded(
-                                        flex: 2,
-                                        child: Text(
-                                            bookingModel[index].id.toString())),
-                                    const Spacer(),
-                                    Expanded(
-                                        flex: 4,
-                                        child: Text(bookingModel[index]
-                                            .userdata!
-                                            .first
-                                            .userName!)),
-                                    const Spacer(),
-                                    Expanded(
-                                        flex: 4,
-                                        child: Text(bookingModel[index]
-                                            .hoteldata!
-                                            .first
-                                            .hotelName!)),
-                                    const Spacer(),
-                                    Expanded(
-                                        flex: 3,
-                                        child: Text(bookingModel[index]
-                                            .checkinDate!
-                                            .substring(
-                                                0,
-                                                bookingModel[index]
-                                                    .checkinDate!
-                                                    .indexOf('T')))),
-                                    const Spacer(),
-                                    Expanded(
-                                        flex: 3,
-                                        child: Text(bookingModel[index]
-                                            .checkoutDate!
-                                            .substring(
-                                                0,
-                                                bookingModel[index]
-                                                    .checkoutDate!
-                                                    .indexOf('T')))),
-                                    const Spacer(),
-                                    Expanded(
-                                        flex: 2,
-                                        child: Text(
-                                          '${bookingModel[index].price!.totalPrice!.toString()} Rs.',
-                                          style: const TextStyle(
-                                              color:
-                                                  MakeMyTripColors.colorGreen),
-                                        )),
-                                  ],
-                                ),
+          ),
+          24.verticalSpace,
+          BlocBuilder<AdminBookingModerationCubit, BaseState>(
+              builder: (context, state) {
+            if (state is StateOnSuccess) {
+              bookingModel = state.response;
+            } else if (state is StateNoData) {
+              return Text(StringConstants.noBookingFound);
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return Expanded(
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  physics: const ClampingScrollPhysics(),
+                  controller: scrollController,
+                  shrinkWrap: true,
+                  itemCount: state.isMoreLoading!
+                      ? bookingModel.length + 1
+                      : bookingModel.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        if (index != bookingModel.length)
+                          SizedBox(
+                            height: 100,
+                            child: Card(
+                              elevation: 5,
+                              child: Row(
+                                children: [
+                                  8.horizontalSpace,
+                                  Expanded(
+                                      flex: 2,
+                                      child: Text(
+                                          bookingModel[index].id.toString())),
+                                  const Spacer(),
+                                  Expanded(
+                                      flex: 3,
+                                      child: Text(bookingModel[index]
+                                          .userdata!
+                                          .first
+                                          .userName!)),
+                                  const Spacer(),
+                                  Expanded(
+                                      flex: 4,
+                                      child: Text(bookingModel[index]
+                                          .hoteldata!
+                                          .first
+                                          .hotelName!)),
+                                  const Spacer(),
+                                  Expanded(
+                                      flex: 4,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                '${StringConstants.checkInDateLabel}: ',
+                                                style: AppTextStyles
+                                                    .infoContentStyle
+                                                    .copyWith(fontSize: 14),
+                                              ),
+                                              Text(bookingModel[index]
+                                                  .checkinDate!
+                                                  .substring(
+                                                      0,
+                                                      bookingModel[index]
+                                                          .checkinDate!
+                                                          .indexOf('T'))),
+                                            ],
+                                          ),
+                                          8.verticalSpace,
+                                          Row(
+                                            children: [
+                                              Text(
+                                                '${StringConstants.checkOutDateLabel}: ',
+                                                style: AppTextStyles
+                                                    .infoContentStyle
+                                                    .copyWith(fontSize: 14),
+                                              ),
+                                              Text(bookingModel[index]
+                                                  .checkoutDate!
+                                                  .substring(
+                                                      0,
+                                                      bookingModel[index]
+                                                          .checkoutDate!
+                                                          .indexOf('T'))),
+                                            ],
+                                          ),
+                                          8.verticalSpace,
+                                          Row(
+                                            children: [
+                                              Text(
+                                                '${StringConstants.noOfRoomTxt}: ',
+                                                style: AppTextStyles
+                                                    .infoContentStyle
+                                                    .copyWith(fontSize: 14),
+                                              ),
+                                              Text(bookingModel[index]
+                                                  .price!
+                                                  .numberOfNights!
+                                                  .toString()),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                                  const Spacer(),
+                                  Expanded(
+                                      flex: 4,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                '${StringConstants.revenueLabel}: ',
+                                                style: AppTextStyles
+                                                    .infoContentStyle
+                                                    .copyWith(fontSize: 14),
+                                              ),
+                                              Text(
+                                                '${((bookingModel[index].price!.roomPrice! * bookingModel[index].price!.numberOfNights!) + bookingModel[index].price!.gst!).toString()}  INR',
+                                                style: const TextStyle(
+                                                    color: MakeMyTripColors
+                                                        .colorGreen),
+                                              ),
+                                            ],
+                                          ),
+                                          4.verticalSpace,
+                                          Row(
+                                            children: [
+                                              Text(
+                                                '${StringConstants.bookingStatusTxt}: ',
+                                                style: AppTextStyles
+                                                    .infoContentStyle
+                                                    .copyWith(fontSize: 14),
+                                              ),
+                                              Text(bookingModel[index].status!),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                                ],
                               ),
                             ),
-                          if (index == bookingModel.length)
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 16.0),
-                              child: CircularProgressIndicator(),
-                            )
-                        ],
-                      );
-                    }),
-              );
-            })
-          ]),
-        ),
+                          ),
+                        if (index == bookingModel.length)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                            child: CircularProgressIndicator(),
+                          )
+                      ],
+                    );
+                  }),
+            );
+          })
+        ]),
       ),
     );
   }

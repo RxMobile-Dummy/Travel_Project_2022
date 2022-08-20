@@ -40,7 +40,7 @@ class AdminLoginDataSourceImpl implements AdminLoginDataSource {
   @override
   Future<Either<Failures, void>> validateAdmin() async {
     try {
-      final response = await dio.get('${BaseConstant.baseUrl}user/admincheck',
+     await dio.get('${BaseConstant.baseUrl}user/admincheck',
           options: await BaseConstant.createDioOptions());
       return const Right(null);
     } on DioError catch (err) {
@@ -50,6 +50,16 @@ class AdminLoginDataSourceImpl implements AdminLoginDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, void>> logOut() async {
+    try {
+      await auth.signOut();
+      return const Right(null);
+    } on FirebaseException {
       return Left(ServerFailure());
     }
   }
