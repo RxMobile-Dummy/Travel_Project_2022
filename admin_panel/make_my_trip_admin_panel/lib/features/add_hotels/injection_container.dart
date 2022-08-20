@@ -21,9 +21,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetHotelPut(repository: sl()));
   sl.registerLazySingleton(() => UpdateHotel(repository: sl()));
 
-
   sl.registerLazySingleton<HotelRepositories>(() => HotelRepositoriesImpl(repositories: sl()));
-
   sl.registerLazySingleton<HotelDataRourceRepositories>(() => HotelDataSourceRepositoriesImpl(dio: sl()));
 
   sl.registerLazySingleton(() => Dio());

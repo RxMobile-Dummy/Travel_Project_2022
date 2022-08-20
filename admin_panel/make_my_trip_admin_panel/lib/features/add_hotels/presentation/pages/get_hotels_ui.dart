@@ -63,9 +63,13 @@ class GetHotelUi extends StatelessWidget {
                 ],
               );
             } else if(state is StateNoData){
-              return const Center(child: Text("No data "));
+              return
+                const Center(
+                  child: Text("No data")
+                );
             }
             else{
+              print('Get data');
               return const Center(child: CircularProgressIndicator());
             }
           },
