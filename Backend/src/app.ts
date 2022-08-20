@@ -5,7 +5,9 @@ import { verifyToken, checkRequest } from "./authentication/verify_token";
 import * as admin from 'firebase-admin';
 import credential from "./travelproject22-6b9d4-firebase-adminsdk-2wiay-c9c1876710.json";
 import { LoggerMiddleware } from './middlewear/logger';
-import cors from 'cors';
+import { bookingmodel } from './model/booking';
+import cors from "cors";
+
 const app: Express = express();
 var corsOptions = {
 
@@ -21,8 +23,14 @@ app.use(cors(corsOptions));
 const connection = mongoose.connect('mongodb+srv://akash:akash@cluster0.4gzjhma.mongodb.net/mmt');
 dotenv.config();
 const port = process.env.PORT;
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 
+}
 app.use(express.json());
+
+
 app.use(LoggerMiddleware);
 
 
@@ -37,6 +45,7 @@ import { router as bookingroute } from './controller/booking_controller';
 import { router as bookmarkroute } from './controller/bookmark_controller';
 import { router as paymentroute } from './controller/payment_controller';
 import { router as pushnotificationadminroute} from './controller/push_notification_admin_controller';
+import { router as couponroute } from './controller/coupon_controller';
 
 
 
@@ -47,6 +56,31 @@ admin.initializeApp(
     }
 );
 
+app.post('/payment/verifypayment', async (req, res) => {
+    const SECRET = '123456';
+    console.log(req.body);
+    console.log(req.body.payload);
+    // res.send(req.body);
+    console.log(req.body.payload.payment.entity.status);
+    if (req.body.payload.payment.entity.status == "captured") {
+
+        console.log(req.body.payload.payment.entity.status);
+        console.log(req.body.payload.payment.entity.order_id);
+        await bookingmodel.updateOne(
+            {
+                "orderId": req.body.payload.payment.entity.order_id,
+
+            },
+            {
+                $set: {
+                    status: "success",
+                    paymentId: req.body.payload.payment.entity.id
+                }
+            }
+        );
+    }
+
+})
 // TOKEN VERIFICATION CALL
 //app.use(verifyToken, checkRequest);
 
@@ -66,6 +100,7 @@ app.use('/user', UserRouter)
 app.use('/review', reviewroute);
 app.use('/booking', bookingroute);
 app.use('/bookmark', bookmarkroute);
+app.use('/coupon', couponroute);
 app.use('/payment', paymentroute);
 app.use('/broadcast',pushnotificationadminroute);
 
