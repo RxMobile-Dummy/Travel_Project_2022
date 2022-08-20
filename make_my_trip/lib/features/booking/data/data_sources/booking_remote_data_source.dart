@@ -22,11 +22,12 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
       double amount,List<int> roomId,int hotelId,String cIn,String cOut, double roomPrice, int gst, int offer, int total, int couponId) async {
     try {
       final response = await dio.post('${BaseConstant.baseUrl}payment',
-          data: {'amount': amount,"room_id":roomId,"cin":cIn,"cout":cOut,"hotel_id":hotelId,"coupon_id":couponId,"price":{
+          data: {'amount': amount,"room_id":roomId,"cin":cIn,"cout":cOut,"hotel_id":hotelId,"coupon_id":couponId,
+            "price":{
             "room_price":roomPrice,
-            "offer":offer,
+            "discount":offer,
             "gst":gst,
-            "total":total,
+            "total_price":total,
           },
           },
           options: await BaseConstant.createDioOptions());
