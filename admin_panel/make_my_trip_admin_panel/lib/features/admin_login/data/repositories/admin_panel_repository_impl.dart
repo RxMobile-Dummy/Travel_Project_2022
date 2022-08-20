@@ -17,4 +17,9 @@ class AdminLoginRepositoryImpl implements AdminLoginRepository {
   Future<Either<Failures, void>> validateAdmin() async {
     return await adminLoginDataSource.validateAdmin();
   }
+
+  @override
+  Future<Either<Failures, void>> logOut() async {
+    return await adminLoginDataSource.logOut();
+  }
 }

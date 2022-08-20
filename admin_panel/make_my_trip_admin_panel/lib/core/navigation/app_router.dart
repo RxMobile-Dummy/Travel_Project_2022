@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip_admin_panel/core/navigation/route_info.dart';
-import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/admin_booking_moderation_injection_container.dart';
-import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/cubit/admin_booking_moderation_cubit.dart';
-import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/pages/admin_booking_page.dart';
+import 'package:make_my_trip_admin_panel/features/admin_login/presentation/pages/home_page.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/admin_login_injection_container.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/cubit/admin_login_cubit.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/pages/admin_login_page.dart';
+import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 
 class Router {
   Route<dynamic> generateRoutes(RouteSettings settings) {
@@ -18,15 +17,12 @@ class Router {
             child: AdminLoginPage(),
           );
         });
-      case RoutesName.bookingModerationPage:
+      case RoutesName.homePage:
         return MaterialPageRoute(builder: (_) {
-          return BlocProvider<AdminBookingModerationCubit>(
-            create: (context) =>
-                slBookingModeration<AdminBookingModerationCubit>()
-                  ..getAllBookingListEvent(
-                      checkInDateValue:
-                          DateTime.now().toString().substring(0, 10)),
-            child: (AdminBookingPage()),
+          return BlocProvider<AdminLoginCubit>(
+            create: (context) => slAdminLogin<AdminLoginCubit>()
+              ..changeViewEvent(StringConstants.bookingModerationLabel),
+            child: (const HomePage()),
           );
         });
       default:

@@ -12,6 +12,11 @@ class StringConstants {
   static String messageInvalidPassword =
       'Please enter length of minimum 6 character';
   static String appTitle = "MakeMyTrip";
+  static String adminPanelLabel = "Admin Panel";
+
+  //admin_home_page String Constant
+  static String bookingModerationLabel = "Check Bookings";
+  static String logOutLabel = "logOut";
 
   //Admin_login_constant_String
   static String emailHintTxt = "Enter your Email";
@@ -25,6 +30,9 @@ class StringConstants {
   static String firebasePassError = "wrong-password";
   static String firebaseInvalidPassMessage = "Invalid Password";
   static String firebaseInvalidEmailMessage = "Invalid Email";
+  static String waitLoginTxt = "wait for login...";
+
+  //admin_booking_moderation string constants
   static List<String> drawerListTitle = [
     "Hotels Bookings",
     "Add new Hotels",
@@ -47,4 +55,9 @@ class StringConstants {
   static String applyTxt = "Apply";
   static String cancelTxt = "Cancel";
   static String resetTxt = "Reset";
+  static String hotelDataLabel = "Hotel Data";
+  static String bookingDataLabel = "Booking Data";
+  static String bookingStatusTxt = "Status";
+  static String paymentDataLabel = "Payment";
+  static String noOfRoomTxt = "No of Rooms";
 }
