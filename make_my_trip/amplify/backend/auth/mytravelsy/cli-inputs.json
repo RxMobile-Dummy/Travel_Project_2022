@@ -1,0 +1,12 @@
+{
+  "version": "1",
+  "cognitoConfig": {
+    "identityPoolName": "mytravelsy_identitypool_08566d14",
+    "allowUnauthenticatedIdentities": true,
+    "authSelections": "identityPoolOnly",
+    "resourceName": "mytravelsy",
+    "sharedId": "08566d14",
+    "serviceName": "Cognito",
+    "useDefault": "manual"
+  }
+}

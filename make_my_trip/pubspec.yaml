@@ -11,7 +11,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+    
+  #aws pinpoint
+  amplify_flutter: ^0.6.6
+  amplify_analytics_pinpoint: ^0.6.6
+  amplify_auth_cognito :
   #ui
   cupertino_icons: ^1.0.2
   material_design_icons_flutter: ^5.0.6595

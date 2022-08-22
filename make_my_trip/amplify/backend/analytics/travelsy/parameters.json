@@ -1,0 +1,21 @@
+{
+    "appName": "travelsy",
+    "roleName": "pinpointLambdaRole7f83bd1f",
+    "cloudformationPolicyName": "cloudformationPolicy7f83bd1f",
+    "cloudWatchPolicyName": "cloudWatchPolicy7f83bd1f",
+    "pinpointPolicyName": "pinpointPolicy7f83bd1f",
+    "authPolicyName": "pinpoint_amplify_7f83bd1f",
+    "unauthPolicyName": "pinpoint_amplify_7f83bd1f",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

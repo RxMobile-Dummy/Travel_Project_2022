@@ -1,0 +1,26 @@
+{
+  "auth": {
+    "mytravelsy": {
+      "service": "Cognito",
+      "serviceType": "managed",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "signupAttributes": [],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": []
+        },
+        "mfaTypes": [],
+        "verificationMechanisms": []
+      }
+    }
+  },
+  "analytics": {
+    "travelsy": {
+      "service": "Pinpoint",
+      "providerPlugin": "awscloudformation"
+    }
+  }
+}
