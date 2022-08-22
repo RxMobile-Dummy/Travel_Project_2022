@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../base/base_state.dart';
 import 'internet_enum.dart';
 
+/// use this class for internet connectivity within application
+
 class InternetCubit extends Cubit<BaseState> {
   final Connectivity? connectivity;
   ConnectivityResult? connectivityResults;

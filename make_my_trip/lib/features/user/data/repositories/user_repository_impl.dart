@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/user/data/model/user_model.dart';
 import '../../../../core/failures/failures.dart';
 import '../../domain/repositories/user_repository.dart';
@@ -33,7 +34,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<Failures, void>> userSignOut() async{
+  Future<Either<Failures, void>> userSignOut() async {
     return await remoteDataSource.userSignOut();
   }
 
@@ -60,5 +61,10 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Either<Failures, bool>> userVerification() async {
     return await remoteDataSource.userVerification();
+  }
+
+  @override
+  Future<Either<Failures,bool>> sendEmailVerification() async{
+    return await remoteDataSource.sendEmailVerification();
   }
 }

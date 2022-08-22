@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/features/user/domain/usecases/user_verification.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../core/usecases/usecase.dart';
@@ -13,14 +16,10 @@ class TabBarCubit extends Cubit<BaseState> {
   final IsAnonymousUser isAnonymousUser;
 
   checkAnonymous(index) async {
-    print(index);
+    emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {
-      print(failure);
-    }, (success) {
-      print(success);
+    res.fold((failure) {}, (success) {
       if (success) {
-        print(index);
         if (index != 0) {
           emit(Unauthenticated());
         } else {

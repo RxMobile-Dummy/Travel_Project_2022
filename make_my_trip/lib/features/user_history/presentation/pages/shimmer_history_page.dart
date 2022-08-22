@@ -32,39 +32,39 @@ class HistoryPageShimmer extends StatelessWidget {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                                  Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: ListContainer(
-                                        width: size.width * 0.30,
-                                        hight: size.height * 0.16,
-                                      )),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10,top: 20),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                         ListContainer(
-                                            hight: size.height * 0.030,
-                                            width: size.width * 0.35,
-                                          ),
-
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 20),
-                                              child:   ListContainer(
-                                                hight: size.height * 0.028,
-                                                width: size.width * 0.20,
-                                              ),),
-
-
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 20),
-                                          child:   ListContainer(
-                                            hight: size.height * 0.035,
-                                            width: size.width * 0.50,
-                                          ),),
-                                      ],
+                              Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: ListContainer(
+                                    width: size.width * 0.30,
+                                    hight: size.height * 0.16,
+                                  )),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, top: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ListContainer(
+                                      hight: size.height * 0.030,
+                                      width: size.width * 0.35,
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 20),
+                                      child: ListContainer(
+                                        hight: size.height * 0.028,
+                                        width: size.width * 0.20,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 20),
+                                      child: ListContainer(
+                                        hight: size.height * 0.035,
+                                        width: size.width * 0.50,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ],

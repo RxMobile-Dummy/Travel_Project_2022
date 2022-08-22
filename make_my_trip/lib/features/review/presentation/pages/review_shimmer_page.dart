@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/features/wishlist/presentation/widgets/list_container_widget.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:shimmer/shimmer.dart';
+
 class ReviewPageShimmer extends StatelessWidget {
   const ReviewPageShimmer({Key? key}) : super(key: key);
   @override
@@ -22,7 +22,8 @@ class ReviewPageShimmer extends StatelessWidget {
                 direction: ShimmerDirection.ltr,
                 child: ListView.builder(
                   itemBuilder: (_, __) => Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0,left: 30,top: 20),
+                    padding:
+                        const EdgeInsets.only(bottom: 20.0, left: 30, top: 20),
                     child: SafeArea(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,17 +38,27 @@ class ReviewPageShimmer extends StatelessWidget {
                                 decoration: const BoxDecoration(
                                   color: Colors.blue,
                                   shape: BoxShape.circle,
-                                ),),
+                                ),
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 10),
-                                child: ListContainer(width: size.width * 0.4 ,hight: 20,),
+                                child: ListContainer(
+                                  width: size.width * 0.4,
+                                  hight: 20,
+                                ),
                               )
                             ],
                           ),
                           10.verticalSpace,
-                          ListContainer(width: size.width * 0.85,hight: 90,),
+                          ListContainer(
+                            width: size.width * 0.85,
+                            hight: 90,
+                          ),
                           10.verticalSpace,
-                          ListContainer(width: size.width * 0.4 ,hight: 20,),
+                          ListContainer(
+                            width: size.width * 0.4,
+                            hight: 20,
+                          ),
                         ],
                       ),
                     ),

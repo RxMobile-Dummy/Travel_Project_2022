@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:make_my_trip/features/user/data/datasources/user_remote_data_source_impl.dart';
 import 'package:make_my_trip/features/user/domain/usecases/get_user.dart';
 import 'package:make_my_trip/features/user/domain/usecases/is_anonymous_user.dart';
+import 'package:make_my_trip/features/user/domain/usecases/send_email_verification.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_facebook_login.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_forget_password.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_google_login.dart';
@@ -13,6 +14,7 @@ import 'package:make_my_trip/features/user/domain/usecases/user_sign_out.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_sign_up.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_verification.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'data/datasources/user_remote_data_source.dart';
 import 'data/repositories/user_repository_impl.dart';
 import 'domain/repositories/user_repository.dart';
@@ -21,14 +23,13 @@ final userSl = GetIt.instance;
 
 Future<void> init() async {
   userSl.registerFactory(() => UserCubit(
-        signIn: userSl(),
-        forgetPassword: userSl(),
-        googleLogin: userSl(),
-        facebookLogin: userSl(),
-        userVerification: userSl(),
-        userSignUp: userSl(),
-        userSignOut: userSl(),
-      ));
+      signIn: userSl(),
+      forgetPassword: userSl(),
+      googleLogin: userSl(),
+      facebookLogin: userSl(),
+      userSignUp: userSl(),
+      userSignOut: userSl(),
+      userVerification: userSl(), sendMailVerification: userSl()));
 
   //usecase
 
@@ -44,11 +45,12 @@ Future<void> init() async {
   userSl.registerLazySingleton(
       () => UserForgetPassword(userRepository: userSl()));
   userSl.registerLazySingleton(() => UserSignOut(userRepository: userSl()));
+  userSl
+      .registerLazySingleton(() => UserVerification(userRepository: userSl()));
 
   // sign_up use_cases
   userSl.registerLazySingleton(() => UserSignUp(userRepository: userSl()));
-  userSl
-      .registerLazySingleton(() => UserVerification(userRepository: userSl()));
+  userSl.registerLazySingleton(() => SendMailVerification(repository: userSl()));
 
   //repository
   userSl.registerLazySingleton<UserRepository>(
@@ -64,8 +66,7 @@ Future<void> init() async {
           facebookAuth: userSl()));
 
   //external
-  userSl.registerLazySingleton(()=> GoogleSignIn(
-    scopes: ['email']));
+  userSl.registerLazySingleton(() => GoogleSignIn(scopes: ['email']));
   userSl.registerLazySingleton(() => FacebookAuth.instance);
   userSl.registerLazySingleton(() => FirebaseAuth.instance);
 }

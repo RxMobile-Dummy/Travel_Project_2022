@@ -1,11 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:make_my_trip/features/home_page/data/models/ToursModel.dart';
-import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 
 import '../internet/internet_enum.dart';
 
 import '../../features/hotel_listing/data/models/hotel_list_model.dart';
+
+
+/// To Do : use this base state for emitting common states
 
 abstract class BaseState extends Equatable {}
 
@@ -20,6 +22,11 @@ class Authenticated extends BaseState {
 }
 
 class Unauthenticated extends BaseState {
+  @override
+  List<Object?> get props => [];
+}
+
+class NotVerified extends BaseState {
   @override
   List<Object?> get props => [];
 }
@@ -260,13 +267,26 @@ class SettingPageData {
   UserDetailsModel? userValue;
   String? imageValue;
   String? error;
+  bool? profileLoading;
+  bool? imageUpload;
 
-  SettingPageData({this.userValue, this.imageValue, this.error});
+  SettingPageData(
+      {this.userValue,
+      this.imageValue,
+      this.error,
+      this.profileLoading,
+      this.imageUpload});
 
   SettingPageData copyWith(
-          {UserDetailsModel? userValue, String? imageValue, String? error}) =>
+          {UserDetailsModel? userValue,
+          String? imageValue,
+          String? error,
+          bool? profileLoading,
+          bool? imageUpload}) =>
       SettingPageData(
           error: error ?? this.error,
           userValue: userValue ?? this.userValue,
-          imageValue: imageValue ?? this.imageValue);
+          imageValue: imageValue ?? this.imageValue,
+          profileLoading: profileLoading ?? this.profileLoading,
+          imageUpload: imageUpload ?? this.imageUpload);
 }

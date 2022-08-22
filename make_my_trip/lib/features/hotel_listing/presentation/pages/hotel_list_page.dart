@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
-import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_list_shimmer_page.dart';
@@ -31,21 +30,18 @@ class HotelListPage extends StatelessWidget {
           builder: (context, state) {
             if (state is StateOnSuccess) {
               List<HotelListModel> hotelListModel = state.response;
-
               if (hotelListModel.isEmpty) {
-                return Expanded(
-                    child: CommonErrorWidget(
-                        imagePath: ImagePath.noDataFoundImage,
-                        title: StringConstants.noHotelFound,
-                        statusCode: ""));
+                return CommonErrorWidget(
+                    imagePath: ImagePath.noDataFoundImage,
+                    title: StringConstants.noHotelFound,
+                    statusCode: "");
               }
-              return Expanded(
-                  child: ListView.builder(
-                      itemCount: hotelListModel.length,
-                      itemBuilder: (context, index) {
-                        return HotelListViewWidget(
-                            hotelListModel: hotelListModel[index]);
-                      }));
+              return ListView.builder(
+                  itemCount: hotelListModel.length,
+                  itemBuilder: (context, index) {
+                    return HotelListViewWidget(
+                        hotelListModel: hotelListModel[index]);
+                  });
             } else {
               return HotelListShimmer();
             }

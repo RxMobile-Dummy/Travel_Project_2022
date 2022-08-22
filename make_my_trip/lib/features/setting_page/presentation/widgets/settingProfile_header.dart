@@ -4,6 +4,7 @@ import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
+import 'package:make_my_trip/features/setting_page/presentation/widgets/shimmer_user_profile.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import '../../../../utils/constants/string_constants.dart';
@@ -17,6 +18,19 @@ Widget settingProfileHeader(BuildContext context) {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Text(
+                  'Choose',
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Divider(
+                  color: MakeMyTripColors.colorBlack,
+                ),
+              ),
               ListTile(
                 leading: const Icon(Icons.camera_alt),
                 title: const Text(StringConstants.camera),
@@ -64,7 +78,7 @@ Widget settingProfileHeader(BuildContext context) {
                                     MakeMyTripColors.colorLightGray,
                               );
                             } else if (userImage == null) {
-                              return CircleAvatar(
+                              return const CircleAvatar(
                                 backgroundImage:
                                     AssetImage(ImagePath.userProfileImage1),
                                 radius: 50,

@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:make_my_trip/features/user/domain/usecases/user_verification.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/base/base_state.dart';
@@ -11,7 +13,8 @@ class SearchHotelCubit extends Cubit<BaseState> {
   final BehaviorSubject<String?> searchData = BehaviorSubject.seeded(null);
   final IsAnonymousUser isAnonymousUser;
 
-  SearchHotelCubit(this.searchHotelUseCases, this.isAnonymousUser) : super(StateInitial()) {
+  SearchHotelCubit(this.searchHotelUseCases, this.isAnonymousUser)
+      : super(StateInitial()) {
     searchData
         .debounceTime(const Duration(milliseconds: 500))
         .listen((searchData) {
@@ -20,10 +23,9 @@ class SearchHotelCubit extends Cubit<BaseState> {
   }
 
   goToWishlist() async {
+    emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {
-      print(failure);
-    }, (success) {
+    res.fold((failure) {}, (success) {
       if (success) {
         emit(Unauthenticated());
       } else {

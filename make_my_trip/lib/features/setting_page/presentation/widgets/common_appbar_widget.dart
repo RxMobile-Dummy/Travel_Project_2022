@@ -12,7 +12,7 @@ AppBar commonAppBarWidget(
       icon:
           const Icon(Icons.arrow_back_ios, color: MakeMyTripColors.colorBlack),
       onPressed: () {
-        // Navigator.pop(context);
+        //  Navigator.pop(context);
         Navigator.pushNamedAndRemoveUntil(context, routename, (route) => false);
       },
     ),

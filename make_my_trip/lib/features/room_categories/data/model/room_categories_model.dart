@@ -7,10 +7,10 @@ class RoomCategoryModel {
 
   RoomCategoryModel(
       {this.hotelId,
-        this.hotelName,
-        this.deluxe,
-        this.semiDeluxe,
-        this.superDeluxe});
+      this.hotelName,
+      this.deluxe,
+      this.semiDeluxe,
+      this.superDeluxe});
 
   RoomCategoryModel.fromJson(Map<String, dynamic> json) {
     hotelId = json['hotel_id'];
@@ -65,14 +65,14 @@ class RoomType {
 
   RoomType(
       {this.roomId,
-        this.roomType,
-        this.roomSize,
-        this.bedSize,
-        this.maxCapacity,
-        this.price,
-        this.features,
-        this.description,
-        this.image});
+      this.roomType,
+      this.roomSize,
+      this.bedSize,
+      this.maxCapacity,
+      this.price,
+      this.features,
+      this.description,
+      this.image});
 
   RoomType.fromJson(Map<String, dynamic> json) {
     roomId = json['room_id'];
@@ -118,11 +118,11 @@ class Images {
 
   Images(
       {this.iId,
-        this.imageUrl,
-        this.hotelId,
-        this.roomId,
-        this.tourId,
-        this.userId});
+      this.imageUrl,
+      this.hotelId,
+      this.roomId,
+      this.tourId,
+      this.userId});
 
   Images.fromJson(Map<String, dynamic> json) {
     iId = json['_id'];

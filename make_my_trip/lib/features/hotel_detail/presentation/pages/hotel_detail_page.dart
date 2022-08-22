@@ -36,7 +36,7 @@ class HotelDetailPage extends StatelessWidget {
     return BlocConsumer<HotelDetailCubit, BaseState>(
       listener: (context, state) {
         if (state is Unauthenticated) {
-          Navigator.pushReplacementNamed(context, RoutesName.login,
+          Navigator.pushNamed(context, RoutesName.login,
               arguments: {"route_name": RoutesName.hotelDetail});
         }
       },
@@ -93,17 +93,8 @@ class HotelDetailPage extends StatelessWidget {
                     actions: [
                       GestureDetector(
                         onTap: () {
-                          var searchState =
-                              context.read<HotelDetailCubit>().state;
-                          if (searchState is Unauthenticated) {
-                            Navigator.popAndPushNamed(context, RoutesName.login,
-                                arguments: {
-                                  "route_name": RoutesName.hotelDetail
-                                });
-                          } else {
-                            BlocProvider.of<HotelDetailCubit>(context)
-                                .onLikeTap(isLiked, hotelDetailModel!.id);
-                          }
+                          BlocProvider.of<HotelDetailCubit>(context)
+                              .onLikeTap(isLiked, hotelDetailModel!.id);
                         },
                         child: Icon(
                           (isLiked) ? Icons.favorite : Icons.favorite_border,
@@ -128,15 +119,14 @@ class HotelDetailPage extends StatelessWidget {
                           },
                           itemBuilder: (BuildContext context, int index) {
                             return FadeInImage.assetNetwork(
-                                placeholder: 'assets/img/placeholder.png',
-                                image: hotelDetailModel
-                                        ?.images![index].imageUrl ??
-                                    "https://raw.githubusercontent.com/Nik7508/radixlearning/main/makemytrip/makemytrip/assets/images/hotel_img.png",
+                                placeholder: ImagePath.placeHolderImage,
+                                image:
+                                    hotelDetailModel?.images![index].imageUrl ??
+                                        StringConstants.hotelImagePlaceHolder,
                                 fit: BoxFit.cover,
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
-                                  return Image.asset(
-                                      'assets/img/placeholder.png',
+                                  return Image.asset(ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 });
                           },
@@ -340,7 +330,7 @@ class HotelDetailPage extends StatelessWidget {
                             titleName: hotelDetailModel?.hotelName! ?? "Hotel",
                             mapHeight: 200,
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ],
                 )),
               )
@@ -351,7 +341,7 @@ class HotelDetailPage extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: CommonPrimaryButton(
-                    text: StringConstants.selectRoom,
+                    text: StringConstants.selectDate,
                     onTap: () {
                       Navigator.pushNamed(context, RoutesName.calendar,
                           arguments: {'hotel_id': hotelDetailModel!.id});

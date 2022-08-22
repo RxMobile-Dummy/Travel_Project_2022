@@ -49,7 +49,8 @@ class RoomCategoriesPage extends StatelessWidget {
                   children: [
                     Text(
                       StringConstants.roomCategoriesPageHeading,
-                      style: AppTextStyles.infoContentStyle.copyWith(fontSize: 18),
+                      style:
+                          AppTextStyles.infoContentStyle.copyWith(fontSize: 18),
                     ),
                     Text(
                       roomCategoryModel!.hotelName ?? "Hotel Name",
@@ -100,7 +101,8 @@ class RoomCategoriesPage extends StatelessWidget {
                 children: [
                   Text(
                     StringConstants.roomCategoriesPageHeading,
-                    style: AppTextStyles.infoContentStyle.copyWith(fontSize: 18),
+                    style:
+                        AppTextStyles.infoContentStyle.copyWith(fontSize: 18),
                   ),
                   Text(
                     roomCategoryModel!.hotelName ?? "Hotel Name",

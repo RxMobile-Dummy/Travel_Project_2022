@@ -891,13 +891,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.27.4"
-  salomon_bottom_bar:
-    dependency: "direct main"
-    description:
-      name: salomon_bottom_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.3.1"
   scrollable_clean_calendar:
     dependency: "direct main"
     description:

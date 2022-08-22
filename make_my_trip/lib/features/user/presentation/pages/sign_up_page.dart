@@ -4,27 +4,58 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/user/presentation/widgets/text_field.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/features/user/presentation/widgets/social_buttons.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
-
 import '../../../../core/navigation/route_info.dart';
 import '../../../../utils/constants/image_path.dart';
+import '../../../../utils/widgets/progress_loader.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
+  SignUpPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
   final TextEditingController fullName = TextEditingController();
+
   final TextEditingController email = TextEditingController();
+
   final TextEditingController password = TextEditingController();
+
   final TextEditingController conPassword = TextEditingController();
 
   bool pass = true;
+
   bool conPass = true;
+
   String error = "";
-  final Map<String, dynamic> arg;
-  SignUpPage({Key? key, required this.arg}) : super(key: key);
+  bool mailSent = false;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      mailSent = false;
+      ProgressDialog.hideLoadingDialog(context);
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,25 +67,57 @@ class SignUpPage extends StatelessWidget {
             if (state is StateOnSuccess) {
               Navigator.pushNamedAndRemoveUntil(
                   context, RoutesName.home, (route) => true);
+            } else if (state is StateErrorGeneral) {
+              ProgressDialog.hideLoadingDialog(context);
+            } else if (state is StateLoading) {
+              if (mailSent == false) {
+                ProgressDialog.showLoadingDialog(context,
+                    message: StringConstants.loggedIn);
+              } else {
+                ProgressDialog.showLoadingDialog(context,
+                    message: StringConstants.pleaseCheckemailTxt);
+              }
             } else if (state is StateShowSearching) {
+              ProgressDialog.hideLoadingDialog(context);
               showDialog(
                   context: context,
-                  builder: (context) {
-                    var alert = AlertDialog(
-                      title: Text(
-                          "Please check your mail box and click there to verify your account"),
-                      actions: [
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                              Navigator.pushReplacementNamed(
-                                  context, RoutesName.login,
-                                  arguments: {"route_name": arg["route_name"]});
-                            },
-                            child: Text("ok"))
-                      ],
+                  barrierDismissible: false,
+                  builder: (_) {
+                    return AlertDialog(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(32.0))),
+                      elevation: 4,
+                      title: Column(
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1.6,
+                            child: Image.asset(
+                              ImagePath.sendMail,
+                            ),
+                          ),
+                          30.verticalSpace,
+                          Text(
+                            StringConstants.emailverifiedSuccess,
+                            style: const TextStyle(
+                                color: MakeMyTripColors.accentColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                          25.verticalSpace,
+                          SizedBox(
+                            width: double.infinity,
+                            child: CommonPrimaryButton(
+                                text: "Ok",
+                                onTap: () {
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      RoutesName.home, (route) => false);
+                                }),
+                          ),
+                        ],
+                      ),
                     );
-                    return alert;
                   });
             }
           }, builder: (context, state) {
@@ -63,6 +126,7 @@ class SignUpPage extends StatelessWidget {
             } else if (state is StateOnResponseSuccess) {
               conPass = state.response;
             } else if (state is StateErrorGeneral) {
+              mailSent = false;
               error = state.errorMessage;
             }
             return Container(
@@ -98,6 +162,7 @@ class SignUpPage extends StatelessWidget {
                             ? Icons.visibility_off
                             : Icons.visibility),
                         onTap: () {
+                          mailSent = true;
                           BlocProvider.of<UserCubit>(context)
                               .changeObSecureEvent(pass);
                         },
@@ -109,12 +174,13 @@ class SignUpPage extends StatelessWidget {
                   12.verticalSpace,
                   TextFormField(
                     decoration: InputDecoration(
-                      hintText: StringConstants.passwordTxt,
+                      hintText: StringConstants.conPasswordTxt,
                       suffixIcon: GestureDetector(
                         child: Icon((conPass == true)
                             ? Icons.visibility_off
                             : Icons.visibility),
                         onTap: () {
+                          mailSent = true;
                           BlocProvider.of<UserCubit>(context)
                               .conPassEyeChange(conPass);
                         },
@@ -144,6 +210,7 @@ class SignUpPage extends StatelessWidget {
                     child: CommonPrimaryButton(
                         text: StringConstants.signUpTxt,
                         onTap: () {
+                          mailSent = true;
                           BlocProvider.of<UserCubit>(context).signUpWithEmail(
                               signUpEmail: email.text,
                               signUpPassword: password.text,
@@ -191,6 +258,7 @@ class SignUpPage extends StatelessWidget {
                         TextSpan(
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
+                              mailSent = false;
                               Navigator.pop(context);
                             },
                           text: StringConstants.loginTxt,

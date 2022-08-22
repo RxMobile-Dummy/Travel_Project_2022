@@ -35,7 +35,7 @@ dependencies:
 
   #firebase services
   firebase_core: ^1.20.0
-  firebase_auth: ^2.0.0
+  firebase_auth:
   google_sign_in: ^5.0.2
   flutter_facebook_auth: ^4.4.0
   firebase_storage: ^10.3.4
@@ -69,7 +69,7 @@ dependencies:
   #for checking internet connectivity
   connectivity_plus: ^2.3.5
   flutter_rating_bar: ^4.0.1
-  salomon_bottom_bar: ^3.3.1
+#  salomon_bottom_bar: ^3.3.1
   dots_indicator: ^2.1.0
   google_maps_flutter: ^2.1.8
   url_launcher: ^6.1.5

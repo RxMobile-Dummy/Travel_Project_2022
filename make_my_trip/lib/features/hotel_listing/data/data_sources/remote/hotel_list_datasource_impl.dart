@@ -15,13 +15,15 @@ class HotelListDataSourceImpl implements HotelListDataSource {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     return Options(headers: {'token': userToken});
   }
+
   @override
   Future<Either<Failures, List<HotelListModel>>> getHotelListData(
       String hotelName) async {
     try {
       final baseurl = '${BaseConstant.baseUrl}hotel/${hotelName}';
-      print(baseurl);
-      final response = await dio.get(baseurl,options: await createDioOptions());
+
+      final response =
+          await dio.get(baseurl, options: await createDioOptions());
       if (response.statusCode == 200) {
         final List<HotelListModel> hotelList = [];
         final jsonList = response.data;
@@ -38,7 +40,6 @@ class HotelListDataSourceImpl implements HotelListDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
-      print(e);
       return Left(ServerFailure(failureMsg: e.toString()));
     }
   }

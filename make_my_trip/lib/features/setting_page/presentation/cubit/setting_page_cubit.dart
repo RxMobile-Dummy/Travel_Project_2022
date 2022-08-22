@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
@@ -23,13 +24,16 @@ class SettingPageCubit extends Cubit<BaseState> {
   }
 
   getUserData() async {
+    emit(StateOnKnownToSuccess((state as StateOnKnownToSuccess<SettingPageData>)
+        .response
+        .copyWith(profileLoading: true)));
     final res = await getUserDataUseCase.call(NoParams());
     res.fold(
-        (l) => emit(StateNoData()),
+        (l) => getUserData(),
         (r) => emit(StateOnKnownToSuccess(
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
-                .copyWith(userValue: r))));
+                .copyWith(userValue: r, profileLoading: false))));
   }
 
   updateUserData(Map<String, String> postData) async {
@@ -37,51 +41,59 @@ class SettingPageCubit extends Cubit<BaseState> {
         UserInfoValidation.nameValidation(postData.entries.first.value);
     var phoneErrorMsg =
         UserInfoValidation.phoneNumberValidation(postData.entries.last.value);
-    if (nameErrorMsg != null) {
+    if (postData.entries.first.value.length > 30) {
+      Fluttertoast.showToast(msg: "Please enter a name less than 30");
+    } else if (nameErrorMsg != null) {
       Fluttertoast.showToast(msg: nameErrorMsg.toString());
     } else if (phoneErrorMsg != null) {
       Fluttertoast.showToast(msg: phoneErrorMsg.toString());
     } else {
       final res = await updateUserDataUseCase.call(postData);
-      res.fold((l) => emit(StateErrorGeneral(l.toString())),
-          (r) => Fluttertoast.showToast(msg: StringConstants.profileUpdate));
+      res.fold((l) => emit(StateErrorGeneral(l.toString())), (r) {
+        Fluttertoast.showToast(msg: StringConstants.profileUpdate);
+      });
     }
   }
 
   getFromGallery() async {
+    emit(StateOnKnownToSuccess((state as StateOnKnownToSuccess<SettingPageData>)
+        .response
+        .copyWith(profileLoading: true)));
     final res = await updateImageUseCase.call(NoParams());
     var userValue = await getUserData();
     res.fold(
         (l) => emit(StateErrorGeneral(StringConstants.errorGallery)),
         (r) => emit(StateOnKnownToSuccess(
-            (state as StateOnKnownToSuccess<SettingPageData>)
-                .response
-                .copyWith(imageValue: r, userValue: userValue))));
+            (state as StateOnKnownToSuccess<SettingPageData>).response.copyWith(
+                imageValue: r, userValue: userValue, profileLoading: false))));
   }
 
   getFromCamera() async {
+    emit(StateOnKnownToSuccess((state as StateOnKnownToSuccess<SettingPageData>)
+        .response
+        .copyWith(profileLoading: true)));
     final res = await updateImageUseCase.callImageFromCamera(NoParams());
     var userValue = await getUserData();
     res.fold(
         (l) => emit(StateErrorGeneral(StringConstants.errorCamera)),
         (r) => emit(StateOnKnownToSuccess(
-            (state as StateOnKnownToSuccess<SettingPageData>)
-                .response
-                .copyWith(imageValue: r, userValue: userValue))));
+            (state as StateOnKnownToSuccess<SettingPageData>).response.copyWith(
+                imageValue: r, userValue: userValue, profileLoading: false))));
   }
 
   callNumber() async {
-    const number = '9999999999'; //set the number here
+    const number = StringConstants.helpLineNumber; //set the number here
     bool? res = await FlutterPhoneDirectCaller.callNumber(number);
     return res;
   }
 
   sendingMails() async {
-    var url = Uri.parse("mailto:rxtrainee22@gmail.com");
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+    final Email email = Email(
+      subject: StringConstants.emailSubject,
+      body: StringConstants.emailBody,
+      recipients: ['rxtrainee22@gmail.com'],
+      isHTML: false,
+    );
+    await FlutterEmailSender.send(email);
   }
 }

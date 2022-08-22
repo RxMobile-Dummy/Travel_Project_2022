@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
@@ -12,47 +14,70 @@ import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
+import '../../../../utils/widgets/progress_loader.dart';
+
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<UserCubit, BaseState>(
-      listener: (context, state) {
-        if(state is StateOnSuccess)
-          {
-            Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
+        listener: (context, state) {
+          if (state is StateLoading) {
+            ProgressDialog.showLoadingDialog(context, message: "Log out...");
+          } else if (state is StateOnSuccess) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, RoutesName.home, (route) => false);
           }
-      },
-      child: SafeArea(
-        bottom: true,
-        child: Scaffold(
-          backgroundColor: MakeMyTripColors.colorWhite,
-          appBar: commonAppBarWidget(
-              text: StringConstants.setting,
-              context: context,
-              routename: RoutesName.home),
-          body: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                userProfileWidget(context),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 12.0),
-                  child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: settingList.length,
-                      itemBuilder: (context, index) =>
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, settingList[index].routeName);
-                              },
-                              child: SizedBox(
+        },
+        child: WillPopScope(
+          onWillPop: () {
+            return navigateToHomePage(context);
+          },
+          child: Scaffold(
+            backgroundColor: MakeMyTripColors.colorWhite,
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: MakeMyTripColors.colorWhite,
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, RoutesName.home, (route) => false);
+                  },
+                  icon: (Platform.isAndroid)
+                      ? const Icon(
+                          Icons.arrow_back_outlined,
+                        )
+                      : const Icon(Icons.arrow_back_ios_new_rounded,
+                          color: MakeMyTripColors.colorBlack)),
+              title: const Text(StringConstants.setting,
+                  style: TextStyle(
+                      color: MakeMyTripColors.colorBlack,
+                      fontWeight: FontWeight.bold)),
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  userProfileWidget(context),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 12.0),
+                    child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: settingList.length,
+                        itemBuilder: (context, index) => Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: GestureDetector(
+                                behavior: HitTestBehavior
+                                    .opaque, //whole child gets Gesture property even if there is spacer or free space
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, settingList[index].routeName,
+                                      arguments: settingList[index].argument);
+                                },
                                 child: Row(
                                   children: [
                                     Icon(settingList[index].icon),
@@ -68,36 +93,41 @@ class SettingsPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                            ),
-                          )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      context.read<UserCubit>().userSignOutEvent();
-                    },
-                    child: Row(
-                      children: [
-                        const Icon(Icons.logout),
-                        10.horizontalSpace,
-                        Text(StringConstants.logout,
-                            style: AppTextStyles.infoLabelStyle
-                                .copyWith(fontSize: 16)),
-                        const Spacer(),
-                        const Icon(
-                          Icons.arrow_forward_ios,
-                          color: MakeMyTripColors.color30gray,
-                        )
-                      ],
+                            )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: GestureDetector(
+                      behavior: HitTestBehavior
+                          .opaque, //whole child gets Gesture property even if there is spacer or free space
+                      onTap: () {
+                        context.read<UserCubit>().userSignOutEvent();
+                      },
+                      child: Row(
+                        children: [
+                          const Icon(Icons.logout),
+                          10.horizontalSpace,
+                          Text(StringConstants.logout,
+                              style: AppTextStyles.infoLabelStyle
+                                  .copyWith(fontSize: 16)),
+                          const Spacer(),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            color: MakeMyTripColors.color30gray,
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
+}
+
+navigateToHomePage(BuildContext context) {
+  return Navigator.pushNamedAndRemoveUntil(
+      context, RoutesName.home, (route) => false);
 }

@@ -15,6 +15,8 @@ class RoutesName {
   static const wishList = '/wishList';
   static const profile = '/profile';
   static const help = '/help';
+  static const privacyAndSecurity = '/privacyAndSecurity';
+  static const aboutUs = '/aboutUs';
   static const search = '/search';
 
   static const hotelList = "/hotelList";
@@ -36,4 +38,7 @@ class RoutesName {
   static const bookingPage = "/bookingPage";
 
   static const settingPage = "/settingPage";
+
+  static const errorPage = "/errorPage";
+  static const settingDetailsPage = '/settingDetailsPage';
 }

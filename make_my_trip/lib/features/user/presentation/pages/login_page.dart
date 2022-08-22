@@ -11,41 +11,203 @@ import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
-
 import '../../../../utils/widgets/progress_loader.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({Key? key, required this.arg}) : super(key: key);
-
-  final TextEditingController loginEmailController = TextEditingController();
-  final TextEditingController loginPasswordController = TextEditingController();
-  bool passwordObSecure = true;
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key, required this.arg}) : super(key: key);
   final Map<String, dynamic> arg;
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
+  final loginEmailController = TextEditingController();
+
+  final loginPasswordController = TextEditingController();
+
+  bool passwordObSecure = true;
+  bool mailSent = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      ProgressDialog.hideLoadingDialog(context);
+      mailSent = false;
+      BlocProvider.of<UserCubit>(context).userVerificationmethod();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Size screen = MediaQuery.of(context).size;
     return BlocListener<UserCubit, BaseState>(
       listener: (context, state) {
         if (state is StateLoading) {
-          ProgressDialog.showLoadingDialog(context, message: "Loggin In...");
+          if (mailSent == true) {
+            ProgressDialog.showLoadingDialog(context,
+                message: StringConstants.pleaseCheckemailTxt);
+          } else {
+            ProgressDialog.showLoadingDialog(context,
+                message: StringConstants.loggedIn);
+          }
         } else if (state is StateOnSuccess) {
           ProgressDialog.hideLoadingDialog(context);
-          if (arg["route_name"] == RoutesName.roomCategory ||
-              arg["route_name"] == RoutesName.roomDetail ||
-              arg["route_name"] == RoutesName.hotelDetail) {
+          if (widget.arg["route_name"] == RoutesName.roomCategory ||
+              widget.arg["route_name"] == RoutesName.roomDetail ||
+              widget.arg["route_name"] == RoutesName.hotelDetail ||
+              widget.arg["route_name"] == RoutesName.reviewPage) {
             Navigator.pop(context);
-          } else if (arg["route_name"] == RoutesName.reviewPage) {
-            Navigator.pushReplacementNamed(context, arg["route_name"],
-                arguments: {
-                  'hotel_id': arg['hotel_id'],
-                  'rating': arg['rating']
-                });
           } else {
-            Navigator.pushReplacementNamed(context, arg["route_name"]);
+            Navigator.pushReplacementNamed(context, widget.arg["route_name"]);
           }
         } else {
           ProgressDialog.hideLoadingDialog(context);
+        }
+        if (state is StateErrorGeneral) {
+          if (state.errorMessage == "Email is not verified") {
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) {
+                  return AlertDialog(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(32.0))),
+                    elevation: 4,
+                    title: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1.6,
+                          child: Image.asset(
+                            ImagePath.sendMail,
+                          ),
+                        ),
+                        30.verticalSpace,
+                        Text(
+                          StringConstants.checkMailBox,
+                          style: const TextStyle(
+                              color: MakeMyTripColors.accentColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                        25.verticalSpace,
+                        SizedBox(
+                          width: double.infinity,
+                          child: CommonPrimaryButton(
+                              text: "Ok",
+                              onTap: () async {
+                                Navigator.pop(context);
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (_) {
+                                      return AlertDialog(
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(32.0))),
+                                        elevation: 4,
+                                        title: Column(
+                                          children: [
+                                            AspectRatio(
+                                              aspectRatio: 1.6,
+                                              child: Image.asset(
+                                                ImagePath.sendMail,
+                                              ),
+                                            ),
+                                            30.verticalSpace,
+                                            const Text(
+                                              "Have'nt received mail yet?",
+                                              style: TextStyle(
+                                                  color: MakeMyTripColors
+                                                      .accentColor,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            25.verticalSpace,
+                                            SizedBox(
+                                              width: double.infinity,
+                                              child: CommonPrimaryButton(
+                                                  text: "Yes",
+                                                  onTap: () async {
+                                                    mailSent = true;
+                                                    await BlocProvider.of<
+                                                            UserCubit>(context)
+                                                        .sendEmailVerification();
+                                                    Navigator.of(context).pop();
+                                                  }),
+                                            ),
+                                            SizedBox(
+                                              width: double.infinity,
+                                              child: CommonPrimaryButton(
+                                                  text: "No",
+                                                  onTap: () async {
+                                                    Navigator.of(context).pop();
+                                                  }),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              }),
+                        ),
+                      ],
+                    ),
+                  );
+                });
+          }
+        } else if (state is StateShowSearching) {
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) {
+                return AlertDialog(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(32.0))),
+                  elevation: 4,
+                  title: Column(
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1.6,
+                        child: Image.asset(
+                          ImagePath.sendMail,
+                        ),
+                      ),
+                      30.verticalSpace,
+                      Text(
+                        StringConstants.emailverifiedSuccess,
+                        style: const TextStyle(
+                            color: MakeMyTripColors.accentColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      25.verticalSpace,
+                      SizedBox(
+                        width: double.infinity,
+                        child: CommonPrimaryButton(
+                            text: "Ok",
+                            onTap: () {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, RoutesName.home, (route) => false);
+                            }),
+                      ),
+                    ],
+                  ),
+                );
+              });
         }
       },
       child: Scaffold(
@@ -63,10 +225,22 @@ class LoginPage extends StatelessWidget {
                       ImagePath.appLogo,
                     ),
                   ),
-                  TextFormField(
-                    controller: loginEmailController,
-                    decoration:
-                        InputDecoration(hintText: StringConstants.emailTxt),
+                  BlocBuilder<UserCubit, BaseState>(
+                    builder: (context, state) {
+                      return TextFormField(
+                        controller: loginEmailController
+                          ..text = state is StateReorderSuccess
+                              ? state.response
+                              : loginEmailController.text
+                          ..selection = TextSelection.collapsed(
+                              offset: loginEmailController.text.length),
+                        decoration:
+                            InputDecoration(hintText: StringConstants.emailTxt),
+                        onChanged: (val) {
+                          context.read<UserCubit>().emailChanged(val);
+                        },
+                      );
+                    },
                   ),
                   16.verticalSpace,
                   BlocBuilder<UserCubit, BaseState>(
@@ -97,7 +271,8 @@ class LoginPage extends StatelessWidget {
                     alignment: AlignmentDirectional.centerEnd,
                     child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/resetPassword');
+                          Navigator.of(context).pushNamed('/resetPassword',
+                              arguments: {'context': context});
                         },
                         child: Text(
                           StringConstants.forgotPass,
@@ -172,9 +347,7 @@ class LoginPage extends StatelessWidget {
                         TextSpan(
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.pushReplacementNamed(
-                                  context, RoutesName.signup,
-                                  arguments: {"route_name": arg["route_name"]});
+                              Navigator.pushNamed(context, RoutesName.signup);
                             },
                           text: StringConstants.signUpTxt,
                           style: AppTextStyles.infoContentStyle2

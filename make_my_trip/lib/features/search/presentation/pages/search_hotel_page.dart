@@ -24,7 +24,8 @@ class SearchHotelPage extends StatelessWidget {
               arguments: {"route_name": RoutesName.wishList});
         } else if (state is Authenticated) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.wishList, (route) => true);
+              context, RoutesName.wishList, (route) => true,
+              arguments: {"route_name": RoutesName.search});
         }
       },
       child: Scaffold(
@@ -36,23 +37,13 @@ class SearchHotelPage extends StatelessWidget {
           actions: [
             GestureDetector(
               onTap: () {
-                var searchState = context.read<SearchHotelCubit>().state;
-                if (searchState is Unauthenticated) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, RoutesName.login, (route) => true,
-                      arguments: {"route_name": RoutesName.wishList});
-                } else if (searchState is Authenticated) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, RoutesName.wishList, (route) => true);
-                } else {
-                  BlocProvider.of<SearchHotelCubit>(context).goToWishlist();
-                }
+                BlocProvider.of<SearchHotelCubit>(context).goToWishlist();
               },
               child: const Padding(
                 padding: EdgeInsets.only(right: 20),
                 child: Icon(
                   Icons.favorite_border,
-                  color: Colors.black,
+                  color: MakeMyTripColors.colorBlack,
                 ),
               ),
             ),
@@ -95,8 +86,8 @@ class SearchHotelPage extends StatelessWidget {
                                             searchModel?[index].description
                                       });
                                 },
-                                child:
-                                    Text(searchModel?[index].description ?? ""));
+                                child: Text(searchModel?[index].description ??
+                                    StringConstants.emptyString));
                           },
                           separatorBuilder: (context, index) {
                             return const Divider(

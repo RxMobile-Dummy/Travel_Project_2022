@@ -12,8 +12,8 @@ class RoomBookPostUsecase implements Usecase<String, RoomBookParams> {
 
   @override
   Future<Either<Failures, String>> call(RoomBookParams params) async {
-    return await roomCategoriesRepository.roomBookPost(params.hotelId , params.roomDataPostModel
-    );
+    return await roomCategoriesRepository.roomBookPost(
+        params.hotelId, params.roomDataPostModel);
   }
 }
 

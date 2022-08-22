@@ -17,13 +17,18 @@ class SplashPage extends StatelessWidget {
     return BlocListener<SplashCubit, BaseState>(
       bloc: splashSl<SplashCubit>()..splashLoad(),
       listener: (context, state) {
-        print(state);
         if (state is Unauthenticated) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.onBoard, (route) => false);
         } else if (state is Authenticated) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.home, (route) => false);
+          if (FirebaseAuth.instance.currentUser!.emailVerified) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, RoutesName.home, (route) => false);
+          } else {
+            BlocProvider.of<UserCubit>(context).userSignOutEvent();
+            Navigator.pushNamedAndRemoveUntil(
+                context, RoutesName.home, (route) => false);
+          }
         }
       },
       child: const Scaffold(

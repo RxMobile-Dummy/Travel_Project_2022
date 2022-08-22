@@ -2,8 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
+import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/user/data/datasources/user_remote_data_source.dart';
 import 'package:make_my_trip/features/user/data/model/user_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
@@ -16,21 +18,18 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final Dio dio;
   final SharedPreferences sharedPreferences;
   final FacebookAuth facebookAuth;
-
   UserRemoteDataSourceImpl(
       {required this.auth,
       required this.dio,
       required this.sharedPreferences,
       required this.googleSignIn,
       required this.facebookAuth});
-
   // user anonymous data_source methods impl
   @override
   Future<Either<Failures, bool>> isAnonumousUser() async {
     try {
       User? user = auth.currentUser;
-      print(user!.email);
-      return Right(user.isAnonymous);
+      return Right(user!.isAnonymous);
     } catch (err) {
       return Left(ServerFailure());
     }
@@ -51,7 +50,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         return Right(UserModel.fromJson(const {}));
       }
     } catch (err) {
-      return Left(ServerFailure(failureMsg: "Something went wrong"));
+      return Left(ServerFailure(failureMsg: StringConstants.someThingWent));
     }
   }
 
@@ -67,7 +66,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: userEmail, password: userPassword);
       User? user = userCredential.user;
-
       if (user != null) {
         if (user.emailVerified) {
           return Right(UserModel.fromJson({
@@ -78,11 +76,10 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
             "userId": user.uid
           }));
         } else {
-          auth.signOut();
-          return Left(AuthFailure(failureMsg: "Email not varified"));
+          return Left(AuthFailure(failureMsg: "Email is not verified"));
         }
       } else {
-        return Left(ServerFailure());
+        return Left(AuthFailure(failureMsg: "Email is not verified"));
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -99,19 +96,15 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<Either<Failures, UserModel>> userGoogleLogIn() async {
     try {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-
       if (googleUser != null) {
         final GoogleSignInAuthentication? googleAuth =
             await googleUser.authentication;
-
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken,
           idToken: googleAuth?.idToken,
         );
-
         UserCredential userCredential =
             await auth.signInWithCredential(credential);
-
         User? user = userCredential.user;
         if (user != null) {
           final response = await dio.post('${BaseConstant.baseUrl}user/post',
@@ -146,19 +139,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<Either<Failures, UserModel>> userFacebookLogIn() async {
     try {
       final LoginResult loginResult = await facebookAuth.login();
-
       if (loginResult.status == LoginStatus.success) {
         final OAuthCredential facebookAuthCredential =
             FacebookAuthProvider.credential(loginResult.accessToken!.token);
-
         var userData = await facebookAuth.getUserData();
         UserCredential userCredential =
             await auth.signInWithCredential(facebookAuthCredential);
-
         User? user = userCredential.user;
-
         user!.updatePhotoURL(userData["picture"]["data"]["url"]);
-
         // ignore: unnecessary_null_comparison
         if (user != null) {
           final response = await dio.post('${BaseConstant.baseUrl}user/post',
@@ -203,12 +191,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           await auth.fetchSignInMethodsForEmail(user!.email!);
       if (response[0] == "google.com") {
         await googleSignIn.signOut();
-        auth.signInAnonymously();
       } else if (response[0] == "facebook.com") {
         await facebookAuth.logOut();
-      } else {
-        await auth.signOut();
       }
+      await auth.signOut();
+      await auth.signInAnonymously();
       return const Right(null);
     } on FirebaseException catch (e) {
       return Left(ServerFailure());
@@ -224,16 +211,15 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-
       User? user = userCredential.user;
       await auth.currentUser!.updateDisplayName(fullName);
-      user!.sendEmailVerification();
+      await user!.sendEmailVerification();
       if (user != null) {
         final response = await dio.post('${BaseConstant.baseUrl}user/post',
             options: await createDioOptions());
         if (response.statusCode == 409) {
           return Left(
-              AuthFailure(failureMsg: "Enter Email is Already Registered"));
+              AuthFailure(failureMsg: "Entered Email is Already Registered"));
         } else {
           if (response.statusCode == 200) {
             return const Right(true);
@@ -247,7 +233,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     } on FirebaseAuthException catch (err) {
       if (err.code == 'email-already-in-use') {
         return Left(
-            AuthFailure(failureMsg: "Enter Email is Already Registered"));
+            AuthFailure(failureMsg: "Entered Email is Already Registered"));
       } else {
         return Left(ServerFailure(failureMsg: "Something went Wrong"));
       }
@@ -259,20 +245,27 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     try {
       final User? currentUser = auth.currentUser;
 
-      bool result = false;
-
-      while (result != true) {
-        Future.delayed(const Duration(seconds: 5));
-        await currentUser!.reload();
-        final User? verifiedUser = FirebaseAuth.instance.currentUser;
-        if (verifiedUser!.emailVerified) {
-          result = true;
-          break;
-        }
+      await currentUser!.reload();
+      final User? verifiedUser = FirebaseAuth.instance.currentUser;
+      if (verifiedUser!.emailVerified) {
+        return Right(verifiedUser.emailVerified);
+      } else {
+        return Left(ServerFailure(failureMsg: "Error in verification"));
       }
-      return Right(result);
     } catch (err) {
       return Left(ServerFailure(failureMsg: "Error in verification"));
+    }
+  }
+
+  @override
+  Future<Either<Failures, bool>> sendEmailVerification() async {
+    try {
+      print("true");
+      await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+      return const Right(true);
+    }
+    catch(e){
+      return Left(AuthFailure(failureMsg: "You have crossed maximum numbers of attemps of receiving emails!"));
     }
   }
 }
