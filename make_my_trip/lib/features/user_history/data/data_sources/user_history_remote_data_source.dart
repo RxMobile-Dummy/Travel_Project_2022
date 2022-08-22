@@ -18,7 +18,6 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     return Options(headers: {'token': userToken});
   }
-
   @override
   Future<Either<Failures, List<UserHistoryModel>>> getUserHistoryData() async {
     try {

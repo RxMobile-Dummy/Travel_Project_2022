@@ -25,7 +25,6 @@ class BookingHistoryDetailBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('cancellationPolicy');
-    print(users);
     return BlocBuilder<UserHistoryCubit, BaseState>(
       builder: (context, state) {
         if (state is StateOnSuccess) {
@@ -140,9 +139,9 @@ class BookingHistoryDetailBody extends StatelessWidget {
                                 Expanded(
                                     flex: 5,
                                     child: Text(
-                                      userHistoryModel.price.toString(),
+                                      "₹ ${userHistoryModel.price.toString()}",
                                       style: AppTextStyles.labelStyle
-                                          .copyWith(fontSize: 18),
+                                          .copyWith(fontSize: 18,color: MakeMyTripColors.accentColor),
                                     )),
                               ],
                             ),
@@ -319,12 +318,18 @@ class BookingHistoryDetailBody extends StatelessWidget {
                                     FutureBuilder(
                                       future: users.doc("sTtV4Q0ORYzCUVBQqpdP").get(),
                                       builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                                        return Center(
-                                          child: SingleChildScrollView(
-                                            child: Html(
-                                              data: snapshot.data?.get("content")),
-                                          ),
-                                        );
+                                        if(snapshot.hasData) {
+                                          return Center(
+                                            child: SingleChildScrollView(
+                                              child: Html(
+                                                  data: snapshot.data?.get(
+                                                      "content")),
+                                            ),
+                                          );
+                                        }
+                                        else{
+                                          return 1.verticalSpace;
+                                        }
                                       }
                                     )
                                   ],

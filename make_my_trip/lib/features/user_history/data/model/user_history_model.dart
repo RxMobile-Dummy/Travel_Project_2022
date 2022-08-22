@@ -1,38 +1,36 @@
-/// booking_id : 27
+/// hotel_id : 27
+/// hotel_name : "Fabhotels - Hotel Le Golden"
+/// address : {"address_line":"Golden Tower, Clock Tower Extension, Opp, Amritsar, Punjab, India 143001","city_id":146,"pincode":143001,"location":{"latitude":31.6213916,"longitude":74.8764836}}
+/// images : [{"_id":537,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F36.jpg?alt=media&token=07bc77ed-89b6-4320-826d-4c534d8cc521","hotel_id":27,"room_id":null,"tour_id":null,"user_id":null},{"_id":538,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F37.jpg?alt=media&token=ef8c2053-c747-4523-b80c-5e9a0c8af76f","hotel_id":27,"room_id":null,"tour_id":null,"user_id":null},{"_id":540,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F38.jpg?alt=media&token=86a75082-328e-4ce6-a119-624aa83160c0","hotel_id":27,"room_id":null,"tour_id":null,"user_id":null},{"_id":536,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F35.jpeg?alt=media&token=7b3df15c-5ab0-4b99-b9d7-4ecd01379a94","hotel_id":27,"room_id":null,"tour_id":null,"user_id":null},{"_id":539,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F38.jpg?alt=media&token=86a75082-328e-4ce6-a119-624aa83160c0","hotel_id":27,"room_id":null,"tour_id":null,"user_id":null}]
+/// price : 34400
+/// no_of_room : 1
+/// number_of_nights : 5
+/// room_price : 6000
+/// discount : 5400
+/// gst : 1000
+/// booking_id : 16
 /// status : "success"
-/// hotel_id : 1
-/// hotel_name : "Hotel Khyber Palace"
-/// address : {"address_line":"Sanand Cir, Sarkhej, Ahmedabad, Gujarat, India 382210","pincode":382210,"city_id":69,"location":{"latitude":23.0609355,"longitude":72.4483075}}
-/// images : [{"_id":16,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F1.jpg?alt=media&token=3148b5f2-af26-4094-8c7c-59dd4c5c9a5f","hotel_id":1,"room_id":null,"tour_id":null,"user_id":null},{"_id":17,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F10.jpg?alt=media&token=957ff0b4-4e9d-49c7-a073-5acee6718bf9","hotel_id":1,"room_id":null,"tour_id":null,"user_id":null},{"_id":20,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F11.png?alt=media&token=3f2d0a99-891e-4151-bd51-6235685d5b6f","hotel_id":1,"room_id":null,"tour_id":null,"user_id":null},{"_id":18,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F100.jpg?alt=media&token=95abd6b8-d27e-4f3f-93bb-984175b41beb","hotel_id":1,"room_id":null,"tour_id":null,"user_id":null},{"_id":19,"image_url":"https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F11.jpg?alt=media&token=800ca785-fab3-4b52-8f48-f050aece4d48","hotel_id":1,"room_id":null,"tour_id":null,"user_id":null}]
-/// price : 18496.5
-/// no_of_room : 3
-/// number_of_nights : 1
-/// room_price : 16500
-/// discount : 973.5
-/// gst : 2970
-/// booked_date : "2022-07-30T17:56:38.023Z"
-/// checking_date : "2022-08-30T00:00:00.000Z"
-/// checkout_date : "2022-08-31T00:00:00.000Z"
+/// booked_date : "2022-08-20T12:28:30.236Z"
+/// checking_date : "2022-09-18T00:00:00.000Z"
+/// checkout_date : "2022-09-23T00:00:00.000Z"
 
 class UserHistoryModel {
   UserHistoryModel({
-      int? bookingId, 
-      String? status, 
       int? hotelId, 
       String? hotelName, 
       Address? address, 
       List<Images>? images, 
-      double? price, 
+      int? price, 
       int? noOfRoom, 
       int? numberOfNights, 
       int? roomPrice, 
-      double? discount, 
+      int? discount, 
       int? gst, 
+      int? bookingId, 
+      String? status, 
       String? bookedDate, 
       String? checkingDate, 
       String? checkoutDate,}){
-    _bookingId = bookingId;
-    _status = status;
     _hotelId = hotelId;
     _hotelName = hotelName;
     _address = address;
@@ -43,14 +41,14 @@ class UserHistoryModel {
     _roomPrice = roomPrice;
     _discount = discount;
     _gst = gst;
+    _bookingId = bookingId;
+    _status = status;
     _bookedDate = bookedDate;
     _checkingDate = checkingDate;
     _checkoutDate = checkoutDate;
 }
 
   UserHistoryModel.fromJson(dynamic json) {
-    _bookingId = json['booking_id'];
-    _status = json['status'];
     _hotelId = json['hotel_id'];
     _hotelName = json['hotel_name'];
     _address = json['address'] != null ? Address.fromJson(json['address']) : null;
@@ -66,43 +64,43 @@ class UserHistoryModel {
     _roomPrice = json['room_price'];
     _discount = json['discount'];
     _gst = json['gst'];
+    _bookingId = json['booking_id'];
+    _status = json['status'];
     _bookedDate = json['booked_date'];
     _checkingDate = json['checking_date'];
     _checkoutDate = json['checkout_date'];
   }
-  int? _bookingId;
-  String? _status;
   int? _hotelId;
   String? _hotelName;
   Address? _address;
   List<Images>? _images;
-  double? _price;
+  int? _price;
   int? _noOfRoom;
   int? _numberOfNights;
   int? _roomPrice;
-  double? _discount;
+  int? _discount;
   int? _gst;
+  int? _bookingId;
+  String? _status;
   String? _bookedDate;
   String? _checkingDate;
   String? _checkoutDate;
-UserHistoryModel copyWith({  int? bookingId,
-  String? status,
-  int? hotelId,
+UserHistoryModel copyWith({  int? hotelId,
   String? hotelName,
   Address? address,
   List<Images>? images,
-  double? price,
+  int? price,
   int? noOfRoom,
   int? numberOfNights,
   int? roomPrice,
-  double? discount,
+  int? discount,
   int? gst,
+  int? bookingId,
+  String? status,
   String? bookedDate,
   String? checkingDate,
   String? checkoutDate,
-}) => UserHistoryModel(  bookingId: bookingId ?? _bookingId,
-  status: status ?? _status,
-  hotelId: hotelId ?? _hotelId,
+}) => UserHistoryModel(  hotelId: hotelId ?? _hotelId,
   hotelName: hotelName ?? _hotelName,
   address: address ?? _address,
   images: images ?? _images,
@@ -112,30 +110,30 @@ UserHistoryModel copyWith({  int? bookingId,
   roomPrice: roomPrice ?? _roomPrice,
   discount: discount ?? _discount,
   gst: gst ?? _gst,
+  bookingId: bookingId ?? _bookingId,
+  status: status ?? _status,
   bookedDate: bookedDate ?? _bookedDate,
   checkingDate: checkingDate ?? _checkingDate,
   checkoutDate: checkoutDate ?? _checkoutDate,
 );
-  int? get bookingId => _bookingId;
-  String? get status => _status;
   int? get hotelId => _hotelId;
   String? get hotelName => _hotelName;
   Address? get address => _address;
   List<Images>? get images => _images;
-  double? get price => _price;
+  int? get price => _price;
   int? get noOfRoom => _noOfRoom;
   int? get numberOfNights => _numberOfNights;
   int? get roomPrice => _roomPrice;
-  double? get discount => _discount;
+  int? get discount => _discount;
   int? get gst => _gst;
+  int? get bookingId => _bookingId;
+  String? get status => _status;
   String? get bookedDate => _bookedDate;
   String? get checkingDate => _checkingDate;
   String? get checkoutDate => _checkoutDate;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['booking_id'] = _bookingId;
-    map['status'] = _status;
     map['hotel_id'] = _hotelId;
     map['hotel_name'] = _hotelName;
     if (_address != null) {
@@ -150,6 +148,8 @@ UserHistoryModel copyWith({  int? bookingId,
     map['room_price'] = _roomPrice;
     map['discount'] = _discount;
     map['gst'] = _gst;
+    map['booking_id'] = _bookingId;
+    map['status'] = _status;
     map['booked_date'] = _bookedDate;
     map['checking_date'] = _checkingDate;
     map['checkout_date'] = _checkoutDate;
@@ -158,9 +158,9 @@ UserHistoryModel copyWith({  int? bookingId,
 
 }
 
-/// _id : 16
-/// image_url : "https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F1.jpg?alt=media&token=3148b5f2-af26-4094-8c7c-59dd4c5c9a5f"
-/// hotel_id : 1
+/// _id : 537
+/// image_url : "https://firebasestorage.googleapis.com/v0/b/travelproject22-6b9d4.appspot.com/o/hotel_image%2F36.jpg?alt=media&token=07bc77ed-89b6-4320-826d-4c534d8cc521"
+/// hotel_id : 27
 /// room_id : null
 /// tour_id : null
 /// user_id : null
@@ -228,52 +228,52 @@ Images copyWith({  int? id,
 
 }
 
-/// address_line : "Sanand Cir, Sarkhej, Ahmedabad, Gujarat, India 382210"
-/// pincode : 382210
-/// city_id : 69
-/// location : {"latitude":23.0609355,"longitude":72.4483075}
+/// address_line : "Golden Tower, Clock Tower Extension, Opp, Amritsar, Punjab, India 143001"
+/// city_id : 146
+/// pincode : 143001
+/// location : {"latitude":31.6213916,"longitude":74.8764836}
 
 class Address {
   Address({
       String? addressLine, 
-      int? pincode, 
       int? cityId, 
+      int? pincode, 
       Location? location,}){
     _addressLine = addressLine;
-    _pincode = pincode;
     _cityId = cityId;
+    _pincode = pincode;
     _location = location;
 }
 
   Address.fromJson(dynamic json) {
     _addressLine = json['address_line'];
-    _pincode = json['pincode'];
     _cityId = json['city_id'];
+    _pincode = json['pincode'];
     _location = json['location'] != null ? Location.fromJson(json['location']) : null;
   }
   String? _addressLine;
-  int? _pincode;
   int? _cityId;
+  int? _pincode;
   Location? _location;
 Address copyWith({  String? addressLine,
-  int? pincode,
   int? cityId,
+  int? pincode,
   Location? location,
 }) => Address(  addressLine: addressLine ?? _addressLine,
-  pincode: pincode ?? _pincode,
   cityId: cityId ?? _cityId,
+  pincode: pincode ?? _pincode,
   location: location ?? _location,
 );
   String? get addressLine => _addressLine;
-  int? get pincode => _pincode;
   int? get cityId => _cityId;
+  int? get pincode => _pincode;
   Location? get location => _location;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['address_line'] = _addressLine;
-    map['pincode'] = _pincode;
     map['city_id'] = _cityId;
+    map['pincode'] = _pincode;
     if (_location != null) {
       map['location'] = _location?.toJson();
     }
@@ -282,8 +282,8 @@ Address copyWith({  String? addressLine,
 
 }
 
-/// latitude : 23.0609355
-/// longitude : 72.4483075
+/// latitude : 31.6213916
+/// longitude : 74.8764836
 
 class Location {
   Location({
