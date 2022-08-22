@@ -154,11 +154,11 @@ class Locations {
       this.longitude,});
 
   Locations.fromJson(dynamic json) {
-    latitude = json['latitude'];
+    latitude = (json['latitude']);
     longitude = json['longitude'];
   }
-  num? latitude;
-  num? longitude;
+  double? latitude;
+  double? longitude;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

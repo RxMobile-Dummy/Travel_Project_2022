@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
 import 'package:make_my_trip_admin_panel/core/usecases/usecase.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelModels.dart';
@@ -66,7 +67,6 @@ class HotelCubit extends Cubit<BaseState> {
       int superdeluxemaxcapacity,
       int superdeluxeprice,
       String superdeluxesize) async {
-    print("cubit called");
     var res = await postHotel.call(Hotel(
         address: Address(
             address_line: address_line,
@@ -108,6 +108,7 @@ class HotelCubit extends Cubit<BaseState> {
       },
       (success) {
         print("success");
+
         emit(StateOnSuccess(success));
       },
     );
@@ -149,7 +150,6 @@ class HotelCubit extends Cubit<BaseState> {
       String superdeluxesize,
       latitude,
       logitude) async {
-    print("cubit called");
     print(id);
     var res = await updateHotel.call(HotelPutModel(
         id: id,
@@ -193,8 +193,7 @@ class HotelCubit extends Cubit<BaseState> {
       },
       (success) {
         print("success");
-
-        emit(StateShowSearching());
+        getHotels();
       },
     );
   }
@@ -239,14 +238,11 @@ class HotelCubit extends Cubit<BaseState> {
 
   deleteHotels(String id) async {
     var res = await deleteHotel.call(id);
-    print('cubit');
     res.fold(
       (failure) {
-        print("failure");
         emit(StateErrorGeneral("Failure"));
       },
       (success) {
-        print("success");
         getHotels();
         // emit(StateOnSuccess(success));
       },
@@ -271,4 +267,18 @@ class HotelCubit extends Cubit<BaseState> {
       emit(StateOnSuccess(filterList));
     }
   }
+
+  // getFromGallery() async {
+  //   XFile? pickedFile = await ImagePicker().pickImage(
+  //     source: ImageSource.gallery,
+  //     maxWidth: 1800,
+  //     maxHeight: 1800,
+  //   );
+  //   if (pickedFile != null) {
+  //     emit(StateOnSuccess<String>(response : pickedFile.path));
+  //   } else {
+  //     emit(StateErrorGeneral("Error GetFromGallery"));
+  //   }
+  // }
+
 }

@@ -8,10 +8,12 @@ import 'package:make_my_trip_admin_panel/features/add_hotels/presentation/cubit/
 import 'package:make_my_trip_admin_panel/features/add_hotels/presentation/pages/add_hotels.dart';
 import 'package:make_my_trip_admin_panel/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip_admin_panel/utils/widgets/common_primary_button.dart';
+typedef callhotel =Function (String id);
 class HotelListViewWidget extends StatelessWidget {
-  HotelListViewWidget({Key? key, required this.hotel})
+  HotelListViewWidget({Key? key, required this.hotel, required this.callback})
       : super(key: key);
   HotelModels hotel;
+  callhotel callback;
 
   @override
   Widget build(BuildContext context) {
@@ -99,16 +101,19 @@ class HotelListViewWidget extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: CommonPrimaryButton(
                           text: "Update",
-                          onTap: () async {
-                            print('cubit press');
-                            context.read<HotelCubit>().getPutHotel(hotel.id.toString());
-                           await Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => AddHotels()),
-                             );
-                           print("back to get");
-                           BlocProvider.of<HotelCubit>(context).getHotels();
-                           },
+                          onTap: () {
+                            callback(hotel.id.toString());
+                          },
+                          // async {
+                          //   print('cubit press');
+                          //   context.read<HotelCubit>().getPutHotel(hotel.id.toString());
+                          //  await Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(builder: (context) => AddHotels()),
+                          //    );
+                          //  print("back to get");
+                          // // BlocProvider.of<HotelCubit>(context).getHotels();
+                          //  },
                           backColor: Colors.blue,
                           disable: false,
                         ),

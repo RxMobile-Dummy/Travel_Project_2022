@@ -22,7 +22,7 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider<HotelCubit>(
             create: (context) =>
-            sl<HotelCubit>()..getHotels(),
+            sl<HotelCubit>(),
             child: (GetHotelUi()),
           );
         });
