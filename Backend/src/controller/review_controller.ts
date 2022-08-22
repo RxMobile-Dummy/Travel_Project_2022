@@ -15,6 +15,18 @@ class ReviewController {
         await reviewDomain.getHotelReview(req, res);
     }
 
+    static async getReviewPending(req: Request, res: Response) {
+        const reviewDomain: ReviewDomain = new ReviewDomain();
+        await reviewDomain.getReviewPending(req, res);
+    }
+    static async getReviewApprove(req: Request, res: Response) {
+        const reviewDomain: ReviewDomain = new ReviewDomain();
+        await reviewDomain.getReviewApprove(req, res);
+    }
+    static async getReviewImageApprove(req: Request, res: Response) {
+        const reviewDomain: ReviewDomain = new ReviewDomain();
+        await reviewDomain.getReviewImageApprove(req, res);
+    }
 }
 
 // POST
@@ -22,6 +34,10 @@ router.post("/hotel/:id", ReviewController.postReview);
 
 // GET
 router.get("/hotel/:id", ReviewController.getHotelReview);
+
+router.get("/reviewpending/", ReviewController.getReviewPending);
+router.get("/reviewapprove/", ReviewController.getReviewApprove);
+router.get("/reviewimageapprove/", ReviewController.getReviewImageApprove);
 
 //EXPORT
 export { router };

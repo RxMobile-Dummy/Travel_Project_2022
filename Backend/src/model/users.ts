@@ -8,7 +8,6 @@ const UserSchema = new mongoose.Schema({
     user_phone_number: { type: String, minlength: 10, maxlength: 14 },
     user_image: { type: String },
     user_type : {type: String}
-
 });
 
 const Usermodel = mongoose.model('users', UserSchema)

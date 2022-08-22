@@ -38,7 +38,7 @@ class PaymentDomain {
                 user_phone_number: userData[0].user_phone_number,
             }
             const bookIngDomain = new BookingDomain();
-            var resBooking = await bookIngDomain.bookingFreeze(req, res, req.body.cin, req.body.cout, req.body.room_id, req.body.hotel_id);
+            var resBooking = await bookIngDomain.bookingFreeze(req, res, req.body.cin, req.body.cout, req.body.room_id, req.body.hotel_id,response.id,req.body.price);
             if (resBooking != 0) {
                 res.send(StatusCode.Sucess).send('Order created!!');
                 setTimeout(bookIngDomain.bookingFreezFail, 180000, resBooking);

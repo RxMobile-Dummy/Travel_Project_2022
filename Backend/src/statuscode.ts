@@ -7,4 +7,6 @@ export class StatusCode
     static Not_Acceptable=406;
     static Error =400;
     static DuplicationError = 409;
+    static Bad_Request = 400;
+    static Gone = 410;
 };

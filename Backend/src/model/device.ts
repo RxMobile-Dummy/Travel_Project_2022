@@ -8,5 +8,6 @@ const deviceSchema = new mongoose.Schema({
     devicetype: {type: String , required : true}
 });
 
-const devicemodel = mongoose.model('devices',deviceSchema);
-export {devicemodel}
+const devicemodel = mongoose.model('devices', deviceSchema);
+
+export { devicemodel }

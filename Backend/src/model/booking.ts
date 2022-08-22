@@ -9,14 +9,17 @@ const BookingSchema = new mongoose.Schema({
     room_id : {type : Array },
     checkin_date : {type : Date},
     checkout_date : {type : Date},
+    status : {type : String , enum : ['success' ,'pending' , 'cancel']},
     price: {
         number_of_nights:{type : Number},
         room_price : {type : Number},
         discount : {type : Number},
         gst : {type : Number},
         total_price : {type : Number},
-    }
-    
+    },
+    coupon_id:{type:Number,ref:'coupons'},
+    paymentId:{type:String},
+    orderId:{type:String}
 })
 
 const bookingmodel = mongoose.model('bookings',BookingSchema);
