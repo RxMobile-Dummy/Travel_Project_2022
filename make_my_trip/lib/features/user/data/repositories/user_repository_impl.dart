@@ -77,4 +77,9 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<Failures, bool>> refreshFcmToken() async {
     return await remoteDataSource.refreshFcmToken();
   }
+
+  @override
+  Future<Either<Failures, void>> deleteUser() async {
+    return await remoteDataSource.deleteUserData();
+  }
 }

@@ -4,19 +4,23 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/setting_page/data/data_sources/user_details_remote_data_source.dart';
+import 'package:make_my_trip/features/setting_page/data/models/content_model.dart';
+import 'package:make_my_trip/features/setting_page/data/models/faq_model.dart';
 import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 
 class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
-  UserDetailsRemoteDataSourceImpl(this.dio);
+  UserDetailsRemoteDataSourceImpl(this.dio, this.firebaseFirestore);
 
   final Dio dio;
+  final FirebaseFirestore firebaseFirestore;
 
   @override
   Future<Either<Failures, UserDetailsModel>> getUserData() async {
@@ -130,6 +134,7 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
 
         var mapData = {StringConstants.imageJson: await ref.getDownloadURL()};
 
+
         await FirebaseFirestore.instance
             .collection(StringConstants.firebaseCollectionName)
             .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -155,5 +160,74 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
 
   uploadimageCamera(File filename, XFile pickedFile, Reference ref) async {
     await ref.putFile(filename);
+  }
+
+  @override
+  Future<Either<Failures, List<FaqModel>>> getFaqData() async {
+    try {
+      List<FaqModel> subscription = [];
+      await firebaseFirestore.collection('faq').get().then((snapshot) {
+        debugPrint("snapshot $snapshot");
+        snapshot.docs.map((doc) {
+          debugPrint("doc ${doc.data()}");
+          subscription.add(FaqModel.fromJson(doc.data()));
+        }).toList();
+      });
+      return Right(subscription);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<ContentModel>>> getAboutUsData() async {
+    try {
+      List<ContentModel> contentModel = [];
+      await firebaseFirestore.collection('aboutUs').get().then((snapshot) {
+        snapshot.docs.map((doc) {
+          contentModel.add(ContentModel.fromJson(doc.data()));
+        }).toList();
+      });
+      return Right(contentModel);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<ContentModel>>> getPrivacyPolicyData() async {
+    try {
+      List<ContentModel> contentModel = [];
+      await firebaseFirestore
+          .collection('privacyPolicy')
+          .get()
+          .then((snapshot) {
+        snapshot.docs.map((doc) {
+          contentModel.add(ContentModel.fromJson(doc.data()));
+        }).toList();
+      });
+      return Right(contentModel);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<ContentModel>>>
+      getTermsAndConditionData() async {
+    try {
+      List<ContentModel> contentModel = [];
+      await firebaseFirestore
+          .collection('termsAndCondition')
+          .get()
+          .then((snapshot) {
+        snapshot.docs.map((doc) {
+          contentModel.add(ContentModel.fromJson(doc.data()));
+        }).toList();
+      });
+      return Right(contentModel);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
   }
 }

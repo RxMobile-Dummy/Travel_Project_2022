@@ -7,7 +7,6 @@ import '../../../../core/usecases/usecase.dart';
 import '../../data/model/payment_model.dart';
 
 class PaymentUseCase implements Usecase<PaymentModel, PaymentParams> {
-
   final BookingRepository bookingRepository;
   PaymentUseCase(this.bookingRepository);
 

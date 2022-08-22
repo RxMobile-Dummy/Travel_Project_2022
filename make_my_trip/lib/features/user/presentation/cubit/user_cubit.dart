@@ -16,11 +16,15 @@ import 'package:make_my_trip/features/user/domain/usecases/user_verification.dar
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/validators/user_info/user_information_validations.dart';
 
+import '../../domain/usecases/user_delete_usecase.dart';
+
 class UserCubit extends Cubit<BaseState> {
   UserCubit(
       {required this.googleLogin,
       required this.deleteDeviceId,
       required this.sendDeviceId,
+      {required this.deleteUserUseCase,
+      required this.googleLogin,
       required this.signIn,
       required this.facebookLogin,
       required this.forgetPassword,
@@ -60,6 +64,7 @@ class UserCubit extends Cubit<BaseState> {
       userSignOutEvent();
     });
   }
+  final DeleteUserUseCase deleteUserUseCase;
 
   // login and sign_up password obSecure change event
   void changeObSecureEvent(bool obSecure) {
@@ -200,14 +205,23 @@ class UserCubit extends Cubit<BaseState> {
   }
 
   // user sign_out event
-  userSignOutEvent() async {
-    emit(StateLoading());
+  userSignOutEvent([bool? t]) async {
+    if (t == true) {
+      emit(StateLoading());
+    }
     final res = await userSignOut.call(NoParams());
     res.fold((failure) {
       emit(StateErrorGeneral("Logout Error"));
     }, (success) {
       emit(StateOnSuccess("success"));
     });
+  }
+
+  disableUser() async {
+    emit(StateNoData());
+    final res = await deleteUserUseCase.call(NoParams());
+    res.fold((l) => emit(StateErrorGeneral(l.toString())),
+        (r) => emit(StateSearchResult('success')));
   }
 
   emailChanged(email) {

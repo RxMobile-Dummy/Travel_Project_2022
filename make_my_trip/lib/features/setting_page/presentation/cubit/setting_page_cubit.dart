@@ -3,13 +3,17 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
+import 'package:make_my_trip/features/setting_page/domain/use_cases/about_us_usecase.dart';
 import 'package:make_my_trip/features/setting_page/domain/use_cases/get_user_data_usecase.dart';
+import 'package:make_my_trip/features/setting_page/domain/use_cases/privacy_policy_usecase.dart';
+import 'package:make_my_trip/features/setting_page/domain/use_cases/terms_and_condition_usecase.dart';
 import 'package:make_my_trip/features/setting_page/domain/use_cases/update_image_usecase.dart';
 import 'package:make_my_trip/features/setting_page/domain/use_cases/update_user_data_usecase.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utils/validators/user_info/user_information_validations.dart';
+import '../../domain/use_cases/faq_usecase.dart';
 
 class SettingPageCubit extends Cubit<BaseState> {
   GetUserDataUseCase getUserDataUseCase;
@@ -68,20 +72,5 @@ class SettingPageCubit extends Cubit<BaseState> {
             (state as StateOnKnownToSuccess<SettingPageData>)
                 .response
                 .copyWith(imageValue: r, userValue: userValue))));
-  }
-
-  callNumber() async {
-    const number = '9999999999'; //set the number here
-    bool? res = await FlutterPhoneDirectCaller.callNumber(number);
-    return res;
-  }
-
-  sendingMails() async {
-    var url = Uri.parse("mailto:rxtrainee22@gmail.com");
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }

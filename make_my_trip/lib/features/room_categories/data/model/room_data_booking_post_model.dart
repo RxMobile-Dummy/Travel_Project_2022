@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 /// hotel_id : 1
 /// no_of_room : 1
 /// room_id : [1,1,1]

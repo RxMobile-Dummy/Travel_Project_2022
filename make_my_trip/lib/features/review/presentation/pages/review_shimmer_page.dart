@@ -5,6 +5,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
 
+
 class ReviewPageShimmer extends StatelessWidget {
   const ReviewPageShimmer({Key? key}) : super(key: key);
   @override

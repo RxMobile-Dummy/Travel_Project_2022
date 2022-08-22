@@ -39,5 +39,13 @@ class RoutesName {
 
   static const settingPage = "/settingPage";
 
+  static const privacyPolicy = "/privacyPolicy";
+
+  static const faq = "/faq";
+
+  static const aboutUs = "/aboutUs";
+
+  static const termsAndCondition = "/terms";
+
   static const errorPage = "/errorPage";
 }

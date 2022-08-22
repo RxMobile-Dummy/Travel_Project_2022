@@ -30,4 +30,6 @@ abstract class UserRepository {
   Future<Either<Failures, bool>> sendDeviceId();
   Future<Either<Failures, bool>> deleteDeviceId();
   Future<Either<Failures, bool>> refreshFcmToken();
+
+  Future<Either<Failures, void>> deleteUser();
 }

@@ -28,6 +28,7 @@ class BookingPage extends StatelessWidget {
       listener: (context, state) {
         if (state is StateShowSearching) {
           ProgressDialog.hideLoadingDialog(context);
+
           showDialog(
               context: context,
               barrierDismissible: false,

@@ -195,13 +195,17 @@ class StringConstants {
 
   static const privacyAndSecurity = "Privacy and Security";
 
-  static const help = "Help";
+  static const help = "Contact Us";
+
+  static String terms = "Terms & Condition";
+  static String faq = "FAQ";
+  static String privacyPolicy = "Privacy Policy";
 
   static const aboutUs = "About Us";
 
   static const logout = "Logout";
 
-  //static const logout = "Logout";
+  static const delete = "Delete";
   static const fullName = "Full Name";
   static const phone = "Phone";
   static const update = "Update";
