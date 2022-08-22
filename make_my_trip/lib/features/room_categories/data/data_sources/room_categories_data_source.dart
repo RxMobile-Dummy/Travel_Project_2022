@@ -6,11 +6,14 @@ import 'package:make_my_trip/features/room_categories/data/model/room_categories
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
 
-abstract class RoomCategoriesDataSource {
-  Future<Either<Failures, RoomCategoryModel>> getRoomDetailData(int hotelId,String cIn,String cOut);
+import '../../../booking/data/model/booking_model.dart';
 
-  Future<Either<Failures, String>> bookingPostData(int hotelId,
-      RoomDataPostModel roomDataPostModel);
+abstract class RoomCategoriesDataSource {
+  Future<Either<Failures, RoomCategoryModel>> getRoomDetailData(
+      int hotelId, String cIn, String cOut, int noOfRooms);
+
+  Future<Either<Failures, String>> bookingPostData(
+      String orderId, String paymentId, BookingModel bookingModel);
 }
 
 class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
@@ -26,17 +29,19 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
 
   @override
   Future<Either<Failures, RoomCategoryModel>> getRoomDetailData(
-      int hotelId,String cIn,String cOut) async {
+      int hotelId, String cIn, String cOut, int noOfRooms) async {
     try {
-      final response = await dio.get(
-          '${baseurl}booking/check', queryParameters: {
-        "hotel_id": hotelId,
-        "cin": cIn,
-        "cout": cOut
-      },options: await createDioOptions());
+      final response = await dio.get('${baseurl}booking/check',
+          queryParameters: {
+            "hotel_id": hotelId,
+            "cin": cIn,
+            "cout": cOut,
+            "no_of_room": noOfRooms
+          },
+          options: await createDioOptions());
       if (response.statusCode == 200) {
         final RoomCategoryModel roomCategoryModel =
-        RoomCategoryModel.fromJson(response.data);
+            RoomCategoryModel.fromJson(response.data);
         return Right(roomCategoryModel);
       } else if (response.statusCode == 500) {
         return Left(ServerFailure());
@@ -52,22 +57,20 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
   }
 
   @override
-  Future<Either<Failures, String>> bookingPostData(int hotelId,
-      RoomDataPostModel roomDataPostModel) async {
+  Future<Either<Failures, String>> bookingPostData(
+      String orderId, String paymentId, BookingModel bookingModel) async {
     try {
-      final response = await dio.post(
-          '${baseurl}booking/hotelbooking', data: roomDataPostModel.toJson(),options: await createDioOptions());
-      print('this code ${response.statusCode}');
+      final response = await dio.post('${baseurl}booking/hotelbooking',
+          data: bookingModel.toJson(), options: await createDioOptions());
+
       if (response.statusCode == 200) {
         return Right(response.data);
-      }else if(response.statusCode == 406){
+      } else if (response.statusCode == 406) {
         return Right(response.data);
-      }
-      else {
+      } else {
         return Left(ServerFailure());
       }
-    }
-    catch (e) {
+    } catch (e) {
       return Left(ServerFailure());
     }
   }

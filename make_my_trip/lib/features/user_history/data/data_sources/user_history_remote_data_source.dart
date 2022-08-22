@@ -16,7 +16,6 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
 
   Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    print(userToken);
     return Options(headers: {'token': userToken});
   }
 
@@ -37,7 +36,6 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
-      print(err);
       return Left(ServerFailure());
     }
   }

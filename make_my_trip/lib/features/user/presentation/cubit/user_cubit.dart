@@ -11,6 +11,7 @@ import 'package:make_my_trip/features/user/domain/usecases/user_sign_up.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_verification.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/validators/user_info/user_information_validations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserCubit extends Cubit<BaseState> {
   UserCubit(
@@ -21,7 +22,9 @@ class UserCubit extends Cubit<BaseState> {
       required this.userSignUp,
       required this.userVerification,
       required this.userSignOut})
-      : super(StateInitial());
+      : super(StateInitial()){
+    callLog();
+  }
   final UserGoogleLogin googleLogin;
   final UserSignIn signIn;
   final UserFacebookLogin facebookLogin;
@@ -52,6 +55,7 @@ class UserCubit extends Cubit<BaseState> {
 
   // login with email & password event
   signInWithEmail(String loginEmail, String loginPassword) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
     emit(StateLoading());
     final emailValidation =
         UserInfoValidation.emailAddressValidation(loginEmail);
@@ -72,6 +76,10 @@ class UserCubit extends Cubit<BaseState> {
           }
         }, (success) {
           emit(StateOnSuccess("success"));
+             _prefs.setString("email", loginEmail);
+             //
+             // var login = _prefs.getString("email");
+             // print(login);
         });
       }
     }
@@ -141,18 +149,13 @@ class UserCubit extends Cubit<BaseState> {
             emit(StateErrorGeneral(
                 StringConstants.messageInvalidConfirmPassword));
           } else {
+            emit(StateLoading());
             final response = await userSignUp.call(
                 signUpFullName, signUpEmail, signUpPassword);
             response.fold((failure) {
               emit(StateErrorGeneral(_getFailure(failure)));
             }, (success) async {
               showWaitingDialog();
-              // final response = await userVerification.call();
-              // response.fold((failure) {
-              //   emit(StateErrorGeneral(_getFailure(failure)));
-              // }, (success) {
-              //   emit(StateOnSuccess("success"));
-              // });
             });
           }
         }
@@ -175,11 +178,27 @@ class UserCubit extends Cubit<BaseState> {
 
   // user sign_out event
   userSignOutEvent() async {
+    emit(StateLoading());
     final res = await userSignOut.call(NoParams());
     res.fold((failure) {
       emit(StateErrorGeneral("Logout Error"));
     }, (success) {
       emit(StateOnSuccess("Logout success"));
     });
+  }
+
+  emailChanged(email) {
+    var res = UserInfoValidation.emailAddressValidation(email);
+    if (res == null) {
+      emit(StateReorderSuccess<String>(email, updatedIndex: 1));
+    } else {
+      emit(StateReorderSuccess<String>(email, updatedIndex: 0));
+    }
+  }
+
+  void callLog() async{
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    String email = _prefs.getString("email") ?? "";
+    emit(StateReorderSuccess(email));
   }
 }
