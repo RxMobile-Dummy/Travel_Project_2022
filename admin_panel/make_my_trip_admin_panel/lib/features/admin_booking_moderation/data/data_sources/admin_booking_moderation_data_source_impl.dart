@@ -19,15 +19,15 @@ class AdminBookingModerationDataSourceImpl
       var params = {
         "pagesize": 10,
         "page": filterParams.page,
-        "date1": filterParams.checkInDate ?? "",
-        "date2": filterParams.checkOutDate ?? "",
-        "hotelname": filterParams.hotelname ?? "",
-        "username": filterParams.username ?? ""
+        "date1": filterParams.checkInDate,
+        "date2": filterParams.checkOutDate,
+        "hotelname": filterParams.hotelname,
+        "username": filterParams.username
       };
       const baseurl = BaseConstant.baseUrl;
       final response = await dio.get('${baseurl}booking/getallbooking',
-          options: await BaseConstant.createDioOptions(), queryParameters: params);
-      print(response.data);
+          options: await BaseConstant.createDioOptions(),
+          queryParameters: params);
       if (response.statusCode == 200) {
         final List<BookingModerationModel> bookingList = [];
         for (var item in response.data) {

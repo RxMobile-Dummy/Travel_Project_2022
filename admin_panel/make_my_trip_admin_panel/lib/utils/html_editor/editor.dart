@@ -31,9 +31,9 @@ class _HtmlEditorExampleState extends State<EditorPage> {
     Future.delayed(Duration(seconds: 1)).then((value) {
       try {
         if (widget.contentModel.isNotEmpty) {
-        result = widget.contentModel[0].subtitle == null
-            ? widget.contentModel[0].title ?? ""
-            : widget.contentModel[0].subtitle ?? "";
+          result = widget.contentModel[0].subtitle == null
+              ? widget.contentModel[0].title ?? ""
+              : widget.contentModel[0].subtitle ?? "";
           widget.controller.insertHtml(result);
         }
       } catch (e) {

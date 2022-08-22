@@ -20,12 +20,14 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
       String? checkInDateValue,
       String? checkOutDateValue,
       bool? filter}) async {
-    if (filter == true &&
-        userName != null &&
-        hotelName != null &&
-        checkInDateValue != DateTime.now().toString().substring(0, 10) &&
-        checkOutDateValue != null) {
-      resetFilterEvent(filter!);
+    if (filter == true) {
+      if (userName == "" &&
+          hotelName == "" &&
+          checkInDateValue == DateTime.now().toString().substring(0, 10) &&
+          checkOutDateValue == "") {
+      } else {
+        resetFilterEvent(filter!);
+      }
     }
     filterList = [];
     if (state is! StateOnSuccess) {

@@ -92,12 +92,11 @@ class AdminBookingPage extends StatelessWidget {
                       StringConstants.filterLabel,
                       style: AppTextStyles.infoContentStyle,
                     ),
-                    (filterValue == true)
-                        ? const Text(
-                            "*",
-                            style: TextStyle(color: MakeMyTripColors.colorRed),
-                          )
-                        : const Text(""),
+                    Text(
+                      filterValue ? "*" : "",
+                      style: const TextStyle(
+                          color: MakeMyTripColors.colorRed, fontSize: 10),
+                    )
                   ],
                 ),
               ),

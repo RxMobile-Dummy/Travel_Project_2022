@@ -163,6 +163,9 @@ class HomePage extends StatelessWidget {
                           create: (context) =>
                               slBookingModeration<AdminBookingModerationCubit>()
                                 ..getAllBookingListEvent(
+                                    userName: "",
+                                    hotelName: "",
+                                    checkOutDateValue: "",
                                     checkInDateValue: DateTime.now()
                                         .toString()
                                         .substring(0, 10)),
@@ -179,21 +182,24 @@ class HomePage extends StatelessWidget {
                           : (state is StateOnResponseSuccess &&
                                   state.response == StringConstants.faq)
                               ? BlocProvider<FaqCubit>(
-                                  create: (context) => slFaqPage<FaqCubit>()..getFaqData(),
+                                  create: (context) =>
+                                      slFaqPage<FaqCubit>()..getFaqData(),
                                   child: (FaqPage()),
                                 )
                               : (state is StateOnResponseSuccess &&
                                       state.response == StringConstants.aboutUs)
                                   ? BlocProvider<AboutUsCubit>(
                                       create: (context) =>
-                                          slAboutUsPage<AboutUsCubit>()..getAboutUsData(),
+                                          slAboutUsPage<AboutUsCubit>()
+                                            ..getAboutUsData(),
                                       child: (AboutUsPage()),
                                     )
                                   : (state is StateOnResponseSuccess &&
                                           state.response == StringConstants.tc)
                                       ? BlocProvider<TermsConditionCubit>(
                                           create: (context) =>
-                                              slTcPage<TermsConditionCubit>()..getTermsConditionData(),
+                                              slTcPage<TermsConditionCubit>()
+                                                ..getTermsConditionData(),
                                           child: (TcPage()),
                                         )
                                       : (state is StateOnResponseSuccess &&
@@ -202,7 +208,8 @@ class HomePage extends StatelessWidget {
                                           ? BlocProvider<PrivacyPolicyCubit>(
                                               create: (context) =>
                                                   slPrivacyPage<
-                                                      PrivacyPolicyCubit>()..getPrivacyPolicyData(),
+                                                      PrivacyPolicyCubit>()
+                                                    ..getPrivacyPolicyData(),
                                               child: (PrivacyPolicyPage()),
                                             )
                                           : const SizedBox(),
