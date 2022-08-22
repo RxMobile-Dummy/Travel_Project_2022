@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/features/calendar/presentation/cubit/calendar_state.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:scrollable_clean_calendar/controllers/clean_calendar_controller.dart';
 
 class CalenderCubit extends Cubit<CalenderState> {
@@ -19,7 +20,7 @@ class CalenderCubit extends Cubit<CalenderState> {
             final diff = checkOutTime.difference(checkInTime).inDays;
             if (diff > 30) {
               emit(ErrorState(
-                  error: "You can book hotel rooms for only 30 days."));
+                  error: StringConstants.only30Day));
               inTime = checkInTime;
               outTime = null;
               emit(DateSelectState());

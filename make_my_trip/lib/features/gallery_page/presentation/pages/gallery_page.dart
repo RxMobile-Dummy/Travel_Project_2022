@@ -4,6 +4,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'view_full_image_page.dart';
 
 List<String> imageList = [];
@@ -16,15 +18,15 @@ class GalleryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<GalleryCubit, BaseState>(
       builder: (context, state) {
-        if(state is StateOnSuccess){
+        if (state is StateOnSuccess) {
           imageList = state.response;
         }
         return Scaffold(
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
-              title: const Text(
-                'Gallery',
+              title:  Text(
+                StringConstants.gallery,
                 style: AppTextStyles.unselectedLabelStyle,
               ),
             ),
@@ -39,10 +41,9 @@ class GalleryPage extends StatelessWidget {
                     pattern: getPattern()),
                 childrenDelegate: SliverChildListDelegate(List.generate(
                   imageList.length,
-                      (index) =>
-                      Tile(
-                        index: index,
-                      ),
+                  (index) => Tile(
+                    index: index,
+                  ),
                 )),
               ),
             ));
@@ -106,8 +107,7 @@ class Tile extends StatelessWidget {
     return GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  ViewImage(
+              builder: (context) => ViewImage(
                     index: index,
                     imgStr: imageList[index],
                   )));
@@ -120,11 +120,11 @@ class Tile extends StatelessWidget {
                 child: FadeInImage.assetNetwork(
                     fit: BoxFit.cover,
                     alignment: Alignment.center,
-                    placeholder: 'assets/img/placeholder.png',
+                    placeholder: ImagePath.placeHolderImage,
                     image: imageList[index],
                     imageErrorBuilder: (context, error, stackTrace) {
                       return Image.asset(
-                        'assets/img/placeholder.png',
+                        ImagePath.placeHolderImage,
                         fit: BoxFit.fitWidth,
                       );
                     }))));

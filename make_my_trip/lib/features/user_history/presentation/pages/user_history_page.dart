@@ -43,11 +43,11 @@ class UserHistoryPage extends StatelessWidget {
                 return CommonErrorWidget(
                     imagePath: ImagePath.serverFailImage,
                     title: StringConstants.serverFail,
-                    statusCode: "505");
+                    statusCode: "");
               } else if (state is StateLoading) {
                 return const HistoryPageShimmer();
               } else {
-                return const Center(child: Text("No data found"));
+                return const Center(child: Text(StringConstants.noDatatxt));
               }
             },
           ),

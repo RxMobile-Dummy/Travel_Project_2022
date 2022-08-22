@@ -141,18 +141,13 @@ class UserCubit extends Cubit<BaseState> {
             emit(StateErrorGeneral(
                 StringConstants.messageInvalidConfirmPassword));
           } else {
+            emit(StateLoading());
             final response = await userSignUp.call(
                 signUpFullName, signUpEmail, signUpPassword);
             response.fold((failure) {
               emit(StateErrorGeneral(_getFailure(failure)));
             }, (success) async {
               showWaitingDialog();
-              // final response = await userVerification.call();
-              // response.fold((failure) {
-              //   emit(StateErrorGeneral(_getFailure(failure)));
-              // }, (success) {
-              //   emit(StateOnSuccess("success"));
-              // });
             });
           }
         }
@@ -175,11 +170,21 @@ class UserCubit extends Cubit<BaseState> {
 
   // user sign_out event
   userSignOutEvent() async {
+    emit(StateLoading());
     final res = await userSignOut.call(NoParams());
     res.fold((failure) {
       emit(StateErrorGeneral("Logout Error"));
     }, (success) {
       emit(StateOnSuccess("Logout success"));
     });
+  }
+
+  emailChanged(email) {
+    var res = UserInfoValidation.emailAddressValidation(email);
+    if (res == null) {
+      emit(StateReorderSuccess<String>(email, updatedIndex: 1));
+    } else {
+      emit(StateReorderSuccess<String>(email, updatedIndex: 0));
+    }
   }
 }

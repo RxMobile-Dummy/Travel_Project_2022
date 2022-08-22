@@ -24,7 +24,6 @@ class RoomDetailDataSourceImpl implements RoomDetailRemoteDataSource {
     try {
       final baseurl = '${BaseConstant.baseUrl}room/getroom/${hotelId}/${room_id}';
       final response = await dio.get(baseurl,options: await createDioOptions());
-      print(response.data);
       if (response.statusCode == 200) {
         final RoomDetailModel roomDetailsModel =
         RoomDetailModel.fromJson(response.data);

@@ -17,6 +17,7 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
 
   Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    printWrapped(userToken);
     return Options(headers: {'token': userToken});
   }
 
@@ -25,6 +26,11 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
       int index) async {
     return _getAllCharacterUrl(
         "${BaseConstant.baseUrl}hotel/gethotel/getsinglehotel/${index}");
+  }
+
+  void printWrapped(String text) {
+    final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
+    pattern.allMatches(text).forEach((match) => print(match.group(0)));
   }
 
   Future<Either<Failures, HotelDetailModel>> _getAllCharacterUrl(
@@ -40,6 +46,7 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
+      print(err);
       return Left(ServerFailure());
     }
   }
@@ -56,6 +63,7 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
+      print(err);
       return Left(ServerFailure());
     }
   }
@@ -72,6 +80,7 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
+      print(err);
       return Left(ServerFailure());
     }
   }
