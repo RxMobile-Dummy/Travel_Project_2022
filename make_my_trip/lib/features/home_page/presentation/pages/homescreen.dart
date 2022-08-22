@@ -70,7 +70,8 @@ class HomeScreen extends StatelessWidget {
                         horizontal: 16, vertical: 16),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, RoutesName.searchHotel);
+                        Navigator.pushNamed(context, RoutesName.searchHotel,
+                            arguments: {});
                       },
                       child: TextFormField(
                         enabled: false,
@@ -91,7 +92,8 @@ class HomeScreen extends StatelessWidget {
                             text: StringConstants.hotelTxt,
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, RoutesName.searchHotel);
+                                  context, RoutesName.searchHotel,
+                                  arguments: {});
                             }),
                         HomeFeaturesWidget(
                             iconData: Icons.airplanemode_active_rounded,
@@ -146,10 +148,12 @@ class HomeScreen extends StatelessWidget {
                                           imagelist[index].hotelName.toString(),
                                       onTap: () {
                                         Navigator.pushNamed(
-                                            context, RoutesName.hotelDetail,
+                                            context, RoutesName.searchHotel,
                                             arguments: {
                                               "hotel_id":
-                                                  imagelist[index].hotelId
+                                                  imagelist[index].hotelId,
+                                              "hotel_name":
+                                                  imagelist[index].hotelName
                                             });
                                       },
                                       imageData: imagelist[index]

@@ -14,11 +14,17 @@ import '../widgets/select_dates.dart';
 import '../widgets/select_rooms.dart';
 
 class SearchHotel extends StatelessWidget {
-  SearchHotel({Key? key}) : super(key: key);
+  const SearchHotel({Key? key, required this.arg}) : super(key: key);
 
+  final Map<dynamic, dynamic> arg;
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<SearchHotelCubit>(context);
+    if (arg['hotel_name'] != null && arg['hotel_name'].isNotEmpty) {
+      cubit.city = arg['hotel_name'];
+      cubit.searchId = arg['hotel_id'];
+      cubit.type = "hotel";
+    }
     return BlocListener<SearchHotelCubit, SearchHotelState>(
       listener: (context, state) {
         if (state is UnauthenticatedState) {
@@ -153,6 +159,8 @@ class SearchHotel extends StatelessWidget {
                                     .substring(0,
                                         cubit.outTime.toString().indexOf(" "));
                                 if (cubit.city.isNotEmpty) {
+                                  print(
+                                      "city_name :${cubit.city}cin: ${checkInDate.toString()}cout: ${checkOutDate} no_of_room: ${cubit.rooms} id: ${cubit.searchId}type: ${cubit.type}");
                                   Navigator.of(context).pushNamed(
                                       RoutesName.hotelList,
                                       arguments: {

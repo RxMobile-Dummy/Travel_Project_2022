@@ -48,9 +48,9 @@ class HotelListCubit extends Cubit<BaseState> {
     selectedFilter.clear();
     emit(StateInitial());
     if (type == "Amenities") {
-      selectedAmenities.add(filter);
+      _contains(selectedAmenities, filter);
     } else if (type == "Rating") {
-      selectedRating.add(filter);
+      _contains(selectedRating, filter);
     } else if (type == "Price Range") {
       if (filter == price) {
         price = "";
@@ -58,10 +58,20 @@ class HotelListCubit extends Cubit<BaseState> {
         price = filter;
       }
     }
+
     selectedFilter.addAll(selectedRating);
     selectedFilter.addAll(selectedAmenities);
     (price == "") ? selectedFilter.remove(price) : selectedFilter.add(price);
     emit(StateOnResponseSuccess<Set>(selectedFilter));
+  }
+
+  _contains(list, filter) {
+    if (list.contains(filter)) {
+      list.remove(filter);
+    } else {
+      list.add(filter);
+    }
+    return list;
   }
 
   getHotelListApi(cin, cout, noOfRoom, searchId, type) async {

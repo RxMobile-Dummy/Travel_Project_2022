@@ -142,13 +142,14 @@ class Router {
           );
         });
       case RoutesName.searchHotel:
+        Map<dynamic, dynamic> arg = settings.arguments as Map<dynamic, dynamic>;
         return PageTransition(
           type: PageTransitionType.scale,
           duration: const Duration(milliseconds: 500),
           alignment: Alignment.center,
           child: BlocProvider.value(
             value: searchHotelCubit,
-            child: SearchHotel(),
+            child: SearchHotel(arg: arg),
           ),
         );
       case RoutesName.search:
