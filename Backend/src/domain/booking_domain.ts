@@ -5,11 +5,15 @@ import { imagemodel } from "../model/image";
 import { Usermodel } from "../model/users";
 import { couponmodel } from "../model/coupon"
 import express, { Express, Request, Response } from 'express'
-
+import * as admin from 'firebase-admin';
+import schedule from 'node-schedule';
+import { devicemodel } from "../model/device";
 
 class BookingDomain {
     async addBooking(req: Request, res: Response) {
         var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
+        var checkinDate = new Date(req.body.checkin_date).toISOString().toString().replace("T00:00:00.000Z", "T06:30:00.000Z");
+        var checkoutDate = new Date(req.body.checkout_date).toISOString().toString().replace("T00:00:00.000Z", "T06:30:00.000Z")
 
         try {
             var nextID: any = await bookingmodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
@@ -20,19 +24,20 @@ class BookingDomain {
                 hotel_id: req.body.hotel_id,
                 no_of_room: noOfRoom,
                 room_id: req.body.room_id,
-                checkin_date: new Date(req.body.checkin_date),
-                checkout_date: new Date(req.body.checkout_date),
+                checkin_date: new Date(checkinDate),
+                checkout_date: new Date(checkoutDate),
                 price: {
                     number_of_nights: req.body.price.number_of_nights,
                     room_price: req.body.price.room_price,
                     gst: req.body.price.gst,
                     discount: req.body.price.discount,
                     total_price: req.body.price.total_price
-                }
+                },
+                status: "success"
             }
             var sum = 0;
             var rommIdFromReq: any = (req.body.room_id);
-            console.log(rommIdFromReq);
+            // console.log(rommIdFromReq);
             var getHotelRoom = await hotelmodel.find({ _id: req.body.hotel_id })
             var roomPrice: any = [];
             getHotelRoom.forEach((e: any) => {
@@ -44,20 +49,20 @@ class BookingDomain {
                 })
             })
             const getHotelRoomPrice: number = sum;
-            console.log(getHotelRoom);
-            console.log('price ' + getHotelRoomPrice);
+            // console.log(getHotelRoom);
+            // console.log('price ' + getHotelRoomPrice);
             var totalPrize = (req.body.price.total_price);
             var noOfNight = (req.body.price.number_of_nights);
             var roomGstPrice = ((18 / 100) * (getHotelRoomPrice * noOfNight));
             var roomDiscountPrice = ((getHotelRoomPrice * noOfNight) + roomGstPrice) * 0.05;
-            console.log(`gst ${roomGstPrice}`);
-            console.log(`discount ${roomDiscountPrice}`);
+            // console.log(`gst ${roomGstPrice}`);
+            // console.log(`discount ${roomDiscountPrice}`);
             var roomTotalPrize = ((getHotelRoomPrice * noOfNight) - roomDiscountPrice + roomGstPrice)
-            console.log('price ' + roomTotalPrize);
-            console.log('total ' + totalPrize);
+            // console.log('price ' + roomTotalPrize);
+            // console.log('total ' + totalPrize);
             if (roomTotalPrize == totalPrize) {
                 var bookedData = new bookingmodel(bookIngData);
-                console.log(bookedData);
+                // console.log(bookedData);
                 await bookedData.save();
                 res.status(StatusCode.Sucess).send("Booking Success")
                 res.end();
@@ -65,7 +70,8 @@ class BookingDomain {
             else {
                 res.status(StatusCode.Not_Acceptable).send("Error in calculation");
             }
-            res.end();
+
+            //res.end();
         } catch (err: any) {
             res.status(StatusCode.Server_Error).send(err.message);
             res.end();
@@ -234,6 +240,7 @@ class BookingDomain {
                     },
                     {
                         "$project": {
+
                             "hotel_id": "$_id",
                             "hotel_name": "$hotel_name",
                             "address": "$address",
@@ -247,11 +254,19 @@ class BookingDomain {
                     hotelData.forEach(d => {
                         if (e.hotel_id == d._id) {
                             bookingHistoryData.push({
+                                "booking_id": e._id,
+                                "status": e.status,
                                 "hotel_id": d._id,
                                 "hotel_name": d.hotel_name,
                                 "address": d.address,
                                 'images': d.images,
                                 "price": e.price?.total_price,
+                                "no_of_room": e.no_of_room,
+                                "number_of_nights": e.price?.number_of_nights,
+                                "room_price": e.price?.room_price,
+                                "discount": e.price?.discount,
+                                "gst": e.price?.gst,
+                                "booked_date": e.booked_date,
                                 "checking_date": e.checkin_date,
                                 "checkout_date": e.checkout_date
                             })
@@ -280,6 +295,9 @@ class BookingDomain {
                 //Date converstion
                 var cin = new Date(cIn);
                 var cout = new Date(cOut);
+                var checkinDate = new Date(cIn).toISOString().toString().replace("T00:00:00.000Z", "T06:30:00.000Z");
+                var checkoutDate = new Date(cOut).toISOString().toString().replace("T00:00:00.000Z", "T06:30:00.000Z")
+
 
                 //booking request id genteration
                 var nextID: any = await bookingmodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
@@ -294,8 +312,8 @@ class BookingDomain {
                     hotel_id: hotelId,
                     no_of_room: roomId.length,
                     room_id: roomId,
-                    checkin_date: new Date(cin),
-                    checkout_date: new Date(cout),
+                    checkin_date: new Date(checkinDate),
+                    checkout_date: new Date(checkoutDate),
                     price: {
                         number_of_nights: diffDays,
                         room_price: price.room_price,
@@ -578,4 +596,4 @@ class BookingDomain {
     }
 }
 
-export { BookingDomain };
+export { BookingDomain }
