@@ -18,7 +18,7 @@ class HotelListViewWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.pushNamed(context, RoutesName.hotelDetail,
-              arguments: {"hotel_id": hotelListModel.id});
+              arguments: {"hotel_id": hotelListModel.id, "share_link": false});
         },
         child: Column(
           children: [
@@ -98,6 +98,87 @@ class HotelListViewWidget extends StatelessWidget {
             ),
           ],
         ),
+        child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 6.0),
+                  child: SizedBox(
+                    height: 200,
+                    width: double.infinity,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: FadeInImage.assetNetwork(
+                          placeholder: ImagePath.placeHolderImage,
+                          image: hotelListModel.images![0].imageUrl.toString(),
+                          fit: BoxFit.fill,
+                          imageErrorBuilder: (context, error, stackTrace) {
+                            return Image.asset(ImagePath.placeHolderImage,
+                                fit: BoxFit.fitWidth);
+                          }),
+                    ),
+                  ),
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 2.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              hotelListModel.hotelName.toString(),
+                              style: AppTextStyles.infoContentStyle,
+                            ),
+                          ),
+                          10.horizontalSpace,
+                          Padding(
+                            padding: EdgeInsets.only(right: 10.0),
+                            child: Transform.scale(
+                              scale: 1.5,
+                              child: RatingBar.builder(
+                                  initialRating: double.parse(
+                                      hotelListModel.rating.toString()),
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemSize: 10,
+                                  itemCount: 5,
+                                  itemBuilder: (context, _) => const Icon(
+                                        Icons.star,
+                                        color: MakeMyTripColors.accentColor,
+                                        size: 10,
+                                      ),
+                                  onRatingUpdate: (rating) {}),
+                            ),
+                          ),
+                        ])),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 2.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                            hotelListModel.address!.addressLine.toString(),
+                            style: AppTextStyles.labelDetails,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                      10.horizontalSpace,
+                      Text(
+                        "₹ ${hotelListModel.price}",
+                        style: AppTextStyles.labelDetails,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )),
       ),
     );
   }

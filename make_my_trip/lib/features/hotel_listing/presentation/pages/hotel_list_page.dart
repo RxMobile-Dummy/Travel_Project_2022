@@ -85,7 +85,7 @@ class HotelListPage extends StatelessWidget {
                 ],
               );
             } else {
-              return const Expanded(child: HotelListShimmer());
+              return const HotelListShimmer();
             }
           },
         ),

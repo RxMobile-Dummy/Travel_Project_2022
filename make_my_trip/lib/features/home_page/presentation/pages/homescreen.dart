@@ -173,6 +173,8 @@ class HomeScreen extends StatelessWidget {
                                                   imagelist[index].hotelId,
                                               "hotel_name":
                                                   imagelist[index].hotelName
+                                                  imagelist[index].hotelId,
+                                              "share_link": false
                                             });
                                       },
                                       imageData: imagelist[index]

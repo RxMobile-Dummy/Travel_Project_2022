@@ -26,6 +26,7 @@ class HotalDetails extends StatelessWidget {
           await Navigator.pushNamed(context, RoutesName.hotelDetail,
               arguments: {
                 "hotel_id": wishlistModel.hotelId,
+                "share_link": false
               });
           BlocProvider.of<WishListCubit>(context).getWishListCubitData();
         },

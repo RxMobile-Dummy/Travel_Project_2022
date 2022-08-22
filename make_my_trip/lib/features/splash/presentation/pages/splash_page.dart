@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
@@ -21,12 +20,19 @@ class SplashPage extends StatelessWidget {
     return BlocConsumer<SplashCubit, BaseState>(
       bloc: splashSl<SplashCubit>()..splashLoad(),
       listener: (context, state) {
-        if (state is Unauthenticated) {
+        if (state is StateOnSuccess) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RoutesName.onBoard, (route) => false);
-        } else if (state is Authenticated) {
+              context, RoutesName.onBoard, (route) => false,
+              arguments: {"hotel_id": state.response});
+        } else if (state is StateOnResponseSuccess && state.response == null) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.home, (route) => false);
+        } else if (state is StateOnResponseSuccess && state.response != null) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, RoutesName.hotelDetail, (route) => false, arguments: {
+            "hotel_id": int.parse(state.response),
+            "share_link": true
+          });
         }
       },
       builder: (context, state) {

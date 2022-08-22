@@ -173,6 +173,9 @@ class StringConstants {
   static String userIdSharedPreference = "userId";
   static String confirmBooking = "Booking Success";
   static String noRoomAvail = "There is No Room Availble in Your Checking Date";
+  static String shareMessage = "Check Out This amazing Hotel on Travelsy!";
+  static String packageName = 'com.example.make_my_trip';
+  static String bundleId = 'com.worldtour.makeMyTrip';
 
 // Setting Strings
   //static const setting = "Settings";

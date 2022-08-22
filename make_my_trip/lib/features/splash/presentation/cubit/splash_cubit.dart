@@ -1,7 +1,6 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
@@ -18,16 +17,30 @@ class SplashCubit extends Cubit<BaseState> {
   final GetUser getUser;
   final RefreshFcmToken refreshFcmToken;
 
+  Future<String?> handleDynamicLinks() async {
+    try {
+      final PendingDynamicLinkData? data =
+          await FirebaseDynamicLinks.instance.getInitialLink();
+      final Uri deepLink = data!.link;
+      var paramValue = deepLink.queryParameters['paramId'];
+      return paramValue;
+    } catch (e) {
+      return null;
+    }
+  }
+
   splashLoad() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     final res = await getUser.call(NoParams());
+    final String? linkData = await handleDynamicLinks();
     res.fold((failure) {
       emit(StateErrorGeneralStateErrorServer());
     }, (success) {
       if (success.userId != null) {
         refreshFcmTokenCubit();
+        emit(StateOnResponseSuccess(linkData));
       } else {
-        emit(Unauthenticated());
+        emit(StateOnSuccess(linkData));
       }
     });
 

@@ -84,10 +84,11 @@ class Router {
           return const SplashPage();
         });
       case RoutesName.onBoard:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) => IntroSl<IntroCubit>(),
-            child: IntroPage(),
+            child: IntroPage(arg: arg),
           );
         });
       case RoutesName.login:
@@ -135,7 +136,7 @@ class Router {
           return BlocProvider(
             create: (context) =>
                 historyListSl<UserHistoryCubit>()..getUserHistoryData(),
-            child: UserHistoryPage(),
+            child: const UserHistoryPage(),
           );
         });
       case RoutesName.wishList:
@@ -187,6 +188,7 @@ class Router {
         });
       case RoutesName.hotelDetail:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
+
         return PageTransition(
           type: PageTransitionType.bottomToTop,
           duration: const Duration(milliseconds: 500),
@@ -202,7 +204,7 @@ class Router {
                 value: searchHotelCubit,
               ),
             ],
-            child: HotelDetailPage(),
+            child: HotelDetailPage(arg: arg['share_link']),
           ),
         );
 

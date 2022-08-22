@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:make_my_trip/features/home_page/data/models/ToursModel.dart';
-import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 
 import '../internet/internet_enum.dart';
@@ -269,4 +268,13 @@ class SettingPageData {
           error: error ?? this.error,
           userValue: userValue ?? this.userValue,
           imageValue: imageValue ?? this.imageValue);
+}
+
+class StateOnGetShareLink<T> extends BaseState {
+  final T response;
+
+  StateOnGetShareLink(this.response);
+
+  @override
+  List<Object?> get props => [response];
 }
