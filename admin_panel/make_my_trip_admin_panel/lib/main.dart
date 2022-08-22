@@ -9,17 +9,30 @@ import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/admin
 import 'package:make_my_trip_admin_panel/features/admin_login/admin_login_injection_container.dart'
     as admin_login_di;
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
+import 'package:make_my_trip_admin_panel/core/navigation/route_info.dart';
 import 'core/theme/make_my_trip_theme.dart';
 import 'core/navigation/app_router.dart' as app_routes;
 import 'firebase_options.dart';
 import './features/review_moderation/review_moderation_injection_container.dart'
     as review_di;
+import '../../features/about_us/about_us_injection_container.dart' as di;
+import 'package:make_my_trip_admin_panel/features/faq/presentation/pages/faq_page.dart';
+import 'features/faq/presentation/pages/faq_page.dart';
+import '../../features/privacy_policy/privacy_policy_injection_container.dart'
+    as dipp;
+import '../../features/terms_condition/terms_condition_injection_container.dart'
+    as ditc;
+import '../../features/faq/faq_injection_container.dart' as difaq;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await review_di.init();
   await admin_login_di.init();
   await admin_booking_moderation_di.init();
+  await di.init();
+  await dipp.init();
+  await ditc.init();
+  await difaq.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
