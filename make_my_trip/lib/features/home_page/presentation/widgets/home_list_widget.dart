@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
@@ -28,17 +29,33 @@ class HomeListWidget extends StatelessWidget {
         children: [
           Stack(
             children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: FadeInImage.assetNetwork(
+                  placeholder: ImagePath.placeHolderImage,
+                  image: imageData,
+                  height: MediaQuery.of(context).size.width * .35,
+                  width: MediaQuery.of(context).size.width * .6,
+                  fit: BoxFit.cover,
+                  imageErrorBuilder: (context, err, stackTrace) {
+                    return ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.asset(
+                          ImagePath.placeHolderImage,
+                          height: MediaQuery.of(context).size.width * .35,
+                          width: MediaQuery.of(context).size.width * .6,
+                          fit: BoxFit.cover,
+                        ));
+                  },
+                ),
+              ),
               Container(
                 height: MediaQuery.of(context).size.width * .35,
                 width: MediaQuery.of(context).size.width * .6,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                        opacity: .8,
-                        colorFilter: const ColorFilter.mode(
-                            MakeMyTripColors.colorBlack, BlendMode.lighten),
-                        fit: BoxFit.cover,
-                        image: NetworkImage(imageData))),
+                  color: MakeMyTripColors.colorBlack.withOpacity(.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               Positioned(
                 top: 12,

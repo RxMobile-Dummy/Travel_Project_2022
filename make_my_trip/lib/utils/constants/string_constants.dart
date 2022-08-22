@@ -338,4 +338,8 @@ class StringConstants {
   static String selectChildrensLabel = 'Childrens';
 
   static String filters = "Filters";
+
+  static String deluxType = "Deluxe";
+  static String semiDeluxType = "Semi-Deluxe";
+  static String superDeluxType = "Super-Deluxe";
 }

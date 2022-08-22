@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class BaseConstant {
-  static const String baseUrl = "https://2f60-180-211-112-179.in.ngrok.io/";
+  static const String baseUrl = "https://120e-180-211-112-179.in.ngrok.io/";
 
   static Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();

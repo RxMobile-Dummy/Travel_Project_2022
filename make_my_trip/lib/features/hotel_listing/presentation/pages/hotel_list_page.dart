@@ -12,6 +12,7 @@ import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 import '../../data/models/hotel_list_model.dart';
 import '../cubits/hotel_list_cubit.dart';
+import '../widgets/filter_all_filter_widget.dart';
 import '../widgets/hotel_list_view_widget.dart';
 import 'filter_list.dart';
 

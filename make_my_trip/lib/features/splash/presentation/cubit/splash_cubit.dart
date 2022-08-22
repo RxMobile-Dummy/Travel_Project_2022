@@ -5,10 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/user/domain/usecases/get_user.dart';
 import 'package:make_my_trip/features/user/domain/usecases/refresh_fcm_token.dart';
-import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/usecases/usecase.dart';
 
@@ -22,7 +21,9 @@ class SplashCubit extends Cubit<BaseState> {
   splashLoad() async {
     await Future.delayed(Duration(seconds: 2));
     final res = await getUser.call(NoParams());
-    res.fold((failure) {}, (success) {
+    res.fold((failure) {
+      emit(StateErrorGeneralStateErrorServer());
+    }, (success) {
       if (success.userId != null) {
         refreshFcmTokenCubit();
       } else {
@@ -35,9 +36,10 @@ class SplashCubit extends Cubit<BaseState> {
   }
 
   refreshFcmTokenCubit() async {
-    await Future.delayed(Duration(seconds: 2));
     final res = await refreshFcmToken.call(NoParams());
-    res.fold((failure) {}, (success) {
+    res.fold((failure) {
+      emit(StateErrorGeneralStateErrorServer());
+    }, (success) {
       emit(Authenticated());
     });
   }

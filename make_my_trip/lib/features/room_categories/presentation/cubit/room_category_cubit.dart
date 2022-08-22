@@ -18,13 +18,11 @@ class RoomCategoryCubit extends Cubit<BaseState> {
   final IsAnonymousUser isAnonymousUser;
 
   getData(int hotelId, String cIn, String cOut, int noOfRooms) async {
-    try {
-      emit(StateLoading());
-      var res = await roomCategoriesUseCase
-          .call(Params(hotelId, cIn, cOut, noOfRooms));
-      res.fold((l) => emit(StateErrorGeneral("errorMessage")),
-          (r) => emit(StateOnKnownToSuccess<RoomCategoryModel>(r)));
-    } catch (err) {}
+    emit(StateLoading());
+    var res =
+        await roomCategoriesUseCase.call(Params(hotelId, cIn, cOut, noOfRooms));
+    res.fold((l) => emit(StateErrorGeneral("errorMessage")),
+        (r) => emit(StateOnKnownToSuccess<RoomCategoryModel>(r)));
   }
 
   postModelCreate(int hotelId, String cin, String cout, int noOfRoom,

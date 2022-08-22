@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import '../../../user/domain/usecases/is_anonymous_user.dart';
 
 class SelectRoomCountCubit extends Cubit<BaseState> {
@@ -20,7 +21,7 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
         addRoomValue < userMaxCount &&
         (state as StateOnSuccess<SelectRoomCountState>).response.totalRooms <
             userMaxCount) {
-      if (roomType == 'Deluxe') {
+      if (roomType == StringConstants.deluxType) {
         emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
             .response
             .copyWith(
@@ -29,7 +30,7 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
                         .response
                         .totalRooms +
                     1)));
-      } else if (roomType == 'Semi-Deluxe') {
+      } else if (roomType == StringConstants.semiDeluxType) {
         emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
             .response
             .copyWith(
@@ -38,7 +39,7 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
                         .response
                         .totalRooms +
                     1)));
-      } else if (roomType == "Super-Deluxe") {
+      } else if (roomType == StringConstants.superDeluxType) {
         emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
             .response
             .copyWith(
@@ -53,7 +54,7 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
 
   void removeRoomEvent(String roomType, int removeRoomValue, int userMaxCount) {
     if (removeRoomValue > 0) {
-      if (roomType == 'Deluxe') {
+      if (roomType == StringConstants.deluxType) {
         emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
             .response
             .copyWith(
@@ -62,7 +63,7 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
                         .response
                         .totalRooms -
                     1)));
-      } else if (roomType == 'Semi-Deluxe') {
+      } else if (roomType == StringConstants.semiDeluxType) {
         emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
             .response
             .copyWith(
@@ -71,7 +72,7 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
                         .response
                         .totalRooms -
                     1)));
-      } else if (roomType == "Super-Deluxe") {
+      } else if (roomType == StringConstants.superDeluxType) {
         emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
             .response
             .copyWith(
