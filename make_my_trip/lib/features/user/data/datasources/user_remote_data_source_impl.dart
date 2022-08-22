@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -13,6 +12,7 @@ import 'package:make_my_trip/features/user/data/model/user_model.dart';
 import 'package:make_my_trip/features/user/domain/usecases/send_device_id.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
@@ -290,14 +290,16 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   _getId() async {
-    var deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) {
-      var iosDeviceInfo = await deviceInfo.iosInfo;
-      return iosDeviceInfo.identifierForVendor;
-    } else if (Platform.isAndroid) {
-      var androidDeviceInfo = await deviceInfo.androidInfo;
-      return androidDeviceInfo.id;
-    }
+    // var deviceInfo = DeviceInfoPlugin();
+    // if (Platform.isIOS) {
+    //   var iosDeviceInfo = await deviceInfo.iosInfo;
+    //   return iosDeviceInfo.identifierForVendor;
+    // } else if (Platform.isAndroid) {
+    //   var androidDeviceInfo = await deviceInfo.androidInfo;
+    //   return androidDeviceInfo.id;
+    // }
+    String? token=await PlatformDeviceId.getDeviceId;
+    return token;
   }
 
   _getFcmToken() async {
@@ -345,7 +347,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<Either<Failures, void>> deleteUserData() async {
     final response = await dio.get("${BaseConstant.baseUrl}user/deleteuser",
-        options: await createDioOptions());
+        options: await BaseConstant.createDioOptions());
     if (response.statusCode == 200) {
       return const Right(null);
     } else {

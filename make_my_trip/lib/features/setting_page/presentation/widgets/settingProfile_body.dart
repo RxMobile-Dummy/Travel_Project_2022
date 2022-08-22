@@ -9,6 +9,7 @@ import 'package:make_my_trip/features/setting_page/presentation/widgets/textFiel
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
 
 Widget settingProfileBody(BuildContext context) {
   TextEditingController _fullName = TextEditingController();
@@ -55,27 +56,16 @@ Widget settingProfileBody(BuildContext context) {
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                 child: SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                            MakeMyTripColors.accentColor),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(15.0),
-                        child: Text(
-                          StringConstants.update,
-                          style: AppTextStyles.confirmButtonTextStyle,
-                        ),
-                      ),
-                      onPressed: () {
-                        var postData = {
-                          StringConstants.userNameJson: _fullName.text,
-                          StringConstants.userPhoneJson: _phoneNumber.text
-                        };
-                        context
-                            .read<SettingPageCubit>()
-                            .updateUserData(postData);
-                      }),
+                  child:
+                    CommonPrimaryButton(text:  StringConstants.update,onTap: () {
+        var postData = {
+          StringConstants.userNameJson: _fullName.text,
+          StringConstants.userPhoneJson: _phoneNumber.text
+        };
+        context
+            .read<SettingPageCubit>()
+            .updateUserData(postData);
+      },)
                 ),
               )
             ],

@@ -20,11 +20,10 @@ import '../../domain/usecases/user_delete_usecase.dart';
 
 class UserCubit extends Cubit<BaseState> {
   UserCubit(
-      {required this.googleLogin,
-      required this.deleteDeviceId,
-      required this.sendDeviceId,
-      {required this.deleteUserUseCase,
-      required this.googleLogin,
+
+      { required this.googleLogin,
+        required this.deleteDeviceId,
+        required this.sendDeviceId,required this.deleteUserUseCase,
       required this.signIn,
       required this.facebookLogin,
       required this.forgetPassword,

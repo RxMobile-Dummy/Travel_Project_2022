@@ -9,6 +9,7 @@ import 'package:make_my_trip/features/setting_page/setting_page_injection_contai
 import 'package:make_my_trip/features/user/user_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import './core/navigation/app_router.dart' as app_routes;
 import 'core/internet/internet_cubit.dart';
 import 'core/internet/internet_injection_container.dart';
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
