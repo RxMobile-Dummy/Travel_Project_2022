@@ -11,7 +11,8 @@ class RoomCategoriesUseCase implements Usecase<RoomCategoryModel, Params> {
 
   @override
   Future<Either<Failures, RoomCategoryModel>> call(Params params) async {
-    return await roomCategoriesRepository.getRoomDetail(params.hotelId,params.cIn,params.cOut);
+    return await roomCategoriesRepository.getRoomDetail(
+        params.hotelId, params.cIn, params.cOut, params.noOfRooms);
   }
 }
 
@@ -19,5 +20,6 @@ class Params {
   final int hotelId;
   final String cIn;
   final String cOut;
-  Params(this.hotelId,this.cIn,this.cOut);
+  final int noOfRooms;
+  Params(this.hotelId, this.cIn, this.cOut, this.noOfRooms);
 }

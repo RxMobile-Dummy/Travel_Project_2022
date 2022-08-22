@@ -19,7 +19,6 @@ class PublishReviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ReviewCubit, BaseState>(
       listener: (context, state) {
-        print(state.toString());
         if (state is StateOnKnownToSuccess) {
           Navigator.of(context).pushReplacementNamed(RoutesName.reviewPage,
               arguments: {
@@ -27,8 +26,8 @@ class PublishReviewPage extends StatelessWidget {
                 'rating': arg['rating']
               });
         } else if (state is ValidationError) {
-          var snackBar = SnackBar(content: Text(state.errorMessage));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          // var snackBar = SnackBar(content: Text(state.errorMessage));
+          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
         } else if (state is StateNoData) {
           var snackBar = SnackBar(
               content: Text(StringConstants.noReviewComment));
@@ -65,7 +64,7 @@ class PublishReviewPage extends StatelessWidget {
                           state.commentReview == null ||
                           state.commentReview.length == 0 ||
                           state.commentReview.toString().trim().length == 0) {
-                        var snackBar = SnackBar(content: Text("error"));
+                        var snackBar = SnackBar(content: Text(StringConstants.pleaseEntCom));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                       context.read<ReviewCubit>().postHotelReviewData(
@@ -127,7 +126,7 @@ class PublishReviewPage extends StatelessWidget {
                   ),
                   24.verticalSpace,
                   PublishReviewSliderWidget(
-                    fieldName: 'Cleanliness',
+                    fieldName: StringConstants.cleanlinessTxt,
                     value: state.cleanlinessReview,
                     context: context,
                     callback: (double val) {
@@ -138,7 +137,7 @@ class PublishReviewPage extends StatelessWidget {
                   ),
                   16.verticalSpace,
                   PublishReviewSliderWidget(
-                    fieldName: 'Comfort',
+                    fieldName: StringConstants.comfortTxt,
                     value: state.comfortReview,
                     context: context,
                     callback: (double val) {
@@ -149,7 +148,7 @@ class PublishReviewPage extends StatelessWidget {
                   ),
                   16.verticalSpace,
                   PublishReviewSliderWidget(
-                    fieldName: 'Location',
+                    fieldName: StringConstants.loacationTxt,
                     value: state.locationReview,
                     context: context,
                     callback: (double val) {
@@ -160,7 +159,7 @@ class PublishReviewPage extends StatelessWidget {
                   ),
                   16.verticalSpace,
                   PublishReviewSliderWidget(
-                    fieldName: 'Facilities',
+                    fieldName: StringConstants.facilitiesTxt,
                     value: state.facilitiesReview,
                     context: context,
                     callback: (double val) {

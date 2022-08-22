@@ -37,32 +37,23 @@ class ProgressDialog {
                           child: Platform.isIOS
                               ? Container(
                                   padding: const EdgeInsets.all(12),
-                                  child: Wrap(
+                                  child: Row(
                                     crossAxisAlignment:
-                                        WrapCrossAlignment.center,
-                                    alignment: WrapAlignment.center,
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          const CupertinoActivityIndicator(
-                                            animating: true,
-                                            radius: 20,
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                            message,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline3,
-                                          )
-                                        ],
+                                      const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: CupertinoActivityIndicator(
+                                          animating: true,
+                                          radius: 12,
+                                        ),
                                       ),
+                                      Text(
+                                        message,
+                                        style:
+                                            AppTextStyles.labelDescriptionStyle,
+                                      )
                                     ],
                                   ))
                               : Container(

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
@@ -7,6 +8,8 @@ import 'package:make_my_trip/features/setting_page/setting_page_injection_contai
     as setting_page_di;
 import 'package:make_my_trip/features/user/user_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
+import 'package:make_my_trip/core/services/notification/notification_service.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import './core/navigation/app_router.dart' as app_routes;
 import 'core/internet/internet_cubit.dart';
 import 'core/internet/internet_injection_container.dart';
@@ -53,8 +56,20 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await PushNotificationService().setupInteractedMessage();
+  PushNotificationService().broadcastNotification();
+
   HttpOverrides.global = MyHttpOverrides();
-  runApp(const MyApp());
+  runApp(const MaterialApp(
+    home: MyApp(),
+    debugShowCheckedModeBanner: false,
+  ));
+  RemoteMessage? initialMessage =
+      await FirebaseMessaging.instance.getInitialMessage();
+  if (initialMessage != null) {
+    // App received a notification when it was killed
+  }
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -71,6 +86,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseMessaging.instance
+        .getToken()
+        .then((value) => print("device_id  ${value}"));
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -81,8 +100,9 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        navigatorKey: NavigationService.navigatorKey,
         debugShowCheckedModeBanner: false,
-        title: 'Make My Trip',
+        title: StringConstants.appTitle,
         theme: MakeMyTripLightTheme.lightTheme,
         onGenerateRoute: app_routes.Router().generateRoutes,
       ),

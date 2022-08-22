@@ -3,6 +3,7 @@ import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/features/review/data/model/review_model.dart';
 import 'package:make_my_trip/features/review/domain/use_cases/get_hotel_review_usecase.dart';
 import 'package:make_my_trip/features/review/domain/use_cases/post_hotel_review_usecase.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 
 import '../../../../core/usecases/usecase.dart';
 import '../../../user/domain/usecases/is_anonymous_user.dart';
@@ -26,10 +27,7 @@ class ReviewCubit extends Cubit<BaseState> {
 
   goToPostReview() async {
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {
-      print(failure);
-    }, (success) {
-      print(success);
+    res.fold((failure) {}, (success) {
       if (success) {
         emit(Unauthenticated());
       } else {
@@ -51,7 +49,7 @@ class ReviewCubit extends Cubit<BaseState> {
         reviewModel.comment == null ||
         reviewModel.comment!.length == 0 ||
         reviewModel.comment!.toString().trim().length == 0) {
-      emit(ValidationError("Please Enter Comment"));
+      emit(ValidationError(StringConstants.pleaseEntCom));
     } else {
       final req = await postHotelReviewUseCases
           .call(PostReviewParams(hotel_id: hote_id, reviewModel: reviewModel));

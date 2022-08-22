@@ -11,9 +11,9 @@
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
     <application
-        android:label="make_my_trip"
+        android:label="Travelsy"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/travelsy">
 
        <meta-data android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyDbEilehd2rVJUqlxUKXBrClnmIuMTYziY"/>
@@ -61,6 +61,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+
+            <intent-filter>
+            <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+            <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
