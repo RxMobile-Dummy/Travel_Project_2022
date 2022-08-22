@@ -53,6 +53,7 @@ class HomePage extends StatelessWidget {
                       children: <Widget>[
                         DrawerHeader(
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Flexible(
@@ -63,14 +64,14 @@ class HomePage extends StatelessWidget {
                               Text(
                                 StringConstants.adminPanelLabel,
                                 style: AppTextStyles.labelStyle2.copyWith(
-                                    color: MakeMyTripColors.color70gray),
+                                    color: MakeMyTripColors.customDarkBlue),
                               ),
                             ],
                           ),
                         ),
                         ListTile(
                           autofocus: true,
-                          focusColor: MakeMyTripColors.colorCwsPrimary,
+                          leading: const Icon(Icons.calendar_month_sharp),
                           title: Text(
                             StringConstants.bookingModerationLabel,
                             style: AppTextStyles.infoContentStyle,
@@ -82,7 +83,7 @@ class HomePage extends StatelessWidget {
                         ),
                         ListTile(
                           autofocus: true,
-                          focusColor: MakeMyTripColors.colorCwsPrimary,
+                          leading: const Icon(Icons.edit_note_rounded),
                           title: const Text(
                             StringConstants.reviewAppbarTitle,
                             style: AppTextStyles.infoContentStyle,
@@ -94,6 +95,7 @@ class HomePage extends StatelessWidget {
                         ),
                         ListTile(
                           autofocus: true,
+                          leading: const Icon(Icons.message),
                           title: Text(
                             StringConstants.faq,
                             style: AppTextStyles.infoContentStyle,
@@ -106,6 +108,7 @@ class HomePage extends StatelessWidget {
                         ),
                         ListTile(
                           autofocus: true,
+                          leading: const Icon(Icons.info_rounded),
                           title: Text(
                             StringConstants.aboutUs,
                             style: AppTextStyles.infoContentStyle,
@@ -118,6 +121,7 @@ class HomePage extends StatelessWidget {
                         ),
                         ListTile(
                           autofocus: true,
+                          leading: const Icon(Icons.note_alt_rounded),
                           title: Text(
                             StringConstants.tc,
                             style: AppTextStyles.infoContentStyle,
@@ -130,6 +134,7 @@ class HomePage extends StatelessWidget {
                         ),
                         ListTile(
                           autofocus: true,
+                          leading: const Icon(Icons.shield_rounded),
                           title: Text(
                             StringConstants.privacyPolicy,
                             style: AppTextStyles.infoContentStyle,
@@ -142,6 +147,7 @@ class HomePage extends StatelessWidget {
                         ),
                         ListTile(
                           autofocus: true,
+                          leading: const Icon(Icons.logout),
                           title: Text(
                             StringConstants.logOutLabel,
                             style: AppTextStyles.infoContentStyle,

@@ -16,6 +16,7 @@ class ReviewModeration extends StatelessWidget {
   ReviewModeration({Key? key}) : super(key: key);
 
   final reviewCubit = reviewSl<ReviewModerationCubit>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,7 +112,7 @@ class ReviewContainerWidget extends StatelessWidget {
                           )),
                       12.horizontalSpace,
                       Text(
-                        reviewModel.userId!.userName ?? "sdf",
+                        reviewModel.userId!.userName!,
                         style: AppTextStyles.infoContentStyle4
                             .copyWith(color: MakeMyTripColors.colorBlack),
                       ),
@@ -127,7 +128,7 @@ class ReviewContainerWidget extends StatelessWidget {
                           text: StringConstants.approveTxt,
                           onTap: () {
                             reviewCubit.approveOrRejectCubit(
-                                reviewModel.id ?? 1, true);
+                                reviewModel.id!, true);
                           },
                           backColor: Colors.green,
                         ),
@@ -138,7 +139,7 @@ class ReviewContainerWidget extends StatelessWidget {
                           text: StringConstants.rejectTxt,
                           onTap: () {
                             reviewCubit.approveOrRejectCubit(
-                                reviewModel.id ?? 1, false);
+                                reviewModel.id!, false);
                           },
                           backColor: MakeMyTripColors.colorRed,
                         ),
@@ -172,7 +173,7 @@ class ReviewContainerWidget extends StatelessWidget {
                           color: MakeMyTripColors.colorBlack.withOpacity(.7),
                         ),
                         4.horizontalSpace,
-                        Text(reviewModel.hotelId!.hotelName ?? "hotelname"),
+                        Text(reviewModel.hotelId!.hotelName!),
                       ],
                     ),
                   ),
@@ -184,7 +185,7 @@ class ReviewContainerWidget extends StatelessWidget {
                         border: Border.all(color: MakeMyTripColors.color10gray),
                         borderRadius: BorderRadius.circular(12)),
                     child: Text(
-                      reviewModel.comment! ?? "",
+                      reviewModel.comment!,
                       style: AppTextStyles.labelDescriptionStyle.copyWith(
                           fontSize: 14, color: MakeMyTripColors.colorBlack),
                     ),
@@ -194,16 +195,16 @@ class ReviewContainerWidget extends StatelessWidget {
                     children: [
                       ReviewSliderWidget(
                           title: StringConstants.cleanlinessTxt,
-                          value: reviewModel.cleanliness ?? 0),
+                          value: reviewModel.cleanliness!),
                       ReviewSliderWidget(
                           title: StringConstants.comfortTxt,
-                          value: reviewModel.comfort ?? 0),
+                          value: reviewModel.comfort!),
                       ReviewSliderWidget(
                           title: StringConstants.facilitiesTxt,
-                          value: reviewModel.facilities ?? 0),
+                          value: reviewModel.facilities!),
                       ReviewSliderWidget(
                           title: StringConstants.locationTxt,
-                          value: reviewModel.location ?? 0)
+                          value: reviewModel.location!)
                     ],
                   ),
                   8.verticalSpace,
@@ -244,9 +245,8 @@ class ReviewContainerWidget extends StatelessWidget {
                                   GestureDetector(
                                     onTap: () {
                                       reviewCubit.reviewImageDeleteCubit(
-                                          reviewModel.id ?? 0,
-                                          reviewModel.image![index1].imageId ??
-                                              0);
+                                          reviewModel.id!,
+                                          reviewModel.image![index1].imageId!);
                                     },
                                     child: const Positioned(
                                       top: 8,
