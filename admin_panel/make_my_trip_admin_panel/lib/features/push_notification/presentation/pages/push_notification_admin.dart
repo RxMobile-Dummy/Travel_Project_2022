@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
 import 'package:make_my_trip_admin_panel/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip_admin_panel/core/theme/text_styles.dart';
 import 'package:make_my_trip_admin_panel/features/push_notification/presentation/cubit/push_notification_cubit.dart';
@@ -20,7 +21,7 @@ class PushNotificationAdminPanel extends StatelessWidget {
     final title = TextEditingController();
     final body = TextEditingController();
 
-    return BlocBuilder<PushNotificationCubit, PushNotificationState>(
+    return BlocBuilder<PushNotificationCubit, BaseState>(
         builder: (context, state) {
       if (state is PushNotificationResponse) {
         fileName = state.fileName.toString();
@@ -145,7 +146,7 @@ class PushNotificationAdminPanel extends StatelessWidget {
                           )
                         ],
                       ),
-                      BlocBuilder<PushNotificationCubit, PushNotificationState>(
+                      BlocBuilder<PushNotificationCubit, BaseState>(
                           builder: (context, state) {
                         if (state is ErrorState) {
                           return Row(
@@ -182,13 +183,16 @@ class PushNotificationAdminPanel extends StatelessWidget {
                                         body.text.toString(),
                                         url);
                               }
-                              if (endUser == 1) {
+                              else if (endUser == 1) {
                                 BlocProvider.of<PushNotificationCubit>(context)
                                     .endUserPushNotification(
                                         title.text.toString().trim(),
                                         body.text.toString(),
                                         url,
                                         endUser);
+                              }
+                              else{
+                                context.read<PushNotificationCubit>().emit(ErrorState(StringConstants.errorMsgNotification));
                               }
                             },
                             child: Text(

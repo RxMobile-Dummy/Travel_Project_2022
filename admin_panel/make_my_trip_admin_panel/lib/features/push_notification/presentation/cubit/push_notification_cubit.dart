@@ -1,6 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
+import 'package:make_my_trip_admin_panel/core/failures/failures.dart';
 import 'package:make_my_trip_admin_panel/features/push_notification/domain/use_cases/push_notification_usecase.dart';
 import 'package:make_my_trip_admin_panel/features/push_notification/domain/use_cases/register_user_notification_usecase.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
@@ -9,7 +12,7 @@ import 'package:meta/meta.dart';
 import '../../domain/use_cases/enduser_notification_usecase.dart';
 part 'push_notification_state.dart';
 
-class PushNotificationCubit extends Cubit<PushNotificationState> {
+class PushNotificationCubit extends Cubit<BaseState> {
   PushNotificationUseCase pushNotificationUseCase;
   RegisterUserNotificationUseCase registerUserNotificationUseCase;
   EndUserNotificationUseCase endUserNotificationUseCase;
@@ -21,7 +24,7 @@ class PushNotificationCubit extends Cubit<PushNotificationState> {
   getImagefromDevice(int registerUser, int endUser) async {
     final response = await pushNotificationUseCase.call();
     response.fold(
-        (l) => null,
+        (l) =>  emit(StateErrorGeneral(StringConstants.errorMsgNotification)),
         (r) => emit(PushNotificationResponse(
             r.first.toString(), r.last.toString(), registerUser, endUser)));
   }
@@ -37,7 +40,7 @@ class PushNotificationCubit extends Cubit<PushNotificationState> {
       final response =
           await registerUserNotificationUseCase.call(title, body, url);
       response.fold(
-          (l) => null,
+          (l) =>  emit(StateErrorGeneral(StringConstants.errorMsgNotification)),
           (r) => Fluttertoast.showToast(
               msg: StringConstants.pushedNotificationToRegisteredUser));
     }
@@ -50,7 +53,7 @@ class PushNotificationCubit extends Cubit<PushNotificationState> {
     } else {
       final response = await endUserNotificationUseCase.call(title, body, url);
       response.fold(
-          (l) => null,
+          (l) =>  emit(StateErrorGeneral(StringConstants.errorMsgNotification)),
           (r) => Fluttertoast.showToast(
               msg: StringConstants.pushedNotificationToEndUser));
     }

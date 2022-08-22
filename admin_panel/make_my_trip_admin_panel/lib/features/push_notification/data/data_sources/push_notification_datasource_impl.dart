@@ -28,7 +28,7 @@ class PushNotificationDaaSource_Impl implements PushNotificationDataSource {
             SettableMetadata(contentType: 'image/jpeg'),
           )
           .whenComplete(() => Fluttertoast.showToast(
-              msg: StringConstants.imageUploadedSuccessfully));
+              msg: StringConstants.imageUploadedSuccessfully)).catchError((err)=>Fluttertoast.showToast(msg: "Something went wrong while uploading image , please try again latter !"));
       var url = await ref.getDownloadURL();
       return Right([pickedFile.name, url]);
     } catch (e) {
@@ -46,7 +46,7 @@ class PushNotificationDaaSource_Impl implements PushNotificationDataSource {
         "body": body,
         "imageUrl": url.toString().trim(),
         "topic": "Events"
-      });
+      }).catchError((err)=>Fluttertoast.showToast(msg: "Could not post notifiction!"));
       return Right(response.data.toString());
     } catch (e) {
       return Left(ServerFailure());
@@ -61,7 +61,7 @@ class PushNotificationDaaSource_Impl implements PushNotificationDataSource {
         "title": title,
         "body": body,
         "imageUrl": url.toString().trim()
-      });
+      }).catchError((err)=>Fluttertoast.showToast(msg: "Count not post notification!"));
       return Right(response.data.toString());
     } catch (e) {
       return Left(ServerFailure());
