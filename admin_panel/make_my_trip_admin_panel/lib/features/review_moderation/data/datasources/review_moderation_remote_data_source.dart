@@ -33,13 +33,16 @@ class ReviewModerationRemoteDataSourceImpl
 
       final apiData = res.data;
       List<ReviewModel> reviewList = [];
+
       for (var element in apiData) {
         reviewList.add(ReviewModel.fromJson(element));
       }
+      print(reviewList);
       return Right(reviewList);
     } on SocketException {
       return Left(InternetFailure());
     } catch (err) {
+      print(err);
       return Left(ServerFailure());
     }
   }
@@ -64,6 +67,7 @@ class ReviewModerationRemoteDataSourceImpl
     } on SocketException {
       return Left(InternetFailure());
     } catch (err) {
+      print(err);
       debugPrint(err.toString());
       return Left(ServerFailure());
     }
@@ -90,6 +94,7 @@ class ReviewModerationRemoteDataSourceImpl
     } on SocketException {
       return Left(InternetFailure());
     } catch (err) {
+      print(err);
       return Left(ServerFailure());
     }
   }

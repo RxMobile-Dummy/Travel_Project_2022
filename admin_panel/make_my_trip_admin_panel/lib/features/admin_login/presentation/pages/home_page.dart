@@ -8,8 +8,12 @@ import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/admin
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/cubit/admin_booking_moderation_cubit.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/pages/admin_booking_page.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/cubit/admin_login_cubit.dart';
+import 'package:make_my_trip_admin_panel/features/review_moderation/presentation/cubit/review_moderation_cubit.dart';
+import 'package:make_my_trip_admin_panel/features/review_moderation/presentation/pages/review_moderation.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/image_path.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
+
+import '../../../review_moderation/review_moderation_injection_container.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -66,6 +70,18 @@ class HomePage extends StatelessWidget {
                         ),
                         ListTile(
                           autofocus: true,
+                          focusColor: MakeMyTripColors.colorCwsPrimary,
+                          title: const Text(
+                            StringConstants.reviewAppbarTitle,
+                            style: AppTextStyles.infoContentStyle,
+                          ),
+                          onTap: () {
+                            context.read<AdminLoginCubit>().changeViewEvent(
+                                StringConstants.reviewAppbarTitle);
+                          },
+                        ),
+                        ListTile(
+                          autofocus: true,
                           title: Text(
                             StringConstants.logOutLabel,
                             style: AppTextStyles.infoContentStyle,
@@ -92,7 +108,15 @@ class HomePage extends StatelessWidget {
                                         .substring(0, 10)),
                           child: (AdminBookingPage()),
                         )
-                      : const SizedBox(),
+                      : (state is StateOnResponseSuccess &&
+                              state.response ==
+                                  StringConstants.reviewAppbarTitle)
+                          ? BlocProvider<ReviewModerationCubit>(
+                              create: (context) =>
+                                  reviewSl<ReviewModerationCubit>(),
+                              child: (ReviewModeration()),
+                            )
+                          : const SizedBox(),
                 ),
               ],
             ),

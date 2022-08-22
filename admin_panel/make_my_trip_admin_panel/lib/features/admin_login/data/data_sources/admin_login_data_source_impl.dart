@@ -40,7 +40,7 @@ class AdminLoginDataSourceImpl implements AdminLoginDataSource {
   @override
   Future<Either<Failures, void>> validateAdmin() async {
     try {
-     await dio.get('${BaseConstant.baseUrl}user/admincheck',
+      await dio.get('${BaseConstant.baseUrl}user/admincheck',
           options: await BaseConstant.createDioOptions());
       return const Right(null);
     } on DioError catch (err) {

@@ -12,11 +12,6 @@ class AdminBookingModerationDataSourceImpl
 
   AdminBookingModerationDataSourceImpl(this.dio);
 
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    return Options(headers: {'token': userToken});
-  }
-
   @override
   Future<Either<Failures, List<BookingModerationModel>>> getAllBookings(
       filterParams) async {
@@ -31,7 +26,7 @@ class AdminBookingModerationDataSourceImpl
       };
       const baseurl = BaseConstant.baseUrl;
       final response = await dio.get('${baseurl}booking/getallbooking',
-          options: await createDioOptions(), queryParameters: params);
+          options: await BaseConstant.createDioOptions(), queryParameters: params);
       print(response.data);
       if (response.statusCode == 200) {
         final List<BookingModerationModel> bookingList = [];
