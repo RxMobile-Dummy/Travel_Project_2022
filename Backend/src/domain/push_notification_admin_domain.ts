@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import * as admin from 'firebase-admin';
 import { devicemodel } from '../model/device';
+import { StatusCode } from '../statuscode';
 const notification_options = {
 
     priority: "high",
@@ -49,7 +50,7 @@ class PushNotificationAdminDomain {
 
 
 
-                res.status(200).send("Notification sent successfully to registered User")
+                res.status(StatusCode.Sucess).send("Notification sent successfully to registered User")
               
 
 
@@ -91,7 +92,7 @@ class PushNotificationAdminDomain {
 
         admin.messaging().sendToDevice(registrationToken, message, notification_options).then(
             response => {
-                res.status(200).send("Notification sent successfully to end users")
+                res.status(StatusCode.Sucess).send("Notification sent successfully to end users")
                
             }
         ).catch(error => {
