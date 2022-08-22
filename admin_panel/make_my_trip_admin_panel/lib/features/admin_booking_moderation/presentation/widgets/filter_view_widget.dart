@@ -100,10 +100,10 @@ class FilterViewWidget extends StatelessWidget {
       actions: <Widget>[
         ElevatedButton(
             onPressed: () {
-              if (filterResetValue == true) {
+              if (filterResetValue) {
                 providerContext
                     .read<AdminBookingModerationCubit>()
-                    .resetFilterEvent(false);
+                    .resetFilterEvent(!filterResetValue);
               } else {
                 Navigator.of(context).pop();
               }
