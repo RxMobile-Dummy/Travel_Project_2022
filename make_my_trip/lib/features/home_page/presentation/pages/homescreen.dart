@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip/features/home_page/presentation/widgets/imege_slidder_shimmer.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
@@ -98,15 +99,33 @@ class HomeScreen extends StatelessWidget {
                         HomeFeaturesWidget(
                             iconData: Icons.airplanemode_active_rounded,
                             text: StringConstants.flightTxt,
-                            onTap: () {}),
+                            onTap: () {
+                              Fluttertoast.showToast(
+                                  msg: "coming soon",
+                                  timeInSecForIosWeb: 4,
+                                  backgroundColor: MakeMyTripColors.colorBlack
+                                      .withOpacity(.9));
+                            }),
                         HomeFeaturesWidget(
                             iconData: Icons.maps_home_work,
                             text: StringConstants.placeTxt,
-                            onTap: () {}),
+                            onTap: () {
+                              Fluttertoast.showToast(
+                                  msg: "coming soon",
+                                  timeInSecForIosWeb: 4,
+                                  backgroundColor: MakeMyTripColors.colorBlack
+                                      .withOpacity(.9));
+                            }),
                         HomeFeaturesWidget(
                             iconData: Icons.place,
                             text: StringConstants.statesTxt,
-                            onTap: () {}),
+                            onTap: () {
+                              Fluttertoast.showToast(
+                                  msg: "coming soon",
+                                  timeInSecForIosWeb: 4,
+                                  backgroundColor: MakeMyTripColors.colorBlack
+                                      .withOpacity(.9));
+                            }),
                       ],
                     ),
                   ),

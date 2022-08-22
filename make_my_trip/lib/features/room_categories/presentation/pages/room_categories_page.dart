@@ -35,13 +35,15 @@ class RoomCategoriesPage extends StatelessWidget {
         ),
       ),
       body: BlocConsumer<RoomCategoryCubit, BaseState>(
-          listener: (context, state) {
+          listener: (context, state) async {
         if (state is Unauthenticated) {
           Navigator.pushNamed(context, RoutesName.login,
               arguments: {"route_name": RoutesName.roomCategory});
         } else if (state is StateOnKnownToSuccess<RoomDataPostModel>) {
-          Navigator.pushNamed(context, RoutesName.bookingPage,
+          await Navigator.pushNamed(context, RoutesName.bookingPage,
               arguments: {"model": state.response});
+          BlocProvider.of<RoomCategoryCubit>(context).getData(arg['hotel_id'], arg['cin'], arg['cout'],
+              arg['noofrooms']);
         }
       }, builder: (context, state) {
         if (state is StateErrorGeneral) {
@@ -179,7 +181,10 @@ class RoomCategoriesPage extends StatelessWidget {
                                         roomCategoryModel!,
                                         arg['adults']);
                               }
+
+
                             },
+
                             disable:
                                 (state.response.totalRooms != arg["noofrooms"]),
                           ))
