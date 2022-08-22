@@ -41,6 +41,8 @@ import { router as paymentroute } from './controller/payment_controller';
 import {router as deviceroute} from './controller/device_controller';
 import { router as couponroute } from './controller/coupon_controller';
 import { router as webhookroute } from './controller/webhook_controller';
+import { router as pushnotificationadminroute} from './controller/push_notification_admin_controller';
+
 
 app.use('/webhook',webhookroute );
 // FIREBASE INTITIALIZE
@@ -73,6 +75,9 @@ app.use('/cancelBooking', cancelbookingroute);
 app.use('/coupon', couponroute);
 app.use('/payment', paymentroute);
 app.use('/device',deviceroute);
+app.use('/broadcast',pushnotificationadminroute);
+
+
 
 
 // LISTEN
