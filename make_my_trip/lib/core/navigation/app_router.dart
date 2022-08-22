@@ -8,6 +8,7 @@ import 'package:make_my_trip/features/booking/presentation/pages/booking_page.da
 import 'package:make_my_trip/features/calendar/presentation/cubit/calendar_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
+import 'package:make_my_trip/features/gallery_page/presentation/pages/view_full_image_page.dart';
 import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_container.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/filter_list.dart';
@@ -290,6 +291,14 @@ class Router {
             child: GalleryPage(
               arg: arg,
             ),
+          );
+        });
+
+      case RoutesName.viewImagePage:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(builder: (_) {
+          return ViewImage(
+            arg: arg,
           );
         });
       case RoutesName.bookingPage:

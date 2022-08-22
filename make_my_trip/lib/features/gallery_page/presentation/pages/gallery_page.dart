@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
@@ -25,7 +26,7 @@ class GalleryPage extends StatelessWidget {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
-              title:  Text(
+              title: Text(
                 StringConstants.gallery,
                 style: AppTextStyles.unselectedLabelStyle,
               ),
@@ -106,12 +107,12 @@ class Tile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ViewImage(
-                    index: index,
-                    imgStr: imageList[index],
-                  )));
-          //Navigator.pushNamedAndRemoveUntil(context, newRouteName, (route) => false,arguments: {})
+          // Navigator.of(context).push(MaterialPageRoute(
+          //     builder: (context) => ViewImage());
+          Navigator.pushNamed(context, RoutesName.viewImagePage, arguments: {
+            "index": index.toString(),
+            "imgStr": imageList[index],
+          });
         },
         child: ClipRRect(
             borderRadius: BorderRadius.circular(12),

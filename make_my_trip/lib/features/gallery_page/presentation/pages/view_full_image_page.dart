@@ -6,25 +6,27 @@ import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cu
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
 
 class ViewImage extends StatelessWidget {
-  const ViewImage({
+  ViewImage({
     Key? key,
-    required this.index,
-    required this.imgStr,
+    required this.arg,
+    // required this.index,
+    // required this.imgStr,
   }) : super(key: key);
-  final int index;
-  final String imgStr;
-
+  // final int index;
+  // final String imgStr;
+  final Map<String, dynamic> arg;
   @override
   Widget build(BuildContext context) {
     //Map map =  ModalRoute.of(context)!.settings.arguments;
-    PageController controller = PageController(initialPage: index);
+    PageController controller =
+        PageController(initialPage: int.parse(arg['index']));
     return BlocProvider<GalleryCubit>(
       create: (context) => GalleryCubit(),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: const IconThemeData(color: MakeMyTripColors.colorWhite),
         ),
         backgroundColor: MakeMyTripColors.colorBlack,
         body: BlocBuilder<GalleryCubit, BaseState>(
@@ -33,7 +35,7 @@ class ViewImage extends StatelessWidget {
               child: Hero(
                   tag: (state is StateOnSuccess)
                       ? state.response.toString()
-                      : index.toString(),
+                      : arg['index'].toString(),
                   child: PageView.builder(
                       controller: controller,
                       itemCount: imageList.length,
