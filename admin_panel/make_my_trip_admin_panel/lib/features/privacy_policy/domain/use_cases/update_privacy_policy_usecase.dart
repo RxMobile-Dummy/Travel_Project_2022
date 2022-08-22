@@ -6,12 +6,12 @@ import 'package:make_my_trip_admin_panel/features/privacy_policy/domain/reposito
 import '../../../../core/usecases/usecase.dart';
 import '../../../about_us/domain/use_cases/about_us_update_usecase.dart';
 
-class PrivacyPolicyUpdateUseCase implements UseCase<String, UpdateParams> {
+class PrivacyPolicyUpdateUseCase implements UseCase<void, UpdateParams> {
   final PrivacyPolicyRepository privacyPolicyRepository;
   PrivacyPolicyUpdateUseCase(this.privacyPolicyRepository);
 
   @override
-  Future<Either<Failures, String>> call(UpdateParams params) async {
+  Future<Either<Failures, void>> call(UpdateParams params) async {
     return await privacyPolicyRepository.updatePrivacyPolicy(params.data);
   }
 }

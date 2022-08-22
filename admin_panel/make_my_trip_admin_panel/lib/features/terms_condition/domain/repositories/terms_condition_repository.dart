@@ -5,5 +5,5 @@ import '../../../../utils/html_editor/content_model.dart';
 
 abstract class TermsConditionRepository {
   Future<Either<Failures, List<ContentModel>>> getTermsCondition();
-  Future<Either<Failures, String>> updateTermsCondition(String content);
+  Future<Either<Failures, void>> updateTermsCondition(String content);
 }

@@ -7,12 +7,12 @@ import '../../../../utils/html_editor/content_model.dart';
 import '../../../about_us/domain/use_cases/about_us_update_usecase.dart';
 import '../repositories/terms_condition_repository.dart';
 
-class TermsConditionUpdateUseCase implements UseCase<String, UpdateParams> {
+class TermsConditionUpdateUseCase implements UseCase<void, UpdateParams> {
   final TermsConditionRepository termsConditionRepository;
   TermsConditionUpdateUseCase(this.termsConditionRepository);
 
   @override
-  Future<Either<Failures, String>> call(UpdateParams params) async {
+  Future<Either<Failures, void>> call(UpdateParams params) async {
     return await termsConditionRepository.updateTermsCondition(params.data);
   }
 }

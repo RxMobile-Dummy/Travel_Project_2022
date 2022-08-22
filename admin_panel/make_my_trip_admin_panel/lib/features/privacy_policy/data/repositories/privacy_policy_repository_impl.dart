@@ -14,7 +14,7 @@ class PrivacyPolicyRepositoryImpl extends PrivacyPolicyRepository {
   }
 
   @override
-  Future<Either<Failures, String>> updatePrivacyPolicy(String content) async {
+  Future<Either<Failures, void>> updatePrivacyPolicy(String content) async {
     return await privacyPolicyRemoteDataSources
         .updatePrivacyPolicyData(content);
   }

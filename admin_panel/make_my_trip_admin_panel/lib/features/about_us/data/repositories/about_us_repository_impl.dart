@@ -14,7 +14,7 @@ class AboutUsRepositoryImpl extends AboutUsRepository {
   }
 
   @override
-  Future<Either<Failures, String>> updateAboutUs(String content) async {
+  Future<Either<Failures, void>> updateAboutUs(String content) async {
     return await aboutUsRemoteDataSources.updateAboutUsData(content);
   }
 }

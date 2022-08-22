@@ -6,7 +6,7 @@ import '../../../../utils/html_editor/content_model.dart';
 
 abstract class PrivacyPolicyRemoteDataSources {
   Future<Either<Failures, List<ContentModel>>> getPrivacyPolicyData();
-  Future<Either<Failures, String>> updatePrivacyPolicyData(String content);
+  Future<Either<Failures, void>> updatePrivacyPolicyData(String content);
 }
 
 class PrivacyPolicyRemoteDataSourcesImpl
@@ -29,14 +29,13 @@ class PrivacyPolicyRemoteDataSourcesImpl
   }
 
   @override
-  Future<Either<Failures, String>> updatePrivacyPolicyData(
-      String content) async {
+  Future<Either<Failures, void>> updatePrivacyPolicyData(String content) async {
     try {
       await firebaseFirestore
           .collection('privacyPolicy')
           .doc('hd2CM4A1Nm1iAQpqH8cj')
           .update({"title": content});
-      return Right("");
+      return const Right(null);
     } catch (e) {
       return Left(ServerFailure());
     }

@@ -16,8 +16,7 @@ class FaqRepositoryImpl extends FaqRepository {
   }
 
   @override
-  Future<Either<Failures, String>> updateFaq(
-      String title, String content) async {
+  Future<Either<Failures, void>> updateFaq(String title, String content) async {
     return await faqRemoteDataSources.updateFaqData(title, content);
   }
 }

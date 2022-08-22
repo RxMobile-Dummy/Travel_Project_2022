@@ -14,7 +14,7 @@ class TermsConditionRepositoryImpl extends TermsConditionRepository {
   }
 
   @override
-  Future<Either<Failures, String>> updateTermsCondition(String content) async {
+  Future<Either<Failures, void>> updateTermsCondition(String content) async {
     return await termsConditionRemoteDataSources
         .updateTermsConditionData(content);
   }

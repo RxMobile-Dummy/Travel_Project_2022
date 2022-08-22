@@ -5,5 +5,5 @@ import '../../../../core/failures/failures.dart';
 
 abstract class FaqRepository {
   Future<Either<Failures, List<ContentModel>>> getFaq();
-  Future<Either<Failures, String>> updateFaq(String title, String content);
+  Future<Either<Failures, void>> updateFaq(String title, String content);
 }

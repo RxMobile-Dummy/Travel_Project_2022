@@ -5,5 +5,5 @@ import '../../../../utils/html_editor/content_model.dart';
 
 abstract class PrivacyPolicyRepository {
   Future<Either<Failures, List<ContentModel>>> getPrivacyPolicy();
-  Future<Either<Failures, String>> updatePrivacyPolicy(String content);
+  Future<Either<Failures, void>> updatePrivacyPolicy(String content);
 }

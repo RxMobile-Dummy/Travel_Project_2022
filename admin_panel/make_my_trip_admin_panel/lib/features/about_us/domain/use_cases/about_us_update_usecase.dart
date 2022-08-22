@@ -5,12 +5,12 @@ import '../../../../core/usecases/usecase.dart';
 import '../../../../utils/html_editor/content_model.dart';
 import '../repositories/about_us_repository.dart';
 
-class AboutUsUpdateUseCase implements UseCase<String, UpdateParams> {
+class AboutUsUpdateUseCase implements UseCase<void, UpdateParams> {
   final AboutUsRepository aboutUsRepository;
   AboutUsUpdateUseCase(this.aboutUsRepository);
 
   @override
-  Future<Either<Failures, String>> call(UpdateParams params) async {
+  Future<Either<Failures, void>> call(UpdateParams params) async {
     return await aboutUsRepository.updateAboutUs(params.data);
   }
 }

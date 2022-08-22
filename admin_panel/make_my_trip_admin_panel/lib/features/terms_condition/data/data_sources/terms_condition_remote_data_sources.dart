@@ -6,7 +6,7 @@ import '../../../../utils/html_editor/content_model.dart';
 
 abstract class TermsConditionRemoteDataSources {
   Future<Either<Failures, List<ContentModel>>> getTermsConditionData();
-  Future<Either<Failures, String>> updateTermsConditionData(String content);
+  Future<Either<Failures, void>> updateTermsConditionData(String content);
 }
 
 class TermsConditionRemoteDataSourcesImpl
@@ -30,14 +30,14 @@ class TermsConditionRemoteDataSourcesImpl
   }
 
   @override
-  Future<Either<Failures, String>> updateTermsConditionData(
+  Future<Either<Failures, void>> updateTermsConditionData(
       String content) async {
     try {
       await firebaseFirestore
           .collection('termsAndCondition')
           .doc('lUv86e95qvAgXKsNPFuK')
           .update({"title": content});
-      return Right("");
+      return const Right(null);
     } catch (e) {
       return Left(ServerFailure());
     }

@@ -5,12 +5,12 @@ import 'package:make_my_trip_admin_panel/features/faq/domain/repositories/faq_re
 
 import '../../../../core/usecases/usecase.dart';
 
-class FaqUpdateUseCase implements UseCase<String, FaqParams> {
+class FaqUpdateUseCase implements UseCase<void, FaqParams> {
   final FaqRepository faqRepository;
   FaqUpdateUseCase(this.faqRepository);
 
   @override
-  Future<Either<Failures, String>> call(FaqParams params) async {
+  Future<Either<Failures, void>> call(FaqParams params) async {
     return await faqRepository.updateFaq(params.title, params.content);
   }
 }

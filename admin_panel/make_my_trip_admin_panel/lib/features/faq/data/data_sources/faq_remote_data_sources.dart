@@ -5,7 +5,7 @@ import '../../../../utils/html_editor/content_model.dart';
 
 abstract class FaqRemoteDataSources {
   Future<Either<Failures, List<ContentModel>>> getFaqData();
-  Future<Either<Failures, String>> updateFaqData(String title, String content);
+  Future<Either<Failures, void>> updateFaqData(String title, String content);
 }
 
 class FaqRemoteDataSourcesImpl extends FaqRemoteDataSources {
@@ -27,14 +27,14 @@ class FaqRemoteDataSourcesImpl extends FaqRemoteDataSources {
   }
 
   @override
-  Future<Either<Failures, String>> updateFaqData(
+  Future<Either<Failures, void>> updateFaqData(
       String title, String content) async {
     try {
       await firebaseFirestore
           .collection('faq')
           .doc('8dUrCfumVUNXTTqtIQBE')
           .update({"title": title, "subtitle": content});
-      return Right("");
+      return const Right(null);
     } catch (e) {
       return Left(ServerFailure());
     }
