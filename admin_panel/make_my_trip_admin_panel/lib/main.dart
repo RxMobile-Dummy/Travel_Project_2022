@@ -1,9 +1,8 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:make_my_trip_admin_panel/core/responsive/responsive.dart';
-import 'package:make_my_trip_admin_panel/features/review_moderation/presentation/pages/review_moderation.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/admin_booking_moderation_injection_container.dart'
     as admin_booking_moderation_di;
 import 'package:make_my_trip_admin_panel/features/admin_login/admin_login_injection_container.dart'
@@ -16,8 +15,6 @@ import 'firebase_options.dart';
 import './features/review_moderation/review_moderation_injection_container.dart'
     as review_di;
 import '../../features/about_us/about_us_injection_container.dart' as di;
-import 'package:make_my_trip_admin_panel/features/faq/presentation/pages/faq_page.dart';
-import 'features/faq/presentation/pages/faq_page.dart';
 import '../../features/privacy_policy/privacy_policy_injection_container.dart'
     as dipp;
 import '../../features/terms_condition/terms_condition_injection_container.dart'
@@ -59,6 +56,9 @@ class MyApp extends StatelessWidget {
       title: StringConstants.appTitle,
       theme: MakeMyTripLightTheme.lightTheme,
       onGenerateRoute: app_routes.Router().generateRoutes,
+      initialRoute: FirebaseAuth.instance.currentUser != null
+          ? RoutesName.homePage
+          : RoutesName.adminLogin,
     );
   }
 }

@@ -30,7 +30,7 @@ class StringConstants {
   static String firebasePassError = "wrong-password";
   static String firebaseInvalidPassMessage = "Invalid Password";
   static String firebaseInvalidEmailMessage = "Invalid Email";
-  static String waitLoginTxt = "wait for login...";
+  static String waitLoginTxt = "loading...";
 
   //admin_booking_moderation string constants
   static List<String> drawerListTitle = [

@@ -95,7 +95,11 @@ class AdminLoginPage extends StatelessWidget {
                                       color: MakeMyTripColors.colorRed),
                                 )
                               : state is StateLoading
-                                  ? Text(StringConstants.waitLoginTxt)
+                                  ? Text(
+                                      StringConstants.waitLoginTxt,
+                                      style: const TextStyle(
+                                          color: MakeMyTripColors.colorGreen),
+                                    )
                                   : const Text(""),
                         ),
                         12.verticalSpace,

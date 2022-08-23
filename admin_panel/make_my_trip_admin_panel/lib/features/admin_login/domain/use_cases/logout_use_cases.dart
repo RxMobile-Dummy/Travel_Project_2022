@@ -10,6 +10,6 @@ class LogOutUseCases extends UseCase<void, NoParams> {
 
   @override
   Future<Either<Failures, void>> call(params) async {
-    return await adminLoginRepository.validateAdmin();
+    return await adminLoginRepository.logOut();
   }
 }
