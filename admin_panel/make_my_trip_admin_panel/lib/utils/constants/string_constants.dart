@@ -11,4 +11,53 @@ class StringConstants {
   static String messageEmptyPassword = 'Please fill empty Password';
   static String messageInvalidPassword =
       'Please enter length of minimum 6 character';
+  static String appTitle = "MakeMyTrip";
+  static String adminPanelLabel = "Admin Panel";
+
+  //admin_home_page String Constant
+  static String bookingModerationLabel = "Check Bookings";
+  static String logOutLabel = "logOut";
+
+  //Admin_login_constant_String
+  static String emailHintTxt = "Enter your Email";
+  static String passwordHintTxt = "Enter your Password";
+  static String emailLabel = "Email";
+  static String passwordLabel = "Password";
+  static String emailValidationErrorMessage = "email is not valid!";
+  static String passwordValidationErrorMessage = "password is not strong!";
+  static String loginSuccessMessage = "Login Success";
+  static String firebaseEmailError = "user-not-found";
+  static String firebasePassError = "wrong-password";
+  static String firebaseInvalidPassMessage = "Invalid Password";
+  static String firebaseInvalidEmailMessage = "Invalid Email";
+  static String waitLoginTxt = "wait for login...";
+
+  //admin_booking_moderation string constants
+  static List<String> drawerListTitle = [
+    "Hotels Bookings",
+    "Add new Hotels",
+    "All Hotels",
+    "Hotels Reviews"
+  ];
+  static String bookingIdLabel = "Booking ID";
+  static String userNameLabel = "UserName";
+  static String hotelNameLabel = "Hotel Name";
+  static String checkInDateLabel = "check_In_Date";
+  static String checkOutDateLabel = "check_Out_Date";
+  static String revenueLabel = "Revenue";
+  static String noBookingFound = "No Bookings Found";
+  static String searchHintTxt = "Search";
+  static String filterLabel = "Filter";
+  static String filterHotelNameLabel = "Find booking by Hotel Name";
+  static String filterUserNameLabel = "Find booking by User Name";
+  static String filterHotelNameHint = "Enter UserName";
+  static String filterUserNameHint = "Enter HotelName";
+  static String applyTxt = "Apply";
+  static String cancelTxt = "Cancel";
+  static String resetTxt = "Reset";
+  static String hotelDataLabel = "Hotel Data";
+  static String bookingDataLabel = "Booking Data";
+  static String bookingStatusTxt = "Status";
+  static String paymentDataLabel = "Payment";
+  static String noOfRoomTxt = "No of Rooms";
 }
