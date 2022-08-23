@@ -44,7 +44,7 @@ import { router as webhookroute } from './controller/webhook_controller';
 import { router as pushnotificationadminroute} from './controller/push_notification_admin_controller';
 
 
-app.use('/webhook',webhookroute );
+
 // FIREBASE INTITIALIZE
 admin.initializeApp(
     {

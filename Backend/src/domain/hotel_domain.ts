@@ -396,7 +396,7 @@ class HotelDomain {
         var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
         var uid: string = reqData.uid;
         var userData = await Usermodel.find({ _id: uid }).select("-__v");
-        if (userData[0].user_type == "admin") {
+        if (reqData.admin == true) {
             var newHotelData = req.body;
             var nextID: any = await hotelmodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
             var last = await hotelmodel.find({}).sort({ _id: -1 }).limit(1);
@@ -479,7 +479,7 @@ class HotelDomain {
         var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
         var uid: string = reqData.uid;
         var userData = await Usermodel.find({ _id: uid }).select("-__v");
-        if (userData[0].user_type == "admin") {
+        if (reqData.admin == true) {
 
             var nextID: any = await imagemodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
             var hotelId: any = await hotelmodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
@@ -521,7 +521,7 @@ class HotelDomain {
         var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
         var uid: string = reqData.uid;
         var userData = await Usermodel.find({ _id: uid }).select("-__v");
-        if (userData[0].user_type == "admin") {
+        if (reqData.admin == true) {
             var hotelData = await hotelmodel.findOne({ _id: req.params.hoteId })
             if (hotelData) {
                 hotelmodel.deleteOne({ _id: req.params.hoteId }, function (err) {
@@ -558,7 +558,7 @@ class HotelDomain {
         var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
         var uid: string = reqData.uid;
         var userData = await Usermodel.find({ _id: uid }).select("-__v");
-        if (userData[0].user_type == "admin") {
+        if (reqData.admin == true) {
             var nextID: any = await imagemodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
             var hotelId: any = await hotelmodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
             req.body._id = nextID._id + 1;
@@ -628,7 +628,7 @@ class HotelDomain {
         var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
         var uid: string = reqData.uid;
         var userData = await Usermodel.find({ _id: uid }).select("-__v");
-        if (userData[0].user_type == "admin") {
+        if (reqData.admin == true) {
             var newHotelData = req.body;
             var room: any = []
             var noOfDelux = req.body.noofdeluxe;

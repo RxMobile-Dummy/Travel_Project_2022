@@ -128,6 +128,46 @@ class UserDomain {
     }
 
 
+    //admin check
+ async admincheck(req:Request , res: Response){
+    try {
+      
+        var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
+        //var uid: string = "dwkkf5q7ufOeZCSqo5qMBR1sA1F2";
+        var uid: string = reqData.uid;
+        var userData = await Usermodel.findOne({ _id: uid }).select("-__v");
+        if(userData?.user_type=="admin"){
+           const additionalClaims = {
+            premiumAccount: true,
+        };
+           await admin.auth()
+           .createCustomToken(uid, additionalClaims)
+           .then((customToken) => {
+               console.log(customToken);
+               var resdata = {
+                   "token" : customToken,
+
+               }
+               console.log(resdata)
+               res.status(StatusCode.Sucess).send(resdata);
+               return customToken;
+           })
+           .catch((error) => {
+               console.log('Error creating custom token:', error);
+               res.status(StatusCode.Server_Error).send(error);
+           });
+            res.end();
+        }else {
+            console.log("hjsd");
+            res.status(StatusCode.Unauthorized).send("You are not authorize");
+            res.end();
+        }
+       
+    } catch (error: any) {
+        res.status(StatusCode.Server_Error).send(error.message)
+    }
+}
+
 
 }
 

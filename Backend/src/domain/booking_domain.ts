@@ -286,10 +286,10 @@ class BookingDomain {
         }
     }
 
-    async bookingFreeze(req: Request, res: Response, cIn: string, cOut: string, roomId: any, hotelId: number,orderId:any,price:any,) {
+    async bookingFreeze(req: Request, res: Response, cIn: string, cOut: string, roomId: any, hotelId: number,orderId:any,price:any,coupon_id:any) {
         try {
             var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
-
+            console.log(reqData);
             if (roomId.length != 0 && cIn != null && cOut != null && hotelId != 0) {
 
                 //Date converstion
@@ -321,6 +321,7 @@ class BookingDomain {
                         discount: price.discount,
                         total_price: price.total_price
                     },
+                    coupon_id:coupon_id,
                     status: "pending",
                     paymentId: null,
                     orderId: orderId
@@ -343,9 +344,14 @@ class BookingDomain {
 
     //payment fail
     async bookingFreezFail(bookingId: any) {
+        try{
+            console.log('timer');
+            await bookingmodel.deleteOne({$and:[{_id:bookingId},{status:"pending"}]});
 
-        await bookingmodel.deleteOne({ $and: [{ _id: bookingId }, { status: "pending" }] });
-        
+            console.log('deleted')
+        }catch(e:any){
+            
+        }
     }
 
     //prize confirmation page 
@@ -435,7 +441,7 @@ class BookingDomain {
         var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
         var uid: string = reqData.uid;
         var userData = await Usermodel.find({ _id: uid }).select("-__v");
-        if (userData[0].user_type == "admin") {
+        if (reqData.admin == true) {
             var q: any = req.query;
             var pageSize: any = req.query.pagesize;
             var page: any = req.query.page;

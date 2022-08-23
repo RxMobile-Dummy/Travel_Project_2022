@@ -24,6 +24,7 @@ class PaymentDomain {
             amount: amount * 100,
             currency: 'INR',
         }
+        console.log(options);
         try {
             var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
             var uid: string = reqData.uid;
@@ -37,16 +38,22 @@ class PaymentDomain {
                 user_email: userData[0].user_email,
                 user_phone_number: userData[0].user_phone_number,
             }
+            console.log(orderData);
             const bookIngDomain = new BookingDomain();
-            var resBooking = await bookIngDomain.bookingFreeze(req, res, req.body.cin, req.body.cout, req.body.room_id, req.body.hotel_id,response.id,req.body.price);
+            var resBooking = await bookIngDomain.bookingFreeze(req, res, req.body.cin, req.body.cout, req.body.room_id, req.body.hotel_id,response.id,req.body.price,req.body.coupon_id);
             if (resBooking != 0) {
-                res.send(StatusCode.Sucess).send('Order created!!');
+                res.send(StatusCode.Sucess).send(orderData);
                 setTimeout(bookIngDomain.bookingFreezFail, 180000, resBooking);
+                res.end();
             } else {
                 res.status(StatusCode.Error).send('Unable to booking table insertion');
+                res.end();
             }
         } catch (error: any) {
+            console.log("catch");
+            console.log(error);
             res.status(StatusCode.Error).send('Unable to create order');
+            res.end();
         }
     }
 }

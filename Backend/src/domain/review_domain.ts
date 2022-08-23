@@ -159,7 +159,7 @@ class ReviewDomain {
         var uid: string = reqData.uid;
         // var uid: string = "dwkkf5q7ufOeZCSqo5qMBR1sA1F2";
         var userData = await Usermodel.find({ _id: uid }).select("-__v");
-        if (userData[0].user_type == "admin") {
+        if (reqData.admin == true) {
             var q: any = req.query;
             if (q.approve.length != null) {
                 var flag: boolean = q.approve == 'true' ? true : false;
@@ -172,16 +172,16 @@ class ReviewDomain {
                             status: "approve"
                         }
                     })
-                    var resReview = await reviewmodel.find({ "status": 'pending' }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } }).populate({ path: 'hotel_id', model: hotelmodel, select: { 'hotel_name': 1, '_id': 1 } }).sort({ date: 1 }).select({ "status": 0 })
-                    res.status(StatusCode.Sucess).send(resReview);
+                    // var resReview = await reviewmodel.find({ "status": 'pending' }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } }).populate({ path: 'hotel_id', model: hotelmodel, select: { 'hotel_name': 1, '_id': 1 } }).sort({ date: 1 }).select({ "status": 0 })
+                    res.status(StatusCode.Sucess).send("Review Approved");
                     res.end();
                 } else if (flag == false) {
 
                     var reviewData = await reviewmodel.find({ _id: q.review_id });
                     if (reviewData) {
                         await reviewmodel.deleteOne({ _id: q.review_id });
-                        var resReview = await reviewmodel.find({ "status": 'pending' }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } }).populate({ path: 'hotel_id', model: hotelmodel, select: { 'hotel_name': 1, '_id': 1 } }).sort({ date: 1 }).select({ "status": 0 })
-                        res.status(StatusCode.Sucess).send(resReview);
+                        // var resReview = await reviewmodel.find({ "status": 'pending' }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } }).populate({ path: 'hotel_id', model: hotelmodel, select: { 'hotel_name': 1, '_id': 1 } }).sort({ date: 1 }).select({ "status": 0 })
+                        res.status(StatusCode.Sucess).send("Review Rejected");
                         res.end();
                     }
                 }
@@ -200,7 +200,7 @@ class ReviewDomain {
             var uid: string = reqData.uid;
             // var uid: string = "dwkkf5q7ufOeZCSqo5qMBR1sA1F2";
             var userData = await Usermodel.find({ _id: uid }).select("-__v");
-            if (userData[0].user_type == "admin") {
+            if (reqData.admin == true) {
                 var q: any = req.query;
                 if (q.image_id.length != null && q.review_id != null) {
                     var resReviewData = await reviewmodel.find({ _id: parseInt(q.review_id) });
@@ -214,8 +214,8 @@ class ReviewDomain {
                             }
                         })
                         await reviewmodel.updateOne({ _id: q.review_id }, { $set: { image: imageDataDeleted } });
-                        var resReview = await reviewmodel.find({ "status": 'pending' }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } }).populate({ path: 'hotel_id', model: hotelmodel, select: { 'hotel_name': 1, '_id': 1 } }).sort({ date: 1 }).select({ "status": 0 })
-                        res.status(StatusCode.Sucess).send(resReview);
+                        // var resReview = await reviewmodel.find({ "status": 'pending' }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } }).populate({ path: 'hotel_id', model: hotelmodel, select: { 'hotel_name': 1, '_id': 1 } }).sort({ date: 1 }).select({ "status": 0 })
+                        res.status(StatusCode.Sucess).send("Image Deleted Success");
                         res.end();
                     }
                 }

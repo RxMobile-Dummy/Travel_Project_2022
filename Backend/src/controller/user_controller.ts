@@ -27,6 +27,11 @@ class UserController {
         await userDomain.deleteuser(req, res);
     }
 
+    static async adminCheck(req: Request, res: Response) {
+        const userDomain: UserDomain = new UserDomain();
+        await userDomain.admincheck(req, res);
+    }
+
 
 }
 
@@ -40,6 +45,9 @@ router.put('/', UserController.updateUser);
 router.get('/', UserController.getUser);
 
 router.get('/deleteuser', UserController.deleteuser);
+
+//admincheck
+router.get('/admincheck', UserController.adminCheck);
 
 //EXPORT
 export { router };
