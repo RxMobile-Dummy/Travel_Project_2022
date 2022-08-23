@@ -41,12 +41,12 @@ class PushNotificationDaaSource_Impl implements PushNotificationDataSource {
       title, body, url) async {
     try {
       var response =
-          await dio.post("${BaseConstant.baseUrl}broadcast/registered", data: {
+          await dio.post("http://192.168.101.164:3000/broadcast/registered", data: {
         "title": title,
         "body": body,
         "imageUrl": url.toString().trim(),
         "topic": "Events"
-      }).catchError((err)=>Fluttertoast.showToast(msg: "Could not post notifiction!"));
+      }).catchError((err)=>Fluttertoast.showToast(msg: StringConstants.notSend));
       return Right(response.data.toString());
     } catch (e) {
       return Left(ServerFailure());
@@ -57,11 +57,11 @@ class PushNotificationDaaSource_Impl implements PushNotificationDataSource {
   Future<Either<Failures, String>> endUserUseCase(title, body, url) async {
     try {
       var response = await Dio()
-          .post("${BaseConstant.baseUrl}broadcast/endUser", data: {
+          .post("http://192.168.101.164:3000/broadcast/endUser", data: {
         "title": title,
         "body": body,
         "imageUrl": url.toString().trim()
-      }).catchError((err)=>Fluttertoast.showToast(msg: "Count not post notification!"));
+      }).catchError((err)=>Fluttertoast.showToast(msg: StringConstants.notSend));
       return Right(response.data.toString());
     } catch (e) {
       return Left(ServerFailure());

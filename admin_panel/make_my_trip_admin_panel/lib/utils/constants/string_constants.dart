@@ -45,6 +45,7 @@ class StringConstants {
   static String pushedNotificationToRegisteredUser =
       "Pushed Notification Successfully To Registered Users";
   static String pushedNotificationToEndUser =
-      "Pushed Notification Successfully To Registered Users";
+      "Pushed Notification Successfully To End Users";
   static String errorMsgNotification = "Please fill all the required fields";
+  static String notSend = "Count not post notification!";
 }
