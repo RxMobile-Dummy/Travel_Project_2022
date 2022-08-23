@@ -31,6 +31,8 @@ class RoutesName {
 
   static const galleryPage = '/galleryPage';
 
+  static const viewImagePage = '/viewImagePage';
+
   static const reviewPage = "/reviewPage";
 
   static const publishReviewPage = "/publishReview";
