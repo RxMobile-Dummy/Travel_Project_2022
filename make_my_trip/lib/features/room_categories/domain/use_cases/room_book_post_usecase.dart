@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
+import 'package:make_my_trip/features/booking/data/model/booking_model.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/features/room_categories/domain/repositories/room_categories_repository.dart';
 
@@ -12,14 +13,15 @@ class RoomBookPostUsecase implements Usecase<String, RoomBookParams> {
 
   @override
   Future<Either<Failures, String>> call(RoomBookParams params) async {
-    return await roomCategoriesRepository.roomBookPost(params.hotelId , params.roomDataPostModel
-    );
+    return await roomCategoriesRepository.roomBookPost(
+        params.orderId, params.paymentId, params.bookingModel);
   }
 }
 
 class RoomBookParams {
-  final int hotelId;
-  final RoomDataPostModel roomDataPostModel;
+  final String orderId;
+  final String paymentId;
+  final BookingModel bookingModel;
 
-  RoomBookParams(this.hotelId, this.roomDataPostModel);
+  RoomBookParams(this.orderId, this.paymentId, this.bookingModel);
 }

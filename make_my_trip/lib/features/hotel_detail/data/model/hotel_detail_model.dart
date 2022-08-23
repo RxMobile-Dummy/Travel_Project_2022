@@ -34,12 +34,12 @@ class HotelDetailModel {
     hotelName = json['hotel_name'];
     address =
         json['address'] != null ? Address.fromJson(json['address']) : null;
-    rating = json['rating'];
+    rating = json['rating'].toDouble();
     price = json['price'];
     phoneNumber = json['phone_number'];
     description = json['description'];
     features = json['features'] != null ? json['features'].cast<String>() : [];
-    isbookmark=json['isbookmark'];
+    isbookmark = json['isbookmark'];
     if (json['images'] != null) {
       images = [];
       json['images'].forEach((v) {
@@ -50,7 +50,7 @@ class HotelDetailModel {
   int? id;
   String? hotelName;
   Address? address;
-  int? rating;
+  double? rating;
   int? price;
   int? phoneNumber;
   String? description;
@@ -69,7 +69,7 @@ class HotelDetailModel {
     map['phone_number'] = phoneNumber;
     map['description'] = description;
     map['features'] = features;
-    map['isbookmark']=isbookmark;
+    map['isbookmark'] = isbookmark;
     if (images != null) {
       map['images'] = images?.map((v) => v.toJson()).toList();
     }

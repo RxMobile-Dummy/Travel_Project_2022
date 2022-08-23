@@ -19,12 +19,10 @@ class HotelDetailCubit extends Cubit<BaseState> {
   final IsAnonymousUser isAnonymousUser;
 
   onLikeTap(bool isLiked, int? hotelId) async {
+    emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {
-      print(failure);
-    }, (success) {
+    res.fold((failure) {}, (success) {
       if (success) {
-        print(success);
         emit(Unauthenticated());
       } else {
         if (isLiked == true && hotelId != null) {

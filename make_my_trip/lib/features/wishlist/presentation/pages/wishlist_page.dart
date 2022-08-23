@@ -71,25 +71,6 @@ class WishListPage extends StatelessWidget {
                     ),
                     expandedHeight: 230,
                     backgroundColor: MakeMyTripColors.colorWhite,
-                    // leading: (!Platform.isAndroid) ? IconButton(
-                    //   color: scroll
-                    //       ? MakeMyTripColors.color70gray
-                    //       : MakeMyTripColors.colorWhite,
-                    //   icon: const Icon(Icons.arrow_back_ios),
-                    //   tooltip: 'back',
-                    //   onPressed: () {
-                    //     Navigator.pop(context);
-                    //   },
-                    // ) : IconButton(
-                    //   color: scroll
-                    //       ? MakeMyTripColors.color70gray
-                    //       : MakeMyTripColors.colorWhite,
-                    //   icon: const Icon(Icons.arrow_back_outlined),
-                    //   tooltip: 'back',
-                    //   onPressed: () {
-                    //     Navigator.pop(context);
-                    //   },
-                    // ),
                   );
                 }), //SliverAppBar
                 SliverList(
@@ -109,7 +90,7 @@ class WishListPage extends StatelessWidget {
             return CommonErrorWidget(
                 imagePath: ImagePath.serverFailImage,
                 title: StringConstants.serverFail,
-                statusCode: "500");
+                statusCode: "");
           } else {
             return CommonErrorWidget(
                 imagePath: ImagePath.noDataFoundImage,

@@ -7,6 +7,7 @@ import 'package:make_my_trip/features/setting_page/setting_page_injection_contai
     as setting_page_di;
 import 'package:make_my_trip/features/user/user_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import './core/navigation/app_router.dart' as app_routes;
 import 'core/internet/internet_cubit.dart';
 import 'core/internet/internet_injection_container.dart';
@@ -48,7 +49,6 @@ void main() async {
   await history_di.init();
   await search_di.init();
   await setting_page_di.init();
-
   await booking_di.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Make My Trip',
+        title: StringConstants.appTitle,
         theme: MakeMyTripLightTheme.lightTheme,
         onGenerateRoute: app_routes.Router().generateRoutes,
       ),

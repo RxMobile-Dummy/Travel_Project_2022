@@ -4,24 +4,23 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/setting_page/data/data_sources/user_details_remote_data_source.dart';
+import 'package:make_my_trip/features/setting_page/data/models/content_model.dart';
+import 'package:make_my_trip/features/setting_page/data/models/faq_model.dart';
 import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 
 class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
-  UserDetailsRemoteDataSourceImpl(this.dio);
+  UserDetailsRemoteDataSourceImpl(this.dio, this.firebaseFirestore);
 
   final Dio dio;
-
-  void printWrapped(String text) {
-    final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
-    pattern.allMatches(text).forEach((match) => print(match.group(0)));
-  }
+  final FirebaseFirestore firebaseFirestore;
 
   Future<Options> createDioOptions() async {
     final auth = FirebaseAuth.instance;
@@ -40,7 +39,6 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
         UserDetailsModel userModel;
         final apiData = response.data[0];
         userModel = UserDetailsModel.fromJson(apiData);
-
         return Right(userModel);
       } else {
         return Left(ServerFailure());
@@ -83,8 +81,10 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
   Future<Either<Failures, String>> updateImageFromGallery() async {
     try {
       XFile? pickedFile = await ImagePicker().pickImage(
-        imageQuality: 20,
-          source: ImageSource.gallery, maxWidth: 1800, maxHeight: 1800);
+          imageQuality: 20,
+          source: ImageSource.gallery,
+          maxWidth: 1800,
+          maxHeight: 1800);
       if (pickedFile == null) {
         return const Right(StringConstants.emptyString);
       }
@@ -95,11 +95,9 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
 
         try {
           FlutterIsolate.spawn(
-             await uploadimageGallery(filename, pickedFile, ref), StringConstants.galleryIsolate);
-        }
-        catch(e){
-
-        }
+              await uploadimageGallery(filename, pickedFile, ref),
+              StringConstants.galleryIsolate);
+        } catch (e) {}
         var mapData = {StringConstants.imageJson: await ref.getDownloadURL()};
         await FirebaseFirestore.instance
             .collection(StringConstants.firebaseCollectionName)
@@ -136,15 +134,11 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
         final ref = FirebaseStorage.instance.ref().child(path);
         try {
           FlutterIsolate.spawn(
-              await uploadimageCamera(filename, pickedFile, ref), StringConstants.cameraIsolate);
-        }
-        catch(e){
-
-        }
-        print(ref.getDownloadURL());
+              await uploadimageCamera(filename, pickedFile, ref),
+              StringConstants.cameraIsolate);
+        } catch (e) {}
 
         var mapData = {StringConstants.imageJson: await ref.getDownloadURL()};
-
 
         await FirebaseFirestore.instance
             .collection(StringConstants.firebaseCollectionName)
@@ -154,7 +148,8 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
 
         await dio.put(BaseConstant.baseUrl + StringConstants.user,
             data: mapData, options: await createDioOptions());
-        await Fluttertoast.showToast(msg: "Image Uploaded Successfully!");
+        await Fluttertoast.showToast(
+            msg: StringConstants.imageUploadSucefullytxt);
         return Right(mapData.entries.first.value.toString());
       } else {
         return Left(ErrorWithMessageFailure(StringConstants.failedToLoadImg));
@@ -164,12 +159,80 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
     }
   }
 
-  uploadimageGallery(File filename, XFile pickedFile, Reference ref) async{
+  uploadimageGallery(File filename, XFile pickedFile, Reference ref) async {
     await ref.putFile(filename);
-
   }
-  uploadimageCamera(File filename, XFile pickedFile, Reference ref) async{
-    await ref.putFile(filename);
 
+  uploadimageCamera(File filename, XFile pickedFile, Reference ref) async {
+    await ref.putFile(filename);
+  }
+
+  @override
+  Future<Either<Failures, List<FaqModel>>> getFaqData() async {
+    try {
+      List<FaqModel> subscription = [];
+      await firebaseFirestore.collection('faq').get().then((snapshot) {
+        debugPrint("snapshot $snapshot");
+        snapshot.docs.map((doc) {
+          debugPrint("doc ${doc.data()}");
+          subscription.add(FaqModel.fromJson(doc.data()));
+        }).toList();
+      });
+      return Right(subscription);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<ContentModel>>> getAboutUsData() async {
+    try {
+      List<ContentModel> contentModel = [];
+      await firebaseFirestore.collection('aboutUs').get().then((snapshot) {
+        snapshot.docs.map((doc) {
+          contentModel.add(ContentModel.fromJson(doc.data()));
+        }).toList();
+      });
+      return Right(contentModel);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<ContentModel>>> getPrivacyPolicyData() async {
+    try {
+      List<ContentModel> contentModel = [];
+      await firebaseFirestore
+          .collection('privacyPolicy')
+          .get()
+          .then((snapshot) {
+        snapshot.docs.map((doc) {
+          contentModel.add(ContentModel.fromJson(doc.data()));
+        }).toList();
+      });
+      return Right(contentModel);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<ContentModel>>>
+      getTermsAndConditionData() async {
+    try {
+      List<ContentModel> contentModel = [];
+      await firebaseFirestore
+          .collection('termsAndCondition')
+          .get()
+          .then((snapshot) {
+        snapshot.docs.map((doc) {
+          contentModel.add(ContentModel.fromJson(doc.data()));
+        }).toList();
+      });
+      return Right(contentModel);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
   }
 }

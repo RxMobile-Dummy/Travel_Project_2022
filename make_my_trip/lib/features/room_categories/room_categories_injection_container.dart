@@ -11,8 +11,9 @@ var roomCategorySl = GetIt.instance;
 
 Future<void> init() async {
   //cubit
-  roomCategorySl.registerFactory(() => RoomCategoryCubit(roomCategorySl(),roomCategorySl(),roomCategorySl()));
-  roomCategorySl.registerFactory(() => SelectRoomCountCubit());
+  roomCategorySl.registerFactory(() =>
+      RoomCategoryCubit(roomCategorySl(), roomCategorySl(), roomCategorySl()));
+  roomCategorySl.registerFactory(() => SelectRoomCountCubit(roomCategorySl()));
   //usecase
   roomCategorySl
       .registerLazySingleton(() => RoomCategoriesUseCase(roomCategorySl()));
@@ -21,12 +22,12 @@ Future<void> init() async {
 
   //repo
   roomCategorySl.registerLazySingleton<RoomCategoriesRepository>(
-          () => RoomCategoriesRepositoryImpl(roomCategorySl()));
+      () => RoomCategoriesRepositoryImpl(roomCategorySl()));
 
   //datsource
 
   roomCategorySl.registerLazySingleton<RoomCategoriesDataSource>(
-          () => RoomCategoriesDataSourceImpl(roomCategorySl()));
+      () => RoomCategoriesDataSourceImpl(roomCategorySl()));
 
   // roomCategorySl.registerFactory(() => Dio());
 }
