@@ -108,8 +108,7 @@ class HotelCubit extends Cubit<BaseState> {
       },
       (success) {
         print("success");
-
-        emit(StateOnSuccess(success));
+        getHotels();
       },
     );
   }

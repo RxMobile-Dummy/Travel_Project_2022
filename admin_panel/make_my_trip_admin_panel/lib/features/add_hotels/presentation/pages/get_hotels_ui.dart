@@ -87,5 +87,5 @@ class GetHotelUi extends StatelessWidget {
             )
           ]),
         ));
-  }
-}
+     }
+ }
