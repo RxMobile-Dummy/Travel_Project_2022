@@ -16,6 +16,7 @@ class GetHotelUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     print('get data call');
     return Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -59,23 +60,68 @@ class GetHotelUi extends StatelessWidget {
                   if (state is StateOnSuccess) {
                     print(state.response);
                     List<HotelModels> hotel = state.response;
-                    return ListView.builder(
-                        itemCount: hotel.length,
-                        itemBuilder: (context, index) {
-                          return HotelListViewWidget(
-                            hotel: hotel[index],
-                            callback: (String id) async {
-                              print('cubit press');
-                              context.read<HotelCubit>().getPutHotel(id);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddHotels()),
-                              );
-                              // BlocProvider.of<HotelCubit>(context).getHotels();
-                            },
-                          );
-                        });
+                    if(size.width > 1000){
+                      return GridView.builder(
+                          itemCount: hotel.length,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                          itemBuilder: (context, index) {
+                            return HotelListViewWidget(
+                              hotel: hotel[index],
+                              callback: (String id) async {
+                                print('cubit press');
+                                context.read<HotelCubit>().getPutHotel(id);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddHotels()),
+                                );
+                                // BlocProvider.of<HotelCubit>(context).getHotels();
+                              },
+                            );
+                          });
+                      }
+                    else if(size.width > 500){
+                      return GridView.builder(
+                          itemCount: hotel.length,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                          itemBuilder: (context, index) {
+                            return HotelListViewWidget(
+                              hotel: hotel[index],
+                              callback: (String id) async {
+                                print('cubit press');
+                                context.read<HotelCubit>().getPutHotel(id);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddHotels()),
+                                );
+                                // BlocProvider.of<HotelCubit>(context).getHotels();
+                              },
+                            );
+                          });
+                    }
+                    else
+                      {
+
+                          return ListView.builder(
+                              itemCount: hotel.length,
+                              itemBuilder: (context, index) {
+                                return HotelListViewWidget(
+                                  hotel: hotel[index],
+                                  callback: (String id) async {
+                                    print('cubit press');
+                                    context.read<HotelCubit>().getPutHotel(id);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AddHotels()),
+                                    );
+                                    // BlocProvider.of<HotelCubit>(context).getHotels();
+                                  },
+                                );
+                              });
+
+                      }
                   } else if (state is StateNoData) {
                     return const Center(child: Text("No data"));
                   } else {
