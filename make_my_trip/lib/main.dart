@@ -82,7 +82,7 @@ class _MyAppState extends State<MyApp> {
   initState() {
     super.initState();
     _configureAmplify();
-    recordCustomEvent();
+    // recordCustomEvent();
   }
 
   Future<void> _configureAmplify() async {
@@ -102,19 +102,28 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future<void> recordCustomEvent() async {
-    final event = AnalyticsEvent('PasswordReset');
+  // Future<void> recordCustomEvent() async {
+  //   final event = AnalyticsEvent('addtocart');
 
-    event.properties
-      ..addStringProperty('Channel', 'SMS')
-      ..addBoolProperty('Successful', true);
+  //   AnalyticsUserProfile analyticsUserProfile = new AnalyticsUserProfile();
+  //               final AnalyticsProperties analyticsProperties = AnalyticsProperties();
+  //               analyticsProperties.addDoubleProperty('wallet', 100);
+  //               analyticsProperties.addStringProperty('login', 'google');
+  //               analyticsUserProfile.properties = analyticsProperties;
+  //               analyticsUserProfile.email = username;
+  //               await Amplify.Analytics.identifyUser(userId: awsId, userProfile: analyticsUserProfile);
+  //               await Amplify.Analytics.flushEvents();
 
-    // You can also add the properties one by one like the following
-    event.properties.addIntProperty('ProcessDuration', 792);
-    event.properties.addDoubleProperty('doubleKey', 120.3);
-    print("event recorded");
-    await Amplify.Analytics.recordEvent(event: event);
-  }
+  //   event.properties
+  //     ..addStringProperty('Channel', 'SMS')
+  //     ..addBoolProperty('Successful', true);
+
+  //   // You can also add the properties one by one like the following
+  //   event.properties.addIntProperty('ProcessDuration', 792);
+  //   event.properties.addDoubleProperty('doubleKey', 120.3);
+  //   print("event recorded");
+  //   await Amplify.Analytics.recordEvent(event: event);
+  // }
 
   @override
   Widget build(BuildContext context) {
