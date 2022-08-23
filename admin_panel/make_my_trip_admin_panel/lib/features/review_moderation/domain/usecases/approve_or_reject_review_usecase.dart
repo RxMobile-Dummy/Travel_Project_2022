@@ -6,13 +6,13 @@ import 'package:make_my_trip_admin_panel/features/review_moderation/domain/repos
 
 import '../../../../core/usecases/usecase.dart';
 
-class ApproveOrRejectReview extends UseCase<List<ReviewModel>, ApproveParams> {
+class ApproveOrRejectReview extends UseCase<void, ApproveParams> {
   final ReviewModerationRepository repository;
 
   ApproveOrRejectReview({required this.repository});
 
   @override
-  Future<Either<Failures, List<ReviewModel>>> call(ApproveParams params) async {
+  Future<Either<Failures,void>> call(ApproveParams params) async {
     return await repository.approveOrRejectReview(params);
   }
 }

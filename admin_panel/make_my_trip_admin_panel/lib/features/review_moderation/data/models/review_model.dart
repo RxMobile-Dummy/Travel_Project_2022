@@ -1,4 +1,7 @@
-class ReviewModel {
+import 'package:equatable/equatable.dart';
+
+class ReviewModel extends Equatable {
+
   int? id;
   UserId? userId;
   HotelId? hotelId;
@@ -11,23 +14,22 @@ class ReviewModel {
   double? rating;
   List<ReviewImage>? image;
 
-  ReviewModel(
-      {this.id,
-      this.userId,
-      this.hotelId,
-      this.date,
-      this.comment,
-      this.cleanliness,
-      this.comfort,
-      this.location,
-      this.facilities,
-      this.rating,
-      this.image});
+  ReviewModel({this.id,
+    this.userId,
+    this.hotelId,
+    this.date,
+    this.comment,
+    this.cleanliness,
+    this.comfort,
+    this.location,
+    this.facilities,
+    this.rating,
+    this.image});
 
   ReviewModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
     userId =
-        json['user_id'] != null ? new UserId.fromJson(json['user_id']) : null;
+    json['user_id'] != null ? new UserId.fromJson(json['user_id']) : null;
     hotelId = json['hotel_id'] != null
         ? new HotelId.fromJson(json['hotel_id'])
         : null;
@@ -67,6 +69,9 @@ class ReviewModel {
     }
     return data;
   }
+
+  @override
+  List<Object?> get props => [id,userId,hotelId,date,comment,cleanliness,comfort,location,facilities,rating,image];
 }
 
 class UserId {

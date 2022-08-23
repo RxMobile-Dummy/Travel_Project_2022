@@ -13,9 +13,9 @@ import '../models/review_model.dart';
 
 abstract class ReviewModerationRemoteDataSource {
   Future<Either<Failures, List<ReviewModel>>> getAllReviews();
-  Future<Either<Failures, List<ReviewModel>>> approveOrRejectReview(
+  Future<Either<Failures, void>> approveOrRejectReview(
       ApproveParams params);
-  Future<Either<Failures, List<ReviewModel>>> reviewImageDelete(
+  Future<Either<Failures, void>> reviewImageDelete(
       ReviewImageDeleteParams params);
 }
 
@@ -45,7 +45,7 @@ class ReviewModerationRemoteDataSourceImpl
   }
 
   @override
-  Future<Either<Failures, List<ReviewModel>>> approveOrRejectReview(
+  Future<Either<Failures, void>> approveOrRejectReview(
       ApproveParams params) async {
     try {
       final res = await dio.get("${BaseConstant.baseUrl}review/reviewapprove/",
@@ -55,12 +55,11 @@ class ReviewModerationRemoteDataSourceImpl
           },
           options: await BaseConstant.createDioOptions());
 
-      final apiData = res.data;
-      List<ReviewModel> reviewList = [];
-      for (var element in apiData) {
-        reviewList.add(ReviewModel.fromJson(element));
+      if(res.statusCode==200){
+        return Right(null);
+      }else{
+        return Left(ServerFailure());
       }
-      return Right(reviewList);
     } on SocketException {
       return Left(InternetFailure());
     } catch (err) {
@@ -70,7 +69,7 @@ class ReviewModerationRemoteDataSourceImpl
   }
 
   @override
-  Future<Either<Failures, List<ReviewModel>>> reviewImageDelete(
+  Future<Either<Failures, void>> reviewImageDelete(
       ReviewImageDeleteParams params) async {
     try {
       final res = await dio.get(
@@ -81,12 +80,11 @@ class ReviewModerationRemoteDataSourceImpl
           },
           options: await BaseConstant.createDioOptions());
 
-      final apiData = res.data;
-      List<ReviewModel> reviewList = [];
-      for (var element in apiData) {
-        reviewList.add(ReviewModel.fromJson(element));
+      if(res.statusCode==200){
+        return Right(null);
+      }else{
+        return Left(ServerFailure());
       }
-      return Right(reviewList);
     } on SocketException {
       return Left(InternetFailure());
     } catch (err) {

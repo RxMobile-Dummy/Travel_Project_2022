@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:make_my_trip_admin_panel/core/navigation/route_info.dart';
 import 'package:make_my_trip_admin_panel/core/responsive/responsive.dart';
 import 'package:make_my_trip_admin_panel/features/review_moderation/presentation/pages/review_moderation.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/admin_booking_moderation_injection_container.dart'
@@ -17,6 +19,7 @@ import './features/review_moderation/review_moderation_injection_container.dart'
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await review_di.init();
   await admin_login_di.init();
   await admin_booking_moderation_di.init();
@@ -39,6 +42,8 @@ class MyHttpOverrides extends HttpOverrides {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,6 +51,7 @@ class MyApp extends StatelessWidget {
       title: StringConstants.appTitle,
       theme: MakeMyTripLightTheme.lightTheme,
       onGenerateRoute: app_routes.Router().generateRoutes,
+      initialRoute: FirebaseAuth.instance.currentUser==null?RoutesName.adminLogin:RoutesName.reviewModerationPage,
     );
   }
 }

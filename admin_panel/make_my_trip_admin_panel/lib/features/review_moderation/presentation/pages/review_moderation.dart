@@ -126,7 +126,7 @@ class ReviewContainerWidget extends StatelessWidget {
                           text: StringConstants.approveTxt,
                           onTap: () {
                             reviewCubit.approveOrRejectCubit(
-                                reviewModel.id!, true);
+                                reviewModel, true);
                           },
                           backColor: Colors.green,
                         ),
@@ -137,7 +137,7 @@ class ReviewContainerWidget extends StatelessWidget {
                           text: StringConstants.rejectTxt,
                           onTap: () {
                             reviewCubit.approveOrRejectCubit(
-                                reviewModel.id!, false);
+                                reviewModel, false);
                           },
                           backColor: MakeMyTripColors.colorRed,
                         ),
@@ -243,8 +243,8 @@ class ReviewContainerWidget extends StatelessWidget {
                                   GestureDetector(
                                     onTap: () {
                                       reviewCubit.reviewImageDeleteCubit(
-                                          reviewModel.id!,
-                                          reviewModel.image![index1].imageId!);
+                                          reviewModel,
+                                          reviewModel.image![index1]);
                                     },
                                     child: const Positioned(
                                       top: 8,

@@ -18,13 +18,13 @@ class ReviewModerationRepositoryImpl extends ReviewModerationRepository {
   }
 
   @override
-  Future<Either<Failures, List<ReviewModel>>> approveOrRejectReview(
+  Future<Either<Failures, void>> approveOrRejectReview(
       ApproveParams params) async {
     return await remoteDataSource.approveOrRejectReview(params);
   }
 
   @override
-  Future<Either<Failures, List<ReviewModel>>> reviewImageDelete(
+  Future<Either<Failures, void>> reviewImageDelete(
       ReviewImageDeleteParams params) async {
     return await remoteDataSource.reviewImageDelete(params);
   }

@@ -7,13 +7,13 @@ import 'package:make_my_trip_admin_panel/features/review_moderation/domain/repos
 import '../../../../core/usecases/usecase.dart';
 
 class ReviewImageDelete
-    extends UseCase<List<ReviewModel>, ReviewImageDeleteParams> {
+    extends UseCase<void, ReviewImageDeleteParams> {
   final ReviewModerationRepository repository;
 
   ReviewImageDelete({required this.repository});
 
   @override
-  Future<Either<Failures, List<ReviewModel>>> call(
+  Future<Either<Failures, void>> call(
       ReviewImageDeleteParams params) async {
     return await repository.reviewImageDelete(params);
   }

@@ -7,8 +7,8 @@ import '../usecases/review_Image_delete.dart';
 
 abstract class ReviewModerationRepository {
   Future<Either<Failures, List<ReviewModel>>> getAllReviews();
-  Future<Either<Failures, List<ReviewModel>>> approveOrRejectReview(
+  Future<Either<Failures, void>> approveOrRejectReview(
       ApproveParams params);
-  Future<Either<Failures, List<ReviewModel>>> reviewImageDelete(
+  Future<Either<Failures, void>> reviewImageDelete(
       ReviewImageDeleteParams params);
 }

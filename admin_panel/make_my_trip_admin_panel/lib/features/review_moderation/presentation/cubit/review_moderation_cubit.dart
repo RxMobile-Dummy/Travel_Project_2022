@@ -21,48 +21,50 @@ class ReviewModerationCubit extends Cubit<BaseState> {
   final ApproveOrRejectReview approveOrRejectReview;
   final ReviewImageDelete reviewImageDelete;
 
+  List<ReviewModel> reviewList=[];
+
   getAllReviewsCubit() async {
     emit(StateLoading());
+    reviewList.clear();
     try {
       final res = await getAllReviews.call(NoParams());
       res.fold((failure) {
         emit(BaseConstant.checkFailures(failure));
       }, (success) {
-        emit(StateOnSuccess<List<ReviewModel>>(success));
+        reviewList.addAll(success);
+        emit(StateOnSuccess<List<ReviewModel>>(reviewList));
       });
     } catch (err) {
       emit(StateErrorGeneral("Unexpected error"));
     }
   }
 
-  approveOrRejectCubit(int reviewId, bool approved) async {
+  approveOrRejectCubit(ReviewModel model, bool approved) async {
     emit(StateLoading());
     try {
       final res = await approveOrRejectReview
-          .call(ApproveParams(reviewId: reviewId, approved: approved));
+          .call(ApproveParams(reviewId: model.id!, approved: approved));
       res.fold((failure) {
         emit(BaseConstant.checkFailures(failure));
       }, (success) {
-        emit(StateOnSuccess<List<ReviewModel>>(success));
+       getAllReviewsCubit();
       });
     } catch (err) {
-      print(err);
       emit(StateErrorGeneral("Unexpected error"));
     }
   }
 
-  reviewImageDeleteCubit(int reviewId, int imageId) async {
+  reviewImageDeleteCubit(ReviewModel model,ReviewImage imageModel) async {
     emit(StateLoading());
     try {
       final res = await reviewImageDelete
-          .call(ReviewImageDeleteParams(reviewId: reviewId, imageId: imageId));
+          .call(ReviewImageDeleteParams(reviewId: model.id!, imageId: imageModel.imageId!));
       res.fold((failure) {
         emit(BaseConstant.checkFailures(failure));
       }, (success) {
-        emit(StateOnSuccess<List<ReviewModel>>(success));
+        getAllReviewsCubit();
       });
     } catch (err) {
-      print(err);
       emit(StateErrorGeneral("Unexpected error"));
     }
   }
