@@ -13,20 +13,18 @@ class CheckboxWidget extends StatefulWidget {
 class _CheckboxWidgetState extends State<CheckboxWidget> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: CheckboxListTile(
-          value: widget.value,
-          onChanged: (bool? newValue) {
-            setState(() {
-              // widget.data.add(widget.title);
-              widget.value = newValue!;
-            });
-            if(widget.value == true){
-              widget.data.add(widget.title);
-            }
-          },
-          title: Text(widget.title),
-        )
+    return CheckboxListTile(
+      value: widget.value,
+      onChanged: (bool? newValue) {
+        setState(() {
+          // widget.data.add(widget.title);
+          widget.value = newValue!;
+        });
+        if(widget.value == true){
+          widget.data.add(widget.title);
+        }
+      },
+      title: Text(widget.title),
     );
   }
 }

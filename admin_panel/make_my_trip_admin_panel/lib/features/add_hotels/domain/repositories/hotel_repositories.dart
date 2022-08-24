@@ -6,7 +6,7 @@ import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_m
 
 abstract class HotelRepositories{
   Future<Either<Failures,void>> postHotel(Hotel hotel);
-  Future<Either<Failures, List<HotelModels>>> getHotel();
+  Future<Either<Failures, List<HotelModels>>> getHotel(int page);
   Future<Either<Failures,void>> deleteHotel(String id);
   Future<Either<Failures,HotelPutModel>> getHotelUpdate(String id);
   Future<Either<Failures,void>> updateHotel(HotelPutModel hotelPutModel);

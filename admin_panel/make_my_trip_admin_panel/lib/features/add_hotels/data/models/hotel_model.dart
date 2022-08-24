@@ -15,7 +15,7 @@ class Hotel {
     int noofsemideluxe;
     int phone_number;
     int price;
-    int rating;
+    double rating;
     String semideluxebadsize;
     String semideluxedescription;
     List<String>? semideluxefeatures;

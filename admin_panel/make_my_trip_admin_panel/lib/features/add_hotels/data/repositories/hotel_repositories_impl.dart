@@ -17,9 +17,9 @@ class HotelRepositoriesImpl implements HotelRepositories {
   }
 
   @override
-  Future<Either<Failures, List<HotelModels>>> getHotel() {
+  Future<Either<Failures, List<HotelModels>>> getHotel(int page) {
     // TODO: implement getHotel
-    return repositories.getHotel();
+    return repositories.getHotel(page);
   }
 
   @override

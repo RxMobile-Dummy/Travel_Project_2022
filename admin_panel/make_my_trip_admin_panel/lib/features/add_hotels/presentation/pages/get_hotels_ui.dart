@@ -14,10 +14,13 @@ class GetHotelUi extends StatelessWidget {
   GetHotelUi({Key? key}) : super(key: key);
   final TextEditingController searchController = TextEditingController();
 
+  ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     print('get data call');
+    context.read<HotelCubit>.call().setUpScrollController(_scrollController);
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
@@ -60,78 +63,111 @@ class GetHotelUi extends StatelessWidget {
                   if (state is StateOnSuccess) {
                     print(state.response);
                     List<HotelModels> hotel = state.response;
-                    if(size.width > 1000){
+                    if (size.width > 1000) {
                       return GridView.builder(
                           itemCount: hotel.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3),
                           itemBuilder: (context, index) {
-                            return HotelListViewWidget(
-                              hotel: hotel[index],
-                              callback: (String id) async {
-                                print('cubit press');
-                                context.read<HotelCubit>().getPutHotel(id);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AddHotels()),
-                                );
-                                // BlocProvider.of<HotelCubit>(context).getHotels();
-                              },
+                            return Column(
+                              children: [
+                                if (index != hotel.length)
+                                  HotelListViewWidget(
+                                    hotel: hotel[index],
+                                    callback: (String id) async {
+                                      print('cubit press');
+                                      context
+                                          .read<HotelCubit>()
+                                          .getPutHotel(id);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AddHotels()),
+                                      );
+                                      // BlocProvider.of<HotelCubit>(context).getHotels();
+                                    },
+                                  ),
+                                if (index == hotel.length)
+                                  const CircularProgressIndicator()
+                              ],
                             );
                           });
-                      }
-                    else if(size.width > 500){
+                    } else if (size.width > 500) {
                       return GridView.builder(
-                          itemCount: hotel.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                          itemCount: state.isMoreLoading
+                              ? hotel.length + 1
+                              : hotel.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
                           itemBuilder: (context, index) {
-                            return HotelListViewWidget(
-                              hotel: hotel[index],
-                              callback: (String id) async {
-                                print('cubit press');
-                                context.read<HotelCubit>().getPutHotel(id);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AddHotels()),
-                                );
-                                // BlocProvider.of<HotelCubit>(context).getHotels();
-                              },
+                            return Column(
+                              children: [
+                                if (index != hotel.length)
+                                  HotelListViewWidget(
+                                    hotel: hotel[index],
+                                    callback: (String id) async {
+                                      print('cubit press');
+                                      context
+                                          .read<HotelCubit>()
+                                          .getPutHotel(id);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AddHotels()),
+                                      );
+                                      // BlocProvider.of<HotelCubit>(context).getHotels();
+                                    },
+                                  ),
+                                if (index == hotel.length)
+                                  const CircularProgressIndicator()
+                              ],
+                            );
+                          });
+                    } else{
+                      return ListView.builder(
+                          controller: _scrollController,
+                          itemCount: state.isMoreLoading
+                              ? hotel.length + 1
+                              : hotel.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                if (index != hotel.length)
+                                  HotelListViewWidget(
+                                    hotel: hotel[index],
+                                    callback: (String id) async {
+                                      print('cubit press');
+                                      context
+                                          .read<HotelCubit>()
+                                          .getPutHotel(id);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AddHotels()),
+                                      );
+                                      // BlocProvider.of<HotelCubit>(context).getHotels();
+                                    },
+                                  ),
+                                if (index == hotel.length)
+                                  const CircularProgressIndicator()
+                              ],
                             );
                           });
                     }
-                    else
-                      {
 
-                          return ListView.builder(
-                              itemCount: hotel.length,
-                              itemBuilder: (context, index) {
-                                return HotelListViewWidget(
-                                  hotel: hotel[index],
-                                  callback: (String id) async {
-                                    print('cubit press');
-                                    context.read<HotelCubit>().getPutHotel(id);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => AddHotels()),
-                                    );
-                                    // BlocProvider.of<HotelCubit>(context).getHotels();
-                                  },
-                                );
-                              });
-
-                      }
-                  } else if (state is StateNoData) {
-                    return const Center(child: Text("No data"));
                   } else {
-                    print('Get data');
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: Text("No data"));
                   }
+                  // else {
+                  //   print('Get data');
+                  //   return const Center(child: CircularProgressIndicator());
+                  // }
                 },
               ),
             )
           ]),
         ));
-     }
- }
+  }
+}

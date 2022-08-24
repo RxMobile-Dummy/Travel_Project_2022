@@ -5,14 +5,14 @@ import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelMo
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_model.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/repositories/hotel_repositories.dart';
 
-class GetAllHotel extends UseCase<List<HotelModels>,NoParams>{
+class GetAllHotel extends UseCase<List<HotelModels>,int>{
   final HotelRepositories repository;
 
   GetAllHotel({required this.repository});
 
   @override
-  Future<Either<Failures, List<HotelModels>>> call(NoParams params) {
+  Future<Either<Failures, List<HotelModels>>> call(int page) {
     // TODO: implement call
-      return repository.getHotel();
+      return repository.getHotel(page);
   }
 }

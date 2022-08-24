@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class LongTextTextField extends StatelessWidget {
-   LongTextTextField({Key? key,required this.hintTextvar, required this.textFieldViewController}) : super(key: key);
+   LongTextTextField({Key? key,required this.hintTextvar, required this.textFieldViewController,required this.validator}) : super(key: key);
   final String hintTextvar;
   var textFieldViewController;
+  String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return     Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
       child: TextFormField(
+        validator:  validator,
         maxLength: 200,
         maxLines: 5,
         controller: textFieldViewController,

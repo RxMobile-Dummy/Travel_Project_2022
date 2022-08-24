@@ -1,7 +1,6 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
-import 'package:make_my_trip_admin_panel/core/usecases/usecase.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelModels.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPutModel.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_model.dart';
@@ -28,9 +27,9 @@ class HotelCubit extends Cubit<BaseState> {
     getHotels();
   }
 
-  List<HotelModels> bookingList = [];
+  List<HotelModels> hotelList = [];
   List<HotelModels> filterList = [];
-
+  int page = -1;
   addHotels(
       double? latitude,
       double? logitude,
@@ -38,7 +37,7 @@ class HotelCubit extends Cubit<BaseState> {
       int pincode,
       int city_id,
       String address_line,
-      int rating,
+      double rating,
       int price,
       int phonenumber,
       int no_rooms,
@@ -192,6 +191,7 @@ class HotelCubit extends Cubit<BaseState> {
       },
       (success) {
         print("success");
+        emit(StateLoading());
         getHotels();
       },
     );
@@ -205,21 +205,35 @@ class HotelCubit extends Cubit<BaseState> {
 
   getHotels() async {
     try {
-      emit(StateLoading());
-      var res = await getHotel.call(NoParams());
+      if (state is! StateOnSuccess) {
+        emit(StateLoading());
+      } else {
+        emit(StateOnSuccess<List<HotelModels>>(hotelList, isMoreLoading: true));
+      }
+      page++;
+      var res = await getHotel.call(page);
       res.fold((l) {
         print("failure");
         emit(StateErrorGeneral("errorMessage"));
       }, (r) {
         print("success");
         for (var item in r) {
-          bookingList.add(item);
+          hotelList.add(item);
         }
-        emit(StateOnSuccess<List<HotelModels>>(bookingList));
+        emit(StateOnSuccess<List<HotelModels>>(hotelList,isMoreLoading: false));
       });
     } catch (er) {
       print("sadasdas$er");
     }
+  }
+  void setUpScrollController(ScrollController scrollController) {
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels != 0) {
+          getHotels();
+        }
+      }
+    });
   }
 
   getPutHotel(String id) async {
@@ -251,7 +265,7 @@ class HotelCubit extends Cubit<BaseState> {
   void searchList(String searchKeyWord) {
     emit(StateLoading());
     filterList = [];
-    for (var item in bookingList) {
+    for (var item in hotelList) {
       if (item.hotelName!.toLowerCase().contains(searchKeyWord.toLowerCase()) ||
           item.address!.addressLine!
               .toString()
@@ -261,7 +275,7 @@ class HotelCubit extends Cubit<BaseState> {
       }
     }
     if (filterList.isEmpty) {
-      emit(StateNoData());
+      emit(StateNoData());  
     } else {
       emit(StateOnSuccess(filterList));
     }

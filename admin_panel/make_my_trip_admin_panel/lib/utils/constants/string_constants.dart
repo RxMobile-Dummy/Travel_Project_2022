@@ -46,4 +46,24 @@ class StringConstants {
   static String free_internet = "Free internet";
   static String coffee_tea = "Coffee / Tea maker";
   static String soundProof = "Soundproof walls";
+
+  static List<String> hotelConstantFeatures = [
+    "Laundry",
+    "Transportation",
+    "Entertainment",
+    "Parking",
+    "Healthy Breakfast"
+  ];
+
+  static List<String> deluxehotelConstantFeatures = [
+    "Free internet", "Coffee / Tea maker", "Soundproof walls", "Smart TV with satellite", "Individually air conditioning"
+  ];
+  static List<String> semideluxehotelConstantFeatures = [
+    "Free internet", "Coffee / Tea maker", "Soundproof walls", "Smart TV with satellite", "Individually air conditioning"
+  ];
+  static List<String> superdeluxehotelConstantFeatures = [
+    "Free internet","Pet-Friendly Rooms", "Coffee / Tea maker", "Soundproof walls", "Smart TV with satellite", "Individually air conditioning"
+  ];
+
+
 }

@@ -112,12 +112,21 @@ class _AddNewHotelsState extends State<AddNewHotels> {
   List<String> deluxeRoomFeatures = [];
   List<String> semiDeluxeRoomFeatures = [];
   List<String> superDeluxeRoomFeatures = [];
+  // List<String> hotelConstantFeatures = [
+  //   "Laundry",
+  //   "Transportation",
+  //   "Entertainment",
+  //   "Parking",
+  //   "Healthy Breakfast"
+  // ];
 
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    const pattern = r'[0-9]';
+    const pattern = r'^[0-9]+$';
+    const pincodePattern = r'^[1-9]{1}[0-9]{2}[0-9]{3}';
     final regExp = RegExp(pattern);
+    final regex = RegExp(pincodePattern);
     return BlocListener<HotelCubit, BaseState>(
       listener: (context, state) {
         if (state is StateOnResponseSuccess<HotelPutModel>) {
@@ -131,7 +140,13 @@ class _AddNewHotelsState extends State<AddNewHotels> {
           no_of_rooms.text = state.response.noOfRoom.toString();
           hotel_Description.text = state.response.description!;
 
-          // hotelFeatures = state.response.features!.toList(growable: true)!;
+          hotelFeatures.addAll(state.response.features!);
+          deluxeRoomFeatures.addAll(state.response.deluxefeatures!);
+
+          semiDeluxeRoomFeatures.addAll(state.response.semideluxefeatures!);
+          //print(state.response.semideluxefeatures);
+          superDeluxeRoomFeatures.addAll(state.response.superdeluxefeatures!);
+          //print(state.response.superdeluxefeatures);
 
           no_of_deluxeRoom.text = state.response.noofdeluxe.toString();
           deluxe_roomSize.text = state.response.deluxesize!;
@@ -198,25 +213,37 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             padding: const EdgeInsets.only(top: 10),
                             child: TextFieldView(
                               validator: (hotelname) {
-                                if (hotelname.toString().isEmpty)
+                                const hotelPattern = r'^[a-zA-Z0-9_.-]*$';
+                                final regExp = RegExp(hotelPattern);
+                                if (hotelname.toString().isEmpty ||
+                                    hotelname.toString().trim().isEmpty)
                                   return 'Enter the hotelName';
-                                else if (hotelname!
-                                    .contains(RegExp(r'[0-9]'))) {
-                                  return 'Enter only text';
+                                else if (!regExp.hasMatch(hotelname!)){
+                                  return 'not use others letter';
                                 }
                               },
                               hintTextvar: StringConstants.hotelName,
                               textFieldViewController: hotelName,
                             )),
                         LongTextTextField(
+                            validator: (hoteladdress) {
+                              if (hoteladdress.toString().isEmpty ||
+                                  hoteladdress.toString().trim().isEmpty)
+                                return 'Enter the hotel address';
+                              else if (hoteladdress.toString().length > 200) {
+                                return 'No more than 200 letter';
+                              }
+                            },
                             hintTextvar: StringConstants.hotelAddress,
                             textFieldViewController: hotelAddress),
                         Row(
                           children: [
                             Expanded(
                                 child: TextFieldView(
+                              inputType: TextInputType.number,
                               validator: (citid) {
-                                if (citid.toString().isEmpty)
+                                if (citid.toString().isEmpty ||
+                                    citid.toString().trim().isEmpty)
                                   return 'Enter the cityId';
                                 else if (!regExp.hasMatch(citid!)) {
                                   return 'Enter only number';
@@ -227,12 +254,15 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             )),
                             Expanded(
                                 child: TextFieldView(
+                              inputType: TextInputType.number,
                               validator: (pincode) {
-                                if (pincode.toString().isEmpty)
+                                if (pincode.toString().isEmpty ||
+                                    pincode.toString().trim().isEmpty)
                                   return "Enter pincode";
-                                else if (pincode.toString().length != 6 &&
-                                    !(pincode.toString().isNumericOnly()))
-                                  return 'Enter only 6 digit';
+                                else if (pincode.toString().length > 6)
+                                  return 'enter only 6 digit pincode number';
+                                else if (!regex.hasMatch(pincode!))
+                                  return 'Enter 6 digit pincode number';
                               },
                               hintTextvar: StringConstants.hotelPincode,
                               textFieldViewController: pincode,
@@ -249,9 +279,12 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (rating) {
-                                  if (rating.toString().isEmpty)
+                                  if (rating.toString().isEmpty ||
+                                      rating.toString().trim().isEmpty)
                                     return 'Enter the rating';
-                                  else if (!regExp.hasMatch(rating!)) {
+                                  else if (double.parse(rating!.toString()) > 5)
+                                    return 'add maximum rating 5';
+                                  else if (!regExp.hasMatch(rating)) {
                                     return 'Enter only number';
                                   }
                                 },
@@ -261,7 +294,8 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (price) {
-                                  if (price.toString().isEmpty)
+                                  if (price.toString().isEmpty ||
+                                      price.toString().trim().isEmpty)
                                     return 'Enter the price';
                                   else if (!regExp.hasMatch(price!)) {
                                     return 'Enter only number';
@@ -279,9 +313,14 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             children: [
                               Expanded(
                                   child: TextFieldView(
+                                inputType: TextInputType.number,
                                 validator: (phoneNumber) {
-                                  if (phoneNumber.toString().isEmpty)
+                                  if (phoneNumber.toString().isEmpty ||
+                                      phoneNumber.toString().trim().isEmpty)
                                     return 'Enter the phoneNumber';
+                                  else if (phoneNumber.toString().length > 10 ||
+                                      phoneNumber.toString().length < 10)
+                                    return "Enter 10 digit phone number";
                                   else if (!regExp.hasMatch(phoneNumber!)) {
                                     return 'Enter only number';
                                   }
@@ -292,8 +331,11 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (rooms) {
-                                  if (rooms.toString().isEmpty)
+                                  if (rooms.toString().isEmpty ||
+                                      rooms.toString().trim().isEmpty)
                                     return 'Enter the no of rooms';
+                                  else if (int.parse(rooms.toString()) > 100)
+                                    return 'add maximum 100 rooms';
                                   else if (!regExp.hasMatch(rooms!)) {
                                     return 'Enter only number';
                                   }
@@ -305,49 +347,36 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                           ),
                         ),
                         LongTextTextField(
+                            validator: (hoteldescription) {
+                              if (hoteldescription.toString().isEmpty ||
+                                  hoteldescription.toString().trim().isEmpty)
+                                return 'Enter the hotel Description';
+                              else if (hoteldescription.toString().length >
+                                  200) {
+                                return 'No more than 200 letter';
+                              }
+                            },
                             hintTextvar: StringConstants.hotelDescription,
                             textFieldViewController: hotel_Description),
                         20.verticalSpace,
                         Text(StringConstants.hotelFeature,
                             style: AppTextStyles.unselectedLabelStyle),
-                        Row(
-                          children: [
-                            CheckboxWidget(
-                              value: parking,
-                              title: StringConstants.parking,
-                              data: hotelFeatures,
+
+                        BlocBuilder<HotelCubit, BaseState>(
+                            builder: (context, state) {
+                          return Wrap(
+                            children: List.generate(
+                              StringConstants.hotelConstantFeatures.length,
+                              (index) => CheckboxWidget(
+                                value:(state is StateOnResponseSuccess<HotelPutModel>)? hotelFeatures
+                                    .contains(StringConstants.hotelConstantFeatures[index]):false,
+                                title: StringConstants.hotelConstantFeatures[index],
+                                data: hotelFeatures,
+                              ),
                             ),
-                            CheckboxWidget(
-                              value: healthy_breakfast,
-                              title: StringConstants.healthyBreakfast,
-                              data: hotelFeatures,
-                            ),
-                            CheckboxWidget(
-                              value: transportation,
-                              title: StringConstants.transportation,
-                              data: hotelFeatures,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            CheckboxWidget(
-                              value: laundry,
-                              title: StringConstants.laundry,
-                              data: hotelFeatures,
-                            ),
-                            CheckboxWidget(
-                              value: entertainment,
-                              title: StringConstants.entertainment,
-                              data: hotelFeatures,
-                            ),
-                            CheckboxWidget(
-                              value: extra,
-                              title: StringConstants.extra,
-                              data: hotelFeatures,
-                            ),
-                          ],
-                        ),
+                          );
+                        }),
+
                         20.verticalSpace,
                         Text("Deluxe Room Details",
                             style: AppTextStyles.unselectedLabelStyle),
@@ -358,8 +387,12 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (deluxeroom) {
-                                  if (deluxeroom.toString().isEmpty)
+                                  if (deluxeroom.toString().isEmpty ||
+                                      deluxeroom.toString().trim().isEmpty)
                                     return 'Enter the no of deluxeroom';
+                                  else if (int.parse(deluxeroom.toString()) >
+                                      100)
+                                    return 'add maximum 100 rooms';
                                   else if (!regExp.hasMatch(deluxeroom!)) {
                                     return 'Enter only number';
                                   }
@@ -370,7 +403,8 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (deluxeroomsize) {
-                                  if (deluxeroomsize.toString().isEmpty)
+                                  if (deluxeroomsize.toString().isEmpty ||
+                                      deluxeroomsize.toString().trim().isEmpty)
                                     return 'Enter the deluxeroomsize in string';
                                 },
                                 hintTextvar: "Deluxe Room Size (square feet)",
@@ -386,7 +420,11 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (deluxeroombeddetails) {
-                                  if (deluxeroombeddetails.toString().isEmpty)
+                                  if (deluxeroombeddetails.toString().isEmpty ||
+                                      deluxeroombeddetails
+                                          .toString()
+                                          .trim()
+                                          .isEmpty)
                                     return 'Enter the deluxeroom bed details in string';
                                 },
                                 hintTextvar: "Deluxe Rome bed Details",
@@ -396,8 +434,16 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (deluxeroomcapicity) {
-                                  if (deluxeroomcapicity.toString().isEmpty)
+                                  if (deluxeroomcapicity.toString().isEmpty ||
+                                      deluxeroomcapicity
+                                          .toString()
+                                          .trim()
+                                          .isEmpty)
                                     return 'Enter the no of deluxeroomcapicity';
+                                  else if (int.parse(
+                                          deluxeroomcapicity.toString()) >
+                                      4)
+                                    return 'maximum capacity only 4';
                                   else if (!regExp
                                       .hasMatch(deluxeroomcapicity!)) {
                                     return 'Enter only number';
@@ -417,8 +463,9 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (deluxeroomprice) {
-                                  if (deluxeroomprice.toString().isEmpty)
-                                    return 'Enter the no of deluxeroomcapicity';
+                                  if (deluxeroomprice.toString().isEmpty ||
+                                      deluxeroomprice.toString().trim().isEmpty)
+                                    return 'Enter the deluxe room price';
                                   else if (!regExp.hasMatch(deluxeroomprice!)) {
                                     return 'Enter only number';
                                   }
@@ -432,35 +479,37 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                         20.verticalSpace,
                         Text("Deluxe Room Features",
                             style: AppTextStyles.unselectedLabelStyle),
-                        Row(
-                          children: [
-                            CheckboxWidget(
-                                value: internate,
-                                title: "Free internet",
-                                data: deluxeRoomFeatures),
-                            CheckboxWidget(
-                                value: coffee,
-                                title: "Coffee / Tea maker",
-                                data: deluxeRoomFeatures),
-                            CheckboxWidget(
-                                value: soundproofWall,
-                                title: "Soundproof walls",
-                                data: deluxeRoomFeatures),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            CheckboxWidget(
-                                value: smartTv,
-                                title: "Smart TV with satellite",
-                                data: deluxeRoomFeatures),
-                            CheckboxWidget(
-                                value: airCondition,
-                                title: "Individually air conditioning",
-                                data: deluxeRoomFeatures),
-                          ],
-                        ),
+
+                        BlocBuilder<HotelCubit, BaseState>(
+                            builder: (context, state) {
+                              return Wrap(
+                                children: List.generate(
+                                  StringConstants.deluxehotelConstantFeatures.length,
+                                      (index) => CheckboxWidget(
+                                    value:(state is StateOnResponseSuccess<HotelPutModel>)? deluxeRoomFeatures
+                                        .contains(StringConstants.deluxehotelConstantFeatures[index]):false,
+                                    title: StringConstants.deluxehotelConstantFeatures[index],
+                                    data: deluxeRoomFeatures,
+                                  ),
+                                ),
+                              );
+                            }),
+
                         LongTextTextField(
+                            validator: (deluxehoteldescription) {
+                              if (deluxehoteldescription.toString().isEmpty ||
+                                  deluxehoteldescription
+                                      .toString()
+                                      .trim()
+                                      .isEmpty)
+                                return 'Enter the hotel Description';
+                              else if (deluxehoteldescription
+                                      .toString()
+                                      .length >
+                                  200) {
+                                return 'No more than 200 letter';
+                              }
+                            },
                             hintTextvar: "Deluxe Room Description",
                             textFieldViewController: deluxe_room_description),
                         20.verticalSpace,
@@ -473,8 +522,13 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (semideluxeroom) {
-                                  if (semideluxeroom.toString().isEmpty)
+                                  if (semideluxeroom.toString().isEmpty ||
+                                      semideluxeroom.toString().trim().isEmpty)
                                     return 'Enter the no of semideluxeroom';
+                                  else if (int.parse(
+                                          semideluxeroom.toString()) >
+                                      100)
+                                    return 'maximum capacity only 100';
                                   else if (!regExp.hasMatch(semideluxeroom!)) {
                                     return 'Enter only number';
                                   }
@@ -485,7 +539,13 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (semideluxeroombedsize) {
-                                  if (semideluxeroombedsize.toString().isEmpty)
+                                  if (semideluxeroombedsize
+                                          .toString()
+                                          .isEmpty ||
+                                      semideluxeroombedsize
+                                          .toString()
+                                          .trim()
+                                          .isEmpty)
                                     return 'Enter the deluxeroom bed size in string';
                                 },
                                 hintTextvar:
@@ -501,10 +561,16 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             children: [
                               Expanded(
                                   child: TextFieldView(
-                                    validator: (semideluxeroombeddetails) {
-                                      if (semideluxeroombeddetails.toString().isEmpty)
-                                        return 'Enter the semi deluxeroom bed details in string';
-                                    },
+                                validator: (semideluxeroombeddetails) {
+                                  if (semideluxeroombeddetails
+                                          .toString()
+                                          .isEmpty ||
+                                      semideluxeroombeddetails
+                                          .toString()
+                                          .trim()
+                                          .isEmpty)
+                                    return 'Enter the semi deluxeroom bed details';
+                                },
                                 hintTextvar: "Semi Deluxe Rome bed Details",
                                 textFieldViewController:
                                     semiDeluxe_room_bed_details,
@@ -512,8 +578,18 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (semideluxeroomcapacity) {
-                                  if (semideluxeroomcapacity.toString().isEmpty)
+                                  if (semideluxeroomcapacity
+                                          .toString()
+                                          .isEmpty ||
+                                      semideluxeroomcapacity
+                                          .toString()
+                                          .trim()
+                                          .isEmpty)
                                     return 'no of semideluxeroom capacity';
+                                  else if (int.parse(
+                                          semideluxeroomcapacity.toString()) >
+                                      4)
+                                    return 'maximum capacity only 4';
                                   else if (!regExp
                                       .hasMatch(semideluxeroomcapacity!)) {
                                     return 'Enter only number';
@@ -534,7 +610,11 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (semideluxeroomprice) {
-                                  if (semideluxeroomprice.toString().isEmpty)
+                                  if (semideluxeroomprice.toString().isEmpty ||
+                                      semideluxeroomprice
+                                          .toString()
+                                          .trim()
+                                          .isEmpty)
                                     return 'no of semideluxeroom price';
                                   else if (!regExp
                                       .hasMatch(semideluxeroomprice!)) {
@@ -550,35 +630,39 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                         20.verticalSpace,
                         Text("Semi Delux Room Features",
                             style: AppTextStyles.unselectedLabelStyle),
-                        Row(
-                          children: [
-                            CheckboxWidget(
-                                value: internate,
-                                title: "Free internet",
-                                data: semiDeluxeRoomFeatures),
-                            CheckboxWidget(
-                                value: coffee,
-                                title: "Coffee / Tea maker",
-                                data: semiDeluxeRoomFeatures),
-                            CheckboxWidget(
-                                value: soundproofWall,
-                                title: "Soundproof walls",
-                                data: semiDeluxeRoomFeatures),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            CheckboxWidget(
-                                value: smartTv,
-                                title: "Smart TV with satellite",
-                                data: semiDeluxeRoomFeatures),
-                            CheckboxWidget(
-                                value: airCondition,
-                                title: "Individually air conditioning",
-                                data: semiDeluxeRoomFeatures),
-                          ],
-                        ),
+
+                        BlocBuilder<HotelCubit, BaseState>(
+                            builder: (context, state) {
+                              return Wrap(
+                                children: List.generate(
+                                  StringConstants.semideluxehotelConstantFeatures.length,
+                                      (index) => CheckboxWidget(
+                                    value:(state is StateOnResponseSuccess<HotelPutModel>)? semiDeluxeRoomFeatures
+                                        .contains(StringConstants.semideluxehotelConstantFeatures[index]):false,
+                                    title: StringConstants.semideluxehotelConstantFeatures[index],
+                                    data: semiDeluxeRoomFeatures,
+                                  ),
+                                ),
+                              );
+                            }),
+
                         LongTextTextField(
+                            validator: (semideluxehoteldescription) {
+                              if (semideluxehoteldescription
+                                      .toString()
+                                      .isEmpty ||
+                                  semideluxehoteldescription
+                                      .toString()
+                                      .trim()
+                                      .isEmpty)
+                                return 'Enter the hotel Description';
+                              else if (semideluxehoteldescription
+                                      .toString()
+                                      .length >
+                                  200) {
+                                return 'No more than 200 letter';
+                              }
+                            },
                             hintTextvar: "Semi Deluxe Room Description",
                             textFieldViewController:
                                 semiDeluxe_room_description),
@@ -592,8 +676,13 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (superdeluxeroom) {
-                                  if (superdeluxeroom.toString().isEmpty)
+                                  if (superdeluxeroom.toString().isEmpty ||
+                                      superdeluxeroom.toString().trim().isEmpty)
                                     return 'no of superdeluxeroom';
+                                  else if (int.parse(
+                                          superdeluxeroom.toString()) >
+                                      100)
+                                    return 'maximum capacity only 100';
                                   else if (!regExp.hasMatch(superdeluxeroom!)) {
                                     return 'Enter only number';
                                   }
@@ -603,10 +692,16 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               )),
                               Expanded(
                                   child: TextFieldView(
-                                    validator: (superdeluxeroombedsize) {
-                                      if (superdeluxeroombedsize.toString().isEmpty)
-                                        return 'Enter the super deluxeroom size in string';
-                                    },
+                                validator: (superdeluxeroombedsize) {
+                                  if (superdeluxeroombedsize
+                                          .toString()
+                                          .isEmpty ||
+                                      superdeluxeroombedsize
+                                          .toString()
+                                          .trim()
+                                          .isEmpty)
+                                    return 'Enter the super deluxeroom size in string';
+                                },
                                 hintTextvar:
                                     "Super Deluxe Room Size (square feet)",
                                 textFieldViewController: superDeluxe_roomSize,
@@ -620,10 +715,16 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             children: [
                               Expanded(
                                   child: TextFieldView(
-                                    validator: (superdeluxeroombeddetails) {
-                                      if (superdeluxeroombeddetails.toString().isEmpty)
-                                        return 'Enter the super deluxeroom bed details in string';
-                                    },
+                                validator: (superdeluxeroombeddetails) {
+                                  if (superdeluxeroombeddetails
+                                          .toString()
+                                          .isEmpty ||
+                                      superdeluxeroombeddetails
+                                          .toString()
+                                          .trim()
+                                          .isEmpty)
+                                    return 'Enter the super deluxeroom bed details in string';
+                                },
                                 hintTextvar: "Super Deluxe Rome bed Details",
                                 textFieldViewController:
                                     superDeluxe_room_bed_details,
@@ -632,9 +733,17 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                   child: TextFieldView(
                                 validator: (superdeluxeroomcapacity) {
                                   if (superdeluxeroomcapacity
-                                      .toString()
-                                      .isEmpty)
+                                          .toString()
+                                          .isEmpty ||
+                                      superdeluxeroomcapacity
+                                          .toString()
+                                          .trim()
+                                          .isEmpty)
                                     return 'no of superdeluxeroom capicity';
+                                  else if (int.parse(
+                                          superdeluxeroomcapacity.toString()) >
+                                      4)
+                                    return 'maximum capacity only 4';
                                   else if (!regExp
                                       .hasMatch(superdeluxeroomcapacity!)) {
                                     return 'Enter only number';
@@ -655,7 +764,11 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (superdeluxeroomprice) {
-                                  if (superdeluxeroomprice.toString().isEmpty)
+                                  if (superdeluxeroomprice.toString().isEmpty ||
+                                      superdeluxeroomprice
+                                          .toString()
+                                          .trim()
+                                          .isEmpty)
                                     return 'no of superdeluxeroom price';
                                   else if (!regExp
                                       .hasMatch(superdeluxeroomprice!)) {
@@ -671,38 +784,39 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                         20.verticalSpace,
                         Text("Super Deluxe Room Features",
                             style: AppTextStyles.unselectedLabelStyle),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          child: Row(
-                            children: [
-                              CheckboxWidget(
-                                  value: internate,
-                                  title: "Free internet",
-                                  data: superDeluxeRoomFeatures),
-                              CheckboxWidget(
-                                  value: coffee,
-                                  title: "Coffee / Tea maker",
-                                  data: superDeluxeRoomFeatures),
-                              CheckboxWidget(
-                                  value: soundproofWall,
-                                  title: "Soundproof walls",
-                                  data: superDeluxeRoomFeatures),
-                            ],
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            CheckboxWidget(
-                                value: smartTv,
-                                title: "Smart TV with satellite",
-                                data: superDeluxeRoomFeatures),
-                            CheckboxWidget(
-                                value: airCondition,
-                                title: "Individually air conditioning",
-                                data: superDeluxeRoomFeatures),
-                          ],
-                        ),
+
+                        BlocBuilder<HotelCubit, BaseState>(
+                            builder: (context, state) {
+                              return Wrap(
+                                children: List.generate(
+                                  StringConstants.superdeluxehotelConstantFeatures.length,
+                                      (index) => CheckboxWidget(
+                                    value:(state is StateOnResponseSuccess<HotelPutModel>)? superDeluxeRoomFeatures
+                                        .contains(StringConstants.superdeluxehotelConstantFeatures[index]):false,
+                                    title: StringConstants.superdeluxehotelConstantFeatures[index],
+                                    data: superDeluxeRoomFeatures,
+                                  ),
+                                ),
+                              );
+                            }),
+
                         LongTextTextField(
+                            validator: (superdeluxehoteldescription) {
+                              if (superdeluxehoteldescription
+                                      .toString()
+                                      .isEmpty ||
+                                  superdeluxehoteldescription
+                                      .toString()
+                                      .trim()
+                                      .isEmpty)
+                                return 'Enter the hotel Description';
+                              else if (superdeluxehoteldescription
+                                      .toString()
+                                      .length >
+                                  200) {
+                                return 'No more than 200 letter';
+                              }
+                            },
                             hintTextvar: "Super Deluxe Room Description",
                             textFieldViewController:
                                 superDeluxe_room_description),
@@ -778,7 +892,11 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             return CommonPrimaryButton(
                               text: "Add hotel",
                               onTap: () {
-                                if (_formKey.currentState!.validate()) {
+                                if (_formKey.currentState!.validate() &&
+                                    hotelFeatures.isNotEmpty &&
+                                    deluxeRoomFeatures.isNotEmpty &&
+                                    semiDeluxeRoomFeatures.isNotEmpty &&
+                                    superDeluxeRoomFeatures.isNotEmpty) {
                                   BlocProvider.of<HotelCubit>(context)
                                       .addHotels(
                                           22.25,
@@ -787,7 +905,7 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                           int.parse(pincode.text),
                                           int.parse(cityId.text),
                                           hotelAddress.text,
-                                          int.parse(hotelRating.text),
+                                          double.parse(hotelRating.text),
                                           int.parse(price.text),
                                           int.parse(phone_number.text),
                                           int.parse(no_of_rooms.text),
@@ -821,6 +939,16 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                           int.parse(
                                               superDeluxe_room_price.text),
                                           superDeluxe_room_bed_details.text);
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: "add all the data!",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor:
+                                          MakeMyTripColors.colorRed,
+                                      textColor: MakeMyTripColors.colorWhite,
+                                      fontSize: 16.0);
                                 }
                               },
                               backColor: Colors.blue,
