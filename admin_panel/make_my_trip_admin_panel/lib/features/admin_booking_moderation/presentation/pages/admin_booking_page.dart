@@ -102,10 +102,7 @@ class AdminBookingPage extends StatelessWidget {
                   },
                   child: Row(
                     children: [
-                      Text(
-                        StringConstants.filterLabel,
-                        style: AppTextStyles.infoContentStyle,
-                      ),
+                      const Icon(Icons.filter),
                       filterValue
                           ? const Text(
                               "*",

@@ -53,7 +53,6 @@ class HomePage extends StatelessWidget {
                       children: <Widget>[
                         DrawerHeader(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Flexible(
@@ -61,10 +60,13 @@ class HomePage extends StatelessWidget {
                                   ImagePath.logoImg,
                                 ),
                               ),
-                              Text(
-                                StringConstants.adminPanelLabel,
-                                style: AppTextStyles.labelStyle2.copyWith(
-                                    color: MakeMyTripColors.customDarkBlue),
+                              Align(
+                                alignment: AlignmentDirectional.topStart,
+                                child: Text(
+                                  StringConstants.adminPanelLabel,
+                                  style: AppTextStyles.labelStyle2.copyWith(
+                                      color: MakeMyTripColors.customDarkBlue),
+                                ),
                               ),
                             ],
                           ),

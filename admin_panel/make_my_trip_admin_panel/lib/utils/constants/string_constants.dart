@@ -16,7 +16,7 @@ class StringConstants {
 
   //admin_home_page String Constant
   static String bookingModerationLabel = "Bookings";
-  static String logOutLabel = "logOut";
+  static String logOutLabel = "logout";
 
   //Admin_login_constant_String
   static String emailHintTxt = "Enter your Email";
