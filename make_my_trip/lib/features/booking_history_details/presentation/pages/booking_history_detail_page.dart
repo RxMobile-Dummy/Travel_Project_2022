@@ -69,7 +69,7 @@ class BookingHistoryDetails extends StatelessWidget {
                   ),
                   30.verticalSpace,
                   Text(
-                    StringConstants.cantCancellBooking,
+                    StringConstants.cantCancelBooking,
                     style: const TextStyle(
                         color: MakeMyTripColors.accentColor,
                         fontSize: 16,

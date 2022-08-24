@@ -5,6 +5,7 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 import '../../data/model/user_history_model.dart';
@@ -120,7 +121,7 @@ class HistoryListViewWidget extends StatelessWidget {
                       bottomRight: Radius.circular(8),
                     ) // green shaped
                 ),
-                child: Text("CANCELLED",style: AppTextStyles.infoContentStyle3.copyWith(fontSize: 11),),
+                child: Text(StringConstants.cancelText,style: AppTextStyles.infoContentStyle3.copyWith(fontSize: 11),),
               ),
             ):const SizedBox()
           ],
