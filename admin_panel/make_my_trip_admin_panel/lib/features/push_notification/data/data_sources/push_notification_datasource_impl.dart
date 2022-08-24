@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,6 +12,11 @@ import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 class PushNotificationDaaSource_Impl implements PushNotificationDataSource {
   Dio dio;
   PushNotificationDaaSource_Impl(this.dio);
+  Future<Options> createDioOptions() async {
+    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    return Options(headers: {'token': userToken});
+  }
+
   @override
   Future<Either<Failures, List<dynamic>>> getImageFromDevice() async {
     try {
@@ -28,7 +34,10 @@ class PushNotificationDaaSource_Impl implements PushNotificationDataSource {
             SettableMetadata(contentType: 'image/jpeg'),
           )
           .whenComplete(() => Fluttertoast.showToast(
-              msg: StringConstants.imageUploadedSuccessfully)).catchError((err)=>Fluttertoast.showToast(msg: "Something went wrong while uploading image , please try again latter !"));
+              msg: StringConstants.imageUploadedSuccessfully))
+          .catchError((err) => Fluttertoast.showToast(
+              msg:
+                  "Something went wrong while uploading image , please try again latter !"));
       var url = await ref.getDownloadURL();
       return Right([pickedFile.name, url]);
     } catch (e) {
@@ -40,13 +49,17 @@ class PushNotificationDaaSource_Impl implements PushNotificationDataSource {
   Future<Either<Failures, String>> registeredUserUseCase(
       title, body, url) async {
     try {
-      var response =
-          await dio.post("http://192.168.101.164:3000/broadcast/registered", data: {
-        "title": title,
-        "body": body,
-        "imageUrl": url.toString().trim(),
-        "topic": "Events"
-      }).catchError((err)=>Fluttertoast.showToast(msg: StringConstants.notSend));
+      var response = await dio
+          .post("${BaseConstant.baseUrl}broadcast/registered",
+              data: {
+                "title": title,
+                "body": body,
+                "imageUrl": url.toString().trim(),
+                "topic": "Events"
+              },
+              options: await createDioOptions())
+          .catchError(
+              (err) => Fluttertoast.showToast(msg: StringConstants.notSend));
       return Right(response.data.toString());
     } catch (e) {
       return Left(ServerFailure());
@@ -57,11 +70,15 @@ class PushNotificationDaaSource_Impl implements PushNotificationDataSource {
   Future<Either<Failures, String>> endUserUseCase(title, body, url) async {
     try {
       var response = await Dio()
-          .post("http://192.168.101.164:3000/broadcast/endUser", data: {
-        "title": title,
-        "body": body,
-        "imageUrl": url.toString().trim()
-      }).catchError((err)=>Fluttertoast.showToast(msg: StringConstants.notSend));
+          .post("${BaseConstant.baseUrl}broadcast/endUser",
+              data: {
+                "title": title,
+                "body": body,
+                "imageUrl": url.toString().trim()
+              },
+              options: await createDioOptions())
+          .catchError(
+              (err) => Fluttertoast.showToast(msg: StringConstants.notSend));
       return Right(response.data.toString());
     } catch (e) {
       return Left(ServerFailure());
