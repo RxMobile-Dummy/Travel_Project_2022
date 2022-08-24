@@ -1,4 +1,7 @@
 
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip/features/booking/data/model/booking_model.dart';
@@ -17,6 +20,7 @@ class PaymentCubit extends Cubit<BaseState> {
   final PaymentUseCase paymentUseCase;
   final BookingUseCase bookingUseCase;
   final RoomBookPostUsecase roomBookPostUsecase;
+  Timer? timer;
 
   init() {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -26,20 +30,24 @@ class PaymentCubit extends Cubit<BaseState> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     emit(StateShowSearching());
-    Fluttertoast.showToast(
-        msg: "SUCCESS: ${response.paymentId}", timeInSecForIosWeb: 4);
+    print("_handlePaymentSuccess");
+    // Fluttertoast.showToast(
+    //     msg: "SUCCESS: ${response.paymentId}", timeInSecForIosWeb: 4);
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     emit(StateNoData());
-    Fluttertoast.showToast(
-        msg: "ERROR: ${response.code} - ${response.message}",
-        timeInSecForIosWeb: 4);
+    print("_handlePaymentError");
+    // Fluttertoast.showToast(
+    //     msg: "${response.code} - ${response.message}",
+    //     timeInSecForIosWeb: 4);
+    emit(StateOnResponseSuccess<String?>(response.message));
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
-    Fluttertoast.showToast(
-        msg: "EXTERNAL_WALLET: ${response.walletName}", timeInSecForIosWeb: 4);
+    print("_handleExternalWallet");
+    // Fluttertoast.showToast(
+    //     msg: "EXTERNAL_WALLET: ${response.walletName}", timeInSecForIosWeb: 4);
   }
 
   void openCheckout(double amount, String orderId, String? name, String? email,
@@ -49,6 +57,7 @@ class PaymentCubit extends Cubit<BaseState> {
       'amount': amount,
       'name': name,
       'order_id': orderId,
+      "timeout":270,
       'description': 'Payment',
       'prefill': {
         'contact': number ?? "8888888888",
@@ -60,8 +69,9 @@ class PaymentCubit extends Cubit<BaseState> {
     };
 
     try {
-      _razorpay.open(options);
+       _razorpay.open(options);
     } catch (e) {}
+
   }
 
   paymentConfirm(double amount,roomId,hotelId,cin,cout,double roomPrice,int gst,int offer,int totalPrice,int couponID) async {

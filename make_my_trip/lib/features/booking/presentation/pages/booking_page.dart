@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
@@ -63,6 +64,20 @@ class BookingPage extends StatelessWidget {
               });
         } else if (state is StateLoading) {
           ProgressDialog.showLoadingDialog(context, message: "Please wait");
+        } else if (state is StateOnResponseSuccess) {
+          if(state.response == 'timeout') {
+            Navigator.pushNamedAndRemoveUntil(context, RoutesName.home,(Route<dynamic> route) => false);
+            Fluttertoast.showToast(
+                msg: "Payment Time Out", timeInSecForIosWeb: 4);
+          } else {
+            ProgressDialog.hideLoadingDialog(context);
+            BlocProvider.of<PaymentCubit>(context).bookingConfirm(
+                detail.hotelId!,
+                detail.checkinDate!,
+                detail.checkoutDate!,
+                detail.roomId!,
+                detail.adults!);
+          }
         } else if (state is StateNoData) {
           ProgressDialog.hideLoadingDialog(context);
           BlocProvider.of<PaymentCubit>(context).bookingConfirm(
