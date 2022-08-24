@@ -3,35 +3,32 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
-
 class ReviewCardWidget extends StatelessWidget {
   final String name;
   final String description;
   final String date;
   final double ratingValue;
   final String image;
-
   const ReviewCardWidget(
       {Key? key,
-      required this.name,
-      required this.description,
-      required this.date,
-      required this.ratingValue,
-      required this.image})
+        required this.name,
+        required this.description,
+        required this.date,
+        required this.ratingValue,
+        required this.image})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+      padding: const EdgeInsets.all(8.0),
       child: Card(
-        color: MakeMyTripColors.color10gray,
-        elevation: 20,
+        color: MakeMyTripColors.colorWhite,
+        elevation: 4,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
             side: const BorderSide(color: MakeMyTripColors.color50gray)),
         child: SizedBox(
-          height: 180,
+          height: 120,
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,10 +41,10 @@ class ReviewCardWidget extends StatelessWidget {
                   Expanded(
                     flex: 4,
                     child: CircleAvatar(
-                      radius: 24,
+                      radius: 20,
                       backgroundColor: MakeMyTripColors.color50gray,
                       child: CircleAvatar(
-                        radius: 22,
+                        radius: 18,
                         backgroundImage: NetworkImage(image),
                         backgroundColor: MakeMyTripColors.color30gray,
                       ),
@@ -93,15 +90,15 @@ class ReviewCardWidget extends StatelessWidget {
                 ],
               ),
               12.verticalSpace,
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Text(
-                    description,
-                    textAlign: TextAlign.justify,
-                    style: AppTextStyles.labelDescriptionStyle
-                        .copyWith(fontWeight: FontWeight.w400),
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  description,
+                  textAlign: TextAlign.justify,
+                  style: AppTextStyles.labelDescriptionStyle
+                      .copyWith(fontWeight: FontWeight.w400),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

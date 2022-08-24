@@ -1,31 +1,26 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/review/data/model/review_model.dart';
 import 'package:make_my_trip/features/review/domain/repositories/review_repository.dart';
-
 import '../../../../core/usecases/usecase.dart';
-
 class PostHotelReviewUseCases
-    implements Usecase<List<ReviewModel>, PostReviewParams> {
+    implements Usecase<void, PostReviewParams> {
   final ReviewRepository reviewRepository;
-
   PostHotelReviewUseCases(this.reviewRepository);
-
   @override
-  Future<Either<Failures, List<ReviewModel>>> call(
+  Future<Either<Failures, void>> call(
       PostReviewParams postReviewParams) async {
     return await reviewRepository.postHotelReview(
-        postReviewParams.reviewModel, postReviewParams.hotel_id);
+        postReviewParams.reviewModel, postReviewParams.hotelid,postReviewParams.imageFileList);
   }
 }
-
 class PostReviewParams extends Equatable {
-  final ReviewModel reviewModel;
-  final int hotel_id;
-
-  const PostReviewParams({required this.reviewModel, required this.hotel_id});
-
+  final Reviews reviewModel;
+  final int hotelid;
+  final List<XFile> imageFileList;
+  const PostReviewParams({required this.reviewModel, required this.hotelid,required this.imageFileList});
   @override
-  List<Object?> get props => [reviewModel, hotel_id];
+  List<Object?> get props => [reviewModel, hotelid];
 }

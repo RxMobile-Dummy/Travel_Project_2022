@@ -81,16 +81,18 @@ class WishListPage extends StatelessWidget {
                   (BuildContext context, int index) {
                     return Column(
                       children: [
-                        if(index!=wishlistModel.length)
-                        HotalDetails(
-                          wishlistModel: wishlistModel[index],
-                        ),
-                        if(index==wishlistModel.length)
+                        if (index != wishlistModel.length)
+                          HotalDetails(
+                            wishlistModel: wishlistModel[index],
+                          ),
+                        if (index == wishlistModel.length)
                           const CircularProgressIndicator()
                       ],
                     );
                   },
-                  childCount: state.isMoreLoading ? wishlistModel.length+1 : wishlistModel.length,
+                  childCount: state.isMoreLoading
+                      ? wishlistModel.length + 1
+                      : wishlistModel.length,
                 )),
               ], //<Widget>[]
             );

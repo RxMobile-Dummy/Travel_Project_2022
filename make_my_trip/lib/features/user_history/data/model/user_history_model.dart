@@ -16,20 +16,20 @@
 
 class UserHistoryModel {
   UserHistoryModel({
-      int? hotelId, 
-      String? hotelName, 
-      Address? address, 
-      List<Images>? images, 
-      int? price, 
-      int? noOfRoom, 
-      int? numberOfNights, 
-      int? roomPrice, 
-      int? discount, 
-      int? gst, 
-      int? bookingId, 
-      String? status, 
-      String? bookedDate, 
-      String? checkingDate, 
+      int? hotelId,
+      String? hotelName,
+      Address? address,
+      List<Images>? images,
+      int? price,
+      int? noOfRoom,
+      int? numberOfNights,
+      int? roomPrice,
+      int? discount,
+      int? gst,
+      int? bookingId,
+      String? status,
+      String? bookedDate,
+      String? checkingDate,
       String? checkoutDate,}){
     _hotelId = hotelId;
     _hotelName = hotelName;
@@ -167,11 +167,11 @@ UserHistoryModel copyWith({  int? hotelId,
 
 class Images {
   Images({
-      int? id, 
-      String? imageUrl, 
-      int? hotelId, 
-      dynamic roomId, 
-      dynamic tourId, 
+      int? id,
+      String? imageUrl,
+      int? hotelId,
+      dynamic roomId,
+      dynamic tourId,
       dynamic userId,}){
     _id = id;
     _imageUrl = imageUrl;
@@ -235,9 +235,9 @@ Images copyWith({  int? id,
 
 class Address {
   Address({
-      String? addressLine, 
-      int? cityId, 
-      int? pincode, 
+      String? addressLine,
+      int? cityId,
+      int? pincode,
       Location? location,}){
     _addressLine = addressLine;
     _cityId = cityId;
@@ -287,7 +287,7 @@ Address copyWith({  String? addressLine,
 
 class Location {
   Location({
-      double? latitude, 
+      double? latitude,
       double? longitude,}){
     _latitude = latitude;
     _longitude = longitude;

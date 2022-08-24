@@ -33,7 +33,7 @@ class HotelListDataSourceImpl implements HotelListDataSource {
             'features': params.aminities,
             'rating': params.rating,
             'price': params.price,
-            "pagesize" : 3,
+            "pagesize": 3,
             "page": params.page
           },
           options: await createDioOptions());
@@ -42,7 +42,6 @@ class HotelListDataSourceImpl implements HotelListDataSource {
         final jsonList = response.data;
         for (var item in jsonList) {
           hotelList.add(HotelListModel.fromJson(item));
-
         }
         return right(hotelList);
       } else if (response.statusCode == 505) {

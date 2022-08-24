@@ -11,7 +11,7 @@ import '../widgets/calendar_constant.dart';
 import '../widgets/select_date_container.dart';
 
 class CalendarPage extends StatelessWidget {
-  CalendarPage({Key? key, required this.arg}) : super(key: key);
+  CalendarPage({Key? key,required this.arg}) : super(key: key);
   Map<String, dynamic> arg;
   @override
   Widget build(BuildContext context) {

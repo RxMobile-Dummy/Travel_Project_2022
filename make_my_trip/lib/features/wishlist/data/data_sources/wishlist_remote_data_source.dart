@@ -22,19 +22,16 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
 
   @override
   Future<Either<Failures, List<WishlistModel>>> getWishListData(int page) {
-    return _getAllCharacterUrl("${BaseConstant.baseUrl}bookmark/user/wishlist",page);
+    return _getAllCharacterUrl(
+        "${BaseConstant.baseUrl}bookmark/user/wishlist", page);
   }
 
   Future<Either<Failures, List<WishlistModel>>> _getAllCharacterUrl(
-      String url,int page) async {
+      String url, int page) async {
     try {
-      var params  = {
-        "pagesize" :3,
-        "page": page
-      };
-      final response = await dio.get( url,
-          queryParameters: params,
-          options: await createDioOptions());
+      var params = {"pagesize": 3, "page": page};
+      final response = await dio.get(url,
+          queryParameters: params, options: await createDioOptions());
 
       if (response.statusCode == 200) {
         List<WishlistModel> wishListModel = [];
