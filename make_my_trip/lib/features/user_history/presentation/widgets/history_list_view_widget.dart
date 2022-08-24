@@ -20,6 +20,8 @@ class HistoryListViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var snackBar = SnackBar(content: Text("You already Posted Review"));
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Card(
@@ -100,6 +102,15 @@ class HistoryListViewWidget extends StatelessWidget {
                                     .copyWith(fontSize: 12),
                               ),
                             ),
+                            8.horizontalSpace,
+                            GestureDetector(
+                                onTap: (){
+                                  userHistoryModel.reviewFlag==false ?  (Navigator.pushNamed(context, RoutesName.publishReviewPage,arguments: {
+                                    "hotel_id": userHistoryModel.hotelId,
+                                    // 'rating': userHistoryModel.r
+                                  })) : ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                },
+                                child: Text('Post Review',style: TextStyle(color: MakeMyTripColors.accentColor,fontSize: 12),))
                           ],
                         ),
                       ],

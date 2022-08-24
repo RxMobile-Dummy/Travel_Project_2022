@@ -30,7 +30,9 @@ class UserHistoryModel {
       String? status,
       String? bookedDate,
       String? checkingDate,
-      String? checkoutDate,}){
+      String? checkoutDate,
+      bool? reviewFlag
+  }){
     _hotelId = hotelId;
     _hotelName = hotelName;
     _address = address;
@@ -46,6 +48,7 @@ class UserHistoryModel {
     _bookedDate = bookedDate;
     _checkingDate = checkingDate;
     _checkoutDate = checkoutDate;
+    _reviewFlag=reviewFlag;
 }
 
   UserHistoryModel.fromJson(dynamic json) {
@@ -69,6 +72,7 @@ class UserHistoryModel {
     _bookedDate = json['booked_date'];
     _checkingDate = json['checking_date'];
     _checkoutDate = json['checkout_date'];
+    _reviewFlag = json['review_posted'];
   }
   int? _hotelId;
   String? _hotelName;
@@ -85,6 +89,7 @@ class UserHistoryModel {
   String? _bookedDate;
   String? _checkingDate;
   String? _checkoutDate;
+  bool? _reviewFlag;
 UserHistoryModel copyWith({  int? hotelId,
   String? hotelName,
   Address? address,
@@ -100,6 +105,7 @@ UserHistoryModel copyWith({  int? hotelId,
   String? bookedDate,
   String? checkingDate,
   String? checkoutDate,
+  bool? reviewFlag
 }) => UserHistoryModel(  hotelId: hotelId ?? _hotelId,
   hotelName: hotelName ?? _hotelName,
   address: address ?? _address,
@@ -115,6 +121,7 @@ UserHistoryModel copyWith({  int? hotelId,
   bookedDate: bookedDate ?? _bookedDate,
   checkingDate: checkingDate ?? _checkingDate,
   checkoutDate: checkoutDate ?? _checkoutDate,
+  reviewFlag: reviewFlag ?? _reviewFlag,
 );
   int? get hotelId => _hotelId;
   String? get hotelName => _hotelName;
@@ -131,7 +138,7 @@ UserHistoryModel copyWith({  int? hotelId,
   String? get bookedDate => _bookedDate;
   String? get checkingDate => _checkingDate;
   String? get checkoutDate => _checkoutDate;
-
+  bool? get reviewFlag=>_reviewFlag;
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['hotel_id'] = _hotelId;
@@ -153,6 +160,7 @@ UserHistoryModel copyWith({  int? hotelId,
     map['booked_date'] = _bookedDate;
     map['checking_date'] = _checkingDate;
     map['checkout_date'] = _checkoutDate;
+    map['review_posted'] = reviewFlag;
     return map;
   }
 
