@@ -1,7 +1,13 @@
+import 'dart:io';
+//import 'dart:html';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 
 import '../../core/theme/make_my_trip_colors.dart';
@@ -40,6 +46,20 @@ class _HtmlEditorExampleState extends State<EditorPage> {
         print(e);
       }
     });
+  }
+
+  Future<dynamic> uploadimageGallery(
+      File filename, XFile pickedFile, Reference ref) async {
+    print("Filename $filename");
+    print("pickedFile $pickedFile");
+    print("Reference $ref");
+    if (kIsWeb) {
+      try {
+        await ref.putData(await filename.readAsBytes());
+      } catch (e) {
+        print("uploadimage $e");
+      }
+    }
   }
 
   @override
@@ -147,16 +167,15 @@ class _HtmlEditorExampleState extends State<EditorPage> {
                   }
                 },
                     //this is commented because it overrides the default Summernote handlers
-                    /*onImageLinkInsert: (String? url) {
-                      print(url ?? "unknown url");
-                    },
-                    onImageUpload: (FileUpload file) async {
-                      print(file.name);
-                      print(file.size);
-                      print(file.type);
-                      print(file.base64);
-                    },*/
-                    onImageUploadError: (FileUpload? file, String? base64Str,
+                    onImageLinkInsert: (String? url) {
+                  print(url ?? "unknown url");
+                }, onImageUpload: (FileUpload file) async {
+                  // widget.controller;
+                  print(file.name);
+                  print(file.size);
+                  print(file.type);
+                  print(file.base64);
+                }, onImageUploadError: (FileUpload? file, String? base64Str,
                         UploadError error) {
                   if (kDebugMode) {
                     // print(describeEnum(error));
@@ -372,10 +391,31 @@ class _HtmlEditorExampleState extends State<EditorPage> {
                 TextButton(
                   style: TextButton.styleFrom(
                       backgroundColor: MakeMyTripColors.accentColor),
-                  onPressed: () {
-                    widget.controller.insertNetworkImage(
-                        'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png',
-                        filename: 'Google network image');
+                  onPressed: () async {
+                    if (kIsWeb) {
+                      FilePickerResult? result = await FilePicker.platform
+                          .pickFiles(
+                              type: FileType.custom,
+                              allowedExtensions: ['jpg', 'png', 'jpeg']);
+                      if (result != null) {
+                        PlatformFile file = result.files.first;
+                        final webImage = file.bytes;
+                        final imagePath = file.name;
+                        final ref = FirebaseStorage.instance
+                            .ref()
+                            .child('admin/${imagePath}');
+                        ref.putData(webImage!);
+                        ref.getDownloadURL().then((value) {
+                          print("getimage $value");
+                          widget.controller.insertNetworkImage(value);
+                        });
+                      } else {
+                        final webImage = null;
+                        final imagePath = '';
+                      }
+                    } else {
+                      print("Not web");
+                    }
                   },
                   child: Text(
                     StringConstants.network,
