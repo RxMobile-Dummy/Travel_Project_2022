@@ -90,10 +90,11 @@ class HotelListCubit extends Cubit<BaseState> {
       );
     }
 
-    if (state is !StateOnSuccess) {
+    if (state is! StateOnSuccess) {
       emit(StateLoading());
-    }else{
-      emit(StateOnSuccess<List<HotelListModel>>(hotelList,isMoreLoading: true));
+    } else {
+      emit(
+          StateOnSuccess<List<HotelListModel>>(hotelList, isMoreLoading: true));
     }
     page++;
     final res = await hotelListUsecase.call(params);
@@ -103,9 +104,9 @@ class HotelListCubit extends Cubit<BaseState> {
       for (var item in r) {
         hotelList.add(item);
       }
-      emit(StateOnSuccess<List<HotelListModel>>(hotelList,isMoreLoading: false));
+      emit(StateOnSuccess<List<HotelListModel>>(hotelList,
+          isMoreLoading: false));
     });
-
   }
 
   void setUpScrollController(

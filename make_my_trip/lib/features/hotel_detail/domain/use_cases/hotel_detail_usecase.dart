@@ -5,11 +5,13 @@ import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/repositories/hotel_detail_repository.dart';
 import '../../data/model/hotel_detail_model.dart';
 
-class HotelDetailUseCase implements Usecase<HotelDetailModel, HotelDetailParams> {
+class HotelDetailUseCase
+    implements Usecase<HotelDetailModel, HotelDetailParams> {
   final HotelDetailRepository hotelDetailRepository;
   HotelDetailUseCase(this.hotelDetailRepository);
   @override
-  Future<Either<Failures, HotelDetailModel>> call(HotelDetailParams params) async {
+  Future<Either<Failures, HotelDetailModel>> call(
+      HotelDetailParams params) async {
     return await hotelDetailRepository.getHotelDetails(params.index);
   }
 }

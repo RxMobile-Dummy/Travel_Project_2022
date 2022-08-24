@@ -221,6 +221,7 @@ class StringConstants {
   static const validPhoneNumber = "please enter valid phone number";
   static const imageJson = "user_image";
   static const firebaseFolderName = "userImage/";
+  static const firebaseReviewFolderName = "review_images/";
   static const firebaseCollectionName = "Images";
   static const failedToLoadImg = "failed to add image";
 

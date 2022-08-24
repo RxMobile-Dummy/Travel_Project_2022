@@ -5,13 +5,12 @@ import 'package:make_my_trip/features/user_history/data/model/user_history_model
 import 'package:make_my_trip/features/user_history/domain/repositories/user_history_repository.dart';
 
 class UserHistoryUsecase implements Usecase<List<UserHistoryModel>, int> {
- final UserHistoryRepository userHistoryRepository;
+  final UserHistoryRepository userHistoryRepository;
 
- UserHistoryUsecase(this.userHistoryRepository);
+  UserHistoryUsecase(this.userHistoryRepository);
 
- @override
- Future<Either<Failures, List<UserHistoryModel>>> call(int page) async{
-
-  return await userHistoryRepository.getUserHistory(page);
- }
+  @override
+  Future<Either<Failures, List<UserHistoryModel>>> call(int page) async {
+    return await userHistoryRepository.getUserHistory(page);
+  }
 }

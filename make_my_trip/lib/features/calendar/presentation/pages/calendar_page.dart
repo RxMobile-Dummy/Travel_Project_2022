@@ -11,7 +11,7 @@ import '../widgets/calendar_constant.dart';
 import '../widgets/select_date_container.dart';
 
 class CalendarPage extends StatelessWidget {
-   CalendarPage({Key? key,required this.arg}) : super(key: key);
+  CalendarPage({Key? key,required this.arg}) : super(key: key);
   Map<String, dynamic> arg;
   @override
   Widget build(BuildContext context) {
@@ -129,11 +129,20 @@ class CalendarPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             if (cubit.inTime != null && cubit.outTime != null) {
-                              var checkInDate = cubit.inTime.toString().substring(0,cubit.inTime.toString().indexOf(" "));
-                              var checkOutDate = cubit.outTime.toString().substring(0,cubit.outTime.toString().indexOf(" "));
-                              Navigator.pushNamed(context,
-                                  RoutesName.roomCategory,arguments:{'hotel_id':arg['hotel_id'],'cin':checkInDate,'cout':checkOutDate});
-
+                              var checkInDate = cubit.inTime
+                                  .toString()
+                                  .substring(
+                                      0, cubit.inTime.toString().indexOf(" "));
+                              var checkOutDate = cubit.outTime
+                                  .toString()
+                                  .substring(
+                                      0, cubit.outTime.toString().indexOf(" "));
+                              Navigator.pushNamed(
+                                  context, RoutesName.roomCategory, arguments: {
+                                'hotel_id': arg['hotel_id'],
+                                'cin': checkInDate,
+                                'cout': checkOutDate
+                              });
                             }
                           },
                           style: ElevatedButton.styleFrom(

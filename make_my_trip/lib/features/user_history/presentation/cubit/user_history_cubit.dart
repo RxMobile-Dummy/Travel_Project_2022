@@ -11,10 +11,11 @@ class UserHistoryCubit extends Cubit<BaseState> {
   List<UserHistoryModel> historyList = [];
 
   getUserHistoryData() async {
-    if (state is !StateOnSuccess) {
+    if (state is! StateOnSuccess) {
       emit(StateLoading());
-    }else{
-      emit(StateOnSuccess<List<UserHistoryModel>>(historyList,isMoreLoading: true));
+    } else {
+      emit(StateOnSuccess<List<UserHistoryModel>>(historyList,
+          isMoreLoading: true));
     }
     page++;
     final res = await userHistoryUsecase.call(page);
@@ -24,7 +25,8 @@ class UserHistoryCubit extends Cubit<BaseState> {
       for (var item in r) {
         historyList.add(item);
       }
-      emit(StateOnSuccess<List<UserHistoryModel>>(historyList,isMoreLoading: false));
+      emit(StateOnSuccess<List<UserHistoryModel>>(historyList,
+          isMoreLoading: false));
     });
   }
 

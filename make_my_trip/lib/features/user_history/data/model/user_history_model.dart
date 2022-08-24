@@ -22,6 +22,7 @@ class UserHistoryModel {
     this.price,
     this.checkingDate,
     this.checkoutDate,
+    this.reviewFlag
   });
 
   UserHistoryModel.fromJson(dynamic json) {
@@ -38,6 +39,7 @@ class UserHistoryModel {
     price = double.parse(json['price'].toString());
     checkingDate = json['checking_date'];
     checkoutDate = json['checkout_date'];
+    reviewFlag = json['review_posted'];
   }
   int? hotelId;
   String? hotelName;
@@ -46,6 +48,7 @@ class UserHistoryModel {
   double? price;
   String? checkingDate;
   String? checkoutDate;
+  bool? reviewFlag;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -60,6 +63,7 @@ class UserHistoryModel {
     map['price'] = price;
     map['checking_date'] = checkingDate;
     map['checkout_date'] = checkoutDate;
+    map['review_posted'] = reviewFlag;
     return map;
   }
 }

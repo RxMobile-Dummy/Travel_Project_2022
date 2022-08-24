@@ -17,13 +17,14 @@ import '../widgets/hotel_list_view_widget.dart';
 import 'filter_list.dart';
 
 class HotelListPage extends StatelessWidget {
-   HotelListPage({Key? key, required this.arg}) : super(key: key);
+  HotelListPage({Key? key, required this.arg}) : super(key: key);
   final Map<String, dynamic> arg;
   ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    context.read<HotelListCubit>.call().setUpScrollController(_scrollController, arg['cin'], arg['cout'], arg['no_of_room'], arg['id'], arg['type']);
+    context.read<HotelListCubit>.call().setUpScrollController(_scrollController,
+        arg['cin'], arg['cout'], arg['no_of_room'], arg['id'], arg['type']);
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -79,14 +80,17 @@ class HotelListPage extends StatelessWidget {
                           child: ListView.builder(
                               controller: _scrollController,
                               shrinkWrap: true,
-                              itemCount: state.isMoreLoading?listOfHotel.length+1 : listOfHotel.length,
+                              itemCount: state.isMoreLoading
+                                  ? listOfHotel.length + 1
+                                  : listOfHotel.length,
                               itemBuilder: (context, index) {
                                 return Column(
                                   children: [
-                                    if(index!=listOfHotel.length)
-                                    HotelListViewWidget(
-                                        hotelListModel: state.response[index]),
-                                    if(index==listOfHotel.length)
+                                    if (index != listOfHotel.length)
+                                      HotelListViewWidget(
+                                          hotelListModel:
+                                              state.response[index]),
+                                    if (index == listOfHotel.length)
                                       const CircularProgressIndicator()
                                   ],
                                 );

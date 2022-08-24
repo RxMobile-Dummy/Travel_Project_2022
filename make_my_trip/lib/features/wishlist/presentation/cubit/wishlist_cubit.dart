@@ -6,33 +6,29 @@ import 'package:make_my_trip/features/wishlist/data/model/wishlist_model.dart';
 import 'package:make_my_trip/features/wishlist/domain/use_cases/wishlist_usecase.dart';
 
 class WishListCubit extends Cubit<BaseState> {
-
   WishListCubit(this.wishListUsecase) : super(StateInitial());
 
   final WishListUsecase wishListUsecase;
   int page = -1;
   List<WishlistModel> wishList = [];
-  
-  
+
   getWishListCubitData() async {
-    if(state is !StateOnSuccess){
-    emit(StateLoading());
-    }
-    else{
-      emit(StateOnSuccess<List<WishlistModel>>(wishList,isMoreLoading: true));
+    if (state is! StateOnSuccess) {
+      emit(StateLoading());
+    } else {
+      emit(StateOnSuccess<List<WishlistModel>>(wishList, isMoreLoading: true));
     }
     page++;
     final res = await wishListUsecase.call(page);
-    res.fold((l) {emit(StateErrorGeneral("errorMessage"));},
-        (r) {
-      for(var item in r ){
+    res.fold((l) {
+      emit(StateErrorGeneral("errorMessage"));
+    }, (r) {
+      for (var item in r) {
         wishList.add(item);
       }
-    emit(StateOnSuccess<List<WishlistModel>>(wishList,isMoreLoading: false));
-        });
-
+      emit(StateOnSuccess<List<WishlistModel>>(wishList, isMoreLoading: false));
+    });
   }
-
 
   void setUpScrollController(ScrollController scrollController) {
     scrollController.addListener(() {
@@ -44,7 +40,3 @@ class WishListCubit extends Cubit<BaseState> {
     });
   }
 }
-
-
-
-

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/review/data/data_sources/review_remote_data_source.dart';
 import 'package:make_my_trip/features/review/data/model/review_model.dart';
@@ -10,14 +11,14 @@ class ReviewRepositoryImpl implements ReviewRepository {
   ReviewRepositoryImpl(this.reviewRemoteDataSource);
 
   @override
-  Future<Either<Failures, List<ReviewModel?>>> getHotelReview(
+  Future<Either<Failures, ReviewModel>> getHotelReview(
       int params) async {
-    return await reviewRemoteDataSource.
-    getHotelReview(params);
+    return await reviewRemoteDataSource.getHotelReview(params);
   }
 
   @override
-  Future<Either<Failures, List<ReviewModel>>> postHotelReview(ReviewModel reviewModel,int hotel_id) async {
-    return await reviewRemoteDataSource.postHotelReview(reviewModel,hotel_id);
+  Future<Either<Failures,void>> postHotelReview(
+      Reviews reviewModel, int hotel_id,List<XFile> imageFileList) async {
+    return await reviewRemoteDataSource.postHotelReview(reviewModel, hotel_id,imageFileList);
   }
 }

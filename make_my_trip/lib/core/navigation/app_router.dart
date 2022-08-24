@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/booking/booking_injection_container.dart';
-import 'package:make_my_trip/features/booking/presentation/cubit/book_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/payment_integeration_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/pages/booking_page.dart';
 import 'package:make_my_trip/features/calendar/presentation/cubit/calendar_cubit.dart';
@@ -277,7 +276,7 @@ class Router {
           return MultiBlocProvider(
             providers: [
               BlocProvider(create: (context) => reviewSl<PublishReviewCubit>()),
-              BlocProvider(create: (context) => reviewSl<ReviewCubit>())
+              BlocProvider(create: (context) => reviewSl<ReviewCubit>()),
             ],
             child: PublishReviewPage(arg: arg),
           );

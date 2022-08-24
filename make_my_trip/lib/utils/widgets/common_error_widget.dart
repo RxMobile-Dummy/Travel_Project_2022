@@ -3,18 +3,16 @@ import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
 class CommonErrorWidget extends StatelessWidget {
-  const CommonErrorWidget(
-      {Key? key,
-        required this.imagePath,
-        required this.title,
-        required this.statusCode,
-        })
-      : super(key: key);
+  const CommonErrorWidget({
+    Key? key,
+    required this.imagePath,
+    required this.title,
+    required this.statusCode,
+  }) : super(key: key);
 
   final String imagePath;
   final String title;
   final String statusCode;
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,7 @@ class CommonErrorWidget extends StatelessWidget {
             title,
             textAlign: TextAlign.center,
             style: const TextStyle(
-                  color: MakeMyTripColors.accentColor,
+                color: MakeMyTripColors.accentColor,
                 fontSize: 24,
                 fontWeight: FontWeight.bold),
           ),

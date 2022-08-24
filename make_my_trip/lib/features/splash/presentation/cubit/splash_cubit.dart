@@ -19,8 +19,7 @@ class SplashCubit extends Cubit<BaseState> {
   splashLoad() async {
     await Future.delayed(Duration(seconds: 2));
     final res = await getUser.call(NoParams());
-    res.fold((failure) {
-    }, (success) {
+    res.fold((failure) {}, (success) {
       if (success.userId != null) {
         emit(Authenticated());
       } else {

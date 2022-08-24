@@ -7,34 +7,32 @@ import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/review/data/model/review_model.dart';
 import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
 import 'package:make_my_trip/features/review/presentation/pages/review_shimmer_page.dart';
+import 'package:make_my_trip/features/review/presentation/widgets/publish_review_slider_widget.dart';
 import 'package:make_my_trip/features/review/presentation/widgets/review_card_widget.dart';
+import 'package:make_my_trip/features/review/presentation/widgets/review_slider_widget.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
-
 class ReviewPage extends StatelessWidget {
   ReviewPage({Key? key, required this.arg}) : super(key: key);
   Map<String, dynamic> arg;
-
   @override
   Widget build(BuildContext context) {
-    List<ReviewModel>? reviewModel;
+    ReviewModel? review;
+    List<Reviews>? reviewModel;
     return BlocListener<ReviewCubit, BaseState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is Authenticated) {
-          Navigator.pushReplacementNamed(context, RoutesName.publishReviewPage,
-              arguments: {
-                'context': context,
-                'hotel_id': arg['hotel_id'],
-                'rating': arg['rating']
-              });
+          await Navigator.pushNamed(context, RoutesName.publishReviewPage,
+              arguments: {'context': context, 'hotel_id': arg['hotel_id']});
+          BlocProvider.of<ReviewCubit>(context)
+              .getHotelReviewData(arg['hotel_id']);
         } else {
           if (state is Unauthenticated) {
             Navigator.pushReplacementNamed(context, RoutesName.login,
                 arguments: {
                   "route_name": RoutesName.reviewPage,
-                  'hotel_id': arg['hotel_id'],
-                  'rating': arg['rating']
+                  'hotel_id': arg['hotel_id']
                 });
           }
         }
@@ -49,8 +47,9 @@ class ReviewPage extends StatelessWidget {
         body: BlocBuilder<ReviewCubit, BaseState>(
           builder: (context, state) {
             if (state is StateOnSuccess) {
-              reviewModel = state.response;
-            } else if (state is StateLoading) {
+              review = state.response;
+              reviewModel = review!.reviews;
+            } else if (state is StateLoading || state is StateErrorGeneral) {
               return ReviewPageShimmer();
             }
             if (reviewModel!.length == 0) {
@@ -80,61 +79,93 @@ class ReviewPage extends StatelessWidget {
                 ),
               );
             } else {
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12.0, vertical: 8.0),
-                        child: Card(
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              side: const BorderSide(
-                                  color: MakeMyTripColors.color50gray)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 4.0, vertical: 1.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.star,
-                                  size: 14,
-                                  color: MakeMyTripColors.accentColor,
-                                ),
-                                Text(arg['rating'].toString()),
-                              ],
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 8.0),
+                          child: Card(
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                side: const BorderSide(
+                                    color: MakeMyTripColors.color50gray)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4.0, vertical: 1.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.star,
+                                    size: 18,
+                                    color: MakeMyTripColors.accentColor,
+                                  ),
+                                  Text(review!.hotelRating.toString()),
+                                ],
+                              ),
                             ),
                           ),
                         ),
+                        Text(
+                          "${reviewModel!.length} " + StringConstants.reviews,
+                          style: const TextStyle(
+                              color: MakeMyTripColors.color50gray),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ReviewSliderWidget(
+                            value: review!.avgComfort!,
+                            fieldName: StringConstants.comfortTxt,
+                            context: context,
+                          ),
+                          ReviewSliderWidget(
+                            value: review!.avgCleanliness!,
+                            fieldName: StringConstants.cleanlinessTxt,
+                            context: context,
+                          ),
+                          ReviewSliderWidget(
+                            value: review!.avgLocation!,
+                            fieldName: StringConstants.loacationTxt,
+                            context: context,
+                          ),
+                          ReviewSliderWidget(
+                            value: review!.avgFacilities!,
+                            fieldName: StringConstants.facilitiesTxt,
+                            context: context,
+                          ),
+                        ],
                       ),
-                      Text(
-                        "${reviewModel!.length} " + StringConstants.reviews,
-                        style: const TextStyle(
-                            color: MakeMyTripColors.color50gray),
-                      )
-                    ],
-                  ),
-                  Expanded(
-                    child: ListView.builder(
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: reviewModel!.length,
                         itemBuilder: (context, index) {
                           return ReviewCardWidget(
                             date: reviewModel![index].date?.substring(0, 10) ??
                                 "",
                             name:
-                                reviewModel![index].userId?.userName ?? "Name",
+                            reviewModel![index].userId?.userName ?? "Name",
                             description:
-                                reviewModel![index].comment ?? "Comments",
+                            reviewModel![index].comment ?? "Comments",
                             ratingValue: reviewModel![index].rating ?? 0.0,
                             image: reviewModel![index].userId?.userImage ??
                                 StringConstants.userImagePlaceHolder,
                           );
                         }),
-                  ),
-                ],
+                  ],
+                ),
               );
             }
           },
@@ -142,13 +173,11 @@ class ReviewPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               var searchState = context.read<ReviewCubit>().state;
-              print(searchState);
               if (searchState is Authenticated) {
                 Navigator.pushReplacementNamed(
                     context, RoutesName.publishReviewPage, arguments: {
                   'context': context,
-                  'hotel_id': arg['hotel_id'],
-                  'rating': arg['rating']
+                  'hotel_id': arg['hotel_id']
                 });
               } else if (searchState is Unauthenticated) {
                 Navigator.pushReplacementNamed(context, RoutesName.login,

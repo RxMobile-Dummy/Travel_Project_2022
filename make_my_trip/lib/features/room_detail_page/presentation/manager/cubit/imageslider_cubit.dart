@@ -21,8 +21,7 @@ class ImagesliderCubit extends Cubit<BaseState> {
   goToBooking(hotelId, cin, cout, totalSelectedRoom, roomList) async {
     emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {
-    }, (success) {
+    res.fold((failure) {}, (success) {
       if (success) {
         emit(Unauthenticated());
       } else {
