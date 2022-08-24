@@ -24,7 +24,7 @@ class PushNotificationCubit extends Cubit<BaseState> {
   getImagefromDevice(int registerUser, int endUser) async {
     final response = await pushNotificationUseCase.call();
     response.fold(
-        (l) =>  emit(StateErrorGeneral(StringConstants.errorMsgNotification)),
+        (l) => emit(StateErrorGeneral(StringConstants.errorMsgNotification)),
         (r) => emit(PushNotificationResponse(
             r.first.toString(), r.last.toString(), registerUser, endUser)));
   }
@@ -40,7 +40,7 @@ class PushNotificationCubit extends Cubit<BaseState> {
       final response =
           await registerUserNotificationUseCase.call(title, body, url);
       response.fold(
-          (l) =>  emit(StateErrorGeneral(StringConstants.errorMsgNotification)),
+          (l) => emit(StateErrorGeneral(StringConstants.errorMsgNotification)),
           (r) => Fluttertoast.showToast(
               msg: StringConstants.pushedNotificationToRegisteredUser));
     }
@@ -53,7 +53,7 @@ class PushNotificationCubit extends Cubit<BaseState> {
     } else {
       final response = await endUserNotificationUseCase.call(title, body, url);
       response.fold(
-          (l) =>  emit(StateErrorGeneral(StringConstants.errorMsgNotification)),
+          (l) => emit(StateErrorGeneral(StringConstants.errorMsgNotification)),
           (r) => Fluttertoast.showToast(
               msg: StringConstants.pushedNotificationToEndUser));
     }

@@ -182,17 +182,17 @@ class PushNotificationAdminPanel extends StatelessWidget {
                                         title.text.toString().trim(),
                                         body.text.toString(),
                                         url);
-                              }
-                              else if (endUser == 1) {
+                              } else if (endUser == 1) {
                                 BlocProvider.of<PushNotificationCubit>(context)
                                     .endUserPushNotification(
                                         title.text.toString().trim(),
                                         body.text.toString(),
                                         url,
                                         endUser);
-                              }
-                              else{
-                                context.read<PushNotificationCubit>().emit(ErrorState(StringConstants.errorMsgNotification));
+                              } else {
+                                context.read<PushNotificationCubit>().emit(
+                                    ErrorState(
+                                        StringConstants.errorMsgNotification));
                               }
                             },
                             child: Text(

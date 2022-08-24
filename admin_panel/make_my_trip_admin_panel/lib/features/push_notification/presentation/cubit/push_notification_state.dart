@@ -1,7 +1,7 @@
 part of 'push_notification_cubit.dart';
 
 @immutable
-abstract class PushNotificationState extends BaseState{}
+abstract class PushNotificationState extends BaseState {}
 
 class PushNotificationInitial extends PushNotificationState {
   @override
@@ -19,7 +19,7 @@ class PushNotificationResponse extends PushNotificationState {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [fileName,refUrl,registerUser,endUser];
+  List<Object?> get props => [fileName, refUrl, registerUser, endUser];
 }
 
 class ErrorState extends PushNotificationState {
@@ -28,5 +28,5 @@ class ErrorState extends PushNotificationState {
 
   @override
   // TODO: implement props
-  List<Object?> get props =>[error];
+  List<Object?> get props => [error];
 }
