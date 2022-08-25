@@ -23,13 +23,21 @@ class WishListPage extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<WishListCubit, BaseState>(
         builder: (context, state) {
+          if (state is StateErrorGeneralStateErrorServer) {
+            return CommonErrorWidget(
+              onTap: () {
+                BlocProvider.of<WishListCubit>(context).getWishListCubitData();
+              },
+            );
+          }
           if (state is StateOnSuccess) {
             List<WishlistModel> wishlistModel = state.response;
             if (wishlistModel.isEmpty) {
-              return CommonErrorWidget(
-                  imagePath: ImagePath.noDataFoundImage,
-                  title: StringConstants.noHotelInWishlist,
-                  statusCode: "");
+              return const CommonErrorWidget(
+                  imagePath: ImagePath.noBookingPage,
+                  title:
+                      "You don't have any hotel at this moment in your whishlist",
+                  statusCode: "No hotels found");
             }
             return CustomScrollView(
               slivers: <Widget>[

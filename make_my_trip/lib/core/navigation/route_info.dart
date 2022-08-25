@@ -9,6 +9,7 @@ class RoutesName {
   static const otp = '/otp';
   static const verifyEmail = "/verifyEmail";
   static const resetPassword = "/resetPassword";
+  static const populer = "/popular";
 
   static const home = '/home';
   static const myTrips = '/mytrip';

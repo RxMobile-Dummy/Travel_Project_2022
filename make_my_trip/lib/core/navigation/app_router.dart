@@ -6,6 +6,7 @@ import 'package:make_my_trip/features/booking/presentation/cubit/payment_integer
 import 'package:make_my_trip/features/booking/presentation/pages/booking_page.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
+import 'package:make_my_trip/features/home_page/presentation/pages/list_of_populer_hotels.dart';
 import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_container.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/filter_list.dart';
@@ -97,6 +98,13 @@ class Router {
           return BlocProvider(
             create: (context) => userSl<UserCubit>(),
             child: LoginPage(arg: arg),
+          );
+        });
+      case RoutesName.populer:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider(
+            create: (context) => slHomePage<HomepageCubit>()..getPopularHotel(),
+            child: ListOfPopulerHotels(),
           );
         });
       case RoutesName.signup:

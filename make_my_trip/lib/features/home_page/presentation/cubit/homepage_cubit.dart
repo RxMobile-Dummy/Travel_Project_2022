@@ -1,49 +1,61 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/failures/failure_handler.dart';
 import 'package:make_my_trip/features/home_page/domain/use_cases/image_usecase.dart';
 import 'package:make_my_trip/features/home_page/domain/use_cases/tour_usecase.dart';
+import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model.dart';
 import '../../../../../core/failures/failures.dart';
 
 class HomepageCubit extends Cubit<BaseState> {
   HomepageCubit(this.imagesusecase, this.toursusecase)
-      : super(StateOnSuccess<GettingStartedData>(GettingStartedData()));
+      : super(GettingStartedData());
+
   final GetAllImagesOfHomePageUseCase imagesusecase;
   final GetAllToursOfHomepageUseCase toursusecase;
 
+  getPopularHotel() async {
+    try {
+      emit(StateLoading());
+
+      var data = await imagesusecase.call(50);
+      data.fold((failure) {
+        if (failure is ServerFailure) {
+          emit(FailureHandler.checkFailures(failure));
+        }
+      }, (success) {
+        emit(StateOnSuccess<List<HotelListModel>>(success));
+      });
+    } catch (err) {}
+  }
+
   getImagesApi() async {
     try {
-      emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-          .response
-          .copyWith(imageLoading: true)));
+      emit((state as GettingStartedData).copyWith(imageLoading: true));
 
-      var data = await imagesusecase.call();
+      var data = await imagesusecase.call(5);
       data.fold((failure) {
         if (failure is ServerFailure) {
           emit(StateErrorGeneral(failure.failureMsg.toString()));
         }
       }, (success) {
-        emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-            .response
-            .copyWith(imageListValue: success, imageLoading: false)));
+        emit((state as GettingStartedData)
+            .copyWith(imageListValue: success, imageLoading: false));
       });
     } catch (err) {}
   }
 
   getToursApi() async {
     try {
-      emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-          .response
-          .copyWith(tourLoading: true)));
+      emit((state as GettingStartedData).copyWith(tourLoading: true));
       var data = await toursusecase.call();
       data.fold((failure) {
         if (failure is ServerFailure) {
           emit(StateErrorGeneral(failure.failureMsg.toString()));
         }
       }, (success) {
-        emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-            .response
-            .copyWith(toursListValue: success, tourLoading: false)));
+        emit((state as GettingStartedData)
+            .copyWith(toursListValue: success, tourLoading: false));
       });
     } catch (err) {}
   }

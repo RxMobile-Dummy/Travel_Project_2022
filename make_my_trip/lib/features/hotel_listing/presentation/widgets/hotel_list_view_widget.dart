@@ -8,18 +8,17 @@ import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class HotelListViewWidget extends StatelessWidget {
-  HotelListViewWidget({Key? key, required this.hotelListModel})
+  HotelListViewWidget(
+      {Key? key, required this.hotelListModel, required this.onTap})
       : super(key: key);
   HotelListModel hotelListModel;
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, RoutesName.hotelDetail,
-              arguments: {"hotel_id": hotelListModel.id, "share_link": false});
-        },
+        onTap: onTap,
         child: Column(
           children: [
             Padding(
@@ -98,7 +97,6 @@ class HotelListViewWidget extends StatelessWidget {
             ),
           ],
         ),
-
       ),
     );
   }

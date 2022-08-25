@@ -25,29 +25,30 @@ class UserHistoryPage extends StatelessWidget {
         body: SafeArea(
           child: BlocBuilder<UserHistoryCubit, BaseState>(
             builder: (context, state) {
-              if (state is StateOnSuccess) {
+              if (state is StateErrorGeneralStateErrorServer) {
+                return CommonErrorWidget(
+                  onTap: () {
+                    BlocProvider.of<UserHistoryCubit>(context)
+                        .getUserHistoryData();
+                  },
+                );
+              } else if (state is StateOnSuccess) {
                 List<UserHistoryModel> userHistoryModel = state.response;
                 if (userHistoryModel.isEmpty) {
-                  return CommonErrorWidget(
+                  return const CommonErrorWidget(
                       imagePath: ImagePath.noBookingPage,
-                      title: StringConstants.noBooking,
-                      statusCode: "");
+                      title: "You don't have any booking at this moment",
+                      statusCode: "No bookings found");
+                } else {
+                  return ListView.builder(
+                      itemCount: userHistoryModel.length,
+                      itemBuilder: (context, index) {
+                        return HistoryListViewWidget(
+                            userHistoryModel: userHistoryModel[index]);
+                      });
                 }
-                return ListView.builder(
-                    itemCount: userHistoryModel.length,
-                    itemBuilder: (context, index) {
-                      return HistoryListViewWidget(
-                          userHistoryModel: userHistoryModel[index]);
-                    });
-              } else if (state is StateErrorGeneral) {
-                return CommonErrorWidget(
-                    imagePath: ImagePath.serverFailImage,
-                    title: StringConstants.serverFail,
-                    statusCode: "");
-              } else if (state is StateLoading) {
-                return const HistoryPageShimmer();
               } else {
-                return const Center(child: Text(StringConstants.noDatatxt));
+                return const HistoryPageShimmer();
               }
             },
           ),

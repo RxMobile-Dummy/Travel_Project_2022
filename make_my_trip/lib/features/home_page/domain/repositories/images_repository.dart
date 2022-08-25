@@ -4,5 +4,5 @@ import '../../../../core/failures/failures.dart';
 import '../../data/models/imageModel.dart';
 
 abstract class ImagesRepository {
-  Future<Either<Failures, List<HotelListModel>>> getImages();
+  Future<Either<Failures, List<HotelListModel>>> getImages(int val);
 }

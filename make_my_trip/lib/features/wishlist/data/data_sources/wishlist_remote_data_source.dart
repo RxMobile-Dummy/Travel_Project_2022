@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:make_my_trip/features/wishlist/data/model/wishlist_model.dart';
 
+import '../../../../core/failures/failure_handler.dart';
 import '../../../../core/failures/failures.dart';
 import '../../../../utils/constants/base_constants.dart';
 
@@ -25,8 +28,8 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
     try {
       final response =
           await dio.get(url, options: await BaseConstant.createDioOptions());
-
-      if (response.statusCode == 200) {
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
         List<WishlistModel> wishListModel = [];
         final apidata = response.data;
         for (var item in apidata) {
@@ -34,9 +37,9 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
         }
 
         return Right(wishListModel);
-      } else {
-        return Left(ServerFailure());
-      }
+      });
+    } on SocketException {
+      return Left(InternetFailure());
     } catch (err) {
       return Left(ServerFailure());
     }

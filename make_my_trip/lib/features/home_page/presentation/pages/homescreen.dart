@@ -23,9 +23,11 @@ class HomeScreen extends StatelessWidget {
       builder: (context, state) {
         if (state is StateErrorGeneral) {
           return CommonErrorWidget(
-              imagePath: ImagePath.serverFailImage,
-              title: StringConstants.serverFail,
-              statusCode: "");
+            onTap: () {
+              BlocProvider.of<HomepageCubit>(context).getToursApi();
+              BlocProvider.of<HomepageCubit>(context).getImagesApi();
+            },
+          );
         }
         return Scaffold(
           body: SafeArea(
@@ -135,28 +137,55 @@ class HomeScreen extends StatelessWidget {
                       thickness: 1,
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    child: Text(
-                      StringConstants.popularHotelsTxt,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          StringConstants.popularHotelsTxt,
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, RoutesName.populer);
+                          },
+                          child: Row(
+                            children: [
+                              const Text(
+                                "See All",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: MakeMyTripColors.accentColor),
+                              ),
+                              4.horizontalSpace,
+                              const Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 18,
+                                color: MakeMyTripColors.accentColor,
+                              )
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
-                    child: ((state is StateOnSuccess<GettingStartedData> &&
-                            state.response.imageListValue != null)
-                        ? (state.response.imageLoading == true)
+                    child: ((state is GettingStartedData &&
+                            state.imageListValue != null)
+                        ? (state.imageLoading == true)
                             ? const ImageSliderShimmer()
                             : Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: List.generate(
-                                    state.response.imageListValue!.length,
-                                    (index) {
+                                    state.imageListValue!.length, (index) {
                                   var imagelist =
-                                      state.response.imageListValue?.toList();
+                                      state.imageListValue?.toList();
 
                                   return Padding(
                                     padding: const EdgeInsets.only(left: 16),
@@ -199,17 +228,15 @@ class HomeScreen extends StatelessWidget {
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
-                    child: ((state is StateOnSuccess<GettingStartedData> &&
-                            state.response.toursListValue != null)
-                        ? (state.response.tourLoading == true)
+                    child: ((state is GettingStartedData &&
+                            state.toursListValue != null)
+                        ? (state.tourLoading == true)
                             ? const ImageSliderShimmer()
                             : Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: List.generate(
-                                    state.response.toursListValue!.length,
-                                    (index) {
-                                  var tourdata =
-                                      state.response.toursListValue?[index];
+                                    state.toursListValue!.length, (index) {
+                                  var tourdata = state.toursListValue?[index];
                                   return Padding(
                                     padding: const EdgeInsets.only(left: 16),
                                     child: HomeListWidget(

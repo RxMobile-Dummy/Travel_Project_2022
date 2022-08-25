@@ -27,6 +27,7 @@ class UserHistoryModel {
   UserHistoryModel.fromJson(dynamic json) {
     hotelId = json['hotel_id'];
     hotelName = json['hotel_name'];
+    reviewFlag = json['review_posted'];
     address =
         json['address'] != null ? Address.fromJson(json['address']) : null;
     if (json['images'] != null) {
@@ -46,6 +47,7 @@ class UserHistoryModel {
   double? price;
   String? checkingDate;
   String? checkoutDate;
+  bool? reviewFlag;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -60,6 +62,7 @@ class UserHistoryModel {
     map['price'] = price;
     map['checking_date'] = checkingDate;
     map['checkout_date'] = checkoutDate;
+    map['review_posted'] = reviewFlag;
     return map;
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
@@ -30,13 +29,11 @@ class PaymentCubit extends Cubit<BaseState> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
+    print(response);
     emit(StateNoData());
   }
 
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    Fluttertoast.showToast(
-        msg: "EXTERNAL_WALLET: ${response.walletName}", timeInSecForIosWeb: 4);
-  }
+  void _handleExternalWallet(ExternalWalletResponse response) {}
 
   void openCheckout(double amount, String orderId, String? name, String? email,
       String? number) async {
@@ -57,12 +54,16 @@ class PaymentCubit extends Cubit<BaseState> {
 
     try {
       _razorpay.open(options);
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
-  paymentConfirm(double amount,roomId,hotelId,cin,cout,double roomPrice,int gst,int offer,int totalPrice,int couponID) async {
+  paymentConfirm(double amount, roomId, hotelId, cin, cout, double roomPrice,
+      int gst, int offer, int totalPrice, int couponID) async {
     emit(StateLoading());
-    final data = await paymentUseCase.call(PaymentParams(amount,roomId,hotelId,cin,cout,roomPrice,gst,offer,totalPrice,couponID));
+    final data = await paymentUseCase.call(PaymentParams(amount, roomId,
+        hotelId, cin, cout, roomPrice, gst, offer, totalPrice, couponID));
     data.fold((l) {
       emit(StateErrorGeneral(l.toString()));
     }, (r) {

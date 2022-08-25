@@ -10,7 +10,9 @@ class GetAllImagesOfHomePageUseCase {
 
   GetAllImagesOfHomePageUseCase({required this.imagesrepository});
 
-  Future<Either<Failures, List<HotelListModel>>> call() async {
-    return await imagesrepository.getImages();
+  Future<Either<Failures, List<HotelListModel>>> call(int val) async {
+    return await imagesrepository.getImages(val);
   }
 }
+
+

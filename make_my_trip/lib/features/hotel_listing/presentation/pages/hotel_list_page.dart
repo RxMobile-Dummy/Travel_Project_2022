@@ -79,6 +79,15 @@ class HotelListPage extends StatelessWidget {
                               itemCount: state.response.length,
                               itemBuilder: (context, index) {
                                 return HotelListViewWidget(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, RoutesName.hotelDetail,
+                                          arguments: {
+                                            "hotel_id":
+                                                state.response[index].id,
+                                            "share_link": false
+                                          });
+                                    },
                                     hotelListModel: state.response[index]);
                               }),
                         )

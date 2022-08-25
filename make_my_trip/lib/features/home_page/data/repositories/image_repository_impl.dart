@@ -11,7 +11,7 @@ class ImageRepositoryImpl extends ImagesRepository {
   ImageRepositoryImpl({required this.imagesDataSource});
 
   @override
-  Future<Either<Failures, List<HotelListModel>>> getImages() async {
-    return await imagesDataSource.getList();
+  Future<Either<Failures, List<HotelListModel>>> getImages(int val) async {
+    return await imagesDataSource.getList(val);
   }
 }

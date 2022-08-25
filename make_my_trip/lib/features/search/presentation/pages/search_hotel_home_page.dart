@@ -159,8 +159,6 @@ class SearchHotel extends StatelessWidget {
                                     .substring(0,
                                         cubit.outTime.toString().indexOf(" "));
                                 if (cubit.city.isNotEmpty) {
-                                  print(
-                                      "city_name :${cubit.city}cin: ${checkInDate.toString()}cout: ${checkOutDate} no_of_room: ${cubit.rooms} id: ${cubit.searchId}type: ${cubit.type}");
                                   Navigator.of(context).pushNamed(
                                       RoutesName.hotelList,
                                       arguments: {
@@ -171,6 +169,11 @@ class SearchHotel extends StatelessWidget {
                                         'id': cubit.searchId,
                                         'type': cubit.type,
                                       });
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              "Please Select city or hotel")));
                                 }
                               },
                               text: StringConstants.searchButtonLabel)),
