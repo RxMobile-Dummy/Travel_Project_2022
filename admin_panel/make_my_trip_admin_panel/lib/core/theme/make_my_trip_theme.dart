@@ -30,7 +30,6 @@ class MakeMyTripLightTheme {
             const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide.none,
         )),
   );
 }

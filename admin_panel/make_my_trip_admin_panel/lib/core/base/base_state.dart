@@ -70,8 +70,9 @@ class StateErrorGeneralStateErrorServer extends BaseState {
 
 class StateOnSuccess<T> extends BaseState {
   final T response;
+  final bool? isMoreLoading;
 
-  StateOnSuccess(this.response);
+  StateOnSuccess(this.response, {this.isMoreLoading});
 
   @override
   List<Object?> get props => [response];

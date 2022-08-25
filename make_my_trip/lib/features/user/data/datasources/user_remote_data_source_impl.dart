@@ -69,18 +69,19 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       User? user = userCredential.user;
 
       if (user != null) {
-        if (user.emailVerified) {
+        // if (user.emailVerified) {
           return Right(UserModel.fromJson({
             "userName": user.displayName,
             "userEmail": user.email,
             "userPhone": user.phoneNumber,
             "userPic": user.photoURL,
             "userId": user.uid
-          }));
-        } else {
-          auth.signOut();
-          return Left(AuthFailure(failureMsg: "Email not varified"));
-        }
+          }
+          ));
+        // } else {
+        //   auth.signOut();
+        //   return Left(AuthFailure(failureMsg: "Email not varified"));
+        // }
       } else {
         return Left(ServerFailure());
       }
