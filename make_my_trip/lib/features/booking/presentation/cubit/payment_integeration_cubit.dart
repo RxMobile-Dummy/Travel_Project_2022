@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:make_my_trip/core/failures/failure_handler.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/booking/data/model/booking_model.dart';
 import 'package:make_my_trip/features/booking/domain/use_cases/booking_usecase.dart';
@@ -39,6 +40,9 @@ class PaymentCubit extends Cubit<BaseState> {
   void _handlePaymentError(PaymentFailureResponse response) {
     emit(StateNoData());
     print("_handlePaymentError");
+    print(response.message);
+
+    print(response.code);
     // Fluttertoast.showToast(
     //     msg: "${response.code} - ${response.message}",
     //     timeInSecForIosWeb: 4);
@@ -79,7 +83,7 @@ class PaymentCubit extends Cubit<BaseState> {
     emit(StateLoading());
     final data = await paymentUseCase.call(PaymentParams(amount,roomId,hotelId,cin,cout,roomPrice,gst,offer,totalPrice,couponID));
     data.fold((l) {
-      emit(StateErrorGeneral(l.toString()));
+      emit(FailureHandler.checkFailures(l));
     }, (r) {
       init();
       openCheckout(
@@ -91,7 +95,7 @@ class PaymentCubit extends Cubit<BaseState> {
       int adults) async {
     final data = await bookingUseCase
         .call(BookingParams(hotelId, cIn, cOut, roomId, adults));
-    data.fold((l) => emit(StateErrorGeneral(l.toString())),
+    data.fold((l) => emit(FailureHandler.checkFailures(l)),
         (r) => emit(StateOnSuccess<BookingModel>(r)));
   }
 

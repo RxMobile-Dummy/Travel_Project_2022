@@ -226,14 +226,15 @@ class FailErrorMessageState extends BaseState implements Equatable {
   bool? get stringify => null;
 }
 
-class GettingStartedData extends BaseState implements Equatable {
+class GettingStartedData extends BaseState {
   final bool? tourLoading;
   final bool? imageLoading;
   final List<ToursModel>? toursListValue;
   final List<HotelListModel>? imageListValue;
 
   GettingStartedData(
-      {this.imageLoading,
+      {
+        this.imageLoading,
       this.tourLoading,
       this.toursListValue,
       this.imageListValue});

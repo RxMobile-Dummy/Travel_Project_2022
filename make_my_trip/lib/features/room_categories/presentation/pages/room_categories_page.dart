@@ -28,6 +28,7 @@ class RoomCategoriesPage extends StatelessWidget {
     RoomCategoryModel? roomCategoryModel;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           StringConstants.roomCategoriesPageHeading,
@@ -46,11 +47,19 @@ class RoomCategoriesPage extends StatelessWidget {
               arg['noofrooms']);
         }
       }, builder: (context, state) {
-        if (state is StateErrorGeneral) {
+        if (state is StateErrorGeneralStateErrorServer) {
           return CommonErrorWidget(
-              imagePath: ImagePath.serverFailImage,
-              title: StringConstants.serverFail,
-              statusCode: "");
+            onTap: () {BlocProvider.of<RoomCategoryCubit>(context).getData(arg['hotel_id'], arg['cin'], arg['cout'],
+                arg['noofrooms']);
+
+            },
+          );
+        }else  if(state is StateInternetError){
+          return CommonErrorWidget(title: "No Connection",subTitle: "Please check your internet connection and try again",
+            onTap: () {BlocProvider.of<RoomCategoryCubit>(context).getData(arg['hotel_id'], arg['cin'], arg['cout'],
+                arg['noofrooms']);
+            },
+          );
         } else if (state is StateOnKnownToSuccess<RoomCategoryModel>) {
           roomCategoryModel = state.response;
           sortedList = {
@@ -63,50 +72,130 @@ class RoomCategoriesPage extends StatelessWidget {
 
           return BlocBuilder<SelectRoomCountCubit, BaseState>(
               builder: (context, state) {
+                var price = 0;
             if (state is StateOnSuccess<SelectRoomCountState>) {
-              return SingleChildScrollView(
-                  child: Column(
+              if (state.response.deluxValue > 0) {
+                price +=
+                    state.response.deluxValue * roomCategoryModel!.deluxe!.price!;
+              }
+              if (state.response.semiDeluxValue > 0) {
+                price += state.response.semiDeluxValue *
+                    roomCategoryModel!.semideluxe!.price!;
+              }
+              if (state.response.superDeluxValue > 0) {
+                price += state.response.superDeluxValue *
+                    roomCategoryModel!.supedeluxe!.price!;
+              }
+              return Stack(
                 children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(right: 12, left: 12, top: 16),
-                    child: Text(
-                      roomCategoryModel!.hotelName!,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.infoContentStyle2.copyWith(
-                          fontSize: 24, color: MakeMyTripColors.colorBlack),
-                    ),
-                  ),
-                  Column(
-                      children: sortedList.entries.map((e) {
-                    int roomCount =
-                        ((e.key.roomType! == StringConstants.deluxType)
-                            ? state.response.deluxValue
-                            : (e.key.roomType == StringConstants.semiDeluxType)
-                                ? state.response.semiDeluxValue
-                                : state.response.superDeluxValue);
-                    return RoomListWidget(
-                        maxCount: (sortedList[e.key]!.length) - roomCount,
-                        hotelId: int.parse(roomCategoryModel!.hotelId!),
-                        roomData: e.key,
-                        roomList: sortedList[e.key]!,
-                        roomRemoveOnTap: () {
-                          context.read<SelectRoomCountCubit>().removeRoomEvent(
-                              e.key.roomType!, roomCount, arg["noofrooms"]);
-                        },
-                        roomAddOnTap: () {
-                          context.read<SelectRoomCountCubit>().addRoomEvent(
-                              e.key.roomType!,
-                              roomCount,
-                              sortedList[e.key]!.length,
-                              arg["noofrooms"]);
-                        },
-                        totalSelectedRoom: roomCount,
-                        cin: arg['cin'],
-                        cout: arg['cout']);
-                  }).toList()),
+                  SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(right: 12, left: 12, top: 16),
+                        child: Text(
+                          roomCategoryModel!.hotelName!,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.infoContentStyle2.copyWith(
+                              fontSize: 24, color: MakeMyTripColors.colorBlack),
+                        ),
+                      ),
+                      Column(
+                          children: sortedList.entries.map((e) {
+                        int roomCount =
+                            ((e.key.roomType! == StringConstants.deluxType)
+                                ? state.response.deluxValue
+                                : (e.key.roomType == StringConstants.semiDeluxType)
+                                    ? state.response.semiDeluxValue
+                                    : state.response.superDeluxValue);
+                        return RoomListWidget(
+                            maxCount: (sortedList[e.key]!.length) - roomCount,
+                            hotelId: int.parse(roomCategoryModel!.hotelId!),
+                            roomData: e.key,
+                            roomList: sortedList[e.key]!,
+                            roomRemoveOnTap: () {
+                              context.read<SelectRoomCountCubit>().removeRoomEvent(
+                                  e.key.roomType!, roomCount, arg["noofrooms"]);
+                            },
+                            roomAddOnTap: () {
+                              context.read<SelectRoomCountCubit>().addRoomEvent(
+                                  e.key.roomType!,
+                                  roomCount,
+                                  sortedList[e.key]!.length,
+                                  arg["noofrooms"]);
+                            },
+                            totalSelectedRoom: roomCount,
+                            cin: arg['cin'],
+                            cout: arg['cout']);
+                      }).toList()),
+                    ],
+                  )),
+                 Positioned(
+                   bottom: 0,
+                   child: Container( width: MediaQuery.of(context).size.width, padding:
+                   const EdgeInsets.symmetric(vertical: 16,horizontal: 16),
+                     color: MakeMyTripColors.colorWhite,
+                     child: Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         Column(
+                           mainAxisSize: MainAxisSize.min,
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                             Text(
+                               "₹ ${price} ",
+                               style: AppTextStyles.smallBlackTitleStyle
+                                   .copyWith(fontSize: 22),
+                             ),
+                             Text(
+                               'Per night for ${arg["noofrooms"]} Rooms',
+                               style: AppTextStyles.smallGrayTitleStyle
+                                   .copyWith(color: MakeMyTripColors.color70gray),
+                             ),
+                           ],
+                         ),
+                         SizedBox(
+                             width: 150,
+                             child: CommonPrimaryButton(
+                               text: StringConstants.book,
+                               onTap: () {
+                                 if (state.response.totalRooms ==
+                                     arg["noofrooms"]) {
+                                   BlocProvider.of<RoomCategoryCubit>(context)
+                                       .goToBooking(
+                                       roomCategoryModel!.hotelId!,
+                                       arg["cin"],
+                                       arg["cout"],
+                                       arg["noofrooms"],
+                                       {
+                                         roomCategoryModel!.deluxe!.roomType!:
+                                         state.response.deluxValue,
+                                         roomCategoryModel!
+                                             .semideluxe!.roomType!:
+                                         state.response.semiDeluxValue,
+                                         roomCategoryModel!
+                                             .supedeluxe!.roomType!:
+                                         state.response.superDeluxValue,
+                                       },
+                                       roomCategoryModel!,
+                                       arg['adults']);
+                                 }
+
+
+                               },
+
+                               disable:
+                               (state.response.totalRooms != arg["noofrooms"]),
+                             ))
+                       ],
+                     ),
+                   ),
+                 )
+
                 ],
-              ));
+              );
             } else {
               return const RoomCategoriesShimmerPage();
             }
@@ -115,87 +204,6 @@ class RoomCategoriesPage extends StatelessWidget {
           return const RoomCategoriesShimmerPage();
         }
       }),
-      bottomNavigationBar: BlocBuilder<SelectRoomCountCubit, BaseState>(
-        builder: (context, state) {
-          var price = 0;
-          if (state is StateOnSuccess<SelectRoomCountState>) {
-            if (state.response.deluxValue > 0) {
-              price +=
-                  state.response.deluxValue * roomCategoryModel!.deluxe!.price!;
-            }
-            if (state.response.semiDeluxValue > 0) {
-              price += state.response.semiDeluxValue *
-                  roomCategoryModel!.semideluxe!.price!;
-            }
-            if (state.response.superDeluxValue > 0) {
-              price += state.response.superDeluxValue *
-                  roomCategoryModel!.supedeluxe!.price!;
-            }
-
-            return SafeArea(
-              child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "₹ ${price} ",
-                            style: AppTextStyles.smallBlackTitleStyle
-                                .copyWith(fontSize: 22),
-                          ),
-                          Text(
-                            'Per night for ${arg["noofrooms"]} Rooms',
-                            style: AppTextStyles.smallGrayTitleStyle
-                                .copyWith(color: MakeMyTripColors.color70gray),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                          width: 150,
-                          child: CommonPrimaryButton(
-                            text: StringConstants.book,
-                            onTap: () {
-                              if (state.response.totalRooms ==
-                                  arg["noofrooms"]) {
-                                BlocProvider.of<RoomCategoryCubit>(context)
-                                    .goToBooking(
-                                        roomCategoryModel!.hotelId!,
-                                        arg["cin"],
-                                        arg["cout"],
-                                        arg["noofrooms"],
-                                        {
-                                          roomCategoryModel!.deluxe!.roomType!:
-                                              state.response.deluxValue,
-                                          roomCategoryModel!
-                                                  .semideluxe!.roomType!:
-                                              state.response.semiDeluxValue,
-                                          roomCategoryModel!
-                                                  .supedeluxe!.roomType!:
-                                              state.response.superDeluxValue,
-                                        },
-                                        roomCategoryModel!,
-                                        arg['adults']);
-                              }
-
-
-                            },
-
-                            disable:
-                                (state.response.totalRooms != arg["noofrooms"]),
-                          ))
-                    ],
-                  )),
-            );
-          } else {
-            return const SizedBox();
-          }
-        },
-      ),
     );
   }
 }

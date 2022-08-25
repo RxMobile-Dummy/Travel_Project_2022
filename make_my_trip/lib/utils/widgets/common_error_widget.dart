@@ -13,14 +13,15 @@ class CommonErrorWidget extends StatelessWidget {
   const CommonErrorWidget({
     Key? key,
     this.imagePath,
+    this.subTitle,
     this.title,
-    this.statusCode,
     this.onTap,
   }) : super(key: key);
 
+    
   final String? imagePath;
+  final String? subTitle;
   final String? title;
-  final String? statusCode;
   final VoidCallback? onTap;
 
   @override
@@ -40,7 +41,7 @@ class CommonErrorWidget extends StatelessWidget {
             ),
             30.verticalSpace,
             Text(
-              statusCode ?? "Something went wrong",
+              title ?? "Something went wrong",
               style: TextStyle(
                   color: MakeMyTripColors.colorBlack.withOpacity(.8),
                   fontSize: 24,
@@ -48,7 +49,7 @@ class CommonErrorWidget extends StatelessWidget {
             ),
             18.verticalSpace,
             Text(
-              title ??
+              subTitle ??
                   "We are working on fixing the problem. Please refresh the page and try again.",
               textAlign: TextAlign.center,
               style: TextStyle(

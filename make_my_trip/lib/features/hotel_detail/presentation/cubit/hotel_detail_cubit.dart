@@ -1,6 +1,7 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/failures/failure_handler.dart';
 import 'package:make_my_trip/core/usecases/usecase.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/hotel_detail/domain/use_cases/hotel_detail_usecase.dart';
@@ -26,7 +27,9 @@ class HotelDetailCubit extends Cubit<BaseState> {
   onLikeTap(bool isLiked, int? hotelId) async {
     emit(StateInitial());
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {}, (success) {
+    res.fold((failure) {
+      emit(FailureHandler.checkFailures(failure));
+    }, (success) {
       if (success) {
         emit(Unauthenticated());
       } else {
@@ -51,7 +54,7 @@ class HotelDetailCubit extends Cubit<BaseState> {
   getHotelDetailData(int data) async {
     emit(StateLoading());
     final res = await hotelDetailUseCase.call(HotelDetailParams(index: data));
-    res.fold((l) => emit(StateErrorGeneral("errorMessage")),
+    res.fold((l) => emit(FailureHandler.checkFailures(l)),
         (r) => emit(StateOnKnownToSuccess<HotelDetailModel>(r)));
   }
 

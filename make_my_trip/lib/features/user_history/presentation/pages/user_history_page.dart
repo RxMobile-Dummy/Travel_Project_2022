@@ -32,13 +32,20 @@ class UserHistoryPage extends StatelessWidget {
                         .getUserHistoryData();
                   },
                 );
+              }else  if(state is StateInternetError){
+                return CommonErrorWidget(title: "No Connection",subTitle: "Please check your internet connection and try again",
+                  onTap: () {
+                    BlocProvider.of<UserHistoryCubit>(context)
+                        .getUserHistoryData();
+                  },
+                );
               } else if (state is StateOnSuccess) {
                 List<UserHistoryModel> userHistoryModel = state.response;
                 if (userHistoryModel.isEmpty) {
                   return const CommonErrorWidget(
                       imagePath: ImagePath.noBookingPage,
-                      title: "You don't have any booking at this moment",
-                      statusCode: "No bookings found");
+                      subTitle: "You don't have any booking at this moment",
+                      title: "No bookings found");
                 } else {
                   return ListView.builder(
                       itemCount: userHistoryModel.length,

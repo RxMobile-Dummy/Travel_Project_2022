@@ -39,8 +39,8 @@ class SplashPage extends StatelessWidget {
         if (state is StateErrorGeneralStateErrorServer) {
           return CommonErrorWidget(
               imagePath: ImagePath.serverFailImage,
-              title: "Somthing went wrong",
-              statusCode: "");
+              subTitle: "Somthing went wrong",
+              title: "");
         }
         return const Scaffold(
           extendBodyBehindAppBar: true,

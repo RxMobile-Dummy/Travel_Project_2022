@@ -56,7 +56,29 @@ class HotelListPage extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<HotelListCubit, BaseState>(
           builder: (context, state) {
-            if (state is StateOnSuccess) {
+            if (state is StateErrorGeneralStateErrorServer) {
+              return CommonErrorWidget(
+                onTap: () {
+                  BlocProvider.of<HotelListCubit>(context).getHotelListApi(
+                      arg['cin'],
+                      arg['cout'],
+                      arg['no_of_room'],
+                      arg['id'],
+                      arg['type']);
+                },
+              );
+            }else  if(state is StateInternetError){
+              return CommonErrorWidget(title: "No Connection",subTitle: "Please check your internet connection and try again",
+                onTap: () {
+                  BlocProvider.of<HotelListCubit>(context).getHotelListApi(
+                      arg['cin'],
+                      arg['cout'],
+                      arg['no_of_room'],
+                      arg['id'],
+                      arg['type']);
+                },
+              );
+            }  else if (state is StateOnSuccess) {
               List<HotelListModel> listOfHotel = state.response;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,13 +88,13 @@ class HotelListPage extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: 6),
                     child: AllFiltersWidget(),
                   ),
-                  listOfHotel.isEmpty
-                      ? Expanded(
-                          child: CommonErrorWidget(
-                              imagePath: ImagePath.noDataFoundImage,
-                              title: StringConstants.noHotelFound,
-                              statusCode: ""),
-                        )
+                  (listOfHotel.isEmpty)
+                      ? const Expanded(
+                        child: CommonErrorWidget(
+                            imagePath: ImagePath.noBookingPage,
+                            subTitle: "Sorry there are no results match for these filters",
+                            title: "No hotel found"),
+                      )
                       : Expanded(
                           child: ListView.builder(
                               shrinkWrap: true,
@@ -83,8 +105,7 @@ class HotelListPage extends StatelessWidget {
                                       Navigator.pushNamed(
                                           context, RoutesName.hotelDetail,
                                           arguments: {
-                                            "hotel_id":
-                                                state.response[index].id,
+                                            "hotel_id": listOfHotel[index].id,
                                             "share_link": false
                                           });
                                     },

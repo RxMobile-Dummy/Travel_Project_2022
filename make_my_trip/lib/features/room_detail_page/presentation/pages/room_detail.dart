@@ -57,8 +57,8 @@ class RoomDetailsPage extends StatelessWidget {
         return Scaffold(
             body: CommonErrorWidget(
           imagePath: ImagePath.serverFailImage,
-          title: StringConstants.serverFail,
-          statusCode: state.errorMessage,
+          subTitle: StringConstants.serverFail,
+          title: state.errorMessage,
         ));
       }
       return Scaffold(

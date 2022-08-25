@@ -16,8 +16,6 @@ class HomepageCubit extends Cubit<BaseState> {
 
   getPopularHotel() async {
     try {
-      emit(StateLoading());
-
       var data = await imagesusecase.call(50);
       data.fold((failure) {
         if (failure is ServerFailure) {
@@ -32,17 +30,16 @@ class HomepageCubit extends Cubit<BaseState> {
   getImagesApi() async {
     try {
       emit((state as GettingStartedData).copyWith(imageLoading: true));
-
       var data = await imagesusecase.call(5);
       data.fold((failure) {
-        if (failure is ServerFailure) {
-          emit(StateErrorGeneral(failure.failureMsg.toString()));
-        }
+        emit( FailureHandler.checkFailures(failure));
       }, (success) {
         emit((state as GettingStartedData)
             .copyWith(imageListValue: success, imageLoading: false));
       });
-    } catch (err) {}
+    } catch (err) {
+      print(err);
+    }
   }
 
   getToursApi() async {
@@ -50,13 +47,12 @@ class HomepageCubit extends Cubit<BaseState> {
       emit((state as GettingStartedData).copyWith(tourLoading: true));
       var data = await toursusecase.call();
       data.fold((failure) {
-        if (failure is ServerFailure) {
-          emit(StateErrorGeneral(failure.failureMsg.toString()));
-        }
+        emit(FailureHandler.checkFailures(failure));
       }, (success) {
         emit((state as GettingStartedData)
             .copyWith(toursListValue: success, tourLoading: false));
       });
-    } catch (err) {}
+    } catch (err) {
+      print(err);}
   }
 }

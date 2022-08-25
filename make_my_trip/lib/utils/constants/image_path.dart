@@ -42,6 +42,7 @@ class ImagePath {
   static const String appLogo = "assets/img/logot.png";
   static const String confirmSuccess = "assets/img/confirmsuccess.png";
   static const String noRoomFound = "assets/img/no_room_found.png";
+  static const String noInternetImg = "assets/img/no_internet.png";
   static const String sendMail = "assets/img/send_mail.png";
 
   static const String userProfileImage1 = 'assets/img/userPage_logo.png';

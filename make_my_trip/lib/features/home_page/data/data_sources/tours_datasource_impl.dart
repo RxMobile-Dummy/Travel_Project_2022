@@ -14,33 +14,6 @@ class ToursDataSourceImpl implements ToursDataSource {
 
   ToursDataSourceImpl(this.dio);
 
-  // @override
-  // Future<Either<Failures, List<ToursModel>>> getToursData() async {
-  //   try {
-  //     final response = await dio.get('${BaseConstant.baseUrl}tour/5',
-  //         options: await BaseConstant.createDioOptions());
-  //     var result = response.data;
-  //     if (response.statusCode == 200) {
-  //       List<ToursModel> postList = [];
-  //       {
-  //         for (Map i in result) {
-  //           postList.add(ToursModel.fromJson(i));
-  //         }
-  //       }
-  //       return Right(postList);
-  //     } else if (response.statusCode == 505) {
-  //       return Left(ServerFailure());
-  //     } else if (response.statusCode == 404) {
-  //       return Left(
-  //           AuthFailure()); //Data Not Found Failure but in failure there is not method so AuthFailure
-  //     } else {
-  //       return Left(InternetFailure());
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return Left(ServerFailure(statusCode: "503"));
-  //   }
-  // }
   @override
   Future<Either<Failures, List<ToursModel>>> getToursData() async {
     try {

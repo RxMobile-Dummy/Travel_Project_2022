@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/failures/failure_handler.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/features/room_categories/domain/use_cases/room_book_post_usecase.dart';
 import 'package:make_my_trip/features/room_categories/domain/use_cases/room_categories_usecase.dart';
@@ -21,7 +22,7 @@ class RoomCategoryCubit extends Cubit<BaseState> {
     emit(StateLoading());
     var res =
         await roomCategoriesUseCase.call(Params(hotelId, cIn, cOut, noOfRooms));
-    res.fold((l) => emit(StateErrorGeneral("errorMessage")),
+    res.fold((l) => emit(FailureHandler.checkFailures(l)),
         (r) => emit(StateOnKnownToSuccess<RoomCategoryModel>(r)));
   }
 
@@ -52,7 +53,7 @@ class RoomCategoryCubit extends Cubit<BaseState> {
       RoomCategoryModel roomCategoryModel, int adults) async {
     emit(StateInitial());
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {}, (success) {
+    res.fold((failure) {emit(FailureHandler.checkFailures(failure));}, (success) {
       if (success) {
         emit(Unauthenticated());
       } else {

@@ -24,7 +24,7 @@ class ListOfPopulerHotels extends StatelessWidget {
             if (state is StateErrorGeneralStateErrorServer) {
               return CommonErrorWidget(
                 onTap: () {
-                  BlocProvider.of<HomepageCubit>(context).getPopularHotel();
+                  // BlocProvider.of<HomepageCubit>(context).getPopularHotel();
                 },
               );
             } else if (state is StateOnSuccess) {

@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
+
+import '../../../../core/failures/failure_handler.dart';
 
 abstract class HotelDetailRemoteDataSource {
   Future<Either<Failures, HotelDetailModel>> getAllHotelDetailData(int index);
@@ -27,17 +31,20 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
     try {
       final response =
           await dio.get(url, options: await BaseConstant.createDioOptions());
-      if (response.statusCode == 200) {
+
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
         HotelDetailModel hotelDetailModel;
-        final apidata = response.data;
+        final apidata = r.data;
         hotelDetailModel = HotelDetailModel.fromJson(apidata);
         return Right(hotelDetailModel);
-      } else {
-        return Left(ServerFailure());
-      }
+      });
+    } on SocketException {
+      return Left(InternetFailure());
     } catch (err) {
       return Left(ServerFailure());
     }
+
   }
 
   @override
@@ -46,11 +53,12 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
       final response = await dio.delete(
           "${BaseConstant.baseUrl}bookmark/delete/${hotelId}",
           options: await BaseConstant.createDioOptions());
-      if (response.statusCode == 200) {
-        return Right(null);
-      } else {
-        return Left(ServerFailure());
-      }
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
+        return const Right(null);
+      });
+    } on SocketException {
+      return Left(InternetFailure());
     } catch (err) {
       return Left(ServerFailure());
     }
@@ -62,11 +70,12 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
       final response = await dio.post(
           "${BaseConstant.baseUrl}bookmark/post/${hotelId}",
           options: await BaseConstant.createDioOptions());
-      if (response.statusCode == 200) {
-        return Right(null);
-      } else {
-        return Left(ServerFailure());
-      }
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
+        return const Right(null);
+      });
+    } on SocketException {
+      return Left(InternetFailure());
     } catch (err) {
       return Left(ServerFailure());
     }

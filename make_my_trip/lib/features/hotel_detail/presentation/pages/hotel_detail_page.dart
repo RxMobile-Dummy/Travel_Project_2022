@@ -26,11 +26,12 @@ import '../widgets/review_container.dart';
 
 class HotelDetailPage extends StatelessWidget {
   HotelDetailPage({Key? key, required this.arg}) : super(key: key);
-  final bool arg;
+
   bool isLiked = false;
   bool isReadMore = false;
   int imgIndex = 0;
   HotelDetailModel? hotelDetailModel;
+  final Map<String, dynamic> arg;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,19 @@ class HotelDetailPage extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is StateOnKnownToSuccess) {
+        if (state is StateErrorGeneralStateErrorServer) {
+          return CommonErrorWidget(
+            onTap: () {
+              BlocProvider.of<HotelDetailCubit>(context).getHotelDetailData(arg['hotel_id']);
+            },
+          );
+        }else  if(state is StateInternetError){
+          return CommonErrorWidget(title: "No Connection",subTitle: "Please check your internet connection and try again",
+            onTap: () {
+              BlocProvider.of<HotelDetailCubit>(context).getHotelDetailData(arg['hotel_id']);
+            },
+          );
+        }  else if (state is StateOnKnownToSuccess) {
           hotelDetailModel = state.response;
           isLiked = hotelDetailModel!.isbookmark!;
         } else if (state is StateSearchResult) {
@@ -53,17 +66,12 @@ class HotelDetailPage extends StatelessWidget {
           imgIndex = state.response;
         } else if (state is StateOnSuccess) {
           isReadMore = state.response;
-        } else if (state is StateLoading) {
+        }else{
           return const HotelDetailsShimmer();
-        } else if (state is StateErrorGeneral) {
-          return CommonErrorWidget(
-              imagePath: ImagePath.serverFailImage,
-              title: StringConstants.serverFail,
-              statusCode: "");
         }
         return WillPopScope(
             onWillPop: () async {
-              if (arg == false) {
+              if (arg['share_link'] == false) {
                 Navigator.pop(context);
                 return true;
               } else {
@@ -88,7 +96,7 @@ class HotelDetailPage extends StatelessWidget {
                           pinned: true,
                           leading: IconButton(
                               onPressed: () {
-                                if (arg == false) {
+                                if (arg['share_link'] == false) {
                                   Navigator.of(context).pop();
                                 } else {
                                   Navigator.pushNamedAndRemoveUntil(context,
@@ -128,6 +136,7 @@ class HotelDetailPage extends StatelessWidget {
                             ),
                             12.horizontalSpace,
                           ],
+
                           flexibleSpace: FlexibleSpaceBar(
                             centerTitle: true,
                             background: Stack(fit: StackFit.expand, children: [
@@ -303,20 +312,9 @@ class HotelDetailPage extends StatelessWidget {
                           ),
                           12.verticalSpace,
                           Wrap(
-                            children: [
-                              FeaturesItemWidget(
-                                  text: hotelDetailModel?.features![0] ??
-                                      "feature 1"),
-                              FeaturesItemWidget(
-                                  text: hotelDetailModel?.features![1] ??
-                                      "feature 2"),
-                              FeaturesItemWidget(
-                                  text: hotelDetailModel?.features![2] ??
-                                      "feature 3"),
-                              FeaturesItemWidget(
-                                  text: hotelDetailModel?.features![3] ??
-                                      "feature 4"),
-                            ],
+                            children: List.generate(hotelDetailModel!.features!.length, (index) => FeaturesItemWidget(
+                                text: hotelDetailModel?.features![index] ??
+                                    "feature"),)
                           ),
                           18.verticalSpace,
                           ReviewContainer(

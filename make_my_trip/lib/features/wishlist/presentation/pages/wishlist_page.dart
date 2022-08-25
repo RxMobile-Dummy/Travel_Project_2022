@@ -29,15 +29,22 @@ class WishListPage extends StatelessWidget {
                 BlocProvider.of<WishListCubit>(context).getWishListCubitData();
               },
             );
-          }
-          if (state is StateOnSuccess) {
+          } else if (state is StateInternetError) {
+            return CommonErrorWidget(
+              title: "No Connection",
+              subTitle: "Please check your internet connection and try again",
+              onTap: () {
+                BlocProvider.of<WishListCubit>(context).getWishListCubitData();
+              },
+            );
+          } else if (state is StateOnSuccess) {
             List<WishlistModel> wishlistModel = state.response;
             if (wishlistModel.isEmpty) {
               return const CommonErrorWidget(
                   imagePath: ImagePath.noBookingPage,
-                  title:
+                  subTitle:
                       "You don't have any hotel at this moment in your whishlist",
-                  statusCode: "No hotels found");
+                  title: "No hotels found");
             }
             return CustomScrollView(
               slivers: <Widget>[
@@ -93,18 +100,8 @@ class WishListPage extends StatelessWidget {
                 )),
               ], //<Widget>[]
             );
-          } else if (state is StateLoading) {
-            return WishlistShimmer();
-          } else if (state is StateErrorGeneral) {
-            return CommonErrorWidget(
-                imagePath: ImagePath.serverFailImage,
-                title: StringConstants.serverFail,
-                statusCode: "");
           } else {
-            return CommonErrorWidget(
-                imagePath: ImagePath.noDataFoundImage,
-                title: StringConstants.noHotelInWishlist,
-                statusCode: "");
+            return WishlistShimmer();
           }
         },
       ),

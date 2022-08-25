@@ -103,7 +103,8 @@ class Router {
       case RoutesName.populer:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => slHomePage<HomepageCubit>()..getPopularHotel(),
+            create: (context) => slHomePage<HomepageCubit>(),
+              // ..getPopularHotel(),
             child: ListOfPopulerHotels(),
           );
         });
@@ -212,7 +213,7 @@ class Router {
                 value: searchHotelCubit,
               ),
             ],
-            child: HotelDetailPage(arg: arg['share_link']),
+            child: HotelDetailPage(arg: arg),
           ),
         );
 
@@ -360,8 +361,8 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return const CommonErrorWidget(
               imagePath: ImagePath.confirmSuccess,
-              title: StringConstants.futureTxt,
-              statusCode: "");
+              subTitle: StringConstants.futureTxt,
+              title: "");
         });
       default:
         return MaterialPageRoute(builder: (_) {

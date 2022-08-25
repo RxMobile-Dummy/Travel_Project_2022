@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
+import '../../../../core/failures/failure_handler.dart';
 import '../../../../core/failures/failures.dart';
 import '../../../../utils/constants/base_constants.dart';
 import '../model/booking_model.dart';
@@ -31,17 +34,19 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
           },
           },
           options: await BaseConstant.createDioOptions());
-      if (response.statusCode == 200) {
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
         PaymentModel paymentModel;
         final data = response.data;
         paymentModel = PaymentModel.fromJson(data);
         return Right(paymentModel);
-      } else {
-        return Left(ServerFailure());
-      }
+      });
+    } on SocketException {
+      return Left(InternetFailure());
     } catch (err) {
       return Left(ServerFailure());
     }
+
   }
 
   @override
@@ -56,20 +61,22 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
                 "cout": cOut,
                 "roomid": roomId.join(","),
                 "adults": adults,
-                "coupon_id":2
+                "coupon_id":0
               },
               options: await BaseConstant.createDioOptions());
-      if (response.statusCode == 200) {
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
         BookingModel bookingModel;
         final data = response.data;
 
         bookingModel = BookingModel.fromJson(data);
         return Right(bookingModel);
-      } else {
-        return Left(ServerFailure());
-      }
-    } catch (e) {
+      });
+    } on SocketException {
+      return Left(InternetFailure());
+    } catch (err) {
       return Left(ServerFailure());
     }
+
   }
 }

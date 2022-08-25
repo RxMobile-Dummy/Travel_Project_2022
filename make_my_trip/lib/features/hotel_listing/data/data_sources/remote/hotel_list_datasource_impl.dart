@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:make_my_trip/features/hotel_listing/data/data_sources/remote/hotel_list_datasource.dart';
 
+import '../../../../../core/failures/failure_handler.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../utils/constants/base_constants.dart';
 import '../../../domain/use_cases/hotel_list_usecase.dart';
@@ -31,7 +34,9 @@ class HotelListDataSourceImpl implements HotelListDataSource {
             'price': params.price
           },
           options: await BaseConstant.createDioOptions());
-      if (response.statusCode == 200) {
+
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
         final List<HotelListModel> hotelList = [];
         final jsonList = response.data;
 
@@ -39,16 +44,13 @@ class HotelListDataSourceImpl implements HotelListDataSource {
           hotelList.add(HotelListModel.fromJson(item));
         }
         return right(hotelList);
-      } else if (response.statusCode == 505) {
-        return Left(ServerFailure());
-      } else if (response.statusCode == 404) {
-        return Left(
-            AuthFailure()); //Data Not Found Failure but in failure there is not method so AuthFailure
-      } else {
-        return Left(InternetFailure());
-      }
-    } catch (e) {
-      return Left(ServerFailure(failureMsg: e.toString()));
+      });
+    } on SocketException {
+      return Left(InternetFailure());
+    } catch (err) {
+      print(err);
+      return Left(ServerFailure());
     }
+
   }
 }

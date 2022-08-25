@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
 
+import '../../../../core/failures/failure_handler.dart';
 import '../../../booking/data/model/booking_model.dart';
 import '../model/room_category_model.dart';
 
@@ -33,21 +36,18 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
             "no_of_room": noOfRooms
           },
           options: await BaseConstant.createDioOptions());
-      if (response.statusCode == 200) {
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
         final RoomCategoryModel roomCategoryModel =
-            RoomCategoryModel.fromJson(response.data);
+        RoomCategoryModel.fromJson(response.data);
         return Right(roomCategoryModel);
-      } else if (response.statusCode == 500) {
-        return Left(ServerFailure());
-      } else if (response.statusCode == 404) {
-        return Left(
-            AuthFailure()); //Data Not Found Failure but in failure there is not method so AuthFailure
-      } else {
-        return Left(InternetFailure());
-      }
-    } catch (e) {
+      });
+    } on SocketException {
+      return Left(InternetFailure());
+    } catch (err) {
       return Left(ServerFailure());
     }
+
   }
 
   @override
@@ -57,15 +57,13 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
       final response = await dio.post('${baseurl}booking/hotelbooking',
           data: bookingModel.toJson(),
           options: await BaseConstant.createDioOptions());
-
-      if (response.statusCode == 200) {
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
         return Right(response.data);
-      } else if (response.statusCode == 406) {
-        return Right(response.data);
-      } else {
-        return Left(ServerFailure());
-      }
-    } catch (e) {
+      });
+    } on SocketException {
+      return Left(InternetFailure());
+    } catch (err) {
       return Left(ServerFailure());
     }
   }

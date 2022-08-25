@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/failures/failure_handler.dart';
 import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model.dart';
 import 'package:make_my_trip/features/hotel_listing/domain/use_cases/hotel_list_usecase.dart';
 import 'package:make_my_trip/utils/extensions/common/common_extensions.dart';
@@ -94,7 +95,7 @@ class HotelListCubit extends Cubit<BaseState> {
           cin: cin, cout: cout, noOfRoom: noOfRoom, id: searchId, type: type);
     }
     var hotelListData = await hotelListUsecase.call(params);
-    hotelListData.fold((l) => emit(StateErrorGeneral("errorMessage")),
+    hotelListData.fold((l) => emit(FailureHandler.checkFailures(l)),
         (r) => emit(StateOnSuccess<List<HotelListModel>>(r)));
   }
 }
