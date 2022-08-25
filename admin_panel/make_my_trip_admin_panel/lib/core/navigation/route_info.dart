@@ -1,5 +1,6 @@
 /// this class will contain static route names
 class RoutesName {
-  static const adminLogin = '/';
+  static const splashScreen = '/';
+  static const adminLogin = '/login';
   static const homePage = '/homePage';
 }

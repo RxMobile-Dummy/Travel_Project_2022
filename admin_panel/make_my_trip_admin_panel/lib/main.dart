@@ -1,10 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:localstorage/localstorage.dart';
-import 'package:make_my_trip_admin_panel/core/navigation/route_info.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/admin_booking_moderation_injection_container.dart'
     as admin_booking_moderation_di;
 import 'package:make_my_trip_admin_panel/features/admin_login/admin_login_injection_container.dart'
@@ -35,7 +32,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   HttpOverrides.global = MyHttpOverrides();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -48,15 +45,11 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-  LocalStorage storage = LocalStorage('userCredential');
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> info = json.decode(storage.getItem("email"));
     return MaterialApp(
-      initialRoute:
-          info['email'] == null ? RoutesName.adminLogin : RoutesName.homePage,
       debugShowCheckedModeBanner: false,
       title: StringConstants.appTitle,
       theme: MakeMyTripLightTheme.lightTheme,

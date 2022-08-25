@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:make_my_trip_admin_panel/features/review_moderation/data/datasources/review_moderation_remote_data_source.dart';
 import 'package:make_my_trip_admin_panel/features/review_moderation/domain/repositories/review_moderation_repository.dart';
@@ -26,5 +25,5 @@ Future<void> init() async {
       () => ReviewModerationRepositoryImpl(remoteDataSource: reviewSl()));
 
   reviewSl.registerLazySingleton<ReviewModerationRemoteDataSource>(
-      () => ReviewModerationRemoteDataSourceImpl(dio: reviewSl()));
+      () => ReviewModerationRemoteDataSourceImpl(reviewSl()));
 }

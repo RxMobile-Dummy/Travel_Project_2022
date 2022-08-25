@@ -1,6 +1,7 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:make_my_trip_admin_panel/core/failures/failures.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/data/data_sources/admin_booking_moderation_data_source.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/data/models/booking_moderation_model.dart';
@@ -19,11 +20,12 @@ class AdminBookingModerationDataSourceImpl
       var params = {
         "pagesize": 10,
         "page": filterParams.page,
-        "date1": filterParams.checkInDate,
-        "date2": filterParams.checkOutDate,
-        "hotelname": filterParams.hotelname,
-        "username": filterParams.username
+        "date1": filterParams.checkInDate ?? DateTime.now().toString().substring(0,10),
+        "date2": filterParams.checkOutDate ?? "",
+        "hotelname": filterParams.hotelname ?? "",
+        "username": filterParams.username ?? ""
       };
+      print(params);
       const baseurl = BaseConstant.baseUrl;
       final response = await dio.get('${baseurl}booking/getallbooking',
           options: await BaseConstant.createDioOptions(),
@@ -33,13 +35,16 @@ class AdminBookingModerationDataSourceImpl
         for (var item in response.data) {
           bookingList.add(BookingModerationModel.fromJson(item));
         }
-
         return right(bookingList);
       } else {
-        return Left(InternetFailure());
+        return Left(ServerFailure());
       }
-    } catch (e) {
-      return Left(ServerFailure(failureMsg: e.toString()));
+    } on SocketException {
+      return Left(InternetFailure());
+    } on DioError {
+      return Left(ServerFailure());
+    } catch (err) {
+      return Left(ServerFailure());
     }
   }
 }

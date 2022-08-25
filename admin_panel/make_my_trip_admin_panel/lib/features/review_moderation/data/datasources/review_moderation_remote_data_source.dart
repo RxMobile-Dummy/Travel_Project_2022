@@ -13,8 +13,10 @@ import '../models/review_model.dart';
 
 abstract class ReviewModerationRemoteDataSource {
   Future<Either<Failures, List<ReviewModel>>> getAllReviews();
+
   Future<Either<Failures, List<ReviewModel>>> approveOrRejectReview(
       ApproveParams params);
+
   Future<Either<Failures, List<ReviewModel>>> reviewImageDelete(
       ReviewImageDeleteParams params);
 }
@@ -23,7 +25,7 @@ class ReviewModerationRemoteDataSourceImpl
     implements ReviewModerationRemoteDataSource {
   final Dio dio;
 
-  ReviewModerationRemoteDataSourceImpl({required this.dio});
+  ReviewModerationRemoteDataSourceImpl(this.dio);
 
   @override
   Future<Either<Failures, List<ReviewModel>>> getAllReviews() async {
@@ -37,12 +39,10 @@ class ReviewModerationRemoteDataSourceImpl
       for (var element in apiData) {
         reviewList.add(ReviewModel.fromJson(element));
       }
-      print(reviewList);
       return Right(reviewList);
     } on SocketException {
       return Left(InternetFailure());
     } catch (err) {
-      print(err);
       return Left(ServerFailure());
     }
   }
@@ -67,7 +67,6 @@ class ReviewModerationRemoteDataSourceImpl
     } on SocketException {
       return Left(InternetFailure());
     } catch (err) {
-      print(err);
       debugPrint(err.toString());
       return Left(ServerFailure());
     }
@@ -94,7 +93,6 @@ class ReviewModerationRemoteDataSourceImpl
     } on SocketException {
       return Left(InternetFailure());
     } catch (err) {
-      print(err);
       return Left(ServerFailure());
     }
   }

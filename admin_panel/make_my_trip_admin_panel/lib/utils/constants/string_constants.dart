@@ -98,4 +98,6 @@ class StringConstants {
   static String danger = "Danger";
   static String plaintext = "Plaintext";
   static String remove = "Remove";
+  static String serverErrorTryAgainMessage = "Please Try Again";
+  static String serverErrorMessage = "Something went Wrong";
 }

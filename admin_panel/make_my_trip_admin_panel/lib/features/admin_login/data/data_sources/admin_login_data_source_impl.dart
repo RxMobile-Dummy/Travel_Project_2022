@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,8 +43,7 @@ class AdminLoginDataSourceImpl implements AdminLoginDataSource {
     try {
       await dio.get('${BaseConstant.baseUrl}user/admincheck',
           options: await BaseConstant.createDioOptions());
-      final email = json.encode({'email': auth.currentUser!.email});
-      storage.setItem('email', email);
+      storage.setItem('email', auth.currentUser!.email);
       return const Right(null);
     } on DioError catch (err) {
       if (err.response!.statusCode == 401) {

@@ -19,47 +19,61 @@ class ReviewModeration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text(StringConstants.reviewAppbarTitle),
-        ),
-        body: BlocBuilder<ReviewModerationCubit, BaseState>(
-          bloc: reviewCubit,
-          builder: (context, state) {
-            if (state is StateErrorGeneralStateErrorServer) {
-              return CommonErrorWidget(
-                onTap: () {
-                  reviewCubit.getAllReviewsCubit();
-                },
-              );
-            } else if (state is StateOnSuccess) {
-              List<ReviewModel> reviewModel = state.response;
-              return (reviewModel.isEmpty)
-                  ? const CommonErrorWidget(
-                      imagePath: ImagePath.emptyFailureImg,
-                      statusCode: StringConstants.noResultsTxt,
-                      title: StringConstants.noReviewsTxt,
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: ListView.builder(
-                        itemCount: reviewModel.length,
-                        itemBuilder: (context, listIndex) {
-                          if (reviewModel != null) {
-                            return ReviewContainerWidget(
-                                reviewModel: reviewModel[listIndex],
-                                reviewCubit: reviewCubit);
-                          } else {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          }
-                        },
-                      ));
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ));
+    return BlocBuilder<ReviewModerationCubit, BaseState>(
+      bloc: reviewCubit,
+      builder: (context, state) {
+        if (state is StateErrorGeneralStateErrorServer) {
+          return CommonErrorWidget(
+            onTap: () {
+              reviewCubit.getAllReviewsCubit();
+            },
+          );
+        } else if (state is StateOnSuccess) {
+          List<ReviewModel> reviewModel = state.response;
+          return (reviewModel.isEmpty)
+              ? const CommonErrorWidget(
+                  imagePath: ImagePath.emptyFailureImg,
+                  statusCode: StringConstants.noResultsTxt,
+                  title: StringConstants.noReviewsTxt,
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 36.0),
+                        child: Align(
+                          alignment: AlignmentDirectional.topStart,
+                          child: Text(
+                            StringConstants.reviewAppbarTitle,
+                            style: AppTextStyles.labelNameTextStyle.copyWith(
+                                color: MakeMyTripColors.customDarkBlue),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: reviewModel.length,
+                          itemBuilder: (context, listIndex) {
+                            if (reviewModel != null) {
+                              return ReviewContainerWidget(
+                                  reviewModel: reviewModel[listIndex],
+                                  reviewCubit: reviewCubit);
+                            } else {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ));
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 }
 
@@ -130,7 +144,7 @@ class ReviewContainerWidget extends StatelessWidget {
                             reviewCubit.approveOrRejectCubit(
                                 reviewModel.id!, true);
                           },
-                          backColor: Colors.green,
+                          backColor: MakeMyTripColors.colorGreen,
                         ),
                       ),
                       12.horizontalSpace,

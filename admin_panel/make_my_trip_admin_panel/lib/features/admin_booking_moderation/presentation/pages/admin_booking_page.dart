@@ -6,8 +6,10 @@ import 'package:make_my_trip_admin_panel/core/theme/text_styles.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/data/models/booking_moderation_model.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/cubit/admin_booking_moderation_cubit.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/widgets/filter_view_widget.dart';
+import 'package:make_my_trip_admin_panel/utils/constants/image_path.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 import 'package:make_my_trip_admin_panel/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:make_my_trip_admin_panel/utils/widgets/common_error_widget.dart';
 
 class AdminBookingPage extends StatelessWidget {
   AdminBookingPage({Key? key}) : super(key: key);
@@ -158,7 +160,30 @@ class AdminBookingPage extends StatelessWidget {
               if (state is StateOnSuccess) {
                 bookingModel = state.response;
               } else if (state is StateNoData) {
-                return Text(StringConstants.noBookingFound);
+                return Expanded(
+                  child: CommonErrorWidget(
+                    imagePath: ImagePath.emptyFailureImg,
+                    statusCode: StringConstants.noBookingFound,
+                  ),
+                );
+              } else if (state is StateErrorGeneral) {
+                return Expanded(
+                  child: CommonErrorWidget(
+                    imagePath: ImagePath.serverFailImg,
+                    statusCode: StringConstants.serverErrorTryAgainMessage,
+                    title: StringConstants.serverErrorMessage,
+                    onTap: () {
+                      context
+                          .read<AdminBookingModerationCubit>()
+                          .getAllBookingListEvent(
+                              checkInDateValue: checkInDateController.text,
+                              checkOutDateValue: checkOutDateController.text,
+                              userName: bookingUserNameController.text,
+                              hotelName: bookingHotelNameController.text,
+                              filter: filterValue);
+                    },
+                  ),
+                );
               } else {
                 return const Center(child: CircularProgressIndicator());
               }

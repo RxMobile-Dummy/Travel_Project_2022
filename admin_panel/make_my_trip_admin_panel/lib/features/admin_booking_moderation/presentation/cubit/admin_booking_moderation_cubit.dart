@@ -44,7 +44,7 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
         checkOutDate: checkOutDateValue,
         hotelname: hotelName,
         username: userName));
-    res.fold((l) => StateErrorGeneral(l.toString()), (r) {
+    res.fold((l) => emit(StateErrorGeneral(l.toString())), (r) {
       if (page == null) {
         for (var item in r) {
           bookingList.add(item);

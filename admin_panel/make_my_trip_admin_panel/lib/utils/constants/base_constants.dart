@@ -6,7 +6,7 @@ import '../../core/base/base_state.dart';
 import '../../core/failures/failures.dart';
 
 class BaseConstant {
-  static const String baseUrl = "http://192.168.102.190:4000/";
+  static const String baseUrl = "http://192.168.102.190:5000/";
 
   static Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
