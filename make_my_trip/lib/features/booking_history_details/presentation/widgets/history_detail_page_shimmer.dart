@@ -43,9 +43,18 @@ class HistoryDetailPageShimmer extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ListContainer(
-                                  hight: size.height * 0.050,
-                                  width: size.width * 0.75,
+                                Row(
+                                  children: [
+                                    ListContainer(
+                                      hight: size.height * 0.050,
+                                      width: size.width * 0.65,
+                                    ),
+                                    10.horizontalSpace,
+                                    ListContainer(
+                                      hight: size.height * 0.050,
+                                      width: size.width * 0.20,
+                                    ),
+                                  ],
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 20),
@@ -62,22 +71,28 @@ class HistoryDetailPageShimmer extends StatelessWidget {
                                   ),
                                 ),
                                 12.verticalSpace,
-                                Center(
-                                  child: Container(
-                                    height: size.height*0.4,
-                                    width: size.width*0.6,
-                                    child: ListView.builder(
-                                      itemCount: 10,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        return  Padding(
-                                          padding: const EdgeInsets.only(top: 20),
-                                          child: ListContainer(
-                                            hight: size.height * 0.035,
-                                            width: size.width * 0.50,
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                Container(
+                                  height: size.height*0.4,
+                                  width: size.width*0.8,
+                                  child: ListView.builder(
+                                    itemCount: 10,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return  Padding(
+                                        padding: const EdgeInsets.only(top: 20),
+                                        child: Row(
+                                          children: [
+                                           const CircleAvatar(
+
+                                           ),
+                                            15.horizontalSpace,
+                                            ListContainer(
+                                              hight: size.height * 0.035,
+                                              width: size.width * 0.50,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
                                 )
                               ],
