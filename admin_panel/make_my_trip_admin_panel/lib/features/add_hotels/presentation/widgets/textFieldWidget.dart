@@ -12,6 +12,7 @@ class TextFieldView extends StatelessWidget {
     return  Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
       child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         onChanged: onChange,
         keyboardType: inputType,
         validator: validator,

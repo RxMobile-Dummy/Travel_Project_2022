@@ -1,14 +1,20 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
+import 'package:make_my_trip_admin_panel/core/usecases/usecase.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelModels.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPutModel.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_model.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/add_hotel.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/add_image.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/delete_hotel.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/get_hotel.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/get_hotelUpdate.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/get_hotel_images.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/update_hotel.dart';
+import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 
 class HotelCubit extends Cubit<BaseState> {
   PostHotel postHotel;
@@ -16,19 +22,29 @@ class HotelCubit extends Cubit<BaseState> {
   DeleteHotel deleteHotel;
   GetHotelPut getHotelPut;
   UpdateHotel updateHotel;
+  AddHotelImage addImage;
+  GetHotelIamges getHotelImage;
 
   HotelCubit(
       {required this.postHotel,
       required this.getHotel,
       required this.deleteHotel,
       required this.getHotelPut,
-      required this.updateHotel})
+      required this.updateHotel,
+      required this.addImage,
+      required this.getHotelImage
+      })
       : super(StateInitial()) {
     getHotels();
   }
 
   List<HotelModels> hotelList = [];
   List<HotelModels> filterList = [];
+
+  List<PlatformFile> hotelImages=[];
+  List<PlatformFile> deluxeImages=[];
+  List<PlatformFile> semiDeluxeImages=[];
+  List<PlatformFile> superDeluxeImages=[];
   int page = -1;
   addHotels(
       double? latitude,
@@ -148,7 +164,6 @@ class HotelCubit extends Cubit<BaseState> {
       String superdeluxesize,
       latitude,
       logitude) async {
-    print(id);
     var res = await updateHotel.call(HotelPutModel(
         id: id,
         address: Addresss(
@@ -199,8 +214,7 @@ class HotelCubit extends Cubit<BaseState> {
 
   demo(String hotelname, int price, String address,
       List<String> semiDeluxeRoomFeatures) async {
-    print(price);
-    print(semiDeluxeRoomFeatures);
+
   }
 
   getHotels() async {
@@ -223,7 +237,6 @@ class HotelCubit extends Cubit<BaseState> {
         emit(StateOnSuccess<List<HotelModels>>(hotelList,isMoreLoading: false));
       });
     } catch (er) {
-      print("sadasdas$er");
     }
   }
   void setUpScrollController(ScrollController scrollController) {
@@ -244,7 +257,6 @@ class HotelCubit extends Cubit<BaseState> {
       emit(StateErrorGeneral("errorMessage"));
     }, (r) {
       print("success");
-      print(r.price);
       emit(StateOnResponseSuccess<HotelPutModel>(r));
     });
   }
@@ -281,6 +293,30 @@ class HotelCubit extends Cubit<BaseState> {
     }
   }
 
+  addHotelImages(String path) async{
+    var res = await addImage.call(ImagesParams(path));
+    res.fold((l) => emit(StateErrorGeneral("errorMessage")), (r) => print("Success"));
+  }
+  
+  getHotelImagess(String type) async{
+    emit(StateLoading());
+    var res = await getHotelImage.call(ImagesParamss(type));
+    res.fold((l) =>
+        emit(StateDialogErrorGeneral("errorMessage")),
+            (r) {
+      if(type == StringConstants.selectHotelImage) {
+        hotelImages.addAll(r);
+      } else if(type == StringConstants.selectDeluxeImage) {
+        deluxeImages.addAll(r);
+      } else if(type == StringConstants.selectSemiDeluxeImage) {
+        semiDeluxeImages.addAll(r);
+      } else{
+        superDeluxeImages.addAll(r);
+      }
+      emit(StateOnKnownToSuccess(""));
+    });
+  }
+
   // getFromGallery() async {
   //   XFile? pickedFile = await ImagePicker().pickImage(
   //     source: ImageSource.gallery,
@@ -294,4 +330,13 @@ class HotelCubit extends Cubit<BaseState> {
   //   }
   // }
 
+  selectImages() async {
+    List<XFile>? imageFileList=[];
+    final ImagePicker imagePicker = ImagePicker();
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    if (selectedImages!.isNotEmpty) {
+      imageFileList.addAll(selectedImages);
+      emit(StateReorderSuccess(imageFileList));
+    }
+  }
 }

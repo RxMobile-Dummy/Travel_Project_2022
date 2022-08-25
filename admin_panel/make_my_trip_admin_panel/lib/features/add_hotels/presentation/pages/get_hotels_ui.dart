@@ -19,7 +19,6 @@ class GetHotelUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    print('get data call');
     context.read<HotelCubit>.call().setUpScrollController(_scrollController);
     return Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -28,7 +27,6 @@ class GetHotelUi extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (context) => AddHotels()),
             ).then((value) {
-              print('then');
               context.read<HotelCubit>().getHotels();
             });
           },
@@ -56,12 +54,10 @@ class GetHotelUi extends StatelessWidget {
               flex: 9,
               child: BlocBuilder<HotelCubit, BaseState>(
                 builder: (context, state) {
-                  print("object ${state}");
                   // if (state is StateShowSearching) {
                   //   context.read<HotelCubit>().getHotels();
                   // }
                   if (state is StateOnSuccess) {
-                    print(state.response);
                     List<HotelModels> hotel = state.response;
                     if (size.width > 1000) {
                       return GridView.builder(
@@ -76,7 +72,7 @@ class GetHotelUi extends StatelessWidget {
                                   HotelListViewWidget(
                                     hotel: hotel[index],
                                     callback: (String id) async {
-                                      print('cubit press');
+
                                       context
                                           .read<HotelCubit>()
                                           .getPutHotel(id);
@@ -108,7 +104,7 @@ class GetHotelUi extends StatelessWidget {
                                   HotelListViewWidget(
                                     hotel: hotel[index],
                                     callback: (String id) async {
-                                      print('cubit press');
+
                                       context
                                           .read<HotelCubit>()
                                           .getPutHotel(id);
@@ -138,7 +134,7 @@ class GetHotelUi extends StatelessWidget {
                                   HotelListViewWidget(
                                     hotel: hotel[index],
                                     callback: (String id) async {
-                                      print('cubit press');
+
                                       context
                                           .read<HotelCubit>()
                                           .getPutHotel(id);
@@ -161,7 +157,6 @@ class GetHotelUi extends StatelessWidget {
                     return const Center(child: Text("No data"));
                   }
                   // else {
-                  //   print('Get data');
                   //   return const Center(child: CircularProgressIndicator());
                   // }
                 },

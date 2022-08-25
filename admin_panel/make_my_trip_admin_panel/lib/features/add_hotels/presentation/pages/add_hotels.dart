@@ -1,8 +1,14 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
 import 'package:make_my_trip_admin_panel/core/navigation/route_info.dart';
+import 'package:make_my_trip_admin_panel/core/responsive/responsive.dart';
 import 'package:make_my_trip_admin_panel/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip_admin_panel/core/theme/text_styles.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPutModel.dart';
@@ -22,14 +28,22 @@ class AddHotels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Row(
-      children: [
-        Expanded(flex: 4, child: Container()),
-        Expanded(flex: 8, child: AddNewHotels()),
-        Expanded(flex: 4, child: Container())
-      ],
-    ));
+        body: (Responsive.isMobile(context))
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: AddNewHotels(),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(flex: 4, child: Container()),
+                  Expanded(flex: 8, child: AddNewHotels()),
+                  Expanded(flex: 4, child: Container())
+                ],
+              ));
   }
 }
 
@@ -107,11 +121,14 @@ class _AddNewHotelsState extends State<AddNewHotels> {
   bool soundproofWall = false;
   bool smartTv = false;
   bool airCondition = false;
+  final String data = '';
 
   List<String> hotelFeatures = [];
   List<String> deluxeRoomFeatures = [];
   List<String> semiDeluxeRoomFeatures = [];
   List<String> superDeluxeRoomFeatures = [];
+
+
   // List<String> hotelConstantFeatures = [
   //   "Laundry",
   //   "Transportation",
@@ -119,9 +136,13 @@ class _AddNewHotelsState extends State<AddNewHotels> {
   //   "Parking",
   //   "Healthy Breakfast"
   // ];
+  List<XFile>? imageFileListt;
 
   @override
   Widget build(BuildContext context) {
+
+    final cubit = BlocProvider.of<HotelCubit>(context);
+
     final _formKey = GlobalKey<FormState>();
     const pattern = r'^[0-9]+$';
     const pincodePattern = r'^[1-9]{1}[0-9]{2}[0-9]{3}';
@@ -218,7 +239,7 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                 if (hotelname.toString().isEmpty ||
                                     hotelname.toString().trim().isEmpty)
                                   return 'Enter the hotelName';
-                                else if (!regExp.hasMatch(hotelname!)){
+                                else if (!regExp.hasMatch(hotelname!)) {
                                   return 'not use others letter';
                                 }
                               },
@@ -358,7 +379,30 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             },
                             hintTextvar: StringConstants.hotelDescription,
                             textFieldViewController: hotel_Description),
-                        20.verticalSpace,
+                        30.verticalSpace,
+                        TextButton(
+                            onPressed: () {
+                              context
+                                  .read<HotelCubit>()
+                                  .getHotelImagess(StringConstants.selectHotelImage);
+                              // context
+                              //     .read<HotelCubit>()
+                              //     .addHotelImages("hotel");
+                            },
+                            child: Text(StringConstants.selectHotelImage)),
+                        BlocBuilder<HotelCubit, BaseState>(
+                          builder: (context, state) {
+                            if (state is StateOnKnownToSuccess) {
+                              return Wrap(children: List.generate(cubit.hotelImages.length, (index) {
+                                return Image.memory(cubit.hotelImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
+
+                              }),);
+                            }else {
+                              return const SizedBox();
+                            }
+                          }
+                        ),
+                        30.verticalSpace,
                         Text(StringConstants.hotelFeature,
                             style: AppTextStyles.unselectedLabelStyle),
 
@@ -368,15 +412,18 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             children: List.generate(
                               StringConstants.hotelConstantFeatures.length,
                               (index) => CheckboxWidget(
-                                value:(state is StateOnResponseSuccess<HotelPutModel>)? hotelFeatures
-                                    .contains(StringConstants.hotelConstantFeatures[index]):false,
-                                title: StringConstants.hotelConstantFeatures[index],
+                                value: (state is StateOnResponseSuccess<
+                                        HotelPutModel>)
+                                    ? hotelFeatures.contains(StringConstants
+                                        .hotelConstantFeatures[index])
+                                    : false,
+                                title: StringConstants
+                                    .hotelConstantFeatures[index],
                                 data: hotelFeatures,
                               ),
                             ),
                           );
                         }),
-
                         20.verticalSpace,
                         Text("Deluxe Room Details",
                             style: AppTextStyles.unselectedLabelStyle),
@@ -482,18 +529,24 @@ class _AddNewHotelsState extends State<AddNewHotels> {
 
                         BlocBuilder<HotelCubit, BaseState>(
                             builder: (context, state) {
-                              return Wrap(
-                                children: List.generate(
-                                  StringConstants.deluxehotelConstantFeatures.length,
-                                      (index) => CheckboxWidget(
-                                    value:(state is StateOnResponseSuccess<HotelPutModel>)? deluxeRoomFeatures
-                                        .contains(StringConstants.deluxehotelConstantFeatures[index]):false,
-                                    title: StringConstants.deluxehotelConstantFeatures[index],
-                                    data: deluxeRoomFeatures,
-                                  ),
-                                ),
-                              );
-                            }),
+                          return Wrap(
+                            children: List.generate(
+                              StringConstants
+                                  .deluxehotelConstantFeatures.length,
+                              (index) => CheckboxWidget(
+                                value: (state is StateOnResponseSuccess<
+                                        HotelPutModel>)
+                                    ? deluxeRoomFeatures.contains(
+                                        StringConstants
+                                            .deluxehotelConstantFeatures[index])
+                                    : false,
+                                title: StringConstants
+                                    .deluxehotelConstantFeatures[index],
+                                data: deluxeRoomFeatures,
+                              ),
+                            ),
+                          );
+                        }),
 
                         LongTextTextField(
                             validator: (deluxehoteldescription) {
@@ -512,7 +565,30 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             },
                             hintTextvar: "Deluxe Room Description",
                             textFieldViewController: deluxe_room_description),
-                        20.verticalSpace,
+                        30.verticalSpace,
+                        TextButton(
+                            onPressed: () {
+                              context
+                                  .read<HotelCubit>()
+                                  .getHotelImagess(StringConstants.selectDeluxeImage);
+                              // context
+                              //     .read<HotelCubit>()
+                              //     .addHotelImages("hotel");
+                            },
+                            child: Text(StringConstants.selectDeluxeImage)),
+                        BlocBuilder<HotelCubit, BaseState>(
+                            builder: (context, state) {
+                              if (state is StateOnKnownToSuccess) {
+                                return Wrap(children: List.generate(cubit.deluxeImages.length, (index) {
+                                  return Image.memory(cubit.deluxeImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
+
+                                }),);
+                              }else {
+                                return SizedBox();
+                              }
+                            }
+                        ),
+                        30.verticalSpace,
                         Text("Semi Deluxe Room Details",
                             style: AppTextStyles.unselectedLabelStyle),
                         Padding(
@@ -633,18 +709,25 @@ class _AddNewHotelsState extends State<AddNewHotels> {
 
                         BlocBuilder<HotelCubit, BaseState>(
                             builder: (context, state) {
-                              return Wrap(
-                                children: List.generate(
-                                  StringConstants.semideluxehotelConstantFeatures.length,
-                                      (index) => CheckboxWidget(
-                                    value:(state is StateOnResponseSuccess<HotelPutModel>)? semiDeluxeRoomFeatures
-                                        .contains(StringConstants.semideluxehotelConstantFeatures[index]):false,
-                                    title: StringConstants.semideluxehotelConstantFeatures[index],
-                                    data: semiDeluxeRoomFeatures,
-                                  ),
-                                ),
-                              );
-                            }),
+                          return Wrap(
+                            children: List.generate(
+                              StringConstants
+                                  .semideluxehotelConstantFeatures.length,
+                              (index) => CheckboxWidget(
+                                value: (state is StateOnResponseSuccess<
+                                        HotelPutModel>)
+                                    ? semiDeluxeRoomFeatures.contains(
+                                        StringConstants
+                                                .semideluxehotelConstantFeatures[
+                                            index])
+                                    : false,
+                                title: StringConstants
+                                    .semideluxehotelConstantFeatures[index],
+                                data: semiDeluxeRoomFeatures,
+                              ),
+                            ),
+                          );
+                        }),
 
                         LongTextTextField(
                             validator: (semideluxehoteldescription) {
@@ -666,7 +749,30 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             hintTextvar: "Semi Deluxe Room Description",
                             textFieldViewController:
                                 semiDeluxe_room_description),
-                        20.verticalSpace,
+                        30.verticalSpace,
+                        TextButton(
+                            onPressed: () {
+                              context
+                                  .read<HotelCubit>()
+                                  .getHotelImagess(StringConstants.selectSemiDeluxeImage);
+                              // context
+                              //     .read<HotelCubit>()
+                              //     .addHotelImages("hotel");
+                            },
+                            child: Text(StringConstants.selectSemiDeluxeImage)),
+                        BlocBuilder<HotelCubit, BaseState>(
+                            builder: (context, state) {
+                              if (state is StateOnKnownToSuccess) {
+                                return Wrap(children: List.generate(cubit.semiDeluxeImages.length, (index) {
+                                  return Image.memory(cubit.semiDeluxeImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
+
+                                }),);
+                              }else {
+                                return SizedBox();
+                              }
+                            }
+                        ),
+                        30.verticalSpace,
                         Text("Super Deluxe Room Details",
                             style: AppTextStyles.unselectedLabelStyle),
                         Padding(
@@ -787,18 +893,25 @@ class _AddNewHotelsState extends State<AddNewHotels> {
 
                         BlocBuilder<HotelCubit, BaseState>(
                             builder: (context, state) {
-                              return Wrap(
-                                children: List.generate(
-                                  StringConstants.superdeluxehotelConstantFeatures.length,
-                                      (index) => CheckboxWidget(
-                                    value:(state is StateOnResponseSuccess<HotelPutModel>)? superDeluxeRoomFeatures
-                                        .contains(StringConstants.superdeluxehotelConstantFeatures[index]):false,
-                                    title: StringConstants.superdeluxehotelConstantFeatures[index],
-                                    data: superDeluxeRoomFeatures,
-                                  ),
-                                ),
-                              );
-                            }),
+                          return Wrap(
+                            children: List.generate(
+                              StringConstants
+                                  .superdeluxehotelConstantFeatures.length,
+                              (index) => CheckboxWidget(
+                                value: (state is StateOnResponseSuccess<
+                                        HotelPutModel>)
+                                    ? superDeluxeRoomFeatures.contains(
+                                        StringConstants
+                                                .superdeluxehotelConstantFeatures[
+                                            index])
+                                    : false,
+                                title: StringConstants
+                                    .superdeluxehotelConstantFeatures[index],
+                                data: superDeluxeRoomFeatures,
+                              ),
+                            ),
+                          );
+                        }),
 
                         LongTextTextField(
                             validator: (superdeluxehoteldescription) {
@@ -820,7 +933,30 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             hintTextvar: "Super Deluxe Room Description",
                             textFieldViewController:
                                 superDeluxe_room_description),
+                        30.verticalSpace,
+                        TextButton(
+                            onPressed: () {
+                              context
+                                  .read<HotelCubit>()
+                                  .getHotelImagess(StringConstants.selectSuperDeluxeImage);
+                              // context
+                              //     .read<HotelCubit>()
+                              //     .addHotelImages("hotel");
+                            },
+                            child: Text(StringConstants.selectSuperDeluxeImage)),
+                        BlocBuilder<HotelCubit, BaseState>(
+                            builder: (context, state) {
+                              if (state is StateOnKnownToSuccess) {
+                                return Wrap(children: List.generate(cubit.superDeluxeImages.length, (index) {
+                                  return Image.memory(cubit.superDeluxeImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
 
+                                }),);
+                              }else {
+                                return SizedBox();
+                              }
+                            }
+                        ),
+                        30.verticalSpace,
                         // Text('Image path'),
                         // CommonPrimaryButton(
                         //     text: "Upload Image",
@@ -831,7 +967,7 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                         Center(
                             child: BlocConsumer<HotelCubit, BaseState>(
                                 listener: (context, state) {
-                          print(state);
+
 
                           if (state is StateOnSuccess) {
                             Navigator.pushAndRemoveUntil(
@@ -967,7 +1103,6 @@ class _AddNewHotelsState extends State<AddNewHotels> {
       ),
     );
   }
-
   popToPrevious() {
     Navigator.pushAndRemoveUntil(
         context,

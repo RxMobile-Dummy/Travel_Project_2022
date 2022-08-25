@@ -12,7 +12,7 @@ String hotelModelsToJson(HotelModels data) => json.encode(data.toJson());
 class HotelModels {
   HotelModels({
       this.id, 
-      this.hotelId, 
+      this.hotelId,
       this.hotelName, 
       this.rating, 
       this.address, 
@@ -56,7 +56,6 @@ class HotelModels {
     }
     return map;
   }
-
 }
 
 /// _id : 128

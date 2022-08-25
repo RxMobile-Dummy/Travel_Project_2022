@@ -10,6 +10,7 @@ class LongTextTextField extends StatelessWidget {
     return     Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
       child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         validator:  validator,
         maxLength: 200,
         maxLines: 5,

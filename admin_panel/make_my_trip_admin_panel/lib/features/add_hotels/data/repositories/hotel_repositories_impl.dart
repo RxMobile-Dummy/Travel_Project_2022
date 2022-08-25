@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:make_my_trip_admin_panel/core/failures/failures.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/data_sources/hotel_dataSource_repositories.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelModels.dart';
@@ -38,6 +39,18 @@ class HotelRepositoriesImpl implements HotelRepositories {
   Future<Either<Failures, HotelPutModel>> getHotelUpdate(String id) {
     // TODO: implement getHotelUpdate
     return repositories.getHotelUpdate(id);
+  }
+
+  @override
+  Future<Either<Failures, void>> hotelImages(String path) {
+    // TODO: implement hotelImages
+    return repositories.hotelImages(path);
+  }
+
+  @override
+  Future<Either<Failures, List<PlatformFile>>> getHotelImage(String path) {
+    // TODO: implement getHotelImage
+    return repositories.getHotelImage(path);
   }
 
 }
