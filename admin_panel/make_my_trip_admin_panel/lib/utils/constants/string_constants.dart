@@ -48,4 +48,7 @@ class StringConstants {
       "Pushed Notification Successfully To End Users";
   static String errorMsgNotification = "Please fill all the required fields";
   static String notSend = "Count not post notification!";
+  static String enterTitleError = "Please enter a valid title";
+  static String enterBodyError = "Please enter a valid body";
+  static String uploadImageError = "Please upload an image template";
 }
