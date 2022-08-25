@@ -1,0 +1,21 @@
+{
+    "appName": "awstravelsy",
+    "roleName": "pinpointLambdaRole4a8efb81",
+    "cloudformationPolicyName": "cloudformationPolicy4a8efb81",
+    "cloudWatchPolicyName": "cloudWatchPolicy4a8efb81",
+    "pinpointPolicyName": "pinpointPolicy4a8efb81",
+    "authPolicyName": "pinpoint_amplify_4a8efb81",
+    "unauthPolicyName": "pinpoint_amplify_4a8efb81",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}
