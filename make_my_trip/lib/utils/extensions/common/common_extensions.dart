@@ -48,3 +48,13 @@ extension NumericValidation on String {
     return RegExp(r'\d').hasMatch(this);
   }
 }
+
+extension PriceApi on String {
+  String changePriceApi() {
+    return this.replaceAll("₹", "").replaceAll("+", "").trim();
+  }
+
+  List changePriceToList() {
+    return this.split("-");
+  }
+}

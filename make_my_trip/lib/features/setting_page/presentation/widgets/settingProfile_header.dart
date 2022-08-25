@@ -17,6 +17,19 @@ Widget settingProfileHeader(BuildContext context) {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Text(
+                  'Choose',
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Divider(
+                  color: MakeMyTripColors.colorBlack,
+                ),
+              ),
               ListTile(
                 leading: const Icon(Icons.camera_alt),
                 title: const Text(StringConstants.camera),

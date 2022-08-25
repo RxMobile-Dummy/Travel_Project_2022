@@ -3,6 +3,7 @@ import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../core/usecases/usecase.dart';
+import '../../../../core/failures/failures.dart';
 import '../../../user/domain/usecases/is_anonymous_user.dart';
 
 class TabBarCubit extends Cubit<BaseState> {
@@ -13,14 +14,14 @@ class TabBarCubit extends Cubit<BaseState> {
   final IsAnonymousUser isAnonymousUser;
 
   checkAnonymous(index) async {
-    print(index);
+    emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
     res.fold((failure) {
-      print(failure);
+      if (failure is ServerFailure) {
+        emit(StateErrorGeneral(failure.failureMsg.toString()));
+      }
     }, (success) {
-      print(success);
       if (success) {
-        print(index);
         if (index != 0) {
           emit(Unauthenticated());
         } else {

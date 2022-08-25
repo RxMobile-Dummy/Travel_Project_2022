@@ -17,7 +17,6 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
 
   Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    print(userToken);
     return Options(headers: {'token': userToken});
   }
 

@@ -11,9 +11,9 @@
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
     <application
-        android:label="make_my_trip"
+        android:label="Travelsy"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/travelsy">
 
        <meta-data android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyDbEilehd2rVJUqlxUKXBrClnmIuMTYziY"/>
