@@ -57,6 +57,9 @@ class PushNotificationAdminPanel extends StatelessWidget {
                       ),
                       32.verticalSpace,
                       TextFormField(
+                        onChanged: (value){
+                          context.read<PushNotificationCubit>().validateTitle(title.text);
+                        },
                         controller: title,
                         keyboardType: TextInputType.text,
                         autofocus: true,
@@ -67,6 +70,9 @@ class PushNotificationAdminPanel extends StatelessWidget {
                       ),
                       20.verticalSpace,
                       TextFormField(
+                        onChanged: (value){
+                          context.read<PushNotificationCubit>().validateBody(body.text);
+                        },
                         controller: body,
                         keyboardType: TextInputType.multiline,
                         maxLines: 7,

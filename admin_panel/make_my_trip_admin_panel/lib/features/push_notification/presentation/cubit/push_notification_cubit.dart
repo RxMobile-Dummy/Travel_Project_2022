@@ -33,10 +33,36 @@ class PushNotificationCubit extends Cubit<BaseState> {
     emit(PushNotificationResponse(fileName, url, registerUser, endUser));
   }
 
+  validateTitle(String title){
+    if(title.isEmpty){
+      emit(ErrorState("Please enter a valid title"));
+    }
+    else{
+      emit(ErrorState(""));
+    }
+  }
+
+  validateBody(String body){
+    if(body.isEmpty){
+      emit(ErrorState("Please enter a valid body"));
+    }
+    else{
+      emit(ErrorState(""));
+    }
+  }
+
+
   registeredUserPushNotification(String title, String body, String url) async {
-    if (title.isEmpty || body.isEmpty || url.isEmpty) {
-      emit(ErrorState(StringConstants.errorMsgNotification));
-    } else {
+    if(title.isEmpty){
+      emit(ErrorState("Please enter a valid title"));
+    }
+    else if(body.isEmpty ){
+      emit(ErrorState("Please enter a valid body"));
+    }
+    else if(url.isEmpty){
+      emit(ErrorState("Please upload an image template"));
+    }
+    else {
       final response =
           await registerUserNotificationUseCase.call(title, body, url);
       response.fold(
@@ -48,9 +74,16 @@ class PushNotificationCubit extends Cubit<BaseState> {
 
   endUserPushNotification(
       String title, String body, String url, int endUser) async {
-    if (title.isEmpty || body.isEmpty || url.isEmpty) {
-      emit(ErrorState(StringConstants.errorMsgNotification));
-    } else {
+    if(title.isEmpty){
+      emit(ErrorState("Please enter title"));
+    }
+    else if(body.isEmpty ){
+      emit(ErrorState("Please enter body"));
+    }
+    else if(url.isEmpty){
+      emit(ErrorState("Please upload an image template"));
+    }
+    else {
       final response = await endUserNotificationUseCase.call(title, body, url);
       response.fold(
           (l) => emit(StateErrorGeneral(StringConstants.errorMsgNotification)),
