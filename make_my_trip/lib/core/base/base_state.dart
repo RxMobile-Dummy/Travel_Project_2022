@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:make_my_trip/features/home_page/data/models/ToursModel.dart';
+import 'package:make_my_trip/features/home_page/data/models/ViewCouponModel.dart';
+import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 
 import '../internet/internet_enum.dart';
@@ -239,30 +241,44 @@ class FailErrorMessageState extends BaseState implements Equatable {
 class GettingStartedData extends BaseState {
   final bool? tourLoading;
   final bool? imageLoading;
+  final bool? couponLoading;
   final List<ToursModel>? toursListValue;
   final List<HotelListModel>? imageListValue;
+  final List<ViewCouponModel>? couponListvalue;
 
   GettingStartedData(
       {this.imageLoading,
       this.tourLoading,
+      this.couponLoading,
       this.toursListValue,
-      this.imageListValue});
+      this.imageListValue,
+      this.couponListvalue});
 
   GettingStartedData copyWith({
     bool? tourLoading,
     bool? imageLoading,
+    bool? couponLoading,
     List<ToursModel>? toursListValue,
     List<HotelListModel>? imageListValue,
+    List<ViewCouponModel>? couponListValue,
   }) =>
       GettingStartedData(
           tourLoading: tourLoading ?? this.tourLoading,
           imageLoading: imageLoading ?? this.imageLoading,
+          couponLoading: couponLoading ?? this.couponLoading,
           toursListValue: toursListValue ?? this.toursListValue,
-          imageListValue: imageListValue ?? this.imageListValue);
+          imageListValue: imageListValue ?? this.imageListValue,
+          couponListvalue: couponListValue ?? this.couponListvalue);
 
   @override
-  List<Object?> get props =>
-      [tourLoading, imageLoading, toursListValue, imageListValue];
+  List<Object?> get props => [
+        tourLoading,
+        imageLoading,
+        toursListValue,
+        imageListValue,
+        couponLoading,
+        couponListvalue
+      ];
 }
 
 class SettingPageData {

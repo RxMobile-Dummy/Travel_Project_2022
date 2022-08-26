@@ -40,6 +40,9 @@ class HomePage extends StatelessWidget {
         }
         if (state is InternetConnected) {
           context.read<HomepageCubit>()
+            ..getImagesApi()
+            ..getToursApi()
+            ..getCouponsApi();
             ..getToursApi()
             ..getImagesApi();
           ProgressDialog.hideLoadingDialog(context);

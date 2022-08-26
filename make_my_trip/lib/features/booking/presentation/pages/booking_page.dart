@@ -7,6 +7,7 @@ import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/booking/data/model/booking_model.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/payment_integeration_cubit.dart';
+import 'package:make_my_trip/features/booking/presentation/pages/applyCoupon_page.dart';
 import 'package:make_my_trip/features/booking/presentation/pages/booking_shimmer_page.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
@@ -292,6 +293,42 @@ class BookingPage extends StatelessWidget {
                                 ),
                               ],
                             ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 12.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(RoutesName.applyCoupon,
+                            arguments: {
+                              'price': bookingModel!.subTotal,
+                              'model': arg['model']
+                            });
+                      },
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          color: Colors.orange[100],
+                        ),
+                        child: Row(
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.only(left: 18.0),
+                              child: Text(
+                                "APPLY COUPON",
+                                style: AppTextStyles.mediumLabelStyle,
+                              ),
+                            ),
+                            Spacer(),
+                            Padding(
+                              padding: EdgeInsets.only(right: 8.0),
+                              child: Icon(Icons.arrow_forward_ios),
+                            )
                           ],
                         ),
                       ),

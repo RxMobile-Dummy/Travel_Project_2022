@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/booking/booking_injection_container.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/payment_integeration_cubit.dart';
+import 'package:make_my_trip/features/booking/presentation/pages/applyCoupon_page.dart';
 import 'package:make_my_trip/features/booking/presentation/pages/booking_page.dart';
 import 'package:make_my_trip/features/booking_history_details/presentation/cubit/cancel_booking_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/list_of_populer_hotels.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/view_full_image_page.dart';
+import 'package:make_my_trip/features/home_page/presentation/pages/view_full_coupon_page.dart';
 import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_container.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/filter_list.dart';
@@ -139,7 +141,8 @@ class Router {
               BlocProvider.value(
                   value: slHomePage<HomepageCubit>()
                     ..getToursApi()
-                    ..getImagesApi()),
+                    ..getImagesApi()
+                    ..getCouponsApi()),
               BlocProvider.value(value: slHomePage<TabBarCubit>())
             ],
             child: HomePage(),
@@ -333,8 +336,13 @@ class Router {
             providers: [
               BlocProvider(
                 create: (context) => bookingSl<PaymentCubit>()
-                  ..bookingConfirm(detail.hotelId!, detail.checkinDate!,
-                      detail.checkoutDate!, detail.roomId!, detail.adults!),
+                  ..bookingConfirm(
+                      detail.hotelId!,
+                      detail.checkinDate!,
+                      detail.checkoutDate!,
+                      detail.roomId!,
+                      detail.adults!,
+                      arg['coupon_id'] ?? 0),
               ),
             ],
             child: BookingPage(
@@ -388,12 +396,17 @@ class Router {
             child: TermsConditionPage(),
           );
         });
-      case RoutesName.errorPage:
+
+      case RoutesName.applyCoupon:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
-          return const CommonErrorWidget(
-              imagePath: ImagePath.confirmSuccess,
-              subTitle: StringConstants.futureTxt,
-              title: "");
+          return BlocProvider(
+            create: (context) =>
+                bookingSl<PaymentCubit>()..showApplicableCoupons(arg['price']),
+            child: ApplyCouponPage(
+              arg: arg,
+            ),
+          );
         });
       default:
         return MaterialPageRoute(builder: (_) {

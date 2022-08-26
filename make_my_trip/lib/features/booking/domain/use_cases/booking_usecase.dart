@@ -11,8 +11,8 @@ class BookingUseCase implements Usecase<BookingModel, BookingParams> {
 
   @override
   Future<Either<Failures, BookingModel>> call(BookingParams params) async {
-    return await bookingRepository.getBookingDetails(
-        params.hotelId, params.cIn, params.cOut, params.roomId, params.adults);
+    return await bookingRepository.getBookingDetails(params.hotelId, params.cIn,
+        params.cOut, params.roomId, params.adults, params.coupon_id);
   }
 }
 
@@ -22,7 +22,9 @@ class BookingParams {
   final String cOut;
   final List<int> roomId;
   final int adults;
-  BookingParams(this.hotelId, this.cIn, this.cOut, this.roomId, this.adults);
+  final int coupon_id;
+  BookingParams(this.hotelId, this.cIn, this.cOut, this.roomId, this.adults,
+      this.coupon_id);
 
   @override
   List<Object?> get props => [hotelId, cIn, cOut, roomId];

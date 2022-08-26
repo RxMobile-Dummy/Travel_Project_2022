@@ -52,4 +52,6 @@ class RoutesName {
   static const termsAndCondition = "/terms";
 
   static const errorPage = "/errorPage";
+
+  static const applyCoupon = "/applyCouponPage";
 }

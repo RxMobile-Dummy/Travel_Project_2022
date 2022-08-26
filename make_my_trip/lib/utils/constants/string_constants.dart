@@ -97,6 +97,7 @@ class StringConstants {
   static String recommendedText = 'Recommended For You';
   static String titleQuestion = "What would you like to find?";
   static String loading = "Loading";
+  static String attractiveOffers = "Attractive Offers";
 
   // Wishlist Strings
   static String wishlistTitle = 'Express Hotel Andheri';

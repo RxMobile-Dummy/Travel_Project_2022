@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/features/home_page/presentation/pages/view_full_coupon_page.dart';
+import 'package:make_my_trip/features/home_page/presentation/widgets/coupon_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip/features/home_page/presentation/widgets/imege_slidder_shimmer.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
@@ -237,33 +239,101 @@ class HomeScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: (state is GettingStartedData)
                           ? (state.tourLoading == true)
-                              ? const ImageSliderShimmer()
-                              : Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: List.generate(
-                                      state.toursListValue!.length, (index) {
-                                    var tourdata = state.toursListValue?[index];
-                                    return Padding(
-                                      padding: const EdgeInsets.only(left: 16),
-                                      child: HomeListWidget(
-                                        rating: tourdata!.rating.toString(),
-                                        hotelName: tourdata.tourName.toString(),
-                                        onTap: () {},
-                                        imageData:
-                                            tourdata.images![0].imageUrl ??
-                                                StringConstants
-                                                    .hotelImagePlaceHolder,
-                                      ),
-                                    );
-                                  }))
+                          ? const ImageSliderShimmer()
+                          : Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: List.generate(
+                              state.toursListValue!.length, (index) {
+                            var tourdata = state.toursListValue?[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: HomeListWidget(
+                                rating: tourdata!.rating.toString(),
+                                hotelName: tourdata.tourName.toString(),
+                                onTap: () {},
+                                imageData:
+                                tourdata.images![0].imageUrl ??
+                                    StringConstants
+                                        .hotelImagePlaceHolder,
+                              ),
+                            );
+                          }))
                           : const ImageSliderShimmer()),
                   16.verticalSpace
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: Text(
+                      StringConstants.attractiveOffers,
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: ((state is StateOnSuccess<GettingStartedData> &&
+                        state.response.couponListvalue != null)
+                        ? (state.response.couponLoading == true)
+                        ? const ImageSliderShimmer()
+                        : Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: List.generate(
+                            state.response.couponListvalue!.length,
+                                (index) {
+                              var coupondata =
+                              state.response.couponListvalue?[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ViewFullCoupon(
+                                                    discountText: coupondata!
+                                                        .discount
+                                                        .toString(),
+                                                    imgUrl: coupondata!
+                                                        .couponImgUrl
+                                                        .toString(),
+                                                    expiryDate: coupondata!
+                                                        .endDate
+                                                        .toString()
+                                                        .substring(0, 10),
+                                                    couponTitle:
+                                                    coupondata!
+                                                        .title
+                                                        .toString(),
+                                                    couponCode: coupondata!
+                                                        .code
+                                                        .toString(),
+                                                    couponDetails:
+                                                    coupondata!
+                                                        .description
+                                                        .toString())));
+                                  },
+                                  child: CouponWidget(
+                                    couponTitle:
+                                    coupondata!.title.toString(),
+                                    expiryDate: coupondata.endDate
+                                        .toString()
+                                        .substring(0, 10),
+                                    imgUrl:
+                                    coupondata.couponImgUrl.toString(),
+                                    discountText:
+                                    coupondata!.discount.toString(),
+                                  ),
+                                ),
+                              );
+                            }))
+                        : const ImageSliderShimmer()),
+                  ),
                 ],
               ),
             ),
           ),
         );
-      }
-    });
+      },
+    );
   }
 }

@@ -1,18 +1,23 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/features/home_page/domain/use_cases/GetParticularCouponUsecase.dart';
 import 'package:make_my_trip/core/failures/failure_handler.dart';
 import 'package:make_my_trip/features/home_page/domain/use_cases/image_usecase.dart';
 import 'package:make_my_trip/features/home_page/domain/use_cases/tour_usecase.dart';
+import 'package:make_my_trip/features/home_page/domain/use_cases/viewCoupon_usecase.dart';
 import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model.dart';
 import '../../../../../core/failures/failures.dart';
 
 class HomepageCubit extends Cubit<BaseState> {
-  HomepageCubit(this.imagesusecase, this.toursusecase)
+  HomepageCubit(this.imagesusecase, this.toursusecase, this.couponsusecase,
+      this.getParticularCouponUsecase)
       : super(GettingStartedData());
 
   final GetAllImagesOfHomePageUseCase imagesusecase;
   final GetAllToursOfHomepageUseCase toursusecase;
+  final GetAllCouponsOfHomepage couponsusecase;
+  final GetParticularCouponUsecase getParticularCouponUsecase;
 
   getPopularHotel() async {
     try {
@@ -55,5 +60,34 @@ class HomepageCubit extends Cubit<BaseState> {
     } catch (err) {
       print(err);
     }
+  }
+
+  getCouponsIdApi(int id) async {
+    emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
+        .response
+        .copyWith(couponLoading: true)));
+    var data = await getParticularCouponUsecase.call(id);
+    data.fold((failure) {
+      debugPrint(failure.toString());
+    }, (success) {
+      print(success);
+    });
+  }
+
+  getCouponsApi() async {
+    emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
+        .response
+        .copyWith(couponLoading: true)));
+    var data = await couponsusecase.call();
+    data.fold((failure) {
+      if (failure is ServerFailure) {
+        emit(StateErrorGeneral(failure.failureMsg.toString()));
+      }
+      debugPrint(failure.toString());
+    }, (success) {
+      emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
+          .response
+          .copyWith(couponListValue: success, couponLoading: false)));
+    });
   }
 }
