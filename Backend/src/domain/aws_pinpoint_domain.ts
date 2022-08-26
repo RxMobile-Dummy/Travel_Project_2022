@@ -22,13 +22,14 @@ class AwsPinpoinntDomain {
                     username: [userData?.user_name.toString()],
                     userId: [userData?._id.toString()],
                     hotelName: [hotelData?.hotel_name.toString()]
-                }
-            });
-            console.log(test);
+                }});
+            console.log(userData?.user_email.toString());
             
         
-            var test2 = await Analytics.record({ name: 'AddToWhishlist' })
-            console.log(test2);
+            var test2 = await Analytics.record({ name: 'AddToWhishlist' }).then(()=>{console.log("event event recorded");
+            })
+            // console.log(test2);
+            // console.log(test2.EventsResponse.Results);
             
             res.status(StatusCode.Sucess).send("event recorded");
 
@@ -58,7 +59,7 @@ class AwsPinpoinntDomain {
                 }
             });
 
-            await Analytics.record({ name: 'AddToWhishlist' })
+            await Analytics.record({ name: 'MadeBooking' })
             res.status(StatusCode.Sucess).send("event recorded");;
         } catch (error: any) {
             res.status(StatusCode.Server_Error).send(error);
