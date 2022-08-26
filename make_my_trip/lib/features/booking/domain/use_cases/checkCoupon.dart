@@ -8,18 +8,17 @@ class CheckCouponUsecase {
 
   CheckCouponUsecase(this.bookingRepository);
 
-
-  Future<Either<Failures, List<ViewCouponModel>>> call(CheckCouponParams params) {
-    return bookingRepository.checkCoupon(params.code,params.price);
+  Future<Either<Failures, List<ViewCouponModel>>> call(
+      CheckCouponParams params) {
+    return bookingRepository.checkCoupon(params.code, params.price);
   }
 }
 
-class CheckCouponParams{
+class CheckCouponParams {
   final int price;
   final String code;
-  CheckCouponParams(this.price,this.code);
+  CheckCouponParams(this.price, this.code);
 
   @override
-  List<Object?> get props => [price,code];
-
+  List<Object?> get props => [price, code];
 }

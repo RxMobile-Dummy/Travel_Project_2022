@@ -13,8 +13,8 @@ abstract class BookingRemoteDataSource {
   Future<Either<Failures, PaymentModel>> paymentIntegerationDataSource(
       double amount);
 
-  Future<Either<Failures, BookingModel>> bookingRemoteDataSource(
-      int hotelId, String cIn, String cOut, List<int> roomId, int adults,int coupon_id);
+  Future<Either<Failures, BookingModel>> bookingRemoteDataSource(int hotelId,
+      String cIn, String cOut, List<int> roomId, int adults, int coupon_id);
 
   Future<Either<Failures, List<ViewCouponModel>>> showApplicableCoupons(
       int price);
@@ -48,8 +48,13 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   }
 
   @override
-  Future<Either<Failures, BookingModel>> bookingRemoteDataSource(int hotelId,
-      String cIn, String cOut, List<int> roomId, int adults,int coupon_id) async {
+  Future<Either<Failures, BookingModel>> bookingRemoteDataSource(
+      int hotelId,
+      String cIn,
+      String cOut,
+      List<int> roomId,
+      int adults,
+      int coupon_id) async {
     try {
       final response =
           await dio.get('${BaseConstant.baseUrl}booking/roombooking/prize',
@@ -59,7 +64,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
                 "cout": cOut,
                 "roomid": roomId.join(","),
                 "adults": adults,
-                "coupon_id":coupon_id
+                "coupon_id": coupon_id
               },
               options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
@@ -111,34 +116,34 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   }
 
   @override
-  Future<Either<Failures, List<ViewCouponModel>>> checkCoupon(int price,String code) async{
+  Future<Either<Failures, List<ViewCouponModel>>> checkCoupon(
+      int price, String code) async {
     // TODO: implement checkCoupon
     try {
-      final response = await dio.get(
-          '${BaseConstant.baseUrl}coupon/code/',
-          queryParameters: {"price": price,"code": code},
+      final response = await dio.get('${BaseConstant.baseUrl}coupon/code/',
+          queryParameters: {"price": price, "code": code},
           options: await BaseConstant.createDioOptions());
-    var result = response.data;
-    print('data');
-    if (response.statusCode == 200) {
-    List<ViewCouponModel> checkCouponList = [];
-    {
-    for (Map i in result) {
-      checkCouponList.add(ViewCouponModel.fromJson(i));
-    }
-    }
-    return Right(checkCouponList);
-    } else if (response.statusCode == 505) {
-    return Left(ServerFailure());
-    } else if (response.statusCode == 404) {
-    return Left(
-    AuthFailure()); //Data Not Found Failure but in failure there is no method so AuthFailure
-    } else {
-    return Left(InternetFailure());
-    }
+      var result = response.data;
+      print('data');
+      if (response.statusCode == 200) {
+        List<ViewCouponModel> checkCouponList = [];
+        {
+          for (Map i in result) {
+            checkCouponList.add(ViewCouponModel.fromJson(i));
+          }
+        }
+        return Right(checkCouponList);
+      } else if (response.statusCode == 505) {
+        return Left(ServerFailure());
+      } else if (response.statusCode == 404) {
+        return Left(
+            AuthFailure()); //Data Not Found Failure but in failure there is no method so AuthFailure
+      } else {
+        return Left(InternetFailure());
+      }
     } catch (e) {
-    print(e);
-    return Left(ServerFailure(statusCode: "503"));
+      print(e);
+      return Left(ServerFailure(statusCode: "503"));
     }
   }
 }

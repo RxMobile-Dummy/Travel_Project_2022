@@ -18,8 +18,8 @@ Future<void> init() async {
   //cubit
   bookingSl.registerFactory(() => BookingCubit(bookingSl(), bookingSl()));
 
-  bookingSl.registerFactory(
-      () => PaymentCubit(bookingSl(), bookingSl(), bookingSl(), bookingSl(),bookingSl(),bookingSl()));
+  bookingSl.registerFactory(() => PaymentCubit(bookingSl(), bookingSl(),
+      bookingSl(), bookingSl(), bookingSl(), bookingSl()));
 
   bookingSl.registerLazySingleton(() => _razorpay);
 
@@ -34,6 +34,7 @@ Future<void> init() async {
   //usecase
   bookingSl.registerLazySingleton(() => PaymentUseCase(bookingSl()));
   bookingSl.registerLazySingleton(() => BookingUseCase(bookingSl()));
-  bookingSl.registerLazySingleton(() => ShowApplicableCouponsUsecase(bookingSl()));
+  bookingSl
+      .registerLazySingleton(() => ShowApplicableCouponsUsecase(bookingSl()));
   bookingSl.registerLazySingleton(() => CheckCouponUsecase(bookingSl()));
 }

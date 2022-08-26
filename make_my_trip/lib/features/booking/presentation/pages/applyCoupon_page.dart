@@ -59,51 +59,55 @@ class ApplyCouponPage extends StatelessWidget {
                     top: 12,
                     child: BlocListener<PaymentCubit, BaseState>(
                       listener: (context, state) {
-                       if(state is StateOnResponseSuccess<List<ViewCouponModel>>){
-                         showDialog(
-                             context: context,
-                             barrierDismissible: false,
-                             builder: (_) {
-                               Future.delayed(const Duration(seconds: 2), () {
-                                 Navigator.of(context).pushNamed(
-                                     RoutesName.bookingPage, arguments: {'model':arg['model'],'coupon_id':state.response[0].id});
-                               });
-                               return AlertDialog(
-                                 shape: const RoundedRectangleBorder(
-                                     borderRadius: BorderRadius.all(Radius.circular(32.0))),
-                                 elevation: 4,
-                                 title: Column(
-                                   children: [
-                                     AspectRatio(
-                                       aspectRatio: 1.6,
-                                       child: Image.asset(
-                                         ImagePath.confirmSuccess,
-                                       ),
-                                     ),
-                                     30.verticalSpace,
-                                     Text(
-                                      "Coupon SuccessFully Applied",
-                                       style: const TextStyle(
-                                           color: MakeMyTripColors.accentColor,
-                                           fontSize: 20,
-                                           fontWeight: FontWeight.bold),
-                                     ),
-                                     25.verticalSpace,
-                                   ],
-                                 ),
-                               );
-                             });
-                       }
-                       else{
-
-                       }
+                        if (state
+                            is StateOnResponseSuccess<List<ViewCouponModel>>) {
+                          showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (_) {
+                                Future.delayed(const Duration(seconds: 2), () {
+                                  Navigator.of(context).pushNamed(
+                                      RoutesName.bookingPage,
+                                      arguments: {
+                                        'model': arg['model'],
+                                        'coupon_id': state.response[0].id
+                                      });
+                                });
+                                return AlertDialog(
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(32.0))),
+                                  elevation: 4,
+                                  title: Column(
+                                    children: [
+                                      AspectRatio(
+                                        aspectRatio: 1.6,
+                                        child: Image.asset(
+                                          ImagePath.confirmSuccess,
+                                        ),
+                                      ),
+                                      30.verticalSpace,
+                                      Text(
+                                        "Coupon SuccessFully Applied",
+                                        style: const TextStyle(
+                                            color: MakeMyTripColors.accentColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      25.verticalSpace,
+                                    ],
+                                  ),
+                                );
+                              });
+                        } else {}
                       },
                       child: GestureDetector(onTap: () {
                         context.read<PaymentCubit>.call()
                             .checkCoupon(
                                 arg['price'], textEditingController.text)
                             .then
-                            .Navigator.popAndPushNamed(context, RoutesName.bookingPage);
+                            .Navigator
+                            .popAndPushNamed(context, RoutesName.bookingPage);
                       }, child: BlocBuilder<PaymentCubit, BaseState>(
                         builder: (context, state) {
                           return Text("Apply",

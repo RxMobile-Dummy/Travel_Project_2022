@@ -8,16 +8,16 @@ class ShowApplicableCouponsUsecase {
 
   ShowApplicableCouponsUsecase(this.bookingRepository);
 
-  Future<Either<Failures, List<ViewCouponModel>>> call(ShowApplicableCouponParams params) {
+  Future<Either<Failures, List<ViewCouponModel>>> call(
+      ShowApplicableCouponParams params) {
     return bookingRepository.showApplicableCoupons(params.price);
   }
 }
 
-class ShowApplicableCouponParams{
+class ShowApplicableCouponParams {
   final int price;
   ShowApplicableCouponParams(this.price);
 
   @override
   List<Object?> get props => [price];
-
 }

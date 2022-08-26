@@ -26,8 +26,8 @@ final slHomePage = GetIt.instance;
 
 Future<void> init() async {
   //cubit
-  slHomePage.registerFactory<HomepageCubit>(
-      () => HomepageCubit(slHomePage(), slHomePage(), slHomePage(),slHomePage()));
+  slHomePage.registerFactory<HomepageCubit>(() =>
+      HomepageCubit(slHomePage(), slHomePage(), slHomePage(), slHomePage()));
   slHomePage.registerFactory(() => TabBarCubit(isAnonymousUser: slHomePage()));
   //data source
   slHomePage.registerLazySingleton<ImagesDataSource>(
@@ -35,18 +35,19 @@ Future<void> init() async {
   slHomePage.registerLazySingleton<ToursDataSource>(
       () => ToursDataSourceImpl(slHomePage()));
   slHomePage.registerLazySingleton<ViewCouponsDataSource>(
-          () => ViewCouponsDataSourceImpl(slHomePage()) );
+      () => ViewCouponsDataSourceImpl(slHomePage()));
 
   //repository
   slHomePage.registerLazySingleton<ImagesRepository>(() => ImageRepositoryImpl(
       imagesDataSource: ImagesDataSourceImpl(slHomePage())));
   slHomePage.registerLazySingleton<ToursRepository>(() =>
       ToursRepositoryImpl(toursDataSource: ToursDataSourceImpl(slHomePage())));
-  slHomePage.registerLazySingleton<ViewCouponRepository>(
-          () => ViewCouponRepositoryImpl(viewCouponsDataSource: ViewCouponsDataSourceImpl(slHomePage())));
-  slHomePage.registerLazySingleton<GetParticularCouponCouponRepository>(
-          () => GetParticularCouponRepositoryImpl(viewCouponsDataSource: ViewCouponsDataSourceImpl(slHomePage())));
-
+  slHomePage.registerLazySingleton<ViewCouponRepository>(() =>
+      ViewCouponRepositoryImpl(
+          viewCouponsDataSource: ViewCouponsDataSourceImpl(slHomePage())));
+  slHomePage.registerLazySingleton<GetParticularCouponCouponRepository>(() =>
+      GetParticularCouponRepositoryImpl(
+          viewCouponsDataSource: ViewCouponsDataSourceImpl(slHomePage())));
 
   //use case
   slHomePage.registerLazySingleton<GetAllImagesOfHomePageUseCase>(() =>
@@ -59,11 +60,12 @@ Future<void> init() async {
               toursDataSource: ToursDataSourceImpl(slHomePage.call()))));
   slHomePage.registerLazySingleton<GetAllCouponsOfHomepage>(() =>
       GetAllCouponsOfHomepage(
-          viewCouponRepository  : ViewCouponRepositoryImpl(
-              viewCouponsDataSource: ViewCouponsDataSourceImpl(slHomePage.call()))));
+          viewCouponRepository: ViewCouponRepositoryImpl(
+              viewCouponsDataSource:
+                  ViewCouponsDataSourceImpl(slHomePage.call()))));
 
-  slHomePage.registerLazySingleton<GetParticularCouponUsecase>(() =>
-      GetParticularCouponUsecase(slHomePage.call()));
+  slHomePage.registerLazySingleton<GetParticularCouponUsecase>(
+      () => GetParticularCouponUsecase(slHomePage.call()));
 
   slHomePage.registerLazySingleton(() => Dio());
 }

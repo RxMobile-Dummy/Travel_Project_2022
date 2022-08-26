@@ -15,8 +15,13 @@ import '../../../../core/base/base_state.dart';
 import '../../../room_categories/domain/use_cases/room_book_post_usecase.dart';
 
 class PaymentCubit extends Cubit<BaseState> {
-  PaymentCubit(this._razorpay, this.paymentUseCase, this.bookingUseCase,
-      this.roomBookPostUsecase, this.showApplicableCouponsUsecase, this.checkCouponUsecase)
+  PaymentCubit(
+      this._razorpay,
+      this.paymentUseCase,
+      this.bookingUseCase,
+      this.roomBookPostUsecase,
+      this.showApplicableCouponsUsecase,
+      this.checkCouponUsecase)
       : super(StateInitial());
 
   final Razorpay _razorpay;
@@ -85,9 +90,9 @@ class PaymentCubit extends Cubit<BaseState> {
   }
 
   bookingConfirm(int hotelId, String cIn, String cOut, List<int> roomId,
-      int adults,int coupon_id) async {
+      int adults, int coupon_id) async {
     final data = await bookingUseCase
-        .call(BookingParams(hotelId, cIn, cOut, roomId, adults,coupon_id));
+        .call(BookingParams(hotelId, cIn, cOut, roomId, adults, coupon_id));
     data.fold((l) => emit(StateErrorGeneral(l.toString())),
         (r) => emit(StateOnSuccess<BookingModel>(r)));
   }
@@ -105,9 +110,10 @@ class PaymentCubit extends Cubit<BaseState> {
     return _razorpay.clear();
   }
 
-  showApplicableCoupons(int price) async{
+  showApplicableCoupons(int price) async {
     print('cubit');
-    var data = await showApplicableCouponsUsecase.call(ShowApplicableCouponParams(price));
+    var data = await showApplicableCouponsUsecase
+        .call(ShowApplicableCouponParams(price));
     data.fold((failure) {
       print('fail');
       if (failure is ServerFailure) {
@@ -115,27 +121,27 @@ class PaymentCubit extends Cubit<BaseState> {
       }
       debugPrint(failure.toString());
     }, (success) {
-        print('success');
-        print(success);
-        emit(StateOnSuccess<List<ViewCouponModel>>(success));
+      print('success');
+      print(success);
+      emit(StateOnSuccess<List<ViewCouponModel>>(success));
       // emit(StateOnSuccess();
     });
   }
 
-  applyButton(flag){
+  applyButton(flag) {
     emit(StateSearchResult<bool>(flag));
   }
 
-  checkCoupon(int price,String code) async{
+  checkCoupon(int price, String code) async {
     var data = await checkCouponUsecase.call(CheckCouponParams(price, code));
     data.fold((failure) {
-        emit(StateErrorGeneral('Invalid Coupon!'));
+      emit(StateErrorGeneral('Invalid Coupon!'));
       debugPrint(failure.toString());
     }, (success) {
       print('success');
-      if(success.isEmpty){
+      if (success.isEmpty) {
         emit(StateErrorGeneral('Invalid Coupon!'));
-      }else {
+      } else {
         emit(StateOnResponseSuccess<List<ViewCouponModel>>(success));
       }
       // emit(StateOnSuccess();

@@ -53,8 +53,6 @@ class HomepageCubit extends Cubit<BaseState> {
     } catch (err) {}
   }
 
-
-
   getCouponsIdApi(int id) async {
     emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
         .response
@@ -78,11 +76,9 @@ class HomepageCubit extends Cubit<BaseState> {
       }
       debugPrint(failure.toString());
     }, (success) {
-
       emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
           .response
           .copyWith(couponListValue: success, couponLoading: false)));
     });
   }
-
 }

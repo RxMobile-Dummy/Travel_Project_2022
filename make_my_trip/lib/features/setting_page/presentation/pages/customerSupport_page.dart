@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
@@ -36,16 +35,16 @@ class CustomerSupportPage extends StatelessWidget {
           padding: const EdgeInsets.only(top: 20),
           child: Column(
             children: [
-               Text(
+              Text(
                 StringConstants.helpTitle,
                 style: AppTextStyles.labelStyle,
               ),
-               Text(
+              Text(
                 StringConstants.helpSubTitle,
                 style: AppTextStyles.labelDetails,
               ),
               20.verticalSpace,
-              Image.asset(ImagePath.helpImage,height: 350,width: 350),
+              Image.asset(ImagePath.helpImage, height: 350, width: 350),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Card(
@@ -58,17 +57,20 @@ class CustomerSupportPage extends StatelessWidget {
                       ),
                       30.horizontalSpace,
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           context.read<SettingPageCubit>().callNumber();
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children:   [
-                              Text(StringConstants.helpCall, style: AppTextStyles.infoContentStyle),
+                            children: [
+                              Text(StringConstants.helpCall,
+                                  style: AppTextStyles.infoContentStyle),
                               Text(StringConstants.helpPhoneNumber,
-                                  style: TextStyle(color: MakeMyTripColors.colorCwsPrimary,fontWeight: FontWeight.bold))
+                                  style: TextStyle(
+                                      color: MakeMyTripColors.colorCwsPrimary,
+                                      fontWeight: FontWeight.bold))
                             ],
                           ),
                         ),
@@ -90,17 +92,20 @@ class CustomerSupportPage extends StatelessWidget {
                       ),
                       30.horizontalSpace,
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           context.read<SettingPageCubit>().sendingMails();
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children:   [
-                              Text(StringConstants.helpEmail, style: AppTextStyles.infoContentStyle),
+                            children: [
+                              Text(StringConstants.helpEmail,
+                                  style: AppTextStyles.infoContentStyle),
                               Text(StringConstants.helpEmailAddress,
-                                  style : TextStyle(color: MakeMyTripColors.colorCwsPrimary,fontWeight: FontWeight.bold))
+                                  style: TextStyle(
+                                      color: MakeMyTripColors.colorCwsPrimary,
+                                      fontWeight: FontWeight.bold))
                             ],
                           ),
                         ),

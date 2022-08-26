@@ -239,11 +239,10 @@ class GettingStartedData extends BaseState implements Equatable {
   GettingStartedData(
       {this.imageLoading,
       this.tourLoading,
-        this.couponLoading,
+      this.couponLoading,
       this.toursListValue,
       this.imageListValue,
-      this.couponListvalue
-      });
+      this.couponListvalue});
 
   GettingStartedData copyWith({
     bool? tourLoading,
@@ -259,12 +258,17 @@ class GettingStartedData extends BaseState implements Equatable {
           couponLoading: couponLoading ?? this.couponLoading,
           toursListValue: toursListValue ?? this.toursListValue,
           imageListValue: imageListValue ?? this.imageListValue,
-          couponListvalue: couponListValue ?? this.couponListvalue
-      );
+          couponListvalue: couponListValue ?? this.couponListvalue);
 
   @override
-  List<Object?> get props =>
-      [tourLoading, imageLoading, toursListValue, imageListValue, couponLoading, couponListvalue];
+  List<Object?> get props => [
+        tourLoading,
+        imageLoading,
+        toursListValue,
+        imageListValue,
+        couponLoading,
+        couponListvalue
+      ];
 }
 
 class SettingPageData {

@@ -16,23 +16,29 @@ class BookingRepositoryImpl implements BookingRepository {
   }
 
   @override
-  Future<Either<Failures, BookingModel>> getBookingDetails(int hotelId,
-      String cIn, String cOut, List<int> roomId, int adults,int coupon_id) async {
+  Future<Either<Failures, BookingModel>> getBookingDetails(
+      int hotelId,
+      String cIn,
+      String cOut,
+      List<int> roomId,
+      int adults,
+      int coupon_id) async {
     return await bookingRemoteDataSource.bookingRemoteDataSource(
-        hotelId, cIn, cOut, roomId, adults,coupon_id);
+        hotelId, cIn, cOut, roomId, adults, coupon_id);
   }
 
   @override
-  Future<Either<Failures, List<ViewCouponModel>>> showApplicableCoupons(int price) async{
+  Future<Either<Failures, List<ViewCouponModel>>> showApplicableCoupons(
+      int price) async {
     // TODO: implement showApplicableCoupons
     return await bookingRemoteDataSource.showApplicableCoupons(price);
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<Failures, List<ViewCouponModel>>> checkCoupon(String code, int price) async{
+  Future<Either<Failures, List<ViewCouponModel>>> checkCoupon(
+      String code, int price) async {
     // TODO: implement checkCoupon
     return await bookingRemoteDataSource.checkCoupon(price, code);
   }
-
 }

@@ -74,7 +74,8 @@ class BookingPage extends StatelessWidget {
               detail.checkinDate!,
               detail.checkoutDate!,
               detail.roomId!,
-              detail.adults!,0);
+              detail.adults!,
+              0);
         } else {
           ProgressDialog.hideLoadingDialog(context);
         }
@@ -267,22 +268,30 @@ class BookingPage extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 12.0),
                     child: GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).pushNamed(RoutesName.applyCoupon,arguments: {'price':bookingModel!.subTotal,'model':arg['model']});
+                      onTap: () {
+                        Navigator.of(context).pushNamed(RoutesName.applyCoupon,
+                            arguments: {
+                              'price': bookingModel!.subTotal,
+                              'model': arg['model']
+                            });
                       },
                       child: Container(
                         height: 60,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
                           color: Colors.orange[100],
                         ),
                         child: Row(
                           children: const [
                             Padding(
-                              padding: EdgeInsets.only(left:18.0),
-                              child: Text("APPLY COUPON",style: AppTextStyles.mediumLabelStyle,),
+                              padding: EdgeInsets.only(left: 18.0),
+                              child: Text(
+                                "APPLY COUPON",
+                                style: AppTextStyles.mediumLabelStyle,
+                              ),
                             ),
                             Spacer(),
                             Padding(

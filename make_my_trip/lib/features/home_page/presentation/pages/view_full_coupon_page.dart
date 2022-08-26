@@ -24,10 +24,12 @@ class ViewFullCoupon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.orange[100],
-        appBar: AppBar(title: Text('View Coupon '),),
+        appBar: AppBar(
+          title: Text('View Coupon '),
+        ),
         body: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             80.verticalSpace,
@@ -55,7 +57,6 @@ class ViewFullCoupon extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-
                 couponTitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
