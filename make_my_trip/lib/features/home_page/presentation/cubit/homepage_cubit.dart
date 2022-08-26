@@ -19,18 +19,18 @@ class HomepageCubit extends Cubit<BaseState> {
   final GetAllCouponsOfHomepage couponsusecase;
   final GetParticularCouponUsecase getParticularCouponUsecase;
 
-  getPopularHotel() async {
-    try {
-      var data = await imagesusecase.call(50);
-      data.fold((failure) {
-        if (failure is ServerFailure) {
-          emit(FailureHandler.checkFailures(failure));
-        }
-      }, (success) {
-        emit(StateOnSuccess<List<HotelListModel>>(success));
-      });
-    } catch (err) {}
-  }
+  // getPopularHotel() async {
+  //   try {
+  //     var data = await imagesusecase.call(50);
+  //     data.fold((failure) {
+  //       if (failure is ServerFailure) {
+  //         emit(FailureHandler.checkFailures(failure));
+  //       }
+  //     }, (success) {
+  //       emit(StateOnSuccess<List<HotelListModel>>(success));
+  //     });
+  //   } catch (err) {}
+  // }
 
   getImagesApi() async {
     try {
@@ -63,31 +63,23 @@ class HomepageCubit extends Cubit<BaseState> {
   }
 
   getCouponsIdApi(int id) async {
-    emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-        .response
-        .copyWith(couponLoading: true)));
+    emit((state as GettingStartedData).copyWith(couponLoading: true));
     var data = await getParticularCouponUsecase.call(id);
     data.fold((failure) {
       debugPrint(failure.toString());
-    }, (success) {
-      print(success);
-    });
+    }, (success) {});
   }
 
   getCouponsApi() async {
-    emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-        .response
-        .copyWith(couponLoading: true)));
+    emit((state as GettingStartedData).copyWith(couponLoading: true));
     var data = await couponsusecase.call();
     data.fold((failure) {
-      if (failure is ServerFailure) {
-        emit(StateErrorGeneral(failure.failureMsg.toString()));
-      }
+      print(failure);
       debugPrint(failure.toString());
     }, (success) {
-      emit(StateOnSuccess((state as StateOnSuccess<GettingStartedData>)
-          .response
-          .copyWith(couponListValue: success, couponLoading: false)));
+      print(success[0].couponImgUrl);
+      emit((state as GettingStartedData)
+          .copyWith(couponListValue: success, couponLoading: false));
     });
   }
 }

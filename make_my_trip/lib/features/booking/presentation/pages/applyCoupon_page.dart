@@ -102,12 +102,8 @@ class ApplyCouponPage extends StatelessWidget {
                         } else {}
                       },
                       child: GestureDetector(onTap: () {
-                        context.read<PaymentCubit>.call()
-                            .checkCoupon(
-                                arg['price'], textEditingController.text)
-                            .then
-                            .Navigator
-                            .popAndPushNamed(context, RoutesName.bookingPage);
+                        context.read<PaymentCubit>.call().checkCoupon(
+                            arg['price'], textEditingController.text);
                       }, child: BlocBuilder<PaymentCubit, BaseState>(
                         builder: (context, state) {
                           return Text("Apply",

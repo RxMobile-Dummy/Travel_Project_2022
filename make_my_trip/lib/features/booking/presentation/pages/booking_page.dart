@@ -86,7 +86,8 @@ class BookingPage extends StatelessWidget {
                   detail.checkinDate!,
                   detail.checkoutDate!,
                   detail.roomId!,
-                  detail.adults!);
+                  detail.adults!,
+                  0);
             }
           } else if (state is StateNoData) {
             ProgressDialog.hideLoadingDialog(context);
@@ -95,7 +96,8 @@ class BookingPage extends StatelessWidget {
                 detail.checkinDate!,
                 detail.checkoutDate!,
                 detail.roomId!,
-                detail.adults!);
+                detail.adults!,
+                0);
           } else {
             ProgressDialog.hideLoadingDialog(context);
           }
@@ -109,7 +111,8 @@ class BookingPage extends StatelessWidget {
                     detail.checkinDate!,
                     detail.checkoutDate!,
                     detail.roomId!,
-                    detail.adults!);
+                    detail.adults!,
+                    0);
               },
             );
           } else if (state is StateInternetError) {
@@ -122,7 +125,8 @@ class BookingPage extends StatelessWidget {
                     detail.checkinDate!,
                     detail.checkoutDate!,
                     detail.roomId!,
-                    detail.adults!);
+                    detail.adults!,
+                    0);
               },
             );
           } else if (state is StateOnSuccess) {

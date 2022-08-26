@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,66 +8,59 @@ import 'package:make_my_trip/features/home_page/data/data_sources/viewCoupon_dat
 import 'package:make_my_trip/features/home_page/data/models/ViewCouponModel.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
 
+import '../../../../core/failures/failure_handler.dart';
+
 class ViewCouponsDataSourceImpl implements ViewCouponsDataSource {
   final Dio dio;
 
   ViewCouponsDataSourceImpl(this.dio);
 
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    return Options(headers: {'token': userToken});
-  }
-
   @override
   Future<Either<Failures, List<ViewCouponModel>>> getCouponsData() async {
     try {
       final response = await dio.get('${BaseConstant.baseUrl}coupon/coupon',
-          options: await createDioOptions());
+          options: await BaseConstant.createDioOptions());
       var result = response.data;
-      if (response.statusCode == 200) {
+      print(result);
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
         List<ViewCouponModel> viewCouponList = [];
-        {
-          for (Map i in result) {
+
+          for (var i in result) {
+
             viewCouponList.add(ViewCouponModel.fromJson(i));
+
           }
-        }
+        print(viewCouponList[0].couponImgUrl);
+
         return Right(viewCouponList);
-      } else if (response.statusCode == 505) {
-        return Left(ServerFailure());
-      } else if (response.statusCode == 404) {
-        return Left(
-            AuthFailure()); //Data Not Found Failure but in failure there is no method so AuthFailure
-      } else {
-        return Left(InternetFailure());
-      }
-    } catch (e) {
-      print(e);
-      return Left(ServerFailure(statusCode: "503"));
+      });
+    } on SocketException {
+      return Left(InternetFailure());
+    } catch (err) {
+      print(err);
+      return Left(ServerFailure());
     }
   }
+
 
   @override
   Future<Either<Failures, ViewCouponModel>> getCouponId(int id) async {
     try {
       final response = await dio.get(
           '${BaseConstant.baseUrl}coupon/coupon/${id}',
-          options: await createDioOptions());
-      //var result = response.data;
-      if (response.statusCode == 200) {
+          options: await BaseConstant.createDioOptions());
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
         ViewCouponModel viewCouponList = response.data[0];
-
         return Right(viewCouponList);
-      } else if (response.statusCode == 505) {
-        return Left(ServerFailure());
-      } else if (response.statusCode == 404) {
-        return Left(
-            AuthFailure()); //Data Not Found Failure but in failure there is no method so AuthFailure
-      } else {
-        return Left(InternetFailure());
-      }
-    } catch (e) {
-      print(e);
-      return Left(ServerFailure(statusCode: "503"));
+      });
+    } on SocketException {
+      return Left(InternetFailure());
+    } catch (err) {
+      print(err);
+      return Left(ServerFailure());
     }
+
   }
 }

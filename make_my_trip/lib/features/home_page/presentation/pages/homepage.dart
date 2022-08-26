@@ -43,8 +43,6 @@ class HomePage extends StatelessWidget {
             ..getImagesApi()
             ..getToursApi()
             ..getCouponsApi();
-            ..getToursApi()
-            ..getImagesApi();
           ProgressDialog.hideLoadingDialog(context);
         }
         if (state is StateOnGetShareLink) {

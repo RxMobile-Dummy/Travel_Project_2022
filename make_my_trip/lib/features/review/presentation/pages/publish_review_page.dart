@@ -211,7 +211,7 @@ class PublishReviewPage extends StatelessWidget {
                                 child: Container(
                                     decoration: BoxDecoration(
                                         color: MakeMyTripColors.color0gray
-                                            ?.withOpacity(0.5),
+                                            .withOpacity(0.5),
                                         shape: BoxShape.circle),
                                     child: const Icon(
                                       Icons.delete,

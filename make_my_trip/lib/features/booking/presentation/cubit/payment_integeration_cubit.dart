@@ -148,18 +148,21 @@ class PaymentCubit extends Cubit<BaseState> {
   }
 
   checkCoupon(int price, String code) async {
-    var data = await checkCouponUsecase.call(CheckCouponParams(price, code));
-    data.fold((failure) {
-      emit(StateErrorGeneral('Invalid Coupon!'));
-      debugPrint(failure.toString());
-    }, (success) {
-      print('success');
-      if (success.isEmpty) {
+    try {
+      var data = await checkCouponUsecase.call(CheckCouponParams(price, code));
+      data.fold((failure) {
         emit(StateErrorGeneral('Invalid Coupon!'));
-      } else {
-        emit(StateOnResponseSuccess<List<ViewCouponModel>>(success));
-      }
-      // emit(StateOnSuccess();
-    });
+        debugPrint(failure.toString());
+      }, (success) {
+        print('success');
+        if (success.isEmpty) {
+          emit(StateErrorGeneral('Invalid Coupon!'));
+        } else {
+          emit(StateOnResponseSuccess<List<ViewCouponModel>>(success));
+        }
+      });
+    } catch (err) {
+      print(err);
+    }
   }
 }

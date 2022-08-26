@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:make_my_trip/features/home_page/data/models/ViewCouponModel.dart';
 
 import '../../../../core/failures/failure_handler.dart';
@@ -14,15 +12,6 @@ import '../model/payment_model.dart';
 
 abstract class BookingRemoteDataSource {
   Future<Either<Failures, PaymentModel>> paymentIntegerationDataSource(
-      double amount);
-
-  Future<Either<Failures, BookingModel>> bookingRemoteDataSource(int hotelId,
-      String cIn, String cOut, List<int> roomId, int adults, int coupon_id);
-
-  Future<Either<Failures, List<ViewCouponModel>>> showApplicableCoupons(
-      int price);
-  Future<Either<Failures, List<ViewCouponModel>>> checkCoupon(
-      int price, String code);
       double amount,
       List<int> roomId,
       int hotelId,
@@ -33,8 +22,12 @@ abstract class BookingRemoteDataSource {
       int offer,
       int total,
       int couponId);
-  Future<Either<Failures, BookingModel>> bookingRemoteDataSource(
-      int hotelId, String cIn, String cOut, List<int> roomId, int adults);
+  Future<Either<Failures, BookingModel>> bookingRemoteDataSource(int hotelId,
+      String cIn, String cOut, List<int> roomId, int adults, int couponId);
+  Future<Either<Failures, List<ViewCouponModel>>> showApplicableCoupons(
+      int price);
+  Future<Either<Failures, List<ViewCouponModel>>> checkCoupon(
+      int price, String code);
 }
 
 class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
@@ -85,44 +78,6 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
     }
   }
 
-  @override
-  Future<Either<Failures, BookingModel>> bookingRemoteDataSource(
-      int hotelId,
-      String cIn,
-      String cOut,
-      List<int> roomId,
-      int adults,
-      int coupon_id) async {
-    try {
-      final response =
-          await dio.get('${BaseConstant.baseUrl}booking/roombooking/prize',
-              queryParameters: {
-                "hotelid": hotelId,
-                "cin": cIn,
-                "cout": cOut,
-                "roomid": roomId.join(","),
-                "adults": adults,
-                "coupon_id": coupon_id
-              },
-              options: await BaseConstant.createDioOptions());
-      final res = await FailureHandler.handleError(response);
-      return res.fold((l) => Left(l), (r) {
-        BookingModel bookingModel;
-        final data = response.data;
-
-        bookingModel = BookingModel.fromJson(data);
-        return Right(bookingModel);
-      });
-    } on SocketException {
-      return Left(InternetFailure());
-    } catch (err) {
-      return Left(ServerFailure());
-    }
-  }
-}
-
-
-@override
   Future<Either<Failures, List<ViewCouponModel>>> showApplicableCoupons(
       int price) async {
     // TODO: implement showApplicableCoupons
@@ -185,6 +140,41 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
     } catch (e) {
       print(e);
       return Left(ServerFailure(statusCode: "503"));
+    }
+  }
+
+  @override
+  Future<Either<Failures, BookingModel>> bookingRemoteDataSource(
+      int hotelId,
+      String cIn,
+      String cOut,
+      List<int> roomId,
+      int adults,
+      int couponId) async {
+    try {
+      final response =
+          await dio.get('${BaseConstant.baseUrl}booking/roombooking/prize',
+              queryParameters: {
+                "hotelid": hotelId,
+                "cin": cIn,
+                "cout": cOut,
+                "roomid": roomId.join(","),
+                "adults": adults,
+                "coupon_id": couponId
+              },
+              options: await BaseConstant.createDioOptions());
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
+        BookingModel bookingModel;
+        final data = response.data;
+
+        bookingModel = BookingModel.fromJson(data);
+        return Right(bookingModel);
+      });
+    } on SocketException {
+      return Left(InternetFailure());
+    } catch (err) {
+      return Left(ServerFailure());
     }
   }
 }
