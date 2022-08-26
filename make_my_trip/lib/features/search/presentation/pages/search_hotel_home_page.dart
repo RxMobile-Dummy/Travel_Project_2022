@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_cubit.dart';
-import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_state.dart';
 import 'package:make_my_trip/utils/extensions/date_time/date_time_extension.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
+import '../../../../core/base/base_state.dart';
 import '../../../../core/navigation/route_info.dart';
 import '../../../../core/theme/make_my_trip_colors.dart';
 import '../../../../utils/constants/string_constants.dart';
@@ -25,13 +25,13 @@ class SearchHotel extends StatelessWidget {
       cubit.searchId = arg['hotel_id'];
       cubit.type = "hotel";
     }
-    return BlocListener<SearchHotelCubit, SearchHotelState>(
+    return BlocListener<SearchHotelCubit, BaseState>(
       listener: (context, state) {
-        if (state is UnauthenticatedState) {
+        if (state is Unauthenticated) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.login, (route) => true,
               arguments: {"route_name": RoutesName.wishList});
-        } else if (state is AuthenticatedState) {
+        } else if (state is Authenticated) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.wishList, (route) => true);
         }
@@ -58,7 +58,7 @@ class SearchHotel extends StatelessWidget {
               ),
             ],
           ),
-          body: BlocBuilder<SearchHotelCubit, SearchHotelState>(
+          body: BlocBuilder<SearchHotelCubit, BaseState>(
             builder: (context, state) {
               return SafeArea(
                 child: SingleChildScrollView(

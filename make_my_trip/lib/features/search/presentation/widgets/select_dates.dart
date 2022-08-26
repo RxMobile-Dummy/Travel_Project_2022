@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_state.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/features/search/presentation/widgets/search_city_container.dart';
 import 'package:make_my_trip/utils/extensions/date_time/date_time_extension.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
@@ -19,11 +19,11 @@ class SelectDates extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<SearchHotelCubit>(context);
-    return BlocConsumer<SearchHotelCubit, SearchHotelState>(
+    return BlocConsumer<SearchHotelCubit, BaseState>(
       listener: (context, state) {
-        if (state is ErrorState) {
+        if (state is StateErrorGeneral) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(state.error)));
+              .showSnackBar(SnackBar(content: Text(state.errorMessage)));
         }
       },
       builder: (context, state) {

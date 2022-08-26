@@ -18,7 +18,7 @@ class ImagesDataSourceImpl implements ImagesDataSource {
   @override
   Future<Either<Failures, List<HotelListModel>>> getList(int val) async {
     try {
-      final response = await dio.get('${BaseConstant.baseUrl}hotel/imag/$val',
+      final response = await dio.get('${BaseConstant.baseUrl}hotel/image/$val',
           options: await BaseConstant.createDioOptions());
 
       final res = await FailureHandler.handleError(response);

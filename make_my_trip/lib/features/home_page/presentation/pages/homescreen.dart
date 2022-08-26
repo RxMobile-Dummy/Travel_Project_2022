@@ -19,179 +19,170 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return BlocBuilder<HomepageCubit, BaseState>(
-      builder: (context, state) {
-        print(state);
-        if (state is StateErrorGeneralStateErrorServer) {
-          return CommonErrorWidget(
-            onTap: () {
-              BlocProvider.of<HomepageCubit>(context)
-                ..getToursApi()
-                ..getImagesApi();
-            },
-          );
-        } else if (state is StateInternetError) {
-          return CommonErrorWidget(
-            imagePath: ImagePath.noInternetImg,
-            title: "No Connection",
-            subTitle: "Please check your internet connection and try again",
-            onTap: () {
-              BlocProvider.of<HomepageCubit>(context)
-                ..getToursApi()
-                ..getImagesApi();
-            },
-          );
-        } else {
-          return Scaffold(
-            body: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 16, right: 16, top: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  StringConstants.explorerTxt,
-                                  style: TextStyle(
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                12.verticalSpace,
-                                const Text(
-                                  StringConstants.weHopeTxt,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: MakeMyTripColors.color70gray),
-                                ),
-                              ],
-                            ),
+    return BlocBuilder<HomepageCubit, BaseState>(builder: (context, state) {
+      print(state);
+      if ((state is GettingStartedData &&
+              state.imageLoading == false &&
+              state.imageListValue == null) ||
+          (state is GettingStartedData &&
+              state.tourLoading == false &&
+              state.toursListValue == null)) {
+        return CommonErrorWidget(
+          onTap: () {
+            BlocProvider.of<HomepageCubit>(context)
+              ..getToursApi()
+              ..getImagesApi();
+          },
+        );
+      } else{
+        return Scaffold(
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 16, right: 16, top: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                StringConstants.explorerTxt,
+                                style: TextStyle(
+                                    fontSize: 28, fontWeight: FontWeight.bold),
+                              ),
+                              12.verticalSpace,
+                              const Text(
+                                StringConstants.weHopeTxt,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: MakeMyTripColors.color70gray),
+                              ),
+                            ],
                           ),
-                          Image.asset(
-                            ImagePath.introImage3,
-                            width: MediaQuery.of(context).size.width * .4,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, RoutesName.searchHotel,
-                              arguments: {});
-                        },
-                        child: TextFormField(
-                          enabled: false,
-                          decoration: const InputDecoration(
-                              hintText: StringConstants.searchTxt,
-                              suffixIcon: Icon(Icons.search_rounded)),
                         ),
+                        Image.asset(
+                          ImagePath.introImage3,
+                          width: MediaQuery.of(context).size.width * .4,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesName.searchHotel,
+                            arguments: {});
+                      },
+                      child: TextFormField(
+                        enabled: false,
+                        decoration: const InputDecoration(
+                            hintText: StringConstants.searchTxt,
+                            suffixIcon: Icon(Icons.search_rounded)),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16, right: 16, bottom: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          HomeFeaturesWidget(
-                              iconData: Icons.hotel,
-                              text: StringConstants.hotelTxt,
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, RoutesName.searchHotel,
-                                    arguments: {});
-                              }),
-                          HomeFeaturesWidget(
-                              iconData: Icons.airplanemode_active_rounded,
-                              text: StringConstants.flightTxt,
-                              onTap: () {
-                                Fluttertoast.showToast(
-                                    msg: "coming soon",
-                                    timeInSecForIosWeb: 4,
-                                    backgroundColor: MakeMyTripColors.colorBlack
-                                        .withOpacity(.9));
-                              }),
-                          HomeFeaturesWidget(
-                              iconData: Icons.maps_home_work,
-                              text: StringConstants.placeTxt,
-                              onTap: () {
-                                Fluttertoast.showToast(
-                                    msg: "coming soon",
-                                    timeInSecForIosWeb: 4,
-                                    backgroundColor: MakeMyTripColors.colorBlack
-                                        .withOpacity(.9));
-                              }),
-                          HomeFeaturesWidget(
-                              iconData: Icons.place,
-                              text: StringConstants.statesTxt,
-                              onTap: () {
-                                Fluttertoast.showToast(
-                                    msg: "coming soon",
-                                    timeInSecForIosWeb: 4,
-                                    backgroundColor: MakeMyTripColors.colorBlack
-                                        .withOpacity(.9));
-                              }),
-                        ],
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Divider(
-                        thickness: 1,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            StringConstants.popularHotelsTxt,
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600),
-                          ),
-                          GestureDetector(
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        HomeFeaturesWidget(
+                            iconData: Icons.hotel,
+                            text: StringConstants.hotelTxt,
                             onTap: () {
-                              Navigator.pushNamed(context, RoutesName.populer);
-                            },
-                            child: Row(
-                              children: [
-                                const Text(
-                                  "See All",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: MakeMyTripColors.accentColor),
-                                ),
-                                4.horizontalSpace,
-                                const Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 18,
-                                  color: MakeMyTripColors.accentColor,
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                              Navigator.pushNamed(
+                                  context, RoutesName.searchHotel,
+                                  arguments: {});
+                            }),
+                        HomeFeaturesWidget(
+                            iconData: Icons.airplanemode_active_rounded,
+                            text: StringConstants.flightTxt,
+                            onTap: () {
+                              Fluttertoast.showToast(
+                                  msg: "coming soon",
+                                  timeInSecForIosWeb: 4,
+                                  backgroundColor: MakeMyTripColors.colorBlack
+                                      .withOpacity(.9));
+                            }),
+                        HomeFeaturesWidget(
+                            iconData: Icons.maps_home_work,
+                            text: StringConstants.placeTxt,
+                            onTap: () {
+                              Fluttertoast.showToast(
+                                  msg: "coming soon",
+                                  timeInSecForIosWeb: 4,
+                                  backgroundColor: MakeMyTripColors.colorBlack
+                                      .withOpacity(.9));
+                            }),
+                        HomeFeaturesWidget(
+                            iconData: Icons.place,
+                            text: StringConstants.statesTxt,
+                            onTap: () {
+                              Fluttertoast.showToast(
+                                  msg: "coming soon",
+                                  timeInSecForIosWeb: 4,
+                                  backgroundColor: MakeMyTripColors.colorBlack
+                                      .withOpacity(.9));
+                            }),
+                      ],
                     ),
-                    SingleChildScrollView(
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Divider(
+                      thickness: 1,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          StringConstants.popularHotelsTxt,
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, RoutesName.populer);
+                          },
+                          child: Row(
+                            children: [
+                              const Text(
+                                "See All",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: MakeMyTripColors.accentColor),
+                              ),
+                              4.horizontalSpace,
+                              const Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 18,
+                                color: MakeMyTripColors.accentColor,
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      child: ((state is GettingStartedData && state.imageListValue != null)
+                      child: (state is GettingStartedData)
                           ? (state.imageLoading == true)
                               ? const ImageSliderShimmer()
                               : Row(
@@ -232,21 +223,19 @@ class HomeScreen extends StatelessWidget {
                                     );
                                   }))
                           : const ImageSliderShimmer()),
+                  16.verticalSpace,
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: Text(
+                      StringConstants.popularTourTxt,
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
-                    16.verticalSpace,
-                    const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                      child: Text(
-                        StringConstants.popularTourTxt,
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    SingleChildScrollView(
+                  ),
+                  SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      child: ((state is GettingStartedData && state.toursListValue != null)
+                      child: (state is GettingStartedData)
                           ? (state.tourLoading == true)
                               ? const ImageSliderShimmer()
                               : Row(
@@ -268,15 +257,13 @@ class HomeScreen extends StatelessWidget {
                                     );
                                   }))
                           : const ImageSliderShimmer()),
-                    ),
-                    16.verticalSpace
-                  ],
-                ),
+                  16.verticalSpace
+                ],
               ),
             ),
-          );
-        }
-      },
-    );
+          ),
+        );
+      }
+    });
   }
 }
