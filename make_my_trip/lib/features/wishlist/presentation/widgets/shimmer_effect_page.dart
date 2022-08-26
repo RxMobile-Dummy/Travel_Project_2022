@@ -4,6 +4,8 @@ import 'package:make_my_trip/features/wishlist/presentation/widgets/container_wi
 import 'package:make_my_trip/features/wishlist/presentation/widgets/list_container_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../core/theme/make_my_trip_colors.dart';
+
 class WishlistShimmer extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -30,8 +32,8 @@ class ShimmerEffect extends StatelessWidget {
           ),
           Expanded(
             child: Shimmer.fromColors(
-              baseColor: Colors.grey,
-              highlightColor: Colors.grey[300]!,
+              baseColor: MakeMyTripColors.color10gray,
+              highlightColor: MakeMyTripColors.colorWhite,
               direction: ShimmerDirection.ltr,
               child: ListView.builder(
                 itemBuilder: (_, __) => Padding(

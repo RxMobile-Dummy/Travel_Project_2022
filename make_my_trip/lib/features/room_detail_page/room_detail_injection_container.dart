@@ -10,19 +10,20 @@ var roomDetailSl = GetIt.instance;
 
 Future<void> init() async {
   //cubit
-  roomDetailSl.registerFactory(() => ImagesliderCubit(roomDetailSl(),roomDetailSl()));
+  roomDetailSl
+      .registerFactory(() => ImagesliderCubit(roomDetailSl(), roomDetailSl()));
 
   //usecase
   roomDetailSl.registerLazySingleton(() => RoomDetailUsecase(roomDetailSl()));
 
   //repo
   roomDetailSl.registerLazySingleton<RoomDetailsRepository>(
-          () => RoomDetailRepositoryImpl(roomDetailSl()));
+      () => RoomDetailRepositoryImpl(roomDetailSl()));
 
   //datsource
 
   roomDetailSl.registerLazySingleton<RoomDetailRemoteDataSource>(
-          () => RoomDetailDataSourceImpl(roomDetailSl()));
+      () => RoomDetailDataSourceImpl(roomDetailSl()));
 
   // roomDetailSl.registerFactory(() => Dio());
 }

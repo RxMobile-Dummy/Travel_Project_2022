@@ -37,8 +37,8 @@ class DeleteDialog extends StatelessWidget {
                     width: 150,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
-                        onPrimary: Colors.white,
+                        primary: MakeMyTripColors.colorRed,
+                        onPrimary: MakeMyTripColors.colorWhite,
                         shadowColor: Colors.transparent,
                         minimumSize: const Size(double.infinity, 40),
                         fixedSize: const Size(double.infinity, 40),

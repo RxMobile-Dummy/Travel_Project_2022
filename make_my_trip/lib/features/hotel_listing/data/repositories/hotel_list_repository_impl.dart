@@ -3,6 +3,7 @@ import 'package:make_my_trip/features/hotel_listing/data/data_sources/remote/hot
 
 import '../../../../core/failures/failures.dart';
 import '../../domain/repositories/hotel_list_repository.dart';
+import '../../domain/use_cases/hotel_list_usecase.dart';
 import '../models/hotel_list_model.dart';
 
 class HotelListRepositoryImpl implements HotelListRepository {
@@ -12,7 +13,7 @@ class HotelListRepositoryImpl implements HotelListRepository {
 
   @override
   Future<Either<Failures, List<HotelListModel>>> getHotelList(
-      String hotelName) async {
-    return await hotelListDataSource.getHotelListData(hotelName);
+      Params params) async {
+    return await hotelListDataSource.getHotelListData(params);
   }
 }

@@ -3,6 +3,8 @@ import 'package:make_my_trip/features/wishlist/presentation/widgets/list_contain
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../core/theme/make_my_trip_colors.dart';
+
 class RoomCategoriesShimmerPage extends StatelessWidget {
   const RoomCategoriesShimmerPage({Key? key}) : super(key: key);
 
@@ -19,8 +21,8 @@ class RoomCategoriesShimmerPage extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.white,
+                  baseColor: MakeMyTripColors.color10gray,
+                  highlightColor: MakeMyTripColors.colorWhite,
                   direction: ShimmerDirection.ltr,
                   child: ListView.builder(
                     itemBuilder: (_, __) => Padding(

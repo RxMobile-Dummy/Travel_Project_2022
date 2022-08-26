@@ -64,8 +64,7 @@ Future<void> init() async {
           facebookAuth: userSl()));
 
   //external
-  userSl.registerLazySingleton(()=> GoogleSignIn(
-    scopes: ['email']));
+  userSl.registerLazySingleton(() => GoogleSignIn(scopes: ['email']));
   userSl.registerLazySingleton(() => FacebookAuth.instance);
   userSl.registerLazySingleton(() => FirebaseAuth.instance);
 }

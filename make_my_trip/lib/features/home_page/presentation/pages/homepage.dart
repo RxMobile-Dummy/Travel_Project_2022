@@ -14,7 +14,8 @@ import 'package:make_my_trip/features/user_history/user_history_injection_contai
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/presentation/pages/wishlist_page.dart';
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import '../../../../core/internet/internet_cubit.dart';
 import '../../../../core/navigation/route_info.dart';
 import '../../../../utils/widgets/progress_loader.dart';
@@ -32,16 +33,17 @@ class HomePage extends StatelessWidget {
       listener: (context, state) {
         if (state is InternetLoading) {
           ProgressDialog.showLoadingDialog(context,
-              message: "Internet Disconnected");
+              message: StringConstants.interNetDsc);
         }
         if (state is InternetDisconnected) {
           ProgressDialog.showLoadingDialog(context,
-              message: "Internet Disconnected");
+              message: StringConstants.interNetDsc);
         }
         if (state is InternetConnected) {
           context.read<HomepageCubit>()
             ..getImagesApi()
-            ..getToursApi();
+            ..getToursApi()
+            ..getCouponsApi();
           ProgressDialog.hideLoadingDialog(context);
         }
       },
@@ -67,61 +69,52 @@ class HomePage extends StatelessWidget {
                   items: [
                     BottomNavigationBarItem(
                         activeIcon: SvgPicture.asset(
-                          "assets/icons/home_fill.svg",
+                          ImagePath.homeIcon,
                           color: MakeMyTripColors.colorBlack,
                         ),
                         icon: SvgPicture.asset(
-                          "assets/icons/home_line.svg",
+                          ImagePath.homeLineIcon,
                           color: MakeMyTripColors.colorBlack,
                         ),
-                        label: "Home"),
+                        label: StringConstants.homeTxt),
                     BottomNavigationBarItem(
                         activeIcon: SvgPicture.asset(
-                          "assets/icons/booking_fill.svg",
+                          ImagePath.bookingFill,
                           color: MakeMyTripColors.colorBlack,
                         ),
                         icon: SvgPicture.asset(
-                          "assets/icons/booking_line.svg",
+                          ImagePath.bookingLine,
                           color: MakeMyTripColors.colorBlack,
                         ),
-                        label: "Booking"),
+                        label: StringConstants.bookingTxt),
                     BottomNavigationBarItem(
                         activeIcon: SvgPicture.asset(
-                          "assets/icons/like_fill.svg",
+                          ImagePath.likeFillIcon,
                           color: MakeMyTripColors.colorBlack,
                         ),
                         icon: SvgPicture.asset(
-                          "assets/icons/like_line.svg",
+                          ImagePath.likeLineIcon,
                           color: MakeMyTripColors.colorBlack,
                         ),
-                        label: "Favorites"),
+                        label: StringConstants.favouriteTxt),
                     BottomNavigationBarItem(
                         activeIcon: SvgPicture.asset(
-                          "assets/icons/profile_fill.svg",
+                          ImagePath.profilrFilIcon,
                           color: MakeMyTripColors.colorBlack,
                         ),
                         icon: SvgPicture.asset(
-                          "assets/icons/profile_line.svg",
+                          ImagePath.profilrLineIcon,
                           color: MakeMyTripColors.colorBlack,
                         ),
-                        label: "Profile"),
+                        label: StringConstants.profileTxt),
                   ],
                   showUnselectedLabels: true,
                   showSelectedLabels: true,
-                  unselectedItemColor: Colors.black,
+                  unselectedItemColor: MakeMyTripColors.colorBlack,
                   currentIndex: _selectedIndex,
                   selectedItemColor: MakeMyTripColors.colorBlack,
                   onTap: (index) {
-                    var searchState = context.read<TabBarCubit>().state;
-                    print(searchState);
-                    if (searchState is Unauthenticated && index != 0) {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, RoutesName.login, (route) => true,
-                          arguments: {"route_name": RoutesName.home});
-                    } else {
-                      BlocProvider.of<TabBarCubit>(context)
-                          .checkAnonymous(index);
-                    }
+                    BlocProvider.of<TabBarCubit>(context).checkAnonymous(index);
                   },
                 ));
           },

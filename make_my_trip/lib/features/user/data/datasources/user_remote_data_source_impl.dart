@@ -16,21 +16,18 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final Dio dio;
   final SharedPreferences sharedPreferences;
   final FacebookAuth facebookAuth;
-
   UserRemoteDataSourceImpl(
       {required this.auth,
       required this.dio,
       required this.sharedPreferences,
       required this.googleSignIn,
       required this.facebookAuth});
-
   // user anonymous data_source methods impl
   @override
   Future<Either<Failures, bool>> isAnonumousUser() async {
     try {
       User? user = auth.currentUser;
-      print(user!.email);
-      return Right(user.isAnonymous);
+      return Right(user!.isAnonymous);
     } catch (err) {
       return Left(ServerFailure());
     }
@@ -51,13 +48,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         return Right(UserModel.fromJson(const {}));
       }
     } catch (err) {
-      return Left(ServerFailure(failureMsg: "Something went wrong"));
+      return Left(ServerFailure(failureMsg: StringConstants.someThingWent));
     }
-  }
-
-  Future<Options> createDioOptions() async {
-    final userToken = await auth.currentUser!.getIdToken(true);
-    return Options(headers: {'token': userToken});
   }
 
   @override
@@ -67,7 +59,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: userEmail, password: userPassword);
       User? user = userCredential.user;
-
       if (user != null) {
         if (user.emailVerified) {
           return Right(UserModel.fromJson({
@@ -99,23 +90,19 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<Either<Failures, UserModel>> userGoogleLogIn() async {
     try {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-
       if (googleUser != null) {
         final GoogleSignInAuthentication? googleAuth =
             await googleUser.authentication;
-
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken,
           idToken: googleAuth?.idToken,
         );
-
         UserCredential userCredential =
             await auth.signInWithCredential(credential);
-
         User? user = userCredential.user;
         if (user != null) {
           final response = await dio.post('${BaseConstant.baseUrl}user/post',
-              options: await createDioOptions());
+              options: await BaseConstant.createDioOptions());
           if (response.statusCode == 200 || response.statusCode == 409) {
             return Right(UserModel.fromJson({
               "userName": user.displayName,
@@ -146,23 +133,18 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<Either<Failures, UserModel>> userFacebookLogIn() async {
     try {
       final LoginResult loginResult = await facebookAuth.login();
-
       if (loginResult.status == LoginStatus.success) {
         final OAuthCredential facebookAuthCredential =
             FacebookAuthProvider.credential(loginResult.accessToken!.token);
-
         var userData = await facebookAuth.getUserData();
         UserCredential userCredential =
             await auth.signInWithCredential(facebookAuthCredential);
-
         User? user = userCredential.user;
-
         user!.updatePhotoURL(userData["picture"]["data"]["url"]);
-
         // ignore: unnecessary_null_comparison
         if (user != null) {
           final response = await dio.post('${BaseConstant.baseUrl}user/post',
-              options: await createDioOptions());
+              options: await BaseConstant.createDioOptions());
           if (response.statusCode == 200 || response.statusCode == 409) {
             return Right(UserModel.fromJson({
               "userName": user.displayName,
@@ -203,12 +185,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           await auth.fetchSignInMethodsForEmail(user!.email!);
       if (response[0] == "google.com") {
         await googleSignIn.signOut();
-        auth.signInAnonymously();
       } else if (response[0] == "facebook.com") {
         await facebookAuth.logOut();
-      } else {
-        await auth.signOut();
       }
+      await auth.signOut();
+      await auth.signInAnonymously();
       return const Right(null);
     } on FirebaseException catch (e) {
       return Left(ServerFailure());
@@ -224,13 +205,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-
       User? user = userCredential.user;
       await auth.currentUser!.updateDisplayName(fullName);
       user!.sendEmailVerification();
       if (user != null) {
         final response = await dio.post('${BaseConstant.baseUrl}user/post',
-            options: await createDioOptions());
+            options: await BaseConstant.createDioOptions());
+        await userSignOut();
         if (response.statusCode == 409) {
           return Left(
               AuthFailure(failureMsg: "Enter Email is Already Registered"));
@@ -258,9 +239,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<Either<Failures, bool>> userVerification() async {
     try {
       final User? currentUser = auth.currentUser;
-
       bool result = false;
-
       while (result != true) {
         Future.delayed(const Duration(seconds: 5));
         await currentUser!.reload();

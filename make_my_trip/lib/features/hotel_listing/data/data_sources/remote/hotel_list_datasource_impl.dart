@@ -5,26 +5,36 @@ import 'package:make_my_trip/features/hotel_listing/data/data_sources/remote/hot
 
 import '../../../../../core/failures/failures.dart';
 import '../../../../../utils/constants/base_constants.dart';
+import '../../../domain/use_cases/hotel_list_usecase.dart';
 import '../../models/hotel_list_model.dart';
 
 class HotelListDataSourceImpl implements HotelListDataSource {
   final Dio dio;
 
   HotelListDataSourceImpl(this.dio);
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    return Options(headers: {'token': userToken});
-  }
+
   @override
   Future<Either<Failures, List<HotelListModel>>> getHotelListData(
-      String hotelName) async {
+      Params params) async {
     try {
-      final baseurl = '${BaseConstant.baseUrl}hotel/${hotelName}';
-      print(baseurl);
-      final response = await dio.get(baseurl,options: await createDioOptions());
+      const baseurl =
+          "${BaseConstant.baseUrl}hotel/gethotellist/gethotelfilterlist";
+      final response = await dio.get(baseurl,
+          queryParameters: {
+            'cin': params.cin,
+            'cout': params.cout,
+            'no_of_room': params.noOfRoom,
+            'id': params.id,
+            'type': params.type,
+            'features': params.aminities,
+            'rating': params.rating,
+            'price': params.price
+          },
+          options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
         final List<HotelListModel> hotelList = [];
         final jsonList = response.data;
+
         for (var item in jsonList) {
           hotelList.add(HotelListModel.fromJson(item));
         }
@@ -38,7 +48,6 @@ class HotelListDataSourceImpl implements HotelListDataSource {
         return Left(InternetFailure());
       }
     } catch (e) {
-      print(e);
       return Left(ServerFailure(failureMsg: e.toString()));
     }
   }

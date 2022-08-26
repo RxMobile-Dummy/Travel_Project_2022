@@ -14,20 +14,18 @@ class RoomDetailDataSourceImpl implements RoomDetailRemoteDataSource {
   final Dio dio;
 
   RoomDetailDataSourceImpl(this.dio);
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    return Options(headers: {'token': userToken});
-  }
+
   @override
   Future<Either<Failures, RoomDetailModel>> getRoomDetailData(
       int hotelId, int room_id) async {
     try {
-      final baseurl = '${BaseConstant.baseUrl}room/getroom/${hotelId}/${room_id}';
-      final response = await dio.get(baseurl,options: await createDioOptions());
-      print(response.data);
+      final baseurl =
+          '${BaseConstant.baseUrl}room/getroom/${hotelId}/${room_id}';
+      final response = await dio.get(baseurl,
+          options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
         final RoomDetailModel roomDetailsModel =
-        RoomDetailModel.fromJson(response.data);
+            RoomDetailModel.fromJson(response.data);
         return Right(roomDetailsModel);
       } else if (response.statusCode == 505) {
         return Left(ServerFailure());

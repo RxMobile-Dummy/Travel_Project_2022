@@ -11,17 +11,12 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
 
   ReviewRemoteDataSourceImpl(this.dio);
 
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    return Options(headers: {'token': userToken});
-  }
-
   @override
   Future<Either<Failures, List<ReviewModel>>> getHotelReview(params) async {
     try {
       final response = await dio.get(
           '${BaseConstant.baseUrl}review/hotel/${params}',
-          options: await createDioOptions());
+          options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
         final data = response.data;
         var reviewModel = <ReviewModel>[];
@@ -41,12 +36,10 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   Future<Either<Failures, List<ReviewModel>>> postHotelReview(
       ReviewModel reviewModel, int hotel_id) async {
     try {
-      print('data');
       final response = await dio.post(
           '${BaseConstant.baseUrl}review/hotel/${int.parse(hotel_id.toString())}',
           data: reviewModel.toJson(),
-          options: await createDioOptions());
-      print(response.statusCode);
+          options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
         final data = response.data;
         var reviewModel = <ReviewModel>[];

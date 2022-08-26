@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../core/theme/make_my_trip_colors.dart';
+
 class DottedSeparator extends StatelessWidget {
   const DottedSeparator(
       {Key? key,
       this.height = 1,
-      this.color = Colors.grey,
+      this.color = MakeMyTripColors.color30gray,
       this.dashWidth = 5.0})
       : super(key: key);
   final double height, dashWidth;
