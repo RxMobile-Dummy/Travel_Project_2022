@@ -8,36 +8,36 @@ String searchHotelModelToJson(SearchHotelModel data) =>
 
 class SearchHotelModel {
   SearchHotelModel({
-    String? placeId,
-    String? description,
-    String? reference,
+    int? id,
+    String? name,
+    String? type,
   }) {
-    _placeId = placeId;
-    _description = description;
-    _reference = reference;
+    _id = id;
+    _name = name;
+    _type = type;
   }
 
   SearchHotelModel.fromJson(dynamic json) {
-    _placeId = json['place_id'];
-    _description = json['description'];
-    _reference = json['reference'];
+    _id = json['id'];
+    _name = json['name'];
+    _type = json['type'];
   }
 
-  String? _placeId;
-  String? _description;
-  String? _reference;
+  int? _id;
+  String? _name;
+  String? _type;
 
-  String? get placeId => _placeId;
+  int? get id => _id;
 
-  String? get description => _description;
+  String? get name => _name;
 
-  String? get reference => _reference;
+  String? get type => _type;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['place_id'] = _placeId;
-    map['description'] = _description;
-    map['reference'] = _reference;
+    map['id'] = _id;
+    map['name'] = _name;
+    map['type'] = _type;
     return map;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:scrollable_clean_calendar/scrollable_clean_calendar.dart';
 import 'package:scrollable_clean_calendar/utils/enums.dart';
 
@@ -10,7 +11,7 @@ import '../widgets/calendar_constant.dart';
 import '../widgets/select_date_container.dart';
 
 class CalendarPage extends StatelessWidget {
-   CalendarPage({Key? key,required this.arg}) : super(key: key);
+  CalendarPage({Key? key,required this.arg}) : super(key: key);
   Map<String, dynamic> arg;
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class CalendarPage extends StatelessWidget {
                   color: Colors.black,
                 )),
             title: const Text(
-              "Select Dates",
+              StringConstants.selectDate,
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
             ),
@@ -52,7 +53,7 @@ class CalendarPage extends StatelessWidget {
                 child: Center(
                     child: TextButton(
                   child: Text(
-                    'reset'.toUpperCase(),
+                    StringConstants.reset.toUpperCase(),
                     style: const TextStyle(
                         color: Colors.blue, fontWeight: FontWeight.bold),
                   ),
@@ -90,9 +91,9 @@ class CalendarPage extends StatelessWidget {
                         children: [
                           Expanded(
                             child: SelectDateContainer(
-                              label: "CHECK-IN DATE",
+                              label: StringConstants.checkInDateUp,
                               detail: (cubit.inTime == null)
-                                  ? "Select Date"
+                                  ? StringConstants.selectDate
                                   : "${Constant.convertDate(cubit.inTime!)}",
                               subDetail: (cubit.inTime == null)
                                   ? ""
@@ -106,9 +107,9 @@ class CalendarPage extends StatelessWidget {
                           ),
                           Expanded(
                             child: SelectDateContainer(
-                              label: "CHECK-OUT DATE",
+                              label: StringConstants.checkOutDateUp,
                               detail: (cubit.outTime == null)
-                                  ? "Select Date"
+                                  ? StringConstants.selectDate
                                   : "${Constant.convertDate(cubit.outTime!)}",
                               subDetail: (cubit.outTime == null)
                                   ? ""
@@ -127,13 +128,21 @@ class CalendarPage extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            print("object");
                             if (cubit.inTime != null && cubit.outTime != null) {
-                              var checkInDate = cubit.inTime.toString().substring(0,cubit.inTime.toString().indexOf(" "));
-                              var checkOutDate = cubit.outTime.toString().substring(0,cubit.outTime.toString().indexOf(" "));
-                              Navigator.pushNamed(context,
-                                  RoutesName.roomCategory,arguments:{'hotel_id':arg['hotel_id'],'cin':checkInDate,'cout':checkOutDate});
-
+                              var checkInDate = cubit.inTime
+                                  .toString()
+                                  .substring(
+                                      0, cubit.inTime.toString().indexOf(" "));
+                              var checkOutDate = cubit.outTime
+                                  .toString()
+                                  .substring(
+                                      0, cubit.outTime.toString().indexOf(" "));
+                              Navigator.pushNamed(
+                                  context, RoutesName.roomCategory, arguments: {
+                                'hotel_id': arg['hotel_id'],
+                                'cin': checkInDate,
+                                'cout': checkOutDate
+                              });
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -147,7 +156,7 @@ class CalendarPage extends StatelessWidget {
                             ),
                           ),
                           child: const Text(
-                            'DONE',
+                            StringConstants.done,
                             style: TextStyle(fontSize: 18),
                           ),
                         ),

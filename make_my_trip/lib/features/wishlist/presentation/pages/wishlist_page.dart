@@ -17,9 +17,11 @@ import '../widgets/shimmer_effect_page.dart';
 
 class WishListPage extends StatelessWidget {
   WishListPage({Key? key}) : super(key: key);
+  ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+    context.read<WishListCubit>.call().setUpScrollController(_scrollController);
     return Scaffold(
       body: BlocBuilder<WishListCubit, BaseState>(
         builder: (context, state) {
@@ -32,6 +34,7 @@ class WishListPage extends StatelessWidget {
                   statusCode: "");
             }
             return CustomScrollView(
+              controller: _scrollController,
               slivers: <Widget>[
                 SliverLayoutBuilder(builder: (context, constraints) {
                   final scroll = constraints.scrollOffset > 145;
@@ -71,35 +74,25 @@ class WishListPage extends StatelessWidget {
                     ),
                     expandedHeight: 230,
                     backgroundColor: MakeMyTripColors.colorWhite,
-                    // leading: (!Platform.isAndroid) ? IconButton(
-                    //   color: scroll
-                    //       ? MakeMyTripColors.color70gray
-                    //       : MakeMyTripColors.colorWhite,
-                    //   icon: const Icon(Icons.arrow_back_ios),
-                    //   tooltip: 'back',
-                    //   onPressed: () {
-                    //     Navigator.pop(context);
-                    //   },
-                    // ) : IconButton(
-                    //   color: scroll
-                    //       ? MakeMyTripColors.color70gray
-                    //       : MakeMyTripColors.colorWhite,
-                    //   icon: const Icon(Icons.arrow_back_outlined),
-                    //   tooltip: 'back',
-                    //   onPressed: () {
-                    //     Navigator.pop(context);
-                    //   },
-                    // ),
                   );
                 }), //SliverAppBar
                 SliverList(
                     delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
-                    return HotalDetails(
-                      wishlistModel: wishlistModel[index],
+                    return Column(
+                      children: [
+                        if (index != wishlistModel.length)
+                          HotalDetails(
+                            wishlistModel: wishlistModel[index],
+                          ),
+                        if (index == wishlistModel.length)
+                          const CircularProgressIndicator()
+                      ],
                     );
                   },
-                  childCount: wishlistModel.length,
+                  childCount: state.isMoreLoading
+                      ? wishlistModel.length + 1
+                      : wishlistModel.length,
                 )),
               ], //<Widget>[]
             );
@@ -109,7 +102,7 @@ class WishListPage extends StatelessWidget {
             return CommonErrorWidget(
                 imagePath: ImagePath.serverFailImage,
                 title: StringConstants.serverFail,
-                statusCode: "500");
+                statusCode: "");
           } else {
             return CommonErrorWidget(
                 imagePath: ImagePath.noDataFoundImage,

@@ -7,7 +7,7 @@ import '../../../../core/failures/failures.dart';
 import '../../../../utils/constants/base_constants.dart';
 
 abstract class WishListRemoteDataSource {
-  Future<Either<Failures, List<WishlistModel>>> getWishListData();
+  Future<Either<Failures, List<WishlistModel>>> getWishListData(int page);
 }
 
 class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
@@ -17,19 +17,21 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
 
   Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    print(userToken);
     return Options(headers: {'token': userToken});
   }
 
   @override
-  Future<Either<Failures, List<WishlistModel>>> getWishListData() {
-    return _getAllCharacterUrl("${BaseConstant.baseUrl}bookmark/user/wishlist");
+  Future<Either<Failures, List<WishlistModel>>> getWishListData(int page) {
+    return _getAllCharacterUrl(
+        "${BaseConstant.baseUrl}bookmark/user/wishlist", page);
   }
 
   Future<Either<Failures, List<WishlistModel>>> _getAllCharacterUrl(
-      String url) async {
+      String url, int page) async {
     try {
-      final response = await dio.get(url, options: await createDioOptions());
+      var params = {"pagesize": 3, "page": page};
+      final response = await dio.get(url,
+          queryParameters: params, options: await createDioOptions());
 
       if (response.statusCode == 200) {
         List<WishlistModel> wishListModel = [];
@@ -37,7 +39,6 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
         for (var item in apidata) {
           wishListModel.add(WishlistModel.fromJson(item));
         }
-
         return Right(wishListModel);
       } else {
         return Left(ServerFailure());

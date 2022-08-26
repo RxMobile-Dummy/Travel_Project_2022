@@ -12,12 +12,15 @@ class RoutesName {
 
   static const home = '/home';
   static const myTrips = '/mytrip';
+  static const bookingHistoryDetailPage = '/bookingHistoryDetail';
   static const wishList = '/wishList';
   static const profile = '/profile';
   static const help = '/help';
   static const search = '/search';
+  static const searchHotel = '/searchHotel';
 
   static const hotelList = "/hotelList";
+  static const filter = "/filter";
 
   static const hotelDetail = "/hotelDetail";
 
@@ -29,6 +32,8 @@ class RoutesName {
 
   static const galleryPage = '/galleryPage';
 
+  static const viewImagePage = '/viewImagePage';
+
   static const reviewPage = "/reviewPage";
 
   static const publishReviewPage = "/publishReview";
@@ -36,4 +41,6 @@ class RoutesName {
   static const bookingPage = "/bookingPage";
 
   static const settingPage = "/settingPage";
+
+  static const errorPage = "/errorPage";
 }

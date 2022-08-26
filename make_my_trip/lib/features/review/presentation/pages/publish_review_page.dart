@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
@@ -9,6 +12,7 @@ import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dar
 import 'package:make_my_trip/features/review/presentation/widgets/publish_review_slider_widget.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+import 'package:make_my_trip/utils/widgets/progress_loader.dart';
 
 class PublishReviewPage extends StatelessWidget {
   PublishReviewPage({Key? key, required this.arg}) : super(key: key);
@@ -19,21 +23,19 @@ class PublishReviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ReviewCubit, BaseState>(
       listener: (context, state) {
-        print(state.toString());
-        if (state is StateOnKnownToSuccess) {
-          Navigator.of(context).pushReplacementNamed(RoutesName.reviewPage,
-              arguments: {
-                "hotel_id": arg["hotel_id"],
-                'rating': arg['rating']
-              });
+        if (state is StateLoading) {
+          ProgressDialog.showLoadingDialog(context, message: "Please Wait....");
+        } else if (state is StateOnKnownToSuccess) {
+          Navigator.of(context).pushNamed(RoutesName.reviewPage, arguments: {
+            "hotel_id": arg["hotel_id"],
+          });
         } else if (state is ValidationError) {
-          var snackBar = SnackBar(content: Text(state.errorMessage));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          // var snackBar = SnackBar(content: Text(state.errorMessage));
+          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
         } else if (state is StateNoData) {
-          var snackBar = SnackBar(
-              content: Text(StringConstants.noReviewComment));
-
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          ProgressDialog.hideLoadingDialog(context);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(RoutesName.home, (route) => false);
         }
       },
       child: Scaffold(
@@ -65,7 +67,8 @@ class PublishReviewPage extends StatelessWidget {
                           state.commentReview == null ||
                           state.commentReview.length == 0 ||
                           state.commentReview.toString().trim().length == 0) {
-                        var snackBar = SnackBar(content: Text("error"));
+                        var snackBar = SnackBar(
+                            content: Text(StringConstants.pleaseEntCom));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                       context.read<ReviewCubit>().postHotelReviewData(
@@ -74,7 +77,8 @@ class PublishReviewPage extends StatelessWidget {
                           state.locationReview,
                           state.comfortReview,
                           state.facilitiesReview,
-                          arg['hotel_id']);
+                          arg['hotel_id'],
+                          state.imageFileList);
                     },
                   ),
                 );
@@ -84,94 +88,142 @@ class PublishReviewPage extends StatelessWidget {
         ),
         body: BlocBuilder<PublishReviewCubit, ReviewValueState>(
           builder: (context, state) {
-            return SingleChildScrollView(
-                child: Padding(
+            return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  20.verticalSpace,
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.add_circle,
-                        color: MakeMyTripColors.color50gray,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    20.verticalSpace,
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.add_circle,
+                          color: MakeMyTripColors.color50gray,
+                        ),
+                        10.horizontalSpace,
+                        Text(StringConstants.review,
+                            style: AppTextStyles.unselectedLabelStyle)
+                      ],
+                    ),
+                    16.verticalSpace,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 38, right: 8),
+                      child: TextFormField(
+                        maxLength: 200,
+                        maxLines: 5,
+                        controller: reviewController,
+                        onChanged: (val) {
+                          val = reviewController.text;
+                          context
+                              .read<PublishReviewCubit>()
+                              .onChangeCommentReviewValueEvent(val);
+                        },
+                        keyboardType: TextInputType.multiline,
+                        decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: MakeMyTripColors.color90gray)),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: MakeMyTripColors.color70gray)),
+                            hintStyle: AppTextStyles.infoContentStyle),
                       ),
-                      10.horizontalSpace,
-                      Text(StringConstants.review,
-                          style: AppTextStyles.unselectedLabelStyle)
-                    ],
-                  ),
-                  16.verticalSpace,
-                  Padding(
-                    padding: const EdgeInsets.only(left: 38, right: 8),
-                    child: TextFormField(
-                      maxLength: 200,
-                      maxLines: 5,
-                      controller: reviewController,
-                      onChanged: (val) {
-                        val = reviewController.text;
+                    ),
+                    24.verticalSpace,
+                    PublishReviewSliderWidget(
+                      fieldName: StringConstants.cleanlinessTxt,
+                      value: state.cleanlinessReview,
+                      context: context,
+                      callback: (double val) {
                         context
                             .read<PublishReviewCubit>()
-                            .onChangeCommentReviewValueEvent(val);
+                            .onChangeCleanlinessReviewValueEvent(val);
                       },
-                      keyboardType: TextInputType.multiline,
-                      decoration: const InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: MakeMyTripColors.color90gray)),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: MakeMyTripColors.color70gray)),
-                          hintStyle: AppTextStyles.infoContentStyle),
                     ),
-                  ),
-                  24.verticalSpace,
-                  PublishReviewSliderWidget(
-                    fieldName: 'Cleanliness',
-                    value: state.cleanlinessReview,
-                    context: context,
-                    callback: (double val) {
-                      context
-                          .read<PublishReviewCubit>()
-                          .onChangeCleanlinessReviewValueEvent(val);
-                    },
-                  ),
-                  16.verticalSpace,
-                  PublishReviewSliderWidget(
-                    fieldName: 'Comfort',
-                    value: state.comfortReview,
-                    context: context,
-                    callback: (double val) {
-                      context
-                          .read<PublishReviewCubit>()
-                          .onChangeComfortReviewValueEvent(val);
-                    },
-                  ),
-                  16.verticalSpace,
-                  PublishReviewSliderWidget(
-                    fieldName: 'Location',
-                    value: state.locationReview,
-                    context: context,
-                    callback: (double val) {
-                      context
-                          .read<PublishReviewCubit>()
-                          .onChangeLocationReviewValueEvent(val);
-                    },
-                  ),
-                  16.verticalSpace,
-                  PublishReviewSliderWidget(
-                    fieldName: 'Facilities',
-                    value: state.facilitiesReview,
-                    context: context,
-                    callback: (double val) {
-                      context
-                          .read<PublishReviewCubit>()
-                          .onChangeFacilitiesReviewValueEvent(val);
-                    },
-                  ),
-                ],
+                    16.verticalSpace,
+                    PublishReviewSliderWidget(
+                      fieldName: StringConstants.comfortTxt,
+                      value: state.comfortReview,
+                      context: context,
+                      callback: (double val) {
+                        context
+                            .read<PublishReviewCubit>()
+                            .onChangeComfortReviewValueEvent(val);
+                      },
+                    ),
+                    16.verticalSpace,
+                    PublishReviewSliderWidget(
+                      fieldName: StringConstants.loacationTxt,
+                      value: state.locationReview,
+                      context: context,
+                      callback: (double val) {
+                        context
+                            .read<PublishReviewCubit>()
+                            .onChangeLocationReviewValueEvent(val);
+                      },
+                    ),
+                    16.verticalSpace,
+                    PublishReviewSliderWidget(
+                      fieldName: StringConstants.facilitiesTxt,
+                      value: state.facilitiesReview,
+                      context: context,
+                      callback: (double val) {
+                        context
+                            .read<PublishReviewCubit>()
+                            .onChangeFacilitiesReviewValueEvent(val);
+                      },
+                    ),
+                    MaterialButton(
+                        color: Colors.blue,
+                        child: const Text("Pick Images from Gallery",
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontWeight: FontWeight.bold)),
+                        onPressed: () {
+                          context.read<PublishReviewCubit>().selectImages();
+                        }),
+                    SizedBox(
+                      height: 20,
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: state.imageFileList.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3),
+                          itemBuilder: (BuildContext _, int index) {
+                            return Stack(children: [
+                              Positioned(
+                                child: Image.file(
+                                    File( state.imageFileList[index]),
+                                    fit: BoxFit.fitWidth),
+                              ),
+                              Positioned(
+                                  child: GestureDetector(
+                                    onTap:(){
+                                      context.read<PublishReviewCubit>().deleteImg(state.imageFileList[index]);
+                                    },
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            color: MakeMyTripColors.color0gray
+                                                ?.withOpacity(0.5),
+                                            shape: BoxShape.circle),
+                                        child: const Icon(
+                                          Icons.delete,
+                                          color: MakeMyTripColors.colorRed,
+                                        )),
+                                  ))
+                            ]);
+                          }),
+                    ),
+                  ],
+                ),
               ),
-            ));
+            );
           },
         ),
       ),

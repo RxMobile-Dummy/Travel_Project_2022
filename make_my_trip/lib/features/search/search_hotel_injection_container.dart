@@ -9,7 +9,8 @@ var searchHotelSl = GetIt.instance;
 
 Future<void> init() async {
   //cubit
-  searchHotelSl.registerFactory(() => SearchHotelCubit(searchHotelSl(),searchHotelSl()));
+  searchHotelSl.registerFactory(
+      () => SearchHotelCubit(searchHotelSl(), searchHotelSl()));
 
   //usecase
   searchHotelSl

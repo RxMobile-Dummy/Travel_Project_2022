@@ -1,5 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:make_my_trip/utils/constants/base_constants.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 
 import '../../../../core/failures/failures.dart';
 import '../models/search_hotel_model.dart';
@@ -11,32 +14,33 @@ abstract class SearchHotelDataSources {
 
 class SearchHotelDataSourcesImpl implements SearchHotelDataSources {
   final Dio dio;
-  final String baseURL =
-      'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-  final String kPLACES_API_KEY = 'AIzaSyAcmpKXz5KH8e7zmPkHNIIUuSBXI8qEBNs';
-
   SearchHotelDataSourcesImpl(this.dio);
+
+  Future<Options> createDioOptions() async {
+    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken(true);
+    return Options(headers: {'token': userToken});
+  }
 
   @override
   Future<Either<Failures, List<SearchHotelModel>>> getNearByPlaces(
-      String place) async {
+    String place,
+  ) async {
     try {
-      String request = '$baseURL?input=$place&key=$kPLACES_API_KEY';
-      var response = await dio.get(request);
+      final response = await dio.get("${BaseConstant.baseUrl}city/",
+          queryParameters: {'searchdata': place.trim()},
+          options: await createDioOptions());
       if (response.statusCode == 200) {
-        final searchList = <SearchHotelModel>[];
-        final jsonList = response.data['predictions'];
+        final List<SearchHotelModel> searchList = [];
+        final jsonList = response.data;
         for (var item in jsonList) {
-          searchList.add(SearchHotelModel(
-              description: item["description"],
-              placeId: item["place_id"],
-              reference: item["reference"]));
+          searchList.add(SearchHotelModel.fromJson(item));
         }
+
         return Right(searchList);
       } else {
         return Left(ServerFailure());
       }
-    } catch (e) {
+    } catch (err) {
       return Left(ServerFailure());
     }
   }
