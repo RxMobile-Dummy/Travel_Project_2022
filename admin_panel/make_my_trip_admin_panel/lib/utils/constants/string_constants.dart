@@ -111,7 +111,7 @@ class StringConstants {
   static String insertTxt = "Insert Text";
   static String html = "Insert HTML";
   static String link = "Insert Link";
-  static String network = "Insert network image";
+  static String network = "Insert Image";
   static String info = "Info";
   static String warning = "Warning";
   static String success = "Success";
