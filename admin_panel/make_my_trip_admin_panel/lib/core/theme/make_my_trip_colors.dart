@@ -17,12 +17,13 @@ class MakeMyTripColors {
   static const colorBorderColor = Color(0xFFE1E1E1);
   static const colorRed = Color(0xFFEA4D4D);
   static const colorRedDark = Color(0xFFE94146);
-  static const mandatoryRed = Color(0xFFF99090);
-  static const colorBluePrimaryValue = 0xFF439FBC;
+  static const mandatoryRed = Color(0xFFFF0000);
+  static const colorBluePrimaryValue = Color(0xFF439FBC);
   static const colorTextColor = Color(0xFF333333);
   static const colorCwsPrimary = Color(0xFF047D9E);
   static const colorCwsGray10 = Color(0xFFFAFAFA);
   static const colorContainerBorder = Color(0xFFD9E2E4);
+  static const colorLightGreen = Color(0xFF55AB55);
   static const colorGreen = Color(0xFF017230);
   static const customLightBlue = Color(0xFFb2e2f8);
   static const customDarkBlue = Color(0xFF061d42);

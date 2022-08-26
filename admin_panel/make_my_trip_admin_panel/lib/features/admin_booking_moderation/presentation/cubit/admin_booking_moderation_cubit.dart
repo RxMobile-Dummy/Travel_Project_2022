@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
+import 'package:make_my_trip_admin_panel/core/failures/failures.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/data/models/booking_moderation_model.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/domain/use_cases/admin_booking_moderation_use_cases.dart';
 
@@ -44,7 +45,13 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
         checkOutDate: checkOutDateValue,
         hotelname: hotelName,
         username: userName));
-    res.fold((l) => emit(StateErrorGeneral(l.toString())), (r) {
+    res.fold((l) {
+      if (l is InternetFailure) {
+        emit(InternetDisconnected());
+      } else {
+        emit(StateErrorGeneral(l.toString()));
+      }
+    }, (r) {
       if (page == null) {
         for (var item in r) {
           bookingList.add(item);
@@ -56,6 +63,7 @@ class AdminBookingModerationCubit extends Cubit<BaseState> {
       if (filterList.isEmpty) {
         emit(StateNoData());
       } else {
+        bookingList = filterList;
         emit(StateOnSuccess<List<BookingModerationModel>>(filterList,
             isMoreLoading: false));
       }

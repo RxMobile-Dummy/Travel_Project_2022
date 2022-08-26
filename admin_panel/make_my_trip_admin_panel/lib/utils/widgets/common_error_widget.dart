@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:make_my_trip_admin_panel/core/responsive/responsive.dart';
+import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 import 'package:make_my_trip_admin_panel/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 import '../../core/theme/make_my_trip_colors.dart';
@@ -12,14 +10,14 @@ class CommonErrorWidget extends StatelessWidget {
   const CommonErrorWidget({
     Key? key,
     this.imagePath,
+    this.subTitle,
     this.title,
-    this.statusCode,
     this.onTap,
   }) : super(key: key);
 
   final String? imagePath;
   final String? title;
-  final String? statusCode;
+  final String? subTitle;
   final VoidCallback? onTap;
 
   @override
@@ -39,7 +37,7 @@ class CommonErrorWidget extends StatelessWidget {
             ),
             30.verticalSpace,
             Text(
-              statusCode ?? "Something Went wrong",
+              title ?? StringConstants.serverErrorMessage,
               style: TextStyle(
                   color: MakeMyTripColors.colorBlack.withOpacity(.8),
                   fontSize: 24,
@@ -47,8 +45,7 @@ class CommonErrorWidget extends StatelessWidget {
             ),
             18.verticalSpace,
             Text(
-              title ??
-                  "We are working on fixing the problem. Please refresh the page and try again.",
+              subTitle ?? StringConstants.serverErrorTryAgainMessage,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: MakeMyTripColors.colorBlack.withOpacity(.7),
@@ -61,7 +58,8 @@ class CommonErrorWidget extends StatelessWidget {
                 : FractionallySizedBox(
                     widthFactor: .07,
                     child: CommonPrimaryButton(
-                        text: "Retry", onTap: onTap ?? () {}))
+                        text: StringConstants.retryButtonTxt,
+                        onTap: onTap ?? () {})),
           ],
         ),
       ),

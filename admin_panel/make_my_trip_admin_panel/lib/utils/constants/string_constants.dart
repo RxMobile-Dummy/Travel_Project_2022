@@ -81,8 +81,8 @@ class StringConstants {
   static String filterLabel = "Filter";
   static String filterHotelNameLabel = "Find booking by Hotel Name";
   static String filterUserNameLabel = "Find booking by User Name";
-  static String filterHotelNameHint = "Enter UserName";
-  static String filterUserNameHint = "Enter HotelName";
+  static String filterUserNameHint = "Enter UserName";
+  static String filterHotelNameHint = "Enter HotelName";
   static String applyTxt = "Apply";
   static String cancelTxt = "Cancel";
   static String resetTxt = "Reset";
@@ -118,6 +118,10 @@ class StringConstants {
   static String danger = "Danger";
   static String plaintext = "Plaintext";
   static String remove = "Remove";
-  static String serverErrorTryAgainMessage = "Please Try Again";
+  static String serverErrorTryAgainMessage =
+      "We are working on fixing the problem. Please refresh the page and try again!";
   static String serverErrorMessage = "Something went Wrong";
+  static String retryButtonTxt = "Retry";
+  static String refreshPageTxt = "Please refresh the page and try again!";
+  static String internetFailureLabel = "Internet Error";
 }

@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
 import 'package:make_my_trip_admin_panel/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip_admin_panel/features/terms_condition/presentation/cubit/terms_condition_cubit.dart';
@@ -29,11 +27,18 @@ class TcPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      StringConstants.tc,
-                      style: AppTextStyles.labelStyle
-                          .copyWith(fontWeight: FontWeight.w300),
+                  Padding(
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 36.0),
+                    child: Align(
+                      alignment: AlignmentDirectional.topStart,
+                      child: Text(
+                        StringConstants.tc,
+                        style: AppTextStyles.labelNameTextStyle
+                            .copyWith(color: MakeMyTripColors.customDarkBlue),
+                      ),
                     ),
+                  ),
                     const Divider(
                       color: MakeMyTripColors.colorBlack,
                     ),

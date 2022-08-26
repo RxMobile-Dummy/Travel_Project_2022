@@ -1,9 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
-import 'package:make_my_trip_admin_panel/core/failures/failures.dart';
 import 'package:make_my_trip_admin_panel/features/push_notification/domain/use_cases/push_notification_usecase.dart';
 import 'package:make_my_trip_admin_panel/features/push_notification/domain/use_cases/register_user_notification_usecase.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
@@ -33,36 +31,30 @@ class PushNotificationCubit extends Cubit<BaseState> {
     emit(PushNotificationResponse(fileName, url, registerUser, endUser));
   }
 
-  validateTitle(String title){
-    if(title.isEmpty){
+  validateTitle(String title) {
+    if (title.isEmpty) {
       emit(ErrorState(StringConstants.enterTitleError));
-    }
-    else{
+    } else {
       emit(ErrorState(""));
     }
   }
 
-  validateBody(String body){
-    if(body.isEmpty){
+  validateBody(String body) {
+    if (body.isEmpty) {
       emit(ErrorState(StringConstants.enterBodyError));
-    }
-    else{
+    } else {
       emit(ErrorState(""));
     }
   }
-
 
   registeredUserPushNotification(String title, String body, String url) async {
-    if(title.isEmpty){
+    if (title.isEmpty) {
       emit(ErrorState(StringConstants.enterTitleError));
-    }
-    else if(body.isEmpty ){
+    } else if (body.isEmpty) {
       emit(ErrorState(StringConstants.enterBodyError));
-    }
-    else if(url.isEmpty){
+    } else if (url.isEmpty) {
       emit(ErrorState(StringConstants.uploadImageError));
-    }
-    else {
+    } else {
       final response =
           await registerUserNotificationUseCase.call(title, body, url);
       response.fold(
@@ -74,16 +66,13 @@ class PushNotificationCubit extends Cubit<BaseState> {
 
   endUserPushNotification(
       String title, String body, String url, int endUser) async {
-    if(title.isEmpty){
+    if (title.isEmpty) {
       emit(ErrorState(StringConstants.enterTitleError));
-    }
-    else if(body.isEmpty ){
+    } else if (body.isEmpty) {
       emit(ErrorState(StringConstants.enterBodyError));
-    }
-    else if(url.isEmpty){
+    } else if (url.isEmpty) {
       emit(ErrorState(StringConstants.uploadImageError));
-    }
-    else {
+    } else {
       final response = await endUserNotificationUseCase.call(title, body, url);
       response.fold(
           (l) => emit(StateErrorGeneral(StringConstants.errorMsgNotification)),

@@ -76,12 +76,27 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height: 300,
+                          height: 340,
                           child: ListView.builder(
                               controller: ScrollController(),
                               itemCount: drawerListTileData.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return ListTile(
+                                  iconColor: state is StateOnResponseSuccess &&
+                                      state.response ==
+                                          drawerListTileData[index].title
+                                      ? MakeMyTripColors.color10gray
+                                      : null,
+                                  textColor: state is StateOnResponseSuccess &&
+                                      state.response ==
+                                          drawerListTileData[index].title
+                                      ? MakeMyTripColors.colorWhite
+                                      : null,
+                                  tileColor: state is StateOnResponseSuccess &&
+                                          state.response ==
+                                              drawerListTileData[index].title
+                                      ? MakeMyTripColors.colorCwsPrimary
+                                      : null,
                                   autofocus: true,
                                   leading:
                                       Icon(drawerListTileData[index].iconData),

@@ -20,12 +20,12 @@ class AdminBookingModerationDataSourceImpl
       var params = {
         "pagesize": 10,
         "page": filterParams.page,
-        "date1": filterParams.checkInDate ?? DateTime.now().toString().substring(0,10),
+        "date1": filterParams.checkInDate ??
+            DateTime.now().toString().substring(0, 10),
         "date2": filterParams.checkOutDate ?? "",
         "hotelname": filterParams.hotelname ?? "",
         "username": filterParams.username ?? ""
       };
-      print(params);
       const baseurl = BaseConstant.baseUrl;
       final response = await dio.get('${baseurl}booking/getallbooking',
           options: await BaseConstant.createDioOptions(),

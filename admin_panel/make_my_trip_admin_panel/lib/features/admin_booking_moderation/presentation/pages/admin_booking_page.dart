@@ -26,6 +26,7 @@ class AdminBookingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    checkInDateController.text = DateTime.now().toString().substring(0, 10);
     context.read<AdminBookingModerationCubit>().setUpScrollController(
         scrollController,
         checkInDateVal: checkInDateController.text,
@@ -42,9 +43,6 @@ class AdminBookingPage extends StatelessWidget {
             checkInDateController.text =
                 DateTime.now().toString().substring(0, 10);
             checkOutDateController.clear();
-          } else {
-            checkInDateController.text =
-                DateTime.now().toString().substring(0, 10);
           }
         }
       },
@@ -104,7 +102,11 @@ class AdminBookingPage extends StatelessWidget {
                   },
                   child: Row(
                     children: [
-                      const Icon(Icons.filter),
+                      Tooltip(
+                          richMessage: TextSpan(
+                            text: StringConstants.filterLabel,
+                          ),
+                          child: const Icon(Icons.filter_list_rounded)),
                       filterValue
                           ? const Text(
                               "*",
@@ -143,12 +145,12 @@ class AdminBookingPage extends StatelessWidget {
                           style: AppTextStyles.infoContentStyle)),
                   const Spacer(),
                   Expanded(
-                      flex: 3,
+                      flex: 4,
                       child: Text(StringConstants.bookingDataLabel,
                           style: AppTextStyles.infoContentStyle)),
                   const Spacer(),
                   Expanded(
-                      flex: 4,
+                      flex: 3,
                       child: Text(StringConstants.paymentDataLabel,
                           style: AppTextStyles.infoContentStyle)),
                 ],
@@ -163,19 +165,28 @@ class AdminBookingPage extends StatelessWidget {
                 return Expanded(
                   child: CommonErrorWidget(
                     imagePath: ImagePath.emptyFailureImg,
-                    statusCode: StringConstants.noBookingFound,
+                    title: StringConstants.noBookingFound,
+                    subTitle: StringConstants.refreshPageTxt,
                   ),
                 );
-              } else if (state is StateErrorGeneral) {
+              } else if (state is StateErrorGeneral ||
+                  state is InternetDisconnected) {
                 return Expanded(
                   child: CommonErrorWidget(
-                    imagePath: ImagePath.serverFailImg,
-                    statusCode: StringConstants.serverErrorTryAgainMessage,
-                    title: StringConstants.serverErrorMessage,
+                    imagePath: state is InternetDisconnected
+                        ? ImagePath.serverFailImg
+                        : ImagePath.serverFailImg,
+                    title: state is InternetDisconnected
+                        ? StringConstants.internetFailureLabel
+                        : null,
+                    subTitle: state is InternetDisconnected
+                        ? StringConstants.refreshPageTxt
+                        : null,
                     onTap: () {
                       context
                           .read<AdminBookingModerationCubit>()
                           .getAllBookingListEvent(
+                              page: 0,
                               checkInDateValue: checkInDateController.text,
                               checkOutDateValue: checkOutDateController.text,
                               userName: bookingUserNameController.text,
@@ -288,7 +299,7 @@ class AdminBookingPage extends StatelessWidget {
                                         )),
                                     const Spacer(),
                                     Expanded(
-                                        flex: 4,
+                                        flex: 3,
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -312,17 +323,60 @@ class AdminBookingPage extends StatelessWidget {
                                               ],
                                             ),
                                             4.verticalSpace,
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  '${StringConstants.bookingStatusTxt}: ',
-                                                  style: AppTextStyles
-                                                      .infoContentStyle
-                                                      .copyWith(fontSize: 14),
+                                            SizedBox(
+                                              width: 132,
+                                              child: Card(
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              16.0)),
                                                 ),
-                                                Text(bookingModel[index]
-                                                    .status!),
-                                              ],
+                                                elevation: 5,
+                                                color: bookingModel[index]
+                                                            .status! ==
+                                                        "success"
+                                                    ? MakeMyTripColors
+                                                        .colorLightGreen
+                                                    : bookingModel[index]
+                                                                .status! ==
+                                                            "cancel"
+                                                        ? MakeMyTripColors
+                                                            .mandatoryRed
+                                                        : MakeMyTripColors
+                                                            .colorBlue,
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 4.0,
+                                                      horizontal: 6.0),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        '${StringConstants.bookingStatusTxt}: ',
+                                                        style: AppTextStyles
+                                                            .infoContentStyle
+                                                            .copyWith(
+                                                                fontSize: 14,
+                                                                color: MakeMyTripColors
+                                                                    .colorWhite),
+                                                      ),
+                                                      Text(
+                                                        bookingModel[index]
+                                                            .status!,
+                                                        style: const TextStyle(
+                                                            color:
+                                                                MakeMyTripColors
+                                                                    .colorWhite),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ],
                                         )),
@@ -332,7 +386,7 @@ class AdminBookingPage extends StatelessWidget {
                             ),
                           if (index == bookingModel.length)
                             const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 16.0),
+                              padding: EdgeInsets.symmetric(vertical: 20.0),
                               child: CircularProgressIndicator(),
                             )
                         ],

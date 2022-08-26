@@ -1,11 +1,9 @@
 import 'dart:io';
-//import 'dart:html';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_isolate/flutter_isolate.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
@@ -272,6 +270,7 @@ class _HtmlEditorExampleState extends State<EditorPage> {
                       backgroundColor: MakeMyTripColors.accentColor),
                   onPressed: () {
                     widget.callback(data);
+                    Fluttertoast.showToast(msg: "Success");
                   },
                   child: Text(
                     StringConstants.submit,
@@ -406,7 +405,6 @@ class _HtmlEditorExampleState extends State<EditorPage> {
                             .child('admin/${imagePath}');
                         ref.putData(webImage!);
                         ref.getDownloadURL().then((value) {
-                          print("getimage $value");
                           widget.controller.insertNetworkImage(value);
                         });
                       } else {

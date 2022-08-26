@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip_admin_panel/core/theme/text_styles.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/cubit/admin_booking_moderation_cubit.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 import 'package:make_my_trip_admin_panel/utils/extensions/sizedbox/sizedbox_extension.dart';
@@ -28,9 +29,18 @@ class FilterViewWidget extends StatelessWidget {
     return AlertDialog(
       title: Text(StringConstants.filterLabel),
       content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           12.verticalSpace,
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              StringConstants.hotelNameLabel,
+              style: AppTextStyles.labelDetails,
+            ),
+          ),
+          8.verticalSpace,
           TextFormField(
             controller: bookingHotelNameController,
             keyboardType: TextInputType.name,
@@ -39,11 +49,38 @@ class FilterViewWidget extends StatelessWidget {
                 hintText: StringConstants.filterHotelNameHint),
           ),
           12.verticalSpace,
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              StringConstants.userNameLabel,
+              style: AppTextStyles.labelDetails,
+            ),
+          ),
+          8.verticalSpace,
           TextFormField(
             controller: bookingUserNameController,
             decoration: InputDecoration(
                 labelText: StringConstants.filterUserNameLabel,
                 hintText: StringConstants.filterUserNameHint),
+          ),
+          16.verticalSpace,
+          Row(
+            children: [
+              8.horizontalSpace,
+              Expanded(
+                  flex: 1,
+                  child: Text(
+                    StringConstants.checkInDateLabel,
+                    style: AppTextStyles.labelDetails,
+                  )),
+              32.horizontalSpace,
+              Expanded(
+                  flex: 1,
+                  child: Text(
+                    StringConstants.checkOutDateLabel,
+                    style: AppTextStyles.labelDetails,
+                  )),
+            ],
           ),
           12.verticalSpace,
           Row(

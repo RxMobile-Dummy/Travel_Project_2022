@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
 import 'package:make_my_trip_admin_panel/features/privacy_policy/presentation/cubit/privacy_policy_cubit.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
@@ -29,11 +27,18 @@ class PrivacyPolicyPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      StringConstants.privacyPolicy,
-                      style: AppTextStyles.labelStyle
-                          .copyWith(fontWeight: FontWeight.w300),
+                  Padding(
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 36.0),
+                    child: Align(
+                      alignment: AlignmentDirectional.topStart,
+                      child: Text(
+                        StringConstants.privacyPolicy,
+                        style: AppTextStyles.labelNameTextStyle
+                            .copyWith(color: MakeMyTripColors.customDarkBlue),
+                      ),
                     ),
+                  ),
                     const Divider(
                       color: MakeMyTripColors.colorBlack,
                     ),

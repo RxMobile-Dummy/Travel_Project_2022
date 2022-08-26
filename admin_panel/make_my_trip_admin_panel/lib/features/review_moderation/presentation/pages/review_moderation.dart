@@ -33,8 +33,8 @@ class ReviewModeration extends StatelessWidget {
           return (reviewModel.isEmpty)
               ? const CommonErrorWidget(
                   imagePath: ImagePath.emptyFailureImg,
-                  statusCode: StringConstants.noResultsTxt,
-                  title: StringConstants.noReviewsTxt,
+                  title: StringConstants.noResultsTxt,
+                  subTitle: StringConstants.noReviewsTxt,
                 )
               : Padding(
                   padding: const EdgeInsets.all(20),
