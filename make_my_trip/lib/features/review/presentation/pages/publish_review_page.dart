@@ -23,11 +23,10 @@ class PublishReviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ReviewCubit, BaseState>(
       listener: (context, state) {
-        if(state is StateLoading){
-          ProgressDialog.showLoadingDialog(context,message: "Please Wait....");
-        }else if (state is StateOnKnownToSuccess) {
-          Navigator.of(context)
-              .pushReplacementNamed(RoutesName.reviewPage, arguments: {
+        if (state is StateLoading) {
+          ProgressDialog.showLoadingDialog(context, message: "Please Wait....");
+        } else if (state is StateOnKnownToSuccess) {
+          Navigator.of(context).pushNamed(RoutesName.reviewPage, arguments: {
             "hotel_id": arg["hotel_id"],
           });
         } else if (state is ValidationError) {
@@ -35,7 +34,8 @@ class PublishReviewPage extends StatelessWidget {
           // ScaffoldMessenger.of(context).showSnackBar(snackBar);
         } else if (state is StateNoData) {
           ProgressDialog.hideLoadingDialog(context);
-          Navigator.pop(context);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(RoutesName.home, (route) => false);
         }
       },
       child: Scaffold(
@@ -77,7 +77,8 @@ class PublishReviewPage extends StatelessWidget {
                           state.locationReview,
                           state.comfortReview,
                           state.facilitiesReview,
-                          arg['hotel_id'],state.imageFileList);
+                          arg['hotel_id'],
+                          state.imageFileList);
                     },
                   ),
                 );
@@ -184,25 +185,41 @@ class PublishReviewPage extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
+
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GridView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: state is ReviewValueState
-                              ? state.imageFileList!.length
-                              : 0,
+                          itemCount: state.imageFileList.length,
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3),
-                          itemBuilder: (BuildContext context, int index) {
-                            return Image.file(
-                                File(state is ReviewValueState
-                                    ? state.imageFileList![index].path
-                                    : ""),
-                                fit: BoxFit.cover);
+                          itemBuilder: (BuildContext _, int index) {
+                            return Stack(children: [
+                              Positioned(
+                                child: Image.file(
+                                    File( state.imageFileList[index]),
+                                    fit: BoxFit.fitWidth),
+                              ),
+                              Positioned(
+                                  child: GestureDetector(
+                                    onTap:(){
+                                      context.read<PublishReviewCubit>().deleteImg(state.imageFileList[index]);
+                                    },
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            color: MakeMyTripColors.color0gray
+                                                ?.withOpacity(0.5),
+                                            shape: BoxShape.circle),
+                                        child: const Icon(
+                                          Icons.delete,
+                                          color: MakeMyTripColors.colorRed,
+                                        )),
+                                  ))
+                            ]);
                           }),
-                    )
+                    ),
                   ],
                 ),
               ),

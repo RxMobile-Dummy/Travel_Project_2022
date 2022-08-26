@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/user_history/data/model/user_history_model.dart';
 import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
@@ -31,7 +32,7 @@ class UserHistoryPage extends StatelessWidget {
             builder: (context, state) {
               if (state is StateOnSuccess) {
                 List<UserHistoryModel> userHistoryModel =
-                    state.response as List<UserHistoryModel>;
+                    state.response;
                 if (userHistoryModel.isEmpty) {
                   return CommonErrorWidget(
                       imagePath: ImagePath.noBookingPage,
@@ -48,7 +49,15 @@ class UserHistoryPage extends StatelessWidget {
                         children: [
                           if (index != userHistoryModel.length)
                             HistoryListViewWidget(
-                                userHistoryModel: userHistoryModel[index]),
+                                userHistoryModel: userHistoryModel[index], reviewPostCall: (int hotelId)  {
+                               Navigator.pushNamed(
+                                  context, RoutesName.publishReviewPage,
+                                  arguments: {
+                                    "hotel_id":hotelId
+                                    ,
+                                    // 'rating': userHistoryModel.r
+                                  });
+                            },),
                           if (index == userHistoryModel.length)
                             const CircularProgressIndicator()
                         ],

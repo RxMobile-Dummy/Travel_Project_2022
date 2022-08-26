@@ -10,11 +10,13 @@ import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 import '../../data/model/user_history_model.dart';
 
+typedef callReviewPost = Function(int hotelId);
 
 class HistoryListViewWidget extends StatelessWidget {
-  HistoryListViewWidget({Key? key, required this.userHistoryModel})
+  HistoryListViewWidget(
+      {Key? key, required this.userHistoryModel, required this.reviewPostCall})
       : super(key: key);
-
+  callReviewPost reviewPostCall;
   UserHistoryModel userHistoryModel;
   Random rnd = Random();
 
@@ -24,43 +26,45 @@ class HistoryListViewWidget extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-      child: Card(
-        elevation: 4,
-        color: MakeMyTripColors.color10gray,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: Stack(
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                  child: SizedBox(
-                    height: 120,
-                    width: 120,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0),
-                      child: FadeInImage.assetNetwork(
-                          placeholder: ImagePath.placeHolderImage,
-                          image: userHistoryModel.images!.first.imageUrl.toString(),
-                          fit: BoxFit.fill,
-                          imageErrorBuilder: (context, error, stackTrace) {
-                            return Image.asset(ImagePath.placeHolderImage,
-                                fit: BoxFit.fitWidth);
-                          }),
+      child: GestureDetector(
+        onTap: (){
+          Navigator.pushNamed(
+              context, RoutesName.bookingHistoryDetailPage,
+              arguments: userHistoryModel);
+        },
+        child: Card(
+          elevation: 4,
+          color: MakeMyTripColors.color10gray,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Stack(
+            children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 8.0),
+                    child: SizedBox(
+                      height: 120,
+                      width: 120,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12.0),
+                        child: FadeInImage.assetNetwork(
+                            placeholder: ImagePath.placeHolderImage,
+                            image: userHistoryModel.images!.first.imageUrl
+                                .toString(),
+                            fit: BoxFit.fill,
+                            imageErrorBuilder: (context, error, stackTrace) {
+                              return Image.asset(ImagePath.placeHolderImage,
+                                  fit: BoxFit.fitWidth);
+                            }),
+                      ),
                     ),
                   ),
-                ),
-                4.horizontalSpace,
-                Expanded(
-                  flex: 5,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(
-                          context, RoutesName.bookingHistoryDetailPage,arguments: userHistoryModel);
-                    },
+                  4.horizontalSpace,
+                  Expanded(
+                    flex: 5,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -78,7 +82,8 @@ class HistoryListViewWidget extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                userHistoryModel.address!.addressLine.toString(),
+                                userHistoryModel.address!.addressLine
+                                    .toString(),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -88,8 +93,8 @@ class HistoryListViewWidget extends StatelessWidget {
                           padding: const EdgeInsets.all(6.0),
                           child: Text(
                             '₹ ${userHistoryModel.price.toString()}',
-                            style:
-                                AppTextStyles.infoLabelStyle.copyWith(fontSize: 14),
+                            style: AppTextStyles.infoLabelStyle
+                                .copyWith(fontSize: 14),
                           ),
                         ),
                         Row(
@@ -103,39 +108,51 @@ class HistoryListViewWidget extends StatelessWidget {
                               ),
                             ),
                             8.horizontalSpace,
-                            GestureDetector(
-                                onTap: (){
-                                  userHistoryModel.reviewFlag==false ?  (Navigator.pushNamed(context, RoutesName.publishReviewPage,arguments: {
-                                    "hotel_id": userHistoryModel.hotelId,
-                                    // 'rating': userHistoryModel.r
-                                  })) : ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                },
-                                child: Text('Post Review',style: TextStyle(color: MakeMyTripColors.accentColor,fontSize: 12),))
+                            (userHistoryModel.status == "cancel" ||
+                                    userHistoryModel.reviewFlag == true)
+                                ? SizedBox()
+                                : GestureDetector(
+                                    onTap: () {
+                                     reviewPostCall(userHistoryModel.hotelId!);
+                                    },
+                                    child: Text(
+                                      'Post Review',
+                                      style: TextStyle(
+                                          color: MakeMyTripColors.accentColor,
+                                          fontSize: 12),
+                                    ))
                           ],
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
-            userHistoryModel.status=="cancel"?Positioned(
-              top: 0,
-              right: 1,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-                decoration: const BoxDecoration(
-                    color: MakeMyTripColors.colorRedDark,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(8),
-                      topLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
-                    ) // green shaped
-                ),
-                child: Text(StringConstants.cancelText,style: AppTextStyles.infoContentStyle3.copyWith(fontSize: 11),),
+                ],
               ),
-            ):const SizedBox()
-          ],
+              userHistoryModel.status == "cancel"
+                  ? Positioned(
+                      top: 0,
+                      right: 1,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 6),
+                        decoration: const BoxDecoration(
+                            color: MakeMyTripColors.colorRedDark,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(8),
+                              topLeft: Radius.circular(8),
+                              bottomRight: Radius.circular(8),
+                            ) // green shaped
+                            ),
+                        child: Text(
+                          StringConstants.cancelText,
+                          style: AppTextStyles.infoContentStyle3
+                              .copyWith(fontSize: 11),
+                        ),
+                      ),
+                    )
+                  : const SizedBox()
+            ],
+          ),
         ),
       ),
     );

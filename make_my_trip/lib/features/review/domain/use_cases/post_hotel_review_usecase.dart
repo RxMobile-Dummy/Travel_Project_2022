@@ -19,7 +19,7 @@ class PostHotelReviewUseCases
 class PostReviewParams extends Equatable {
   final Reviews reviewModel;
   final int hotelid;
-  final List<XFile> imageFileList;
+  final List<String> imageFileList;
   const PostReviewParams({required this.reviewModel, required this.hotelid,required this.imageFileList});
   @override
   List<Object?> get props => [reviewModel, hotelid];

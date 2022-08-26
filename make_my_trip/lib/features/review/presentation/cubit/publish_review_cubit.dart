@@ -1,20 +1,22 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/features/review/domain/use_cases/post_hotel_review_usecase.dart';
 
 class PublishReviewCubit extends Cubit<ReviewValueState> {
   final PostHotelReviewUseCases postHotelReviewUseCases;
+  List<String> imageFileList = [];
+  final ImagePicker imagePicker = ImagePicker();
 
   PublishReviewCubit(this.postHotelReviewUseCases)
-      : super(ReviewValueState(
-          cleanlinessReview: 0.0,
-          comfortReview: 0.0,
-          locationReview: 0.0,
-          facilitiesReview: 0.0,
-          commentReview: "",
-          imageFileList: [],
-        ));
+      : super(const ReviewValueState(
+            cleanlinessReview: 0.0,
+            comfortReview: 0.0,
+            locationReview: 0.0,
+            facilitiesReview: 0.0,
+            commentReview: "",
+            imageFileList: <String>[]));
 
   onChangeCleanlinessReviewValueEvent(double? cleanlinessRating) {
     emit(state.copyWith(cleanlinessReview: cleanlinessRating));
@@ -36,14 +38,24 @@ class PublishReviewCubit extends Cubit<ReviewValueState> {
     emit(state.copyWith(commentReview: comment));
   }
 
-   selectImages() async {
-    List<XFile>? imageFileList=[];
-    final ImagePicker imagePicker = ImagePicker();
-    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+  selectImages() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage(
+      imageQuality: 40,
+    );
     if (selectedImages!.isNotEmpty) {
-      imageFileList.addAll(selectedImages);
-      emit(state.copyWith(imageFileList: imageFileList));
+      selectedImages.forEach((element) {
+        imageFileList.add(element.path);
+      });
+
+      emit(state.copyWith(
+          imageFileList: imageFileList, length: imageFileList.length));
     }
+  }
+
+  deleteImg(String image) {
+    List<String> imageList = List.from(state.imageFileList);
+    imageList.remove(image);
+    emit(state.copyWith(imageFileList: imageList));
   }
 }
 
@@ -53,7 +65,7 @@ class ReviewValueState extends Equatable {
   final double locationReview;
   final double facilitiesReview;
   final String commentReview;
-  final List<XFile>? imageFileList;
+  final List<String> imageFileList;
 
   const ReviewValueState(
       {required this.cleanlinessReview,
@@ -69,7 +81,8 @@ class ReviewValueState extends Equatable {
           double? locationReview,
           double? facilitiesReview,
           String? commentReview,
-          List<XFile>? imageFileList}) =>
+          List<String>? imageFileList,
+          int? length}) =>
       ReviewValueState(
           cleanlinessReview: cleanlinessReview ?? this.cleanlinessReview,
           comfortReview: comfortReview ?? this.comfortReview,
