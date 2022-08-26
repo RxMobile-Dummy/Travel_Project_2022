@@ -18,7 +18,7 @@ class CommonErrorWidget extends StatelessWidget {
     this.onTap,
   }) : super(key: key);
 
-    
+
   final String? imagePath;
   final String? subTitle;
   final String? title;

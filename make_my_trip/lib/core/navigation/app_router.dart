@@ -4,9 +4,12 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/features/booking/booking_injection_container.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/payment_integeration_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/pages/booking_page.dart';
+import 'package:make_my_trip/features/booking_history_details/presentation/cubit/cancel_booking_cubit.dart';
+import 'package:make_my_trip/features/calendar/presentation/cubit/calendar_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
 import 'package:make_my_trip/features/home_page/presentation/pages/list_of_populer_hotels.dart';
+import 'package:make_my_trip/features/gallery_page/presentation/pages/view_full_image_page.dart';
 import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_container.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/filter_list.dart';
@@ -29,6 +32,7 @@ import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/features/user/presentation/pages/login_page.dart';
 import 'package:make_my_trip/features/user/presentation/widgets/resetPassword_widget.dart';
 import 'package:make_my_trip/features/user/user_injection_container.dart';
+import 'package:make_my_trip/features/user_history/data/model/user_history_model.dart';
 import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
@@ -38,6 +42,9 @@ import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../features/booking_history_details/booking_detail_injection_container.dart';
+import '../../features/booking_history_details/presentation/pages/booking_history_detail_page.dart';
+import '../../features/calendar/presentation/pages/calendar_page.dart';
 import '../../features/home_page/presentation/cubit/homepage_cubit.dart';
 import '../../features/home_page/presentation/cubit/tab_bar_cubit.dart';
 import '../../features/home_page/presentation/pages/homepage.dart';
@@ -146,6 +153,22 @@ class Router {
             create: (context) =>
                 historyListSl<UserHistoryCubit>()..getUserHistoryData(),
             child: const UserHistoryPage(),
+          );
+        });
+      case RoutesName.bookingHistoryDetailPage:
+        UserHistoryModel arg = settings.arguments as  UserHistoryModel;
+        return MaterialPageRoute(builder: (_) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => historyListSl<UserHistoryCubit>()
+                  ..getUserHistoryData(),
+              ),
+              BlocProvider(
+                create: (context) => historyListDetailSl<CancelBookingCubit>(),
+              ),
+            ],
+            child: BookingHistoryDetails(userHistoryModel: arg,),
           );
         });
       case RoutesName.wishList:
@@ -278,7 +301,7 @@ class Router {
           return MultiBlocProvider(
             providers: [
               BlocProvider(create: (context) => reviewSl<PublishReviewCubit>()),
-              BlocProvider(create: (context) => reviewSl<ReviewCubit>())
+              BlocProvider(create: (context) => reviewSl<ReviewCubit>()),
             ],
             child: PublishReviewPage(arg: arg),
           );
@@ -292,6 +315,14 @@ class Router {
             child: GalleryPage(
               arg: arg,
             ),
+          );
+        });
+
+      case RoutesName.viewImagePage:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(builder: (_) {
+          return ViewImage(
+            arg: arg,
           );
         });
       case RoutesName.bookingPage:

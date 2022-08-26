@@ -75,11 +75,11 @@ class StateErrorGeneralStateErrorServer extends BaseState {
 
 class StateOnSuccess<T> extends BaseState {
   final T response;
-
-  StateOnSuccess(this.response);
+  final bool isMoreLoading;
+  StateOnSuccess(this.response,{this.isMoreLoading = false});
 
   @override
-  List<Object?> get props => [response];
+  List<Object?> get props => [response,isMoreLoading];
 }
 
 class StateReorderSuccess<T> extends BaseState {
@@ -90,6 +90,15 @@ class StateReorderSuccess<T> extends BaseState {
 
   @override
   List<Object?> get props => [response, updatedIndex];
+}
+class StateReorderLoading<T> extends BaseState {
+  final T response;
+  final bool? post;
+
+  StateReorderLoading(this.response, {this.post});
+
+  @override
+  List<Object?> get props => [response, post];
 }
 
 class StateOnResponseSuccess<T> extends BaseState {

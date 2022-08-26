@@ -31,7 +31,9 @@ class HotelListDataSourceImpl implements HotelListDataSource {
             'type': params.type,
             'features': params.aminities,
             'rating': params.rating,
-            'price': params.price
+            'price': params.price,
+            "pagesize": 3,
+            "page": params.page
           },
           options: await BaseConstant.createDioOptions());
 

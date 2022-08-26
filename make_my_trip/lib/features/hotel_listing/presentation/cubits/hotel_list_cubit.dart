@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/failures/failure_handler.dart';
 import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model.dart';
@@ -36,6 +37,9 @@ class HotelListCubit extends Cubit<BaseState> {
     4,
     5,
   ];
+  int page = 0;
+  List<HotelListModel> hotelList = [];
+
   resetFilters() {
     emit(StateInitial());
     selectedRating.clear();
@@ -82,20 +86,59 @@ class HotelListCubit extends Cubit<BaseState> {
       String finalPrice = price.changePriceApi();
       String ratings = selectedRating.join(",");
       params = Params(
-          cin: cin,
-          cout: cout,
-          noOfRoom: noOfRoom,
-          id: searchId,
-          type: type,
-          aminities: aminities,
-          price: finalPrice,
-          rating: ratings);
+        cin: cin,
+        cout: cout,
+        noOfRoom: noOfRoom,
+        id: searchId,
+        type: type,
+        aminities: aminities,
+        price: finalPrice,
+        rating: ratings,
+        pagesize: 3,
+        page: page,
+      );
     } else {
       params = Params(
-          cin: cin, cout: cout, noOfRoom: noOfRoom, id: searchId, type: type);
+        cin: cin,
+        cout: cout,
+        noOfRoom: noOfRoom,
+        id: searchId,
+        type: type,
+        pagesize: 3,
+        page: page,
+      );
+    }
+
+    if (state is! StateOnSuccess) {
+      emit(StateLoading());
+    } else {
+      emit(
+          StateOnSuccess<List<HotelListModel>>(hotelList, isMoreLoading: true));
     }
     var hotelListData = await hotelListUsecase.call(params);
     hotelListData.fold((l) => emit(FailureHandler.checkFailures(l)),
         (r) => emit(StateOnSuccess<List<HotelListModel>>(r)));
+    page++;
+    final res = await hotelListUsecase.call(params);
+    res.fold((l) {
+      emit(StateErrorGeneral("errorMessage"));
+    }, (r) {
+      for (var item in r) {
+        hotelList.add(item);
+      }
+      emit(StateOnSuccess<List<HotelListModel>>(hotelList,
+          isMoreLoading: false));
+    });
+  }
+
+  void setUpScrollController(
+      ScrollController scrollController, cin, cout, noOfRoom, id, type) {
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels != 0) {
+          getHotelListApi(cin, cout, noOfRoom, id, type);
+        }
+      }
+    });
   }
 }

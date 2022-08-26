@@ -134,7 +134,6 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
 
         var mapData = {StringConstants.imageJson: await ref.getDownloadURL()};
 
-
         await FirebaseFirestore.instance
             .collection(StringConstants.firebaseCollectionName)
             .doc(FirebaseAuth.instance.currentUser?.uid)

@@ -168,6 +168,7 @@ class StringConstants {
   static String totalBookingDays = '365 Days';
   static String bookingLocation = 'Location';
   static String bookingtitle = 'Hotel or Tour Name';
+  static String bookingHistoryDetail = 'Booking History Detail';
 
   static String isAnonymousSharedPreference = "isAnonymous";
   static String userIdSharedPreference = "userId";
@@ -228,6 +229,7 @@ class StringConstants {
   static const validPhoneNumber = "please enter valid phone number";
   static const imageJson = "user_image";
   static const firebaseFolderName = "userImage/";
+  static const firebaseReviewFolderName = "review_images/";
   static const firebaseCollectionName = "Images";
   static const failedToLoadImg = "failed to add image";
 
@@ -260,6 +262,7 @@ class StringConstants {
   static const offer = "Offer";
   static const grandTotal = "Grand Total";
   static const book = "Book";
+
   //calender page String
   static const only30Day = "You can book hotel rooms for only 30 days.";
   static const selectDate = "Select Dates";
@@ -345,6 +348,21 @@ class StringConstants {
   static String selectChildrensLabel = 'Childrens';
 
   static String filters = "Filters";
+
+  //Cancel booking
+  static String cancelBooking = "Cancel Booking";
+  static String bookedDate = "Booked Date";
+  static String checkIncheckOut = "Check In - Check Out";
+  static String totalNights = "Total Nights";
+  static String totalRooms = "Total Rooms";
+  static String roomPrice = "Room Price";
+  static String discount = "Discount";
+  static String cancellationPolicy = "Cancellation Policy";
+  static String cancelAreYouSure = "Are you sure want to cancel booking?";
+  static String yourBookingIsCancel = "This hotel is been cancelled";
+  static String bookingCancelledSuccessfully = "Booking Cancelled Successfully";
+  static String cantCancelBooking = "Booking can not be cancelled in last 24 hours of booking as per our cancellation policy";
+  static String cancelText = "CANCELLED";
 
   static String deluxType = "Deluxe";
   static String semiDeluxType = "Semi-Deluxe";

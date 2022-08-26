@@ -12,6 +12,9 @@ var bookingSl = GetIt.instance;
 Future<void> init() async {
   final _razorpay = Razorpay();
   //cubit
+  bookingSl.registerFactory(() => BookingCubit(bookingSl(), bookingSl()));
+
+
   bookingSl.registerFactory(
       () => PaymentCubit(bookingSl(), bookingSl(), bookingSl(), bookingSl()));
 
