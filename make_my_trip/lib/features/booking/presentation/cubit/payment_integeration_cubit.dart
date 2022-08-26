@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -62,7 +61,7 @@ class PaymentCubit extends Cubit<BaseState> {
       'amount': amount,
       'name': name,
       'order_id': orderId,
-      "timeout":270,
+      "timeout": 270,
       'description': 'Payment',
       'prefill': {
         'contact': number ?? "8888888888",
@@ -74,14 +73,15 @@ class PaymentCubit extends Cubit<BaseState> {
     };
 
     try {
-       _razorpay.open(options);
+      _razorpay.open(options);
     } catch (e) {}
-
   }
 
-  paymentConfirm(double amount,roomId,hotelId,cin,cout,double roomPrice,int gst,int offer,int totalPrice,int couponID) async {
+  paymentConfirm(double amount, roomId, hotelId, cin, cout, double roomPrice,
+      int gst, int offer, int totalPrice, int couponID) async {
     emit(StateLoading());
-    final data = await paymentUseCase.call(PaymentParams(amount,roomId,hotelId,cin,cout,roomPrice,gst,offer,totalPrice,couponID));
+    final data = await paymentUseCase.call(PaymentParams(amount, roomId,
+        hotelId, cin, cout, roomPrice, gst, offer, totalPrice, couponID));
     data.fold((l) {
       emit(FailureHandler.checkFailures(l));
     }, (r) {

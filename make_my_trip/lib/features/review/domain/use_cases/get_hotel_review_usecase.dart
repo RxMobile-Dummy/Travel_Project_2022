@@ -12,7 +12,7 @@ class GetHotelReviewUseCases implements Usecase<GetReviewModel, int> {
   GetHotelReviewUseCases(this.reviewRepository);
 
   @override
-  Future<Either<Failures,GetReviewModel>> call(int params) async {
+  Future<Either<Failures, GetReviewModel>> call(int params) async {
     return await reviewRepository.getHotelReview(params);
   }
 }

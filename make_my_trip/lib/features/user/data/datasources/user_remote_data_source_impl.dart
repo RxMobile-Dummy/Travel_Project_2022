@@ -298,7 +298,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     //   var androidDeviceInfo = await deviceInfo.androidInfo;
     //   return androidDeviceInfo.id;
     // }
-    String? token=await PlatformDeviceId.getDeviceId;
+    String? token = await PlatformDeviceId.getDeviceId;
     return token;
   }
 

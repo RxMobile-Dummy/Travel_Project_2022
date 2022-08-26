@@ -31,8 +31,8 @@ class HomepageCubit extends Cubit<BaseState> {
     try {
       emit((state as GettingStartedData).copyWith(imageLoading: true));
       var data = await imagesusecase.call(5);
-      data.fold((failure) {emit((state as GettingStartedData)
-          .copyWith(imageLoading: false));
+      data.fold((failure) {
+        emit((state as GettingStartedData).copyWith(imageLoading: false));
       }, (success) {
         emit((state as GettingStartedData)
             .copyWith(imageListValue: success, imageLoading: false));
@@ -47,13 +47,13 @@ class HomepageCubit extends Cubit<BaseState> {
       emit((state as GettingStartedData).copyWith(tourLoading: true));
       var data = await toursusecase.call();
       data.fold((failure) {
-        emit((state as GettingStartedData)
-            .copyWith(tourLoading: false));
+        emit((state as GettingStartedData).copyWith(tourLoading: false));
       }, (success) {
         emit((state as GettingStartedData)
             .copyWith(toursListValue: success, tourLoading: false));
       });
     } catch (err) {
-      print(err);}
+      print(err);
+    }
   }
 }

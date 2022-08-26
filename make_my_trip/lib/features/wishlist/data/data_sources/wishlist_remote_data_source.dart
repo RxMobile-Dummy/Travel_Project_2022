@@ -29,7 +29,8 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
     try {
       var params = {"pagesize": 3, "page": page};
       final response = await dio.get(url,
-          queryParameters: params, options: await BaseConstant.createDioOptions());
+          queryParameters: params,
+          options: await BaseConstant.createDioOptions());
 
       final res = await FailureHandler.handleError(response);
       return res.fold((l) => Left(l), (r) {

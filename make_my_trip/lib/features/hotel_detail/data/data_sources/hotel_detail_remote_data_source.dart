@@ -44,7 +44,6 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
     } catch (err) {
       return Left(ServerFailure());
     }
-
   }
 
   @override

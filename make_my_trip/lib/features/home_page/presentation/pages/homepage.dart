@@ -133,7 +133,7 @@ class HomePage extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               historyListSl<UserHistoryCubit>()..getUserHistoryData(),
-          child: const UserHistoryPage(),
+          child: UserHistoryPage(),
         ),
         BlocProvider(
           create: (context) =>

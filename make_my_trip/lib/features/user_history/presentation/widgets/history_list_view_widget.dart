@@ -27,9 +27,8 @@ class HistoryListViewWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: GestureDetector(
-        onTap: (){
-          Navigator.pushNamed(
-              context, RoutesName.bookingHistoryDetailPage,
+        onTap: () {
+          Navigator.pushNamed(context, RoutesName.bookingHistoryDetailPage,
               arguments: userHistoryModel);
         },
         child: Card(
@@ -113,7 +112,7 @@ class HistoryListViewWidget extends StatelessWidget {
                                 ? SizedBox()
                                 : GestureDetector(
                                     onTap: () {
-                                     reviewPostCall(userHistoryModel.hotelId!);
+                                      reviewPostCall(userHistoryModel.hotelId!);
                                     },
                                     child: Text(
                                       'Post Review',

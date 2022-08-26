@@ -24,7 +24,8 @@ class BookingHistoryDetailBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection('cancellationPolicy');
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('cancellationPolicy');
     return BlocBuilder<UserHistoryCubit, BaseState>(
       builder: (context, state) {
         if (state is StateOnSuccess) {
@@ -140,8 +141,9 @@ class BookingHistoryDetailBody extends StatelessWidget {
                                     flex: 5,
                                     child: Text(
                                       "₹ ${userHistoryModel.price.toString()}",
-                                      style: AppTextStyles.labelStyle
-                                          .copyWith(fontSize: 18,color: MakeMyTripColors.accentColor),
+                                      style: AppTextStyles.labelStyle.copyWith(
+                                          fontSize: 18,
+                                          color: MakeMyTripColors.accentColor),
                                     )),
                               ],
                             ),
@@ -316,22 +318,24 @@ class BookingHistoryDetailBody extends StatelessWidget {
                                     ),
                                     6.verticalSpace,
                                     FutureBuilder(
-                                      future: users.doc("sTtV4Q0ORYzCUVBQqpdP").get(),
-                                      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                                        if(snapshot.hasData) {
-                                          return Center(
-                                            child: SingleChildScrollView(
-                                              child: Html(
-                                                  data: snapshot.data?.get(
-                                                      "content")),
-                                            ),
-                                          );
-                                        }
-                                        else{
-                                          return 1.verticalSpace;
-                                        }
-                                      }
-                                    )
+                                        future: users
+                                            .doc("sTtV4Q0ORYzCUVBQqpdP")
+                                            .get(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<DocumentSnapshot>
+                                                snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Center(
+                                              child: SingleChildScrollView(
+                                                child: Html(
+                                                    data: snapshot.data
+                                                        ?.get("content")),
+                                              ),
+                                            );
+                                          } else {
+                                            return 1.verticalSpace;
+                                          }
+                                        })
                                   ],
                                 )
                               : const SizedBox()
@@ -347,8 +351,8 @@ class BookingHistoryDetailBody extends StatelessWidget {
         } else if (state is StateErrorGeneral) {
           return CommonErrorWidget(
               imagePath: ImagePath.serverFailImage,
-              title: StringConstants.serverFail,
-              statusCode: StringConstants.emptyString);
+              subTitle: StringConstants.serverFail,
+              title: StringConstants.emptyString);
         } else if (state is StateLoading) {
           return const HistoryDetailPageShimmer();
         } else {
@@ -357,5 +361,4 @@ class BookingHistoryDetailBody extends StatelessWidget {
       },
     );
   }
-
 }

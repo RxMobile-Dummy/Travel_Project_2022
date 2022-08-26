@@ -7,6 +7,7 @@ import 'package:make_my_trip/features/review/domain/use_cases/post_hotel_review_
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../../user/domain/usecases/is_anonymous_user.dart';
+
 class ReviewCubit extends Cubit<BaseState> {
   final GetHotelReviewUseCases getHotelReviewUseCases;
   final PostHotelReviewUseCases postHotelReviewUseCases;
@@ -18,13 +19,12 @@ class ReviewCubit extends Cubit<BaseState> {
     emit(StateLoading());
     final res = await getHotelReviewUseCases.call(params);
     res.fold((l) => emit(StateErrorGeneral("errorMessage")),
-            (r) => emit(StateOnSuccess<GetReviewModel>(r)));
+        (r) => emit(StateOnSuccess<GetReviewModel>(r)));
     print(res);
-
   }
 
   postHotelReviewData(commentReview, cleanlinessReview, locationReview,
-      comfortReview, facilitiesReview, hote_id,imageFileList) async {
+      comfortReview, facilitiesReview, hote_id, imageFileList) async {
     emit(StateLoading());
     print('cubit');
     print(state);
@@ -41,8 +41,10 @@ class ReviewCubit extends Cubit<BaseState> {
         reviewModel.comment!.toString().trim().length == 0) {
       emit(ValidationError(StringConstants.pleaseEntCom));
     } else {
-      final req = await postHotelReviewUseCases
-          .call(PostReviewParams( reviewModel: reviewModel, hotelid: hote_id,imageFileList: imageFileList));
+      final req = await postHotelReviewUseCases.call(PostReviewParams(
+          reviewModel: reviewModel,
+          hotelid: hote_id,
+          imageFileList: imageFileList));
       req.fold((l) {
         emit(StateErrorGeneral("errorMessage"));
       }, (r) {

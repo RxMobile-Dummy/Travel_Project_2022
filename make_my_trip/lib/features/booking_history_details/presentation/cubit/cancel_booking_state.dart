@@ -7,15 +7,14 @@ abstract class CancelBookingState extends Equatable {
 class CancelBookingInitial extends CancelBookingState {
   @override
   List<Object> get props => [];
-
 }
-class BookingsCancelled extends CancelBookingState{
+
+class BookingsCancelled extends CancelBookingState {
   @override
   List<Object> get props => [];
-
 }
-class BookingsCancellationFailure extends CancelBookingState{
+
+class BookingsCancellationFailure extends CancelBookingState {
   @override
   List<Object> get props => [];
-
 }

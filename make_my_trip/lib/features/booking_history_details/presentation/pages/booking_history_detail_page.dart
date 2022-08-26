@@ -13,87 +13,86 @@ import '../../../../utils/widgets/common_primary_button.dart';
 import '../../../user_history/data/model/user_history_model.dart';
 
 class BookingHistoryDetails extends StatelessWidget {
-  BookingHistoryDetails({Key? key, required this.userHistoryModel}) : super(key: key);
+  BookingHistoryDetails({Key? key, required this.userHistoryModel})
+      : super(key: key);
   UserHistoryModel userHistoryModel;
   @override
   Widget build(BuildContext context) {
-    return  BlocBuilder<CancelBookingCubit, CancelBookingState>(
-            builder: (context, state) {
-          if (state is BookingsCancelled) {
-            return AlertDialog(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
-              elevation: 4,
-              title: Column(
-                children: [
-                  AspectRatio(
-                    aspectRatio: 1.6,
-                    child: Image.asset(
-                      ImagePath.noRoomFound,
-                    ),
-                  ),
-                  30.verticalSpace,
-                  Text(
-                    StringConstants.bookingCancelledSuccessfully,
-                    style: const TextStyle(
-                        color: MakeMyTripColors.accentColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  25.verticalSpace,
-                  SizedBox(
-                    width: double.infinity,
-                    child: CommonPrimaryButton(
-                        text: "Ok",
-                        onTap: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, RoutesName.home, (route) => false);
-                        }),
-                  ),
-                ],
+    return BlocBuilder<CancelBookingCubit, CancelBookingState>(
+        builder: (context, state) {
+      if (state is BookingsCancelled) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(32.0))),
+          elevation: 4,
+          title: Column(
+            children: [
+              AspectRatio(
+                aspectRatio: 1.6,
+                child: Image.asset(
+                  ImagePath.noRoomFound,
+                ),
               ),
-            );
-          } else if (state is BookingsCancellationFailure) {
-            return AlertDialog(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
-              elevation: 4,
-              title: Column(
-                children: [
-                  AspectRatio(
-                    aspectRatio: 1.6,
-                    child: Image.asset(
-                      ImagePath.serverFailImage,
-                    ),
-                  ),
-                  30.verticalSpace,
-                  Text(
-                    StringConstants.cantCancelBooking,
-                    style: const TextStyle(
-                        color: MakeMyTripColors.accentColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  25.verticalSpace,
-                  SizedBox(
-                    width: double.infinity,
-                    child: CommonPrimaryButton(
-                        text: "Ok",
-                        onTap: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, RoutesName.home, (route) => false);
-                        }),
-                  ),
-                ],
+              30.verticalSpace,
+              Text(
+                StringConstants.bookingCancelledSuccessfully,
+                style: const TextStyle(
+                    color: MakeMyTripColors.accentColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
-            );
-          } else {
-            return BookingHistoryDetailBody(userHistoryModel);
-          }
-        }
+              25.verticalSpace,
+              SizedBox(
+                width: double.infinity,
+                child: CommonPrimaryButton(
+                    text: "Ok",
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RoutesName.home, (route) => false);
+                    }),
+              ),
+            ],
+          ),
         );
-
+      } else if (state is BookingsCancellationFailure) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(32.0))),
+          elevation: 4,
+          title: Column(
+            children: [
+              AspectRatio(
+                aspectRatio: 1.6,
+                child: Image.asset(
+                  ImagePath.serverFailImage,
+                ),
+              ),
+              30.verticalSpace,
+              Text(
+                StringConstants.cantCancelBooking,
+                style: const TextStyle(
+                    color: MakeMyTripColors.accentColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              25.verticalSpace,
+              SizedBox(
+                width: double.infinity,
+                child: CommonPrimaryButton(
+                    text: "Ok",
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RoutesName.home, (route) => false);
+                    }),
+              ),
+            ],
+          ),
+        );
+      } else {
+        return BookingHistoryDetailBody(userHistoryModel);
+      }
+    });
   }
 }

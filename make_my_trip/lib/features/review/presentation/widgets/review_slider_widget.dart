@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
+
 typedef StringCallback = void Function(double val);
+
 class ReviewSliderWidget extends StatelessWidget {
   const ReviewSliderWidget({
     Key? key,

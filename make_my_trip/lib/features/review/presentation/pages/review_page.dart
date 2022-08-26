@@ -14,6 +14,7 @@ import 'package:make_my_trip/features/review/presentation/widgets/review_slider_
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
+
 class ReviewPage extends StatelessWidget {
   ReviewPage({Key? key, required this.arg}) : super(key: key);
   Map<String, dynamic> arg;
@@ -32,13 +33,11 @@ class ReviewPage extends StatelessWidget {
         builder: (context, state) {
           print(state);
           if (state is StateOnSuccess) {
-
             review = state.response;
             reviewModel = review?.review;
             print("object");
-           print(review?.review);
+            print(review?.review);
             print(review?.hotelId);
-
           } else if (state is StateLoading || state is StateErrorGeneral) {
             return ReviewPageShimmer();
           }
@@ -143,12 +142,11 @@ class ReviewPage extends StatelessWidget {
                       itemCount: reviewModel!.length,
                       itemBuilder: (context, index) {
                         return ReviewCardWidget(
-                          date: reviewModel![index].date?.substring(0, 10) ??
-                              "",
-                          name:
-                          reviewModel![index].userId?.userName ?? "Name",
+                          date:
+                              reviewModel![index].date?.substring(0, 10) ?? "",
+                          name: reviewModel![index].userId?.userName ?? "Name",
                           description:
-                          reviewModel![index].comment ?? "Comments",
+                              reviewModel![index].comment ?? "Comments",
                           ratingValue: reviewModel![index].rating ?? 0.0,
                           image: reviewModel![index].userId?.userImage ??
                               StringConstants.userImagePlaceHolder,
@@ -162,7 +160,6 @@ class ReviewPage extends StatelessWidget {
           }
         },
       ),
-
     );
   }
 }

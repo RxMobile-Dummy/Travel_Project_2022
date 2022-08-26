@@ -70,8 +70,7 @@ Widget userProfileWidget(BuildContext context) {
       }),
       Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-        child:
-        GestureDetector(
+        child: GestureDetector(
           onTap: () {
             Navigator.push(
                 context,

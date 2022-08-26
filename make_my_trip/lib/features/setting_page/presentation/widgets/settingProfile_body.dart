@@ -55,18 +55,19 @@ Widget settingProfileBody(BuildContext context) {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                 child: SizedBox(
-                  width: double.infinity,
-                  child:
-                    CommonPrimaryButton(text:  StringConstants.update,onTap: () {
-        var postData = {
-          StringConstants.userNameJson: _fullName.text,
-          StringConstants.userPhoneJson: _phoneNumber.text
-        };
-        context
-            .read<SettingPageCubit>()
-            .updateUserData(postData);
-      },)
-                ),
+                    width: double.infinity,
+                    child: CommonPrimaryButton(
+                      text: StringConstants.update,
+                      onTap: () {
+                        var postData = {
+                          StringConstants.userNameJson: _fullName.text,
+                          StringConstants.userPhoneJson: _phoneNumber.text
+                        };
+                        context
+                            .read<SettingPageCubit>()
+                            .updateUserData(postData);
+                      },
+                    )),
               )
             ],
           ),

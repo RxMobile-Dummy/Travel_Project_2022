@@ -15,8 +15,8 @@
 /// checkout_date : "2022-09-23T00:00:00.000Z"
 
 class UserHistoryModel {
-  UserHistoryModel({
-      int? hotelId,
+  UserHistoryModel(
+      {int? hotelId,
       String? hotelName,
       Address? address,
       List<Images>? images,
@@ -31,8 +31,7 @@ class UserHistoryModel {
       String? bookedDate,
       String? checkingDate,
       String? checkoutDate,
-      bool? reviewFlag
-  }){
+      bool? reviewFlag}) {
     _hotelId = hotelId;
     _hotelName = hotelName;
     _address = address;
@@ -48,13 +47,14 @@ class UserHistoryModel {
     _bookedDate = bookedDate;
     _checkingDate = checkingDate;
     _checkoutDate = checkoutDate;
-    _reviewFlag=reviewFlag;
-}
+    _reviewFlag = reviewFlag;
+  }
 
   UserHistoryModel.fromJson(dynamic json) {
     _hotelId = json['hotel_id'];
     _hotelName = json['hotel_name'];
-    _address = json['address'] != null ? Address.fromJson(json['address']) : null;
+    _address =
+        json['address'] != null ? Address.fromJson(json['address']) : null;
     if (json['images'] != null) {
       _images = [];
       json['images'].forEach((v) {
@@ -90,39 +90,41 @@ class UserHistoryModel {
   String? _checkingDate;
   String? _checkoutDate;
   bool? _reviewFlag;
-UserHistoryModel copyWith({  int? hotelId,
-  String? hotelName,
-  Address? address,
-  List<Images>? images,
-  int? price,
-  int? noOfRoom,
-  int? numberOfNights,
-  int? roomPrice,
-  int? discount,
-  int? gst,
-  int? bookingId,
-  String? status,
-  String? bookedDate,
-  String? checkingDate,
-  String? checkoutDate,
-  bool? reviewFlag
-}) => UserHistoryModel(  hotelId: hotelId ?? _hotelId,
-  hotelName: hotelName ?? _hotelName,
-  address: address ?? _address,
-  images: images ?? _images,
-  price: price ?? _price,
-  noOfRoom: noOfRoom ?? _noOfRoom,
-  numberOfNights: numberOfNights ?? _numberOfNights,
-  roomPrice: roomPrice ?? _roomPrice,
-  discount: discount ?? _discount,
-  gst: gst ?? _gst,
-  bookingId: bookingId ?? _bookingId,
-  status: status ?? _status,
-  bookedDate: bookedDate ?? _bookedDate,
-  checkingDate: checkingDate ?? _checkingDate,
-  checkoutDate: checkoutDate ?? _checkoutDate,
-  reviewFlag: reviewFlag ?? _reviewFlag,
-);
+  UserHistoryModel copyWith(
+          {int? hotelId,
+          String? hotelName,
+          Address? address,
+          List<Images>? images,
+          int? price,
+          int? noOfRoom,
+          int? numberOfNights,
+          int? roomPrice,
+          int? discount,
+          int? gst,
+          int? bookingId,
+          String? status,
+          String? bookedDate,
+          String? checkingDate,
+          String? checkoutDate,
+          bool? reviewFlag}) =>
+      UserHistoryModel(
+        hotelId: hotelId ?? _hotelId,
+        hotelName: hotelName ?? _hotelName,
+        address: address ?? _address,
+        images: images ?? _images,
+        price: price ?? _price,
+        noOfRoom: noOfRoom ?? _noOfRoom,
+        numberOfNights: numberOfNights ?? _numberOfNights,
+        roomPrice: roomPrice ?? _roomPrice,
+        discount: discount ?? _discount,
+        gst: gst ?? _gst,
+        bookingId: bookingId ?? _bookingId,
+        status: status ?? _status,
+        bookedDate: bookedDate ?? _bookedDate,
+        checkingDate: checkingDate ?? _checkingDate,
+        checkoutDate: checkoutDate ?? _checkoutDate,
+        reviewFlag: reviewFlag ?? _reviewFlag,
+      );
   int? get hotelId => _hotelId;
   String? get hotelName => _hotelName;
   Address? get address => _address;
@@ -138,7 +140,7 @@ UserHistoryModel copyWith({  int? hotelId,
   String? get bookedDate => _bookedDate;
   String? get checkingDate => _checkingDate;
   String? get checkoutDate => _checkoutDate;
-  bool? get reviewFlag=>_reviewFlag;
+  bool? get reviewFlag => _reviewFlag;
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['hotel_id'] = _hotelId;
@@ -163,7 +165,6 @@ UserHistoryModel copyWith({  int? hotelId,
     map['review_posted'] = reviewFlag;
     return map;
   }
-
 }
 
 /// _id : 537
@@ -175,19 +176,20 @@ UserHistoryModel copyWith({  int? hotelId,
 
 class Images {
   Images({
-      int? id,
-      String? imageUrl,
-      int? hotelId,
-      dynamic roomId,
-      dynamic tourId,
-      dynamic userId,}){
+    int? id,
+    String? imageUrl,
+    int? hotelId,
+    dynamic roomId,
+    dynamic tourId,
+    dynamic userId,
+  }) {
     _id = id;
     _imageUrl = imageUrl;
     _hotelId = hotelId;
     _roomId = roomId;
     _tourId = tourId;
     _userId = userId;
-}
+  }
 
   Images.fromJson(dynamic json) {
     _id = json['_id'];
@@ -203,19 +205,22 @@ class Images {
   dynamic _roomId;
   dynamic _tourId;
   dynamic _userId;
-Images copyWith({  int? id,
-  String? imageUrl,
-  int? hotelId,
-  dynamic roomId,
-  dynamic tourId,
-  dynamic userId,
-}) => Images(  id: id ?? _id,
-  imageUrl: imageUrl ?? _imageUrl,
-  hotelId: hotelId ?? _hotelId,
-  roomId: roomId ?? _roomId,
-  tourId: tourId ?? _tourId,
-  userId: userId ?? _userId,
-);
+  Images copyWith({
+    int? id,
+    String? imageUrl,
+    int? hotelId,
+    dynamic roomId,
+    dynamic tourId,
+    dynamic userId,
+  }) =>
+      Images(
+        id: id ?? _id,
+        imageUrl: imageUrl ?? _imageUrl,
+        hotelId: hotelId ?? _hotelId,
+        roomId: roomId ?? _roomId,
+        tourId: tourId ?? _tourId,
+        userId: userId ?? _userId,
+      );
   int? get id => _id;
   String? get imageUrl => _imageUrl;
   int? get hotelId => _hotelId;
@@ -233,7 +238,6 @@ Images copyWith({  int? id,
     map['user_id'] = _userId;
     return map;
   }
-
 }
 
 /// address_line : "Golden Tower, Clock Tower Extension, Opp, Amritsar, Punjab, India 143001"
@@ -243,35 +247,40 @@ Images copyWith({  int? id,
 
 class Address {
   Address({
-      String? addressLine,
-      int? cityId,
-      int? pincode,
-      Location? location,}){
+    String? addressLine,
+    int? cityId,
+    int? pincode,
+    Location? location,
+  }) {
     _addressLine = addressLine;
     _cityId = cityId;
     _pincode = pincode;
     _location = location;
-}
+  }
 
   Address.fromJson(dynamic json) {
     _addressLine = json['address_line'];
     _cityId = json['city_id'];
     _pincode = json['pincode'];
-    _location = json['location'] != null ? Location.fromJson(json['location']) : null;
+    _location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
   }
   String? _addressLine;
   int? _cityId;
   int? _pincode;
   Location? _location;
-Address copyWith({  String? addressLine,
-  int? cityId,
-  int? pincode,
-  Location? location,
-}) => Address(  addressLine: addressLine ?? _addressLine,
-  cityId: cityId ?? _cityId,
-  pincode: pincode ?? _pincode,
-  location: location ?? _location,
-);
+  Address copyWith({
+    String? addressLine,
+    int? cityId,
+    int? pincode,
+    Location? location,
+  }) =>
+      Address(
+        addressLine: addressLine ?? _addressLine,
+        cityId: cityId ?? _cityId,
+        pincode: pincode ?? _pincode,
+        location: location ?? _location,
+      );
   String? get addressLine => _addressLine;
   int? get cityId => _cityId;
   int? get pincode => _pincode;
@@ -287,7 +296,6 @@ Address copyWith({  String? addressLine,
     }
     return map;
   }
-
 }
 
 /// latitude : 31.6213916
@@ -295,11 +303,12 @@ Address copyWith({  String? addressLine,
 
 class Location {
   Location({
-      double? latitude,
-      double? longitude,}){
+    double? latitude,
+    double? longitude,
+  }) {
     _latitude = latitude;
     _longitude = longitude;
-}
+  }
 
   Location.fromJson(dynamic json) {
     _latitude = json['latitude'];
@@ -307,11 +316,14 @@ class Location {
   }
   double? _latitude;
   double? _longitude;
-Location copyWith({  double? latitude,
-  double? longitude,
-}) => Location(  latitude: latitude ?? _latitude,
-  longitude: longitude ?? _longitude,
-);
+  Location copyWith({
+    double? latitude,
+    double? longitude,
+  }) =>
+      Location(
+        latitude: latitude ?? _latitude,
+        longitude: longitude ?? _longitude,
+      );
   double? get latitude => _latitude;
   double? get longitude => _longitude;
 
@@ -321,5 +333,4 @@ Location copyWith({  double? latitude,
     map['longitude'] = _longitude;
     return map;
   }
-
 }

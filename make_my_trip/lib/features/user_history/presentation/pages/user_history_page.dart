@@ -27,60 +27,59 @@ class UserHistoryPage extends StatelessWidget {
             style: AppTextStyles.unselectedLabelStyle,
           ),
         ),
-        body: SafeArea(
-          child: BlocBuilder<UserHistoryCubit, BaseState>(
-            builder: (context, state) {
-              if (state is StateErrorGeneralStateErrorServer) {
-                return CommonErrorWidget(
-                  onTap: () {
-                    BlocProvider.of<UserHistoryCubit>(context)
-                        .getUserHistoryData();
-                  },
-                );
-              }else  if(state is StateInternetError){
-                return CommonErrorWidget(title: "No Connection",subTitle: "Please check your internet connection and try again",
-                  onTap: () {
-                    BlocProvider.of<UserHistoryCubit>(context)
-                        .getUserHistoryData();
-                  },
-                );
-              } else if (state is StateOnSuccess) {
-                List<UserHistoryModel> userHistoryModel = state.response;
-    if (userHistoryModel.isEmpty) {
-    return const CommonErrorWidget(
-    imagePath: ImagePath.noBookingPage,
-    subTitle: "You don't have any booking at this moment",
-    title: "No bookings found");
-    } else {
-                return ListView.builder(
-                    controller: _scrollController,
-                    itemCount: state.isMoreLoading
-                        ? userHistoryModel.length + 1
-                        : userHistoryModel.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          if (index != userHistoryModel.length)
-                            HistoryListViewWidget(
-                                userHistoryModel: userHistoryModel[index], reviewPostCall: (int hotelId)  {
-                               Navigator.pushNamed(
+        body: SafeArea(child:
+            BlocBuilder<UserHistoryCubit, BaseState>(builder: (context, state) {
+          if (state is StateErrorGeneralStateErrorServer) {
+            return CommonErrorWidget(
+              onTap: () {
+                BlocProvider.of<UserHistoryCubit>(context).getUserHistoryData();
+              },
+            );
+          } else if (state is StateInternetError) {
+            return CommonErrorWidget(
+              title: "No Connection",
+              subTitle: "Please check your internet connection and try again",
+              onTap: () {
+                BlocProvider.of<UserHistoryCubit>(context).getUserHistoryData();
+              },
+            );
+          } else if (state is StateOnSuccess) {
+            List<UserHistoryModel> userHistoryModel = state.response;
+            if (userHistoryModel.isEmpty) {
+              return const CommonErrorWidget(
+                  imagePath: ImagePath.noBookingPage,
+                  subTitle: "You don't have any booking at this moment",
+                  title: "No bookings found");
+            } else {
+              return ListView.builder(
+                  controller: _scrollController,
+                  itemCount: state.isMoreLoading
+                      ? userHistoryModel.length + 1
+                      : userHistoryModel.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        if (index != userHistoryModel.length)
+                          HistoryListViewWidget(
+                            userHistoryModel: userHistoryModel[index],
+                            reviewPostCall: (int hotelId) {
+                              Navigator.pushNamed(
                                   context, RoutesName.publishReviewPage,
                                   arguments: {
-                                    "hotel_id":hotelId
-                                    ,
+                                    "hotel_id": hotelId,
                                     // 'rating': userHistoryModel.r
                                   });
-                            },),
-                          if (index == userHistoryModel.length)
-                            const CircularProgressIndicator()
-                        ],
-                      );
-                    });
-              } else {
-                return const HistoryPageShimmer();
-              }
-            },
-          ),
-        ));
+                            },
+                          ),
+                        if (index == userHistoryModel.length)
+                          const CircularProgressIndicator()
+                      ],
+                    );
+                  });
+            }
+          } else {
+            return const HistoryPageShimmer();
+          }
+        })));
   }
 }

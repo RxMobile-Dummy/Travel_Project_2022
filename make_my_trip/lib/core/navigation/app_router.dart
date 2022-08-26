@@ -111,7 +111,7 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) => slHomePage<HomepageCubit>(),
-              // ..getPopularHotel(),
+            // ..getPopularHotel(),
             child: ListOfPopulerHotels(),
           );
         });
@@ -152,23 +152,25 @@ class Router {
           return BlocProvider(
             create: (context) =>
                 historyListSl<UserHistoryCubit>()..getUserHistoryData(),
-            child: const UserHistoryPage(),
+            child: UserHistoryPage(),
           );
         });
       case RoutesName.bookingHistoryDetailPage:
-        UserHistoryModel arg = settings.arguments as  UserHistoryModel;
+        UserHistoryModel arg = settings.arguments as UserHistoryModel;
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => historyListSl<UserHistoryCubit>()
-                  ..getUserHistoryData(),
+                create: (context) =>
+                    historyListSl<UserHistoryCubit>()..getUserHistoryData(),
               ),
               BlocProvider(
                 create: (context) => historyListDetailSl<CancelBookingCubit>(),
               ),
             ],
-            child: BookingHistoryDetails(userHistoryModel: arg,),
+            child: BookingHistoryDetails(
+              userHistoryModel: arg,
+            ),
           );
         });
       case RoutesName.wishList:

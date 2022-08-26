@@ -39,9 +39,8 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
 
   Future<List<String>> uploadUrl(List<String> imageFileList) async {
     List<String> imageUrl = [];
-    for(var e in imageFileList){
-      final path =
-          StringConstants.firebaseReviewFolderName + "image" + e;
+    for (var e in imageFileList) {
+      final path = StringConstants.firebaseReviewFolderName + "image" + e;
       final filename = File(e);
       final ref = FirebaseStorage.instance.ref().child(path);
       try {
@@ -64,7 +63,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
         final response = await dio.post(
             '${BaseConstant.baseUrl}review/hotel/${int.parse(hotel_id.toString())}',
             data: reviewModel.toJson(),
-            options: await createDioOptions());
+            options: await BaseConstant.createDioOptions());
         if (response.statusCode == 200) {
           return Right(null);
         } else {
@@ -78,8 +77,6 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
       return Left(ServerFailure());
     }
   }
-
-
 
   uploadimageGallery(File filename, String pickedFile, Reference ref) async {
     await ref.putFile(filename);

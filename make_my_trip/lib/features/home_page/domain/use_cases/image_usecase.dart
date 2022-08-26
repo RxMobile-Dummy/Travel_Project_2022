@@ -14,5 +14,3 @@ class GetAllImagesOfHomePageUseCase {
     return await imagesrepository.getImages(val);
   }
 }
-
-

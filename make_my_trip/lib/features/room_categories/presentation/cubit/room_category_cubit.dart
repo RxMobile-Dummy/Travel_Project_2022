@@ -53,7 +53,9 @@ class RoomCategoryCubit extends Cubit<BaseState> {
       RoomCategoryModel roomCategoryModel, int adults) async {
     emit(StateInitial());
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {emit(FailureHandler.checkFailures(failure));}, (success) {
+    res.fold((failure) {
+      emit(FailureHandler.checkFailures(failure));
+    }, (success) {
       if (success) {
         emit(Unauthenticated());
       } else {

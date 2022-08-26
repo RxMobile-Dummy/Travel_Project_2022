@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
               ..getImagesApi();
           },
         );
-      } else{
+      } else {
         return Scaffold(
           body: SafeArea(
             child: SingleChildScrollView(

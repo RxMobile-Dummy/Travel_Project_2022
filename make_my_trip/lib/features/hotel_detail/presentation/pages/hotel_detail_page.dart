@@ -48,16 +48,20 @@ class HotelDetailPage extends StatelessWidget {
         if (state is StateErrorGeneralStateErrorServer) {
           return CommonErrorWidget(
             onTap: () {
-              BlocProvider.of<HotelDetailCubit>(context).getHotelDetailData(arg['hotel_id']);
+              BlocProvider.of<HotelDetailCubit>(context)
+                  .getHotelDetailData(arg['hotel_id']);
             },
           );
-        }else  if(state is StateInternetError){
-          return CommonErrorWidget(title: "No Connection",subTitle: "Please check your internet connection and try again",
+        } else if (state is StateInternetError) {
+          return CommonErrorWidget(
+            title: "No Connection",
+            subTitle: "Please check your internet connection and try again",
             onTap: () {
-              BlocProvider.of<HotelDetailCubit>(context).getHotelDetailData(arg['hotel_id']);
+              BlocProvider.of<HotelDetailCubit>(context)
+                  .getHotelDetailData(arg['hotel_id']);
             },
           );
-        }  else if (state is StateOnKnownToSuccess) {
+        } else if (state is StateOnKnownToSuccess) {
           hotelDetailModel = state.response;
           isLiked = hotelDetailModel!.isbookmark!;
         } else if (state is StateSearchResult) {
@@ -66,7 +70,7 @@ class HotelDetailPage extends StatelessWidget {
           imgIndex = state.response;
         } else if (state is StateOnSuccess) {
           isReadMore = state.response;
-        }else{
+        } else {
           return const HotelDetailsShimmer();
         }
         return WillPopScope(
@@ -136,7 +140,6 @@ class HotelDetailPage extends StatelessWidget {
                             ),
                             12.horizontalSpace,
                           ],
-
                           flexibleSpace: FlexibleSpaceBar(
                             centerTitle: true,
                             background: Stack(fit: StackFit.expand, children: [
@@ -312,10 +315,12 @@ class HotelDetailPage extends StatelessWidget {
                           ),
                           12.verticalSpace,
                           Wrap(
-                            children: List.generate(hotelDetailModel!.features!.length, (index) => FeaturesItemWidget(
+                              children: List.generate(
+                            hotelDetailModel!.features!.length,
+                            (index) => FeaturesItemWidget(
                                 text: hotelDetailModel?.features![index] ??
-                                    "feature"),)
-                          ),
+                                    "feature"),
+                          )),
                           18.verticalSpace,
                           ReviewContainer(
                             icon: Icons.star_rounded,

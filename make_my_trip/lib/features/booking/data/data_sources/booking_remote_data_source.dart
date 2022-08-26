@@ -11,7 +11,16 @@ import '../model/payment_model.dart';
 
 abstract class BookingRemoteDataSource {
   Future<Either<Failures, PaymentModel>> paymentIntegerationDataSource(
-      double amount,List<int> roomId,int hotelId,String cIn,String cOut,  double roomPrice, int gst, int offer, int total, int couponId );
+      double amount,
+      List<int> roomId,
+      int hotelId,
+      String cIn,
+      String cOut,
+      double roomPrice,
+      int gst,
+      int offer,
+      int total,
+      int couponId);
   Future<Either<Failures, BookingModel>> bookingRemoteDataSource(
       int hotelId, String cIn, String cOut, List<int> roomId, int adults);
 }
@@ -22,16 +31,31 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
   @override
   Future<Either<Failures, PaymentModel>> paymentIntegerationDataSource(
-      double amount,List<int> roomId,int hotelId,String cIn,String cOut, double roomPrice, int gst, int offer, int total, int couponId) async {
+      double amount,
+      List<int> roomId,
+      int hotelId,
+      String cIn,
+      String cOut,
+      double roomPrice,
+      int gst,
+      int offer,
+      int total,
+      int couponId) async {
     try {
       final response = await dio.post('${BaseConstant.baseUrl}payment',
-          data: {'amount': amount,"room_id":roomId,"cin":cIn,"cout":cOut,"hotel_id":hotelId,"coupon_id":couponId,
-            "price":{
-            "room_price":roomPrice,
-            "discount":offer,
-            "gst":gst,
-            "total_price":total,
-          },
+          data: {
+            'amount': amount,
+            "room_id": roomId,
+            "cin": cIn,
+            "cout": cOut,
+            "hotel_id": hotelId,
+            "coupon_id": couponId,
+            "price": {
+              "room_price": roomPrice,
+              "discount": offer,
+              "gst": gst,
+              "total_price": total,
+            },
           },
           options: await BaseConstant.createDioOptions());
       final res = await FailureHandler.handleError(response);
@@ -46,7 +70,6 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
     } catch (err) {
       return Left(ServerFailure());
     }
-
   }
 
   @override
@@ -61,7 +84,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
                 "cout": cOut,
                 "roomid": roomId.join(","),
                 "adults": adults,
-                "coupon_id":0
+                "coupon_id": 0
               },
               options: await BaseConstant.createDioOptions());
       final res = await FailureHandler.handleError(response);
@@ -77,6 +100,5 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
     } catch (err) {
       return Left(ServerFailure());
     }
-
   }
 }

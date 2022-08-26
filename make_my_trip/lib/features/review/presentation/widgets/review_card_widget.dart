@@ -24,7 +24,9 @@ class ReviewCardWidget extends StatelessWidget {
       required this.description,
       required this.date,
       required this.ratingValue,
-      required this.image, required this.uploadedImages, required this.uploadedImgCount})
+      required this.image,
+      required this.uploadedImages,
+      required this.uploadedImgCount})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -93,8 +95,7 @@ class ReviewCardWidget extends StatelessWidget {
                     flex: 4,
                     child: Text(
                       date,
-                      style:
-                          AppTextStyles.labelDetails.copyWith(fontSize: 14),
+                      style: AppTextStyles.labelDetails.copyWith(fontSize: 14),
                     ),
                   ),
                 ],
@@ -120,27 +121,24 @@ class ReviewCardWidget extends StatelessWidget {
                     itemCount: uploadedImgCount,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10),
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10),
                     itemBuilder: (BuildContext context, int index) {
-                      return Stack(
-                        children:[
-                          ClipRect(
-                            child: FadeInImage.assetNetwork(
+                      return Stack(children: [
+                        ClipRect(
+                          child: FadeInImage.assetNetwork(
                               fit: BoxFit.cover,
                               alignment: Alignment.center,
                               placeholder: ImagePath.placeHolderImage,
-                              image:  uploadedImages[index].imageUrl.toString(),
+                              image: uploadedImages[index].imageUrl.toString(),
                               imageErrorBuilder: (context, error, stackTrace) {
                                 return Image.asset(
                                   ImagePath.placeHolderImage,
                                   fit: BoxFit.fitWidth,
                                 );
                               }),
-                          ),
-
-                        ]
-                      );
+                        ),
+                      ]);
                     }),
               )
             ],

@@ -67,7 +67,8 @@ class PublishReviewPage extends StatelessWidget {
                           state.commentReview == null ||
                           state.commentReview.length == 0 ||
                           state.commentReview.toString().trim().length == 0) {
-                        var snackBar = SnackBar(content: Text(StringConstants.pleaseEntCom));
+                        var snackBar = SnackBar(
+                            content: Text(StringConstants.pleaseEntCom));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                       context.read<ReviewCubit>().postHotelReviewData(
@@ -184,7 +185,6 @@ class PublishReviewPage extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GridView.builder(
@@ -198,24 +198,26 @@ class PublishReviewPage extends StatelessWidget {
                             return Stack(children: [
                               Positioned(
                                 child: Image.file(
-                                    File( state.imageFileList[index]),
+                                    File(state.imageFileList[index]),
                                     fit: BoxFit.fitWidth),
                               ),
                               Positioned(
                                   child: GestureDetector(
-                                    onTap:(){
-                                      context.read<PublishReviewCubit>().deleteImg(state.imageFileList[index]);
-                                    },
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            color: MakeMyTripColors.color0gray
-                                                ?.withOpacity(0.5),
-                                            shape: BoxShape.circle),
-                                        child: const Icon(
-                                          Icons.delete,
-                                          color: MakeMyTripColors.colorRed,
-                                        )),
-                                  ))
+                                onTap: () {
+                                  context
+                                      .read<PublishReviewCubit>()
+                                      .deleteImg(state.imageFileList[index]);
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: MakeMyTripColors.color0gray
+                                            ?.withOpacity(0.5),
+                                        shape: BoxShape.circle),
+                                    child: const Icon(
+                                      Icons.delete,
+                                      color: MakeMyTripColors.colorRed,
+                                    )),
+                              ))
                             ]);
                           }),
                     ),

@@ -27,8 +27,10 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
         'page': page,
       };
       final response = await dio.get(
-          '${BaseConstant.baseUrl}booking/user/bookings',
-          options: await BaseConstant.createDioOptions(),queryParameters: params,);
+        '${BaseConstant.baseUrl}booking/user/bookings',
+        options: await BaseConstant.createDioOptions(),
+        queryParameters: params,
+      );
       final res = await FailureHandler.handleError(response);
       return res.fold((l) => Left(l), (r) {
         List<UserHistoryModel> userHistoryModel = [];

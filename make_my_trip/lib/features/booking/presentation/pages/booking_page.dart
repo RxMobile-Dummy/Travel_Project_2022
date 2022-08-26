@@ -28,7 +28,6 @@ class BookingPage extends StatelessWidget {
     var detail = arg["model"] as RoomDataPostModel;
     return Scaffold(
       appBar: AppBar(
-
         title: Text(
           StringConstants.confirMation,
           style: AppTextStyles.labelStyle.copyWith(fontSize: 24),
@@ -74,8 +73,9 @@ class BookingPage extends StatelessWidget {
           } else if (state is StateLoading) {
             ProgressDialog.showLoadingDialog(context, message: "Please wait");
           } else if (state is StateOnResponseSuccess) {
-            if(state.response == 'timeout') {
-              Navigator.pushNamedAndRemoveUntil(context, RoutesName.home,(Route<dynamic> route) => false);
+            if (state.response == 'timeout') {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, RoutesName.home, (Route<dynamic> route) => false);
               Fluttertoast.showToast(
                   msg: "Payment Time Out", timeInSecForIosWeb: 4);
             } else {
@@ -103,351 +103,371 @@ class BookingPage extends StatelessWidget {
           if (state is StateErrorGeneralStateErrorServer) {
             return CommonErrorWidget(
               onTap: () {
-                BlocProvider.of<PaymentCubit>(context).bookingConfirm(detail.hotelId!, detail.checkinDate!,
-                detail.checkoutDate!, detail.roomId!, detail.adults!);
+                BlocProvider.of<PaymentCubit>(context).bookingConfirm(
+                    detail.hotelId!,
+                    detail.checkinDate!,
+                    detail.checkoutDate!,
+                    detail.roomId!,
+                    detail.adults!);
               },
             );
-          }else  if(state is StateInternetError){
-            return CommonErrorWidget(title: "No Connection",subTitle: "Please check your internet connection and try again",
-              onTap: () {BlocProvider.of<PaymentCubit>(context).bookingConfirm(detail.hotelId!, detail.checkinDate!,
-                  detail.checkoutDate!, detail.roomId!, detail.adults!);
+          } else if (state is StateInternetError) {
+            return CommonErrorWidget(
+              title: "No Connection",
+              subTitle: "Please check your internet connection and try again",
+              onTap: () {
+                BlocProvider.of<PaymentCubit>(context).bookingConfirm(
+                    detail.hotelId!,
+                    detail.checkinDate!,
+                    detail.checkoutDate!,
+                    detail.roomId!,
+                    detail.adults!);
               },
             );
           } else if (state is StateOnSuccess) {
             bookingModel = state.response;
             return SingleChildScrollView(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    16.verticalSpace,
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        StringConstants.bookingDetails,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.unselectedLabelStyle
-                            .copyWith(fontSize: 24),
-                      ),
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  16.verticalSpace,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      StringConstants.bookingDetails,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.unselectedLabelStyle
+                          .copyWith(fontSize: 24),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 12.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4.0),
-                            color: MakeMyTripColors.colorWhite,
-                            boxShadow: const [
-                              BoxShadow(
-                                blurRadius: 1.0,
-                              ),
-                            ]),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    flex: 3,
-                                    child: Text(
-                                      bookingModel?.hotelName ?? 'Hotel Name',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: AppTextStyles.infoContentStyle
-                                          .copyWith(fontSize: 22),
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      color: MakeMyTripColors.colorBlue,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Row(
-                                        children: [
-                                          const Icon(Icons.star_rate_rounded,
-                                              size: 18,
-                                              color: MakeMyTripColors.colorWhite),
-                                          Text(
-                                            bookingModel?.rating
-                                                    ?.toDouble()
-                                                    .toString() ??
-                                                "0.0",
-                                            style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                                color:
-                                                    MakeMyTripColors.colorWhite),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              6.verticalSpace,
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.location_on_outlined,
-                                    size: 16,
-                                  ),
-                                  Flexible(
-                                    flex: 2,
-                                    child: Text(
-                                      bookingModel?.address ?? "Address",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: AppTextStyles.labelDetails.copyWith(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              4.verticalSpace,
-                              const Divider(
-                                color: MakeMyTripColors.color70gray,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      StringConstants.roomType,
-                                      style: AppTextStyles.infoContentStyle
-                                          .copyWith(fontSize: 18),
-                                    ),
-                                    Text(
-                                      "${bookingModel?.roomId?.join(",")}",
-                                      style: AppTextStyles.labelDetails.copyWith(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const Divider(
-                                color: MakeMyTripColors.color70gray,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Check In",
-                                          style: AppTextStyles.infoLabelStyle
-                                              .copyWith(fontSize: 16),
-                                        ),
-                                        Text(
-                                            bookingModel?.checkInDate ??
-                                                '--/--/----',
-                                            style: AppTextStyles
-                                                .unselectedLabelStyle)
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Check Out",
-                                          style: AppTextStyles.infoLabelStyle
-                                              .copyWith(fontSize: 16),
-                                        ),
-                                        Text(
-                                          bookingModel?.checkOutDate ??
-                                              '--/--/----',
-                                          style:
-                                              AppTextStyles.unselectedLabelStyle,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    16.verticalSpace,
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        "Payment Summary",
-                        style: AppTextStyles.unselectedLabelStyle
-                            .copyWith(fontSize: 24),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 12.0),
-                      child: Container(
-                        decoration: BoxDecoration(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 12.0),
+                    child: Container(
+                      decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.0),
                           color: MakeMyTripColors.colorWhite,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    StringConstants.roomRate,
-                                    style: AppTextStyles.infoContentStyle,
+                          boxShadow: const [
+                            BoxShadow(
+                              blurRadius: 1.0,
+                            ),
+                          ]),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                  flex: 3,
+                                  child: Text(
+                                    bookingModel?.hotelName ?? 'Hotel Name',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyles.infoContentStyle
+                                        .copyWith(fontSize: 22),
                                   ),
-                                  Text(
-                                    '₹ ${bookingModel?.roomPrice}',
-                                    style: AppTextStyles.labelDetails,
-                                  )
-                                ],
-                              ),
-                              4.verticalSpace,
-                              (bookingModel!.noOfmatress! > 0)
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    color: MakeMyTripColors.colorBlue,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Row(
                                       children: [
+                                        const Icon(Icons.star_rate_rounded,
+                                            size: 18,
+                                            color: MakeMyTripColors.colorWhite),
                                         Text(
-                                          "${StringConstants.matresses}(${bookingModel!.noOfmatress})",
-                                          style: AppTextStyles.infoContentStyle,
-                                        ),
-                                        Text(
-                                          '₹ ${bookingModel?.matressPrize}',
-                                          style: AppTextStyles.labelDetails,
+                                          bookingModel?.rating
+                                                  ?.toDouble()
+                                                  .toString() ??
+                                              "0.0",
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color:
+                                                  MakeMyTripColors.colorWhite),
                                         )
                                       ],
-                                    )
-                                  : SizedBox(),
-                              4.verticalSpace,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    StringConstants.noOfNight,
-                                    style: AppTextStyles.infoContentStyle,
+                                    ),
                                   ),
-                                  Text(
-                                    bookingModel?.noOfDays.toString() ?? '0',
-                                    style: AppTextStyles.labelDetails,
-                                  )
-                                ],
-                              ),
-                              4.verticalSpace,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    StringConstants.subTotal,
-                                    style: AppTextStyles.infoContentStyle,
-                                  ),
-                                  Text(
-                                    '₹ ${bookingModel?.subTotal}',
-                                    style: AppTextStyles.labelDetails,
-                                  )
-                                ],
-                              ),
-                              4.verticalSpace,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "${StringConstants.gst} (${bookingModel?.gstPercentage}%)",
-                                    style: AppTextStyles.infoContentStyle,
-                                  ),
-                                  Text(
-                                    '₹ ${bookingModel?.gst}',
-                                    style: AppTextStyles.labelDetails,
-                                  )
-                                ],
-                              ),
-                              4.verticalSpace,
-                              const Divider(
-                                color: MakeMyTripColors.color70gray,
-                              ),
-                              4.verticalSpace,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "${StringConstants.offer} (${bookingModel?.discountPercentage}%)",
-                                    style: AppTextStyles.infoContentStyle,
-                                  ),
-                                  Text(
-                                    "- ₹ ${bookingModel?.offer}",
+                                ),
+                              ],
+                            ),
+                            6.verticalSpace,
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.location_on_outlined,
+                                  size: 16,
+                                ),
+                                Flexible(
+                                  flex: 2,
+                                  child: Text(
+                                    bookingModel?.address ?? "Address",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: AppTextStyles.labelDetails.copyWith(
-                                        color: MakeMyTripColors.colorGreen,
-                                        fontWeight: FontWeight.w800),
-                                  )
-                                ],
-                              ),
-                              4.verticalSpace,
-                              const Divider(
-                                color: MakeMyTripColors.color70gray,
-                              ),
-                              4.verticalSpace,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    StringConstants.grandTotal,
-                                    style: AppTextStyles.infoContentStyle,
+                                      fontSize: 14,
+                                    ),
                                   ),
+                                ),
+                              ],
+                            ),
+                            4.verticalSpace,
+                            const Divider(
+                              color: MakeMyTripColors.color70gray,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
                                   Text(
-                                    '₹ ${bookingModel?.total}',
+                                    StringConstants.roomType,
                                     style: AppTextStyles.infoContentStyle
                                         .copyWith(fontSize: 18),
+                                  ),
+                                  Text(
+                                    "${bookingModel?.roomId?.join(",")}",
+                                    style: AppTextStyles.labelDetails.copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
                                   )
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                            const Divider(
+                              color: MakeMyTripColors.color70gray,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Check In",
+                                        style: AppTextStyles.infoLabelStyle
+                                            .copyWith(fontSize: 16),
+                                      ),
+                                      Text(
+                                          bookingModel?.checkInDate ??
+                                              '--/--/----',
+                                          style: AppTextStyles
+                                              .unselectedLabelStyle)
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Check Out",
+                                        style: AppTextStyles.infoLabelStyle
+                                            .copyWith(fontSize: 16),
+                                      ),
+                                      Text(
+                                        bookingModel?.checkOutDate ??
+                                            '--/--/----',
+                                        style:
+                                            AppTextStyles.unselectedLabelStyle,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 12.0),
-                      child: Text(
-                        StringConstants.warningBooking,
-                        style: AppTextStyles.unselectedLabelStyle.copyWith(
-                            fontSize: 16, color: MakeMyTripColors.colorRed),
+                  ),
+                  16.verticalSpace,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      "Payment Summary",
+                      style: AppTextStyles.unselectedLabelStyle
+                          .copyWith(fontSize: 24),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 12.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4.0),
+                        color: MakeMyTripColors.colorWhite,
                       ),
-                    ),Align(
-                      alignment: Alignment.center,
-                      child: FractionallySizedBox(
-                        widthFactor: .95,
-                        child: CommonPrimaryButton(
-                                text: StringConstants.book,
-                                onTap: () {
-                                  context.read<PaymentCubit>().paymentConfirm(20,detail.roomId,detail.hotelId,detail.checkinDate,detail.checkoutDate,bookingModel!.roomPrice ?? 0,bookingModel!.gst ?? 0,bookingModel!.offer ?? 0,bookingModel!.total ?? 0,2);
-                                }),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  StringConstants.roomRate,
+                                  style: AppTextStyles.infoContentStyle,
+                                ),
+                                Text(
+                                  '₹ ${bookingModel?.roomPrice}',
+                                  style: AppTextStyles.labelDetails,
+                                )
+                              ],
+                            ),
+                            4.verticalSpace,
+                            (bookingModel!.noOfmatress! > 0)
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "${StringConstants.matresses}(${bookingModel!.noOfmatress})",
+                                        style: AppTextStyles.infoContentStyle,
+                                      ),
+                                      Text(
+                                        '₹ ${bookingModel?.matressPrize}',
+                                        style: AppTextStyles.labelDetails,
+                                      )
+                                    ],
+                                  )
+                                : SizedBox(),
+                            4.verticalSpace,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  StringConstants.noOfNight,
+                                  style: AppTextStyles.infoContentStyle,
+                                ),
+                                Text(
+                                  bookingModel?.noOfDays.toString() ?? '0',
+                                  style: AppTextStyles.labelDetails,
+                                )
+                              ],
+                            ),
+                            4.verticalSpace,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  StringConstants.subTotal,
+                                  style: AppTextStyles.infoContentStyle,
+                                ),
+                                Text(
+                                  '₹ ${bookingModel?.subTotal}',
+                                  style: AppTextStyles.labelDetails,
+                                )
+                              ],
+                            ),
+                            4.verticalSpace,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "${StringConstants.gst} (${bookingModel?.gstPercentage}%)",
+                                  style: AppTextStyles.infoContentStyle,
+                                ),
+                                Text(
+                                  '₹ ${bookingModel?.gst}',
+                                  style: AppTextStyles.labelDetails,
+                                )
+                              ],
+                            ),
+                            4.verticalSpace,
+                            const Divider(
+                              color: MakeMyTripColors.color70gray,
+                            ),
+                            4.verticalSpace,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "${StringConstants.offer} (${bookingModel?.discountPercentage}%)",
+                                  style: AppTextStyles.infoContentStyle,
+                                ),
+                                Text(
+                                  "- ₹ ${bookingModel?.offer}",
+                                  style: AppTextStyles.labelDetails.copyWith(
+                                      color: MakeMyTripColors.colorGreen,
+                                      fontWeight: FontWeight.w800),
+                                )
+                              ],
+                            ),
+                            4.verticalSpace,
+                            const Divider(
+                              color: MakeMyTripColors.color70gray,
+                            ),
+                            4.verticalSpace,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  StringConstants.grandTotal,
+                                  style: AppTextStyles.infoContentStyle,
+                                ),
+                                Text(
+                                  '₹ ${bookingModel?.total}',
+                                  style: AppTextStyles.infoContentStyle
+                                      .copyWith(fontSize: 18),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ],
-                ),
-              )
-
-            );
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 12.0),
+                    child: Text(
+                      StringConstants.warningBooking,
+                      style: AppTextStyles.unselectedLabelStyle.copyWith(
+                          fontSize: 16, color: MakeMyTripColors.colorRed),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: FractionallySizedBox(
+                      widthFactor: .95,
+                      child: CommonPrimaryButton(
+                          text: StringConstants.book,
+                          onTap: () {
+                            context.read<PaymentCubit>().paymentConfirm(
+                                20,
+                                detail.roomId,
+                                detail.hotelId,
+                                detail.checkinDate,
+                                detail.checkoutDate,
+                                bookingModel!.roomPrice ?? 0,
+                                bookingModel!.gst ?? 0,
+                                bookingModel!.offer ?? 0,
+                                bookingModel!.total ?? 0,
+                                2);
+                          }),
+                    ),
+                  ),
+                ],
+              ),
+            ));
           } else {
             return const ConfirmationPageShimmer();
           }

@@ -8,5 +8,5 @@ abstract class ReviewRepository {
   Future<Either<Failures, GetReviewModel>> getHotelReview(int params);
 
   Future<Either<Failures, void>> postHotelReview(
-      Reviews reviewModel, int hotel_id,List<String> imageFileList);
+      Reviews reviewModel, int hotel_id, List<String> imageFileList);
 }

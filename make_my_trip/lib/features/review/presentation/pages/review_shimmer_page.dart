@@ -5,7 +5,6 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
 
-
 class ReviewPageShimmer extends StatelessWidget {
   const ReviewPageShimmer({Key? key}) : super(key: key);
   @override
@@ -45,14 +44,23 @@ class ReviewPageShimmer extends StatelessWidget {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 10),
-                                child: ListContainer(width: size.width * 0.4 ,hight: 20,),
+                                child: ListContainer(
+                                  width: size.width * 0.4,
+                                  hight: 20,
+                                ),
                               )
                             ],
                           ),
                           10.verticalSpace,
-                          ListContainer(width: size.width * 0.85,hight: 90,),
+                          ListContainer(
+                            width: size.width * 0.85,
+                            hight: 90,
+                          ),
                           10.verticalSpace,
-                          ListContainer(width: size.width * 0.4 ,hight: 20,),
+                          ListContainer(
+                            width: size.width * 0.4,
+                            hight: 20,
+                          ),
                         ],
                       ),
                     ),

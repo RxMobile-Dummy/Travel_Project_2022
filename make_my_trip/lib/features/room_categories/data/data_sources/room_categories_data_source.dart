@@ -39,7 +39,7 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
       final res = await FailureHandler.handleError(response);
       return res.fold((l) => Left(l), (r) {
         final RoomCategoryModel roomCategoryModel =
-        RoomCategoryModel.fromJson(response.data);
+            RoomCategoryModel.fromJson(response.data);
         return Right(roomCategoryModel);
       });
     } on SocketException {
@@ -47,7 +47,6 @@ class RoomCategoriesDataSourceImpl implements RoomCategoriesDataSource {
     } catch (err) {
       return Left(ServerFailure());
     }
-
   }
 
   @override

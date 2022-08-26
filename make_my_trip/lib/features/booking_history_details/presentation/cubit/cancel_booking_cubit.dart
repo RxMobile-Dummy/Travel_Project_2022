@@ -14,17 +14,15 @@ part 'cancel_booking_state.dart';
 
 class CancelBookingCubit extends Cubit<CancelBookingState> {
   UserHistoryDetailUseCase userHistoryDetailUseCase;
-  CancelBookingCubit(this.userHistoryDetailUseCase) : super(CancelBookingInitial());
-  cancelBooking(int? bookingId) async{
+  CancelBookingCubit(this.userHistoryDetailUseCase)
+      : super(CancelBookingInitial());
+  cancelBooking(int? bookingId) async {
     try {
       final response = await userHistoryDetailUseCase.call(bookingId);
-      response.fold((l) => emit(BookingsCancellationFailure()), (r) =>
-          emit(BookingsCancelled()));
-    }
-    catch(e){
+      response.fold((l) => emit(BookingsCancellationFailure()),
+          (r) => emit(BookingsCancelled()));
+    } catch (e) {
       emit(BookingsCancellationFailure());
     }
   }
-
-
 }

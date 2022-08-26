@@ -361,7 +361,8 @@ class StringConstants {
   static String cancelAreYouSure = "Are you sure want to cancel booking?";
   static String yourBookingIsCancel = "This hotel is been cancelled";
   static String bookingCancelledSuccessfully = "Booking Cancelled Successfully";
-  static String cantCancelBooking = "Booking can not be cancelled in last 24 hours of booking as per our cancellation policy";
+  static String cantCancelBooking =
+      "Booking can not be cancelled in last 24 hours of booking as per our cancellation policy";
   static String cancelText = "CANCELLED";
 
   static String deluxType = "Deluxe";

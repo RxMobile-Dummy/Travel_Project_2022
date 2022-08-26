@@ -3,12 +3,12 @@ import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../wishlist/presentation/widgets/list_container_widget.dart';
+
 class HistoryDetailPageShimmer extends StatelessWidget {
   const HistoryDetailPageShimmer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SizedBox(
@@ -26,7 +26,7 @@ class HistoryDetailPageShimmer extends StatelessWidget {
                   child: ListView.builder(
                     itemBuilder: (_, __) => Padding(
                       padding: const EdgeInsets.only(
-                          bottom: 20.0, left: 10, top: 0,right: 10),
+                          bottom: 20.0, left: 10, top: 0, right: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -38,8 +38,7 @@ class HistoryDetailPageShimmer extends StatelessWidget {
                                 hight: size.height * 0.26,
                               )),
                           Padding(
-                            padding:
-                            const EdgeInsets.only(left: 10, top: 20),
+                            padding: const EdgeInsets.only(left: 10, top: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -64,13 +63,15 @@ class HistoryDetailPageShimmer extends StatelessWidget {
                                 12.verticalSpace,
                                 Center(
                                   child: Container(
-                                    height: size.height*0.4,
-                                    width: size.width*0.6,
+                                    height: size.height * 0.4,
+                                    width: size.width * 0.6,
                                     child: ListView.builder(
                                       itemCount: 10,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        return  Padding(
-                                          padding: const EdgeInsets.only(top: 20),
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 20),
                                           child: ListContainer(
                                             hight: size.height * 0.035,
                                             width: size.width * 0.50,

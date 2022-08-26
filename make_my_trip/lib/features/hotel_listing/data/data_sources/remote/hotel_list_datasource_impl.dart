@@ -53,6 +53,5 @@ class HotelListDataSourceImpl implements HotelListDataSource {
       print(err);
       return Left(ServerFailure());
     }
-
   }
 }

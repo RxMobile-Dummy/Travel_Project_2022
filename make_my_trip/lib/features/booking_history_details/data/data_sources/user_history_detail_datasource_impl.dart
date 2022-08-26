@@ -16,6 +16,7 @@ class UserHistoryDetailDataSourceImpl extends UserHistoryDetailDataSource {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     return Options(headers: {'token': userToken});
   }
+
   @override
   Future<Either<Failures, String>> cancelBooking(bookingId) async {
     final response = await dio.put(

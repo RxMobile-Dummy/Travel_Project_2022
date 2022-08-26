@@ -10,16 +10,21 @@ var historyListDetailSl = GetIt.instance;
 
 Future<void> init() async {
   //cubit
-  historyListDetailSl.registerFactory(() => CancelBookingCubit(historyListDetailSl()));
+  historyListDetailSl
+      .registerFactory(() => CancelBookingCubit(historyListDetailSl()));
 
   //DataSource
-  historyListDetailSl.registerLazySingleton<UserHistoryDetailDataSource>(() => UserHistoryDetailDataSourceImpl(historyListDetailSl()),);
+  historyListDetailSl.registerLazySingleton<UserHistoryDetailDataSource>(
+    () => UserHistoryDetailDataSourceImpl(historyListDetailSl()),
+  );
 
   //Repository
-  historyListDetailSl.registerLazySingleton<UserHistoryDetailRepository>(() => UserHistoryDetailRepositoryImpl(historyListDetailSl()));
+  historyListDetailSl.registerLazySingleton<UserHistoryDetailRepository>(
+      () => UserHistoryDetailRepositoryImpl(historyListDetailSl()));
 
   //usecase
-  historyListDetailSl.registerLazySingleton(() => UserHistoryDetailUseCase(historyListDetailSl()));
+  historyListDetailSl.registerLazySingleton(
+      () => UserHistoryDetailUseCase(historyListDetailSl()));
 
   // historyListSl.registerFactory(() => Dio());
 }

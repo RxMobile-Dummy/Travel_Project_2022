@@ -10,7 +10,6 @@ class PublishReviewCubit extends Cubit<ReviewValueState> {
   final ImagePicker imagePicker = ImagePicker();
 
   PublishReviewCubit(this.postHotelReviewUseCases)
-      : super(ReviewValueState(
       : super(const ReviewValueState(
             cleanlinessReview: 0.0,
             comfortReview: 0.0,

@@ -71,8 +71,10 @@ class HotelListPage extends StatelessWidget {
                       arg['type']);
                 },
               );
-            }else  if(state is StateInternetError){
-              return CommonErrorWidget(title: "No Connection",subTitle: "Please check your internet connection and try again",
+            } else if (state is StateInternetError) {
+              return CommonErrorWidget(
+                title: "No Connection",
+                subTitle: "Please check your internet connection and try again",
                 onTap: () {
                   BlocProvider.of<HotelListCubit>(context).getHotelListApi(
                       arg['cin'],
@@ -82,7 +84,7 @@ class HotelListPage extends StatelessWidget {
                       arg['type']);
                 },
               );
-            }  else if (state is StateOnSuccess) {
+            } else if (state is StateOnSuccess) {
               List<HotelListModel> listOfHotel = state.response;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,11 +96,12 @@ class HotelListPage extends StatelessWidget {
                   ),
                   (listOfHotel.isEmpty)
                       ? const Expanded(
-                        child: CommonErrorWidget(
-                            imagePath: ImagePath.noBookingPage,
-                            subTitle: "Sorry there are no results match for these filters",
-                            title: "No hotel found"),
-                      )
+                          child: CommonErrorWidget(
+                              imagePath: ImagePath.noBookingPage,
+                              subTitle:
+                                  "Sorry there are no results match for these filters",
+                              title: "No hotel found"),
+                        )
                       : Expanded(
                           child: ListView.builder(
                               controller: _scrollController,
@@ -107,20 +110,19 @@ class HotelListPage extends StatelessWidget {
                                   ? listOfHotel.length + 1
                                   : listOfHotel.length,
                               itemBuilder: (context, index) {
-                                return HotelListViewWidget(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, RoutesName.hotelDetail,
-                                          arguments: {
-                                            "hotel_id": listOfHotel[index].id,
-                                            "share_link": false
-                                          });
-                                    },
-                                    hotelListModel: state.response[index]);
                                 return Column(
                                   children: [
                                     if (index != listOfHotel.length)
                                       HotelListViewWidget(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                                context, RoutesName.hotelDetail,
+                                                arguments: {
+                                                  "hotel_id":
+                                                      listOfHotel[index].id,
+                                                  "share_link": false
+                                                });
+                                          },
                                           hotelListModel:
                                               state.response[index]),
                                     if (index == listOfHotel.length)
