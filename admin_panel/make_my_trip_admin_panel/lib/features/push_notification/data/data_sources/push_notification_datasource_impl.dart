@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,13 +8,9 @@ import 'package:make_my_trip_admin_panel/features/push_notification/data/data_so
 import 'package:make_my_trip_admin_panel/utils/constants/base_constants.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 
-class PushNotificationDaaSource_Impl implements PushNotificationDataSource {
+class PushNotificationDataSourceImpl implements PushNotificationDataSource {
   Dio dio;
-  PushNotificationDaaSource_Impl(this.dio);
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    return Options(headers: {'token': userToken});
-  }
+  PushNotificationDataSourceImpl(this.dio);
 
   @override
   Future<Either<Failures, List<dynamic>>> getImageFromDevice() async {
@@ -50,14 +45,14 @@ class PushNotificationDaaSource_Impl implements PushNotificationDataSource {
       title, body, url) async {
     try {
       var response = await dio
-          .post("${BaseConstant.baseUrl}broadcast/registered",
+          .post("https://906d-180-211-112-179.in.ngrok.io/broadcast/registered",
               data: {
                 "title": title,
                 "body": body,
                 "imageUrl": url.toString().trim(),
                 "topic": "Events"
               },
-              options: await createDioOptions())
+              options: await BaseConstant.createDioOptions())
           .catchError(
               (err) => Fluttertoast.showToast(msg: StringConstants.notSend));
       return Right(response.data.toString());
@@ -70,13 +65,13 @@ class PushNotificationDaaSource_Impl implements PushNotificationDataSource {
   Future<Either<Failures, String>> endUserUseCase(title, body, url) async {
     try {
       var response = await Dio()
-          .post("${BaseConstant.baseUrl}broadcast/endUser",
+          .post("https://906d-180-211-112-179.in.ngrok.io/broadcast/endUser",
               data: {
                 "title": title,
                 "body": body,
                 "imageUrl": url.toString().trim()
               },
-              options: await createDioOptions())
+              options: await BaseConstant.createDioOptions())
           .catchError(
               (err) => Fluttertoast.showToast(msg: StringConstants.notSend));
       return Right(response.data.toString());

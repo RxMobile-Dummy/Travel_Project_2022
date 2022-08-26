@@ -17,7 +17,7 @@ Future<void> init() async {
 
   //Data source
   slPushNotification.registerLazySingleton<PushNotificationDataSource>(
-      () => PushNotificationDaaSource_Impl(slPushNotification()));
+      () => PushNotificationDataSourceImpl(slPushNotification()));
 
   //Repository
   slPushNotification.registerLazySingleton<PushNotificationRepository>(

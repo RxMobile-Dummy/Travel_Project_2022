@@ -15,6 +15,9 @@ import 'package:make_my_trip_admin_panel/features/faq/presentation/cubit/faq_cub
 import 'package:make_my_trip_admin_panel/features/faq/presentation/pages/faq_page.dart';
 import 'package:make_my_trip_admin_panel/features/privacy_policy/presentation/cubit/privacy_policy_cubit.dart';
 import 'package:make_my_trip_admin_panel/features/privacy_policy/presentation/pages/privacy_policy_page.dart';
+import 'package:make_my_trip_admin_panel/features/push_notification/presentation/cubit/push_notification_cubit.dart';
+import 'package:make_my_trip_admin_panel/features/push_notification/presentation/pages/push_notification_admin.dart';
+import 'package:make_my_trip_admin_panel/features/push_notification/push_notification_injection_container.dart';
 import 'package:make_my_trip_admin_panel/features/review_moderation/presentation/cubit/review_moderation_cubit.dart';
 import 'package:make_my_trip_admin_panel/features/review_moderation/presentation/pages/review_moderation.dart';
 import 'package:make_my_trip_admin_panel/features/terms_condition/presentation/cubit/terms_condition_cubit.dart';
@@ -73,9 +76,9 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height: 290,
+                          height: 300,
                           child: ListView.builder(
-                             controller:  ScrollController(),
+                              controller: ScrollController(),
                               itemCount: drawerListTileData.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return ListTile(
@@ -168,7 +171,18 @@ class HomePage extends StatelessWidget {
                                                     ..getPrivacyPolicyData(),
                                               child: (PrivacyPolicyPage()),
                                             )
-                                          : const SizedBox(),
+                                          : (state is StateOnResponseSuccess &&
+                                                  state.response ==
+                                                      StringConstants
+                                                          .pushNotification)
+                                              ? BlocProvider<
+                                                      PushNotificationCubit>(
+                                                  create: (context) =>
+                                                      slPushNotification<
+                                                          PushNotificationCubit>(),
+                                                  child:
+                                                      (const PushNotificationAdminPanel()))
+                                              : const SizedBox(),
                 ),
               ],
             ),

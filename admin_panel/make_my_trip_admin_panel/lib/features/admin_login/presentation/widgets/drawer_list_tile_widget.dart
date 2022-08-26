@@ -15,6 +15,8 @@ List<DrawerListTileWidget> drawerListTileData = [
   DrawerListTileWidget(
       iconData: Icons.edit_note_rounded,
       title: StringConstants.reviewAppbarTitle),
+  DrawerListTileWidget(
+      iconData: Icons.notifications, title: StringConstants.pushNotification),
   DrawerListTileWidget(iconData: Icons.message, title: StringConstants.faq),
   DrawerListTileWidget(
       iconData: Icons.info_rounded, title: StringConstants.aboutUs),
