@@ -18,6 +18,8 @@ import '../../features/privacy_policy/privacy_policy_injection_container.dart'
 import '../../features/terms_condition/terms_condition_injection_container.dart'
     as ditc;
 import '../../features/faq/faq_injection_container.dart' as difaq;
+import 'package:make_my_trip_admin_panel/features/push_notification/push_notification_injection_container.dart'
+    as push_notification_di;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +30,7 @@ Future<void> main() async {
   await dipp.init();
   await ditc.init();
   await difaq.init();
+  await push_notification_di.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

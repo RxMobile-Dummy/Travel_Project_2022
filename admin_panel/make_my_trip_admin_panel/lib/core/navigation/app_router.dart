@@ -8,6 +8,9 @@ import 'package:make_my_trip_admin_panel/features/admin_login/presentation/pages
 import 'package:make_my_trip_admin_panel/features/splash/presentation/cubit/splash_screen_cubit.dart';
 import 'package:make_my_trip_admin_panel/features/splash/presentation/pages/splash_screen_page.dart';
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
+import 'package:make_my_trip_admin_panel/features/push_notification/presentation/cubit/push_notification_cubit.dart';
+import 'package:make_my_trip_admin_panel/features/push_notification/presentation/pages/push_notification_admin.dart';
+import 'package:make_my_trip_admin_panel/features/push_notification/push_notification_injection_container.dart';
 
 class Router {
   Route<dynamic> generateRoutes(RouteSettings settings) {

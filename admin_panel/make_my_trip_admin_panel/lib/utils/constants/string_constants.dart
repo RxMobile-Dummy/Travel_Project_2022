@@ -40,6 +40,26 @@ class StringConstants {
     "Hotels Reviews"
   ];
 
+  //Admin push notification string
+  static String pushNotification = "Push Notification";
+  static String title = "Title";
+  static String body = "Body";
+  static String uploadImage = "Upload Image";
+  static String pleasUploadImage = "Please Upload Image";
+  static String imageUploadedSuccessfully = "Image Uploaded Successfully";
+  static String toRegisteredUser = "To Registered User";
+  static String toEndUser = "To End User";
+  static String sendNotification = "Send Notification";
+  static String pushedNotificationToRegisteredUser =
+      "Pushed Notification Successfully To Registered Users";
+  static String pushedNotificationToEndUser =
+      "Pushed Notification Successfully To End Users";
+  static String errorMsgNotification = "Please fill all the required fields";
+  static String notSend = "Count not post notification!";
+  static String enterTitleError = "Please enter a valid title";
+  static String enterBodyError = "Please enter a valid body";
+  static String uploadImageError = "Please upload an image template";
+
   //Review moderation
   static const noResultsTxt = "No results found";
   static const noReviewsTxt = "You don't have any new reviews at this moment";
