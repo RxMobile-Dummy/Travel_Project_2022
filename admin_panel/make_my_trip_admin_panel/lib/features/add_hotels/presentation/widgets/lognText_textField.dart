@@ -7,12 +7,12 @@ class LongTextTextField extends StatelessWidget {
   String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
-    return     Padding(
+    return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
       child: TextFormField(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator:  validator,
-        maxLength: 200,
+        maxLength: 400,
         maxLines: 5,
         controller: textFieldViewController,
         keyboardType: TextInputType.multiline,

@@ -234,7 +234,7 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             padding: const EdgeInsets.only(top: 10),
                             child: TextFieldView(
                               validator: (hotelname) {
-                                const hotelPattern = r'^[a-zA-Z0-9_.-]*$';
+                                const hotelPattern = r'^[a-zA-Z0-9_.-\s]*$';
                                 final regExp = RegExp(hotelPattern);
                                 if (hotelname.toString().isEmpty ||
                                     hotelname.toString().trim().isEmpty)
@@ -352,8 +352,7 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               Expanded(
                                   child: TextFieldView(
                                 validator: (rooms) {
-                                  if (rooms.toString().isEmpty ||
-                                      rooms.toString().trim().isEmpty)
+                                  if (rooms.toString().trim().isEmpty)
                                     return 'Enter the no of rooms';
                                   else if (int.parse(rooms.toString()) > 100)
                                     return 'add maximum 100 rooms';
@@ -373,7 +372,7 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                   hoteldescription.toString().trim().isEmpty)
                                 return 'Enter the hotel Description';
                               else if (hoteldescription.toString().length >
-                                  200) {
+                                  400) {
                                 return 'No more than 200 letter';
                               }
                             },
@@ -395,7 +394,6 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             if (state is StateOnKnownToSuccess) {
                               return Wrap(children: List.generate(cubit.hotelImages.length, (index) {
                                 return Image.memory(cubit.hotelImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
-
                               }),);
                             }else {
                               return const SizedBox();
@@ -405,7 +403,6 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                         30.verticalSpace,
                         Text(StringConstants.hotelFeature,
                             style: AppTextStyles.unselectedLabelStyle),
-
                         BlocBuilder<HotelCubit, BaseState>(
                             builder: (context, state) {
                           return Wrap(
@@ -558,9 +555,8 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                 return 'Enter the hotel Description';
                               else if (deluxehoteldescription
                                       .toString()
-                                      .length >
-                                  200) {
-                                return 'No more than 200 letter';
+                                      .length > 400) {
+                                return 'No more than 400 letter';
                               }
                             },
                             hintTextvar: "Deluxe Room Description",
@@ -742,8 +738,8 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               else if (semideluxehoteldescription
                                       .toString()
                                       .length >
-                                  200) {
-                                return 'No more than 200 letter';
+                                  400) {
+                                return 'No more than 400 letter';
                               }
                             },
                             hintTextvar: "Semi Deluxe Room Description",
@@ -927,7 +923,7 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                       .toString()
                                       .length >
                                   200) {
-                                return 'No more than 200 letter';
+                                return 'No more than 400 letter';
                               }
                             },
                             hintTextvar: "Super Deluxe Room Description",
@@ -1035,6 +1031,10 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                     superDeluxeRoomFeatures.isNotEmpty) {
                                   BlocProvider.of<HotelCubit>(context)
                                       .addHotels(
+                                          cubit.hotelImages,
+                                          cubit.superDeluxeImages,
+                                          cubit.semiDeluxeImages,
+                                          cubit.deluxeImages,
                                           22.25,
                                           35.25,
                                           hotelName.text,

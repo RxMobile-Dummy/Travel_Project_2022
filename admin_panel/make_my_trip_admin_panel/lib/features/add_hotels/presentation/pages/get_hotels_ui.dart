@@ -19,6 +19,7 @@ class GetHotelUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    print(size);
     context.read<HotelCubit>.call().setUpScrollController(_scrollController);
     return Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -34,24 +35,20 @@ class GetHotelUi extends StatelessWidget {
         ),
         body: SafeArea(
           child: Column(children: [
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  onChanged: (value) {
-                    context.read<HotelCubit>().searchList(value.toString());
-                  },
-                  controller: searchController,
-                  decoration: const InputDecoration(
-                    hintText: 'Search',
-                    suffixIcon: Icon(Icons.search),
-                  ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                onChanged: (value) {
+                  context.read<HotelCubit>().searchList(value.toString());
+                },
+                controller: searchController,
+                decoration: const InputDecoration(
+                  hintText: 'Search',
+                  suffixIcon: Icon(Icons.search),
                 ),
               ),
             ),
             Expanded(
-              flex: 9,
               child: BlocBuilder<HotelCubit, BaseState>(
                 builder: (context, state) {
                   // if (state is StateShowSearching) {
@@ -59,38 +56,38 @@ class GetHotelUi extends StatelessWidget {
                   // }
                   if (state is StateOnSuccess) {
                     List<HotelModels> hotel = state.response;
-                    if (size.width > 1000) {
+                    if (size.width > 1200) {
                       return GridView.builder(
-                          itemCount: hotel.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3),
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                if (index != hotel.length)
-                                  HotelListViewWidget(
-                                    hotel: hotel[index],
-                                    callback: (String id) async {
+                            itemCount: hotel.length,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3),
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  if (index != hotel.length)
+                                    HotelListViewWidget(
+                                      hotel: hotel[index],
+                                      callback: (String id) async {
+                                        context
+                                            .read<HotelCubit>()
+                                            .getPutHotel(id);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => AddHotels()),
+                                        );
+                                        // BlocProvider.of<HotelCubit>(context).getHotels();
+                                      },
+                                    ),
+                                  if (index == hotel.length)
+                                    const CircularProgressIndicator()
+                                ],
+                              );
+                            });
 
-                                      context
-                                          .read<HotelCubit>()
-                                          .getPutHotel(id);
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => AddHotels()),
-                                      );
-                                      // BlocProvider.of<HotelCubit>(context).getHotels();
-                                    },
-                                  ),
-                                if (index == hotel.length)
-                                  const CircularProgressIndicator()
-                              ],
-                            );
-                          });
                     } else if (size.width > 500) {
                       return GridView.builder(
+                          shrinkWrap: true,
                           itemCount: state.isMoreLoading
                               ? hotel.length + 1
                               : hotel.length,
@@ -104,7 +101,6 @@ class GetHotelUi extends StatelessWidget {
                                   HotelListViewWidget(
                                     hotel: hotel[index],
                                     callback: (String id) async {
-
                                       context
                                           .read<HotelCubit>()
                                           .getPutHotel(id);

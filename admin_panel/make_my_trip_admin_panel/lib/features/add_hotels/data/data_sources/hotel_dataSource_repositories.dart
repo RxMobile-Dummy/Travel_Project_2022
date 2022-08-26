@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
@@ -8,12 +10,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:make_my_trip_admin_panel/core/failures/failures.dart';
 import 'package:make_my_trip_admin_panel/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPutModel.dart';
-import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_model.dart';
+
 
 import '../models/HotelModels.dart';
+import '../models/HotelPostModel.dart';
+
 
 abstract class HotelDataRourceRepositories {
-  Future<Either<Failures, void>> postHotel(Hotel hotel);
+  Future<Either<Failures, void>> postHotel(hotelImages,
+      superDeluxImage,
+      semiDeluImage,
+      DeluxImage,HotelPostModel hotel);
 
   Future<Either<Failures, List<HotelModels>>> getHotel(int page);
 
@@ -42,11 +49,55 @@ class HotelDataSourceRepositoriesImpl implements HotelDataRourceRepositories {
     return Options(headers: {'token': userToken});
   }
 
+
+
+  Future<List<String>> uploadUrl(List<PlatformFile> imageFileList,String firebaseReviewFolderName) async {
+    List<String> imageUrl = [];
+    for(var e in imageFileList){
+      try {
+      final path =
+          firebaseReviewFolderName + "image" + e.name;
+      // File file=File(e.path!);
+      // final filename = e.path;
+      final snapshot = await FirebaseStorage.instance.ref().child(path).putData(e.bytes!, SettableMetadata(contentType: 'image/${e.extension}'));
+    if(snapshot!=null){
+      imageUrl.add(await snapshot.ref.getDownloadURL());
+      // print('uploaded success');
+      // print(imageUrl);
+    }
+      } catch (e) {}
+    }
+    return imageUrl;
+  }
+
   @override
-  Future<Either<Failures, void>> postHotel(Hotel hotel) async {
+  Future<Either<Failures, void>> postHotel(hotelImages,
+      superDeluxImage,
+      semiDeluImage,
+      DeluxImage,HotelPostModel hotel) async {
     try {
+
+      List<String> hotelImageString=[];
+      List<String> semiImageString=[];
+      List<String> superImageString=[];
+      List<String> deluxImageString=[];
+
+      hotelImageString.addAll(await uploadUrl(hotelImages, 'hotel/'));
+      hotel.hotelimages = hotelImageString;
+      //print(hotel.hotelimages);
+      semiImageString.addAll(await uploadUrl(semiDeluImage, 'semi_room/'));
+      superImageString.addAll(await uploadUrl(superDeluxImage, 'super_room/'));
+      deluxImageString.addAll(await uploadUrl(DeluxImage, 'deluxe_room/'));
+
+      hotel.deluxeimages=deluxImageString;
+      hotel.semideluxeimages=semiImageString;
+      hotel.superdeluxeimages=superImageString;
+      hotel.hotelimages=hotelImageString;
+      //print("json response:");
+      //print(hotel.toJson());
+
       Response response =
-          await dio.post('$baseUrl/hotel/addhotel', data: hotel);
+          await dio.post('$baseUrl/hotel/addhotel', data: hotel.toJson());
       if (response.statusCode == 200) {
 
         Fluttertoast.showToast(
@@ -59,11 +110,11 @@ class HotelDataSourceRepositoriesImpl implements HotelDataRourceRepositories {
             fontSize: 16.0);
         return Right(null);
       } else {
-       // print('fail');
+
         return Left(ServerFailure());
       }
     } catch (e) {
-    //  print(e);
+
       return Left(ServerFailure());
     }
   }
@@ -73,7 +124,7 @@ class HotelDataSourceRepositoriesImpl implements HotelDataRourceRepositories {
     try {
       var params = {"pagesize": 10, "page": page};
       final response = await dio.get('$baseUrl/hotel', queryParameters: params);
-      // print(response);
+
       if (response.statusCode == 200) {
 
         final List<HotelModels> hotelList = [];
@@ -81,10 +132,10 @@ class HotelDataSourceRepositoriesImpl implements HotelDataRourceRepositories {
         for (var item in jsonList) {
           hotelList.add(HotelModels.fromJson(item));
         }
-        //print(hotelList);
+
         return right(hotelList);
       } else {
-        //print("fail");
+
         return Left(ServerFailure());
       }
     } catch (e) {

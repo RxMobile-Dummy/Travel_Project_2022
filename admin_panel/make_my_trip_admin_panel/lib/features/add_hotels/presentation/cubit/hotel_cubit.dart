@@ -3,10 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
-import 'package:make_my_trip_admin_panel/core/usecases/usecase.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelModels.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPostModel.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPutModel.dart';
-import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_model.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/add_hotel.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/add_image.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/delete_hotel.dart';
@@ -47,6 +46,10 @@ class HotelCubit extends Cubit<BaseState> {
   List<PlatformFile> superDeluxeImages=[];
   int page = -1;
   addHotels(
+      List<PlatformFile> hotelImages,
+      List<PlatformFile> superDeluxImage,
+      List<PlatformFile> semiDeluImage,
+      List<PlatformFile> DeluxImage,
       double? latitude,
       double? logitude,
       String hotelname,
@@ -82,11 +85,12 @@ class HotelCubit extends Cubit<BaseState> {
       int superdeluxemaxcapacity,
       int superdeluxeprice,
       String superdeluxesize) async {
-    var res = await postHotel.call(Hotel(
+    var res = await postHotel.call(AddHotelParams(HotelPostModel(
+
         address: Address(
-            address_line: address_line,
+            addressLine: address_line,
             pincode: pincode,
-            city_id: city_id,
+            cityId: city_id,
             location: Location(latitude: latitude!, longitude: logitude!)),
         deluxebadsize: deluxebadsize,
         deluxedescription: deluxedescription,
@@ -95,12 +99,12 @@ class HotelCubit extends Cubit<BaseState> {
         deluxeprice: deluxeprice,
         deluxesize: deluxesize,
         features: hotelFeatures,
-        hotel_name: hotelname,
-        no_of_room: no_of_room,
+        hotelName: hotelname,
+        noOfRoom: no_of_room,
         noodsuperdeluxe: noodsuperdeluxe,
         noofdeluxe: noofdeluxe,
         noofsemideluxe: noofsemideluxe,
-        phone_number: phonenumber,
+        phoneNumber: phonenumber,
         price: price,
         rating: rating,
         semideluxebadsize: semideluxebadsize,
@@ -115,14 +119,19 @@ class HotelCubit extends Cubit<BaseState> {
         superdeluxemaxcapacity: superdeluxemaxcapacity,
         superdeluxeprice: superdeluxeprice,
         superdeluxesize: superdeluxesize,
-        description: description));
+        description: description),
+
+        hotelImages,
+        superDeluxImage,
+        semiDeluImage,
+        DeluxImage));
     res.fold(
       (failure) {
-        print("failure");
+        // print("failure");
         emit(StateNoData());
       },
       (success) {
-        print("success");
+        // print("success");
         getHotels();
       },
     );
@@ -201,11 +210,11 @@ class HotelCubit extends Cubit<BaseState> {
         description: description));
     res.fold(
       (failure) {
-        print("failure");
+        // print("failure");
         emit(StateNoData());
       },
       (success) {
-        print("success");
+        // print("success");
         emit(StateLoading());
         getHotels();
       },
@@ -227,10 +236,10 @@ class HotelCubit extends Cubit<BaseState> {
       page++;
       var res = await getHotel.call(page);
       res.fold((l) {
-        print("failure");
+
         emit(StateErrorGeneral("errorMessage"));
       }, (r) {
-        print("success");
+
         for (var item in r) {
           hotelList.add(item);
         }
@@ -253,10 +262,10 @@ class HotelCubit extends Cubit<BaseState> {
     emit(StateLoading());
     var res = await getHotelPut.call(id);
     res.fold((l) {
-      print("failure");
+
       emit(StateErrorGeneral("errorMessage"));
     }, (r) {
-      print("success");
+
       emit(StateOnResponseSuccess<HotelPutModel>(r));
     });
   }
@@ -333,7 +342,7 @@ class HotelCubit extends Cubit<BaseState> {
   selectImages() async {
     List<XFile>? imageFileList=[];
     final ImagePicker imagePicker = ImagePicker();
-    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage(imageQuality: 40);
     if (selectedImages!.isNotEmpty) {
       imageFileList.addAll(selectedImages);
       emit(StateReorderSuccess(imageFileList));

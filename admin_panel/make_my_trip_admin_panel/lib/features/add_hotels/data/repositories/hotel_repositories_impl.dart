@@ -13,8 +13,14 @@ class HotelRepositoriesImpl implements HotelRepositories {
   HotelRepositoriesImpl({required this.repositories});
 
   @override
-  Future<Either<Failures, void>> postHotel(hotel) {
-    return repositories.postHotel(hotel);
+  Future<Either<Failures, void>> postHotel(hotelImages,
+      superDeluxImage,
+      semiDeluImage,
+      DeluxImage,hotel) {
+    return repositories.postHotel(hotelImages,
+        superDeluxImage,
+        semiDeluImage,
+        DeluxImage,hotel);
   }
 
   @override
