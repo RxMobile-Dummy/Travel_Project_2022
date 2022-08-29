@@ -30,15 +30,14 @@ import 'core/internet/internet_cubit.dart';
 import 'core/internet/internet_injection_container.dart';
 import 'core/internet/internet_injection_container.dart' as internet_di;
 import 'features/booking/booking_injection_container.dart' as booking_di;
+import 'features/booking_history_details/booking_detail_injection_container.dart'
+    as user_history_detail_di;
 import 'features/intro/intro_injection_container.dart' as intro_di;
 import 'features/splash/splash_injection_container.dart' as splash_di;
 import 'features/user/user_injection_container.dart' as user_di;
 import 'features/user_history/user_history_injection_container.dart'
     as history_di;
 import 'firebase_options.dart';
-import 'package:platform_device_id/platform_device_id.dart';
-import 'features/booking_history_details/booking_detail_injection_container.dart'
-    as user_history_detail_di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,10 +65,9 @@ void main() async {
   PushNotificationService().broadcastNotification();
 
   HttpOverrides.global = MyHttpOverrides();
-  runApp(const MaterialApp(
-    home: MyApp(),
-    debugShowCheckedModeBanner: false,
-  ));
+  runApp(
+    MyApp(),
+  );
   RemoteMessage? initialMessage =
       await FirebaseMessaging.instance.getInitialMessage();
   if (initialMessage != null) {
