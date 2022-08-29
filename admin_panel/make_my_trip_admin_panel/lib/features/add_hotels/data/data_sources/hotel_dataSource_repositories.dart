@@ -18,9 +18,9 @@ import '../models/HotelPostModel.dart';
 
 abstract class HotelDataRourceRepositories {
   Future<Either<Failures, void>> postHotel(hotelImages,
-      superDeluxImage,
-      semiDeluImage,
-      DeluxImage,HotelPostModel hotel);
+      superDeluxeImage,
+      semiDeluxeImage,
+      deluxeImage,HotelPostModel hotel);
 
   Future<Either<Failures, List<HotelModels>>> getHotel(int page);
 
@@ -28,7 +28,10 @@ abstract class HotelDataRourceRepositories {
 
   Future<Either<Failures, HotelPutModel>> getHotelUpdate(String id);
 
-  Future<Either<Failures, void>> updateHotel(HotelPutModel hotelPutModel);
+  Future<Either<Failures, void>> updateHotel(hotelImages,
+      superDeluxImage,
+      semiDeluImage,
+      DeluxImage,HotelPutModel hotelPutModel);
 
   Future<Either<Failures, void>> hotelImages(String path);
 
@@ -175,7 +178,10 @@ class HotelDataSourceRepositoriesImpl implements HotelDataRourceRepositories {
   }
 
   @override
-  Future<Either<Failures, void>> updateHotel(
+  Future<Either<Failures, void>> updateHotel(hotelImages,
+      superDeluxeImage,
+      semiDeluxeImage,
+      deluxeImage,
       HotelPutModel hotelPutModel) async {
     try {
       final response = await dio.put('$baseUrl/hotel/updatehotel',

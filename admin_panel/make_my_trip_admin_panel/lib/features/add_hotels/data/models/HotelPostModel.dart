@@ -243,5 +243,4 @@ class Location {
     map['longitude'] = longitude;
     return map;
   }
-
 }

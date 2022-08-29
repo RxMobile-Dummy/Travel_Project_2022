@@ -168,7 +168,6 @@ class _AddNewHotelsState extends State<AddNewHotels> {
           //print(state.response.semideluxefeatures);
           superDeluxeRoomFeatures.addAll(state.response.superdeluxefeatures!);
           //print(state.response.superdeluxefeatures);
-
           no_of_deluxeRoom.text = state.response.noofdeluxe.toString();
           deluxe_roomSize.text = state.response.deluxesize!;
           deluxe_room_bed_details.text = state.response.deluxebadsize!;
@@ -177,7 +176,8 @@ class _AddNewHotelsState extends State<AddNewHotels> {
           deluxe_room_price.text = state.response.deluxeprice.toString();
           deluxe_room_description.text =
               state.response.deluxedescription.toString();
-
+             print(state.response.hotelimages);
+             // var listOfImages = state.response.hotelimages;
           no_of_semiDeluxeRoom.text = state.response.noofsemideluxe.toString();
           semiDeluxe_roomSize.text = state.response.semideluxesize!;
           semiDeluxe_room_bed_details.text = state.response.semideluxebadsize!;
@@ -187,6 +187,7 @@ class _AddNewHotelsState extends State<AddNewHotels> {
               state.response.semideluxeprice.toString();
           semiDeluxe_room_description.text =
               state.response.semideluxedescription!;
+
 
           no_of_superDeluxeRoom.text =
               state.response.noodsuperdeluxe.toString();
@@ -395,7 +396,12 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               return Wrap(children: List.generate(cubit.hotelImages.length, (index) {
                                 return Image.memory(cubit.hotelImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
                               }),);
-                            }else {
+                            }
+                            if (state is StateOnResponseSuccess<HotelPutModel>) {
+                              return Wrap(children: List.generate(state.response.hotelimages!.length, (index) {
+                                return Image.network(state.response.hotelimages![index], fit: BoxFit.cover,width: 200,height: 200,);
+                              }),);
+                            } else {
                               return const SizedBox();
                             }
                           }
@@ -578,6 +584,11 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                 return Wrap(children: List.generate(cubit.deluxeImages.length, (index) {
                                   return Image.memory(cubit.deluxeImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
 
+                                }),);
+                              }
+                              if (state is StateOnResponseSuccess<HotelPutModel>) {
+                                return Wrap(children: List.generate(state.response.deluxeimages!.length, (index) {
+                                  return Image.network(state.response.deluxeimages![index], fit: BoxFit.cover,width: 200,height: 200,);
                                 }),);
                               }else {
                                 return SizedBox();
@@ -763,7 +774,13 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                   return Image.memory(cubit.semiDeluxeImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
 
                                 }),);
-                              }else {
+                              }
+                              if (state is StateOnResponseSuccess<HotelPutModel>) {
+                                return Wrap(children: List.generate(state.response.semideluxeimages!.length, (index) {
+                                  return Image.network(state.response.semideluxeimages![index], fit: BoxFit.cover,width: 200,height: 200,);
+                                }),);
+                              }
+                              else {
                                 return SizedBox();
                               }
                             }
@@ -947,7 +964,13 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                   return Image.memory(cubit.superDeluxeImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
 
                                 }),);
-                              }else {
+                              }
+                              if (state is StateOnResponseSuccess<HotelPutModel>) {
+                                return Wrap(children: List.generate(state.response.superdeluxeimages!.length, (index) {
+                                  return Image.network(state.response.superdeluxeimages![index], fit: BoxFit.cover,width: 200,height: 200,);
+                                }),);
+                              }
+                              else {
                                 return SizedBox();
                               }
                             }
@@ -980,6 +1003,10 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                 print("object");
                                 BlocProvider.of<HotelCubit>(context)
                                     .updateHotels(
+                                  cubit.hotelImages,
+                                  cubit.superDeluxeImages,
+                                  cubit.semiDeluxeImages,
+                                  cubit.deluxeImages,
                                   state.response.id!.toInt(),
                                   hotelName.text,
                                   int.parse(pincode.text),

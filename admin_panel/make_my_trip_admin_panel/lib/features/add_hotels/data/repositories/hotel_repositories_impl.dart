@@ -36,9 +36,15 @@ class HotelRepositoriesImpl implements HotelRepositories {
   }
 
   @override
-  Future<Either<Failures, void>> updateHotel(HotelPutModel hotelPutModel) {
+  Future<Either<Failures, void>> updateHotel(hotelImages,
+      superDeluxeImage,
+      semiDeluxeImage,
+      deluxeImage,hotelPutModel) {
     // TODO: implement updateHotel
-    return repositories.updateHotel(hotelPutModel);
+    return repositories.updateHotel(hotelImages,
+        superDeluxeImage,
+        semiDeluxeImage,
+        deluxeImage,hotelPutModel);
   }
 
   @override

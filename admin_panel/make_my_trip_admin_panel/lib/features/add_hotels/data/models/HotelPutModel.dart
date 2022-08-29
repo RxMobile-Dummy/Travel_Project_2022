@@ -63,7 +63,12 @@ class HotelPutModel {
       this.superdeluxemaxcapacity, 
       this.superdeluxeprice, 
       this.superdeluxefeatures, 
-      this.superdeluxedescription,});
+      this.superdeluxedescription,
+      this.hotelimages,
+      this.deluxeimages,
+      this.semideluxeimages,
+      this.superdeluxeimages,
+  });
 
   HotelPutModel.fromJson(dynamic json) {
     id = json['_id'];
@@ -96,6 +101,10 @@ class HotelPutModel {
     superdeluxeprice = json['superdeluxeprice'];
     superdeluxefeatures = json['superdeluxefeatures'] != null ? json['superdeluxefeatures'].cast<String>() : [];
     superdeluxedescription = json['superdeluxedescription'];
+    hotelimages = json['hotelimages'] != null ? json['hotelimages'].cast<String>() : [];
+    deluxeimages = json['deluxeimages'] != null ? json['deluxeimages'].cast<String>() : [];
+    semideluxeimages = json['semideluxeimages'] != null ? json['semideluxeimages'].cast<String>() : [];
+    superdeluxeimages = json['superdeluxeimages'] != null ? json['superdeluxeimages'].cast<String>() : [];
   }
   num? id;
   String? hotelName;
@@ -127,6 +136,10 @@ class HotelPutModel {
   num? superdeluxeprice;
   List<String>? superdeluxefeatures;
   String? superdeluxedescription;
+  List<String>? hotelimages;
+  List<String>? deluxeimages;
+  List<String>? semideluxeimages;
+  List<String>? superdeluxeimages;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -162,6 +175,10 @@ class HotelPutModel {
     map['superdeluxeprice'] = superdeluxeprice;
     map['superdeluxefeatures'] = superdeluxefeatures;
     map['superdeluxedescription'] = superdeluxedescription;
+    map['hotelimages'] = hotelimages;
+    map['deluxeimages'] = deluxeimages;
+    map['semideluxeimages'] = semideluxeimages;
+    map['superdeluxeimages'] = superdeluxeimages;
     return map;
   }
 

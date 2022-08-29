@@ -62,7 +62,6 @@ class HotelCubit extends Cubit<BaseState> {
       int no_rooms,
       String description,
       String deluxebadsize,
-
       String deluxedescription,
       List<String> deluxefeatures,
       int deluxemaxcapacity,
@@ -120,7 +119,6 @@ class HotelCubit extends Cubit<BaseState> {
         superdeluxeprice: superdeluxeprice,
         superdeluxesize: superdeluxesize,
         description: description),
-
         hotelImages,
         superDeluxImage,
         semiDeluImage,
@@ -138,6 +136,10 @@ class HotelCubit extends Cubit<BaseState> {
   }
 
   updateHotels(
+      hotelImages,
+      superDeluxeImage,
+      semiDeluxeImage,
+      deluxeImage,
       int id,
       String hotelname,
       int pincode,
@@ -173,7 +175,7 @@ class HotelCubit extends Cubit<BaseState> {
       String superdeluxesize,
       latitude,
       logitude) async {
-    var res = await updateHotel.call(HotelPutModel(
+    var res = await updateHotel.call(UpdateHotelParams(HotelPutModel(
         id: id,
         address: Addresss(
             pincode: pincode,
@@ -207,7 +209,7 @@ class HotelCubit extends Cubit<BaseState> {
         superdeluxemaxcapacity: superdeluxemaxcapacity,
         superdeluxeprice: superdeluxeprice,
         superdeluxesize: superdeluxesize,
-        description: description));
+        description: description), hotelImages, deluxeImages, semiDeluxeImages, superDeluxeImages));
     res.fold(
       (failure) {
         // print("failure");
@@ -262,7 +264,6 @@ class HotelCubit extends Cubit<BaseState> {
     emit(StateLoading());
     var res = await getHotelPut.call(id);
     res.fold((l) {
-
       emit(StateErrorGeneral("errorMessage"));
     }, (r) {
 

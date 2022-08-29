@@ -90,70 +90,70 @@ class HotelListViewWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Container(
-                        height: size.height>300?size.height*0.15:size.width*0.30,
-                        width: size.width*0.5,
-                        child: GridView.builder(
-                          itemCount: hotel.images!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Flexible(
-                                        child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(12),
-                                            child: FadeInImage.assetNetwork(
-                                              placeholder: ImagePath.placeholder,
-                                              image: hotel.images![index].imageUrl!,
-                                              width: size.width*0.1,
-                                              height: size.height*0.2,
-                                              fit: BoxFit.cover,
-                                              imageErrorBuilder:
-                                                  (context, error, stackTrace) {
-                                                return Image.asset(
-                                                  hotel.images![index].imageUrl!,
-                                                  fit: BoxFit.cover,
-                                                  width: 36,
-                                                  height: 36,
-                                                );
-                                              },
-                                            )),
-                                      ),
-                                    );
-                          }, gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200,
-                            childAspectRatio: 3 / 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10),
-
-                        ),
-                      ),
-                      // Wrap(
-                      //   children: List.generate(hotel.images!.length, (index) {
-                      //     return Padding(
-                      //       padding: const EdgeInsets.all(8.0),
-                      //       child: Flexible(
-                      //         child: ClipRRect(
-                      //             borderRadius: BorderRadius.circular(12),
-                      //             child: FadeInImage.assetNetwork(
-                      //               placeholder: ImagePath.placeholder,
-                      //               image: hotel.images![index].imageUrl!,
-                      //               width: size.width*0.1,
-                      //               height: size.height*0.1,
-                      //               fit: BoxFit.cover,
-                      //               imageErrorBuilder:
-                      //                   (context, error, stackTrace) {
-                      //                 return Image.asset(
-                      //                   hotel.images![index].imageUrl!,
-                      //                   fit: BoxFit.cover,
-                      //                   width: 36,
-                      //                   height: 36,
-                      //                 );
-                      //               },
-                      //             )),
-                      //       ),
-                      //     );
-                      //   }),
+                      // Container(
+                      //   height: size.height>300?size.height*0.15:size.width*0.30,
+                      //   width: size.width*0.5,
+                      //   child: GridView.builder(
+                      //     itemCount: hotel.images!.length,
+                      //     itemBuilder: (BuildContext context, int index) {
+                      //       return Padding(
+                      //                 padding: const EdgeInsets.all(8.0),
+                      //                 child: Flexible(
+                      //                   child: ClipRRect(
+                      //                       borderRadius: BorderRadius.circular(12),
+                      //                       child: FadeInImage.assetNetwork(
+                      //                         placeholder: ImagePath.placeholder,
+                      //                         image: hotel.images![index].imageUrl!,
+                      //                         width: size.width*0.1,
+                      //                         height: size.height*0.2,
+                      //                         fit: BoxFit.cover,
+                      //                         imageErrorBuilder:
+                      //                             (context, error, stackTrace) {
+                      //                           return Image.asset(
+                      //                             hotel.images![index].imageUrl!,
+                      //                             fit: BoxFit.cover,
+                      //                             width: 36,
+                      //                             height: 36,
+                      //                           );
+                      //                         },
+                      //                       )),
+                      //                 ),
+                      //               );
+                      //     }, gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      //       maxCrossAxisExtent: 200,
+                      //       childAspectRatio: 3 / 2,
+                      //       crossAxisSpacing: 10,
+                      //       mainAxisSpacing: 10),
+                      //
+                      //   ),
                       // ),
+                      Wrap(
+                        children: List.generate(hotel.images!.length, (index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Flexible(
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: FadeInImage.assetNetwork(
+                                    placeholder: ImagePath.placeholder,
+                                    image: hotel.images![index].imageUrl!,
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      return Image.asset(
+                                        hotel.images![index].imageUrl!,
+                                        fit: BoxFit.cover,
+                                        width: 36,
+                                        height: 36,
+                                      );
+                                    },
+                                  )),
+                            ),
+                          );
+                        }),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
