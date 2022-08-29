@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/admin_booking_moderation_injection_container.dart'
     as admin_booking_moderation_di;
@@ -8,8 +7,6 @@ import 'package:make_my_trip_admin_panel/features/admin_login/admin_login_inject
     as admin_login_di;
 import 'package:make_my_trip_admin_panel/utils/constants/string_constants.dart';
 import 'core/theme/make_my_trip_theme.dart';
-import 'core/navigation/app_router.dart' as app_routes;
-import 'firebase_options.dart';
 import './features/review_moderation/review_moderation_injection_container.dart'
     as review_di;
 import '../../features/about_us/about_us_injection_container.dart' as di;
@@ -20,6 +17,7 @@ import '../../features/terms_condition/terms_condition_injection_container.dart'
 import '../../features/faq/faq_injection_container.dart' as difaq;
 import 'package:make_my_trip_admin_panel/features/push_notification/push_notification_injection_container.dart'
     as push_notification_di;
+import './features/add_hotels/injection_container.dart' as di_hotel;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +29,7 @@ Future<void> main() async {
   await ditc.init();
   await difaq.init();
   await push_notification_di.init();
+  await di_hotel.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

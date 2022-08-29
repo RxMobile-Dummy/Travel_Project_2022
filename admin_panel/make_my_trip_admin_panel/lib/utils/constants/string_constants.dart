@@ -124,4 +124,64 @@ class StringConstants {
   static String retryButtonTxt = "Retry";
   static String refreshPageTxt = "Please refresh the page and try again!";
   static String internetFailureLabel = "Internet Error";
+  static String noHotelFound = "Oops!! No Hotel Found";
+
+  static String addHotelTitle = "Add Hotel";
+
+  static String hotelInfo = "Hotel Info";
+  static String hotelName = "Hotel Name";
+  static String hotelAddress = "Hotel Address";
+  static String hotelCityId = "City Id";
+  static String hotelPincode = "Pincode";
+
+  static String hotelDetails = "Hotel Details";
+  static String hotelRating = "Rating";
+  static String hotelPrice = "Price";
+  static String hotelPhoneNumber = "Phone Number";
+  static String hotelno_of_rooms = "Number Of Rooms";
+  static String hotelDescription = "Hotel Description";
+  static String hotelFeature = "Features";
+  static String parking = "Parking";
+  static String healthyBreakfast = "Healthy Breakfast";
+  static String transportation = "Transportation";
+  static String laundry = "Laundry";
+  static String entertainment = "Entertainment";
+  static String extra = "Extra";
+
+  static String deluxeRoomDetails = "Deluxe Room Details";
+  static String no_of_DekluxeRoom = "Number of Deluxe Room";
+  static String dekluxeRoomSize = "Deluxe Room Size";
+  static String dekluxeRoom_bedDetails = "Deluxe Room bed Details";
+  static String dekluxeRoom_maxCapacity = "Deluxe Room Maximum Capacity";
+  static String dekluxeRoom_price = "Deluxe Rome Price";
+  static String dekluxeRoom_features = "Deluxe Room Features";
+  static String free_internet = "Free internet";
+  static String coffee_tea = "Coffee / Tea maker";
+  static String soundProof = "Soundproof walls";
+  static String selectHotelImage = "Select Hotel Image";
+  static String selectDeluxeImage = "Select Deluxe Image";
+  static String selectSemiDeluxeImage = "Select Semi Deluxe Image";
+  static String selectSuperDeluxeImage = "Select Super Deluxe Image";
+
+
+
+  static List<String> hotelConstantFeatures = [
+    "Laundry",
+    "Transportation",
+    "Entertainment",
+    "Parking",
+    "Healthy Breakfast"
+  ];
+
+  static List<String> deluxehotelConstantFeatures = [
+    "Free internet", "Coffee / Tea maker", "Soundproof walls", "Smart TV with satellite", "Individually air conditioning"
+  ];
+  static List<String> semideluxehotelConstantFeatures = [
+    "Free internet", "Coffee / Tea maker", "Soundproof walls", "Smart TV with satellite", "Individually air conditioning"
+  ];
+  static List<String> superdeluxehotelConstantFeatures = [
+    "Free internet","Pet-Friendly Rooms", "Coffee / Tea maker", "Soundproof walls", "Smart TV with satellite", "Individually air conditioning"
+  ];
+
+
 }

@@ -7,7 +7,7 @@ import '../../data/models/imageModel.dart';
 
 class GetAllImagesOfHomePageUseCase {
   final ImagesRepository imagesrepository;
-
+   
   GetAllImagesOfHomePageUseCase({required this.imagesrepository});
 
   Future<Either<Failures, List<HotelListModel>>> call() async {
