@@ -8,6 +8,11 @@ import { LoggerMiddleware } from './middlewear/logger';
 import { bookingmodel } from './model/booking';
 import cors from "cors";
 
+import * as firebase from 'firebase/app';
+import { firebaseConfig } from "./firebase.config";
+firebase.initializeApp(firebaseConfig);
+
+
 
 
 const app: Express = express();
