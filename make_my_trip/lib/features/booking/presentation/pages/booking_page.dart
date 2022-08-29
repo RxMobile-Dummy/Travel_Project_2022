@@ -7,7 +7,6 @@ import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/booking/data/model/booking_model.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/payment_integeration_cubit.dart';
-import 'package:make_my_trip/features/booking/presentation/pages/applyCoupon_page.dart';
 import 'package:make_my_trip/features/booking/presentation/pages/booking_shimmer_page.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
@@ -117,8 +116,8 @@ class BookingPage extends StatelessWidget {
             );
           } else if (state is StateInternetError) {
             return CommonErrorWidget(
-              title: "No Connection",
-              subTitle: "Please check your internet connection and try again",
+              title: StringConstants.internetErrorTitle,
+              subTitle: StringConstants.internetErrorSubTitle,
               onTap: () {
                 BlocProvider.of<PaymentCubit>(context).bookingConfirm(
                     detail.hotelId!,
@@ -215,7 +214,7 @@ class BookingPage extends StatelessWidget {
                                 Flexible(
                                   flex: 2,
                                   child: Text(
-                                    bookingModel?.address ?? "Address",
+                                    bookingModel!.address!,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: AppTextStyles.labelDetails.copyWith(
@@ -262,13 +261,11 @@ class BookingPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Check In",
+                                        StringConstants.checkInDateUp,
                                         style: AppTextStyles.infoLabelStyle
                                             .copyWith(fontSize: 16),
                                       ),
-                                      Text(
-                                          bookingModel?.checkInDate ??
-                                              '--/--/----',
+                                      Text(bookingModel!.checkInDate!,
                                           style: AppTextStyles
                                               .unselectedLabelStyle)
                                     ],
@@ -282,13 +279,12 @@ class BookingPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Check Out",
+                                        StringConstants.checkOutDateUp,
                                         style: AppTextStyles.infoLabelStyle
                                             .copyWith(fontSize: 16),
                                       ),
                                       Text(
-                                        bookingModel?.checkOutDate ??
-                                            '--/--/----',
+                                        bookingModel!.checkOutDate!,
                                         style:
                                             AppTextStyles.unselectedLabelStyle,
                                       )
@@ -316,20 +312,21 @@ class BookingPage extends StatelessWidget {
                       child: Container(
                         height: 60,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          borderRadius:
+                              const BorderRadius.all(const Radius.circular(12)),
                           color: Colors.orange[100],
                         ),
                         child: Row(
-                          children: const [
+                          children: [
                             Padding(
-                              padding: EdgeInsets.only(left: 18.0),
+                              padding: const EdgeInsets.only(left: 18.0),
                               child: Text(
-                                "APPLY COUPON",
+                                StringConstants.applyCouponTxt,
                                 style: AppTextStyles.mediumLabelStyle,
                               ),
                             ),
-                            Spacer(),
-                            Padding(
+                            const Spacer(),
+                            const Padding(
                               padding: EdgeInsets.only(right: 8.0),
                               child: Icon(Icons.arrow_forward_ios),
                             )
@@ -342,7 +339,7 @@ class BookingPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
-                      "Payment Summary",
+                      StringConstants.paymentSummaryTxt,
                       style: AppTextStyles.unselectedLabelStyle
                           .copyWith(fontSize: 24),
                     ),
@@ -389,7 +386,7 @@ class BookingPage extends StatelessWidget {
                                       )
                                     ],
                                   )
-                                : SizedBox(),
+                                : const SizedBox(),
                             4.verticalSpace,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -403,6 +400,10 @@ class BookingPage extends StatelessWidget {
                                   style: AppTextStyles.labelDetails,
                                 )
                               ],
+                            ),
+                            4.verticalSpace,
+                            const Divider(
+                              color: MakeMyTripColors.color70gray,
                             ),
                             4.verticalSpace,
                             Row(
@@ -423,7 +424,7 @@ class BookingPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "${StringConstants.gst} (${bookingModel?.gstPercentage}%)",
+                                  "+ ${StringConstants.gst} (${bookingModel?.gstPercentage}%)",
                                   style: AppTextStyles.infoContentStyle,
                                 ),
                                 Text(

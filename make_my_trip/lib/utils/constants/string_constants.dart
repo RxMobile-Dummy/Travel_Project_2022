@@ -124,8 +124,7 @@ class StringConstants {
   static String noHotelFound = "Oops!! No Hotel Found";
 
   //no review
-  static String noHotelReview =
-      "No Reviews Yet!!\n Be the first reviewer Of hotel";
+  static String noHotelReview = "Be the first reviewer of the hotel";
 
   //Opps!! Sorry your review is not post yet!!
   static String noReviewComment = "Oops!! Sorry your review is not post yet!!";
@@ -369,4 +368,21 @@ class StringConstants {
   static String deluxType = "Deluxe";
   static String semiDeluxType = "Semi-Deluxe";
   static String superDeluxType = "Super-Deluxe";
+
+  static String applyCouponTxt = "APPLY COUPON";
+  static String paymentSummaryTxt = "Payment Summary";
+  static String yesTxt = "Yes";
+  static String noTxt = "No";
+  static String commingSoonTxt = "coming soon";
+  static String seeAllLabel = "See all";
+
+  //error
+
+  static String serverErrorTitle = "Something went wrong";
+  static String serverErrorSubTitle =
+      "We are working on fixing the problem. Please refresh the page and try again.";
+
+  static String internetErrorTitle = "No Connection";
+  static String internetErrorSubTitle =
+      "Please check your internet connection and try again";
 }

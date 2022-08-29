@@ -8,18 +8,29 @@ import 'package:make_my_trip/features/booking/presentation/pages/booking_page.da
 import 'package:make_my_trip/features/booking_history_details/presentation/cubit/cancel_booking_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/cubit/gallery_cubit.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/gallery_page.dart';
-import 'package:make_my_trip/features/home_page/presentation/pages/list_of_populer_hotels.dart';
 import 'package:make_my_trip/features/gallery_page/presentation/pages/view_full_image_page.dart';
-import 'package:make_my_trip/features/home_page/presentation/pages/view_full_coupon_page.dart';
+import 'package:make_my_trip/features/home_page/home_page_injection_container.dart';
+import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
+import 'package:make_my_trip/features/home_page/presentation/pages/list_of_populer_hotels.dart';
 import 'package:make_my_trip/features/hotel_listing/hotel_list_injection_container.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/cubits/hotel_list_cubit.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/filter_list.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_list_page.dart';
 import 'package:make_my_trip/features/intro/intro_injection_container.dart';
+import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
+import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
+import 'package:make_my_trip/features/review/presentation/cubit/publish_review_cubit.dart';
+import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
+import 'package:make_my_trip/features/review/presentation/pages/publish_review_page.dart';
+import 'package:make_my_trip/features/review/presentation/pages/review_page.dart';
+import 'package:make_my_trip/features/review/review_injection_container.dart';
+import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
+import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
+import 'package:make_my_trip/features/room_categories/presentation/pages/room_categories_page.dart';
+import 'package:make_my_trip/features/room_categories/room_categories_injection_container.dart';
+import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
 import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_cubit.dart';
 import 'package:make_my_trip/features/search/search_hotel_injection_container.dart';
-import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
-import 'package:make_my_trip/features/room_detail_page/room_detail_injection_container.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/information_page_cubit.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
 import 'package:make_my_trip/features/setting_page/presentation/pages/settings_page.dart';
@@ -28,19 +39,17 @@ import 'package:make_my_trip/features/setting_page/presentation/widgets/faq_widg
 import 'package:make_my_trip/features/setting_page/presentation/widgets/privacy_policy_widget.dart';
 import 'package:make_my_trip/features/setting_page/presentation/widgets/terms_condition_widget.dart';
 import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart';
-import 'package:make_my_trip/features/user/presentation/pages/sign_up_page.dart';
+import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
 import 'package:make_my_trip/features/user/presentation/pages/login_page.dart';
+import 'package:make_my_trip/features/user/presentation/pages/sign_up_page.dart';
 import 'package:make_my_trip/features/user/presentation/widgets/resetPassword_widget.dart';
 import 'package:make_my_trip/features/user/user_injection_container.dart';
 import 'package:make_my_trip/features/user_history/data/model/user_history_model.dart';
 import 'package:make_my_trip/features/user_history/presentation/cubit/user_history_cubit.dart';
+import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
-import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
-import 'package:make_my_trip/utils/constants/image_path.dart';
-import 'package:make_my_trip/utils/constants/string_constants.dart';
-import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../features/booking_history_details/booking_detail_injection_container.dart';
@@ -48,39 +57,21 @@ import '../../features/booking_history_details/presentation/pages/booking_histor
 import '../../features/home_page/presentation/cubit/homepage_cubit.dart';
 import '../../features/home_page/presentation/cubit/tab_bar_cubit.dart';
 import '../../features/home_page/presentation/pages/homepage.dart';
-
 import '../../features/hotel_detail/hotel_detail_injection_container.dart';
 import '../../features/hotel_detail/presentation/cubit/hotel_detail_cubit.dart';
 import '../../features/hotel_detail/presentation/pages/hotel_detail_page.dart';
 import '../../features/intro/presentation/cubit/intro_cubit.dart';
 import '../../features/intro/presentation/pages/intro_page.dart';
 import '../../features/room_categories/data/model/room_data_booking_post_model.dart';
-import '../../features/search/presentation/pages/search_hotel_home_page.dart';
-import '../../features/search/presentation/widgets/search_hotel_page.dart';
-import '../../features/setting_page/presentation/pages/customerSupport_page.dart';
-import '../../features/splash/presentation/pages/splash_page.dart';
-
-import 'package:make_my_trip/features/home_page/home_page_injection_container.dart';
-import 'package:make_my_trip/features/home_page/presentation/pages/homepage.dart';
-import 'package:make_my_trip/features/splash/presentation/pages/splash_page.dart';
-import 'package:make_my_trip/features/intro/presentation/cubit/intro_cubit.dart';
-import 'package:make_my_trip/features/intro/presentation/pages/intro_page.dart';
 import '../../features/room_detail_page/presentation/manager/cubit/imageslider_cubit.dart';
 import '../../features/room_detail_page/presentation/pages/room_detail.dart';
-
-import 'package:make_my_trip/features/review/presentation/cubit/publish_review_cubit.dart';
-import 'package:make_my_trip/features/review/presentation/cubit/review_cubit.dart';
-import 'package:make_my_trip/features/review/presentation/pages/publish_review_page.dart';
-import 'package:make_my_trip/features/review/presentation/pages/review_page.dart';
-import 'package:make_my_trip/features/review/review_injection_container.dart';
-
-import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
-import 'package:make_my_trip/features/room_categories/presentation/pages/room_categories_page.dart';
-import 'package:make_my_trip/features/room_categories/room_categories_injection_container.dart';
-
+import '../../features/search/presentation/pages/search_hotel_home_page.dart';
+import '../../features/search/presentation/widgets/search_hotel_page.dart';
+import '../../features/search/search_hotel_injection_container.dart';
+import '../../features/setting_page/presentation/pages/customerSupport_page.dart';
+import '../../features/splash/presentation/pages/splash_page.dart';
 import '../../features/user_history/user_history_injection_container.dart';
 import '../../features/wishlist/presentation/pages/wishlist_page.dart';
-import '../../features/search/search_hotel_injection_container.dart';
 
 class Router {
   final searchHotelCubit = SearchHotelCubit(searchHotelSl(), searchHotelSl());
@@ -110,9 +101,8 @@ class Router {
       case RoutesName.populer:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) => slHomePage<HomepageCubit>(),
-            // ..getPopularHotel(),
-            child: ListOfPopulerHotels(),
+            create: (context) => slHomePage<HomepageCubit>()..getPopularHotel(),
+            child: const ListOfPopulerHotels(),
           );
         });
       case RoutesName.signup:
@@ -131,7 +121,7 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider.value(
             value: BlocProvider.of<UserCubit>(arg['context']),
-            child: ResetPasswordPage(),
+            child: const ResetPasswordPage(),
           );
         });
       case RoutesName.home:

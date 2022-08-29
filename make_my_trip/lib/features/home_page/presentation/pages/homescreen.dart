@@ -111,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                           text: StringConstants.flightTxt,
                           onTap: () {
                             Fluttertoast.showToast(
-                                msg: "coming soon",
+                                msg: StringConstants.commingSoonTxt,
                                 timeInSecForIosWeb: 4,
                                 backgroundColor: MakeMyTripColors.colorBlack
                                     .withOpacity(.9));
@@ -121,7 +121,7 @@ class HomeScreen extends StatelessWidget {
                           text: StringConstants.placeTxt,
                           onTap: () {
                             Fluttertoast.showToast(
-                                msg: "coming soon",
+                                msg: StringConstants.commingSoonTxt,
                                 timeInSecForIosWeb: 4,
                                 backgroundColor: MakeMyTripColors.colorBlack
                                     .withOpacity(.9));
@@ -131,7 +131,7 @@ class HomeScreen extends StatelessWidget {
                           text: StringConstants.statesTxt,
                           onTap: () {
                             Fluttertoast.showToast(
-                                msg: "coming soon",
+                                msg: StringConstants.commingSoonTxt,
                                 timeInSecForIosWeb: 4,
                                 backgroundColor: MakeMyTripColors.colorBlack
                                     .withOpacity(.9));
@@ -162,8 +162,8 @@ class HomeScreen extends StatelessWidget {
                         },
                         child: Row(
                           children: [
-                            const Text(
-                              "See All",
+                            Text(
+                              StringConstants.seeAllLabel,
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -262,53 +262,53 @@ class HomeScreen extends StatelessWidget {
                         fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ),
-                // SingleChildScrollView(
-                //   physics: const BouncingScrollPhysics(),
-                //   scrollDirection: Axis.horizontal,
-                //   child: ((state is GettingStartedData &&
-                //           state.couponListvalue != null)
-                //       ? (state.couponLoading == true)
-                //           ? const ImageSliderShimmer()
-                //           : Row(
-                //               crossAxisAlignment: CrossAxisAlignment.start,
-                //               children: List.generate(
-                //                   state.couponListvalue!.length, (index) {
-                //                 var coupondata = state.couponListvalue![index];
+                SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  child: ((state is GettingStartedData &&
+                          state.couponListvalue != null)
+                      ? (state.couponLoading == true)
+                          ? const ImageSliderShimmer()
+                          : Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: List.generate(
+                                  state.couponListvalue!.length, (index) {
+                                var coupondata = state.couponListvalue![index];
 
-                //                 return Padding(
-                //                   padding: const EdgeInsets.only(left: 16),
-                //                   child: GestureDetector(
-                //                     onTap: () {
-                //                       Navigator.of(context).push(
-                //                           MaterialPageRoute(
-                //                               builder: (context) =>
-                //                                   ViewFullCoupon(
-                //                                       discountText: coupondata
-                //                                           .discount!
-                //                                           .toString(),
-                //                                       imgUrl: coupondata
-                //                                           .couponImgUrl!,
-                //                                       expiryDate:
-                //                                           coupondata.endDate!,
-                //                                       couponTitle:
-                //                                           coupondata.title!,
-                //                                       couponCode:
-                //                                           coupondata.code!,
-                //                                       couponDetails: coupondata
-                //                                           .description)));
-                //                     },
-                //                     child: CouponWidget(
-                //                       couponTitle: coupondata.title!,
-                //                       expiryDate: coupondata.endDate!,
-                //                       imgUrl: coupondata.couponImgUrl!,
-                //                       discountText:
-                //                           coupondata.discount!.toString(),
-                //                     ),
-                //                   ),
-                //                 );
-                //               }))
-                //       : const ImageSliderShimmer()),
-                // ),
+                                return Padding(
+                                  padding: const EdgeInsets.only(left: 16),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ViewFullCoupon(
+                                                      discountText: coupondata
+                                                          .discount!
+                                                          .toString(),
+                                                      imgUrl: coupondata
+                                                          .couponImgUrl!,
+                                                      expiryDate:
+                                                          coupondata.endDate!,
+                                                      couponTitle:
+                                                          coupondata.title!,
+                                                      couponCode:
+                                                          coupondata.code!,
+                                                      couponDetails: coupondata
+                                                          .description)));
+                                    },
+                                    child: CouponWidget(
+                                      couponTitle: coupondata.title!,
+                                      expiryDate: coupondata.endDate!,
+                                      imgUrl: coupondata.couponImgUrl!,
+                                      discountText:
+                                          coupondata.discount!.toString(),
+                                    ),
+                                  ),
+                                );
+                              }))
+                      : const ImageSliderShimmer()),
+                ),
               ],
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/pages/hotel_list_shimmer_page.dart';
 import 'package:make_my_trip/features/hotel_listing/presentation/widgets/hotel_list_view_widget.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 
 import '../../../../core/base/base_state.dart';
@@ -16,7 +17,7 @@ class ListOfPopulerHotels extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Popular hotels"),
+        title: const Text(StringConstants.popularHotelsTxt),
       ),
       body: SafeArea(
         child: BlocBuilder<HomepageCubit, BaseState>(
@@ -24,7 +25,7 @@ class ListOfPopulerHotels extends StatelessWidget {
             if (state is StateErrorGeneralStateErrorServer) {
               return CommonErrorWidget(
                 onTap: () {
-                  // BlocProvider.of<HomepageCubit>(context).getPopularHotel();
+                  BlocProvider.of<HomepageCubit>(context).getPopularHotel();
                 },
               );
             } else if (state is StateOnSuccess) {

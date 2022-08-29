@@ -1,18 +1,16 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_isolate/flutter_isolate.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/review/data/data_sources/review_remote_data_source.dart';
 import 'package:make_my_trip/features/review/data/model/get_reviews_model.dart';
 import 'package:make_my_trip/features/review/data/model/review_model.dart';
 import 'package:make_my_trip/utils/constants/base_constants.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
+
+import '../../../../core/failures/failure_handler.dart';
 
 class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   final Dio dio;
@@ -25,12 +23,13 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
       final response = await dio.get(
           '${BaseConstant.baseUrl}review/hotel/${params}',
           options: await BaseConstant.createDioOptions());
-      if (response.statusCode == 200) {
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
         GetReviewModel reviewModel = GetReviewModel.fromJson(response.data);
         return Right(reviewModel);
-      } else {
-        return Left(ServerFailure());
-      }
+      });
+    } on SocketException {
+      return Left(InternetFailure());
     } catch (err) {
       return Left(ServerFailure());
     }

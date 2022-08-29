@@ -92,7 +92,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
         for (Map i in result) {
           showApplicableCouponList.add(ViewCouponModel.fromJson(i));
         }
-
+        print(showApplicableCouponList);
         return Right(showApplicableCouponList);
       });
     } on SocketException {

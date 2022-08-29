@@ -37,8 +37,8 @@ class UserHistoryPage extends StatelessWidget {
             );
           } else if (state is StateInternetError) {
             return CommonErrorWidget(
-              title: "No Connection",
-              subTitle: "Please check your internet connection and try again",
+              title: StringConstants.internetErrorTitle,
+              subTitle: StringConstants.internetErrorSubTitle,
               onTap: () {
                 BlocProvider.of<UserHistoryCubit>(context).getUserHistoryData();
               },

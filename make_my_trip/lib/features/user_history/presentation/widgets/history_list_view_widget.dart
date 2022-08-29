@@ -22,7 +22,8 @@ class HistoryListViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var snackBar = SnackBar(content: Text("You already Posted Review"));
+    var snackBar =
+        const SnackBar(content: const Text("You already Posted Review"));
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -66,8 +67,8 @@ class HistoryListViewWidget extends StatelessWidget {
                     flex: 5,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        22.verticalSpace,
                         Text(
                           userHistoryModel.hotelName.toString(),
                           style: AppTextStyles.infoContentStyle,
@@ -96,32 +97,45 @@ class HistoryListViewWidget extends StatelessWidget {
                                 .copyWith(fontSize: 14),
                           ),
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: Text(
-                                '${userHistoryModel.checkingDate!.substring(0, userHistoryModel.checkingDate!.indexOf('T'))} - ${userHistoryModel.checkoutDate!.substring(0, userHistoryModel.checkoutDate!.indexOf('T'))}',
-                                style: AppTextStyles.infoLabelStyle
-                                    .copyWith(fontSize: 12),
-                              ),
-                            ),
-                            8.horizontalSpace,
-                            (userHistoryModel.status == "cancel" ||
-                                    userHistoryModel.reviewFlag == true)
-                                ? SizedBox()
-                                : GestureDetector(
-                                    onTap: () {
-                                      reviewPostCall(userHistoryModel.hotelId!);
-                                    },
-                                    child: Text(
-                                      'Post Review',
-                                      style: TextStyle(
-                                          color: MakeMyTripColors.accentColor,
-                                          fontSize: 12),
-                                    ))
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Text(
+                            '${userHistoryModel.checkingDate!.substring(0, userHistoryModel.checkingDate!.indexOf('T'))} - ${userHistoryModel.checkoutDate!.substring(0, userHistoryModel.checkoutDate!.indexOf('T'))}',
+                            style: AppTextStyles.infoLabelStyle
+                                .copyWith(fontSize: 12),
+                          ),
                         ),
+                        (userHistoryModel.status == "cancel" ||
+                                userHistoryModel.reviewFlag == true)
+                            ? const SizedBox()
+                            : GestureDetector(
+                                onTap: () {
+                                  reviewPostCall(userHistoryModel.hotelId!);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: MakeMyTripColors.accentColor),
+                                      borderRadius: BorderRadius.circular(6)),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 8),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const [
+                                      Icon(
+                                        Icons.add,
+                                        size: 16,
+                                        color: MakeMyTripColors.accentColor,
+                                      ),
+                                      Text(
+                                        'Post Review',
+                                        style: TextStyle(
+                                            color: MakeMyTripColors.accentColor,
+                                            fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                ))
                       ],
                     ),
                   ),

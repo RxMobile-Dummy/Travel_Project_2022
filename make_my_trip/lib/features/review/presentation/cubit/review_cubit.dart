@@ -5,7 +5,8 @@ import 'package:make_my_trip/features/review/data/model/review_model.dart';
 import 'package:make_my_trip/features/review/domain/use_cases/get_hotel_review_usecase.dart';
 import 'package:make_my_trip/features/review/domain/use_cases/post_hotel_review_usecase.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
-import '../../../../core/usecases/usecase.dart';
+
+import '../../../../core/failures/failure_handler.dart';
 import '../../../user/domain/usecases/is_anonymous_user.dart';
 
 class ReviewCubit extends Cubit<BaseState> {
@@ -18,7 +19,7 @@ class ReviewCubit extends Cubit<BaseState> {
   getHotelReviewData(int params) async {
     emit(StateLoading());
     final res = await getHotelReviewUseCases.call(params);
-    res.fold((l) => emit(StateErrorGeneral("errorMessage")),
+    res.fold((l) => emit(FailureHandler.checkFailures(l)),
         (r) => emit(StateOnSuccess<GetReviewModel>(r)));
   }
 

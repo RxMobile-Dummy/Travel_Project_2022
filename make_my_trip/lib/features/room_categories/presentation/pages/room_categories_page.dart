@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
@@ -9,7 +7,6 @@ import 'package:make_my_trip/features/room_categories/presentation/cubit/room_ca
 import 'package:make_my_trip/features/room_categories/presentation/cubit/select_room_count.dart';
 import 'package:make_my_trip/features/room_categories/presentation/pages/room_categories_shimmer_page.dart';
 import 'package:make_my_trip/features/room_categories/presentation/widgets/room_list_widget.dart';
-import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
@@ -56,8 +53,8 @@ class RoomCategoriesPage extends StatelessWidget {
           );
         } else if (state is StateInternetError) {
           return CommonErrorWidget(
-            title: "No Connection",
-            subTitle: "Please check your internet connection and try again",
+            title: StringConstants.internetErrorTitle,
+            subTitle: StringConstants.internetErrorSubTitle,
             onTap: () {
               BlocProvider.of<RoomCategoryCubit>(context).getData(
                   arg['hotel_id'], arg['cin'], arg['cout'], arg['noofrooms']);
@@ -135,6 +132,7 @@ class RoomCategoriesPage extends StatelessWidget {
                             cin: arg['cin'],
                             cout: arg['cout']);
                       }).toList()),
+                      84.verticalSpace,
                     ],
                   )),
                   Positioned(

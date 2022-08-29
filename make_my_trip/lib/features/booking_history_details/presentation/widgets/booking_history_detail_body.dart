@@ -49,7 +49,7 @@ class BookingHistoryDetailBody extends StatelessWidget {
                                             BorderRadius.circular(15)),
                                     actions: <Widget>[
                                       ElevatedButton(
-                                        child: const Text("YES"),
+                                        child: Text(StringConstants.yesTxt),
                                         onPressed: () {
                                           context
                                               .read<CancelBookingCubit>()
@@ -59,7 +59,7 @@ class BookingHistoryDetailBody extends StatelessWidget {
                                         },
                                       ),
                                       ElevatedButton(
-                                        child: const Text("No"),
+                                        child: Text(StringConstants.noTxt),
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },

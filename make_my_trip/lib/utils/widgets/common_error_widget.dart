@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_secondary_button.dart';
 
@@ -40,7 +41,7 @@ class CommonErrorWidget extends StatelessWidget {
             ),
             30.verticalSpace,
             Text(
-              title ?? "Something went wrong",
+              title ?? StringConstants.serverErrorTitle,
               style: TextStyle(
                   color: MakeMyTripColors.colorBlack.withOpacity(.8),
                   fontSize: 24,
@@ -48,8 +49,7 @@ class CommonErrorWidget extends StatelessWidget {
             ),
             18.verticalSpace,
             Text(
-              subTitle ??
-                  "We are working on fixing the problem. Please refresh the page and try again.",
+              subTitle ?? StringConstants.serverErrorSubTitle,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: MakeMyTripColors.colorBlack.withOpacity(.7),

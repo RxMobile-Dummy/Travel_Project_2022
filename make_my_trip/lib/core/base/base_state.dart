@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:make_my_trip/features/home_page/data/models/ToursModel.dart';
 import 'package:make_my_trip/features/home_page/data/models/ViewCouponModel.dart';
-import 'package:make_my_trip/features/home_page/data/models/imageModel.dart';
 import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 
 import '../internet/internet_enum.dart';
@@ -169,13 +168,11 @@ class InternetConnected extends BaseState {
   InternetConnected({required this.connectionType});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [connectionType];
 }
 
 class InternetDisconnected extends BaseState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 

@@ -46,7 +46,7 @@ class BookingHistoryDetails extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: CommonPrimaryButton(
-                    text: "Ok",
+                    text: StringConstants.okTxt,
                     onTap: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, RoutesName.home, (route) => false);
@@ -81,7 +81,7 @@ class BookingHistoryDetails extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: CommonPrimaryButton(
-                    text: "Ok",
+                    text: StringConstants.okTxt,
                     onTap: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, RoutesName.home, (route) => false);

@@ -1,14 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
-import 'package:make_my_trip/features/review/presentation/cubit/publish_review_cubit.dart';
+import 'package:make_my_trip/features/review/data/model/get_reviews_model.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
-import 'package:make_my_trip/features/review/data/model/get_reviews_model.dart';
 
 class ReviewCardWidget extends StatelessWidget {
   final String name;
@@ -30,102 +26,91 @@ class ReviewCardWidget extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: MakeMyTripColors.colorWhite,
-      //elevation: 4,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(0),
-          side: const BorderSide(color: MakeMyTripColors.color50gray)),
-      child: SizedBox(
-        //height: 120,
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
-          child: Column(
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: MakeMyTripColors.color30gray)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              16.verticalSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(44),
+                child: FadeInImage.assetNetwork(
+                    fit: BoxFit.cover,
+                    alignment: Alignment.center,
+                    placeholder: ImagePath.userProfileImage1,
+                    image: image,
+                    height: 44,
+                    width: 44,
+                    imageErrorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        ImagePath.placeHolderImage,
+                        fit: BoxFit.fitWidth,
+                      );
+                    }),
+              ),
+              10.horizontalSpace,
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 4,
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundColor: MakeMyTripColors.color50gray,
-                      child: CircleAvatar(
-                        radius: 25,
-                        backgroundImage: NetworkImage(image),
-                        backgroundColor: MakeMyTripColors.color30gray,
-                      ),
-                    ),
+                  Text(
+                    name,
+                    style:
+                        AppTextStyles.infoContentStyle.copyWith(fontSize: 18),
                   ),
-                  Expanded(
-                    flex: 9,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: AppTextStyles.infoContentStyle
-                              .copyWith(fontSize: 18),
-                        ),
-                        2.verticalSpace,
-                        RatingBar.builder(
-                          ignoreGestures: true,
-                          itemSize: 16,
-                          initialRating: ratingValue,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemBuilder: (context, _) => const Icon(
-                            Icons.star,
-                            color: MakeMyTripColors.accentColor,
-                          ),
-                          onRatingUpdate: (rating) {},
-                        ),
-                      ],
+                  2.verticalSpace,
+                  RatingBar.builder(
+                    ignoreGestures: true,
+                    itemSize: 16,
+                    initialRating: ratingValue,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemBuilder: (context, _) => const Icon(
+                      Icons.star,
+                      color: MakeMyTripColors.accentColor,
                     ),
-                  ),
-                  const Spacer(),
-                  Expanded(
-                    flex: 4,
-                    child: Text(
-                      date,
-                      style: AppTextStyles.labelDetails.copyWith(fontSize: 14),
-                    ),
+                    onRatingUpdate: (rating) {},
                   ),
                 ],
               ),
-              8.verticalSpace,
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
-                  description,
-                  textAlign: TextAlign.justify,
-                  style: AppTextStyles.labelDescriptionStyle
-                      .copyWith(fontWeight: FontWeight.w400),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+              const Spacer(),
+              Text(
+                date,
+                style: AppTextStyles.labelDetails.copyWith(fontSize: 14),
               ),
-              10.verticalSpace,
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: uploadedImgCount,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10),
-                    itemBuilder: (BuildContext context, int index) {
-                      return Stack(children: [
-                        ClipRect(
+            ],
+          ),
+          8.verticalSpace,
+          Text(
+            description,
+            textAlign: TextAlign.justify,
+            style: AppTextStyles.labelDescriptionStyle
+                .copyWith(fontWeight: FontWeight.w400),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          (uploadedImages.isNotEmpty)
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: uploadedImgCount,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              mainAxisSpacing: 12,
+                              crossAxisSpacing: 12),
+                      itemBuilder: (BuildContext context, int index) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
                           child: FadeInImage.assetNetwork(
                               fit: BoxFit.cover,
                               alignment: Alignment.center,
@@ -137,13 +122,11 @@ class ReviewCardWidget extends StatelessWidget {
                                   fit: BoxFit.fitWidth,
                                 );
                               }),
-                        ),
-                      ]);
-                    }),
-              )
-            ],
-          ),
-        ),
+                        );
+                      }),
+                )
+              : SizedBox(),
+        ],
       ),
     );
   }

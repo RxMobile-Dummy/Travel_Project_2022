@@ -11,17 +11,11 @@ class UserHistoryDetailDataSourceImpl extends UserHistoryDetailDataSource {
   final Dio dio;
 
   UserHistoryDetailDataSourceImpl(this.dio);
-
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    return Options(headers: {'token': userToken});
-  }
-
   @override
   Future<Either<Failures, String>> cancelBooking(bookingId) async {
     final response = await dio.put(
         '${BaseConstant.baseUrl}cancelbooking/$bookingId',
-        options: await createDioOptions());
+        options: await BaseConstant.createDioOptions());
     if (response.statusCode == 200) {
       return const Right("Success");
     } else {
