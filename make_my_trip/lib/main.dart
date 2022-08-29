@@ -1,41 +1,44 @@
 import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:make_my_trip/core/services/notification/notification_service.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_theme.dart';
 import 'package:make_my_trip/features/setting_page/setting_page_injection_container.dart'
     as setting_page_di;
-import 'package:make_my_trip/features/user/user_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
+import 'package:make_my_trip/features/user/user_injection_container.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
-import 'package:platform_device_id/platform_device_id.dart';
+
 import './core/navigation/app_router.dart' as app_routes;
-import 'core/internet/internet_cubit.dart';
-import 'core/internet/internet_injection_container.dart';
-import 'firebase_options.dart';
 import './features/home_page/home_page_injection_container.dart'
     as home_page_di;
 import './features/hotel_detail/hotel_detail_injection_container.dart'
     as hotel_detail_di;
+import './features/hotel_listing/hotel_list_injection_container.dart'
+    as hotel_list_di;
 import './features/review/review_injection_container.dart' as review_di;
 import './features/room_categories/room_categories_injection_container.dart'
     as room_category_di;
 import './features/room_detail_page/room_detail_injection_container.dart'
     as room_detail_di;
-import './features/hotel_listing/hotel_list_injection_container.dart'
-    as hotel_list_di;
-import 'features/intro/intro_injection_container.dart' as intro_di;
-import './features/wishlist/wishlist_injection_container.dart' as wishlist_di;
-import 'features/user/user_injection_container.dart' as user_di;
-import 'features/splash/splash_injection_container.dart' as splash_di;
 import './features/search/search_hotel_injection_container.dart' as search_di;
+import './features/wishlist/wishlist_injection_container.dart' as wishlist_di;
+import 'core/internet/internet_cubit.dart';
+import 'core/internet/internet_injection_container.dart';
+import 'core/internet/internet_injection_container.dart' as internet_di;
+import 'features/booking/booking_injection_container.dart' as booking_di;
+import 'features/intro/intro_injection_container.dart' as intro_di;
+import 'features/splash/splash_injection_container.dart' as splash_di;
+import 'features/user/user_injection_container.dart' as user_di;
 import 'features/user_history/user_history_injection_container.dart'
     as history_di;
+import 'firebase_options.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import 'features/booking_history_details/booking_detail_injection_container.dart'
     as user_history_detail_di;
-import 'features/booking/booking_injection_container.dart' as booking_di;
-import 'core/internet/internet_injection_container.dart' as internet_di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,8 +61,20 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await PushNotificationService().setupInteractedMessage();
+  PushNotificationService().broadcastNotification();
+
   HttpOverrides.global = MyHttpOverrides();
-  runApp(MyApp());
+  runApp(const MaterialApp(
+    home: MyApp(),
+    debugShowCheckedModeBanner: false,
+  ));
+  RemoteMessage? initialMessage =
+      await FirebaseMessaging.instance.getInitialMessage();
+  if (initialMessage != null) {
+    // App received a notification when it was killed
+  }
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -87,11 +102,12 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: StringConstants.appTitle,
-          theme: MakeMyTripLightTheme.lightTheme,
-          onGenerateRoute: app_routes.Router().generateRoutes,
-          navigatorKey: navigatorKey),
+        navigatorKey: NavigationService.navigatorKey,
+        debugShowCheckedModeBanner: false,
+        title: StringConstants.appTitle,
+        theme: MakeMyTripLightTheme.lightTheme,
+        onGenerateRoute: app_routes.Router().generateRoutes,
+      ),
     );
   }
 }
