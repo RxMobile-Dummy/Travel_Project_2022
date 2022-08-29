@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:make_my_trip_admin_panel/core/failures/failures.dart';
 import 'package:make_my_trip_admin_panel/core/usecases/usecase.dart';
@@ -11,6 +10,6 @@ class DeleteHotel extends UseCase<void, String> {
 
   @override
   Future<Either<Failures, void>> call(String id) {
-      return repository.deleteHotel(id);
+    return repository.deleteHotel(id);
   }
 }

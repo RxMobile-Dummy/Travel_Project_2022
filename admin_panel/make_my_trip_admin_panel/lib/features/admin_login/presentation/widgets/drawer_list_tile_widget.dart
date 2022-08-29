@@ -10,6 +10,8 @@ class DrawerListTileWidget {
 
 List<DrawerListTileWidget> drawerListTileData = [
   DrawerListTileWidget(
+      iconData: Icons.hotel_rounded, title: StringConstants.hotelLabel),
+  DrawerListTileWidget(
       iconData: Icons.calendar_month_sharp,
       title: StringConstants.bookingModerationLabel),
   DrawerListTileWidget(

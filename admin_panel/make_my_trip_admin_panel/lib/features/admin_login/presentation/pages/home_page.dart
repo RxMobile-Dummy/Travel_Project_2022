@@ -6,6 +6,9 @@ import 'package:make_my_trip_admin_panel/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip_admin_panel/core/theme/text_styles.dart';
 import 'package:make_my_trip_admin_panel/features/about_us/presentation/cubit/about_us_cubit.dart';
 import 'package:make_my_trip_admin_panel/features/about_us/presentation/pages/about_us_page.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/injection_container.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/presentation/cubit/hotel_cubit.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/presentation/pages/get_hotels_ui.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/admin_booking_moderation_injection_container.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/cubit/admin_booking_moderation_cubit.dart';
 import 'package:make_my_trip_admin_panel/features/admin_booking_moderation/presentation/pages/admin_booking_page.dart';
@@ -76,20 +79,20 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height: 340,
+                          height: 384,
                           child: ListView.builder(
                               controller: ScrollController(),
                               itemCount: drawerListTileData.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return ListTile(
                                   iconColor: state is StateOnResponseSuccess &&
-                                      state.response ==
-                                          drawerListTileData[index].title
+                                          state.response ==
+                                              drawerListTileData[index].title
                                       ? MakeMyTripColors.color10gray
                                       : null,
                                   textColor: state is StateOnResponseSuccess &&
-                                      state.response ==
-                                          drawerListTileData[index].title
+                                          state.response ==
+                                              drawerListTileData[index].title
                                       ? MakeMyTripColors.colorWhite
                                       : null,
                                   tileColor: state is StateOnResponseSuccess &&
@@ -146,58 +149,69 @@ class HomePage extends StatelessWidget {
                           child: (AdminBookingPage()),
                         )
                       : (state is StateOnResponseSuccess &&
-                              state.response ==
-                                  StringConstants.reviewAppbarTitle)
-                          ? BlocProvider<ReviewModerationCubit>(
+                              state.response == StringConstants.hotelLabel)
+                          ? BlocProvider<HotelCubit>(
                               create: (context) =>
-                                  reviewSl<ReviewModerationCubit>(),
-                              child: (ReviewModeration()),
+                                  hotelSl<HotelCubit>(),
+                              child: (GetHotelUi()),
                             )
                           : (state is StateOnResponseSuccess &&
-                                  state.response == StringConstants.faq)
-                              ? BlocProvider<FaqCubit>(
+                                  state.response ==
+                                      StringConstants.reviewAppbarTitle)
+                              ? BlocProvider<ReviewModerationCubit>(
                                   create: (context) =>
-                                      slFaqPage<FaqCubit>()..getFaqData(),
-                                  child: (FaqPage()),
+                                      reviewSl<ReviewModerationCubit>(),
+                                  child: (ReviewModeration()),
                                 )
                               : (state is StateOnResponseSuccess &&
-                                      state.response == StringConstants.aboutUs)
-                                  ? BlocProvider<AboutUsCubit>(
+                                      state.response == StringConstants.faq)
+                                  ? BlocProvider<FaqCubit>(
                                       create: (context) =>
-                                          slAboutUsPage<AboutUsCubit>()
-                                            ..getAboutUsData(),
-                                      child: (AboutUsPage()),
+                                          slFaqPage<FaqCubit>()..getFaqData(),
+                                      child: (FaqPage()),
                                     )
                                   : (state is StateOnResponseSuccess &&
-                                          state.response == StringConstants.tc)
-                                      ? BlocProvider<TermsConditionCubit>(
+                                          state.response ==
+                                              StringConstants.aboutUs)
+                                      ? BlocProvider<AboutUsCubit>(
                                           create: (context) =>
-                                              slTcPage<TermsConditionCubit>()
-                                                ..getTermsConditionData(),
-                                          child: (TcPage()),
+                                              slAboutUsPage<AboutUsCubit>()
+                                                ..getAboutUsData(),
+                                          child: (AboutUsPage()),
                                         )
                                       : (state is StateOnResponseSuccess &&
                                               state.response ==
-                                                  StringConstants.privacyPolicy)
-                                          ? BlocProvider<PrivacyPolicyCubit>(
-                                              create: (context) =>
-                                                  slPrivacyPage<
-                                                      PrivacyPolicyCubit>()
-                                                    ..getPrivacyPolicyData(),
-                                              child: (PrivacyPolicyPage()),
+                                                  StringConstants.tc)
+                                          ? BlocProvider<TermsConditionCubit>(
+                                              create: (context) => slTcPage<
+                                                  TermsConditionCubit>()
+                                                ..getTermsConditionData(),
+                                              child: (TcPage()),
                                             )
                                           : (state is StateOnResponseSuccess &&
                                                   state.response ==
                                                       StringConstants
-                                                          .pushNotification)
+                                                          .privacyPolicy)
                                               ? BlocProvider<
-                                                      PushNotificationCubit>(
+                                                  PrivacyPolicyCubit>(
                                                   create: (context) =>
-                                                      slPushNotification<
-                                                          PushNotificationCubit>(),
-                                                  child:
-                                                      (const PushNotificationAdminPanel()))
-                                              : const SizedBox(),
+                                                      slPrivacyPage<
+                                                          PrivacyPolicyCubit>()
+                                                        ..getPrivacyPolicyData(),
+                                                  child: (PrivacyPolicyPage()),
+                                                )
+                                              : (state is StateOnResponseSuccess &&
+                                                      state.response ==
+                                                          StringConstants
+                                                              .pushNotification)
+                                                  ? BlocProvider<
+                                                          PushNotificationCubit>(
+                                                      create: (context) =>
+                                                          slPushNotification<
+                                                              PushNotificationCubit>(),
+                                                      child:
+                                                          (const PushNotificationAdminPanel()))
+                                                  : const SizedBox(),
                 ),
               ],
             ),

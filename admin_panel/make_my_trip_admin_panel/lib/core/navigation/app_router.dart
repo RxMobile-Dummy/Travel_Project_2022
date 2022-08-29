@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip_admin_panel/core/navigation/route_info.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/injection_container.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/presentation/cubit/hotel_cubit.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/presentation/pages/add_hotels.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/presentation/pages/get_hotels_ui.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/pages/home_page.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/admin_login_injection_container.dart';
 import 'package:make_my_trip_admin_panel/features/admin_login/presentation/cubit/admin_login_cubit.dart';
@@ -30,8 +34,22 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return BlocProvider<AdminLoginCubit>(
             create: (context) => slAdminLogin<AdminLoginCubit>()
-              ..changeViewEvent(StringConstants.bookingModerationLabel),
+              ..changeViewEvent(StringConstants.hotelLabel),
             child: (const HomePage()),
+          );
+        });
+      case RoutesName.addHotel:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider<HotelCubit>(
+            create: (context) => hotelSl<HotelCubit>(),
+            child: const AddHotels(),
+          );
+        });
+      case RoutesName.getHotel:
+        return MaterialPageRoute(builder: (_) {
+          return BlocProvider<HotelCubit>(
+            create: (context) => hotelSl<HotelCubit>()..getHotels(),
+            child: GetHotelUi(),
           );
         });
       default:

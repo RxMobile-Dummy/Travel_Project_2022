@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LongTextTextField extends StatelessWidget {
-   LongTextTextField({Key? key,required this.hintTextvar, required this.textFieldViewController,required this.validator}) : super(key: key);
+  LongTextTextField(
+      {Key? key,
+      required this.hintTextvar,
+      required this.textFieldViewController,
+      required this.validator})
+      : super(key: key);
   final String hintTextvar;
   var textFieldViewController;
   String? Function(String?)? validator;
@@ -11,13 +16,14 @@ class LongTextTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
       child: TextFormField(
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator:  validator,
+        validator: validator,
         maxLength: 400,
         maxLines: 5,
         controller: textFieldViewController,
         keyboardType: TextInputType.multiline,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: BorderSide.none,
@@ -25,7 +31,8 @@ class LongTextTextField extends StatelessWidget {
           fillColor: Colors.grey[280],
           filled: true,
           hintText: hintTextvar,
-          hintStyle: TextStyle(color: Colors.grey[400],fontSize: 16),),
+          hintStyle: TextStyle(color: Colors.grey[400], fontSize: 16),
+        ),
       ),
     );
   }

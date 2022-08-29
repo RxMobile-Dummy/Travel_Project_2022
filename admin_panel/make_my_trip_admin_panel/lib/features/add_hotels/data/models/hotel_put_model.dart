@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 /// _id : 1
 /// hotel_name : "Hotel Khyber Palace"
 /// address : {"address_line":"Sanand Cir, Sarkhej, Ahmedabad, Gujarat, India 382210","city_id":69,"pincode":382210,"location":{"latitude":23.0609355,"longitude":23.0609355}}
@@ -30,45 +31,49 @@ import 'dart:convert';
 /// superdeluxefeatures : ["Free internet","Pet-Friendly Rooms","Coffee / Tea maker","Mini-Fridge","Smart TV with satellite","Individually air conditioning"]
 /// superdeluxedescription : "Super-Deluxe rooms, are modern decorated, can accommodate up to 2 persons, totally soundproofed and equipped with high tech comforts such as high speed internet access, USB ports , smart TV, room cleaning touch system and private hydromassage bathtub"
 
-HotelPutModel hotelPutModelFromJson(String str) => HotelPutModel.fromJson(json.decode(str));
+HotelPutModel hotelPutModelFromJson(String str) =>
+    HotelPutModel.fromJson(json.decode(str));
 String hotelPutModelToJson(HotelPutModel data) => json.encode(data.toJson());
+
 class HotelPutModel {
   HotelPutModel({
-      this.id, 
-      this.hotelName, 
-      this.address,
-      this.rating, 
-      this.price, 
-      this.phoneNumber, 
-      this.noOfRoom, 
-      this.description, 
-      this.features, 
-      this.noofdeluxe, 
-      this.deluxesize, 
-      this.deluxebadsize, 
-      this.deluxemaxcapacity, 
-      this.deluxeprice, 
-      this.deluxefeatures, 
-      this.deluxedescription, 
-      this.noofsemideluxe, 
-      this.semideluxesize, 
-      this.semideluxebadsize, 
-      this.semideluxemaxcapacity, 
-      this.semideluxeprice, 
-      this.semideluxefeatures, 
-      this.semideluxedescription, 
-      this.noodsuperdeluxe, 
-      this.superdeluxesize, 
-      this.superdeluxebadsize, 
-      this.superdeluxemaxcapacity, 
-      this.superdeluxeprice, 
-      this.superdeluxefeatures, 
-      this.superdeluxedescription,});
+    this.id,
+    this.hotelName,
+    this.address,
+    this.rating,
+    this.price,
+    this.phoneNumber,
+    this.noOfRoom,
+    this.description,
+    this.features,
+    this.noofdeluxe,
+    this.deluxesize,
+    this.deluxebadsize,
+    this.deluxemaxcapacity,
+    this.deluxeprice,
+    this.deluxefeatures,
+    this.deluxedescription,
+    this.noofsemideluxe,
+    this.semideluxesize,
+    this.semideluxebadsize,
+    this.semideluxemaxcapacity,
+    this.semideluxeprice,
+    this.semideluxefeatures,
+    this.semideluxedescription,
+    this.noodsuperdeluxe,
+    this.superdeluxesize,
+    this.superdeluxebadsize,
+    this.superdeluxemaxcapacity,
+    this.superdeluxeprice,
+    this.superdeluxefeatures,
+    this.superdeluxedescription,
+  });
 
   HotelPutModel.fromJson(dynamic json) {
     id = json['_id'];
     hotelName = json['hotel_name'];
-    address = json['address'] != null ? Addresss.fromJson(json['address']) : null;
+    address =
+        json['address'] != null ? Addresss.fromJson(json['address']) : null;
     rating = json['rating'];
     price = json['price'];
     phoneNumber = json['phone_number'];
@@ -80,21 +85,27 @@ class HotelPutModel {
     deluxebadsize = json['deluxebadsize'];
     deluxemaxcapacity = json['deluxemaxcapacity'];
     deluxeprice = json['deluxeprice'];
-    deluxefeatures = json['deluxefeatures'] != null ? json['deluxefeatures'].cast<String>() : [];
+    deluxefeatures = json['deluxefeatures'] != null
+        ? json['deluxefeatures'].cast<String>()
+        : [];
     deluxedescription = json['deluxedescription'];
     noofsemideluxe = json['noofsemideluxe'];
     semideluxesize = json['semideluxesize'];
     semideluxebadsize = json['semideluxebadsize'];
     semideluxemaxcapacity = json['semideluxemaxcapacity'];
     semideluxeprice = json['semideluxeprice'];
-    semideluxefeatures = json['semideluxefeatures'] != null ? json['semideluxefeatures'].cast<String>() : [];
+    semideluxefeatures = json['semideluxefeatures'] != null
+        ? json['semideluxefeatures'].cast<String>()
+        : [];
     semideluxedescription = json['semideluxedescription'];
     noodsuperdeluxe = json['noodsuperdeluxe'];
     superdeluxesize = json['superdeluxesize'];
     superdeluxebadsize = json['superdeluxebadsize'];
     superdeluxemaxcapacity = json['superdeluxemaxcapacity'];
     superdeluxeprice = json['superdeluxeprice'];
-    superdeluxefeatures = json['superdeluxefeatures'] != null ? json['superdeluxefeatures'].cast<String>() : [];
+    superdeluxefeatures = json['superdeluxefeatures'] != null
+        ? json['superdeluxefeatures'].cast<String>()
+        : [];
     superdeluxedescription = json['superdeluxedescription'];
   }
   num? id;
@@ -164,7 +175,6 @@ class HotelPutModel {
     map['superdeluxedescription'] = superdeluxedescription;
     return map;
   }
-
 }
 
 /// address_line : "Sanand Cir, Sarkhej, Ahmedabad, Gujarat, India 382210"
@@ -174,18 +184,21 @@ class HotelPutModel {
 
 Addresss addressFromJson(String str) => Addresss.fromJson(json.decode(str));
 String addressToJson(Addresss data) => json.encode(data.toJson());
+
 class Addresss {
   Addresss({
-      this.addressLine, 
-      this.cityId, 
-      this.pincode, 
-      this.location,});
+    this.addressLine,
+    this.cityId,
+    this.pincode,
+    this.location,
+  });
 
   Addresss.fromJson(dynamic json) {
     addressLine = json['address_line'];
     cityId = json['city_id'];
     pincode = json['pincode'];
-    location = json['location'] != null ? Locationn.fromJson(json['location']) : null;
+    location =
+        json['location'] != null ? Locationn.fromJson(json['location']) : null;
   }
   String? addressLine;
   num? cityId;
@@ -202,7 +215,6 @@ class Addresss {
     }
     return map;
   }
-
 }
 
 /// latitude : 23.0609355
@@ -210,10 +222,12 @@ class Addresss {
 
 Locationn locationFromJson(String str) => Locationn.fromJson(json.decode(str));
 String locationToJson(Locationn data) => json.encode(data.toJson());
+
 class Locationn {
   Locationn({
-      this.latitude, 
-      this.longitude,});
+    this.latitude,
+    this.longitude,
+  });
 
   Locationn.fromJson(dynamic json) {
     latitude = json['latitude'];
@@ -228,5 +242,4 @@ class Locationn {
     map['longitude'] = longitude;
     return map;
   }
-
 }

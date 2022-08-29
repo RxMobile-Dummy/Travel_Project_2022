@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:make_my_trip_admin_panel/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip_admin_panel/utils/extensions/sizedbox/sizedbox_extension.dart';
+
 class CommonErrorWidget extends StatelessWidget {
-  const CommonErrorWidget(
-      {Key? key,
-        required this.imagePath,
-        required this.title,
-        required this.statusCode,
-      })
-      : super(key: key);
+  const CommonErrorWidget({
+    Key? key,
+    required this.imagePath,
+    required this.title,
+    required this.statusCode,
+  }) : super(key: key);
 
   final String imagePath;
   final String title;
   final String statusCode;
-
 
   @override
   Widget build(BuildContext context) {

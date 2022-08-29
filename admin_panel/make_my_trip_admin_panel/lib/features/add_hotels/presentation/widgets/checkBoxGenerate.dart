@@ -15,19 +15,18 @@ class _checkValueState extends State<checkValue> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: values.keys.map((String key) {
+        body: ListView(
+      children: values.keys.map((String key) {
         return CheckboxListTile(
-        title: Text(key),
-        value: values[key],
+          title: Text(key),
+          value: values[key],
           onChanged: (bool? value) {
             setState(() {
               values[key] = value!;
             });
           },
-      );
-    }).toList(),
-    )
-    );
+        );
+      }).toList(),
+    ));
   }
 }

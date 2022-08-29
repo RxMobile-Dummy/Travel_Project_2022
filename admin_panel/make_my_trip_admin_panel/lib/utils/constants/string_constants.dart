@@ -13,6 +13,7 @@ class StringConstants {
       'Please enter length of minimum 6 character';
   static String appTitle = "MakeMyTrip";
   static String adminPanelLabel = "Admin Panel";
+  static String hotelLabel = "Hotels";
 
   //admin_home_page String Constant
   static String bookingModerationLabel = "Bookings";
@@ -132,13 +133,13 @@ class StringConstants {
   static String hotelName = "Hotel Name";
   static String hotelAddress = "Hotel Address";
   static String hotelCityId = "City Id";
-  static String hotelPincode = "Pincode";
+  static String hotelPinCode = "Pincode";
 
   static String hotelDetails = "Hotel Details";
   static String hotelRating = "Rating";
   static String hotelPrice = "Price";
   static String hotelPhoneNumber = "Phone Number";
-  static String hotelno_of_rooms = "Number Of Rooms";
+  static String hotelNoOfRooms = "Number Of Rooms";
   static String hotelDescription = "Hotel Description";
   static String hotelFeature = "Features";
   static String parking = "Parking";
@@ -149,21 +150,19 @@ class StringConstants {
   static String extra = "Extra";
 
   static String deluxeRoomDetails = "Deluxe Room Details";
-  static String no_of_DekluxeRoom = "Number of Deluxe Room";
-  static String dekluxeRoomSize = "Deluxe Room Size";
-  static String dekluxeRoom_bedDetails = "Deluxe Room bed Details";
-  static String dekluxeRoom_maxCapacity = "Deluxe Room Maximum Capacity";
-  static String dekluxeRoom_price = "Deluxe Rome Price";
-  static String dekluxeRoom_features = "Deluxe Room Features";
-  static String free_internet = "Free internet";
-  static String coffee_tea = "Coffee / Tea maker";
+  static String noOfDeluxeRoom = "Number of Deluxe Room";
+  static String deluxeRoomSize = "Deluxe Room Size";
+  static String deluxeRoomBedDetails = "Deluxe Room bed Details";
+  static String deluxeRoomMaxCapacity = "Deluxe Room Maximum Capacity";
+  static String deluxeRoomPrice = "Deluxe Rome Price";
+  static String deluxeRoomFeatures = "Deluxe Room Features";
+  static String freeInternet = "Free internet";
+  static String coffeeTea = "Coffee / Tea maker";
   static String soundProof = "Soundproof walls";
   static String selectHotelImage = "Select Hotel Image";
   static String selectDeluxeImage = "Select Deluxe Image";
   static String selectSemiDeluxeImage = "Select Semi Deluxe Image";
   static String selectSuperDeluxeImage = "Select Super Deluxe Image";
-
-
 
   static List<String> hotelConstantFeatures = [
     "Laundry",
@@ -173,15 +172,26 @@ class StringConstants {
     "Healthy Breakfast"
   ];
 
-  static List<String> deluxehotelConstantFeatures = [
-    "Free internet", "Coffee / Tea maker", "Soundproof walls", "Smart TV with satellite", "Individually air conditioning"
+  static List<String> deluxeHotelConstantFeatures = [
+    "Free internet",
+    "Coffee / Tea maker",
+    "Soundproof walls",
+    "Smart TV with satellite",
+    "Individually air conditioning"
   ];
-  static List<String> semideluxehotelConstantFeatures = [
-    "Free internet", "Coffee / Tea maker", "Soundproof walls", "Smart TV with satellite", "Individually air conditioning"
+  static List<String> semiDeluxeHotelConstantFeatures = [
+    "Free internet",
+    "Coffee / Tea maker",
+    "Soundproof walls",
+    "Smart TV with satellite",
+    "Individually air conditioning"
   ];
-  static List<String> superdeluxehotelConstantFeatures = [
-    "Free internet","Pet-Friendly Rooms", "Coffee / Tea maker", "Soundproof walls", "Smart TV with satellite", "Individually air conditioning"
+  static List<String> superDeluxeHotelConstantFeatures = [
+    "Free internet",
+    "Pet-Friendly Rooms",
+    "Coffee / Tea maker",
+    "Soundproof walls",
+    "Smart TV with satellite",
+    "Individually air conditioning"
   ];
-
-
 }

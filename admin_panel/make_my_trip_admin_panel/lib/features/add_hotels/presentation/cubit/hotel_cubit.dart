@@ -1,11 +1,12 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip_admin_panel/core/base/base_state.dart';
-import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelModels.dart';
-import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPostModel.dart';
-import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPutModel.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_model.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_post_model.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_put_model.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/add_hotel.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/add_image.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/domain/use_cases/delete_hotel.dart';
@@ -22,7 +23,7 @@ class HotelCubit extends Cubit<BaseState> {
   GetHotelPut getHotelPut;
   UpdateHotel updateHotel;
   AddHotelImage addImage;
-  GetHotelIamges getHotelImage;
+  GetHotelImages getHotelImage;
 
   HotelCubit(
       {required this.postHotel,
@@ -31,8 +32,7 @@ class HotelCubit extends Cubit<BaseState> {
       required this.getHotelPut,
       required this.updateHotel,
       required this.addImage,
-      required this.getHotelImage
-      })
+      required this.getHotelImage})
       : super(StateInitial()) {
     getHotels();
   }
@@ -40,11 +40,12 @@ class HotelCubit extends Cubit<BaseState> {
   List<HotelModels> hotelList = [];
   List<HotelModels> filterList = [];
 
-  List<PlatformFile> hotelImages=[];
-  List<PlatformFile> deluxeImages=[];
-  List<PlatformFile> semiDeluxeImages=[];
-  List<PlatformFile> superDeluxeImages=[];
+  List<PlatformFile> hotelImages = [];
+  List<PlatformFile> deluxeImages = [];
+  List<PlatformFile> semiDeluxeImages = [];
+  List<PlatformFile> superDeluxeImages = [];
   int page = -1;
+
   addHotels(
       List<PlatformFile> hotelImages,
       List<PlatformFile> superDeluxImage,
@@ -62,7 +63,6 @@ class HotelCubit extends Cubit<BaseState> {
       int no_rooms,
       String description,
       String deluxebadsize,
-
       String deluxedescription,
       List<String> deluxefeatures,
       int deluxemaxcapacity,
@@ -85,53 +85,52 @@ class HotelCubit extends Cubit<BaseState> {
       int superdeluxemaxcapacity,
       int superdeluxeprice,
       String superdeluxesize) async {
-    var res = await postHotel.call(AddHotelParams(HotelPostModel(
-
-        address: Address(
-            addressLine: address_line,
-            pincode: pincode,
-            cityId: city_id,
-            location: Location(latitude: latitude!, longitude: logitude!)),
-        deluxebadsize: deluxebadsize,
-        deluxedescription: deluxedescription,
-        deluxefeatures: deluxefeatures,
-        deluxemaxcapacity: deluxemaxcapacity,
-        deluxeprice: deluxeprice,
-        deluxesize: deluxesize,
-        features: hotelFeatures,
-        hotelName: hotelname,
-        noOfRoom: no_of_room,
-        noodsuperdeluxe: noodsuperdeluxe,
-        noofdeluxe: noofdeluxe,
-        noofsemideluxe: noofsemideluxe,
-        phoneNumber: phonenumber,
-        price: price,
-        rating: rating,
-        semideluxebadsize: semideluxebadsize,
-        semideluxedescription: semideluxedescription,
-        semideluxefeatures: semideluxefeatures,
-        semideluxemaxcapacity: semideluxemaxcapacity,
-        semideluxeprice: semideluxeprice,
-        semideluxesize: semideluxesize,
-        superdeluxebadsize: superdeluxebadsize,
-        superdeluxedescription: superdeluxedescription,
-        superdeluxefeatures: superdeluxefeatures,
-        superdeluxemaxcapacity: superdeluxemaxcapacity,
-        superdeluxeprice: superdeluxeprice,
-        superdeluxesize: superdeluxesize,
-        description: description),
-
+    var res = await postHotel.call(AddHotelParams(
+        HotelPostModel(
+            address: Address(
+                addressLine: address_line,
+                pincode: pincode,
+                cityId: city_id,
+                location: Location(latitude: latitude!, longitude: logitude!)),
+            deluxebadsize: deluxebadsize,
+            deluxedescription: deluxedescription,
+            deluxefeatures: deluxefeatures,
+            deluxemaxcapacity: deluxemaxcapacity,
+            deluxeprice: deluxeprice,
+            deluxesize: deluxesize,
+            features: hotelFeatures,
+            hotelName: hotelname,
+            noOfRoom: no_of_room,
+            noodsuperdeluxe: noodsuperdeluxe,
+            noofdeluxe: noofdeluxe,
+            noofsemideluxe: noofsemideluxe,
+            phoneNumber: phonenumber,
+            price: price,
+            rating: rating,
+            semideluxebadsize: semideluxebadsize,
+            semideluxedescription: semideluxedescription,
+            semideluxefeatures: semideluxefeatures,
+            semideluxemaxcapacity: semideluxemaxcapacity,
+            semideluxeprice: semideluxeprice,
+            semideluxesize: semideluxesize,
+            superdeluxebadsize: superdeluxebadsize,
+            superdeluxedescription: superdeluxedescription,
+            superdeluxefeatures: superdeluxefeatures,
+            superdeluxemaxcapacity: superdeluxemaxcapacity,
+            superdeluxeprice: superdeluxeprice,
+            superdeluxesize: superdeluxesize,
+            description: description),
         hotelImages,
         superDeluxImage,
         semiDeluImage,
         DeluxImage));
     res.fold(
       (failure) {
-        // print("failure");
+        print("failure");
         emit(StateNoData());
       },
       (success) {
-        // print("success");
+        print("success");
         getHotels();
       },
     );
@@ -222,37 +221,37 @@ class HotelCubit extends Cubit<BaseState> {
   }
 
   demo(String hotelname, int price, String address,
-      List<String> semiDeluxeRoomFeatures) async {
-
-  }
+      List<String> semiDeluxeRoomFeatures) async {}
 
   getHotels() async {
-    try {
-      if (state is! StateOnSuccess) {
-        emit(StateLoading());
-      } else {
-        emit(StateOnSuccess<List<HotelModels>>(hotelList, isMoreLoading: true));
-      }
-      page++;
-      var res = await getHotel.call(page);
-      res.fold((l) {
-
-        emit(StateErrorGeneral("errorMessage"));
-      }, (r) {
-
-        for (var item in r) {
-          hotelList.add(item);
-        }
-        emit(StateOnSuccess<List<HotelModels>>(hotelList,isMoreLoading: false));
-      });
-    } catch (er) {
+    if (state is! StateOnSuccess) {
+      emit(StateLoading());
+    } else {
+      emit(StateOnSuccess<List<HotelModels>>(hotelList, isMoreLoading: true));
     }
+    page++;
+    var res = await getHotel.call(page);
+    res.fold((l) {
+      emit(StateErrorGeneral("errorMessage"));
+    }, (r) {
+      for (var item in r) {
+        hotelList.add(item);
+      }
+      if (hotelList.isEmpty) {
+        emit(StateNoData());
+      } else {
+        emit(
+            StateOnSuccess<List<HotelModels>>(hotelList, isMoreLoading: false));
+      }
+    });
   }
+
   void setUpScrollController(ScrollController scrollController) {
-    scrollController.addListener(() {
+    scrollController.addListener(() async {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          getHotels();
+          await getHotels();
+          //FlutterIsolate.spawn(getHotels(), {});
         }
       }
     });
@@ -262,10 +261,8 @@ class HotelCubit extends Cubit<BaseState> {
     emit(StateLoading());
     var res = await getHotelPut.call(id);
     res.fold((l) {
-
       emit(StateErrorGeneral("errorMessage"));
     }, (r) {
-
       emit(StateOnResponseSuccess<HotelPutModel>(r));
     });
   }
@@ -296,53 +293,40 @@ class HotelCubit extends Cubit<BaseState> {
       }
     }
     if (filterList.isEmpty) {
-      emit(StateNoData());  
+      emit(StateNoData());
     } else {
       emit(StateOnSuccess(filterList));
     }
   }
 
-  addHotelImages(String path) async{
+  addHotelImages(String path) async {
     var res = await addImage.call(ImagesParams(path));
-    res.fold((l) => emit(StateErrorGeneral("errorMessage")), (r) => print("Success"));
+    res.fold((l) => emit(StateErrorGeneral("errorMessage")),
+        (r) => print("Success"));
   }
-  
-  getHotelImagess(String type) async{
+
+  getHotelImagess(String type) async {
     emit(StateLoading());
     var res = await getHotelImage.call(ImagesParamss(type));
-    res.fold((l) =>
-        emit(StateDialogErrorGeneral("errorMessage")),
-            (r) {
-      if(type == StringConstants.selectHotelImage) {
+    res.fold((l) => emit(StateDialogErrorGeneral("errorMessage")), (r) {
+      if (type == StringConstants.selectHotelImage) {
         hotelImages.addAll(r);
-      } else if(type == StringConstants.selectDeluxeImage) {
+      } else if (type == StringConstants.selectDeluxeImage) {
         deluxeImages.addAll(r);
-      } else if(type == StringConstants.selectSemiDeluxeImage) {
+      } else if (type == StringConstants.selectSemiDeluxeImage) {
         semiDeluxeImages.addAll(r);
-      } else{
+      } else {
         superDeluxeImages.addAll(r);
       }
       emit(StateOnKnownToSuccess(""));
     });
   }
 
-  // getFromGallery() async {
-  //   XFile? pickedFile = await ImagePicker().pickImage(
-  //     source: ImageSource.gallery,
-  //     maxWidth: 1800,
-  //     maxHeight: 1800,
-  //   );
-  //   if (pickedFile != null) {
-  //     emit(StateOnSuccess<String>(response : pickedFile.path));
-  //   } else {
-  //     emit(StateErrorGeneral("Error GetFromGallery"));
-  //   }
-  // }
-
   selectImages() async {
-    List<XFile>? imageFileList=[];
+    List<XFile>? imageFileList = [];
     final ImagePicker imagePicker = ImagePicker();
-    final List<XFile>? selectedImages = await imagePicker.pickMultiImage(imageQuality: 40);
+    final List<XFile>? selectedImages =
+        await imagePicker.pickMultiImage(imageQuality: 40);
     if (selectedImages!.isNotEmpty) {
       imageFileList.addAll(selectedImages);
       emit(StateReorderSuccess(imageFileList));

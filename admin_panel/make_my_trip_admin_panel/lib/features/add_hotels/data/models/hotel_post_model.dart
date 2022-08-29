@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 /// hotel_name : "Hotel Syal Inn Amritsar"
 /// address : {"address_line":"Cooper Road, Bhandari Pull Near Giani Tea Stall, opposite Inderpuri Foods, Crystal Chowk, Amritsar, Punjab, India 143001","city_id":146,"pincode":143001,"location":{"latitude":23.052107,"longitude":72.57090050000001}}
 /// rating : 5
@@ -33,47 +34,51 @@ import 'dart:convert';
 /// semideluxeimages : ["url5"]
 /// superdeluxeimages : ["url8"]
 
-HotelPostModel hotelPostModelFromJson(String str) => HotelPostModel.fromJson(json.decode(str));
+HotelPostModel hotelPostModelFromJson(String str) =>
+    HotelPostModel.fromJson(json.decode(str));
 String hotelPostModelToJson(HotelPostModel data) => json.encode(data.toJson());
+
 class HotelPostModel {
   HotelPostModel({
-      this.hotelName, 
-      this.address, 
-      this.rating, 
-      this.price, 
-      this.phoneNumber, 
-      this.noOfRoom, 
-      this.description, 
-      this.features, 
-      this.noofdeluxe, 
-      this.noodsuperdeluxe, 
-      this.noofsemideluxe, 
-      this.deluxesize, 
-      this.deluxebadsize, 
-      this.deluxemaxcapacity, 
-      this.deluxeprice, 
-      this.deluxefeatures, 
-      this.deluxedescription, 
-      this.semideluxesize, 
-      this.semideluxebadsize, 
-      this.semideluxemaxcapacity, 
-      this.semideluxeprice, 
-      this.semideluxefeatures, 
-      this.semideluxedescription, 
-      this.superdeluxesize, 
-      this.superdeluxebadsize, 
-      this.superdeluxemaxcapacity, 
-      this.superdeluxeprice, 
-      this.superdeluxefeatures, 
-      this.superdeluxedescription, 
-      this.hotelimages, 
-      this.deluxeimages, 
-      this.semideluxeimages, 
-      this.superdeluxeimages,});
+    this.hotelName,
+    this.address,
+    this.rating,
+    this.price,
+    this.phoneNumber,
+    this.noOfRoom,
+    this.description,
+    this.features,
+    this.noofdeluxe,
+    this.noodsuperdeluxe,
+    this.noofsemideluxe,
+    this.deluxesize,
+    this.deluxebadsize,
+    this.deluxemaxcapacity,
+    this.deluxeprice,
+    this.deluxefeatures,
+    this.deluxedescription,
+    this.semideluxesize,
+    this.semideluxebadsize,
+    this.semideluxemaxcapacity,
+    this.semideluxeprice,
+    this.semideluxefeatures,
+    this.semideluxedescription,
+    this.superdeluxesize,
+    this.superdeluxebadsize,
+    this.superdeluxemaxcapacity,
+    this.superdeluxeprice,
+    this.superdeluxefeatures,
+    this.superdeluxedescription,
+    this.hotelimages,
+    this.deluxeimages,
+    this.semideluxeimages,
+    this.superdeluxeimages,
+  });
 
   HotelPostModel.fromJson(dynamic json) {
     hotelName = json['hotel_name'];
-    address = json['address'] != null ? Address.fromJson(json['address']) : null;
+    address =
+        json['address'] != null ? Address.fromJson(json['address']) : null;
     rating = json['rating'];
     price = json['price'];
     phoneNumber = json['phone_number'];
@@ -87,24 +92,36 @@ class HotelPostModel {
     deluxebadsize = json['deluxebadsize'];
     deluxemaxcapacity = json['deluxemaxcapacity'];
     deluxeprice = json['deluxeprice'];
-    deluxefeatures = json['deluxefeatures'] != null ? json['deluxefeatures'].cast<String>() : [];
+    deluxefeatures = json['deluxefeatures'] != null
+        ? json['deluxefeatures'].cast<String>()
+        : [];
     deluxedescription = json['deluxedescription'];
     semideluxesize = json['semideluxesize'];
     semideluxebadsize = json['semideluxebadsize'];
     semideluxemaxcapacity = json['semideluxemaxcapacity'];
     semideluxeprice = json['semideluxeprice'];
-    semideluxefeatures = json['semideluxefeatures'] != null ? json['semideluxefeatures'].cast<String>() : [];
+    semideluxefeatures = json['semideluxefeatures'] != null
+        ? json['semideluxefeatures'].cast<String>()
+        : [];
     semideluxedescription = json['semideluxedescription'];
     superdeluxesize = json['superdeluxesize'];
     superdeluxebadsize = json['superdeluxebadsize'];
     superdeluxemaxcapacity = json['superdeluxemaxcapacity'];
     superdeluxeprice = json['superdeluxeprice'];
-    superdeluxefeatures = json['superdeluxefeatures'] != null ? json['superdeluxefeatures'].cast<String>() : [];
+    superdeluxefeatures = json['superdeluxefeatures'] != null
+        ? json['superdeluxefeatures'].cast<String>()
+        : [];
     superdeluxedescription = json['superdeluxedescription'];
-    hotelimages = json['hotelimages'] != null ? json['hotelimages'].cast<String>() : [];
-    deluxeimages = json['deluxeimages'] != null ? json['deluxeimages'].cast<String>() : [];
-    semideluxeimages = json['semideluxeimages'] != null ? json['semideluxeimages'].cast<String>() : [];
-    superdeluxeimages = json['superdeluxeimages'] != null ? json['superdeluxeimages'].cast<String>() : [];
+    hotelimages =
+        json['hotelimages'] != null ? json['hotelimages'].cast<String>() : [];
+    deluxeimages =
+        json['deluxeimages'] != null ? json['deluxeimages'].cast<String>() : [];
+    semideluxeimages = json['semideluxeimages'] != null
+        ? json['semideluxeimages'].cast<String>()
+        : [];
+    superdeluxeimages = json['superdeluxeimages'] != null
+        ? json['superdeluxeimages'].cast<String>()
+        : [];
   }
   String? hotelName;
   Address? address;
@@ -179,7 +196,6 @@ class HotelPostModel {
     map['superdeluxeimages'] = superdeluxeimages;
     return map;
   }
-
 }
 
 /// address_line : "Cooper Road, Bhandari Pull Near Giani Tea Stall, opposite Inderpuri Foods, Crystal Chowk, Amritsar, Punjab, India 143001"
@@ -189,18 +205,21 @@ class HotelPostModel {
 
 Address addressFromJson(String str) => Address.fromJson(json.decode(str));
 String addressToJson(Address data) => json.encode(data.toJson());
+
 class Address {
   Address({
-      this.addressLine, 
-      this.cityId, 
-      this.pincode, 
-      this.location,});
+    this.addressLine,
+    this.cityId,
+    this.pincode,
+    this.location,
+  });
 
   Address.fromJson(dynamic json) {
     addressLine = json['address_line'];
     cityId = json['city_id'];
     pincode = json['pincode'];
-    location = json['location'] != null ? Location.fromJson(json['location']) : null;
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
   }
   String? addressLine;
   num? cityId;
@@ -217,7 +236,6 @@ class Address {
     }
     return map;
   }
-
 }
 
 /// latitude : 23.052107
@@ -225,10 +243,12 @@ class Address {
 
 Location locationFromJson(String str) => Location.fromJson(json.decode(str));
 String locationToJson(Location data) => json.encode(data.toJson());
+
 class Location {
   Location({
-      this.latitude, 
-      this.longitude,});
+    this.latitude,
+    this.longitude,
+  });
 
   Location.fromJson(dynamic json) {
     latitude = json['latitude'];
@@ -243,5 +263,4 @@ class Location {
     map['longitude'] = longitude;
     return map;
   }
-
 }

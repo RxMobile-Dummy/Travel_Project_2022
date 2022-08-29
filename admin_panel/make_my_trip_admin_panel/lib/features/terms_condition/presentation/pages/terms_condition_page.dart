@@ -27,18 +27,18 @@ class TcPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                  Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 36.0),
-                    child: Align(
-                      alignment: AlignmentDirectional.topStart,
-                      child: Text(
-                        StringConstants.tc,
-                        style: AppTextStyles.labelNameTextStyle
-                            .copyWith(color: MakeMyTripColors.customDarkBlue),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 36.0),
+                      child: Align(
+                        alignment: AlignmentDirectional.topStart,
+                        child: Text(
+                          StringConstants.tc,
+                          style: AppTextStyles.labelNameTextStyle
+                              .copyWith(color: MakeMyTripColors.customDarkBlue),
+                        ),
                       ),
                     ),
-                  ),
                     const Divider(
                       color: MakeMyTripColors.colorBlack,
                     ),

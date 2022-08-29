@@ -120,7 +120,7 @@ class AdminBookingPage extends StatelessWidget {
                 ),
               ],
             ),
-            36.verticalSpace,
+            32.verticalSpace,
             Container(
               color: MakeMyTripColors.customLightBlue,
               height: 40,

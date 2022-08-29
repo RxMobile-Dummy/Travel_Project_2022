@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:make_my_trip_admin_panel/core/failures/failures.dart';
-import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_model.dart';
 import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/hotel_put_model.dart';
 
-import '../../data/models/hotel_post_model.dart';
+import '../models/hotel_model.dart';
+import '../models/hotel_post_model.dart';
 
-abstract class HotelRepositories {
+abstract class HotelDataSource {
   Future<Either<Failures, void>> postHotel(hotelImages, superDeluxImage,
-      semiDeluImage, DeluxImage, HotelPostModel hotel);
+      semiDeluxImage, deluxImage, HotelPostModel hotel);
 
   Future<Either<Failures, List<HotelModels>>> getHotel(int page);
 

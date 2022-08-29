@@ -45,7 +45,7 @@ class PushNotificationDataSourceImpl implements PushNotificationDataSource {
       title, body, url) async {
     try {
       var response = await dio
-          .post("https://906d-180-211-112-179.in.ngrok.io/broadcast/registered",
+          .post("https://274c-180-211-112-179.in.ngrok.io/broadcast/registered",
               data: {
                 "title": title,
                 "body": body,

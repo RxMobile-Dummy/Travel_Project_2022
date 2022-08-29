@@ -30,18 +30,18 @@ class FaqPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                  Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 36.0),
-                    child: Align(
-                      alignment: AlignmentDirectional.topStart,
-                      child: Text(
-                        StringConstants.faq,
-                        style: AppTextStyles.labelNameTextStyle
-                            .copyWith(color: MakeMyTripColors.customDarkBlue),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 36.0),
+                      child: Align(
+                        alignment: AlignmentDirectional.topStart,
+                        child: Text(
+                          StringConstants.faq,
+                          style: AppTextStyles.labelNameTextStyle
+                              .copyWith(color: MakeMyTripColors.customDarkBlue),
+                        ),
                       ),
                     ),
-                  ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(

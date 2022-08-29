@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CheckboxWidget extends StatefulWidget {
- CheckboxWidget({Key? key,required this.value,required this.title,required this.data}) : super(key: key);
+  CheckboxWidget(
+      {Key? key, required this.value, required this.title, required this.data})
+      : super(key: key);
   bool value;
   String title;
   List<String> data;
@@ -20,7 +22,7 @@ class _CheckboxWidgetState extends State<CheckboxWidget> {
           // widget.data.add(widget.title);
           widget.value = newValue!;
         });
-        if(widget.value == true){
+        if (widget.value == true) {
           widget.data.add(widget.title);
         }
       },

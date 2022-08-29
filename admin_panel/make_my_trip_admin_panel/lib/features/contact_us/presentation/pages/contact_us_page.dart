@@ -16,18 +16,18 @@ class ContactUsPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-        Padding(
-          padding:
-          const EdgeInsets.symmetric(horizontal: 16.0, vertical: 36.0),
-          child: Align(
-            alignment: AlignmentDirectional.topStart,
-            child: Text(
-              StringConstants.contactUs,
-              style: AppTextStyles.labelNameTextStyle
-                  .copyWith(color: MakeMyTripColors.customDarkBlue),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 36.0),
+            child: Align(
+              alignment: AlignmentDirectional.topStart,
+              child: Text(
+                StringConstants.contactUs,
+                style: AppTextStyles.labelNameTextStyle
+                    .copyWith(color: MakeMyTripColors.customDarkBlue),
+              ),
             ),
           ),
-        ),
           ContactUsBody(
             controller: emailController,
             hinttxt: StringConstants.emailHint,
