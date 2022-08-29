@@ -15,6 +15,7 @@ import 'package:make_my_trip/features/user/domain/usecases/user_sign_up.dart';
 import 'package:make_my_trip/features/user/domain/usecases/user_verification.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/validators/user_info/user_information_validations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../domain/usecases/user_delete_usecase.dart';
 
@@ -30,7 +31,9 @@ class UserCubit extends Cubit<BaseState> {
       required this.userSignUp,
       required this.userVerification,
       required this.userSignOut})
-      : super(StateInitial());
+      : super(StateInitial()){
+    callLog();
+  }
   final UserGoogleLogin googleLogin;
   final UserSignIn signIn;
   final UserFacebookLogin facebookLogin;
@@ -88,6 +91,7 @@ class UserCubit extends Cubit<BaseState> {
 
   // login with email & password event
   signInWithEmail(String loginEmail, String loginPassword) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
     emit(StateLoading());
     final emailValidation =
         UserInfoValidation.emailAddressValidation(loginEmail);
@@ -108,6 +112,11 @@ class UserCubit extends Cubit<BaseState> {
           }
         }, (success) {
           sendDeviceIdCubit();
+          emit(StateOnSuccess("success"));
+             _prefs.setString("email", loginEmail);
+             //
+             // var login = _prefs.getString("email");
+             // print(login);
         });
       }
     }
@@ -231,5 +240,11 @@ class UserCubit extends Cubit<BaseState> {
     } else {
       emit(StateReorderSuccess<String>(email, updatedIndex: 0));
     }
+  }
+
+  void callLog() async{
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    String email = _prefs.getString("email") ?? "";
+    emit(StateReorderSuccess(email));
   }
 }
