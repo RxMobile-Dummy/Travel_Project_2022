@@ -23,12 +23,11 @@ class ApplyCouponPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('app');
     List<ViewCouponModel>? couponList;
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Apply Coupon'),
+          title: const Text('Apply Coupon'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -87,9 +86,9 @@ class ApplyCouponPage extends StatelessWidget {
                                         ),
                                       ),
                                       30.verticalSpace,
-                                      Text(
+                                      const Text(
                                         "Coupon SuccessFully Applied",
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             color: MakeMyTripColors.accentColor,
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold),
@@ -166,7 +165,7 @@ class ApplyCouponPage extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       state.errorMessage,
-                      style: TextStyle(color: Colors.red),
+                      style: const TextStyle(color: Colors.red),
                     ),
                   );
                 } else {

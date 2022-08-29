@@ -20,14 +20,11 @@ class ReviewCubit extends Cubit<BaseState> {
     final res = await getHotelReviewUseCases.call(params);
     res.fold((l) => emit(StateErrorGeneral("errorMessage")),
         (r) => emit(StateOnSuccess<GetReviewModel>(r)));
-    print(res);
   }
 
   postHotelReviewData(commentReview, cleanlinessReview, locationReview,
       comfortReview, facilitiesReview, hote_id, imageFileList) async {
     emit(StateLoading());
-    print('cubit');
-    print(state);
     Reviews reviewModel = Reviews(
       comment: commentReview,
       cleanliness: cleanlinessReview,

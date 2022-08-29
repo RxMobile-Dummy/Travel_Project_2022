@@ -44,28 +44,14 @@ class PaymentCubit extends Cubit<BaseState> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     emit(StateShowSearching());
-    print("_handlePaymentSuccess");
-    // Fluttertoast.showToast(
-    //     msg: "SUCCESS: ${response.paymentId}", timeInSecForIosWeb: 4);
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     emit(StateNoData());
-    print("_handlePaymentError");
-    print(response.message);
-
-    print(response.code);
-    // Fluttertoast.showToast(
-    //     msg: "${response.code} - ${response.message}",
-    //     timeInSecForIosWeb: 4);
     emit(StateOnResponseSuccess<String?>(response.message));
   }
 
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    print("_handleExternalWallet");
-    // Fluttertoast.showToast(
-    //     msg: "EXTERNAL_WALLET: ${response.walletName}", timeInSecForIosWeb: 4);
-  }
+  void _handleExternalWallet(ExternalWalletResponse response) {}
 
   void openCheckout(double amount, String orderId, String? name, String? email,
       String? number) async {
@@ -87,7 +73,9 @@ class PaymentCubit extends Cubit<BaseState> {
 
     try {
       _razorpay.open(options);
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
   paymentConfirm(double amount, roomId, hotelId, cin, cout, double roomPrice,
@@ -112,34 +100,20 @@ class PaymentCubit extends Cubit<BaseState> {
         (r) => emit(StateOnSuccess<BookingModel>(r)));
   }
 
-  roomBookPost(
-      String orderId, String paymentId, BookingModel bookingModel) async {
-    var res = await roomBookPostUsecase
-        .call(RoomBookParams(orderId, paymentId, bookingModel));
-    res.fold((l) => {emit(StateErrorGeneral(l.toString()))},
-        (r) => {emit(StateOnKnownToSuccess(r))});
-  }
-
   @override
   Future<void> close() async {
     return _razorpay.clear();
   }
 
   showApplicableCoupons(int price) async {
-    print('cubit');
     var data = await showApplicableCouponsUsecase
         .call(ShowApplicableCouponParams(price));
     data.fold((failure) {
-      print('fail');
       if (failure is ServerFailure) {
         emit(StateErrorGeneral('No data Found'));
       }
-      debugPrint(failure.toString());
     }, (success) {
-      print('success');
-      print(success);
       emit(StateOnSuccess<List<ViewCouponModel>>(success));
-      // emit(StateOnSuccess();
     });
   }
 
@@ -148,21 +122,15 @@ class PaymentCubit extends Cubit<BaseState> {
   }
 
   checkCoupon(int price, String code) async {
-    try {
-      var data = await checkCouponUsecase.call(CheckCouponParams(price, code));
-      data.fold((failure) {
+    var data = await checkCouponUsecase.call(CheckCouponParams(price, code));
+    data.fold((failure) {
+      emit(StateErrorGeneral('Invalid Coupon!'));
+    }, (success) {
+      if (success.isEmpty) {
         emit(StateErrorGeneral('Invalid Coupon!'));
-        debugPrint(failure.toString());
-      }, (success) {
-        print('success');
-        if (success.isEmpty) {
-          emit(StateErrorGeneral('Invalid Coupon!'));
-        } else {
-          emit(StateOnResponseSuccess<List<ViewCouponModel>>(success));
-        }
-      });
-    } catch (err) {
-      print(err);
-    }
+      } else {
+        emit(StateOnResponseSuccess<List<ViewCouponModel>>(success));
+      }
+    });
   }
 }

@@ -12,6 +12,7 @@ import '../../../../core/theme/text_styles.dart';
 import '../../../../utils/constants/string_constants.dart';
 import '../../../../utils/widgets/common_primary_button.dart';
 import '../cubit/search_hotel_cubit.dart';
+import '../cubit/search_hotel_state.dart';
 
 class SelectDates extends StatelessWidget {
   const SelectDates({key});
@@ -19,14 +20,15 @@ class SelectDates extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<SearchHotelCubit>(context);
-    return BlocConsumer<SearchHotelCubit, BaseState>(
+    return BlocConsumer<SearchHotelCubit, SearchHotelState>(
       listener: (context, state) {
-        if (state is StateErrorGeneral) {
+        if (state is ErrorState) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(state.errorMessage)));
+              .showSnackBar(SnackBar(content: Text(state.error)));
         }
       },
       builder: (context, state) {
+        print(state);
         return Scaffold(
           appBar: AppBar(
             title: Text(

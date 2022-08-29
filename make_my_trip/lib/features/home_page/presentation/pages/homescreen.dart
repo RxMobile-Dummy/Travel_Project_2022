@@ -21,15 +21,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomepageCubit, BaseState>(
-        builder: (context, state) {
-      print(state);
+    return BlocBuilder<HomepageCubit, BaseState>(builder: (context, state) {
       if ((state is GettingStartedData &&
               state.imageLoading == false &&
               state.imageListValue == null) ||
           (state is GettingStartedData &&
               state.tourLoading == false &&
-              state.toursListValue == null)) {
+              state.toursListValue == null) ||
+          (state is GettingStartedData &&
+              state.couponLoading == false &&
+              state.couponListvalue == null)) {
         return CommonErrorWidget(
           onTap: () {
             BlocProvider.of<HomepageCubit>(context)
@@ -261,51 +262,53 @@ class HomeScreen extends StatelessWidget {
                         fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ),
-                SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  child: ((state is GettingStartedData &&
-                          state.couponListvalue != null)
-                      ? (state.couponLoading == true)
-                          ? const ImageSliderShimmer()
-                          : Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: List.generate(
-                                  state.couponListvalue!.length,
-                                  (index) {
+                // SingleChildScrollView(
+                //   physics: const BouncingScrollPhysics(),
+                //   scrollDirection: Axis.horizontal,
+                //   child: ((state is GettingStartedData &&
+                //           state.couponListvalue != null)
+                //       ? (state.couponLoading == true)
+                //           ? const ImageSliderShimmer()
+                //           : Row(
+                //               crossAxisAlignment: CrossAxisAlignment.start,
+                //               children: List.generate(
+                //                   state.couponListvalue!.length, (index) {
+                //                 var coupondata = state.couponListvalue![index];
 
-                                var coupondata =
-                                    state.couponListvalue![index];
-                                print(coupondata.id);
-                                return Padding(
-                                  padding: const EdgeInsets.only(left: 16),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (context) => ViewFullCoupon(
-                                              discountText: coupondata.discount!.toString(),
-                                              imgUrl: coupondata.couponImgUrl!,
-                                              expiryDate: coupondata.endDate!,
-                                              couponTitle:
-                                                  coupondata.title!,
-                                              couponCode:
-                                                  coupondata.code!,
-                                              couponDetails: coupondata
-                                                  .description)));
-                                    },
-                                    child: CouponWidget(
-                                      couponTitle: coupondata.title!,
-                                      expiryDate: coupondata.endDate!,
-                                      imgUrl:
-                                          coupondata.couponImgUrl!,
-                                      discountText:
-                                          coupondata.discount!.toString(),
-                                    ),
-                                  ),
-                                );
-                              }))
-                      : const ImageSliderShimmer()),
-                ),
+                //                 return Padding(
+                //                   padding: const EdgeInsets.only(left: 16),
+                //                   child: GestureDetector(
+                //                     onTap: () {
+                //                       Navigator.of(context).push(
+                //                           MaterialPageRoute(
+                //                               builder: (context) =>
+                //                                   ViewFullCoupon(
+                //                                       discountText: coupondata
+                //                                           .discount!
+                //                                           .toString(),
+                //                                       imgUrl: coupondata
+                //                                           .couponImgUrl!,
+                //                                       expiryDate:
+                //                                           coupondata.endDate!,
+                //                                       couponTitle:
+                //                                           coupondata.title!,
+                //                                       couponCode:
+                //                                           coupondata.code!,
+                //                                       couponDetails: coupondata
+                //                                           .description)));
+                //                     },
+                //                     child: CouponWidget(
+                //                       couponTitle: coupondata.title!,
+                //                       expiryDate: coupondata.endDate!,
+                //                       imgUrl: coupondata.couponImgUrl!,
+                //                       discountText:
+                //                           coupondata.discount!.toString(),
+                //                     ),
+                //                   ),
+                //                 );
+                //               }))
+                //       : const ImageSliderShimmer()),
+                // ),
               ],
             ),
           ),

@@ -31,13 +31,9 @@ class ReviewPage extends StatelessWidget {
       ),
       body: BlocBuilder<ReviewCubit, BaseState>(
         builder: (context, state) {
-          print(state);
           if (state is StateOnSuccess) {
             review = state.response;
             reviewModel = review?.review;
-            print("object");
-            print(review?.review);
-            print(review?.hotelId);
           } else if (state is StateLoading || state is StateErrorGeneral) {
             return ReviewPageShimmer();
           }

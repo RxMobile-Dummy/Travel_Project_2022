@@ -80,48 +80,38 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
   Future<Either<Failures, List<ViewCouponModel>>> showApplicableCoupons(
       int price) async {
-    // TODO: implement showApplicableCoupons
     try {
       final response = await dio.get(
           '${BaseConstant.baseUrl}coupon/couponlistmostapplicable/',
           queryParameters: {"price": price},
           options: await BaseConstant.createDioOptions());
       var result = response.data;
-      print('data');
-      if (response.statusCode == 200) {
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
         List<ViewCouponModel> showApplicableCouponList = [];
-        {
-          for (Map i in result) {
-            showApplicableCouponList.add(ViewCouponModel.fromJson(i));
-          }
+        for (Map i in result) {
+          showApplicableCouponList.add(ViewCouponModel.fromJson(i));
         }
 
         return Right(showApplicableCouponList);
-      } else if (response.statusCode == 505) {
-        return Left(ServerFailure());
-      } else if (response.statusCode == 404) {
-        return Left(
-            AuthFailure()); //Data Not Found Failure but in failure there is no method so AuthFailure
-      } else {
-        return Left(InternetFailure());
-      }
-    } catch (e) {
-      print(e);
-      return Left(ServerFailure(statusCode: "503"));
+      });
+    } on SocketException {
+      return Left(InternetFailure());
+    } catch (err) {
+      return Left(ServerFailure());
     }
   }
 
   @override
   Future<Either<Failures, List<ViewCouponModel>>> checkCoupon(
       int price, String code) async {
-    // TODO: implement checkCoupon
     try {
       final response = await dio.get('${BaseConstant.baseUrl}coupon/code/',
           queryParameters: {"price": price, "code": code},
           options: await BaseConstant.createDioOptions());
       var result = response.data;
-      print('data');
-      if (response.statusCode == 200) {
+      final res = await FailureHandler.handleError(response);
+      return res.fold((l) => Left(l), (r) {
         List<ViewCouponModel> checkCouponList = [];
         {
           for (Map i in result) {
@@ -129,17 +119,11 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
           }
         }
         return Right(checkCouponList);
-      } else if (response.statusCode == 505) {
-        return Left(ServerFailure());
-      } else if (response.statusCode == 404) {
-        return Left(
-            AuthFailure()); //Data Not Found Failure but in failure there is no method so AuthFailure
-      } else {
-        return Left(InternetFailure());
-      }
-    } catch (e) {
-      print(e);
-      return Left(ServerFailure(statusCode: "503"));
+      });
+    } on SocketException {
+      return Left(InternetFailure());
+    } catch (err) {
+      return Left(ServerFailure());
     }
   }
 

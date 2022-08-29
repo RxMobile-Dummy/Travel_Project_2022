@@ -36,7 +36,6 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
         List<UserHistoryModel> userHistoryModel = [];
 
         final apidata = r.data;
-        print(apidata);
         for (var item in apidata) {
           userHistoryModel.add(UserHistoryModel.fromJson(item));
         }

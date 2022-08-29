@@ -50,7 +50,6 @@ class HotelListDataSourceImpl implements HotelListDataSource {
     } on SocketException {
       return Left(InternetFailure());
     } catch (err) {
-      print(err);
       return Left(ServerFailure());
     }
   }

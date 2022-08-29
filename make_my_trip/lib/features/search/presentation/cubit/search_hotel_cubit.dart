@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:make_my_trip/core/base/base_state.dart';
-import 'package:make_my_trip/core/failures/failure_handler.dart';
+import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_state.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:scrollable_clean_calendar/controllers/clean_calendar_controller.dart';
 
@@ -8,7 +7,7 @@ import '../../../../core/usecases/usecase.dart';
 import '../../../user/domain/usecases/is_anonymous_user.dart';
 import '../../domain/use_cases/search_hotel_use_cases.dart';
 
-class SearchHotelCubit extends Cubit<BaseState> {
+class SearchHotelCubit extends Cubit<SearchHotelState> {
   final SearchHotelUseCases searchHotelUseCases;
   final BehaviorSubject<String?> searchData = BehaviorSubject.seeded(null);
   final IsAnonymousUser isAnonymousUser;
@@ -24,7 +23,7 @@ class SearchHotelCubit extends Cubit<BaseState> {
   DateTime? outTime;
 
   SearchHotelCubit(this.searchHotelUseCases, this.isAnonymousUser)
-      : super(StateInitial()) {
+      : super(SearchHotelInitial()) {
     inTime = today;
     outTime = today.add(const Duration(days: 1));
     init();
@@ -43,28 +42,28 @@ class SearchHotelCubit extends Cubit<BaseState> {
           if (checkOutTime != null) {
             final diff = checkOutTime.difference(checkInTime).inDays;
             if (diff > 30) {
-              emit(StateErrorGeneral(
-                  "You can book hotel rooms for only 30 days."));
+              emit(ErrorState(
+                  error: "You can book hotel rooms for only 30 days."));
               inTime = checkInTime;
               outTime = null;
-              emit(StateOnSuccess(""));
+              emit(DateSelectState());
               init();
             } else {
               if (checkInTime == checkOutTime) {
                 inTime = checkInTime;
                 outTime = null;
                 init();
-                emit(StateOnSuccess(""));
+                emit(DateSelectState());
               } else {
                 inTime = checkInTime;
                 outTime = checkOutTime;
-                emit(StateOnSuccess(""));
+                emit(DateSelectState());
               }
             }
           } else {
             inTime = checkInTime;
             outTime = checkOutTime;
-            emit(StateOnSuccess(""));
+            emit(DateSelectState());
           }
         },
         initialDateSelected: inTime,
@@ -72,13 +71,13 @@ class SearchHotelCubit extends Cubit<BaseState> {
   }
 
   goToWishlist() async {
-    emit(StateInitial());
+    emit(SearchHotelInitial());
     final res = await isAnonymousUser.call(NoParams());
     res.fold((failure) {}, (success) {
       if (success) {
-        emit(Unauthenticated());
+        emit(UnauthenticatedState());
       } else {
-        emit(Authenticated());
+        emit(AuthenticatedState());
       }
     });
   }
@@ -86,10 +85,10 @@ class SearchHotelCubit extends Cubit<BaseState> {
   void getHotelList(String? places) async {
     if (places != null && places.isNotEmpty) {
       final res = await searchHotelUseCases.call(places);
-      res.fold((l) => emit(FailureHandler.checkFailures(l)),
-          (r) => emit(StateOnKnownToSuccess(r)));
+      res.fold((l) => emit(ErrorState(error: "Something went wrong!!")),
+          (r) => emit(StateOnKnownToSuccessState(r)));
     } else {
-      emit(StateInitial());
+      emit(SearchHotelInitial());
     }
   }
 
@@ -98,31 +97,31 @@ class SearchHotelCubit extends Cubit<BaseState> {
   }
 
   clearCalender() {
-    emit(StateInitial());
+    emit(SearchHotelInitial());
     cleanCalendarController!.clearSelectedDates();
     inTime = today;
     outTime = today.add(const Duration(days: 1));
     init();
-    emit(StateOnSuccess(""));
+    emit(DateSelectState());
   }
 
   selectRooms(int rooms) {
-    emit(StateInitial());
+    emit(SearchHotelInitial());
     this.rooms = rooms;
-    emit(StateOnSuccess(""));
+    emit(NoOfRooms());
   }
 
   selectAdults(int adults) {
-    emit(StateInitial());
+    emit(SearchHotelInitial());
     this.adults = adults;
-    emit(StateOnSuccess(""));
+    emit(NoOfRooms());
   }
 
   selectCityName(String cityName, int searchId, String type) {
-    emit(StateInitial());
+    emit(SearchHotelInitial());
     this.city = cityName;
     this.searchId = searchId;
     this.type = type;
-    emit(StateOnSuccess(""));
+    emit(CityNameState());
   }
 }

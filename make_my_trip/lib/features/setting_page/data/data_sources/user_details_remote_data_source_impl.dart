@@ -166,9 +166,7 @@ class UserDetailsRemoteDataSourceImpl implements UserDetailsRemoteDataSource {
     try {
       List<FaqModel> subscription = [];
       await firebaseFirestore.collection('faq').get().then((snapshot) {
-        debugPrint("snapshot $snapshot");
         snapshot.docs.map((doc) {
-          debugPrint("doc ${doc.data()}");
           subscription.add(FaqModel.fromJson(doc.data()));
         }).toList();
       });

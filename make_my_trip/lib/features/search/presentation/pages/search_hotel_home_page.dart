@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_cubit.dart';
+import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_state.dart';
 import 'package:make_my_trip/utils/extensions/date_time/date_time_extension.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
@@ -25,13 +26,13 @@ class SearchHotel extends StatelessWidget {
       cubit.searchId = arg['hotel_id'];
       cubit.type = "hotel";
     }
-    return BlocListener<SearchHotelCubit, BaseState>(
+    return BlocListener<SearchHotelCubit, SearchHotelState>(
       listener: (context, state) {
-        if (state is Unauthenticated) {
+        if (state is UnauthenticatedState) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.login, (route) => true,
               arguments: {"route_name": RoutesName.wishList});
-        } else if (state is Authenticated) {
+        } else if (state is AuthenticatedState) {
           Navigator.pushNamedAndRemoveUntil(
               context, RoutesName.wishList, (route) => true);
         }
@@ -58,7 +59,7 @@ class SearchHotel extends StatelessWidget {
               ),
             ],
           ),
-          body: BlocBuilder<SearchHotelCubit, BaseState>(
+          body: BlocBuilder<SearchHotelCubit, SearchHotelState>(
             builder: (context, state) {
               return SafeArea(
                 child: SingleChildScrollView(

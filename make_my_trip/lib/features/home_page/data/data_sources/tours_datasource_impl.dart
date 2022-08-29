@@ -33,7 +33,6 @@ class ToursDataSourceImpl implements ToursDataSource {
     } on SocketException {
       return Left(InternetFailure());
     } catch (err) {
-      print(err);
       return Left(ServerFailure());
     }
   }

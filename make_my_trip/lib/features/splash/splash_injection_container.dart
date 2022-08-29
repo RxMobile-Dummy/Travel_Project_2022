@@ -7,7 +7,6 @@ import 'package:platform_device_id/platform_device_id.dart';
 final splashSl = GetIt.instance;
 
 Future<void> init() async {
-  print("device id :  ${await PlatformDeviceId.getDeviceId}");
   splashSl.registerFactory(
       () => SplashCubit(getUser: splashSl(), refreshFcmToken: splashSl()));
 }

@@ -249,16 +249,14 @@ class RoomDetailsPage extends StatelessWidget {
                       style: AppTextStyles.labelStyle.copyWith(fontSize: 24)),
                   10.verticalSpace,
                   Wrap(
-                    children: [
-                      FeaturesItemWidget(
-                          text: roomDetailsModel?.features![0] ?? "feature1"),
-                      FeaturesItemWidget(
-                          text: roomDetailsModel?.features![1] ?? "feature2"),
-                      FeaturesItemWidget(
-                          text: roomDetailsModel?.features![2] ?? "feature3"),
-                      FeaturesItemWidget(
-                          text: roomDetailsModel?.features![3] ?? "feature3"),
-                    ],
+                    children: List.generate(
+                      roomDetailsModel!.features!.length,
+                      (index) => FeaturesItemWidget(
+                        text: roomDetailsModel!.features!.isNotEmpty
+                            ? roomDetailsModel!.features![index]
+                            : "",
+                      ),
+                    ),
                   ),
                 ],
               )),

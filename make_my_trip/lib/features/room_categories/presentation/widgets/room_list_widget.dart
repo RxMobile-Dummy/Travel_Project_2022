@@ -153,29 +153,14 @@ class RoomListWidget extends StatelessWidget {
                   ),
                   15.verticalSpace,
                   Wrap(
-                    children: [
-                      FeaturesItemWidget(
+                    children: List.generate(
+                      roomData.features!.length,
+                      (index) => FeaturesItemWidget(
                         text: roomData.features!.isNotEmpty
-                            ? roomData.features![0]
+                            ? roomData.features![index]
                             : "",
                       ),
-                      FeaturesItemWidget(
-                        text: roomData.features!.isNotEmpty
-                            ? roomData.features![1]
-                            : "",
-                      ),
-                      15.verticalSpace,
-                      FeaturesItemWidget(
-                        text: roomData.features!.isNotEmpty
-                            ? roomData.features![2]
-                            : "",
-                      ),
-                      FeaturesItemWidget(
-                        text: roomData.features!.isNotEmpty
-                            ? roomData.features![3]
-                            : "",
-                      ),
-                    ],
+                    ),
                   ),
                   12.verticalSpace,
                   Align(

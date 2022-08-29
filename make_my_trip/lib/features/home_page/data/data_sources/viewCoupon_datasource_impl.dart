@@ -21,28 +21,22 @@ class ViewCouponsDataSourceImpl implements ViewCouponsDataSource {
       final response = await dio.get('${BaseConstant.baseUrl}coupon/coupon',
           options: await BaseConstant.createDioOptions());
       var result = response.data;
-      print(result);
       final res = await FailureHandler.handleError(response);
       return res.fold((l) => Left(l), (r) {
         List<ViewCouponModel> viewCouponList = [];
 
-          for (var i in result) {
-
-            viewCouponList.add(ViewCouponModel.fromJson(i));
-
-          }
-        print(viewCouponList[0].couponImgUrl);
+        for (var i in result) {
+          viewCouponList.add(ViewCouponModel.fromJson(i));
+        }
 
         return Right(viewCouponList);
       });
     } on SocketException {
       return Left(InternetFailure());
     } catch (err) {
-      print(err);
       return Left(ServerFailure());
     }
   }
-
 
   @override
   Future<Either<Failures, ViewCouponModel>> getCouponId(int id) async {
@@ -58,9 +52,7 @@ class ViewCouponsDataSourceImpl implements ViewCouponsDataSource {
     } on SocketException {
       return Left(InternetFailure());
     } catch (err) {
-      print(err);
       return Left(ServerFailure());
     }
-
   }
 }

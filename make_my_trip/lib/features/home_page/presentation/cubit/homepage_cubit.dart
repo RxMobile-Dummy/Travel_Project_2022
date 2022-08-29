@@ -33,51 +33,33 @@ class HomepageCubit extends Cubit<BaseState> {
   // }
 
   getImagesApi() async {
-    try {
-      emit((state as GettingStartedData).copyWith(imageLoading: true));
-      var data = await imagesusecase.call(5);
-      data.fold((failure) {
-        emit((state as GettingStartedData).copyWith(imageLoading: false));
-      }, (success) {
-        emit((state as GettingStartedData)
-            .copyWith(imageListValue: success, imageLoading: false));
-      });
-    } catch (err) {
-      print(err);
-    }
+    emit((state as GettingStartedData).copyWith(imageLoading: true));
+    var data = await imagesusecase.call(5);
+    data.fold((failure) {
+      emit((state as GettingStartedData).copyWith(imageLoading: false));
+    }, (success) {
+      emit((state as GettingStartedData)
+          .copyWith(imageListValue: success, imageLoading: false));
+    });
   }
 
   getToursApi() async {
-    try {
-      emit((state as GettingStartedData).copyWith(tourLoading: true));
-      var data = await toursusecase.call();
-      data.fold((failure) {
-        emit((state as GettingStartedData).copyWith(tourLoading: false));
-      }, (success) {
-        emit((state as GettingStartedData)
-            .copyWith(toursListValue: success, tourLoading: false));
-      });
-    } catch (err) {
-      print(err);
-    }
-  }
-
-  getCouponsIdApi(int id) async {
-    emit((state as GettingStartedData).copyWith(couponLoading: true));
-    var data = await getParticularCouponUsecase.call(id);
+    emit((state as GettingStartedData).copyWith(tourLoading: true));
+    var data = await toursusecase.call();
     data.fold((failure) {
-      debugPrint(failure.toString());
-    }, (success) {});
+      emit((state as GettingStartedData).copyWith(tourLoading: false));
+    }, (success) {
+      emit((state as GettingStartedData)
+          .copyWith(toursListValue: success, tourLoading: false));
+    });
   }
 
   getCouponsApi() async {
     emit((state as GettingStartedData).copyWith(couponLoading: true));
     var data = await couponsusecase.call();
     data.fold((failure) {
-      print(failure);
-      debugPrint(failure.toString());
+      emit((state as GettingStartedData).copyWith(couponLoading: false));
     }, (success) {
-      print(success[0].couponImgUrl);
       emit((state as GettingStartedData)
           .copyWith(couponListValue: success, couponLoading: false));
     });

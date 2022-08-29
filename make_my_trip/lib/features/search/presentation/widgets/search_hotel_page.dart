@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
+import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_state.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import '../../../../core/theme/make_my_trip_colors.dart';
 import '../../../../utils/constants/string_constants.dart';
@@ -9,8 +10,6 @@ import '../cubit/search_hotel_cubit.dart';
 
 class SearchHotelPage extends StatelessWidget {
   SearchHotelPage({Key? key}) : super(key: key);
-
-  List<SearchHotelModel>? searchModel;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +23,9 @@ class SearchHotelPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: BlocBuilder<SearchHotelCubit, BaseState>(
+          child: BlocBuilder<SearchHotelCubit, SearchHotelState>(
               builder: (context, state) {
-            if (state is StateOnKnownToSuccess) {
-              searchModel = state.response as List<SearchHotelModel>;
-            }
+            print(state);
 
             return Column(
               children: [
@@ -42,7 +39,7 @@ class SearchHotelPage extends StatelessWidget {
                   },
                 ),
                 8.verticalSpace,
-                (state is StateErrorGeneralStateErrorServer)
+                (state is ErrorState)
                     ? Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(12),
@@ -50,11 +47,11 @@ class SearchHotelPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
                                 width: 1, color: MakeMyTripColors.color30gray)),
-                        child: const Text(
-                          "Something went wrong!!",
+                        child: Text(
+                          state.error,
                           textAlign: TextAlign.center,
                         ))
-                    : (searchModel != null)
+                    : (state is StateOnKnownToSuccessState)
                         ? Container(
                             width: double.infinity,
                             padding: const EdgeInsets.all(12),
@@ -63,7 +60,7 @@ class SearchHotelPage extends StatelessWidget {
                                 border: Border.all(
                                     width: 1,
                                     color: MakeMyTripColors.color30gray)),
-                            child: (searchModel!.isEmpty)
+                            child: (state.response!.isEmpty)
                                 ? const Text(
                                     "No results found!!",
                                     textAlign: TextAlign.center,
@@ -76,16 +73,19 @@ class SearchHotelPage extends StatelessWidget {
                                             await context
                                                 .read<SearchHotelCubit>()
                                                 .selectCityName(
-                                                    searchModel?[index].name ??
+                                                    state.response?[index]
+                                                            .name ??
                                                         "Ahmedabad",
-                                                    searchModel?[index].id ?? 1,
-                                                    searchModel?[index].type ??
+                                                    state.response?[index].id ??
+                                                        1,
+                                                    state.response?[index]
+                                                            .type ??
                                                         "Hotel");
                                             Navigator.pop(context);
                                           },
                                           child: Row(
                                             children: [
-                                              (searchModel?[index].type ==
+                                              (state.response?[index].type ==
                                                       "hotel")
                                                   ? const Icon(
                                                       Icons.maps_home_work,
@@ -99,10 +99,10 @@ class SearchHotelPage extends StatelessWidget {
                                                     ),
                                               12.horizontalSpace,
                                               Flexible(
-                                                  child: Text(
-                                                      searchModel?[index]
-                                                              .name ??
-                                                          "")),
+                                                  child: Text(state
+                                                          .response?[index]
+                                                          .name ??
+                                                      "")),
                                             ],
                                           ));
                                     },
@@ -112,7 +112,7 @@ class SearchHotelPage extends StatelessWidget {
                                           thickness: 1,
                                           color: MakeMyTripColors.color30gray);
                                     },
-                                    itemCount: searchModel!.length),
+                                    itemCount: state.response!.length),
                           )
                         : SizedBox()
               ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_cubit.dart';
+import 'package:make_my_trip/features/search/presentation/cubit/search_hotel_state.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 import '../../../../core/theme/make_my_trip_colors.dart';
@@ -97,7 +98,7 @@ class RoomGuestContainer extends StatelessWidget {
                 border:
                     Border.all(width: 1, color: MakeMyTripColors.color30gray),
                 borderRadius: BorderRadius.circular(8)),
-            child: BlocBuilder<SearchHotelCubit, BaseState>(
+            child: BlocBuilder<SearchHotelCubit, SearchHotelState>(
               builder: (context, state) {
                 int listOfItems = 20;
                 if (title == StringConstants.selectRoomLabel) {

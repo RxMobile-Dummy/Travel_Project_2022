@@ -23,10 +23,10 @@ class ImagesDataSourceImpl implements ImagesDataSource {
 
       final res = await FailureHandler.handleError(response);
       return res.fold((l) => Left(l), (r) {
-        List<HotelListModel> postList = [];
-        for (Map i in r.data) {
-          postList.add(HotelListModel.fromJson(i));
-        }
+        final postList = r.data
+            .map<HotelListModel>((i) => HotelListModel.fromJson(i))
+            .toList();
+
         return Right(postList);
       });
     } on SocketException {

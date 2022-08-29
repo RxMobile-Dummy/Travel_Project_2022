@@ -32,7 +32,6 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
-      print(err);
       return Left(ServerFailure());
     }
   }
@@ -73,7 +72,6 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
         return Left(ServerFailure());
       }
     } catch (e) {
-      print(e);
       return Left(ServerFailure());
     }
   }
