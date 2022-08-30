@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/setting_page/presentation/widgets/common_appbar_widget.dart';
+
 import '../../../../utils/constants/string_constants.dart';
 import '../widgets/settingProfile_body.dart';
 import '../widgets/settingProfile_header.dart';
@@ -21,14 +22,10 @@ class ProfileDetailPage extends StatelessWidget {
             text: StringConstants.userEditProfile,
             context: context,
             routename: RoutesName.settingPage),
-        body: Container(
-            color: MakeMyTripColors.colorWhite,
-            child: SingleChildScrollView(
-              child: Column(children: [
-                settingProfileHeader(context),
-                settingProfileBody(context)
-              ]),
-            )),
+        body: Column(children: [
+          settingProfileHeader(context),
+          settingProfileBody(context)
+        ]),
       ),
     );
   }

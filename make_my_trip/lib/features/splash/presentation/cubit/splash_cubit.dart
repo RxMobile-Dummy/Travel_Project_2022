@@ -1,10 +1,8 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
-import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/user/domain/usecases/get_user.dart';
 import 'package:make_my_trip/features/user/domain/usecases/refresh_fcm_token.dart';
 
@@ -43,9 +41,6 @@ class SplashCubit extends Cubit<BaseState> {
         emit(StateOnSuccess(linkData));
       }
     });
-
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   }
 
   refreshFcmTokenCubit() async {

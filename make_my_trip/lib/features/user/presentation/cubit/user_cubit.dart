@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
@@ -31,7 +29,7 @@ class UserCubit extends Cubit<BaseState> {
       required this.userSignUp,
       required this.userVerification,
       required this.userSignOut})
-      : super(StateInitial()){
+      : super(StateInitial()) {
     callLog();
   }
   final UserGoogleLogin googleLogin;
@@ -113,10 +111,10 @@ class UserCubit extends Cubit<BaseState> {
         }, (success) {
           sendDeviceIdCubit();
           emit(StateOnSuccess("success"));
-             _prefs.setString("email", loginEmail);
-             //
-             // var login = _prefs.getString("email");
-             // print(login);
+          _prefs.setString("email", loginEmail);
+          //
+          // var login = _prefs.getString("email");
+          // print(login);
         });
       }
     }
@@ -242,7 +240,7 @@ class UserCubit extends Cubit<BaseState> {
     }
   }
 
-  void callLog() async{
+  void callLog() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     String email = _prefs.getString("email") ?? "";
     emit(StateReorderSuccess(email));

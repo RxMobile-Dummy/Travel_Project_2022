@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 
@@ -8,6 +9,7 @@ class MakeMyTripLightTheme {
 
   static ThemeData lightTheme = ThemeData(
     appBarTheme: const AppBarTheme(
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
       color: MakeMyTripColors.colorWhite,
       elevation: 1,
       foregroundColor: Colors.black,

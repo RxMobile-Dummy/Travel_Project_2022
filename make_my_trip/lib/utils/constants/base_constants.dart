@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class BaseConstant {
-  static const String baseUrl = "https://274c-180-211-112-179.in.ngrok.io/";
+  static const String baseUrl = "https://travelsybackend.herokuapp.com/";
 
   static Future<Options> createDioOptions() async {
     final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();

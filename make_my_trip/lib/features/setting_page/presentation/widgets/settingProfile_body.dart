@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
-import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/setting_page/data/models/user_details_model.dart';
 import 'package:make_my_trip/features/setting_page/presentation/cubit/setting_page_cubit.dart';
 import 'package:make_my_trip/features/setting_page/presentation/widgets/textField_widget.dart';
-import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
+
+import '../../../../utils/widgets/common_error_widget.dart';
 
 Widget settingProfileBody(BuildContext context) {
   TextEditingController _fullName = TextEditingController();
   TextEditingController _phoneNumber = TextEditingController();
   return BlocBuilder<SettingPageCubit, BaseState>(
     builder: (context, state) {
-      if (state is StateOnKnownToSuccess<SettingPageData>) {
+      print(state);
+      if (state is StateErrorGeneralStateErrorServer) {
+        return Expanded(
+          child: CommonErrorWidget(
+            onTap: () {
+              BlocProvider.of<SettingPageCubit>(context).getUserData();
+            },
+          ),
+        );
+      } else if (state is StateInternetError) {
+        return CommonErrorWidget(
+          title: StringConstants.internetErrorTitle,
+          subTitle: StringConstants.internetErrorSubTitle,
+          onTap: () {
+            BlocProvider.of<SettingPageCubit>(context).getUserData();
+          },
+        );
+      } else if (state is StateOnKnownToSuccess<SettingPageData>) {
         UserDetailsModel? userDetailsModel = state.response.userValue;
         _fullName.text = userDetailsModel?.userName.toString() ??
             StringConstants.emptyString;
@@ -73,7 +90,7 @@ Widget settingProfileBody(BuildContext context) {
           ),
         );
       } else {
-        return Center(child: Image.asset(ImagePath.serverFailImage));
+        return const Center(child: CircularProgressIndicator());
       }
     },
   );
