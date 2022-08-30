@@ -40,16 +40,17 @@ class HotelCubit extends Cubit<BaseState> {
   List<HotelModels> hotelList = [];
   List<HotelModels> filterList = [];
 
-  List<PlatformFile> hotelImages=[];
-  List<PlatformFile> deluxeImages=[];
-  List<PlatformFile> semiDeluxeImages=[];
-  List<PlatformFile> superDeluxeImages=[];
+  List<dynamic> hotelImages=[];
+  List<dynamic> deluxeImages=[];
+  List<dynamic> semiDeluxeImages=[];
+  List<dynamic> superDeluxeImages=[];
   int page = -1;
+
   addHotels(
-      List<PlatformFile> hotelImages,
-      List<PlatformFile> superDeluxImage,
-      List<PlatformFile> semiDeluImage,
-      List<PlatformFile> DeluxImage,
+      hotelImages,
+      superDeluxImage,
+      semiDeluImage,
+      DeluxImage,
       double? latitude,
       double? logitude,
       String hotelname,
@@ -209,7 +210,7 @@ class HotelCubit extends Cubit<BaseState> {
         superdeluxemaxcapacity: superdeluxemaxcapacity,
         superdeluxeprice: superdeluxeprice,
         superdeluxesize: superdeluxesize,
-        description: description), hotelImages, deluxeImages, semiDeluxeImages, superDeluxeImages));
+        description: description), hotelImages, deluxeImage, semiDeluxeImage, superDeluxeImage));
     res.fold(
       (failure) {
         // print("failure");
@@ -217,8 +218,9 @@ class HotelCubit extends Cubit<BaseState> {
       },
       (success) {
         // print("success");
-        emit(StateLoading());
         getHotels();
+        //emit(StateLoading());
+
       },
     );
   }
@@ -241,7 +243,6 @@ class HotelCubit extends Cubit<BaseState> {
 
         emit(StateErrorGeneral("errorMessage"));
       }, (r) {
-
         for (var item in r) {
           hotelList.add(item);
         }
@@ -266,7 +267,8 @@ class HotelCubit extends Cubit<BaseState> {
     res.fold((l) {
       emit(StateErrorGeneral("errorMessage"));
     }, (r) {
-
+      print("object");
+      print(r.deluxeimages);
       emit(StateOnResponseSuccess<HotelPutModel>(r));
     });
   }

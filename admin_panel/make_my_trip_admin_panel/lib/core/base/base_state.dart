@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:make_my_trip_admin_panel/core/internet/internet_enum.dart';
+import 'package:make_my_trip_admin_panel/features/add_hotels/data/models/HotelPutModel.dart';
 
 abstract class BaseState extends Equatable {}
 
@@ -217,3 +218,35 @@ class FailErrorMessageState extends BaseState implements Equatable {
   @override
   bool? get stringify => null;
 }
+
+//
+// class GettingStartedData extends BaseState implements Equatable {
+//   final bool? tourLoading;
+//   final bool? imageLoading;
+//   final List<HotelPutModel>? hotelimages;
+//   final List<HotelPutModel>? imageListValue;
+//   final List<HotelPutModel>? toursListValue;
+//   final List<HotelPutModel>? imageListValue;
+//
+//   GettingStartedData(
+//       {this.imageLoading,
+//         this.tourLoading,
+//         this.toursListValue,
+//         this.imageListValue});
+//
+//   GettingStartedData copyWith({
+//     bool? tourLoading,
+//     bool? imageLoading,
+//     List<ToursModel>? toursListValue,
+//     List<HotelListModel>? imageListValue,
+//   }) =>
+//       GettingStartedData(
+//           tourLoading: tourLoading ?? this.tourLoading,
+//           imageLoading: imageLoading ?? this.imageLoading,
+//           toursListValue: toursListValue ?? this.toursListValue,
+//           imageListValue: imageListValue ?? this.imageListValue);
+//
+//   @override
+//   List<Object?> get props =>
+//       [tourLoading, imageLoading, toursListValue, imageListValue];
+// }

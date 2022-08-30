@@ -127,18 +127,15 @@ class HotelDataSourceRepositoriesImpl implements HotelDataRourceRepositories {
     try {
       var params = {"pagesize": 10, "page": page};
       final response = await dio.get('$baseUrl/hotel', queryParameters: params);
-
+      debugPrint(params.toString());
       if (response.statusCode == 200) {
-
         final List<HotelModels> hotelList = [];
         final jsonList = response.data;
         for (var item in jsonList) {
           hotelList.add(HotelModels.fromJson(item));
         }
-
         return right(hotelList);
       } else {
-
         return Left(ServerFailure());
       }
     } catch (e) {

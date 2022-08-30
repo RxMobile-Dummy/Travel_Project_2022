@@ -135,10 +135,10 @@ class HotelPostModel {
   num? superdeluxeprice;
   List<String>? superdeluxefeatures;
   String? superdeluxedescription;
-  List<String>? hotelimages;
-  List<String>? deluxeimages;
-  List<String>? semideluxeimages;
-  List<String>? superdeluxeimages;
+  List<dynamic>? hotelimages;
+  List<dynamic>? deluxeimages;
+  List<dynamic>? semideluxeimages;
+  List<dynamic>? superdeluxeimages;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

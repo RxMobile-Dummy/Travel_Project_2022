@@ -23,10 +23,10 @@ class PostHotel extends UseCase<void, AddHotelParams> {
 }
 class AddHotelParams {
   final HotelPostModel hotelPostModel;
-  final  List<PlatformFile> hotelImages;
-  final List<PlatformFile> deluxeImages;
-  final List<PlatformFile> semiDeluxeImages;
-  final List<PlatformFile> superDeluxeImages;
+  final List<dynamic> hotelImages;
+  final List<dynamic> deluxeImages;
+  final List<dynamic> semiDeluxeImages;
+  final List<dynamic> superDeluxeImages;
 
   AddHotelParams(this.hotelPostModel,this.deluxeImages,this.semiDeluxeImages,this.superDeluxeImages,this.hotelImages);
 }

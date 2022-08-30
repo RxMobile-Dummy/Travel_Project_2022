@@ -2,6 +2,6 @@
 class RoutesName {
   static const adminLogin = '/';
   static const bookingModerationPage = '/bookingModerationPage';
-  static const adminHotelAdd = '/';
-  static const adminHotelGet = '/';
+  static const adminHotelAdd = '/addHotel';
+  static const adminHotelGet = '/adminHotelGet';
 }

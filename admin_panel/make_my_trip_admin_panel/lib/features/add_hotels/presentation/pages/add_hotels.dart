@@ -128,7 +128,7 @@ class _AddNewHotelsState extends State<AddNewHotels> {
   List<String> semiDeluxeRoomFeatures = [];
   List<String> superDeluxeRoomFeatures = [];
 
-
+  List<PlatformFile> hotelImagesUpdate=[];
   // List<String> hotelConstantFeatures = [
   //   "Laundry",
   //   "Transportation",
@@ -140,7 +140,6 @@ class _AddNewHotelsState extends State<AddNewHotels> {
 
   @override
   Widget build(BuildContext context) {
-
     final cubit = BlocProvider.of<HotelCubit>(context);
 
     final _formKey = GlobalKey<FormState>();
@@ -176,8 +175,8 @@ class _AddNewHotelsState extends State<AddNewHotels> {
           deluxe_room_price.text = state.response.deluxeprice.toString();
           deluxe_room_description.text =
               state.response.deluxedescription.toString();
-             print(state.response.hotelimages);
-             // var listOfImages = state.response.hotelimages;
+          print(state.response.hotelimages);
+          // var listOfImages = state.response.hotelimages;
           no_of_semiDeluxeRoom.text = state.response.noofsemideluxe.toString();
           semiDeluxe_roomSize.text = state.response.semideluxesize!;
           semiDeluxe_room_bed_details.text = state.response.semideluxebadsize!;
@@ -187,8 +186,6 @@ class _AddNewHotelsState extends State<AddNewHotels> {
               state.response.semideluxeprice.toString();
           semiDeluxe_room_description.text =
               state.response.semideluxedescription!;
-
-
           no_of_superDeluxeRoom.text =
               state.response.noodsuperdeluxe.toString();
           superDeluxe_roomSize.text = state.response.superdeluxesize!;
@@ -200,6 +197,11 @@ class _AddNewHotelsState extends State<AddNewHotels> {
               state.response.superdeluxeprice.toString();
           superDeluxe_room_description.text =
               state.response.superdeluxedescription!;
+
+          cubit.hotelImages.addAll(state.response.hotelimages!);
+          cubit.deluxeImages.addAll(state.response.deluxeimages!);
+          cubit.semiDeluxeImages.addAll(state.response.semideluxeimages!);
+          cubit.superDeluxeImages.addAll(state.response.superdeluxeimages!);
         }
       },
       child: WillPopScope(
@@ -380,32 +382,55 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             hintTextvar: StringConstants.hotelDescription,
                             textFieldViewController: hotel_Description),
                         30.verticalSpace,
-                        TextButton(
-                            onPressed: () {
-                              context
-                                  .read<HotelCubit>()
-                                  .getHotelImagess(StringConstants.selectHotelImage);
-                              // context
-                              //     .read<HotelCubit>()
-                              //     .addHotelImages("hotel");
-                            },
-                            child: Text(StringConstants.selectHotelImage)),
                         BlocBuilder<HotelCubit, BaseState>(
                           builder: (context, state) {
-                            if (state is StateOnKnownToSuccess) {
-                              return Wrap(children: List.generate(cubit.hotelImages.length, (index) {
-                                return Image.memory(cubit.hotelImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
-                              }),);
-                            }
-                            if (state is StateOnResponseSuccess<HotelPutModel>) {
-                              return Wrap(children: List.generate(state.response.hotelimages!.length, (index) {
-                                return Image.network(state.response.hotelimages![index], fit: BoxFit.cover,width: 200,height: 200,);
-                              }),);
-                            } else {
-                              return const SizedBox();
-                            }
-                          }
+                            return TextButton(
+                                onPressed: () {
+                                  if(state is StateOnKnownToSuccess) {
+                                    context.read<HotelCubit>().getHotelImagess(
+                                        StringConstants.selectHotelImage);
+                                  }
+                                 if(state is StateOnResponseSuccess<HotelPutModel>)
+                                    {
+                                      context.read<HotelCubit>().getHotelImagess(
+                                          StringConstants.selectHotelImage);
+                                    }
+                                  // context
+                                  //     .read<HotelCubit>()
+                                  //     .addHotelImages("hotel");
+                                },
+                                child: Text(StringConstants.selectHotelImage));
+                          },
                         ),
+                        BlocBuilder<HotelCubit, BaseState>(
+                            builder: (context, state) {
+                          return Wrap(
+                              children: List.generate(cubit.hotelImages.length,
+                                  (index) {
+                                    debugPrint(cubit.hotelImages[index].runtimeType.toString());
+                                    if(cubit.hotelImages[index].runtimeType == PlatformFile){
+                                      debugPrint("platform");
+                                      return Image.memory(
+                                        cubit.hotelImages[index].bytes!,
+                                        fit: BoxFit.cover,
+                                        width: 200,
+                                        height: 200,
+                                      );
+                                    }else if(cubit.hotelImages[index].runtimeType == String){
+                                      debugPrint("string");
+                                      return Image.network(
+                                        cubit.hotelImages[index]!,
+                                        fit: BoxFit.cover,
+                                        width: 200,
+                                        height: 200,
+                                      );
+                                    }else{
+                                      return SizedBox();
+                                    }
+
+                              }),
+                            );
+                        }),
                         30.verticalSpace,
                         Text(StringConstants.hotelFeature,
                             style: AppTextStyles.unselectedLabelStyle),
@@ -561,7 +586,8 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                                 return 'Enter the hotel Description';
                               else if (deluxehoteldescription
                                       .toString()
-                                      .length > 400) {
+                                      .length >
+                                  400) {
                                 return 'No more than 400 letter';
                               }
                             },
@@ -570,9 +596,8 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                         30.verticalSpace,
                         TextButton(
                             onPressed: () {
-                              context
-                                  .read<HotelCubit>()
-                                  .getHotelImagess(StringConstants.selectDeluxeImage);
+                              context.read<HotelCubit>().getHotelImagess(
+                                  StringConstants.selectDeluxeImage);
                               // context
                               //     .read<HotelCubit>()
                               //     .addHotelImages("hotel");
@@ -580,21 +605,36 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             child: Text(StringConstants.selectDeluxeImage)),
                         BlocBuilder<HotelCubit, BaseState>(
                             builder: (context, state) {
-                              if (state is StateOnKnownToSuccess) {
-                                return Wrap(children: List.generate(cubit.deluxeImages.length, (index) {
-                                  return Image.memory(cubit.deluxeImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
+                              print(cubit.deluxeImages);
+                              return Wrap(
+                                children: List.generate(cubit.deluxeImages.length,
+                                        (index) {
+                                      debugPrint(cubit.deluxeImages[index].runtimeType.toString());
+                                      if(cubit.deluxeImages[index].runtimeType == PlatformFile){
 
-                                }),);
-                              }
-                              if (state is StateOnResponseSuccess<HotelPutModel>) {
-                                return Wrap(children: List.generate(state.response.deluxeimages!.length, (index) {
-                                  return Image.network(state.response.deluxeimages![index], fit: BoxFit.cover,width: 200,height: 200,);
-                                }),);
-                              }else {
-                                return SizedBox();
-                              }
-                            }
-                        ),
+                                        return Image.memory(
+                                          cubit.deluxeImages[index].bytes!,
+                                          fit: BoxFit.cover,
+                                          width: 200,
+                                          height: 200,
+                                        );
+                                      }else if(cubit.deluxeImages[index].runtimeType == String){
+
+                                        return Image.network(
+                                          cubit.deluxeImages[index]!,
+                                          fit: BoxFit.cover,
+                                          width: 200,
+                                          height: 200,
+                                        );
+                                      }else{
+                                        return SizedBox();
+                                      }
+
+                                    }),
+                              );
+
+
+                            }),
                         30.verticalSpace,
                         Text("Semi Deluxe Room Details",
                             style: AppTextStyles.unselectedLabelStyle),
@@ -759,9 +799,8 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                         30.verticalSpace,
                         TextButton(
                             onPressed: () {
-                              context
-                                  .read<HotelCubit>()
-                                  .getHotelImagess(StringConstants.selectSemiDeluxeImage);
+                              context.read<HotelCubit>().getHotelImagess(
+                                  StringConstants.selectSemiDeluxeImage);
                               // context
                               //     .read<HotelCubit>()
                               //     .addHotelImages("hotel");
@@ -769,22 +808,35 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                             child: Text(StringConstants.selectSemiDeluxeImage)),
                         BlocBuilder<HotelCubit, BaseState>(
                             builder: (context, state) {
-                              if (state is StateOnKnownToSuccess) {
-                                return Wrap(children: List.generate(cubit.semiDeluxeImages.length, (index) {
-                                  return Image.memory(cubit.semiDeluxeImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
+                              return Wrap(
+                                children: List.generate(cubit.semiDeluxeImages.length,
+                                        (index) {
+                                      debugPrint(cubit.semiDeluxeImages[index].runtimeType.toString());
+                                      if(cubit.semiDeluxeImages[index].runtimeType == PlatformFile){
+                                        debugPrint("platform");
+                                        return Image.memory(
+                                          cubit.semiDeluxeImages[index].bytes!,
+                                          fit: BoxFit.cover,
+                                          width: 200,
+                                          height: 200,
+                                        );
+                                      }else if(cubit.semiDeluxeImages[index].runtimeType == String){
+                                        debugPrint("string");
+                                        return Image.network(
+                                          cubit.semiDeluxeImages[index]!,
+                                          fit: BoxFit.cover,
+                                          width: 200,
+                                          height: 200,
+                                        );
+                                      }else{
+                                        return SizedBox();
+                                      }
 
-                                }),);
-                              }
-                              if (state is StateOnResponseSuccess<HotelPutModel>) {
-                                return Wrap(children: List.generate(state.response.semideluxeimages!.length, (index) {
-                                  return Image.network(state.response.semideluxeimages![index], fit: BoxFit.cover,width: 200,height: 200,);
-                                }),);
-                              }
-                              else {
-                                return SizedBox();
-                              }
-                            }
-                        ),
+                                    }),
+                              );
+
+
+                            }),
                         30.verticalSpace,
                         Text("Super Deluxe Room Details",
                             style: AppTextStyles.unselectedLabelStyle),
@@ -939,7 +991,7 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                               else if (superdeluxehoteldescription
                                       .toString()
                                       .length >
-                                  200) {
+                                  400) {
                                 return 'No more than 400 letter';
                               }
                             },
@@ -949,32 +1001,45 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                         30.verticalSpace,
                         TextButton(
                             onPressed: () {
-                              context
-                                  .read<HotelCubit>()
-                                  .getHotelImagess(StringConstants.selectSuperDeluxeImage);
+                              context.read<HotelCubit>().getHotelImagess(
+                                  StringConstants.selectSuperDeluxeImage);
                               // context
                               //     .read<HotelCubit>()
                               //     .addHotelImages("hotel");
                             },
-                            child: Text(StringConstants.selectSuperDeluxeImage)),
+                            child:
+                                Text(StringConstants.selectSuperDeluxeImage)),
                         BlocBuilder<HotelCubit, BaseState>(
                             builder: (context, state) {
-                              if (state is StateOnKnownToSuccess) {
-                                return Wrap(children: List.generate(cubit.superDeluxeImages.length, (index) {
-                                  return Image.memory(cubit.superDeluxeImages[index].bytes!, fit: BoxFit.cover,width: 200,height: 200,);
+                              return Wrap(
+                                children: List.generate(cubit.superDeluxeImages.length,
+                                        (index) {
+                                      debugPrint(cubit.superDeluxeImages[index].runtimeType.toString());
+                                      if(cubit.superDeluxeImages[index].runtimeType == PlatformFile){
+                                        debugPrint("platform");
+                                        return Image.memory(
+                                          cubit.superDeluxeImages[index].bytes!,
+                                          fit: BoxFit.cover,
+                                          width: 200,
+                                          height: 200,
+                                        );
+                                      }else if(cubit.superDeluxeImages[index].runtimeType == String){
+                                        debugPrint("string");
+                                        return Image.network(
+                                          cubit.superDeluxeImages[index]!,
+                                          fit: BoxFit.cover,
+                                          width: 200,
+                                          height: 200,
+                                        );
+                                      }else{
+                                        return SizedBox();
+                                      }
 
-                                }),);
-                              }
-                              if (state is StateOnResponseSuccess<HotelPutModel>) {
-                                return Wrap(children: List.generate(state.response.superdeluxeimages!.length, (index) {
-                                  return Image.network(state.response.superdeluxeimages![index], fit: BoxFit.cover,width: 200,height: 200,);
-                                }),);
-                              }
-                              else {
-                                return SizedBox();
-                              }
-                            }
-                        ),
+                                    }),
+                              );
+
+
+                            }),
                         30.verticalSpace,
                         // Text('Image path'),
                         // CommonPrimaryButton(
@@ -986,8 +1051,6 @@ class _AddNewHotelsState extends State<AddNewHotels> {
                         Center(
                             child: BlocConsumer<HotelCubit, BaseState>(
                                 listener: (context, state) {
-
-
                           if (state is StateOnSuccess) {
                             Navigator.pushAndRemoveUntil(
                                 context,
@@ -1130,6 +1193,7 @@ class _AddNewHotelsState extends State<AddNewHotels> {
       ),
     );
   }
+
   popToPrevious() {
     Navigator.pushAndRemoveUntil(
         context,
