@@ -14,18 +14,12 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
 
   UserHistoryDataSourceImpl(this.dio);
 
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    print(userToken);
-    return Options(headers: {'token': userToken});
-  }
-
   @override
   Future<Either<Failures, List<UserHistoryModel>>> getUserHistoryData() async {
     try {
       final response = await dio.get(
           '${BaseConstant.baseUrl}booking/user/bookings',
-          options: await createDioOptions());
+          options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
         List<UserHistoryModel> userHistoryModel = [];
         final apidata = response.data;
@@ -37,7 +31,6 @@ class UserHistoryDataSourceImpl implements UserHistoryDataSource {
         return Left(ServerFailure());
       }
     } catch (err) {
-      print(err);
       return Left(ServerFailure());
     }
   }

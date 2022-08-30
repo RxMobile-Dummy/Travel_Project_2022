@@ -15,11 +15,6 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
   final Dio dio;
   HotelDetailRemoteDataSourceImpl(this.dio);
 
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    return Options(headers: {'token': userToken});
-  }
-
   @override
   Future<Either<Failures, HotelDetailModel>> getAllHotelDetailData(
       int index) async {
@@ -30,7 +25,8 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
   Future<Either<Failures, HotelDetailModel>> _getAllCharacterUrl(
       String url) async {
     try {
-      final response = await dio.get(url, options: await createDioOptions());
+      final response =
+          await dio.get(url, options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
         HotelDetailModel hotelDetailModel;
         final apidata = response.data;
@@ -49,7 +45,7 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
     try {
       final response = await dio.delete(
           "${BaseConstant.baseUrl}bookmark/delete/${hotelId}",
-          options: await createDioOptions());
+          options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
         return Right(null);
       } else {
@@ -65,7 +61,7 @@ class HotelDetailRemoteDataSourceImpl implements HotelDetailRemoteDataSource {
     try {
       final response = await dio.post(
           "${BaseConstant.baseUrl}bookmark/post/${hotelId}",
-          options: await createDioOptions());
+          options: await BaseConstant.createDioOptions());
       if (response.statusCode == 200) {
         return Right(null);
       } else {

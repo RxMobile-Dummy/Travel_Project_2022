@@ -11,7 +11,7 @@ class ToursModel {
   ToursModel({
     int? id,
     String? tourName,
-    int? rating,
+    double? rating,
     int? price,
     List<Images>? images,
   }) {
@@ -25,7 +25,7 @@ class ToursModel {
   ToursModel.fromJson(dynamic json) {
     _id = json['_id'];
     _tourName = json['tour_name'];
-    _rating = json['rating'];
+    _rating = json['rating'].toDouble();
     _price = json['price'];
     if (json['images'] != null) {
       _images = [];
@@ -36,13 +36,13 @@ class ToursModel {
   }
   int? _id;
   String? _tourName;
-  int? _rating;
+  double? _rating;
   int? _price;
   List<Images>? _images;
   ToursModel copyWith({
     int? id,
     String? tourName,
-    int? rating,
+    double? rating,
     int? price,
     List<Images>? images,
   }) =>
@@ -55,7 +55,7 @@ class ToursModel {
       );
   int? get id => _id;
   String? get tourName => _tourName;
-  int? get rating => _rating;
+  double? get rating => _rating;
   int? get price => _price;
   List<Images>? get images => _images;
 

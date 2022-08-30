@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1074927524993-heldm02vfrm1if3kq7toel4leodkg378.apps.googleusercontent.com</string>
+	<string>1074927524993-kmpi9guih60tcsd1muc0fi6rj72gau4d.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1074927524993-heldm02vfrm1if3kq7toel4leodkg378</string>
+	<string>com.googleusercontent.apps.1074927524993-kmpi9guih60tcsd1muc0fi6rj72gau4d</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>1074927524993-cqjukij9m7uhrrs8r1739t72pa8r3mdj.apps.googleusercontent.com</string>
+	<string>1074927524993-07k18hoebcl5arrb9g32bkiubdj7ojok.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBKPIj044gcRW2oSXNVt_A5OK1zyBT66U0</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.makeMyTrip</string>
+	<string>com.worldtour.makeMyTrip</string>
 	<key>PROJECT_ID</key>
 	<string>travelproject22-6b9d4</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1074927524993:ios:9030f46f86b3f5d8054180</string>
+	<string>1:1074927524993:ios:27186c50ca75f71d054180</string>
 </dict>
 </plist>

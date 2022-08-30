@@ -15,12 +15,6 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
 
   WishListRemoteDataSourceImpl(this.dio);
 
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    print(userToken);
-    return Options(headers: {'token': userToken});
-  }
-
   @override
   Future<Either<Failures, List<WishlistModel>>> getWishListData() {
     return _getAllCharacterUrl("${BaseConstant.baseUrl}bookmark/user/wishlist");
@@ -29,7 +23,8 @@ class WishListRemoteDataSourceImpl implements WishListRemoteDataSource {
   Future<Either<Failures, List<WishlistModel>>> _getAllCharacterUrl(
       String url) async {
     try {
-      final response = await dio.get(url, options: await createDioOptions());
+      final response =
+          await dio.get(url, options: await BaseConstant.createDioOptions());
 
       if (response.statusCode == 200) {
         List<WishlistModel> wishListModel = [];

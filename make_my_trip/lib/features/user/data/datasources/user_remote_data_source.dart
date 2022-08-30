@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:make_my_trip/core/failures/failures.dart';
 import 'package:make_my_trip/features/user/data/model/user_model.dart';
 
+import '../../domain/usecases/send_device_id.dart';
+
 abstract class UserRemoteDataSource {
   //user anonymous data_source methods
   Future<Either<Failures, bool>> isAnonumousUser();
@@ -26,4 +28,7 @@ abstract class UserRemoteDataSource {
       required String password});
 
   Future<Either<Failures, bool>> userVerification();
+  Future<Either<Failures, bool>> sendDeviceId();
+  Future<Either<Failures, bool>> deleteDeviceId();
+  Future<Either<Failures, bool>> refreshFcmToken();
 }

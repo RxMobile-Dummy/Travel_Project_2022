@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/user_history/data/model/user_history_model.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class HistoryListViewWidget extends StatelessWidget {
@@ -34,13 +35,13 @@ class HistoryListViewWidget extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12.0),
                   child: FadeInImage.assetNetwork(
-                      placeholder: 'assets/img/placeholder.png',
+                      placeholder: ImagePath.placeHolderImage,
                       image:userHistoryModel.images![rnd.nextInt(userHistoryModel.images!.length)].imageUrl.toString(),
                       fit: BoxFit.fill,
                       imageErrorBuilder:
                           (context, error, stackTrace) {
                         return Image.asset(
-                            'assets/img/placeholder.png',
+                            ImagePath.placeHolderImage,
                             fit: BoxFit.fitWidth);
                       }),
                 ),

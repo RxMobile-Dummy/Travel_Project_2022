@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/features/wishlist/data/model/wishlist_model.dart';
+import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -19,13 +22,16 @@ class HotalDetails extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: GestureDetector(
-        onTap: ()  {
-          Navigator.pushNamed(context, RoutesName.hotelDetail,
-              arguments: {"hotel_id": wishlistModel.hotelId,});
+        onTap: () async {
+          await Navigator.pushNamed(context, RoutesName.hotelDetail,
+              arguments: {
+                "hotel_id": wishlistModel.hotelId,
+              });
+          BlocProvider.of<WishListCubit>(context).getWishListCubitData();
         },
         child: Card(
           elevation: 5,
-          color: Colors.white,
+          color: MakeMyTripColors.colorWhite,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
@@ -46,7 +52,7 @@ class HotalDetails extends StatelessWidget {
                             pageSnapping: true,
                             itemBuilder: (context, index) {
                               return FadeInImage.assetNetwork(
-                                  placeholder: 'assets/img/placeholder.png',
+                                  placeholder: ImagePath.placeHolderImage,
                                   image: wishlistModel
                                       .wishListImage![index].imageUrl
                                       .toString(),
@@ -55,7 +61,7 @@ class HotalDetails extends StatelessWidget {
                                   imageErrorBuilder:
                                       (context, error, stackTrace) {
                                     return Image.asset(
-                                        'assets/img/placeholder.png',
+                                        ImagePath.placeHolderImage,
                                         fit: BoxFit.fitWidth);
                                   });
                             })
@@ -67,7 +73,7 @@ class HotalDetails extends StatelessWidget {
                           count: wishlistModel.wishListImage?.length ?? 10,
                           axisDirection: Axis.horizontal,
                           effect: const SlideEffect(
-                            activeDotColor: Colors.white,
+                            activeDotColor: MakeMyTripColors.colorWhite,
                             dotHeight: 10,
                             dotColor: MakeMyTripColors.color50gray,
                             dotWidth: 10,
@@ -135,11 +141,12 @@ class HotalDetails extends StatelessWidget {
                         Row(
                           children: [
                             const Icon(Icons.check,
-                                color: Colors.green, size: 18),
+                                color: MakeMyTripColors.colorGreen, size: 18),
                             Text(
                               StringConstants.wishlistSublineText,
                               style: TextStyle(
-                                  color: Colors.green[300], fontSize: 11),
+                                  color: MakeMyTripColors.colorGreen,
+                                  fontSize: 11),
                             )
                           ],
                         )

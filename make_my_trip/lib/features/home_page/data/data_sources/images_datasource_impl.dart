@@ -13,16 +13,12 @@ class ImagesDataSourceImpl implements ImagesDataSource {
 
   ImagesDataSourceImpl(this.dio);
 
-  Future<Options> createDioOptions() async {
-    final userToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    return Options(headers: {'token': userToken});
-  }
-
   @override
   Future<Either<Failures, List<HotelListModel>>> getList() async {
     try {
       final response = await dio.get('${BaseConstant.baseUrl}hotel/image/5',
-          options: await createDioOptions());
+          options: await BaseConstant.createDioOptions());
+
       var result = response.data;
       if (response.statusCode == 200) {
         List<HotelListModel> postList = [];

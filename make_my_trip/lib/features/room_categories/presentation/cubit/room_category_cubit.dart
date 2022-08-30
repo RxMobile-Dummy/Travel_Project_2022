@@ -6,7 +6,7 @@ import 'package:make_my_trip/features/room_categories/domain/use_cases/room_cate
 
 import '../../../../core/usecases/usecase.dart';
 import '../../../user/domain/usecases/is_anonymous_user.dart';
-import '../../data/model/room_categories_model.dart';
+import '../../data/model/room_category_model.dart';
 
 class RoomCategoryCubit extends Cubit<BaseState> {
   RoomCategoryCubit(this.roomCategoriesUseCase, this.roomBookPostUsecase,
@@ -17,62 +17,47 @@ class RoomCategoryCubit extends Cubit<BaseState> {
   final RoomBookPostUsecase roomBookPostUsecase;
   final IsAnonymousUser isAnonymousUser;
 
-  getData(int hotelId, String cIn, String cOut) async {
+  getData(int hotelId, String cIn, String cOut, int noOfRooms) async {
     emit(StateLoading());
-    var res = await roomCategoriesUseCase.call(Params(hotelId,cIn,cOut));
-    res.fold((l) => emit(StateErrorGeneral("errorMessage")), (r) =>
-        emit(StateOnKnownToSuccess<RoomCategoryModel>(r)));
-  }
-
-  roomBookPost(int hotelId, RoomDataPostModel roomDataPostModel) async {
-    var res = await roomBookPostUsecase
-        .call(RoomBookParams(hotelId, roomDataPostModel));
-    res.fold((l) => {print(l)}, (r) => {print(r)});
+    var res =
+        await roomCategoriesUseCase.call(Params(hotelId, cIn, cOut, noOfRooms));
+    res.fold((l) => emit(StateErrorGeneral("errorMessage")),
+        (r) => emit(StateOnKnownToSuccess<RoomCategoryModel>(r)));
   }
 
   postModelCreate(int hotelId, String cin, String cout, int noOfRoom,
-      List<RoomType> roomType) {
+      Map roomData, RoomCategoryModel roomCategoryModel, int adults) {
     List<int> roomId = [];
-    var dateCin = DateTime.parse(cin);
-    var dateCout = DateTime.parse(cout);
-    var noOfNights = dateCout.difference(dateCin).inDays;
-    for (var i = 0; i < noOfRoom; i++) {
-      if (roomType[i].roomId != null) {
-        roomId.add(roomType[i].roomId!);
-      }
+    for (var i = 0; i < roomData[roomCategoryModel.deluxe!.roomType]; i++) {
+      roomId.add(roomCategoryModel.deluxeRoomId![i]);
     }
-    Price p = Price(
-        numberOfNights: noOfNights,
-        basePrice:((roomType[0].price ?? 1) * noOfRoom).toDouble(),
-        roomPrice: (((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights),
-        gst: ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) * 0.18),
-        discount:((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) + ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) * 0.18) ) * 0.05 ,
-        totalPrice: (
-            (((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) +
-                ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) * 0.18)-
-                ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) + ((((roomType[0].price ?? 1) * noOfRoom).toDouble() * noOfNights) * 0.18) ) * 0.05
-        ));
+    for (var i = 0; i < roomData[roomCategoryModel.semideluxe!.roomType]; i++) {
+      roomId.add(roomCategoryModel.semideluxeRoomId![i]);
+    }
+    for (var i = 0; i < roomData[roomCategoryModel.supedeluxe!.roomType]; i++) {
+      roomId.add(roomCategoryModel.superdeluxeRoomId![i]);
+    }
 
     RoomDataPostModel roomDataPostModel = RoomDataPostModel(
         hotelId: hotelId,
         checkinDate: cin,
         checkoutDate: cout,
         noOfRoom: noOfRoom,
-        roomType: roomType[0].roomType,
-        price: p,
-        roomId: roomId);
+        roomId: roomId,
+        adults: adults);
     emit(StateOnKnownToSuccess<RoomDataPostModel>(roomDataPostModel));
   }
 
-  goToBooking(hotelId, cin, cout, totalSelectedRoom, roomList) async {
+  goToBooking(hotelId, cin, cout, totalSelectedRoom, roomList,
+      RoomCategoryModel roomCategoryModel, int adults) async {
+    emit(StateInitial());
     final res = await isAnonymousUser.call(NoParams());
-    res.fold((failure) {
-      print(failure);
-    }, (success) {
+    res.fold((failure) {}, (success) {
       if (success) {
         emit(Unauthenticated());
       } else {
-        postModelCreate(hotelId, cin, cout, totalSelectedRoom, roomList);
+        postModelCreate(int.parse(hotelId), cin, cout, totalSelectedRoom,
+            roomList, roomCategoryModel, adults);
       }
     });
   }

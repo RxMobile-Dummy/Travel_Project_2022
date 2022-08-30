@@ -11,27 +11,24 @@ class ProfileDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: true,
-      child: WillPopScope(
-        onWillPop: () {
-          return _moveToScreen2(context);
-        },
-        child: Scaffold(
-          backgroundColor: MakeMyTripColors.colorWhite,
-          appBar: commonAppBarWidget(
-              text: StringConstants.userEditProfile,
-              context: context,
-              routename: RoutesName.settingPage),
-          body: Container(
-              color: MakeMyTripColors.colorWhite,
-              child: SingleChildScrollView(
-                child: Column(children: [
-                  settingProfileHeader(context),
-                  settingProfileBody(context)
-                ]),
-              )),
-        ),
+    return WillPopScope(
+      onWillPop: () {
+        return _moveToScreen2(context);
+      },
+      child: Scaffold(
+        backgroundColor: MakeMyTripColors.colorWhite,
+        appBar: commonAppBarWidget(
+            text: StringConstants.userEditProfile,
+            context: context,
+            routename: RoutesName.settingPage),
+        body: Container(
+            color: MakeMyTripColors.colorWhite,
+            child: SingleChildScrollView(
+              child: Column(children: [
+                settingProfileHeader(context),
+                settingProfileBody(context)
+              ]),
+            )),
       ),
     );
   }

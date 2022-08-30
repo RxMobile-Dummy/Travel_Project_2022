@@ -1,35 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:make_my_trip/core/base/base_state.dart';
 import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
+import 'package:make_my_trip/features/booking/data/model/booking_model.dart';
 import 'package:make_my_trip/features/booking/presentation/cubit/book_cubit.dart';
+import 'package:make_my_trip/features/booking/presentation/cubit/payment_integeration_cubit.dart';
 import 'package:make_my_trip/features/booking/presentation/pages/booking_shimmer_page.dart';
 import 'package:make_my_trip/features/hotel_detail/data/model/hotel_detail_model.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
-
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
+
+import '../../../../utils/widgets/progress_loader.dart';
 
 class BookingPage extends StatelessWidget {
   BookingPage({Key? key, required this.arg}) : super(key: key);
+
   Map<String, dynamic> arg;
+  BookingModel? bookingModel;
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<BookingCubit, BaseState>(
+    var detail = arg["model"] as RoomDataPostModel;
+    return BlocConsumer<PaymentCubit, BaseState>(
       listener: (context, state) {
-        if(state is StateOnKnownToSuccess){
+        if (state is StateShowSearching) {
+          ProgressDialog.hideLoadingDialog(context);
           showDialog(
               context: context,
               barrierDismissible: false,
-              builder: (_){
+              builder: (_) {
                 Future.delayed(const Duration(seconds: 2), () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(RoutesName.home,(route)=>false);
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      RoutesName.home, (route) => false);
                 });
                 return AlertDialog(
                   shape: const RoundedRectangleBorder(
@@ -55,136 +63,200 @@ class BookingPage extends StatelessWidget {
                     ],
                   ),
                 );
-              }
-          );
+              });
+        } else if (state is StateLoading) {
+          ProgressDialog.showLoadingDialog(context, message: "Please wait");
+        } else if (state is StateNoData) {
+          ProgressDialog.hideLoadingDialog(context);
+          BlocProvider.of<PaymentCubit>(context).bookingConfirm(
+              detail.hotelId!,
+              detail.checkinDate!,
+              detail.checkoutDate!,
+              detail.roomId!,
+              detail.adults!);
+        } else {
+          ProgressDialog.hideLoadingDialog(context);
         }
       },
       builder: (context, state) {
-        if (state is StateOnSuccess<CustomState>) {
-          HotelDetailModel? hotelDetailModel = state.response.hotelDetailModel;
-          RoomDataPostModel? roomDataPostModel =
-              arg['model'];
-          return
-            Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                title: Text(StringConstants.confirMation,
-                  style: AppTextStyles.labelStyle.copyWith(fontSize: 24),
-                ),
+        if (state is StateOnSuccess) {
+          bookingModel = state.response;
+          return Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
-              body: SingleChildScrollView(
-                  child: Column(
+              title: Text(
+                StringConstants.confirMation,
+                style: AppTextStyles.labelStyle.copyWith(fontSize: 24),
+              ),
+            ),
+            body: SingleChildScrollView(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   16.verticalSpace,
-                  const Padding(
-                    padding: EdgeInsets.only(left: 8.0),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
                       StringConstants.bookingDetails,
-                      style: AppTextStyles.unselectedLabelStyle,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.unselectedLabelStyle
+                          .copyWith(fontSize: 24),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 8.0),
+                        horizontal: 8.0, vertical: 12.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: MakeMyTripColors.color0gray,
-                        boxShadow: const [ BoxShadow(
-                        // color: Colors.black,
-                        blurRadius: 2.0,
-                      ),]
-                      ),
+                          borderRadius: BorderRadius.circular(4.0),
+                          color: MakeMyTripColors.colorWhite,
+                          boxShadow: const [
+                            BoxShadow(
+                              blurRadius: 1.0,
+                            ),
+                          ]),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 12.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              hotelDetailModel?.hotelName ?? 'Hotel Name',
-                              style: AppTextStyles.infoContentStyle
-                                  .copyWith(fontSize: 22),
-                            ),
-                            RatingBar.builder(
-                                initialRating:
-                                    hotelDetailModel?.rating?.toDouble() ?? 0.0,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemSize: 15,
-                                itemCount: 5,
-                                itemPadding:
-                                    const EdgeInsets.symmetric(horizontal: 0.3),
-                                itemBuilder: (context, _) => const Icon(
-                                      Icons.star,
-                                      color: MakeMyTripColors.accentColor,
-                                      size: 10,
-                                    ),
-                                onRatingUpdate: (rating) {}),
-                            4.verticalSpace,
-                            Text(
-                              hotelDetailModel?.address?.addressLine ??
-                                  "Address",
-                              style: AppTextStyles.labelDetails.copyWith(fontSize: 14),
-                            ),
-                            4.verticalSpace,
-                            const Divider(
-                              color: MakeMyTripColors.color70gray,
-                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "Room Type",
-                                  style: AppTextStyles.infoContentStyle.copyWith(fontSize: 16),
+                                Flexible(
+                                  flex: 3,
+                                  child: Text(
+                                    bookingModel?.hotelName ?? 'Hotel Name',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyles.infoContentStyle
+                                        .copyWith(fontSize: 22),
+                                  ),
                                 ),
-                                Text(
-                                  roomDataPostModel?.roomType ?? "Room Type",
-                                  style: AppTextStyles.labelDetails.copyWith(fontSize: 16),
-                                )
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    color: MakeMyTripColors.colorBlue,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.star_rate_rounded,
+                                            size: 18,
+                                            color: MakeMyTripColors.colorWhite),
+                                        Text(
+                                          bookingModel?.rating
+                                                  ?.toDouble()
+                                                  .toString() ??
+                                              "0.0",
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color:
+                                                  MakeMyTripColors.colorWhite),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
+                            ),
+                            6.verticalSpace,
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.location_on_outlined,
+                                  size: 16,
+                                ),
+                                Flexible(
+                                  flex: 2,
+                                  child: Text(
+                                    bookingModel?.address ?? "Address",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyles.labelDetails.copyWith(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            4.verticalSpace,
+                            const Divider(
+                              color: MakeMyTripColors.color70gray,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    StringConstants.roomType,
+                                    style: AppTextStyles.infoContentStyle
+                                        .copyWith(fontSize: 18),
+                                  ),
+                                  Text(
+                                    "${bookingModel?.roomId?.join(",")}",
+                                    style: AppTextStyles.labelDetails.copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                  )
+                                ],
+                              ),
                             ),
                             const Divider(
                               color: MakeMyTripColors.color70gray,
                             ),
-                            12.verticalSpace,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Check In Date",
-                                      style: AppTextStyles.infoLabelStyle.copyWith(fontSize: 16),
-                                    ),
-                                    Text(
-                                        roomDataPostModel?.checkinDate ??
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Check In",
+                                        style: AppTextStyles.infoLabelStyle
+                                            .copyWith(fontSize: 16),
+                                      ),
+                                      Text(
+                                          bookingModel?.checkInDate ??
+                                              '--/--/----',
+                                          style: AppTextStyles
+                                              .unselectedLabelStyle)
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Check Out",
+                                        style: AppTextStyles.infoLabelStyle
+                                            .copyWith(fontSize: 16),
+                                      ),
+                                      Text(
+                                        bookingModel?.checkOutDate ??
                                             '--/--/----',
                                         style:
-                                            AppTextStyles.unselectedLabelStyle)
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Check Out Date",
-                                      style: AppTextStyles.infoLabelStyle.copyWith(fontSize: 16),
-                                    ),
-                                    Text(
-                                      roomDataPostModel?.checkoutDate ??
-                                          '--/--/----',
-                                      style: AppTextStyles.unselectedLabelStyle,
-                                    )
-                                  ],
+                                            AppTextStyles.unselectedLabelStyle,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -194,28 +266,24 @@ class BookingPage extends StatelessWidget {
                     ),
                   ),
                   16.verticalSpace,
-                  const Padding(
-                    padding: EdgeInsets.only(left: 8.0),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
                       "Payment Summary",
-                      style: AppTextStyles.unselectedLabelStyle,
+                      style: AppTextStyles.unselectedLabelStyle
+                          .copyWith(fontSize: 24),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 10.0),
+                        horizontal: 8.0, vertical: 12.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: MakeMyTripColors.color0gray,
-                          boxShadow: const [ BoxShadow(
-                            // color: Colors.black,
-                            blurRadius: 2.0,
-                          ),]
+                        borderRadius: BorderRadius.circular(4.0),
+                        color: MakeMyTripColors.colorWhite,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 12.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -223,12 +291,42 @@ class BookingPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  "Room Rate",
+                                  StringConstants.roomRate,
                                   style: AppTextStyles.infoContentStyle,
                                 ),
                                 Text(
-                                  '${roomDataPostModel?.price?.basePrice
-                                          .toString()} ₹',
+                                  '₹ ${bookingModel?.roomPrice}',
+                                  style: AppTextStyles.labelDetails,
+                                )
+                              ],
+                            ),
+                            4.verticalSpace,
+                            (bookingModel!.noOfmatress! > 0)
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "${StringConstants.matresses}(${bookingModel!.noOfmatress})",
+                                        style: AppTextStyles.infoContentStyle,
+                                      ),
+                                      Text(
+                                        '₹ ${bookingModel?.matressPrize}',
+                                        style: AppTextStyles.labelDetails,
+                                      )
+                                    ],
+                                  )
+                                : SizedBox(),
+                            4.verticalSpace,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  StringConstants.noOfNight,
+                                  style: AppTextStyles.infoContentStyle,
+                                ),
+                                Text(
+                                  bookingModel?.noOfDays.toString() ?? '0',
                                   style: AppTextStyles.labelDetails,
                                 )
                               ],
@@ -238,11 +336,11 @@ class BookingPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  "No of Nights",
+                                  StringConstants.subTotal,
                                   style: AppTextStyles.infoContentStyle,
                                 ),
                                 Text(
-                                  roomDataPostModel?.price?.numberOfNights.toString() ?? '0',
+                                  '₹ ${bookingModel?.subTotal}',
                                   style: AppTextStyles.labelDetails,
                                 )
                               ],
@@ -251,26 +349,12 @@ class BookingPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
-                                  "Sub Total",
+                                Text(
+                                  "${StringConstants.gst} (${bookingModel?.gstPercentage}%)",
                                   style: AppTextStyles.infoContentStyle,
                                 ),
                                 Text(
-                                  '${roomDataPostModel?.price?.roomPrice.toString()} ₹' ,
-                                  style: AppTextStyles.labelDetails,
-                                )
-                              ],
-                            ),
-                            4.verticalSpace,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  "GST (18%)",
-                                  style: AppTextStyles.infoContentStyle,
-                                ),
-                                Text(
-                                  '${roomDataPostModel?.price?.gst.toString()} ₹',
+                                  '₹ ${bookingModel?.gst}',
                                   style: AppTextStyles.labelDetails,
                                 )
                               ],
@@ -283,13 +367,15 @@ class BookingPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
-                                  "Offer",
+                                Text(
+                                  "${StringConstants.offer} (${bookingModel?.discountPercentage}%)",
                                   style: AppTextStyles.infoContentStyle,
                                 ),
                                 Text(
-                                  "- ${roomDataPostModel?.price?.discount.toString()}",
-                                  style: AppTextStyles.labelDetails,
+                                  "- ₹ ${bookingModel?.offer}",
+                                  style: AppTextStyles.labelDetails.copyWith(
+                                      color: MakeMyTripColors.colorGreen,
+                                      fontWeight: FontWeight.w800),
                                 )
                               ],
                             ),
@@ -302,13 +388,13 @@ class BookingPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  "Grant Total",
+                                  StringConstants.grandTotal,
                                   style: AppTextStyles.infoContentStyle,
                                 ),
                                 Text(
-                                  '${roomDataPostModel?.price?.totalPrice
-                                          .toString()} ₹',
-                                  style: AppTextStyles.labelDetails,
+                                  '₹ ${bookingModel?.total}',
+                                  style: AppTextStyles.infoContentStyle
+                                      .copyWith(fontSize: 18),
                                 )
                               ],
                             ),
@@ -317,19 +403,30 @@ class BookingPage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 12.0),
+                    child: Text(
+                      StringConstants.warningBooking,
+                      style: AppTextStyles.unselectedLabelStyle.copyWith(
+                          fontSize: 16, color: MakeMyTripColors.colorRed),
+                    ),
+                  )
                 ],
-              )),
-              bottomNavigationBar: SafeArea(
-                child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: CommonPrimaryButton(
-                        text: "Book",
-                        onTap: () {
-                          context.read<BookingCubit>().roomBookPost(
-                              roomDataPostModel!.hotelId!, roomDataPostModel);
-                        })),
-              ));
+              ),
+            )),
+            bottomNavigationBar: SafeArea(
+              child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: CommonPrimaryButton(
+                      text: StringConstants.book,
+                      onTap: () {
+                        context.read<PaymentCubit>().paymentConfirm(20);
+                        //context.read<BookingCubit>().roomBookPost(roomDataPostModel!.hotelId!, roomDataPostModel);
+                      })),
+            ),
+          );
         } else {
           return const ConfirmationPageShimmer();
         }

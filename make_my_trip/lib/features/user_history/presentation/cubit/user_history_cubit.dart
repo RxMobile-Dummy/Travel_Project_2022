@@ -13,7 +13,7 @@ class UserHistoryCubit extends Cubit<BaseState> {
     final res = await userHistoryUsecase.call(NoParams());
     res.fold((l) {
       emit(StateErrorGeneral("errorMessage"));
-    }, (r) {
+    }, (r) async {
       emit(StateOnSuccess<List<UserHistoryModel>>(r));
     });
   }

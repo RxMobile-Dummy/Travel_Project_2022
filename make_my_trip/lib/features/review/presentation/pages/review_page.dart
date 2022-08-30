@@ -21,7 +21,6 @@ class ReviewPage extends StatelessWidget {
     List<ReviewModel>? reviewModel;
     return BlocListener<ReviewCubit, BaseState>(
       listener: (context, state) {
-
         if (state is Authenticated) {
           Navigator.pushReplacementNamed(context, RoutesName.publishReviewPage,
               arguments: {
@@ -29,10 +28,14 @@ class ReviewPage extends StatelessWidget {
                 'hotel_id': arg['hotel_id'],
                 'rating': arg['rating']
               });
-        }else{
+        } else {
           if (state is Unauthenticated) {
             Navigator.pushReplacementNamed(context, RoutesName.login,
-                arguments: {"route_name": RoutesName.reviewPage,'hotel_id': arg['hotel_id'],'rating': arg['rating']});
+                arguments: {
+                  "route_name": RoutesName.reviewPage,
+                  'hotel_id': arg['hotel_id'],
+                  'rating': arg['rating']
+                });
           }
         }
       },
@@ -45,9 +48,7 @@ class ReviewPage extends StatelessWidget {
         ),
         body: BlocBuilder<ReviewCubit, BaseState>(
           builder: (context, state) {
-            print('this is my ${state}');
             if (state is StateOnSuccess) {
-              print('model');
               reviewModel = state.response;
             } else if (state is StateLoading) {
               return ReviewPageShimmer();
@@ -65,7 +66,6 @@ class ReviewPage extends StatelessWidget {
                         ImagePath.noDataFoundImage,
                       ),
                     ),
-
                     25.verticalSpace,
                     Text(
                       StringConstants.noHotelReview,
@@ -130,7 +130,7 @@ class ReviewPage extends StatelessWidget {
                                 reviewModel![index].comment ?? "Comments",
                             ratingValue: reviewModel![index].rating ?? 0.0,
                             image: reviewModel![index].userId?.userImage ??
-                                "https://www.kindpng.com/picc/m/252-2524695_dummy-profile-image-jpg-hd-png-download.png",
+                                StringConstants.userImagePlaceHolder,
                           );
                         }),
                   ),
@@ -142,7 +142,6 @@ class ReviewPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               var searchState = context.read<ReviewCubit>().state;
-              print(searchState);
               if (searchState is Authenticated) {
                 Navigator.pushReplacementNamed(
                     context, RoutesName.publishReviewPage, arguments: {
@@ -153,7 +152,7 @@ class ReviewPage extends StatelessWidget {
               } else if (searchState is Unauthenticated) {
                 Navigator.pushReplacementNamed(context, RoutesName.login,
                     arguments: {"route_name": RoutesName.reviewPage});
-              } else  {
+              } else {
                 BlocProvider.of<ReviewCubit>(context).goToPostReview();
               }
             },

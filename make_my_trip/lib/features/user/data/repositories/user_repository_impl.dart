@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:make_my_trip/features/user/data/model/user_model.dart';
+import 'package:make_my_trip/features/user/domain/usecases/send_device_id.dart';
 import '../../../../core/failures/failures.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../datasources/user_remote_data_source.dart';
@@ -33,7 +34,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<Failures, void>> userSignOut() async{
+  Future<Either<Failures, void>> userSignOut() async {
     return await remoteDataSource.userSignOut();
   }
 
@@ -60,5 +61,20 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Either<Failures, bool>> userVerification() async {
     return await remoteDataSource.userVerification();
+  }
+
+  @override
+  Future<Either<Failures, bool>> sendDeviceId() async {
+    return await remoteDataSource.sendDeviceId();
+  }
+
+  @override
+  Future<Either<Failures, bool>> deleteDeviceId() async {
+    return await remoteDataSource.deleteDeviceId();
+  }
+
+  @override
+  Future<Either<Failures, bool>> refreshFcmToken() async {
+    return await remoteDataSource.refreshFcmToken();
   }
 }

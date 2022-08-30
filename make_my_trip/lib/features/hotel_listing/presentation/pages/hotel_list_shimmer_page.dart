@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:make_my_trip/features/wishlist/presentation/widgets/list_container_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../core/theme/make_my_trip_colors.dart';
+
 class HotelListShimmer extends StatelessWidget {
   const HotelListShimmer({Key? key}) : super(key: key);
 
@@ -15,8 +17,8 @@ class HotelListShimmer extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.white,
+              baseColor: MakeMyTripColors.color10gray,
+              highlightColor: MakeMyTripColors.colorWhite,
               direction: ShimmerDirection.ltr,
               child: ListView.builder(
                 itemBuilder: (_, __) => Padding(

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:make_my_trip/features/wishlist/presentation/widgets/list_container_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../core/theme/make_my_trip_colors.dart';
+
 class ImageSliderShimmer extends StatelessWidget {
   const ImageSliderShimmer({Key? key}) : super(key: key);
 
@@ -10,8 +12,8 @@ class ImageSliderShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Shimmer.fromColors(
-        baseColor: Colors.grey[200]!,
-        highlightColor: Colors.white,
+        baseColor: MakeMyTripColors.color10gray,
+        highlightColor: MakeMyTripColors.colorWhite,
         direction: ShimmerDirection.ltr,
         child: Row(
           children: List.generate(

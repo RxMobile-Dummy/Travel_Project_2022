@@ -5,7 +5,7 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_detail/presentation/widgets/features_item_widget.dart';
-import 'package:make_my_trip/features/room_categories/data/model/room_categories_model.dart';
+import 'package:make_my_trip/features/room_categories/data/model/room_category_model.dart';
 import 'package:make_my_trip/features/room_categories/data/model/room_data_booking_post_model.dart';
 import 'package:make_my_trip/features/room_categories/presentation/cubit/room_category_cubit.dart';
 import 'package:make_my_trip/utils/constants/image_path.dart';
@@ -23,20 +23,20 @@ class RoomListWidget extends StatelessWidget {
     required this.roomList,
     required this.cin,
     required this.cout,
+    required this.maxCount,
   }) : super(key: key);
-  final List<RoomType> roomList;
-  final RoomType roomData;
+  final List<dynamic> roomList;
+  final int maxCount;
+  final Deluxe roomData;
   final VoidCallback roomRemoveOnTap;
   final VoidCallback roomAddOnTap;
   final String cin;
   final String cout;
   int totalSelectedRoom;
   final int hotelId;
-
+  var snackBar = const SnackBar(content: Text(StringConstants.noRoomSelect));
   @override
   Widget build(BuildContext context) {
-    var snackBar =
-        const SnackBar(content: Text(StringConstants.noRoomSelect));
     return BlocBuilder<RoomCategoryCubit, BaseState>(
       builder: (context, state) {
         return Padding(
@@ -46,8 +46,11 @@ class RoomListWidget extends StatelessWidget {
             elevation: 10, // Change this
             shadowColor: MakeMyTripColors.color10gray,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
+                borderRadius: BorderRadius.circular(15.0),
+                side: BorderSide(
+                    color: (roomList.isEmpty)
+                        ? MakeMyTripColors.colorRed
+                        : Colors.transparent)),
             child: Padding(
               padding: const EdgeInsets.all(14.0),
               child: Column(
@@ -68,7 +71,7 @@ class RoomListWidget extends StatelessWidget {
                                 'hotel_id': hotelId,
                                 'room_id': roomData.roomId,
                                 'no_of_room': totalSelectedRoom,
-                                'room_list_model': roomList,
+                                'room_list_model': roomData,
                                 "context": context,
                                 'cin': cin,
                                 'cout': cout
@@ -113,15 +116,14 @@ class RoomListWidget extends StatelessWidget {
                                 height: 150,
                                 fit: BoxFit.cover,
                                 alignment: Alignment.center,
-                                placeholder: 'assets/img/placeholder.png',
+                                placeholder: ImagePath.placeHolderImage,
                                 image: roomData.image!.isNotEmpty
                                     ? (roomData.image![0].imageUrl ??
                                         ImagePath.demoroom)
                                     : ImagePath.demoroom,
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
-                                  return Image.asset(
-                                      'assets/img/placeholder.png',
+                                  return Image.asset(ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 })),
                       ),
@@ -135,15 +137,14 @@ class RoomListWidget extends StatelessWidget {
                                 height: 150,
                                 fit: BoxFit.cover,
                                 alignment: Alignment.center,
-                                placeholder: 'assets/img/placeholder.png',
+                                placeholder: ImagePath.placeHolderImage,
                                 image: roomData.image!.isNotEmpty
                                     ? (roomData.image![1].imageUrl ??
                                         ImagePath.demoroom)
                                     : ImagePath.demoroom,
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
-                                  return Image.asset(
-                                      'assets/img/placeholder.png',
+                                  return Image.asset(ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 })),
                       ),
@@ -177,12 +178,22 @@ class RoomListWidget extends StatelessWidget {
                     ],
                   ),
                   12.verticalSpace,
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      (maxCount > 0)
+                          ? "Only $maxCount ${(maxCount > 1) ? "rooms" : "room"} left!!"
+                          : "No Rooms available!",
+                      style: const TextStyle(color: MakeMyTripColors.colorRed),
+                    ),
+                  ),
+                  12.verticalSpace,
                   Container(
                     height: 55,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.grey[200],
+                      color: MakeMyTripColors.color10gray,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8.0, right: 2.0),
@@ -196,12 +207,12 @@ class RoomListWidget extends StatelessWidget {
                                   Icon(
                                     Icons.square_rounded,
                                     size: 25,
-                                    color: Colors.grey,
+                                    color: MakeMyTripColors.color50gray,
                                   ),
                                   Icon(
                                     Icons.remove,
                                     size: 20,
-                                    color: Colors.white,
+                                    color: MakeMyTripColors.colorWhite,
                                   ),
                                 ]),
                           ),
@@ -221,61 +232,20 @@ class RoomListWidget extends StatelessWidget {
                                   Icon(
                                     Icons.square_rounded,
                                     size: 25,
-                                    color: Colors.grey,
+                                    color: MakeMyTripColors.color50gray,
                                   ),
                                   Icon(
                                     Icons.add,
                                     size: 20,
-                                    color: Colors.white,
+                                    color: MakeMyTripColors.colorWhite,
                                   ),
                                 ]),
                           ),
                           const Spacer(),
                           Text(
-                            "₹ ${(roomData.price! * (totalSelectedRoom > 1 ? totalSelectedRoom : 1)).toString()} ",
+                            "₹ ${(roomData.price!).toString()} ",
                             style: AppTextStyles.infoContentStyle
-                                .copyWith(fontSize: 16),
-                          ),
-                          const Spacer(),
-                          ElevatedButton(
-                            onPressed: () {
-                              if (totalSelectedRoom > 0) {
-                                var searchState =
-                                    context.read<RoomCategoryCubit>().state;
-                                if (searchState is Unauthenticated) {
-                                  Navigator.popAndPushNamed(
-                                      context, RoutesName.login, arguments: {
-                                    "route_name": RoutesName.roomCategory
-                                  });
-                                }
-                                if (state is StateOnKnownToSuccess<
-                                    RoomDataPostModel>) {
-                                  Navigator.pushNamed(
-                                      context, RoutesName.bookingPage,
-                                      arguments: {"model": state.response});
-                                } else {
-                                  BlocProvider.of<RoomCategoryCubit>(context)
-                                      .goToBooking(hotelId, cin, cout,
-                                          totalSelectedRoom, roomList);
-                                }
-                              } else {
-                                (ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar));
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              fixedSize: const Size(75, 45),
-                                primary: totalSelectedRoom > 0
-                                    ? MakeMyTripColors.colorBlue
-                                    : MakeMyTripColors.color30gray,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                )),
-                            child: Text(
-                              StringConstants.roomSelectButtonTxt,
-                              style: AppTextStyles.infoContentStyle
-                                  .copyWith(fontSize: 14),
-                            ),
+                                .copyWith(fontSize: 18),
                           ),
                         ],
                       ),
