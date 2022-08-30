@@ -4,7 +4,7 @@ import 'package:make_my_trip/features/review/domain/use_cases/post_hotel_review_
 
 class PublishReviewCubit extends Cubit<ReviewValueState> {
   final PostHotelReviewUseCases postHotelReviewUseCases;
-
+  
   PublishReviewCubit(this.postHotelReviewUseCases)
       : super( ReviewValueState(
             cleanlinessReview: 0.0,
