@@ -1,7 +1,7 @@
 name: make_my_trip_admin_panel
 description: A new Flutter project.
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -21,7 +21,6 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   flutter_isolate: ^2.0.2
   flutter_rating_bar: ^4.0.1
-  dots_indicator: ^2.1.0
 
   #api call
   dio: ^4.0.6
@@ -70,12 +69,11 @@ dev_dependencies:
   bloc_test: ^9.0.3
 
 flutter:
-
   uses-material-design: true
 
   #your all local assets
   assets:
-    - assets/icons/
+    - assets/
     - assets/img/
 
   # font family of app
