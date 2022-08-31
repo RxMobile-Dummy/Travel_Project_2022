@@ -42,7 +42,7 @@ class PaymentDomain {
             const bookIngDomain = new BookingDomain();
             var resBooking = await bookIngDomain.bookingFreeze(req, res, req.body.cin, req.body.cout, req.body.room_id, req.body.hotel_id,response.id,req.body.price,req.body.coupon_id);
             if (resBooking != 0) {
-                res.send(StatusCode.Sucess).send(orderData);
+                res.status(StatusCode.Sucess).send(orderData);
                 setTimeout(bookIngDomain.bookingFreezFail, 180000, resBooking);
                 res.end();
             } else {

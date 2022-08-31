@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 import { verifyToken, checkRequest } from "./authentication/verify_token";
 import * as admin from 'firebase-admin';
 import credential from "./travelproject22-6b9d4-firebase-adminsdk-2wiay-c9c1876710.json";
-import { LoggerMiddleware } from './middlewear/logger';
+import { LoggerMiddleware } from './middleware/logger';
 import { bookingmodel } from './model/booking';
 import cors from "cors";
 

@@ -287,10 +287,10 @@ class BookingDomain {
                       
                         if(bookingHistoryData[i].checkout_date <= date){
                             flag = false;
-                            console.log("gretter")
+                          
                         }else {
                             flag = true;
-                            console.log("lesser")
+                            
                         }
                        
                     }
