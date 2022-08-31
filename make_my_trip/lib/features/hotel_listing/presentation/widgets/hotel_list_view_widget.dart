@@ -4,6 +4,7 @@ import 'package:make_my_trip/core/navigation/route_info.dart';
 import 'package:make_my_trip/core/theme/make_my_trip_colors.dart';
 import 'package:make_my_trip/core/theme/text_styles.dart';
 import 'package:make_my_trip/features/hotel_listing/data/models/hotel_list_model.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 
 class HotelListViewWidget extends StatelessWidget {
@@ -18,7 +19,7 @@ class HotelListViewWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.pushNamed(context, RoutesName.hotelDetail,
-              arguments: {"hotel_id": hotelListModel.id});
+              arguments: {"hotel_id": hotelListModel.id, "share_link": false});
         },
         child: Card(
             shape: RoundedRectangleBorder(
@@ -35,16 +36,13 @@ class HotelListViewWidget extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/img/placeholder.png',
-                        image:hotelListModel.images![0].imageUrl.toString(),
-                        fit: BoxFit.fill,
-                          imageErrorBuilder:
-                              (context, error, stackTrace) {
-                            return Image.asset(
-                                'assets/img/placeholder.png',
+                          placeholder: ImagePath.placeHolderImage,
+                          image: hotelListModel.images![0].imageUrl.toString(),
+                          fit: BoxFit.fill,
+                          imageErrorBuilder: (context, error, stackTrace) {
+                            return Image.asset(ImagePath.placeHolderImage,
                                 fit: BoxFit.fitWidth);
-                          }
-                      ),
+                          }),
                     ),
                   ),
                 ),

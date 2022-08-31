@@ -10,22 +10,21 @@ import 'package:make_my_trip/features/user/presentation/widgets/social_buttons.d
 import 'package:make_my_trip/utils/constants/string_constants.dart';
 import 'package:make_my_trip/utils/extensions/sizedbox/sizedbox_extension.dart';
 import 'package:make_my_trip/utils/widgets/common_primary_button.dart';
-
 import '../../../../core/navigation/route_info.dart';
 import '../../../../utils/constants/image_path.dart';
+import '../../../../utils/widgets/progress_loader.dart';
 
 class SignUpPage extends StatelessWidget {
   final TextEditingController fullName = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController conPassword = TextEditingController();
-
   bool pass = true;
   bool conPass = true;
   String error = "";
-  final Map<String, dynamic> arg;
-  SignUpPage({Key? key, required this.arg}) : super(key: key);
-
+  SignUpPage({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,25 +35,50 @@ class SignUpPage extends StatelessWidget {
             if (state is StateOnSuccess) {
               Navigator.pushNamedAndRemoveUntil(
                   context, RoutesName.home, (route) => true);
+            } else if (state is StateLoading) {
+              ProgressDialog.showLoadingDialog(context, message: "Loading...");
             } else if (state is StateShowSearching) {
+              ProgressDialog.hideLoadingDialog(context);
               showDialog(
                   context: context,
-                  builder: (context) {
-                    var alert = AlertDialog(
-                      title: Text(
-                          "Please check your mail box and click there to verify your account"),
-                      actions: [
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                              Navigator.pushReplacementNamed(
-                                  context, RoutesName.login,
-                                  arguments: {"route_name": arg["route_name"]});
-                            },
-                            child: Text("ok"))
-                      ],
+                  barrierDismissible: false,
+                  builder: (_) {
+                    return AlertDialog(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(32.0))),
+                      elevation: 4,
+                      title: Column(
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1.6,
+                            child: Image.asset(
+                              ImagePath.sendMail,
+                            ),
+                          ),
+                          30.verticalSpace,
+                          Text(
+                            StringConstants.checkMailBox,
+                            style: const TextStyle(
+                                color: MakeMyTripColors.accentColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                          25.verticalSpace,
+                          SizedBox(
+                            width: double.infinity,
+                            child: CommonPrimaryButton(
+                                text: "Ok",
+                                onTap: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
+                                  Navigator.pop(context);
+                                }),
+                          ),
+                        ],
+                      ),
                     );
-                    return alert;
                   });
             }
           }, builder: (context, state) {
@@ -109,7 +133,7 @@ class SignUpPage extends StatelessWidget {
                   12.verticalSpace,
                   TextFormField(
                     decoration: InputDecoration(
-                      hintText: StringConstants.passwordTxt,
+                      hintText: StringConstants.conPasswordTxt,
                       suffixIcon: GestureDetector(
                         child: Icon((conPass == true)
                             ? Icons.visibility_off

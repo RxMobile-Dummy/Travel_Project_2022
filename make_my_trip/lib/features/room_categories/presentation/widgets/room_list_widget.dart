@@ -35,8 +35,7 @@ class RoomListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var snackBar =
-        const SnackBar(content: Text(StringConstants.noRoomSelect));
+    var snackBar = const SnackBar(content: Text(StringConstants.noRoomSelect));
     return BlocBuilder<RoomCategoryCubit, BaseState>(
       builder: (context, state) {
         return Padding(
@@ -113,7 +112,7 @@ class RoomListWidget extends StatelessWidget {
                                 height: 150,
                                 fit: BoxFit.cover,
                                 alignment: Alignment.center,
-                                placeholder: 'assets/img/placeholder.png',
+                                placeholder: ImagePath.placeHolderImage,
                                 image: roomData.image!.isNotEmpty
                                     ? (roomData.image![0].imageUrl ??
                                         ImagePath.demoroom)
@@ -121,7 +120,7 @@ class RoomListWidget extends StatelessWidget {
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
                                   return Image.asset(
-                                      'assets/img/placeholder.png',
+                                      ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 })),
                       ),
@@ -135,7 +134,7 @@ class RoomListWidget extends StatelessWidget {
                                 height: 150,
                                 fit: BoxFit.cover,
                                 alignment: Alignment.center,
-                                placeholder: 'assets/img/placeholder.png',
+                                placeholder: ImagePath.placeHolderImage,
                                 image: roomData.image!.isNotEmpty
                                     ? (roomData.image![1].imageUrl ??
                                         ImagePath.demoroom)
@@ -143,7 +142,7 @@ class RoomListWidget extends StatelessWidget {
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
                                   return Image.asset(
-                                      'assets/img/placeholder.png',
+                                      ImagePath.placeHolderImage,
                                       fit: BoxFit.fitWidth);
                                 })),
                       ),
@@ -240,31 +239,16 @@ class RoomListWidget extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () {
                               if (totalSelectedRoom > 0) {
-                                var searchState =
-                                    context.read<RoomCategoryCubit>().state;
-                                if (searchState is Unauthenticated) {
-                                  Navigator.popAndPushNamed(
-                                      context, RoutesName.login, arguments: {
-                                    "route_name": RoutesName.roomCategory
-                                  });
-                                }
-                                if (state is StateOnKnownToSuccess<
-                                    RoomDataPostModel>) {
-                                  Navigator.pushNamed(
-                                      context, RoutesName.bookingPage,
-                                      arguments: {"model": state.response});
-                                } else {
-                                  BlocProvider.of<RoomCategoryCubit>(context)
-                                      .goToBooking(hotelId, cin, cout,
-                                          totalSelectedRoom, roomList);
-                                }
+                                BlocProvider.of<RoomCategoryCubit>(context)
+                                    .goToBooking(hotelId, cin, cout,
+                                        totalSelectedRoom, roomList);
                               } else {
                                 (ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar));
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              fixedSize: const Size(75, 45),
+                                fixedSize: const Size(75, 45),
                                 primary: totalSelectedRoom > 0
                                     ? MakeMyTripColors.colorBlue
                                     : MakeMyTripColors.color30gray,

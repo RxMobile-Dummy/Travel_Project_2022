@@ -7,6 +7,7 @@ import 'package:make_my_trip/features/setting_page/setting_page_injection_contai
     as setting_page_di;
 import 'package:make_my_trip/features/user/user_injection_container.dart';
 import 'package:make_my_trip/features/user/presentation/cubit/user_cubit.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
 import './core/navigation/app_router.dart' as app_routes;
 import 'core/internet/internet_cubit.dart';
 import 'core/internet/internet_injection_container.dart';
@@ -54,7 +55,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   HttpOverrides.global = MyHttpOverrides();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -67,7 +68,8 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +83,11 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Make My Trip',
-        theme: MakeMyTripLightTheme.lightTheme,
-        onGenerateRoute: app_routes.Router().generateRoutes,
-      ),
+          debugShowCheckedModeBanner: false,
+          title: StringConstants.appTitle,
+          theme: MakeMyTripLightTheme.lightTheme,
+          onGenerateRoute: app_routes.Router().generateRoutes,
+          navigatorKey: navigatorKey),
     );
   }
 }

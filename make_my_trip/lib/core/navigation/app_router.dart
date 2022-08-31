@@ -27,6 +27,9 @@ import 'package:make_my_trip/features/user_history/presentation/cubit/user_histo
 import 'package:make_my_trip/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:make_my_trip/features/wishlist/wishlist_injection_container.dart';
 import 'package:make_my_trip/features/user_history/presentation/pages/user_history_page.dart';
+import 'package:make_my_trip/utils/constants/image_path.dart';
+import 'package:make_my_trip/utils/constants/string_constants.dart';
+import 'package:make_my_trip/utils/widgets/common_error_widget.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../features/calendar/presentation/pages/calendar_page.dart';
@@ -72,10 +75,11 @@ class Router {
           return const SplashPage();
         });
       case RoutesName.onBoard:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
             create: (context) => IntroSl<IntroCubit>(),
-            child: IntroPage(),
+            child: IntroPage(arg: arg),
           );
         });
       case RoutesName.login:
@@ -87,7 +91,6 @@ class Router {
           );
         });
       case RoutesName.signup:
-        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
             providers: [
@@ -95,17 +98,14 @@ class Router {
                 create: (context) => userSl<UserCubit>(),
               ),
             ],
-            child: SignUpPage(arg: arg),
+            child: SignUpPage(),
           );
         });
-      case RoutesName.otp:
-        return MaterialPageRoute(builder: (_) {
-          return HomePage();
-        });
       case RoutesName.resetPassword:
+        Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) {
-          return BlocProvider(
-            create: (context) => userSl<UserCubit>(),
+          return BlocProvider.value(
+            value: BlocProvider.of<UserCubit>(arg['context']),
             child: ResetPasswordPage(),
           );
         });
@@ -113,7 +113,10 @@ class Router {
         return MaterialPageRoute(builder: (_) {
           return MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: slHomePage<HomepageCubit>()),
+              BlocProvider.value(
+                  value: slHomePage<HomepageCubit>()
+                    ..getToursApi()
+                    ..getImagesApi()),
               BlocProvider.value(value: slHomePage<TabBarCubit>())
             ],
             child: HomePage(),
@@ -124,7 +127,7 @@ class Router {
           return BlocProvider(
             create: (context) =>
                 historyListSl<UserHistoryCubit>()..getUserHistoryData(),
-            child: UserHistoryPage(),
+            child: const UserHistoryPage(),
           );
         });
       case RoutesName.wishList:
@@ -134,10 +137,6 @@ class Router {
                 wishListSl<WishListCubit>()..getWishListCubitData(),
             child: WishListPage(),
           );
-        });
-      case RoutesName.profile:
-        return MaterialPageRoute(builder: (_) {
-          return HomePage();
         });
       case RoutesName.search:
         return PageTransition(
@@ -162,13 +161,16 @@ class Router {
         );
       case RoutesName.hotelDetail:
         Map<String, dynamic> arg = settings.arguments as Map<String, dynamic>;
+
         return PageTransition(
           type: PageTransitionType.bottomToTop,
           duration: const Duration(milliseconds: 500),
           child: BlocProvider(
-            create: (context) => hotelDetailSl<HotelDetailCubit>()
-              ..getHotelDetailData(arg['hotel_id']),
-            child: HotelDetailPage(),
+            create: (context) {
+              return hotelDetailSl<HotelDetailCubit>()
+                ..getHotelDetailData(arg['hotel_id']);
+            },
+            child: HotelDetailPage(arg: arg['share_link']),
           ),
         );
 
@@ -282,6 +284,13 @@ class Router {
             create: (context) => slSettingPage<SettingPageCubit>(),
             child: const CustomerSupportPage(),
           );
+        });
+      case RoutesName.errorPage:
+        return MaterialPageRoute(builder: (_) {
+          return const CommonErrorWidget(
+              imagePath: ImagePath.confirmSuccess,
+              title: StringConstants.futureTxt,
+              statusCode: "");
         });
       default:
         return MaterialPageRoute(builder: (_) {

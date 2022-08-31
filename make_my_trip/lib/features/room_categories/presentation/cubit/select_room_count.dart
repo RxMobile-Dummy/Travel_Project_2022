@@ -26,7 +26,7 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
             .response
             .copyWith(semiDeluxValue: addRoomValue + 1)));
       } else if (roomType == "Super-Deluxe") {
-        print('super');
+
         emit(StateOnSuccess((state as StateOnSuccess<SelectRoomCountState>)
             .response
             .copyWith(superDeluxValue: addRoomValue + 1)));
@@ -75,7 +75,6 @@ class SelectRoomCountCubit extends Cubit<BaseState> {
         price:p,
         roomId: roomId
     );
-    print(roomDataPostModel.roomId);
     emit(StateOnKnownToSuccess<RoomDataPostModel>(roomDataPostModel));
   }
 }

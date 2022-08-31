@@ -11,7 +11,8 @@ class SearchHotelCubit extends Cubit<BaseState> {
   final BehaviorSubject<String?> searchData = BehaviorSubject.seeded(null);
   final IsAnonymousUser isAnonymousUser;
 
-  SearchHotelCubit(this.searchHotelUseCases, this.isAnonymousUser) : super(StateInitial()) {
+  SearchHotelCubit(this.searchHotelUseCases, this.isAnonymousUser)
+      : super(StateInitial()) {
     searchData
         .debounceTime(const Duration(milliseconds: 500))
         .listen((searchData) {
@@ -20,9 +21,9 @@ class SearchHotelCubit extends Cubit<BaseState> {
   }
 
   goToWishlist() async {
+    emit(Uninitialized());
     final res = await isAnonymousUser.call(NoParams());
     res.fold((failure) {
-      print(failure);
     }, (success) {
       if (success) {
         emit(Unauthenticated());
