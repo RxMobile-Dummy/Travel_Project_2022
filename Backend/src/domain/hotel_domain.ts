@@ -541,10 +541,10 @@ class HotelDomain {
                     if (err) throw err;
                     console.log("saved")
                 });
-                res.send(hoteId);
+                res.status(StatusCode.Sucess).send(hoteId);
             }
             catch (err: any) {
-                res.send(err.message);
+                res.status(StatusCode.Error).send(err.message);
             }
         } else {
             res.status(StatusCode.Unauthorized).send("you are not authorize")
@@ -794,13 +794,13 @@ class HotelDomain {
                         console.log("Image sucessfully added");
                     });
                     // await hotelmodel.updateOne({ _id: data._id }, data)
-                    res.send(data);
+                    res.status(StatusCode.Sucess).send(data);
                 }
                 catch (err: any) {
                     res.send(err.message);
                 }
             } else {
-                res.send("you can not update , sorry from backend")
+                res.status(StatusCode.Sucess).send("you can not update , sorry from backend")
             }
         } else {
             res.status(StatusCode.Unauthorized).send("you are not authorize")
