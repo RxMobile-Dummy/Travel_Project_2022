@@ -8,6 +8,7 @@ import express, { Express, Request, Response } from 'express'
 import * as admin from 'firebase-admin';
 import schedule from 'node-schedule';
 import { devicemodel } from "../model/device";
+import { reviewmodel } from "../model/review";
 
 class BookingDomain {
     async addBooking(req: Request, res: Response) {
@@ -212,12 +213,16 @@ class BookingDomain {
 
     async userBookingHistory(req: Request, res: Response) {
         try {
-            var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
+            var pageSize: any = req.query.pagesize;
+            var page: any = req.query.page;
+            var reqData: any = JSON.parse(JSON.stringify(req.headers['data']))
             var uid: String = reqData.uid;
-            var bookingData = await bookingmodel.find({ "user_id": uid });
+            var bookingData = await bookingmodel.find({ "user_id": uid }).skip((parseInt(pageSize) * parseInt(page))).limit(parseInt(pageSize)).sort({_id:-1})
             var hotelIdList: any = [];
             var bookingHistoryData: any = [];
+           
             if (bookingData != null) {
+                
                 bookingData.forEach(e => {
                     hotelIdList.push(e.hotel_id);
                 })
@@ -240,18 +245,16 @@ class BookingDomain {
                     },
                     {
                         "$project": {
-
                             "hotel_id": "$_id",
                             "hotel_name": "$hotel_name",
                             "address": "$address",
                             'images': "$images"
                         }
                     },
-
                 ]);
-
+                var flag = false;
                 bookingData.forEach(e => {
-                    hotelData.forEach(d => {
+                    hotelData.forEach(async d => {
                         if (e.hotel_id == d._id) {
                             bookingHistoryData.push({
                                 "booking_id": e._id,
@@ -273,9 +276,28 @@ class BookingDomain {
                         }
                     })
                 })
-
+                var i: any;
+                for (i = 0; i < bookingHistoryData.length; i++) {
+                    var dataReview = await reviewmodel.find({ $and: [{ user_id: uid }, { hotel_id: bookingHistoryData[i].hotel_id }] });
+                    if (dataReview.length != 0) {
+                        flag = true;// post not possible
+                    } else {
+                        const date = new Date();
+                       
+                      
+                        if(bookingHistoryData[i].checkout_date <= date){
+                            flag = false;
+                          
+                        }else {
+                            flag = true;
+                            
+                        }
+                       
+                    }
+                    bookingHistoryData[i].review_posted = flag
+                }
+                
                 res.status(StatusCode.Sucess).send(bookingHistoryData);
-
             } else {
                 res.status(StatusCode.Sucess).send([])
                 res.end()
@@ -285,11 +307,10 @@ class BookingDomain {
             res.end();
         }
     }
-
-    async bookingFreeze(req: Request, res: Response, cIn: string, cOut: string, roomId: any, hotelId: number,orderId:any,price:any,) {
+    async bookingFreeze(req: Request, res: Response, cIn: string, cOut: string, roomId: any, hotelId: number,orderId:any,price:any,coupon_id:any) {
         try {
             var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
-
+            console.log(reqData);
             if (roomId.length != 0 && cIn != null && cOut != null && hotelId != 0) {
 
                 //Date converstion
@@ -321,6 +342,7 @@ class BookingDomain {
                         discount: price.discount,
                         total_price: price.total_price
                     },
+                    coupon_id:coupon_id,
                     status: "pending",
                     paymentId: null,
                     orderId: orderId
@@ -343,9 +365,14 @@ class BookingDomain {
 
     //payment fail
     async bookingFreezFail(bookingId: any) {
+        try{
+            console.log('timer');
+            await bookingmodel.deleteOne({$and:[{_id:bookingId},{status:"pending"}]});
 
-        await bookingmodel.deleteOne({ $and: [{ _id: bookingId }, { status: "pending" }] });
-        
+            console.log('deleted')
+        }catch(e:any){
+            
+        }
     }
 
     //prize confirmation page 
@@ -435,7 +462,7 @@ class BookingDomain {
         var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
         var uid: string = reqData.uid;
         var userData = await Usermodel.find({ _id: uid }).select("-__v");
-        if (userData[0].user_type == "admin") {
+        if (reqData.admin == true) {
             var q: any = req.query;
             var pageSize: any = req.query.pagesize;
             var page: any = req.query.page;

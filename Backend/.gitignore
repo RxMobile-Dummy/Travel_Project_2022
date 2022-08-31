@@ -51,3 +51,4 @@ node_modules/
 package-lock.json
 tsconfig.json
 travelproject22-6b9d4-firebase-adminsdk-2wiay-c9c1876710.json
+firebase.config.ts

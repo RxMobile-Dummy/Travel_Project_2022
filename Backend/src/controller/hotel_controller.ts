@@ -37,37 +37,18 @@ class HotelController {
         await hoteldomain.addHotel(req,res);
     }
 
-
-    static async addHotelImage (req:Request , res : Response){
+    static async updatehoteldata (req:Request , res : Response){
         const hoteldomain = new HotelDomain();
-        await hoteldomain.addhotelImage(req,res);
+        await hoteldomain.updateHotel(req,res);
     }
 
     static async deleteHotel (req:Request , res : Response){
         const hoteldomain = new HotelDomain();
         await hoteldomain.deleteHotel(req,res);
     }
-
-    static async adddeluxeroomimage (req:Request , res : Response){
+    static async getHotelDataupdate (req:Request , res : Response){
         const hoteldomain = new HotelDomain();
-        await hoteldomain.addDeluxRoomImage(req,res);
-    }
-
-    
-    static async addsuperdeluxeroomimage (req:Request , res : Response){
-        const hoteldomain = new HotelDomain();
-        await hoteldomain.addSuperDeluxRoomImage(req,res);
-    }
-
-
-    static async addsemideluxeroomimage (req:Request , res : Response){
-        const hoteldomain = new HotelDomain();
-        await hoteldomain.addSemiDeluxRoomImage(req,res);
-    }
-
-    static async updatehoteldata (req:Request , res : Response){
-        const hoteldomain = new HotelDomain();
-        await hoteldomain.updateHotel(req,res);
+        await hoteldomain.getHotelDataForUpdate(req,res);
     }
 }
 
@@ -78,13 +59,12 @@ router.get('/image/:imagelimit', HotelController.getHotelImage);
 router.get('/:hotelsearch', HotelController.getHotelBySearch);
 router.get('/gethotel/getsinglehotel/:hotel_id', HotelController.getHotelPerticular);
 router.get('/gethotellist/gethotelfilterlist',HotelController.getHotelFilterList);
+//admin 
+router.get('/', HotelController.getHotel);
 router.post('/addhotel',HotelController.addHotel);
-router.post('/addhotelimage',HotelController.addHotelImage);
 router.delete('/deleteHotel/:hoteId', HotelController.deleteHotel);
-router.post('/adddeluxeroomimage', HotelController.adddeluxeroomimage);
-router.post('/addsuperdeluxeroomimage', HotelController.addsuperdeluxeroomimage);
-router.post('/addsemideluxeroomimage', HotelController.addsemideluxeroomimage);
 router.put('/updatehotel', HotelController.updatehoteldata);
+router.get('/updatehoteldata/:hotelid', HotelController.getHotelDataupdate)
 
 
 export { router };

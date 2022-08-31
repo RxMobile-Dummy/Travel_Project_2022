@@ -3,6 +3,7 @@ import { reviewmodel } from '../model/review';
 import { Usermodel } from '../model/users';
 import { StatusCode } from '../statuscode';
 import { hotelmodel } from "../model/hotel";
+import { getStorage, ref, deleteObject } from "@firebase/storage";
 
 class ReviewDomain {
 
@@ -12,7 +13,7 @@ class ReviewDomain {
         var nextID: any = await reviewmodel.findOne({}, { _id: 1 }).sort({ _id: -1 });
         var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
 
-        var checkUserPostedReview = await reviewmodel.find({ user_id: reqData.uid })
+        var checkUserPostedReview = await reviewmodel.find({ $and: [{ user_id: reqData.uid }, { hotel_id: parseInt(req.params.id) }] })
         if (checkUserPostedReview.length != 0) {
             res.status(StatusCode.Sucess).send('review alerady posted')
             res.end();
@@ -90,7 +91,7 @@ class ReviewDomain {
             var comfort = 0;
             var location = 0;
             var facilities = 0;
-            var hotelReview = await reviewmodel.find({ hotel_id: req.params.id }, { __v: 0 }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } });
+            var hotelReview = await reviewmodel.find({ $and: [{ hotel_id: req.params.id }, { status: "approve" }] }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } });
             var resHotel = await hotelmodel.find({ "_id": req.params.id });
             if (hotelReview.length == 0 && resHotel.length == 0) {
                 res.status(StatusCode.Sucess).send([]);
@@ -106,7 +107,6 @@ class ReviewDomain {
                         avgFacilities: 0.0,
                         reviews: []
                     }
-                    console.log(resData);
                     res.status(StatusCode.Sucess).send(resData);
                     res.end();
                 } else {
@@ -159,7 +159,7 @@ class ReviewDomain {
         var uid: string = reqData.uid;
         // var uid: string = "dwkkf5q7ufOeZCSqo5qMBR1sA1F2";
         var userData = await Usermodel.find({ _id: uid }).select("-__v");
-        if (userData[0].user_type == "admin") {
+        if (reqData.admin == true) {
             var q: any = req.query;
             if (q.approve.length != null) {
                 var flag: boolean = q.approve == 'true' ? true : false;
@@ -172,16 +172,16 @@ class ReviewDomain {
                             status: "approve"
                         }
                     })
-                    var resReview = await reviewmodel.find({ "status": 'pending' }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } }).populate({ path: 'hotel_id', model: hotelmodel, select: { 'hotel_name': 1, '_id': 1 } }).sort({ date: 1 }).select({ "status": 0 })
-                    res.status(StatusCode.Sucess).send(resReview);
+                    // var resReview = await reviewmodel.find({ "status": 'pending' }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } }).populate({ path: 'hotel_id', model: hotelmodel, select: { 'hotel_name': 1, '_id': 1 } }).sort({ date: 1 }).select({ "status": 0 })
+                    res.status(StatusCode.Sucess).send("Review Approved");
                     res.end();
                 } else if (flag == false) {
 
                     var reviewData = await reviewmodel.find({ _id: q.review_id });
                     if (reviewData) {
                         await reviewmodel.deleteOne({ _id: q.review_id });
-                        var resReview = await reviewmodel.find({ "status": 'pending' }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } }).populate({ path: 'hotel_id', model: hotelmodel, select: { 'hotel_name': 1, '_id': 1 } }).sort({ date: 1 }).select({ "status": 0 })
-                        res.status(StatusCode.Sucess).send(resReview);
+                        // var resReview = await reviewmodel.find({ "status": 'pending' }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } }).populate({ path: 'hotel_id', model: hotelmodel, select: { 'hotel_name': 1, '_id': 1 } }).sort({ date: 1 }).select({ "status": 0 })
+                        res.status(StatusCode.Sucess).send("Review Rejected");
                         res.end();
                     }
                 }
@@ -195,7 +195,7 @@ class ReviewDomain {
 
     async getReviewImageApprove(req: Request, res: Response) {
         try {
-
+            const storage = getStorage();
             var reqData: any = JSON.parse(JSON.stringify(req.headers['data']));
             var uid: string = reqData.uid;
             // var uid: string = "dwkkf5q7ufOeZCSqo5qMBR1sA1F2";
@@ -207,11 +207,21 @@ class ReviewDomain {
                     if (resReviewData) {
                         var imageData = resReviewData[0].image;
                         var imageDataDeleted: any = [];
-
+                        var imageDataDelte: any = [];
                         imageData.forEach((e: any) => {
                             if (e.image_id != q.image_id) {
                                 imageDataDeleted.push(e);
+                            }else{
+                                imageDataDelte.push(e.image_url);
                             }
+                        })
+                        imageDataDelte.forEach((e:any)=>{
+                            const desertRef = ref(storage, e);
+                            deleteObject(desertRef).then(() => {
+                              console.log("deleted")
+                            }).catch((error) => {
+                              console.log(error);
+                            });
                         })
                         await reviewmodel.updateOne({ _id: q.review_id }, { $set: { image: imageDataDeleted } });
                         var resReview = await reviewmodel.find({ "status": 'pending' }).populate({ path: 'user_id', model: Usermodel, select: { 'user_name': 1, 'user_image': 1, '_id': 0 } }).populate({ path: 'hotel_id', model: hotelmodel, select: { 'hotel_name': 1, '_id': 1 } }).sort({ date: 1 }).select({ "status": 0 })

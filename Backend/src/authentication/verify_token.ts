@@ -13,7 +13,8 @@ function verifyToken(req: any, res: any, next: any) {
             resData = {
                 "uid": decodedToken.user_id,
                 "email": decodedToken.email,
-                "provider": decodedToken.firebase.sign_in_provider
+                "provider": decodedToken.firebase.sign_in_provider,
+                "admin": decodedToken.premiumAccount,
             }
             //header store for further post useage
             req.headers["data"] = resData;

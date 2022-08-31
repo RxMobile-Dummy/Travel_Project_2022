@@ -4,9 +4,14 @@ import * as dotenv from 'dotenv';
 import { verifyToken, checkRequest } from "./authentication/verify_token";
 import * as admin from 'firebase-admin';
 import credential from "./travelproject22-6b9d4-firebase-adminsdk-2wiay-c9c1876710.json";
-import { LoggerMiddleware } from './middlewear/logger';
+import { LoggerMiddleware } from './middleware/logger';
 import { bookingmodel } from './model/booking';
 import cors from "cors";
+
+import * as firebase from 'firebase/app';
+import { firebaseConfig } from "./firebase.config";
+firebase.initializeApp(firebaseConfig);
+
 
 
 
@@ -44,7 +49,7 @@ import { router as webhookroute } from './controller/webhook_controller';
 import { router as pushnotificationadminroute} from './controller/push_notification_admin_controller';
 
 
-app.use('/webhook',webhookroute );
+
 // FIREBASE INTITIALIZE
 admin.initializeApp(
     {
